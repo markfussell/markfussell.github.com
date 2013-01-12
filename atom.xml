@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-11T18:15:10-08:00</updated>
+  <updated>2013-01-11T18:19:19-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Test]]></title>
+    <link href="http://markfussell.github.com/blog/2013/01/11/test/"/>
+    <updated>2013-01-11T18:16:00-08:00</updated>
+    <id>http://markfussell.github.com/blog/2013/01/11/test</id>
+    <content type="html"><![CDATA[<p>This is some text.</p>
+]]></content>
+  </entry>
   
 </feed>
