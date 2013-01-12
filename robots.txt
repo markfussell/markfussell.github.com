@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://markfussell.github.com/sitemap.xml 
