@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-12T18:36:44-08:00</updated>
+  <updated>2013-01-12T19:02:01-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -38,7 +38,7 @@ and company&#8230; but that is a different topic.</p>
 <p>You can learn more about git somewhere like github:</p>
 
 <ul>
-<li> http://learn.github.com/p/intro.html</li>
+<li> <a href="http://learn.github.com/p/intro.html">http://learn.github.com/p/intro.html</a></li>
 </ul>
 
 
@@ -98,8 +98,12 @@ at any current moment there is only</p>
 
 <h3>Problems with git / DVCS</h3>
 
-<p>The biggest issue with git and similar DVCS is their model doesn&#8217;t work well for large amounts of
-binary assets.</p>
+<p>The biggest issue with git and similar DVCSs is that their model doesn&#8217;t work well for large amounts of
+binary assets.  Large amounts of binary assets could occur either because there are a large number of
+assets available at any time but only a subset are needed (so with Perforce or SVN many people would not
+check out those directories) or more commonly, a modest number of binary assets are frequently
+changing.  Because a git repository contains all assets throughout time and to work with a git repository
+you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
 ]]></content>
   </entry>
   
