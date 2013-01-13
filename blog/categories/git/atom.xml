@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-13T01:18:06-08:00</updated>
+  <updated>2013-01-13T01:19:14-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -20,7 +20,7 @@
     <id>http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex</id>
     <content type="html"><![CDATA[<p>This is the second in a series of using git as part of interesting solutions to problems.</p>
 
-<p>The first is here: <a href="/2013/01/11/git-about-everything-intro/">Intro</a></p>
+<p>The first is here: <a href="/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
 ]]></content>
   </entry>
   
