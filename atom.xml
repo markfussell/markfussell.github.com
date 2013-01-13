@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-12T19:02:01-08:00</updated>
+  <updated>2013-01-12T19:09:44-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -26,6 +26,9 @@ they are really much more&#8230; a core piece of technology useful for many thin
 
 <p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
 I hope at least some of them are interesting to some readers.</p>
+
+<!-- more -->
+
 
 <p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
 Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
