@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-12T19:09:44-08:00</updated>
+  <updated>2013-01-12T19:48:54-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (Intro)]]></title>
-    <link href="http://markfussell.github.com/blog/2013/01/11/test/"/>
+    <link href="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/"/>
     <updated>2013-01-11T18:16:00-08:00</updated>
-    <id>http://markfussell.github.com/blog/2013/01/11/test</id>
+    <id>http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro</id>
     <content type="html"><![CDATA[<p>There are times when a new technology comes along, that at first appears to be pretty similar to
 existing technology, but certain characteristics make for radically different or just nicely new solutions.
 A recent example of this is 'git' and similar distributed version control systems (DVCS).  They may
@@ -25,7 +25,7 @@ at first appear to be an interesting version of centralized version/content mana
 they are really much more... a core piece of technology useful for many things.</p>
 
 <p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope at least some of them are interesting to some readers.</p>
+I hope a few of them are interesting to readers.</p>
 
 <!-- more -->
 
@@ -107,6 +107,12 @@ assets available at any time but only a subset are needed (so with Perforce or S
 check out those directories) or more commonly, a modest number of binary assets are frequently
 changing.  Because a git repository contains all assets throughout time and to work with a git repository
 you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
+
+<p>What is a large amount?  That depends on the circumstances, but generally passing 100MB can start to
+become painful depending on the purpose git is being used for.  Having 100MB worth of textual files in
+a single git repository (even over time) is an unusual thing.  100MB worth of images is common.</p>
+
+<p>So one of our first problems and solutions is going to have to deal with this problem.</p>
 ]]></content>
   </entry>
   
