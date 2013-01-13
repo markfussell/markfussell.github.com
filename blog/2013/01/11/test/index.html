@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Test - Foo</title>
+  <title>Being a git about everything (Intro) - Foo</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is some text.
-">
+  <meta name="description" content="There are times when a new technology comes along, that at first appears to be pretty similar to
+existing technology, but certain characteristics &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Test</h1>
+      <h1 class="entry-title">Being a Git About Everything (Intro)</h1>
     
     
       <p class="meta">
@@ -91,7 +91,88 @@
   </header>
 
 
-<div class="entry-content"><p>This is some text.</p>
+<div class="entry-content"><p>There are times when a new technology comes along, that at first appears to be pretty similar to
+existing technology, but certain characteristics make for radically different or just nicely new solutions.
+A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
+at first appear to be an interesting version of centralized version/content management systems, but
+they are really much more&#8230; a core piece of technology useful for many things.</p>
+
+<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
+I hope at least some of them are interesting to some readers.</p>
+
+<p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
+Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
+but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
+in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
+and company&#8230; but that is a different topic.</p>
+
+<h2>Git Syntax / Overview</h2>
+
+<p>You can learn more about git somewhere like github:</p>
+
+<ul>
+<li> http://learn.github.com/p/intro.html</li>
+</ul>
+
+
+<p>Git has a lot of commands, but probably seven are core to standard git flows:</p>
+
+<ul>
+<li> clone &mdash; copy a repository from a remote location</li>
+<li> fetch &mdash; get updates from a remote repository</li>
+<li> merge &mdash; merge changes from one branch into the current branch</li>
+<li> pull &mdash; &#8216;fetch&#8217; and then &#8216;merge&#8217;</li>
+<li> add &mdash; add changes to the commit stage of the current branch</li>
+<li> commit &mdash; commit the changes into the current branch</li>
+<li> push &mdash; try to make a remote branch look like the current branch</li>
+</ul>
+
+
+<p>Actually of those seven &#8216;pull&#8217; basically replaces/combines two of them, so you get
+down to about five with a core loop like this:</p>
+
+<ul>
+<li> clone
+
+<ul>
+<li>pull</li>
+<li>make changes (if needed)
+
+<ul>
+<li>add</li>
+<li>commit</li>
+<li>push</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Of these commands only &#8216;push&#8217; can fail due to timing.  &#8216;push&#8217; is transactional
+and you can be contending with other people or machines that pushed to the same branch
+as you between when you pulled and you pushed.  Merging can fail, but that
+represents some actual file-level conflict vs. a timing issue (someone beat you to the &#8216;push&#8217;).
+A proper &#8216;commit&#8217; can&#8217;t fail because it is local.</p>
+
+<h3>Repositories and branches</h3>
+
+<p>At least to begin, all these solutions will use a standard centralized repository approach
+and generally not use branches.  So you don&#8217;t have to worry about git&#8217;s ability to
+deal with many remotes and which branch a given git repository is using.  By default
+at any current moment there is only</p>
+
+<ul>
+<li> local: &#8216;master&#8217; <-> remote: origin/master</li>
+</ul>
+
+
+<p>where things get interesting because there could be 100 different machines each with their own &#8216;local&#8217;.</p>
+
+<h3>Problems with git / DVCS</h3>
+
+<p>The biggest issue with git and similar DVCS is their model doesn&#8217;t work well for large amounts of
+binary assets.</p>
 </div>
 
 
@@ -116,6 +197,12 @@
 
 <time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
 
 
     </p>
@@ -149,7 +236,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/01/11/test/">Test</a>
+        <a href="/blog/2013/01/11/test/">Being a git about everything (Intro)</a>
       </li>
     
   </ul>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Foo]]></title>
-  <link href="http://markfussell.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: git | Foo]]></title>
+  <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
   <updated>2013-01-12T18:33:04-08:00</updated>
   <id>http://markfussell.github.com/</id>
@@ -20,18 +20,18 @@
     <id>http://markfussell.github.com/blog/2013/01/11/test</id>
     <content type="html"><![CDATA[<p>There are times when a new technology comes along, that at first appears to be pretty similar to
 existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
+A recent example of this is 'git' and similar distributed version control systems (DVCS).  They may
 at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
+they are really much more... a core piece of technology useful for many things.</p>
 
 <p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
 I hope at least some of them are interesting to some readers.</p>
 
-<p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
-Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
+<p>There are alternative DVCSs but I am not going to compare or translate examples... at least not on a first pass.
+Git was created by Linus Torvalds in 2005.  It was initially quite 'raw' and still maintains much of that rawness,
 but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
 in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
-and company&#8230; but that is a different topic.</p>
+and company... but that is a different topic.</p>
 
 <h2>Git Syntax / Overview</h2>
 
@@ -48,14 +48,14 @@ and company&#8230; but that is a different topic.</p>
 <li> clone &mdash; copy a repository from a remote location</li>
 <li> fetch &mdash; get updates from a remote repository</li>
 <li> merge &mdash; merge changes from one branch into the current branch</li>
-<li> pull &mdash; &#8216;fetch&#8217; and then &#8216;merge&#8217;</li>
+<li> pull &mdash; 'fetch' and then 'merge'</li>
 <li> add &mdash; add changes to the commit stage of the current branch</li>
 <li> commit &mdash; commit the changes into the current branch</li>
 <li> push &mdash; try to make a remote branch look like the current branch</li>
 </ul>
 
 
-<p>Actually of those seven &#8216;pull&#8217; basically replaces/combines two of them, so you get
+<p>Actually of those seven 'pull' basically replaces/combines two of them, so you get
 down to about five with a core loop like this:</p>
 
 <ul>
@@ -76,29 +76,29 @@ down to about five with a core loop like this:</p>
 </ul>
 
 
-<p>Of these commands only &#8216;push&#8217; can fail due to timing.  &#8216;push&#8217; is transactional
+<p>Of these commands only 'push' can fail due to timing.  'push' is transactional
 and you can be contending with other people or machines that pushed to the same branch
 as you between when you pulled and you pushed.  Merging can fail, but that
-represents some actual file-level conflict vs. a timing issue (someone beat you to the &#8216;push&#8217;).
-A proper &#8216;commit&#8217; can&#8217;t fail because it is local.</p>
+represents some actual file-level conflict vs. a timing issue (someone beat you to the 'push').
+A proper 'commit' can't fail because it is local.</p>
 
 <h3>Repositories and branches</h3>
 
 <p>At least to begin, all these solutions will use a standard centralized repository approach
-and generally not use branches.  So you don&#8217;t have to worry about git&#8217;s ability to
+and generally not use branches.  So you don't have to worry about git's ability to
 deal with many remotes and which branch a given git repository is using.  By default
 at any current moment there is only</p>
 
 <ul>
-<li> local: &#8216;master&#8217; <-> remote: origin/master</li>
+<li> local: 'master' <-> remote: origin/master</li>
 </ul>
 
 
-<p>where things get interesting because there could be 100 different machines each with their own &#8216;local&#8217;.</p>
+<p>where things get interesting because there could be 100 different machines each with their own 'local'.</p>
 
 <h3>Problems with git / DVCS</h3>
 
-<p>The biggest issue with git and similar DVCS is their model doesn&#8217;t work well for large amounts of
+<p>The biggest issue with git and similar DVCS is their model doesn't work well for large amounts of
 binary assets.</p>
 ]]></content>
   </entry>
