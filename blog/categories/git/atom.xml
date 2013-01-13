@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-13T01:19:14-08:00</updated>
+  <updated>2013-01-13T01:20:14-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -124,6 +124,8 @@ become painful depending on the purpose git is being used for.  Having 100MB wor
 a single git repository (even over time) is an unusual thing.  100MB worth of images is common.</p>
 
 <p>So one of our first problems and solutions is going to have to deal with this problem.</p>
+
+<p>Enter the annex: <a href="/blog/2013/01/13/git-about-everything-annex/">Annex</a></p>
 ]]></content>
   </entry>
   
