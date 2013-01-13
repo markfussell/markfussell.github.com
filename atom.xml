@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-12T19:48:54-08:00</updated>
+  <updated>2013-01-13T01:18:06-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Being a git about everything (Annexing)]]></title>
+    <link href="http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex/"/>
+    <updated>2013-01-13T18:16:00-08:00</updated>
+    <id>http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex</id>
+    <content type="html"><![CDATA[<p>This is the second in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="http://markfussell.github.com/2013/01/11/git-about-everything-intro/">Intro</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (Intro)]]></title>
@@ -45,7 +56,7 @@ and company&#8230; but that is a different topic.</p>
 </ul>
 
 
-<p>Git has a lot of commands, but probably seven are core to standard git flows:</p>
+<p>Git has a lot of commands, but around seven are core to standard git flows:</p>
 
 <ul>
 <li> clone &mdash; copy a repository from a remote location</li>
