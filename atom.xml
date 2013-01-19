@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-18T21:34:52-08:00</updated>
+  <updated>2013-01-18T21:48:14-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -54,23 +54,41 @@ human-entered white spaces.  For example:</p>
 
 <h2>Put the content into the Cloud (or similar)</h2>
 
-<p>Where should we store the actual content?  Pretty much anywhere we want if things are simple (only a few files at a time), but
-if we want to store and retrieve thousands of files rapidly things get nastier.  For example, there are projects that try to
-hide the content being moved elsewhere using git smudge/clean filters.  These make the process all of: sequential, heavy, and
+<p>Where should we store the actual content?  Pretty much anywhere we want if things are simple (only a few files at a time to store and retrieve, need
+only local access), but
+if we want to store and retrieve thousands of files from anywhere rapidly things get nastier.  For example, there are projects that try to
+hide the process of file-contents being moved elsewhere using git smudge/clean filters.  Unfortunately this make the process all of: sequential, heavy, and
 perpetual.  We would have similar major issues if we moved the content via some other sequential approach that was not super-fast.  And
 git is meant to be highly distributed, so our approach needs to work for all the &#8216;clones&#8217; of a repository.  And finally, we don&#8217;t
-want to break the bank over this.</p>
+want to break our bank over this.</p>
 
 <p>The solution?  S3 or similar.  S3 is:</p>
 
 <ul>
-<li> Relatively inexpensive for what it does</li>
+<li> Relatively inexpensive for what it does (about a dime a month for 1GB)</li>
 <li> Highly distributed</li>
 <li> Reasonably fast in network transfers</li>
 <li> Incredibly fast as you throw more workers at the network transfers</li>
 <li> Blazingly fast if you throw many workers from EC2 at it</li>
 </ul>
 
+
+<p>So if we want to move files from our Git repository into S3, how do we do that?  This isn&#8217;t really a git issue at all if we do
+it before &#8216;add&#8217; and after &#8216;pull&#8217;, but instead
+a simple filesystem-to-S3 issue and s3cmd <a href="http://s3tools.org/s3cmd">http://s3tools.org/s3cmd</a> is a very well trusted tool for this.
+Add in the parallel patch <a href="https://github.com/pcorliss/s3cmd-modification">https://github.com/pcorliss/s3cmd-modification</a> and
+you can have any numbers of workers running.  We want to be a &#8216;git&#8217; about everything, but we can solve this issue independently
+of git and combine the two.  The only remaining issue is the actual processes of:</p>
+
+<ul>
+<li> &#8216;deflating&#8217;: moving the content of a file somewhere and leaving a content-hash in its place.</li>
+<li> &#8216;inflating&#8217;: replacing a content-hash with the actual content</li>
+</ul>
+
+
+<p>A highly annex-augmented version of s3cmd is here <a href="https://github.com/markfussell/s3cmd-modification">https://github.com/markfussell/s3cmd-modification</a>
+and was done while working at [Rumble][http://www.rumblegames.com] where we needed to move gigabytes of high-quality art assets around
+as part of the build-deploy pipeline.</p>
 ]]></content>
   </entry>
   
