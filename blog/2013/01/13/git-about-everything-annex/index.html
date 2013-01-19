@@ -134,7 +134,7 @@ perpetual.  We would have similar major issues if we moved the content via some 
 git is meant to be highly distributed, so our approach needs to work for all the &#8216;clones&#8217; of a repository.  And finally, we don&#8217;t
 want to break our bank over this.</p>
 
-<p>The solution?  S3 or similar.  S3 is:</p>
+<p>The solution?  Amazon S3 or similar.  Amazon S3 is:</p>
 
 <ul>
 <li> Relatively inexpensive for what it does (about a dime a month for 1GB)</li>
@@ -150,7 +150,7 @@ it before &#8216;add&#8217; and after &#8216;pull&#8217;.  It becomes
 a simple filesystem-to-S3 issue and s3cmd <a href="http://s3tools.org/s3cmd">http://s3tools.org/s3cmd</a> is a very well trusted tool for this.
 Add in the parallel patch <a href="https://github.com/pcorliss/s3cmd-modification">https://github.com/pcorliss/s3cmd-modification</a> and
 you can have any numbers of workers running.  We want to be a &#8216;git&#8217; about everything, but we can solve this issue independently
-of git and combine the two.  The only remaining issue are the actual processes of:</p>
+of git and combine the two.  The only large remaining issues are the actual processes of:</p>
 
 <ul>
 <li> &#8216;deflating&#8217;: moving the content of a file somewhere and leaving a content-hash in its place.</li>
@@ -159,7 +159,7 @@ of git and combine the two.  The only remaining issue are the actual processes o
 
 
 <p>A highly annex-augmented version of s3cmd is here <a href="https://github.com/markfussell/s3cmd-modification">https://github.com/markfussell/s3cmd-modification</a>
-and was done while working at [Rumble(http://www.rumblegames.com) where we needed to move gigabytes of high-quality art assets around
+and was done while working at <a href="http://www.rumblegames.com">Rumble</a> where we needed to move gigabytes of high-quality art assets around
 as part of the build-deploy pipeline.</p>
 </div>
 
