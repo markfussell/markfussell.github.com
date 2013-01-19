@@ -103,42 +103,12 @@ versions of 10MB files will produce GBs worth of data that must be cloned by eve
 <p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually a similar
 &#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
 
-<h2>Record Enough of the Binary File</h2>
-
-<p>What is
-enough information?  How about 160 bits!  Using SHA1 or any similar hash, we can identify the contents of any file.  To add
-a bit of consistency and readability, we will make this hex-based, so we get 40 characters.  And to make it a little clearer what
-hash was used and what this string is, we add &#8216;sha1_&#8217; to the front and &#8216;.blob&#8217; to the end.  Now at 50 to 52 bytes depending on
-human-entered white spaces.  For example:</p>
-
-<ul>
-<li> sha1_8ac02ee34b94461fed19320d789f251e6a2a6796.blob</li>
-<li> SHA1-Hash = 8ac02ee34b94461fed19320d789f251e6a2a6796</li>
-<li> Google test: http://www.google.com/search?q=8ac02ee34b94461fed19320d789f251e6a2a6796</li>
-</ul>
-
-
-<p>And we have confirmed that the hash is enough to identify that file&#8217;s content (and the file itself if it has a unique name).</p>
-
-<p>Storing tens of thousands of 50Byte files is still under a few megabytes, so that part is good.</p>
-
-<h2>Put the content into the Cloud (or similar)</h2>
-
-<p>Where should we store the actual content?  Pretty much anywhere we want if things are simple (only a few files at a time), but
-if we want to store and retrieve thousands of files rapidly things get nastier.  For example, there are projects that try to
-hide the content being moved elsewhere using git smudge/clean filters.  These make the process all of: sequential, heavy, and
-perpetual.  We would have similar major issues if we moved the content via some other sequential approach that was not super-fast.  And
-git is meant to be highly distributed, so our approach needs to work for all the &#8216;clones&#8217; of a repository.  And finally, we don&#8217;t
-want to break the bank over this.</p>
-
-<p>The solution?  S3 or similar.  S3 is:
-   * Relatively inexpensive for what it does
-   * Highly distributed
-   * Reasonably fast in network transfers
-   * Incredibly fast as you throw more workers at the network transfers
-   * Blazingly fast if you throw many workers from EC2 at it</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/13/git-about-everything-annex/">Read on &rarr;</a>
+    </footer>
   
 
 
