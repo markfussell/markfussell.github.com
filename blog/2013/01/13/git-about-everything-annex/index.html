@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the second in a series of using git as part of interesting solutions to problems. The first is here: Intro As mentioned in the first posting &hellip;">
+  <meta name="description" content="This is the second in a series of using git as part of interesting solutions to problems. The first is here: Intro Dealing with Binary Files As &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,8 +94,10 @@
 
 <p>The first is here: <a href="/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
 
+<h2>Dealing with Binary Files</h2>
+
 <p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
-versions of 10MB files will produce GBs worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
+versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
 
 <p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually a similar
 &#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
