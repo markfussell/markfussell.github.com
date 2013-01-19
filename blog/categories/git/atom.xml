@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-18T21:31:14-08:00</updated>
+  <updated>2013-01-18T21:31:55-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -42,7 +42,7 @@ human-entered white spaces.  For example:</p>
 <ul>
 <li> sha1_8ac02ee34b94461fed19320d789f251e6a2a6796.blob</li>
 <li> SHA1-Hash = 8ac02ee34b94461fed19320d789f251e6a2a6796</li>
-<li> Google test: http://www.google.com/search?q=8ac02ee34b94461fed19320d789f251e6a2a6796</li>
+<li> Google test: <a href="http://www.google.com/search?q=8ac02ee34b94461fed19320d789f251e6a2a6796">http://www.google.com/search?q=8ac02ee34b94461fed19320d789f251e6a2a6796</a></li>
 </ul>
 
 
