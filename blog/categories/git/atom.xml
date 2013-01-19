@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-18T21:17:54-08:00</updated>
+  <updated>2013-01-18T21:31:14-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -59,12 +59,16 @@ perpetual.  We would have similar major issues if we moved the content via some 
 git is meant to be highly distributed, so our approach needs to work for all the 'clones' of a repository.  And finally, we don't
 want to break the bank over this.</p>
 
-<p>The solution?  S3 or similar.  S3 is:
-   * Relatively inexpensive for what it does
-   * Highly distributed
-   * Reasonably fast in network transfers
-   * Incredibly fast as you throw more workers at the network transfers
-   * Blazingly fast if you throw many workers from EC2 at it</p>
+<p>The solution?  S3 or similar.  S3 is:</p>
+
+<ul>
+<li> Relatively inexpensive for what it does</li>
+<li> Highly distributed</li>
+<li> Reasonably fast in network transfers</li>
+<li> Incredibly fast as you throw more workers at the network transfers</li>
+<li> Blazingly fast if you throw many workers from EC2 at it</li>
+</ul>
+
 ]]></content>
   </entry>
   
