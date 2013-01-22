@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-18T22:00:46-08:00</updated>
+  <updated>2013-01-21T16:26:26-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -91,6 +91,112 @@ and was done while working at <a href="http://www.rumblegames.com">Rumble</a> wh
 as part of the build-deploy pipeline.</p>
 
 <h2>Working with S3 Annexed Git Repositories</h2>
+
+<p>The three things you need for an S3-Annexed repository are:</p>
+
+<ul>
+<li> A git repository</li>
+<li> An S3 bucket to put content into</li>
+<li> The augmented s3cmd from here <a href="https://github.com/markfussell/s3cmd-modification">https://github.com/markfussell/s3cmd-modification</a></li>
+</ul>
+
+
+<p>A repository that is paired with an S3 bucket is located here:</p>
+
+<ul>
+<li> https://github.com/markfussell/giteveryrepo1</li>
+</ul>
+
+
+<p>You can clone that repository and get a working annexed-repository and some example content (without write permission).  The repository is tiny but
+grants access to several megabytes worth of images.</p>
+
+<h3>Configuration</h3>
+
+<p>The configuration of the Annex is located in 's3info':</p>
+
+<ul>
+<li> blob_includes.txt &mdash; The file extensions you want annexed</li>
+<li> s3annex_config.txt &mdash; The location of the annex</li>
+<li> s3cmd_config.txt &mdash; Some s3cmd configuration, but most importantly the access/secret</li>
+<li> s3worker_config.txt &mdash; The number of workers used for annexing</li>
+</ul>
+
+
+<h4>blob_includes</h4>
+
+<p>The blob_includes should be updated with any new file types you want annexed.  To make things fast and simple, annexing is
+based on file extensions not size or other properties.  It would be nice if this was more automatic, but being explicit
+was simple and very visible.</p>
+
+<h4>s3annex_config</h4>
+
+<p>This is simply the location of the annex.  This can change over time as a quick way to do 'garbage collection'
+but normally it stays the same.  Because of the content-based approach, you can share annexes across many
+repositories.</p>
+
+<h4>s3cmd_config</h4>
+
+<p>The s3cmd configuration including access credentials.  If you don't want access credentials in the repository itself, you could take out the s3cmd_config file and it should use your defaults (you may need to tweak a couple scripts).</p>
+
+<h4>s3worker_config</h4>
+
+<p>The number of s3workers to run at a time.  More workers will make the S3 combined throughput faster: this should be 100 or more on an EC2 instance.</p>
+
+<h3>Annex (S3) Layout</h3>
+
+<p>The layout of the Annex within the S3 bucket is either:</p>
+
+<ul>
+<li> Flat in a single bucket+prefix</li>
+<li> Hierarchical based on some amount of leading hash digits</li>
+</ul>
+
+
+<p>The completely flat version is the simpler representation: there are no semantics to the hierarchy.
+The hierarchy simply allows multiple threads to get listings of the contents in parallel.</p>
+
+<p>In the annex are files that start with 'sha1_' and end in '.blob' or '.blob__.xxx' where '.xxx' is a proper MIME extension.
+The reason for the MIME extension is just that it can be useful to see or directly retrieve the content
+with proper interpretation.  The Annex itself only uses the '.blob' version.</p>
+
+<p>The names of the files in the Annex match the 'sha1' hash of the contents of the file.  So 'sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg'
+has a sha1 hash of '55b15eb3ac72351249125a3de7a81aee2bda6a2a'.  It is impossible for files to collide unless they are actually the same
+content.</p>
+
+<h3>Working code</h3>
+
+<p>All the commands expect to be run when you are</p>
+
+<p>The main working commands are:</p>
+
+<ul>
+<li> bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a stub/reference</li>
+<li> bin/inflatePaths.sh &mdash; Put the proper contents of the files into the filesystem based on their stub/reference</li>
+</ul>
+
+
+<p>Because annexed repositories should always be fully deflated before committing, there is a command in the root of the directory to
+remind people of this:</p>
+
+<ul>
+<li> deflateAll.sh &mdash; Visible reminder and simple equivalent to 'bin/deflatePaths.sh .'</li>
+</ul>
+
+
+<p>```bash</p>
+
+<p>git status
+cat image/album/GitEverythingAlbum_01.jpg
+```</p>
+
+<p>```bash</p>
+
+<p>INFO: Upload     (1): ./image/album/GitEverythingAlbum_01.jpg -> s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
+File './image/album/GitEverythingAlbum_01.jpg' started [1 of 30]
+File './image/album/GitEverythingAlbum_01.jpg' stored as 's3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob' (4960530 bytes in 654.2 seconds, 7.40 kB/s) [1 of 30]</p>
+
+<p>```</p>
 
 <h2>Alternatives</h2>
 
