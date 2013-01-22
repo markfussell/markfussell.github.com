@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-21T16:26:26-08:00</updated>
+  <updated>2013-01-21T20:13:50-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -143,32 +143,9 @@ repositories.</p>
 
 <p>The number of s3workers to run at a time.  More workers will make the S3 combined throughput faster: this should be 100 or more on an EC2 instance.</p>
 
-<h3>Annex (S3) Layout</h3>
+<h3>Working commands</h3>
 
-<p>The layout of the Annex within the S3 bucket is either:</p>
-
-<ul>
-<li> Flat in a single bucket+prefix</li>
-<li> Hierarchical based on some amount of leading hash digits</li>
-</ul>
-
-
-<p>The completely flat version is the simpler representation: there are no semantics to the hierarchy.
-The hierarchy simply allows multiple threads to get listings of the contents in parallel.</p>
-
-<p>In the annex are files that start with 'sha1_' and end in '.blob' or '.blob__.xxx' where '.xxx' is a proper MIME extension.
-The reason for the MIME extension is just that it can be useful to see or directly retrieve the content
-with proper interpretation.  The Annex itself only uses the '.blob' version.</p>
-
-<p>The names of the files in the Annex match the 'sha1' hash of the contents of the file.  So 'sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg'
-has a sha1 hash of '55b15eb3ac72351249125a3de7a81aee2bda6a2a'.  It is impossible for files to collide unless they are actually the same
-content.</p>
-
-<h3>Working code</h3>
-
-<p>All the commands expect to be run when you are</p>
-
-<p>The main working commands are:</p>
+<p>All the commands expect to be run from the root of the git repository.  The main working commands are:</p>
 
 <ul>
 <li> bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a stub/reference</li>
@@ -184,19 +161,185 @@ remind people of this:</p>
 </ul>
 
 
-<p>```bash</p>
+<p>Basically these commands are all you need.  To make it easier to see the Annex itself, there is an 'lsAnnex.sh'.</p>
 
-<p>git status
-cat image/album/GitEverythingAlbum_01.jpg
+<h3>Annex (S3) Layout</h3>
+
+<p>The layout of the Annex within the S3 bucket is either:</p>
+
+<ul>
+<li> Flat in a single bucket+prefix</li>
+<li> Hierarchical based on some amount of leading hash digits</li>
+</ul>
+
+
+<p>The completely flat version is the simpler representation: there are no semantics to the hierarchy.
+The hierarchy simply allows multiple threads to get listings of the contents in parallel.</p>
+
+<h4>Annex listing</h4>
+
+<p><code>bash
+./bin/lsAnnex.sh
+</code></p>
+
+<p>In the annex are files that start with 'sha1_' and end in '.blob' or '.blob__.xxx' where '.xxx' is a proper MIME extension.
+The reason for the MIME extension is just that it can be useful to see or directly retrieve the content
+with proper interpretation.  The Annex itself only uses the '.blob' version.</p>
+
+<p>The names of the files in the Annex match the 'sha1' hash of the contents of the file.  So 'sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg'
+has a sha1 hash of '55b15eb3ac72351249125a3de7a81aee2bda6a2a'.  It is impossible for files to collide unless they are exactly the same
+content.</p>
+
+<h3>Example Walk-through</h3>
+
+<p>If you cloned this repository:</p>
+
+<ul>
+<li> https://github.com/markfussell/giteveryrepo1</li>
+</ul>
+
+
+<p>you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).</p>
+
+<p>To see the details, look inside any of the jpg files in <code>image/album</code></p>
+
+<p><code>bash
+git status
+echo -n "content: "; cat image/album/GitEverythingAlbum_01.jpg ; echo
+</code></p>
+
+<p>This returns the blob identifier:
+<code>bash
+content: sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
+</code></p>
+
+<h4>Inflating a file</h4>
+
+<p>To inflate a file, run <code>./bin/inflatePaths.sh</code> with the specific file path:</p>
+
+<p><code>bash
+./bin/inflatePaths.sh image/album/GitEverythingAlbum_01.jpg
+</code></p>
+
+<p>And you will get some feedback:
+<code>bash
+INFO: Compiling list of local files for 'file://image/album/GitEverythingAlbum_01.jpg', 'GitEverythingAlbum_01.jpg', 'image/album/GitEverythingAlbum_01.jpg'
+INFO: Applying --exclude/--include
+INFO: Retrieving list of remote files for s3://emenar.com/gitevery/giteveryrepo1/ ...
+INFO: Summary: 1 local files to fetch, 60 remote files present
+INFO: Inflating[1] from S3 (1) (sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob): image/album/GitEverythingAlbum_01.jpg &lt;- s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
+s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob -&gt; image/album/GitEverythingAlbum_01.jpg  [1 of 1]
+ 4960530 of 4960530   100% in    7s   633.43 kB/s  done
+</code></p>
+
+<p>Now you should have a normal file and can view a picture of Nob Hill.</p>
+
+<p>Note that <code>git status</code> will now show a change.  The approach here is not to conflate annexing within git (e.g. being part of smudge), but to combine the two aspects to make git very
+useful in general.</p>
+
+<h4>Deflating a file</h4>
+
+<p>Since we are in 'git', we could simply do a reset to get the file back to it's original content (it is already annexed) but it is much safer to always
+'deflate' in case the contents changed vs. being the same as the original commit.</p>
+
+<p>To deflate a single file you run <code>./bin/deflatePaths.shs</code> with the specific file path:</p>
+
+<p><code>bash
+./bin/deflatePaths.sh image/album/GitEverythingAlbum_01.jpg
+</code></p>
+
+<p>Because the contents are the same, you should see this:</p>
+
+<p><code>bash
+INFO: Compiling list of local files for 'file://image/album/GitEverythingAlbum_01.jpg', 'GitEverythingAlbum_01.jpg', 'image/album/GitEverythingAlbum_01.jpg'
+INFO: Applying --exclude/--include
+INFO: Retrieving list of remote files for s3://emenar.com/gitevery/giteveryrepo1/ ...
+INFO: Summary: 1 local files to upload, 60 remote files already present
+INFO: Skipped    (1) (sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob): image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
+INFO: Skipped    (1) (sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg): image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg
+</code></p>
+
+<p>The original annexing of the file did upload two files, and looked like this:</p>
+
+<p><code>bash
+INFO: Upload     (1): ./image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
+File './image/album/GitEverythingAlbum_01.jpg' started [1 of 30]
+...
+File './image/album/GitEverythingAlbum_01.jpg' stored as 's3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob' (4960530 bytes in 654.2 seconds, 7.40 kB/s) [1 of 30]
+</code></p>
+
+<p>where 10 files were done at a time because it was in bulk.</p>
+
+<h4>Inflating Many Files</h4>
+
+<p>The <code>inflate</code> and <code>deflate</code> scripts accept paths so you can inflate the whole album with:</p>
+
+<p><code>bash
+./bin/inflatePaths.sh image/album
+</code></p>
+
+<p>with the default settings, this will launch 10 workers doing 10 files at a time in total.  How long
+the whole 100MB download takes will almost completely depend on your bandwidth, but if not
+just change the number of workers to a larger number.</p>
+
+<h3>EC2 Walkthrough</h3>
+
+<p>On EC2 the performance numbers are pretty amazing, so I create a simple Cloudformation so people
+can test it out.  The cloudformation is here:</p>
+
+<ul>
+<li> https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template</li>
+</ul>
+
+
+<p>and it can be run by just giving it your keypair.</p>
+
+<h4>EC2 Performance</h4>
+
+<p>In the repository:</p>
+
+<ul>
+<li> /root/gitrepo/giteveryrepo1</li>
+</ul>
+
+
+<p>run <code>inflatePaths</code> with the standard 10 workers</p>
+
+<p><code>bash
+time ./bin/inflatePaths.sh image
+</code></p>
+
+<p>```bash
+INFO: Compiling list of local files for 'file://image', 'image', 'image'
+INFO: Applying --exclude/--include
+INFO: Retrieving list of remote files for s3://emenar.com/gitevery/giteveryrepo1/ ...
+INFO: Summary: 30 local files to fetch, 60 remote files present
+INFO: Inflating[1] from S3 (1) (sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob): image/album/GitEverythingAlbum_01.jpg &lt;- s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob started [1 of 30]
+INFO: Receiving file 'image/album/GitEverythingAlbum_01.jpg', please
+...
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_801a329248a9cbe48b512f2a75179437382dba02.blob saved as 'image/album/GitEverythingAlbum_21.jpg' (4194668 bytes in 3.1 seconds, 1330.45 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_7d5d055068a9b7e268e21279770f03a5e8c6c9d3.blob saved as 'image/album/GitEverythingAlbum_22.jpg' (4576223 bytes in 3.0 seconds, 1477.96 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob saved as 'image/album/GitEverythingAlbum_25.jpg' (4742594 bytes in 2.6 seconds, 1777.42 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_856984959467b2427c2a4e9ade642a3d3c26b0fd.blob saved as 'image/album/GitEverythingAlbum_20.jpg' (4208680 bytes in 4.2 seconds, 971.63 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_7cb2e0318459e276dc4b65987bbe8bd6021357df.blob saved as 'image/album/GitEverythingAlbum_28.jpg' (3559585 bytes in 2.2 seconds, 1559.41 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_b855966214caa10638f76a3aba6b6df7b0caffca.blob saved as 'image/album/GitEverythingAlbum_29.jpg' (3820335 bytes in 2.2 seconds, 1718.09 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_2abd18dfa4510e1dfc72f643bff3639b42f2aa32.blob saved as 'image/album/GitEverythingAlbum_30.jpg' (2679517 bytes in 2.1 seconds, 1229.88 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_fc322e938362e0c40ccf5e09789a1cb6b6995882.blob saved as 'image/album/GitEverythingAlbum_26.jpg' (3909187 bytes in 3.0 seconds, 1285.67 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_fd63032739c810743521ad1de0546d67b13b4357.blob saved as 'image/album/GitEverythingAlbum_27.jpg' (3465440 bytes in 2.9 seconds, 1157.55 kB/s)
+File s3://emenar.com/gitevery/giteveryrepo1/sha1_798788e370f243a2a38f91bf8979fd46070a4ae2.blob saved as 'image/album/GitEverythingAlbum_24.jpg' (3461363 bytes in 5.3 seconds, 634.12 kB/s)</p>
+
+<p>real    0m10.372s
+user    0m4.311s
+sys 0m2.948s
 ```</p>
 
-<p>```bash</p>
+<p>So it took 10 seconds to download 100MB that is 80Mb/s on an 'm1.small' which is pretty nice.  Changing to 100 workers doesn't make much difference,
+so this is pretty much the saturation of 'm1.small'.</p>
 
-<p>INFO: Upload     (1): ./image/album/GitEverythingAlbum_01.jpg -> s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
-File './image/album/GitEverythingAlbum_01.jpg' started [1 of 30]
-File './image/album/GitEverythingAlbum_01.jpg' stored as 's3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob' (4960530 bytes in 654.2 seconds, 7.40 kB/s) [1 of 30]</p>
+<h2>Summary</h2>
 
-<p>```</p>
+<p>By using S3 as an Annex for binary files,</p>
 
 <h2>Alternatives</h2>
 
