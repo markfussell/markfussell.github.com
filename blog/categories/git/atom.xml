@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-21T20:55:39-08:00</updated>
+  <updated>2013-01-21T21:08:45-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -161,20 +161,21 @@ remind people of this:</p>
 </ul>
 
 
-<p>Basically these commands are all you need.  To make it easier to see the Annex itself, there is also an 'lsAnnex.sh'.</p>
+<p>These commands are all you need for annexing proper.  To make it easier to see the Annex itself, there is also an 'lsAnnex.sh'
+script which is used below.</p>
 
 <h3>Annex (S3) Layout</h3>
 
 <p>The layout of the Annex within the S3 bucket is either:</p>
 
 <ul>
-<li> Flat in a single bucket+prefix</li>
+<li> Flat in a single bucket plus path prefix</li>
 <li> Hierarchical based on some amount of leading hash digits</li>
 </ul>
 
 
-<p>The completely flat version is the simpler representation: there are no semantics to the hierarchy.
-The hierarchy simply allows multiple threads to get listings of the contents in parallel, which
+<p>The completely flat version is the simpler and truer representation.
+The hierarchy simply allows multiple threads to get listings of the annex files in parallel, which
 matters for performance when you have thousands of files within the annex.</p>
 
 <h4>Annex listing</h4>
@@ -185,7 +186,7 @@ matters for performance when you have thousands of files within the annex.</p>
 ./bin/lsAnnex.sh
 </code></p>
 
-<p>and this gives for the example:</p>
+<p>For the example repository, this gives:</p>
 
 <p><code>bash
 2013-01-22 00:04   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob
@@ -200,23 +201,23 @@ with proper interpretation.  The normal Annex behavior only uses the '.blob' ver
 
 <p>The names of the files in the Annex match the 'sha1' hash of the contents of the file.  So 'sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg'
 has a sha1 hash of '55b15eb3ac72351249125a3de7a81aee2bda6a2a'.  It is impossible for files to collide unless they are exactly the same
-content.</p>
+content, so a completely flat representation is correct and simple.</p>
 
 <h3>Example Walk-through</h3>
 
-<p>If you cloned this repository:</p>
+<p>If you cloned the example repository:</p>
 
 <ul>
 <li> https://github.com/markfussell/giteveryrepo1</li>
 </ul>
 
 
-<p>you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).</p>
+<p>you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).  But all the image
+files are stubbed out with just the content hash inside.</p>
 
 <p>To see example details of these stubbed/annexed files, look inside any of the jpg files in <code>image/album</code></p>
 
 <p><code>bash
-git status
 echo -n "content: "; cat image/album/GitEverythingAlbum_01.jpg ; echo
 </code></p>
 
