@@ -250,14 +250,29 @@ The hierarchy simply allows multiple threads to get listings of the contents in 
 
 <h4>Annex listing</h4>
 
+<p>You can see the contents of the annex with:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/lsAnnex.sh
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>In the annex are files that start with &#8216;sha1_&#8217; and end in &#8216;.blob&#8217; or &#8216;.blob__.xxx&#8217; where &#8216;.xxx&#8217; is a proper MIME extension.
+<p>and this gives:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>2013-01-22 00:04   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob
+</span><span class='line'>2013-01-22 00:11   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob__.jpg
+</span><span class='line'>2013-01-22 00:10   2679517   s3://emenar.com/gitevery/giteveryrepo1/sha1_2abd18dfa4510e1dfc72f643bff3639b42f2aa32.blob
+</span><span class='line'>2013-01-22 00:15   2679517   s3://emenar.com/gitevery/giteveryrepo1/sha1_2abd18dfa4510e1dfc72f643bff3639b42f2aa32.blob__.jpg
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, in the annex are files that start with &#8216;sha1_&#8217; and end in &#8216;.blob&#8217; or &#8216;.blob__.xxx&#8217; where &#8216;.xxx&#8217; is a proper MIME extension.
 The reason for the MIME extension is just that it can be useful to see or directly retrieve the content
-with proper interpretation.  The Annex itself only uses the &#8216;.blob&#8217; version.</p>
+with proper interpretation.  The normal Annex behavior only uses the &#8216;.blob&#8217; version.</p>
 
 <p>The names of the files in the Annex match the &#8216;sha1&#8217; hash of the contents of the file.  So &#8216;sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg&#8217;
 has a sha1 hash of &#8216;55b15eb3ac72351249125a3de7a81aee2bda6a2a&#8217;.  It is impossible for files to collide unless they are exactly the same
@@ -274,7 +289,7 @@ content.</p>
 
 <p>you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).</p>
 
-<p>To see the details, look inside any of the jpg files in <code>image/album</code></p>
+<p>To see example details of these stubbed/annexed files, look inside any of the jpg files in <code>image/album</code></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -320,12 +335,13 @@ content.</p>
 
 <p>Now you should have a normal file and can view a picture of Nob Hill.</p>
 
-<p>Note that <code>git status</code> will now show a change.  The approach here is not to conflate annexing within git (e.g. being part of smudge), but to combine the two aspects to make git very
-useful in general.</p>
+<p>Note that <code>git status</code> will now show a change.  The approach here is not to conflate annexing within git (e.g. being part of smudge),
+but to create something that when combined with normal git makes git even more useful.</p>
 
 <h4>Deflating a file</h4>
 
-<p>Since we are in &#8216;git&#8217;, we could simply do a reset to get the file back to it&#8217;s original content (it is already annexed) but it is much safer to always
+<p>Since we are in a git repository, we could simply do a reset to get the file back to it&#8217;s original content
+(it is already annexed) but it is much safer to always
 &#8216;deflate&#8217; in case the contents changed vs. being the same as the original commit.</p>
 
 <p>To deflate a single file you run <code>./bin/deflatePaths.shs</code> with the specific file path:</p>
@@ -361,11 +377,9 @@ useful in general.</p>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>INFO: Upload     <span class="o">(</span>1<span class="o">)</span>: ./image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
 </span><span class='line'>File <span class="s1">&#39;./image/album/GitEverythingAlbum_01.jpg&#39;</span> started <span class="o">[</span>1 of 30<span class="o">]</span>
 </span><span class='line'>...
-</span><span class='line'>File <span class="s1">&#39;./image/album/GitEverythingAlbum_01.jpg&#39;</span> stored as <span class="s1">&#39;s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob&#39;</span> <span class="o">(</span>4960530 bytes in 654.2 seconds, 7.40 kB/s<span class="o">)</span> <span class="o">[</span>1 of 30<span class="o">]</span>
+</span><span class='line'>File <span class="s1">&#39;./image/album/GitEverythingAlbum_01.jpg&#39;</span> stored as <span class="s1">&#39;s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob&#39;</span> <span class="o">(</span>4960530 bytes ...<span class="o">)</span> <span class="o">[</span>1 of 30<span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-<p>where 10 files were done at a time because it was in bulk.</p>
 
 <h4>Inflating Many Files</h4>
 
@@ -376,25 +390,38 @@ useful in general.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>with the default settings, this will launch 10 workers doing 10 files at a time in total.  How long
-the whole 100MB download takes will almost completely depend on your bandwidth, but if not
-just change the number of workers to a larger number.</p>
+<p>or even inflate the whole repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/inflatePaths.sh .
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With the default settings, this will launch 10 workers doing 10 files at a time in total.  How long
+the whole 100MB download takes will almost likely depend on your maximum bandwidth, but if not
+just change the number of workers to a larger number.  S3 is very supportive of many requests by
+different workers.</p>
 
 <h3>EC2 Walkthrough</h3>
 
-<p>On EC2 the performance numbers are pretty amazing, so I create a simple Cloudformation so people
-can test it out.  The cloudformation is here:</p>
+<p>On EC2 the performance numbers are pretty amazing, so I created a simple CloudFormation so people
+can test it out.  The CloudFormation is here:</p>
 
 <ul>
 <li> https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template</li>
 </ul>
 
 
-<p>and it can be run by just giving it your keypair.</p>
+<p>and it can be run by going to AWS CloudFormation and just giving it one of your keypairs:</p>
+
+<ul>
+<li> https://console.aws.amazon.com/cloudformation/</li>
+</ul>
+
 
 <h4>EC2 Performance</h4>
 
-<p>In the repository:</p>
+<p>After the instance launches, SSH in, &#8216;sudo su -&#8216;, and change to the repository:</p>
 
 <ul>
 <li> /root/gitrepo/giteveryrepo1</li>
@@ -459,12 +486,22 @@ can test it out.  The cloudformation is here:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So it took 10 seconds to download 100MB that is 80Mb/s on an &#8216;m1.small&#8217; which is pretty nice.  Changing to 100 workers doesn&#8217;t make much difference,
-so this is pretty much the saturation of &#8216;m1.small&#8217;.</p>
+<p>So it took 10 seconds to download 100MB.  That is 80Mb/s on an &#8216;m1.small&#8217; which is a pretty nice number to work with.  Changing to 100 workers doesn&#8217;t make much difference (about 9 seconds),
+so this is pretty much the saturation of &#8216;m1.small&#8217; to S3 performance.  Larger instance types can perform even better.</p>
 
-<h2>Summary</h2>
+<h2>Summary &#8211; Annexing makes Git good at binary files</h2>
 
-<p>By using S3 as an Annex for binary files,</p>
+<p>By using S3 as an Annex for binary files, we can make &#8216;git&#8217; be exceptionally good at dealing with large amount of binary content.  Git simply
+manages the history of 50-byte annex-stub text files, and git is very fast and efficient at doing that.  The augment s3cmd can run many
+workers to upload/deflate and download/inflate the binary files.  Especially on EC2 the performance numbers can be super-fast:</p>
+
+<ul>
+<li> Clone repository &lt; 5 seconds</li>
+<li> Inflate 100MB of files &lt; 10 seconds</li>
+</ul>
+
+
+<p>So working with lots of version-controlled information has become all of: very simple, very fast, very distributable, and very inexpensive.</p>
 
 <h2>Alternatives</h2>
 
