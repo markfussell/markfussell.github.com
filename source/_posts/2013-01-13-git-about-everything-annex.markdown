@@ -15,7 +15,7 @@ The first is here: [Intro](/blog/2013/01/11/git-about-everything-intro/)
 As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
 versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?
 
-There are a number of solutions in this space out there with differing characteristics, but the core approach is usually a similar
+There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
 "Don't store it in git".  Instead we want to record enough information to retrieve the binary files from somewhere else.
 
 <!-- more -->
@@ -117,25 +117,27 @@ The number of s3workers to run at a time.  More workers will make the S3 combine
 
 All the commands expect to be run from the root of the git repository.  The main working commands are:
 
-   * bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a stub/reference
-   * bin/inflatePaths.sh &mdash; Put the proper contents of the files into the filesystem based on their stub/reference
+   * bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a hash stub/reference
+   * bin/inflatePaths.sh &mdash; Put the proper contents of the files into the filesystem based on their hash stub/reference
 
 Because annexed repositories should always be fully deflated before committing, there is a command in the root of the directory to
 remind people of this:
 
    * deflateAll.sh &mdash; Visible reminder and simple equivalent to 'bin/deflatePaths.sh .'
 
-Basically these commands are all you need.  To make it easier to see the Annex itself, there is an 'lsAnnex.sh'.
+These commands are all you need for annexing proper.  To make it easier to see the Annex itself, there is also an 'lsAnnex.sh'
+script which is used below.
 
 ### Annex (S3) Layout
 
 The layout of the Annex within the S3 bucket is either:
 
-   * Flat in a single bucket+prefix
+   * Flat in a single bucket plus path prefix
    * Hierarchical based on some amount of leading hash digits
 
-The completely flat version is the simpler representation: there are no semantics to the hierarchy.
-The hierarchy simply allows multiple threads to get listings of the contents in parallel.
+The completely flat version is the simpler and truer representation.
+The hierarchy simply allows multiple threads to get listings of the annex files in parallel, which
+matters for performance when you have thousands of files within the annex.
 
 #### Annex listing
 
@@ -145,7 +147,7 @@ You can see the contents of the annex with:
 ./bin/lsAnnex.sh
 ```
 
-and this gives:
+For the example repository, this gives:
 
 ```bash
 2013-01-22 00:04   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob
@@ -160,20 +162,20 @@ with proper interpretation.  The normal Annex behavior only uses the '.blob' ver
 
 The names of the files in the Annex match the 'sha1' hash of the contents of the file.  So 'sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg'
 has a sha1 hash of '55b15eb3ac72351249125a3de7a81aee2bda6a2a'.  It is impossible for files to collide unless they are exactly the same
-content.
+content, so a completely flat representation is correct and simple.
 
 ### Example Walk-through
 
-If you cloned this repository:
+If you cloned the example repository:
 
    * https://github.com/markfussell/giteveryrepo1
 
-you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).
+you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).  But all the image
+files are stubbed out with just the content hash inside.
 
 To see example details of these stubbed/annexed files, look inside any of the jpg files in `image/album`
 
 ```bash
-git status
 echo -n "content: "; cat image/album/GitEverythingAlbum_01.jpg ; echo
 ```
 
@@ -203,7 +205,7 @@ s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda
 
 Now you should have a normal file and can view a picture of Nob Hill.
 
-Note that `git status` will now show a change.  The approach here is not to conflate annexing within git (e.g. being part of smudge),
+Note that `git status` will now show a change.  The approach here is not to hide or conflate annexing within git (e.g. being part of smudge),
 but to create something that when combined with normal git makes git even more useful.
 
 
@@ -256,7 +258,7 @@ or even inflate the whole repository:
 
 
 With the default settings, this will launch 10 workers doing 10 files at a time in total.  How long
-the whole 100MB download takes will almost likely depend on your maximum bandwidth, but if not
+the whole 100MB download takes will almost likely depend on your maximum bandwidth, but if not,
 just change the number of workers to a larger number.  S3 is very supportive of many requests by
 different workers.
 
@@ -318,16 +320,17 @@ so this is pretty much the saturation of 'm1.small' to S3 performance.  Larger i
 ## Summary -- Annexing makes Git good at binary files
 
 By using S3 as an Annex for binary files, we can make 'git' be exceptionally good at dealing with large amount of binary content.  Git simply
-manages the history of 50-byte annex-stub text files, and git is very fast and efficient at doing that.  The augment s3cmd can run many
-workers to upload/deflate and download/inflate the binary files.  Especially on EC2 the performance numbers can be super-fast:
+manages the history of 50-byte annex-stub text files, and git is very fast and efficient at doing that.  The annex-enhanced s3cmd can run many
+workers to upload/deflate and download/inflate the binary files to and from S3.  Especially on EC2 the performance numbers can be super-fast:
 
    * Clone repository < 5 seconds
    * Inflate 100MB of files < 10 seconds
 
-So working with lots of version-controlled information has become all of: very simple, very fast, very distributable, and very inexpensive.
+By combining git with a powerful annex solution, working with lots of version-controlled information
+of any size has become all of: very simple, very fast, very distributable, and very inexpensive.
 
 
-## Alternatives
+### Alternatives
 
 There are some alternative approaches out there, which I should mention.  Some I tried and they didn't perform well
 enough.  Others didn't match the needs we had at Rumble or my needs outside of Rumble.  But they are interesting
@@ -336,6 +339,10 @@ projects:
    * [http://git-annex.branchable.com/](http://git-annex.branchable.com/)
    * [https://github.com/schacon/git-media](https://github.com/schacon/git-media)
 
+
+### Next
+
+Our next problem will be...
 
 
 
