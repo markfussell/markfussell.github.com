@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-21T20:41:17-08:00</updated>
+  <updated>2013-01-21T20:55:39-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -27,7 +27,7 @@
 <p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
 versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
 
-<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually a similar
+<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
 "Don't store it in git".  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
 
 <!-- more -->
@@ -148,8 +148,8 @@ repositories.</p>
 <p>All the commands expect to be run from the root of the git repository.  The main working commands are:</p>
 
 <ul>
-<li> bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a stub/reference</li>
-<li> bin/inflatePaths.sh &mdash; Put the proper contents of the files into the filesystem based on their stub/reference</li>
+<li> bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a hash stub/reference</li>
+<li> bin/inflatePaths.sh &mdash; Put the proper contents of the files into the filesystem based on their hash stub/reference</li>
 </ul>
 
 
@@ -161,7 +161,7 @@ remind people of this:</p>
 </ul>
 
 
-<p>Basically these commands are all you need.  To make it easier to see the Annex itself, there is an 'lsAnnex.sh'.</p>
+<p>Basically these commands are all you need.  To make it easier to see the Annex itself, there is also an 'lsAnnex.sh'.</p>
 
 <h3>Annex (S3) Layout</h3>
 
@@ -174,7 +174,8 @@ remind people of this:</p>
 
 
 <p>The completely flat version is the simpler representation: there are no semantics to the hierarchy.
-The hierarchy simply allows multiple threads to get listings of the contents in parallel.</p>
+The hierarchy simply allows multiple threads to get listings of the contents in parallel, which
+matters for performance when you have thousands of files within the annex.</p>
 
 <h4>Annex listing</h4>
 
@@ -184,7 +185,7 @@ The hierarchy simply allows multiple threads to get listings of the contents in 
 ./bin/lsAnnex.sh
 </code></p>
 
-<p>and this gives:</p>
+<p>and this gives for the example:</p>
 
 <p><code>bash
 2013-01-22 00:04   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob
@@ -245,7 +246,7 @@ s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda
 
 <p>Now you should have a normal file and can view a picture of Nob Hill.</p>
 
-<p>Note that <code>git status</code> will now show a change.  The approach here is not to conflate annexing within git (e.g. being part of smudge),
+<p>Note that <code>git status</code> will now show a change.  The approach here is not to hide or conflate annexing within git (e.g. being part of smudge),
 but to create something that when combined with normal git makes git even more useful.</p>
 
 <h4>Deflating a file</h4>
@@ -371,7 +372,8 @@ workers to upload/deflate and download/inflate the binary files to and from S3. 
 </ul>
 
 
-<p>Working with lots of version-controlled information has become all of: very simple, very fast, very distributable, and very inexpensive.</p>
+<p>By combining git with a powerful annex solution, working with lots of version-controlled information
+of any size has become all of: very simple, very fast, very distributable, and very inexpensive.</p>
 
 <h3>Alternatives</h3>
 
