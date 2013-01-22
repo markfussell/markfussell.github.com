@@ -492,8 +492,8 @@ so this is pretty much the saturation of &#8216;m1.small&#8217; to S3 performanc
 <h2>Summary &#8211; Annexing makes Git good at binary files</h2>
 
 <p>By using S3 as an Annex for binary files, we can make &#8216;git&#8217; be exceptionally good at dealing with large amount of binary content.  Git simply
-manages the history of 50-byte annex-stub text files, and git is very fast and efficient at doing that.  The augment s3cmd can run many
-workers to upload/deflate and download/inflate the binary files.  Especially on EC2 the performance numbers can be super-fast:</p>
+manages the history of 50-byte annex-stub text files, and git is very fast and efficient at doing that.  The annex-enhanced s3cmd can run many
+workers to upload/deflate and download/inflate the binary files to and from S3.  Especially on EC2 the performance numbers can be super-fast:</p>
 
 <ul>
 <li> Clone repository &lt; 5 seconds</li>
@@ -501,9 +501,9 @@ workers to upload/deflate and download/inflate the binary files.  Especially on 
 </ul>
 
 
-<p>So working with lots of version-controlled information has become all of: very simple, very fast, very distributable, and very inexpensive.</p>
+<p>Working with lots of version-controlled information has become all of: very simple, very fast, very distributable, and very inexpensive.</p>
 
-<h2>Alternatives</h2>
+<h3>Alternatives</h3>
 
 <p>There are some alternative approaches out there, which I should mention.  Some I tried and they didn&#8217;t perform well
 enough.  Others didn&#8217;t match the needs we had at Rumble or my needs outside of Rumble.  But they are interesting
@@ -514,6 +514,10 @@ projects:</p>
 <li> <a href="https://github.com/schacon/git-media">https://github.com/schacon/git-media</a></li>
 </ul>
 
+
+<h3>Next</h3>
+
+<p>Our next problem will be&#8230;</p>
 </div>
 
 
