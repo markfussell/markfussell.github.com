@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-01-21T21:08:45-08:00</updated>
+  <updated>2013-02-02T18:16:56-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -327,7 +327,7 @@ but to create something that when combined with normal git makes git even more u
 
 
 <p>With the default settings, this will launch 10 workers doing 10 files at a time in total.  How long
-the whole 100MB download takes will almost likely depend on your maximum bandwidth, but if not
+the whole 100MB download takes will almost likely depend on your maximum bandwidth, but if not,
 just change the number of workers to a larger number.  S3 is very supportive of many requests by
 different workers.</p>
 
