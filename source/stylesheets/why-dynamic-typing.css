@@ -1,0 +1,50 @@
+P.subtitle {
+    margin-top: -1em;
+    color: rgb(0, 0, 128);
+    font-weight: bold;
+    text-align: center
+}
+
+H3.discussion {
+    background-color: #A0A0E0
+}
+
+P.continuing {
+    text-indent: 3em
+}
+
+PRE.codex {
+    color: rgb(0, 032, 0)
+}
+
+PRE.quote1x {
+    color: #404000;
+    font-family: serif
+}
+
+PRE.quote2x {
+    color: #303000;
+    font-family: serif
+}
+
+PRE.quote3x {
+    color: #202000;
+    font-family: serif
+}
+
+OL.lowerRoman {
+    list-style-type: lower-roman
+}
+
+OL.upperRoman {
+    list-style-type: upper-roman
+}
+
+OL.upperAlpha {
+    list-style-type: upper-alpha
+}
+
+LI.etc {
+    color: rgb(0, 032, 0);
+    list-style-type: none
+}
