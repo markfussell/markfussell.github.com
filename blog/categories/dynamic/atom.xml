@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dynamic | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/dynamic/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-04T19:51:43-08:00</updated>
+  <updated>2013-02-04T19:52:41-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -372,6 +372,7 @@ The arguments presented against this existing problem actually reinforce
 the examples of (B) and (D):
 
 ### Changing an existing class/interface
+
 <pre class="quote1">
 Davorin Mestric wrote:
 >  Yes you can:
