@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-02T18:16:56-08:00</updated>
+  <updated>2013-02-04T19:47:12-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -553,6 +553,750 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
 <p>So our first problems and solution is going to have to deal with this critical issue.</p>
 
 <p>Enter the annex: <a href="http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex/">Annex</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Why dynamic typing?]]></title>
+    <link href="http://markfussell.github.com/blog/1997/08/27/why-dynamic-typing/"/>
+    <updated>1997-08-27T18:00:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/1997/08/27/why-dynamic-typing</id>
+    <content type="html"><![CDATA[<p>This is a discussion of the benefits and drawbacks of dynamic typing
+based on specific questions by Anatol Fomenko.</p>
+
+<p>The following is a reference to the main thread-point that this short paper is on:</p>
+
+<ul>
+<li> <a href="https://groups.google.com/forum/?fromgroups=#!topic/comp.lang.java.programmer/hIJfUz2kVIM%5B1-25-false%5D">Re: Why dynamic typing (was: Compiler as mediator)</a></li>
+</ul>
+
+
+<h2>Original Posting: Re: Why dynamic typing (was: Compiler as mediator)</h2>
+
+<pre class="quote1">
+Anatol Fomenko wrote:
+> ...Why Smalltalk is dynamically typed, and why it
+> does not affect negatively the stability of the large Smalltalk
+> applications?
+</pre>
+
+
+<p>Rephrasing slightly gives the two following questions:</p>
+
+<OL class="arab">
+  <LI>Why is Smalltalk dynamically typed?</LI>
+  <LI>Why does dynamic typing (as done with Smalltalk) not negatively
+      affect the stability of large applications?</LI>
+</OL>
+
+
+<p>The first question would be better answered by Alan Kay and the
+Smalltalk team more than anyone else relaying their reasons.  Alan Kay
+has described some of his reasoning in the book &#8220;History of Programming
+Languages II&#8221;, various OOPSLA &amp; Smalltalk talks, and other sources.</p>
+
+<!-- more -->
+
+
+<p>   In my own words, the main reason is that Smalltalk has a simple &amp;
+powerful concept of building software out of Objects that send Messages
+to other Objects.  This is more powerful in both the small and the large
+than a language that adds the additional concept (and constraints) of
+&#8220;Types&#8221;.  Note that biology has Objects (e.g. Cells) but no Types,
+Humans are Objects but there is no compile-time type-checking between
+humans, and even electronics do not have compile-time Types: you can
+plug the GROUND pin into +5V if you want although some physical
+constructs will discourage (but not prevent) it.  These highly scalable
+areas (life, civilization, electronics) have done fantastically without
+the support of Types, growing in orders of magnitude of functionality.
+Alan Kay (who has a biology background) leveraged insights on how cells
+and other highly-scalable areas could scale, and applied them to
+Smalltalk.  The main concept was membranes/encapsulation and little else
+was needed.</p>
+
+<p>The second question may partially support the first.  The short answer
+is dynamic typing can scale well because one tends to create much less
+code as the system grows bigger.  As the system grows, objects will get
+reused in many different situations for which they work well, and the
+layers of &#8220;membranes&#8221; allow clients to not worry about internal details
+very much.  It still requires a good architecture to build a big system,
+but the generalizable functionality of the objects is helping a lot with
+the design/implementation.</p>
+
+<p>Now someone could argue that static typing should have the same
+property: you write less code as you create more functionality.  But the
+truth is that static typing does not just avoid/remove bad code, it
+REMOVES GOOD CODE too.  And this good code that static typing is
+removing is exactly the code that makes Smalltalk so scalable: it is the
+code that can be reused in many different situations that were never
+planned for by the original authors.  Dynamic typing excels because it
+allows this highly reusable, good code that would not pass a static
+typecheck.</p>
+
+<h3>Quantifying the benefit of dynamic typing</h3>
+
+<p>To quantify this a bit, consider that ultimately both a correctly
+running Smalltalk program and a correctly running Java program will do
+the same thing, so lets consider just one aspect:</p>
+
+<UL>
+   <LI>How much extra code needs to be written to support static-typing
+vs. dynamic-typing?</LI>
+</UL>
+
+
+<p>The following are all rough estimates between Java and Smalltalk, but
+they are based on years of experience doing very similar tasks in both
+languages [but Your Mileage May Vary].  Smalltalk requires about 1/2 to
+1/3 the number of statements within a method to accomplish the same
+thing as Java [this is one of the most painful aspects of switching back
+and forth between Smalltalk and Java/C++], so the extra code is at least
+100% (2x).  The next level is the number of additional methods needed
+because of static typing.  From my experience this is probably about
+20%: one in six methods in Java would simply not need to exist in
+Smalltalk because they are solely solving a static typing problem and
+could otherwise be collapsed into the remaining five methods.  The next
+level are additional classes, which is at least another 30%.  Finally, I
+will end with additional &#8220;packages&#8221; of functionality which have to be
+rewritten or somehow significantly copied/changed to use in the desired
+context.  Again, I would say this is about 20% or so (where the &#8216;or so&#8217;
+can get really large).  All totaled this is a minimum of:</p>
+
+<pre class="code">
+   2.0 x 1.2 x 1.3 x 1.2 = 3.75  (275% larger)
+</pre>
+
+
+<p>and could get as large as</p>
+
+<pre class="code">
+   3.0 x 1.3 x 1.5 x 1.7 = 9.5   (850% larger)
+</pre>
+
+
+<p>If you take out the method-statement-level multiplier (people don&#8217;t seem
+to mind this growth as much and it is well localized) you get an 85% to
+230% growth in overall system size (packages of classes of methods).</p>
+
+<p>It would be better to have real experimental numbers (say for TOPLink or
+another cross-language product).  But the above gives the general
+concept of an advantage of dynamic languages and the penalty of static
+typing.</p>
+
+<p>If you need a specific example, consider the [completely randomly
+selected] JDK 1.2 Collection code of:</p>
+
+<pre class="code">
+    public boolean AbstractCollection::removeAll(Collection c) {
+        boolean modified = false;
+        Iterator e = iterator();
+        while (e.hasNext()) {
+            if(c.contains(e.next())) {
+                e.remove();
+                modified = true;
+            }
+        }
+        return modified;
+    }
+</pre>
+
+
+<p>The static-typing problem in this extremely simple code is that &#8216;c&#8217; only
+needs to respond to &#8216;contains&#8217;, not be a Collection.  This means I can&#8217;t
+just use any containment concept I want to (say, remove all people who
+are 6&#8217; tall) by passing in an object that understands &#8216;contains&#8217;.
+Because of a static-typing restriction on what would be perfectly good
+code, I have to create extra code that reproduces 90% of the above with
+the one variation that &#8216;c&#8217; is something other than a Collection (and I
+am likely to pick something as silly [i.e. too specific] as &#8216;Collection&#8217;
+again).  This is the type of &#8216;package&#8217;-level punishment that static
+typing tends to cause.</p>
+
+<h3>Affect on stability</h3>
+
+<p>So returning to the question:</p>
+
+<pre>
+  (2) Why does dynamic typing (as done with Smalltalk) not negatively
+      affect the stability of large applications?
+</pre>
+
+
+<p>Because large applications written in a dynamic OO language still have
+well encapsulated parts that can be verified independently, and the
+total implementation can be about 1/2 to 1/3 the size of the
+implementation in Java (or another static-typed language)[2].</p>
+
+<p>In the small you may get a type error that static-typing could have
+catched, but you also get to build a system such that you never have to
+write 40-70% of the code you might otherwise have to.  And a line of
+code not written is a 100% guaranteed correct line of code.</p>
+
+<p>A way to really think about the negative impacts of static typing would
+be to consider (as you walk around) how many things in the real world
+would be extremely difficult to do if static typing was enforced on
+them.  For example, could you have a shoe-rack? (no, someone would have
+to &#8216;cast&#8217; their shoes when they took them out again).  Could you use a
+key to cut open a package?  Could gas-injection cork removers exist?
+Heterogeneity, flexibility, extensibility, and reusability are all
+punished by static typing.</p>
+
+<p>Not that I think static-typing isn&#8217;t useful&#8230; it just has serious
+drawbacks.  Certainly Eiffel does it better than Java.  But
+dynamic-typing has conceptual advantages that even the best static-typed
+languages (e.g. Cecil) can&#8217;t remove and those advantages are very
+helpful in building real, large-scale, applications.</p>
+
+<pre class="signature">
+--Mark
+mark.fussell@chimu.com
+</pre>
+
+
+
+
+<p class="footnote">
+[1] If you would like a longer example of completely removing static
+typing from a Java program and then re-adding it incrementally, see:
+<pre>
+   <a href="http://www.chimu.com/publications/smallJava/index.html">http://www.chimu.com/publications/smallJava/index.html</a>
+</pre>
+
+<p class="footnote">
+[2] On the other hand, the value of a programming language is determined
+by how well it helps developers solve their problems.  Although the
+quality of a language itself can make it a better tool, the real power
+comes from high quality libraries and frameworks available to that
+language.  Smalltalk has an inherent advantage but if the number of
+skilled developers creating for another language (e.g. Java) is high
+enough, than that inherent advantage will go away because enough better
+frameworks will exist in the other language such that Smalltalk would
+not be as close to the solution as the other language is.
+</p>
+
+## Subsequent Discussion
+
+<H3 class="discussion">More details and examples</H3>
+
+
+<pre class="quote1">
+Joern Janneck wrote:
+> Mark Fussell wrote:
+> >    In my own words, the main reason is that Smalltalk has a simple &
+> > powerful concept of building software out of Objects that send Messages
+> > to other Objects.  This is more powerful in both the small and the large
+> > than a language that adds the additional concept (and constraints) of
+> > "Types".
+>
+> actually, you could have both, couldn't you? many oo languages do, i see
+> little reason to present them here as alternatives. the question really
+> is, why only one of them is better than the two put together, isn't it?
+</pre>
+
+Sure, there are lots of variations:
+<OL class="arab">
+  <LI>Either you have compile-time types or you don&#8217;t</LI>
+  <LI>Either those compile-time types are mandatory, they are optional,
+or there are loopholes [e.g. allow dynamic typechecks]</LI>
+  <LI>Either types are explicitly declared or implicit</LI>
+  <LI class="etc">&#8230; [equal or identical type matching, granularity, DBC enhancements,
+type/class separation]&#8230;</LI>
+</OL>
+
+
+Some OO languages support multiple variations, but usually even if a
+language supports semi-optional compile-time types they will have the
+bulk of their code with mandatory compile-time checks and you can&#8217;t just
+turn it off.  Most common compile-time typed languages have mandatory
+types with loopholes.
+
+
+But the questions were:
+<pre class="quote2">
+>   (1) Why is Smalltalk dynamically typed?
+>   (2) Why does dynamic typing (as done with Smalltalk) not negatively
+>       affect the stability of large applications?
+</pre>
+
+
+The part you quoted was the auxilary answer to (1): the main answer was
+read HOPL-II and similar sources.  And to discuss (2) we have to compare
+dynamic (optimistic) typing to static (pessimistic) typing.  It would
+certainly be quite valid to consider them within a single language.  I
+did a bit of that in:
+<pre>
+   <a href="http://www.chimu.com/publications/smallJava/index.html">http://www.chimu.com/publications/smallJava/index.html</a>
+</pre>
+
+
+And note that I would prefer not to be comparing relatively
+weak/immature languages (in terms of static typing) like Java and C++.
+I would much rather be talking in terms of Eiffel or Cecil.  But the
+reality is that Java is currently a common language to show examples.  I
+certainly would not make a point of a failing in Java (e.g. invariant
+return type) as a failing in static typing.  I tend to think primarily
+in terms of Eiffel but with the additional separation of types from
+classes (that Eiffel supports but does not enforce).  This seems to be a
+reasonable perspective considering commonly available languages.
+
+
+So returning to the topic, I will add a little more explanation for a
+few of the points.
+
+### Problems with type-checking
+
+Note that there is nothing conceptually wrong with static
+type-checking.  It would be wonderful to create software that can be
+completely verified before execution.  That is provably impossible, but
+getting closer to that goal would be nice.  Static typing is a possible
+approach: you at least make sure that all clients and suppliers agree to
+a contract ahead of time before even attempting to run the program.
+Some of the problems with static typing are that:
+<OL class="upperAlpha">
+  <LI>Types are sometimes bound to Implementation Classes</LI>
+  <LI>Types have poor granularity.  Frequently a Type will be specified
+that has too many operations (is too specific) to be useful in multiple
+contexts even though subsets of those operations (a more general
+concept) is widely useful.  Since it costs effort to name and create
+each Type, there is an impetus of reduction that again impedes reuse and
+generalization.  Save now, pay later.</LI>
+  <LI>Precise type information is lost when objects are fed through more
+generic structures.</LI>
+  <LI>Types restrict future type-safe expansion to programs.  Some
+programs that could have been written type-correctly if done in one
+&#8220;lump&#8221; are impossible to write given the actual historical growth of a
+program (many people, different companies, over time, with limited
+foresight).  Choose now, pay later.</LI>
+</OL>
+
+
+Of these (A) is actually easily fixable, and Java has helped with that.
+And maybe people accept the workaround with (C): either massive
+conceptual (and usually code) bloat for a myriad of homogeneous
+structures or using a dynamic-typecheck loophole.  But (B) and (D) are
+pretty much intractable flaws in static typing for the near future (next
+10 years of commercial software).  I would love to be wrong, but it
+seems unlikely at the current rate of change in programming languages
+and research.
+
+
+Someone could say somehow they avoid (B) and (D) but I would bet big
+money that they are being bit by them all the time.  I gave an example
+from the Java collections.  Everyone who programs in Java had the
+opportunity to comment on the JDK 1.2 collections for maybe a year
+before they were frozen.  But the final choice was to have neither a
+concept of an &#8216;Iterable&#8217; object or a &#8216;Containing&#8217; object.  This caused
+all of the following methods to have poor granularity:
+<pre>
+    public boolean containsAll(Collection c)
+    public boolean addAll(Collection c)
+    public boolean removeAll(Collection c)
+    public boolean retainAll(Collection c)
+</pre>
+
+
+Each of the above only needed a single operation: &#8216;contains&#8217; or
+&#8216;iterator&#8217;.  But Javasoft rejected:
+<pre>
+    public boolean containsAll(Container c)
+    public boolean addAll(Iterable c)
+    public boolean removeAll(Container c)
+    public boolean retainAll(Container c)
+</pre>
+
+
+Why?  Because it increased the number of interfaces, which would be a
+pain (consider their design notes and the analyses of Doug Lea&#8217;s
+collection classes).  A perfect example of both (B) and (D): save now,
+choose now, pay later.  And the examples are all over the place in Java,
+C++, and Eiffel library code.
+
+
+The arguments presented against this existing problem actually reinforce
+the examples of (B) and (D):
+
+### Changing an existing class/interface
+<pre class="quote1">
+Davorin Mestric wrote:
+>  Yes you can:
+>     ...
+>     public interface IContains{ public boolean contains( Object o);}
+>     ...
+>     public void AbstractCollection::removeAll( IContains c) {
+</pre>
+
+
+No, *I* can&#8217;t change &#8216;AbstractCollection&#8217;.  And Javasoft chose not to do
+it that way.  They may have chosen unwisely, but that actually means a
+whole community of Java programmers chose unwisely because of other
+forces solely attributable to static typing.  The problem was putting
+these forces on their decision in the first place.
+
+<pre class="quote1">
+Joern Janneck wrote:
+> ... now
+> assume that for a given class of collection (hashed collections are a
+> good example) it is more efficient to implement removeAll by iterating
+> over the argument (when it is smaller, maybe) instead of over the
+> original collection:
+[...]
+</pre>
+
+
+OK, so the original contract/type should have been &#8216;IterableContainer&#8217;.
+How should I know that ahead of time?  Why did Javasoft not choose that
+interface instead?  Collection is definitely too big
+a requirement because it dramatically limits the usability of the method
+&#8216;removeAll&#8217;.  I would argue that &#8216;IterableContainer&#8217; is also too big.
+Why can&#8217;t I just support the &#8216;contains&#8217; method?  As I gave an example:
+
+<pre class="code">
+   new Container() { public boolean contains(Object o) {
+       ... person is &lt; 6ft...
+   }}
+</pre>
+
+
+I can&#8217;t iterate over all the people under six feet tall, or it would at
+least be very painful.  Why should iterability be a requirement to a
+method like &#8216;removeAll&#8217;?  Intuitively this seems extremely limiting and
+I know it to be so in actually building systems.  But the bigger problem
+isn&#8217;t just the choices in contract for the &#8216;removeAll&#8217; method, but that
+out of simplification that that contract was lumped in with a whole
+bunch
+of other contracts for Collections in general.
+
+<h3>Summary</h3>
+
+
+Within just this one simple class (AbstractCollection):
+<UL>
+  <LI>4 are too specific (they only require an &#8216;Iterable&#8217; or &#8216;Container&#8217;)</LI>
+  <LI>3 are non-typed (typed to Object)</LI>
+  <LI>4 are non-typed (no parameters)</LI>
+  <LI>1 &#8216;toArray(Object[])&#8217; is redundant (and is effectively dynamically
+    typed)</LI>
+</UL>
+
+
+So 7 out of 12 are identical with the dynamic version (considering only
+parameters), 1/3 are &#8220;incorrect&#8221; caused by static typing disincentives,
+and 1 is simply redundant.
+
+<pre class="quote1">
+Joern Janneck wrote:
+> ...let me again point out that i think that code size
+> as such is not the issue in big systems. it is design, and code
+> complexity. these don't differ in principle between type systems, and
+> arguably static type systems might encourage more structure. or not, who
+> knows.
+</pre>
+
+
+In principle, with a perfect static type system, there is no
+difference.  But that type system does not exist and current languages
+are very far away from it.  The problems (A)-(D) are not just affecting
+intra-method complexity (semi-harmless code bloat) they are affecting
+inter-object and inter-package complexity.  In just the example
+presented we will have to increase (potentially many) clients effort to
+use a Collection for their goals, or we will have to provide additional
+methods somewhere else (a Collection helper) that a client will need to
+know of and again increase the clients&#8217; efforts.
+
+
+And the argument can be more informed than just personal opinion.
+We have plenty of examples of the various languages to compare[1]:
+The libraries of Smalltalk, C++, Perl, Java, Eiffel, etc.; Design
+Patterns in various languages; and so on.  If you review all these
+languages in depth you will find that static typing is certainly harming
+scalability.  It may be helping in certain ways against mistakes in the
+small, but it is interfering with good code (code that will execute
+properly at runtime, is easy to understand, is easy to maintain, and is
+useful to many clients) that helps grow systems in the large and over
+time.
+
+
+But great software can be written in any language in spite of each&#8217;s
+flaws.  It is just important to keep the great ideas in your team&#8217;s
+heads &#8230; and the bad ideas too so you can avoid them (or work around
+them) when possible.
+
+
+<p class="footnote">
+[1] A multi-year immersive experience in each language would be the best
+approach, but some of the following might be easier to catch up on:
+<UL>
+   <LI>Design Patterns: Elements of Reusable Object-Oriented Software</LI>
+   <LI>The Design Patterns Smalltalk Companion</LI>
+   <LI>Reusable Software: The Base Object-Oriented Component Libraries.</LI>
+   <LI>Smalltalk-80: The Language and its Implementation</LI>
+   <LI>JDK 1.2 & JGL (www.objectspace.com)</LI>
+   <LI>The C++ ANSI/ISO Standard Template Library</LI>
+   <LI>CPAN</LI>
+</UL>
+</p>
+
+
+<H3 class="discussion">Java Collection</H3>
+
+<pre class="quote">
+Joern Janneck wrote:
+> Mark Fussell wrote:
+> > If you need a specific example, consider the [completely randomly
+> > selected] JDK 1.2 Collection code of:
+> >     public boolean AbstractCollection::removeAll(Collection c) {
+[snip]
+> >
+> > The static-typing problem in this extremely simple code is that 'c' only
+> > needs to respond to 'contains', not be a Collection.  This means I can't
+> > just use any containment concept I want to (say, remove all people who
+> > are 6' tall)
+>
+> ... which is something that could be defined as a collection, couldn't
+> it? at least in a good design, it should be able to.
+</pre>
+
+I don&#8217;t think you really mean that.  Of the 13 operations for a
+Collection:
+<pre class="code">
+    public boolean contains(Object o);
+    public boolean containsAll(Collection c);
+    public Iterator iterator();
+    public int size();
+    public boolean isEmpty();
+    public Object[] toArray();
+    public Object[] toArray(Object a[]);
+    public boolean add(Object o);
+    public boolean remove(Object o);
+    public boolean addAll(Collection c);
+    public boolean removeAll(Collection c);
+    public boolean retainAll(Collection c);
+    public void clear();
+</pre>
+
+The concept of &#8220;contains a person 6&#8217; tall&#8221; could only reasonably be
+considered to have the first operation at its core with the second as a
+helper (really an &#8220;augmentation&#8221; from Collection&#8217;s point of view).
+_Maybe_ the third through seventh operation if we insist on the set
+being preknown and finite.  All of the rest imply serious mutability
+which it would be unreasonable to cause all clients of &#8216;removeAll&#8217; to
+support for the parameter &#8216;c&#8217;.  I can&#8217;t believe you consider this to be
+a good design and good code.  Again, my definition of good code is code
+that will execute properly at runtime, is easy to understand, is easy to
+maintain, and is useful to many clients.  This problematic restriction
+(all 13 operations instead of 1, 2, or maybe 7) makes this code much
+less useful, harder too understand (&#8220;why do we need a full heavyweight
+Collection for a simple predicate-like test&#8221;), and the system less
+maintainable because we have not specified what we really, precisely,
+wanted from the parameter &#8216;c&#8217;.
+
+The argument that HashedCollection would like more from the parameter
+&#8216;c&#8217; is really a symptom of this imprecision and a weighting towards
+implementers over clients.  Clients are the important ones and need to
+be considered first.  There will be many more clients of a particular
+operation than implementers of it, so the quality/usefulness of the
+contract to the client is much more important to the scalability of the
+application.  Client-punishing contracts are the hobgoblins of static
+typing.
+
+
+<H3 class="discussion">Augmenting existing Types</H3>
+
+<pre class="quote1">
+Mike Anderson wrote:
+[snip]
+> ...If, when implementing the client
+> of a preexisting class, I could create a new interface and declare that (in the
+> context of my client) the preexisting class implements that interface, problem D
+> would be solved (wouldn't it?).  Is such a feature feasible?  Are there
+> compile-time-checked languages that support something like this?
+</pre>
+
+You might look into BeCecil as one example:
+<pre>
+   <a href="http://www.cs.washington.edu/research/projects/cecil/cecil/www/www/Papers/BeCecil.html">http://www.cs.washington.edu/research/projects/cecil/cecil/www/www/Papers/BeCecil.html</a>
+</pre>
+
+<H3 class="discussion">Augmenting existing Types</H3>
+
+<pre class="quote1">
+Joern Janneck wrote:
+> Markus Kohler wrote:
+[snip]
+> > Here's a new example
+>
+> i'd still be interested in your answer to my objection to the first
+> example. after all, it was originally supposed to show the virtues of st
+> for _large_ sw development. i am still waiting to be answered on that
+> issue.
+</pre>
+
+
+If I gave the first example you are referring to (as the originator of
+this particular title of thread), I am not sure what answer you are
+looking for.  I think multiple people have showed the problem that
+static typing has with scaling (in both space and time) because of
+certain limitations [&#8216;A&#8217;-&#8216;D&#8217;] fairly well.  Nothing that I and others
+presented as problems are _unknown_ to static typing research and people
+are busily working on solving these types of problems.  Language
+families of Cecil, Haskell, ML, and so on are trying to solve these
+problems because they *are* problems.  And they affect scalability.
+
+Dynamic OO languages have benefits that cause (well designed
+applications) to scale extremely well in size and space because they
+allow components to be reused and pieced together in a more optimal way,
+and so reduce overall system complexity.  The reason is that dynamic OO
+languages simply do not artificially enlarge a contract between two
+parties to include irrelevant details from:
+<ol class="arab">
+  <LI>Other parties (by being lumped together in a single named type).</LI>
+  <LI>Other times   (because types were frozen by a compile at one
+moment in time)</LI>
+  <LI>Implementation </LI>
+</ol>
+Current static languages unfortunately encourage or require the
+inclusion of these artificial restrictions in a system, which impedes
+scalability (space and time).
+
+### Specific example
+
+My example was:
+<pre class="code">
+    public boolean AbstractCollection::removeAll(Collection c)
+</pre>
+
+No, this is not large programming yet, but it is headed that way:
+Collections are a core library in any programming language.  If there
+are serious restrictions and overhead in dealing with them, this is a
+strong indicator of what will come in many areas as the system scales
+(in size and over time).  Simply consider the quality and lifetime of
+the Smalltalk-80 collections.  They are better (more capable, more
+useful, and more maintainable) than anything that has come from the C++
+and Java languages over their unstable lifetimes &#8211; even though both
+languages could have leveraged this existing work and its published
+improvements.  The Smalltalk libraries have been amazingly stable over a
+20 year period of use and growth: Smalltalk code I have from 1986 is
+still CORRECT and is cleaner than (hopefully much more skillfully
+written) Java code from 1999.
+
+My other example included looking at the complexity of all the Design
+Patterns in dynamic OO vs. static-typed OO languages.  If you seriously
+think that the patterns are more elegant, scalable (size and time), and
+maintainable in static-typed OO languages &#8211; Java, for example, needed
+three *totally different* implementations of the Observer/Listener
+pattern to deal with _primarily_ different typing issues &#8211; there is
+unfortunately little to talk about.  If you simply think the tradeoff is
+worth it, there is also little to talk about because I accept that
+perspective.  Note that I was answering a specific question:
+<pre class="quote1">
+>   (2) Why does dynamic typing (as done with Smalltalk) not negatively
+>       affect the stability of large applications?
+</pre>
+
+for someone who had never built a large application in Smalltalk or a
+similar language.
+
+### Tradeoffs
+
+The one aspect I do consider very useful with static typing for building
+systems is that it *forces* developers to think formally about
+interfaces between objects or their code breaks quickly.  This is a very
+good training experience and should be repeated off and on to make sure
+people aren&#8217;t getting sloppy.  But if you are a good designer, the
+realities/restrictions of static typing cause you to produce somewhat
+less scalable (over size and time) applications[1] than for a dynamic OO
+language with similar effort in documentation of protocols and test
+suites.  So the idea of switching back and forth between an optional
+statically-checked and a dynamic [with documented protocols] OO language
+is certainly a good one.  Better than having casting/type-checking
+loopholes (a sort of strange intermediate).
+
+Most large dynamic OO projects do have this characteristic
+(static-oriented documentation) because UML and most other notations
+require a static-type based perspective.  And well-defined
+types/contracts exist all throughout good Smalltalk code, but some of
+the best contracts (Valuable, Observer, Iterable, etc.) are just too
+fine-grained, too pervasive, or too generic to be represented in a
+statically-typed program.  Unfortunately, a dynamically simple concept
+like &#8220;augmentations&#8221;[1] is also impossible to correctly represent in the
+core UML because of its simplistic (C++ ish) static-typing origin.
+
+
+<p class="footnote">
+[1] Just the one feature of Envy extensions (the ability to &#8220;augment&#8221;
+existing classes with new behavior without modifying the original code)
+is incredibly powerful for building large applications [especially
+dealing with layering] and is only possible if the original compiler did
+not statically freeze the types.
+</p>
+
+
+<H3 class="discussion">Amount of static typing</H3>
+
+<pre class="quote1">
+patrick@c837917-a.potlnd1.or.home.com wrote:
+> : David Jenkins wrote:
+> : > One of my problems with Java is that it pretends to be statically
+> : > typed, but is not--you can always cast your way out of a type.
+> : > Eiffel, I've found, is a very stern taskmaster when it comes to
+> : > typing, but I've learned to appreciate the lessons it teaches.
+>
+> Java is no less statically typed than Eiffel, i.e. you cannot cast a
+> Java object to anything that it was not defined to be (as could be
+> done with C++, at least in years past).
+</pre>
+
+<p>
+I think &#8220;more&#8221; or &#8220;less&#8221; statically typed was referring to &#8220;amount of
+code that is verifiably type-correct at compile-time&#8221; not whether the
+type system is safe.  I don&#8217;t think unsafe type systems are in any way
+interesting to those reading these threads.   I agree with David Jenkins
+that Java code will be far less compile-time verified than Eiffel
+because of weaknesses in the Java type system (especially from the lack
+of covariant return types and some form of parametric types).  A Java
+typecheck cast (a &#8220;type attempt&#8221;) is just as dynamic as standard
+Smalltalk message sends; the Java version just has a larger granularity
+and a slightly different timing (before the message as opposed to at
+message time).  The amount of &#8220;type attempts&#8221; within Java code is
+enormously larger than the amount of &#8220;assignment attempts&#8221; within Eiffel
+code.  So the Java code is really &#8220;much less statically typed&#8221; although
+we are want for nice short phrases that a precise and accurate: &#8220;much
+less compile-time type-verified&#8221;.
+</p>
+
+<p>
+Interestingly, the Eiffel code will be additionally and more precisely
+&#8220;dynamically object-verified&#8221; through the preconditions, postconditions,
+and invariants.  So a stronger verification applied to the Objects
+themselves is coming from dynamic checks (just like Smalltalk) as
+opposed to compile-time checks.  Smalltalk with Eiffel-like DBC
+capabilities would definitely muddle the linearity of type safety[1]:
+Smalltalk would be more precisely verified at runtime than a Java
+program but less precisely verified at compile time.  This would be
+without the problems of compile-time typing (problems with granularity,
+evolution, genericity, etc.).  Which is safer?&#8230; no I don&#8217;t want to go
+down that topic&#8217;s path&#8230;
+</p>
+
+<p>
+Actually, this Smalltalk augmentation is pretty easy [I previously did a
+prototype and I also recall the concept being published in Smalltalk
+Report] since we could: (1) allow DBC anotations in methods or
+categorize special unit tests into pre, post, and invariant conditions,
+(2) augment the compiler to generate the calls on method entry and exit,
+(3) provide the same behavior as Eiffel [no check on intra-object
+calls], and (4) throw reasonable exceptions depending on who is
+responsible.  The main issues are the exact annotation form (although
+UML&#8217;s OCL pretty much solves that problem) and
+standardization/portability across Smalltalk platforms.
+</p>
+
+
+
+<p class="footnote">
+[1] Type safety: Amount the program is verified to behave correctly
+</p>
+
 ]]></content>
   </entry>
   
