@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dynamic | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/dynamic/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-04T19:47:12-08:00</updated>
+  <updated>2013-02-04T19:51:43-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -206,7 +206,6 @@ helpful in building real, large-scale, applications.</p>
 
 <pre class="signature">
 --Mark
-mark.fussell@chimu.com
 </pre>
 
 
@@ -478,6 +477,10 @@ flaws.  It is just important to keep the great ideas in your team's
 heads ... and the bad ideas too so you can avoid them (or work around
 them) when possible.
 
+<pre class="signature">
+--Mark
+</pre>
+
 
 <p class="footnote">
 [1] A multi-year immersive experience in each language would be the best
@@ -679,6 +682,10 @@ like "augmentations"[1] is also impossible to correctly represent in the
 core UML because of its simplistic (C++ ish) static-typing origin.
 
 
+<pre class="signature">
+--Mark
+</pre>
+
 <p class="footnote">
 [1] Just the one feature of Envy extensions (the ability to "augment"
 existing classes with new behavior without modifying the original code)
@@ -748,6 +755,9 @@ UML's OCL pretty much solves that problem) and
 standardization/portability across Smalltalk platforms.
 </p>
 
+<pre class="signature">
+--Mark
+</pre>
 
 
 <p class="footnote">

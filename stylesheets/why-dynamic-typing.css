@@ -13,21 +13,21 @@ P.continuing {
     text-indent: 3em
 }
 
-PRE.code {
+PRE.codex {
     color: rgb(0, 032, 0)
 }
 
-PRE.quote1 {
+PRE.quote1x {
     color: #404000;
     font-family: serif
 }
 
-PRE.quote2 {
+PRE.quote2x {
     color: #303000;
     font-family: serif
 }
 
-PRE.quote3 {
+PRE.quote3x {
     color: #202000;
     font-family: serif
 }
