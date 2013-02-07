@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T21:04:41-08:00</updated>
+  <updated>2013-02-06T21:08:18-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -1836,7 +1836,7 @@ Then
 
 <h3>You aren&#8217;t capitalizing right?</h3>
 
-<p>Before continuing into the code, people should realize I actively object to Ruby&#8217;s choice to have only one &#8216;word&#8217; delimiter by convention.  See my article <a href="ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
+<p>Before continuing into the code, people should realize I actively object to Ruby&#8217;s choice to have only one &#8216;word&#8217; delimiter by convention.  See my article <a href="../../04/ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
 
 <ul>
 <li><p>I use CamelCase for combining words into a &#8216;part&#8217; of a method name or variable name</p></li>
@@ -2054,7 +2054,7 @@ Then
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
 
@@ -2583,7 +2583,7 @@ Then
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
     <updated>2008-09-02T07:44:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>
 
@@ -2787,7 +2787,7 @@ Then
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4/"/>
     <updated>2008-09-02T07:13:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Model Objects</h2>
 
@@ -3070,7 +3070,7 @@ Then
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/"/>
     <updated>2008-09-02T05:11:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; With A Real Object</h2>
 
@@ -3274,7 +3274,7 @@ Then
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
     <updated>2008-09-02T04:12:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; Procedural With Input</h2>
 

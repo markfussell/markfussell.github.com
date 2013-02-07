@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T21:04:41-08:00</updated>
+  <updated>2013-02-06T21:08:18-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -477,7 +477,7 @@ return result
 
 <h3>You aren't capitalizing right?</h3>
 
-<p>Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article <a href="ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
+<p>Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article <a href="../../04/ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
 
 <ul>
 <li><p>I use CamelCase for combining words into a 'part' of a method name or variable name</p></li>
@@ -638,7 +638,7 @@ end
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
 

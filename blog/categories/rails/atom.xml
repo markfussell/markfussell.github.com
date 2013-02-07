@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T21:04:41-08:00</updated>
+  <updated>2013-02-06T21:08:18-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -186,7 +186,7 @@ return result
 
 <h3>You aren't capitalizing right?</h3>
 
-<p>Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article <a href="ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
+<p>Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article <a href="../../04/ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
 
 <ul>
 <li><p>I use CamelCase for combining words into a 'part' of a method name or variable name</p></li>
