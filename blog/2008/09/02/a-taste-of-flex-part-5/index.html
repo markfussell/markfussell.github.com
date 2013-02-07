@@ -83,7 +83,7 @@
   
 
 
-<time datetime="2008-09-02T00:44:58-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+<time datetime="2008-09-02T07:44:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
         
       </p>
     
@@ -225,32 +225,50 @@
 
 <p>The AnimatedTower just needs to send out change events (via a simple callback vs. true event listeners that are in Flex).</p>
 
-<p>[sourcecode language=&#8221;jscript&#8221;]
-package {</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">AnimatedTowerOfHanoi</span> <span class="kd">extends</span> <span class="nx">ModeledTowerOfHanoi</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">setupDisks</span><span class="p">()</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="p">.</span><span class="nx">setupDisks</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">noteChange</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">getStacks</span><span class="p">()</span> <span class="o">:</span> <span class="nb">Array</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">my_stacks</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kd">super</span><span class="p">.</span><span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">noteChange</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>public class AnimatedTowerOfHanoi extends ModeledTowerOfHanoi {</p>
-
-<pre><code>protected override function setupDisks() : void {
-    super.setupDisks();
-
-    my_view.noteChange();
-}
-
-public function getStacks() : Array {
-    return my_stacks;
-}
-
-protected override function moveDisk(fromPin : *, toPin : *) : void {
-    super.moveDisk(fromPin, toPin);
-
-    my_view.noteChange();
-}
-</code></pre>
-
-<p>}</p>
-
-<p>} //package
-[/sourcecode]</p>
 
 <h3>Super Easy&#8230;But doesn&#8217;t work</h3>
 
@@ -287,7 +305,7 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
   
 
 
-<time datetime="2008-09-02T00:44:58-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+<time datetime="2008-09-02T07:44:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
       
 
 <span class="categories">
@@ -310,10 +328,10 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2008/09/02/a-taste-of-flex/" title="Previous Post: A Taste of Flex">&laquo; A Taste of Flex</a>
+        <a class="basic-alignment left" href="/blog/2008/09/02/a-taste-of-flex-part-4/" title="Previous Post: A Taste of Flex (Part 4)">&laquo; A Taste of Flex (Part 4)</a>
       
       
-        <a class="basic-alignment right" href="/blog/2008/09/02/a-taste-of-flex-part-2/" title="Next Post: A Taste of Flex (Part 2)">A Taste of Flex (Part 2) &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2008/09/02/a-taste-of-flex-part-6/" title="Next Post: A Taste of Flex (Part 6)">A Taste of Flex (Part 6) &raquo;</a>
       
     </p>
   </footer>

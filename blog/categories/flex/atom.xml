@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flex | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/flex/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:52:06-08:00</updated>
+  <updated>2013-02-06T20:55:32-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -189,9 +189,21 @@ end
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
-    <updated>2008-09-02T09:46:40-07:00</updated>
+    <updated>2008-09-02T16:46:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[<p>[sourcecode language="jscript"]
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
+
+<p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is 'true' as an algorithm, but comes off as a bit unnatural for humans.  But it also has a problem in that the algorithm can not be 'suspended' in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  For a multi-threaded language, this inability to suspend may not be a problem because you could create one thread for the algorithm and another thread to listen for whenever a new (interesting) change in state occurs.  This is how the RubyShoes version works: the algorithm is in a new thread separate from the GUI thread (otherwise things behave badly).  Similarly, the Smalltalk-80 GUI is being drawn in a different thread than the main execution thread.  But in many circumstances even this multi-thread version would not work: say you have a client-server version (e.g. Rails) or want to pause/suspend the execution of the 100-tall tower of hanoi.  And finally, if you only have a single-threaded language like Flex, things just don't work at all for intermediate renderings unless you can make the algorithm not be dependent on the call stack.</p>
+
+<h3>Tower of Hanoi — With Rule Disks (and no stack) -- Flex</h3>
+
+<p>I think it is easiest to work up from the Disk perspective, although see the book for a different flow.  The main changes to HanoiDisk are to have it be able to figure out whether it has any legal moves, and what the bestMove (next move) would be.  To do each of these, the disk needs to communicate back with the towers.  In the Smalltalk code this was done through a Class Variable, but it is far simpler and more scalable to do this through instance variables: each Disk needs to know what tower it belongs to.</p>
+
+<h4>HanoiDiskRules</h4>
+
+<p>```actionscript
 package {</p>
 
 <p>public class HanoiDiskRules extends HanoiDisk {</p>
@@ -231,9 +243,23 @@ public override function moveUpon(destination : HanoiDisk) : void {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
 
-<p>[sourcecode language="jscript"]
+<p>Compared to the Smalltalk version of this, the main difference is we are creating Array objects instead of passing a function into an iterator.  Again this seems the more natural for Flex... but... it is starting to get annoying looking and has real performance impact, so later we should try to do an iterator + function-based version.</p>
+
+<h4>AnimatedRulesTowerOfHanoi (No Animation)</h4>
+
+<p>The change to the Tower code for Flex is two parts:</p>
+
+<ul>
+<li><p>Provide methods that support the rules that the smarter HanoiDiskRules has</p></li>
+<li><p>Drive the algorithm in a way to enable Flex to render the intermediary results</p></li>
+</ul>
+
+
+<p>We can do these in two steps, with the current step focused on just the algorithm changes</p>
+
+<p>```actionscript
 package {</p>
 
 <p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
@@ -326,9 +352,21 @@ protected override function createDisk() : HanoiDisk {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
 
-<p>[sourcecode language="jscript"]
+<p>As mentioned in HanoiDiskRules section, the main annoyance of this particular implementation of the new algorithm compared to Smalltalk is having to create intermediate array objects just to communicate between the Disk and the Tower.</p>
+
+<p>But things should work again.  Except we will still get only one rendering because the whole algorithm is executed in one call within a "while" loop.</p>
+
+<h3>Tower of Hanoi — With Rule Disks and Correct Animation -- Flex</h3>
+
+<p>To make things work in Flex now, all we do is have to unwrap the immediacy [single call stack] of the while loop.  Instead of calling each 'doNextMove' immediately, we will wait for an event.  That event could be anything, like clicking a button or the server sending a response.  Each time we get an event, we will do the next step.  To be easy to present and view, we will make the events be driven by a simple timer.  Each time the timer fires an event, we will do the next step.  Repeating this until we are done.</p>
+
+<p>The only method changes are to 'moveTower' and to 'handleTimer'.  Everything else works just the way it was.</p>
+
+<h4>AnimatedRulesTowerOfHanoi (No Animation)</h4>
+
+<p>```actionscript
 package {</p>
 
 <pre><code>import flash.events.TimerEvent;
@@ -442,7 +480,142 @@ protected override function createDisk() : HanoiDisk {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
+    <updated>2008-09-02T07:44:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi — With Graphics</h2>
+
+<p>To follow the flow of code progress within "A Taste of Smalltalk", we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to 'contain' yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark -- and again study how different languages work with the same problem.</p>
+
+<h3>Tower of Hanoi — With Graphics -- Flex</h3>
+
+<p>Given our Flex version is already in a graphics environment, and the model (TowerOfHanoi) is already aware of having to talk the View, the changes are relatively minimal to get things working.  We need to render the disks in the Application/View and we need to notify the view whenever the model changes.</p>
+
+<h4>Main Application</h4>
+
+<p>To add rendering in, we just create a render canvas area and then create the UIComponents (shapes) on each redraw.  Normally we would be more likely to animate a single set of disks (vs. destroying them and recreating them), which would be both better in performance and be <em>much cooler</em>, but this matches the RubyShoes version better.</p>
+
+<p>```xml
+&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"</p>
+
+<pre><code>creationComplete="handleCreationComplete()"
+</code></pre>
+
+<blockquote><p>&lt;mx:Script></p>
+
+<pre><code>&lt;![CDATA[
+    import mx.core.UIComponent;
+    var my_model : AnimatedTowerOfHanoi;
+</code></pre></blockquote>
+
+<pre><code>    function handleCreationComplete() : void {
+        Array.prototype.first = function():Object { return this[0]; }
+
+        my_model = new AnimatedTowerOfHanoi();
+        my_model.initView(this);
+    }
+
+    function handleDoItClicked() : void {
+        logToConsole("\n=== Doing a Hanoi tower "+vTowerInput.text+" tall\n");
+        my_model.doHanoi(new Number(vTowerInput.text));
+    }
+
+    public function logToConsole(string : String) : void {
+        vConsole.text = vConsole.text+string;
+    }
+
+    public function noteChange() : void {
+        vRenderArea.removeAllChildren();
+
+        var stacks : Array = my_model.getStacks();
+        for (var i : int = 0; i&lt;stacks.length; i++) {
+            var eachStack : Array = stacks[i];
+            var poleCenterX : Number = i*100 + 50;
+
+            for (var j:int = 0; j&lt;eachStack.length; j++) {
+                var eachDisk : HanoiDisk = eachStack[j];
+
+                var diskHeight : int = 180 - (j * 15);
+                var diskWidth  : int = eachDisk.width * 10;
+
+                var eachShape : UIComponent = new UIComponent();
+                eachShape.graphics.beginFill(0xA00000);
+                eachShape.graphics.drawRect(poleCenterX - diskWidth / 2, diskHeight, diskWidth, 10);
+
+                vRenderArea.addChild(eachShape);
+            }
+        }
+    }
+]]]]&gt;&lt;![CDATA[&gt;
+</code></pre>
+
+<p>&lt;/mx:Script>
+&lt;mx:HBox></p>
+
+<pre><code>&lt;mx:Text text="How tall a tower?" /&gt;
+&lt;mx:TextInput id="vTowerInput" /&gt;
+&lt;mx:Button label="Do It" click="handleDoItClicked()" /&gt;
+</code></pre>
+
+<p>&lt;/mx:HBox>
+&lt;mx:Canvas id="vRenderArea" width="300" height="200" borderStyle="solid" />
+&lt;mx:TextArea id="vConsole" width="100%" height="100%" />
+&lt;/mx:Application>
+```</p>
+
+<h4>AnimatedTowerOfHanoi</h4>
+
+<p>The AnimatedTower just needs to send out change events (via a simple callback vs. true event listeners that are in Flex).</p>
+
+<p>```actionscript
+package {</p>
+
+<p>public class AnimatedTowerOfHanoi extends ModeledTowerOfHanoi {</p>
+
+<pre><code>protected override function setupDisks() : void {
+    super.setupDisks();
+
+    my_view.noteChange();
+}
+
+public function getStacks() : Array {
+    return my_stacks;
+}
+
+protected override function moveDisk(fromPin : *, toPin : *) : void {
+    super.moveDisk(fromPin, toPin);
+
+    my_view.noteChange();
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+```</p>
+
+<h3>Super Easy...But doesn't work</h3>
+
+<p>Well, that was really easy... except it doesn't really work :-(  You can only see the final result of all the nice disks on the last stack.  None of the intermediary steps before this last rendering are shown at all.</p>
+
+<p>Clearly we are missing something... where is the "Sleep" equivalent?  If we could add a 'sleep' then everything would work right?  Unfortunately both "No" and "NO!".  When Flex/Flash are running user code, they are doing it between screen renderings and a bunch of other tasks Flash does.  So you can't just keep rendering things in the same thread (same stack) and have any of that be visible except the last version.  If you could 'sleep', you would just make Flash pause for no good reason.</p>
+
+<p>The solution is to do each rendering on some kind of event.  Something simple like do the next step of the hanoi algorithm every 0.3 seconds.  That sounds easy but: (1) Flex doesn't have continuations either so you can't just 'pause' the stack and (2) The current hanoi algorithm is completely stack based.</p>
+
+<p>Fortunately the fix is both "not that hard" and also happens to be the next chapter of "A Taste of Smalltalk" called "An Algorithm for the Rest of Us".  So for the moment, lets punt on getting the animation in Flex right until we get to the next part.</p>
+
+<h3>What's Next</h3>
+
+<p>A new non-stack algorithm.</p>
 ]]></content>
   </entry>
   
@@ -750,79 +923,6 @@ protected function moveDisk(fromPin : *, toPin : *) : void {
 <h3>Where Next?</h3>
 
 <p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the 'model' aspects to be realistic, and for Flex this is not at all difficult, but I will follow the same pattern of 'Parts' that I did with Ruby, so the next Part is just changing to having real Domain Model Objects (vs. the UI Model separation that occurred above for TowerOfHanoi vs the Application)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
-    <updated>2008-09-02T04:12:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi -- Procedural With Input</h2>
-
-<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
-
-<h3>Tower of Hanoi -- Procedural With Input -- Flex</h3>
-
-<p>```xml
-&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"</p>
-
-<pre><code>creationComplete="handleCreationComplete()"
-</code></pre>
-
-<blockquote><p>&lt;mx:Script></p>
-
-<pre><code>&lt;![CDATA[
-    function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
-        if (height &gt; 0) {
-            moveTower(height-1, fromPin, usingPin, toPin);
-            moveDisk(fromPin, toPin);
-            moveTower(height-1, usingPin, toPin, fromPin);
-        }
-    }
-</code></pre></blockquote>
-
-<pre><code>    function moveDisk(fromPin : *, toPin : *) : void {
-        vConsole.text = vConsole.text+fromPin + "-&gt;" + toPin+"\n";
-    }
-
-    function handleCreationComplete() : void {
-        //Don't need to do anything anymore
-    }
-
-    function handleDoItClicked() : void {
-        vConsole.text = vConsole.text+"\n=== Doing a Hanoi tower "+vTowerInput.text+" tall\n";
-        moveTower(new Number(vTowerInput.text), 1, 3, 2);
-    }
-]]]]&gt;&lt;![CDATA[&gt;
-</code></pre>
-
-<p>&lt;/mx:Script>
-&lt;mx:HBox></p>
-
-<pre><code>&lt;mx:Text text="How tall a tower?" /&gt;
-&lt;mx:TextInput id="vTowerInput" /&gt;
-&lt;mx:Button label="Do It" click="handleDoItClicked()" /&gt;
-</code></pre>
-
-<p>&lt;/mx:HBox>
-&lt;mx:TextArea id="vConsole" width="100%" height="100%" />
-&lt;/mx:Application>
-```</p>
-
-<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
-
-<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
-
-<h2>Comments</h2>
-
-<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   

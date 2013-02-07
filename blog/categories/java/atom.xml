@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:52:06-08:00</updated>
+  <updated>2013-02-06T20:55:32-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -156,9 +156,21 @@
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
-    <updated>2008-09-02T09:46:40-07:00</updated>
+    <updated>2008-09-02T16:46:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[<p>[sourcecode language="jscript"]
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
+
+<p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is 'true' as an algorithm, but comes off as a bit unnatural for humans.  But it also has a problem in that the algorithm can not be 'suspended' in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  For a multi-threaded language, this inability to suspend may not be a problem because you could create one thread for the algorithm and another thread to listen for whenever a new (interesting) change in state occurs.  This is how the RubyShoes version works: the algorithm is in a new thread separate from the GUI thread (otherwise things behave badly).  Similarly, the Smalltalk-80 GUI is being drawn in a different thread than the main execution thread.  But in many circumstances even this multi-thread version would not work: say you have a client-server version (e.g. Rails) or want to pause/suspend the execution of the 100-tall tower of hanoi.  And finally, if you only have a single-threaded language like Flex, things just don't work at all for intermediate renderings unless you can make the algorithm not be dependent on the call stack.</p>
+
+<h3>Tower of Hanoi — With Rule Disks (and no stack) -- Flex</h3>
+
+<p>I think it is easiest to work up from the Disk perspective, although see the book for a different flow.  The main changes to HanoiDisk are to have it be able to figure out whether it has any legal moves, and what the bestMove (next move) would be.  To do each of these, the disk needs to communicate back with the towers.  In the Smalltalk code this was done through a Class Variable, but it is far simpler and more scalable to do this through instance variables: each Disk needs to know what tower it belongs to.</p>
+
+<h4>HanoiDiskRules</h4>
+
+<p>```actionscript
 package {</p>
 
 <p>public class HanoiDiskRules extends HanoiDisk {</p>
@@ -198,9 +210,23 @@ public override function moveUpon(destination : HanoiDisk) : void {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
 
-<p>[sourcecode language="jscript"]
+<p>Compared to the Smalltalk version of this, the main difference is we are creating Array objects instead of passing a function into an iterator.  Again this seems the more natural for Flex... but... it is starting to get annoying looking and has real performance impact, so later we should try to do an iterator + function-based version.</p>
+
+<h4>AnimatedRulesTowerOfHanoi (No Animation)</h4>
+
+<p>The change to the Tower code for Flex is two parts:</p>
+
+<ul>
+<li><p>Provide methods that support the rules that the smarter HanoiDiskRules has</p></li>
+<li><p>Drive the algorithm in a way to enable Flex to render the intermediary results</p></li>
+</ul>
+
+
+<p>We can do these in two steps, with the current step focused on just the algorithm changes</p>
+
+<p>```actionscript
 package {</p>
 
 <p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
@@ -293,9 +319,21 @@ protected override function createDisk() : HanoiDisk {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
 
-<p>[sourcecode language="jscript"]
+<p>As mentioned in HanoiDiskRules section, the main annoyance of this particular implementation of the new algorithm compared to Smalltalk is having to create intermediate array objects just to communicate between the Disk and the Tower.</p>
+
+<p>But things should work again.  Except we will still get only one rendering because the whole algorithm is executed in one call within a "while" loop.</p>
+
+<h3>Tower of Hanoi — With Rule Disks and Correct Animation -- Flex</h3>
+
+<p>To make things work in Flex now, all we do is have to unwrap the immediacy [single call stack] of the while loop.  Instead of calling each 'doNextMove' immediately, we will wait for an event.  That event could be anything, like clicking a button or the server sending a response.  Each time we get an event, we will do the next step.  To be easy to present and view, we will make the events be driven by a simple timer.  Each time the timer fires an event, we will do the next step.  Repeating this until we are done.</p>
+
+<p>The only method changes are to 'moveTower' and to 'handleTimer'.  Everything else works just the way it was.</p>
+
+<h4>AnimatedRulesTowerOfHanoi (No Animation)</h4>
+
+<p>```actionscript
 package {</p>
 
 <pre><code>import flash.events.TimerEvent;
@@ -409,7 +447,7 @@ protected override function createDisk() : HanoiDisk {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
 ]]></content>
   </entry>
   
