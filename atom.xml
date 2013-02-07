@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -610,7 +610,7 @@ current location of the repository is <a href="https://github.com/markfussell/sc
   <entry>
     <title type="html"><![CDATA[Scratch Textual Language]]></title>
     <link href="http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/"/>
-    <updated>2008-09-17T13:28:43-07:00</updated>
+    <updated>2008-09-17T20:28:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/17/scratch-textual-language</id>
     <content type="html"><![CDATA[<p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.  Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce <a href="a-taste-of-scratch">these diagrams</a> when trying to document a program, and it is even harder to reference sections of the diagram.</p>
 
@@ -1075,9 +1075,9 @@ if (not ( (potential-disk) = (previous-moved-disk)) )
   
   <entry>
     <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch/"/>
-    <updated>2008-09-07T21:15:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch</id>
+    <link href="http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch/"/>
+    <updated>2008-09-08T04:15:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
 
 <p>You can find the original book here:</p>
@@ -1220,9 +1220,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure/"/>
-    <updated>2008-09-03T18:20:40-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure</id>
+    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <updated>2008-09-04T01:20:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
@@ -1360,18 +1360,18 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 7)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7/"/>
-    <updated>2008-09-02T19:28:10-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7</id>
+    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7/"/>
+    <updated>2008-09-03T02:28:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6/"/>
-    <updated>2008-09-02T19:18:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6</id>
+    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
+    <updated>2008-09-03T02:18:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
@@ -1607,6 +1607,37 @@ Then
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
+    <updated>2008-09-02T04:12:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
+
+<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
+
+<h3>Tower of Hanoi &#8211; Procedural With Input &#8211; Flex</h3>
+
+<p>[sourcecode language=&#8221;xml&#8221;]</p>
+
+<p>[/sourcecode]</p>
+
+<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
+
+<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
+
+<h2>Comments</h2>
+
+<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
     <updated>2008-09-02T00:44:58-07:00</updated>
@@ -1691,37 +1722,6 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
     <updated>2008-09-01T22:11:06-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-3</id>
     <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-2/"/>
-    <updated>2008-09-01T21:12:08-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
-
-<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
-
-<h3>Tower of Hanoi &#8211; Procedural With Input &#8211; Flex</h3>
-
-<p>[sourcecode language=&#8221;xml&#8221;]</p>
-
-<p>[/sourcecode]</p>
-
-<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
-
-<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
-
-<h2>Comments</h2>
-
-<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   
@@ -1850,7 +1850,7 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 5)]]></title>
     <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/"/>
-    <updated>2008-08-29T16:42:30-07:00</updated>
+    <updated>2008-08-29T23:42:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
@@ -2443,154 +2443,10 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 3)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3/"/>
-    <updated>2008-08-29T00:27:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi &#8211; With A Real Object</h2>
-
-<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</span>
-</span><span class='line'><span class="c1"># Tower of Hanoi -- Variation 3</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># TowerOfHanoi</span>
-</span><span class='line'><span class="c1">#</span>
-</span><span class='line'><span class="c1"># @stacks is an Array of DiskHolders (pins)</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">TowerOfHanoi</span> <span class="o">&lt;</span> <span class="no">Object</span>
-</span><span class='line'>  <span class="c1">#Tower of Hanoi program.</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hanoi</span>
-</span><span class='line'>    <span class="c1"># Do the tower</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
-</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
-</span><span class='line'>    <span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="vi">@stacks</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
-</span><span class='line'>    <span class="n">firstStack</span> <span class="o">=</span> <span class="vi">@stacks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'>    <span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">firstStack</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot;Disk-</span><span class="si">#{</span><span class="p">(</span><span class="sc">?A</span><span class="o">+</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">chr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Recursive procedure to move the disk at a height</span>
-</span><span class='line'>  <span class="c1"># from one pin to another pin using a third pin</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-</span><span class='line'>      <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Actually move the disk between the pins</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span><span class="n">toPin</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">disk</span> <span class="o">=</span> <span class="p">(</span><span class="vi">@stacks</span><span class="o">[</span><span class="n">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span>
-</span><span class='line'>    <span class="vi">@stacks</span><span class="o">[</span><span class="n">toPin</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">push</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">print</span> <span class="n">disk</span><span class="p">,</span> <span class="s2">&quot; moved &quot;</span><span class="p">,</span> <span class="n">fromPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">toPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">TowerOfHanoi</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">hanoi</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So we moved to adding state to an object by simply referencing an instance variable (notationally via the &#8216;@&#8217;).  Again, I find that unpleasant and would rather the compiler (and human reader) was told a bit more formally what instance variables exist.  In quickly typing the above, I made a typo (&#8220;@stack&#8221;) that caused a runtime error and should have been easily detected at compile time.</p>
-
-<p>Comparing with Smalltalk, the similarities are extremely high again.  Basically the core method calls and flow (e.g. the bytecodes) would look almost identical and it is only syntactic differences (built-in keywords in Ruby, shortening of selectors/method-names, etc.) that make the two read differently.  The idioms can be maintained (1.upto(height)) during translation and both versions are natural for their own language.  There is no paradigm change, impedance mismatch, etc.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, so I guess I will go into the Tk toolkit or Shoes as among the easiest Ruby graphic extensions to use as an example.  If anyone has suggestions for other ones (meant to be super simple), please let me know.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2/"/>
-    <updated>2008-08-29T00:08:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
-
-<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.  Smalltalk (started in 1972) was one of the environments that <em>created</em> personal computers and included abilities in its VM and Libraries that are now submerged into the operating system (some 30 years later).  Now that these abilities are &#8216;intrisically&#8217; present, there are many different ways to access them &#8211; so Ruby does not include graphics itself (in its own terms) but calls extensions that provide those graphics.  Given I don&#8217;t really want to go into Tk or Web programming when discussing a language itself, I will simplify the problem and make it so we only need to get the value somehow&#8230; So &#8216;gets&#8217; is fine.</p>
-
-<h3>Tower of Hanoi &#8211; Procedural with Input &#8211; Ruby</h3>
-
-<p>The only thing we need to do is get the height from the user, so we can just ask for it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Do the tower</span>
-</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
-</span><span class='line'><span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
-</span><span class='line'><span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span>
-</span><span class='line'><span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Quite simple and probably the only interesting thing is that &#8216;height&#8217; did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a &#8216;strict&#8217; mode would give feedback.</p>
-
-<p>Smalltalk does formally declare variables, so it is more compile-time checked than Ruby.  The Smalltalk IDEs also warn about things in a way that usually avoids typos, but that is not part of the language itself.  But I would think the simplicity of the syntax and programming model makes the Smalltalk compiler much easier to write and optimize, but that is just an impression.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 4)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/"/>
-    <updated>2008-08-28T19:53:15-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4</id>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4/"/>
+    <updated>2008-08-29T02:53:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Model Objects</h2>
@@ -2860,6 +2716,150 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
 <h3>Class Object behavior</h3>
 
 <p>The concept here is clean enough and the notation for Class Variables is nicely clean (and partially helps separate &#8216;Class Variables&#8217; from &#8216;Class Instance Variables&#8217;).  I think &#8216;def self&#8217; is less readable than &#8216;class.def&#8217; (defining for the HanoiDisk.class vs. HanoiDisk), but that presumes that keywords like &#8216;def&#8217; could be more easily understood as messages to classes (a &#8216;Turtles all the way down&#8217; concept) as I wrote earlier.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 3)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3/"/>
+    <updated>2008-08-29T00:27:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi &#8211; With A Real Object</h2>
+
+<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</span>
+</span><span class='line'><span class="c1"># Tower of Hanoi -- Variation 3</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># TowerOfHanoi</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># @stacks is an Array of DiskHolders (pins)</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">TowerOfHanoi</span> <span class="o">&lt;</span> <span class="no">Object</span>
+</span><span class='line'>  <span class="c1">#Tower of Hanoi program.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hanoi</span>
+</span><span class='line'>    <span class="c1"># Do the tower</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
+</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
+</span><span class='line'>    <span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@stacks</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">firstStack</span> <span class="o">=</span> <span class="vi">@stacks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>    <span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">firstStack</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot;Disk-</span><span class="si">#{</span><span class="p">(</span><span class="sc">?A</span><span class="o">+</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">chr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Recursive procedure to move the disk at a height</span>
+</span><span class='line'>  <span class="c1"># from one pin to another pin using a third pin</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>      <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Actually move the disk between the pins</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span><span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">disk</span> <span class="o">=</span> <span class="p">(</span><span class="vi">@stacks</span><span class="o">[</span><span class="n">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'>    <span class="vi">@stacks</span><span class="o">[</span><span class="n">toPin</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">push</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">print</span> <span class="n">disk</span><span class="p">,</span> <span class="s2">&quot; moved &quot;</span><span class="p">,</span> <span class="n">fromPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">toPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">TowerOfHanoi</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">hanoi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So we moved to adding state to an object by simply referencing an instance variable (notationally via the &#8216;@&#8217;).  Again, I find that unpleasant and would rather the compiler (and human reader) was told a bit more formally what instance variables exist.  In quickly typing the above, I made a typo (&#8220;@stack&#8221;) that caused a runtime error and should have been easily detected at compile time.</p>
+
+<p>Comparing with Smalltalk, the similarities are extremely high again.  Basically the core method calls and flow (e.g. the bytecodes) would look almost identical and it is only syntactic differences (built-in keywords in Ruby, shortening of selectors/method-names, etc.) that make the two read differently.  The idioms can be maintained (1.upto(height)) during translation and both versions are natural for their own language.  There is no paradigm change, impedance mismatch, etc.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, so I guess I will go into the Tk toolkit or Shoes as among the easiest Ruby graphic extensions to use as an example.  If anyone has suggestions for other ones (meant to be super simple), please let me know.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 2)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2/"/>
+    <updated>2008-08-29T00:08:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
+
+<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.  Smalltalk (started in 1972) was one of the environments that <em>created</em> personal computers and included abilities in its VM and Libraries that are now submerged into the operating system (some 30 years later).  Now that these abilities are &#8216;intrisically&#8217; present, there are many different ways to access them &#8211; so Ruby does not include graphics itself (in its own terms) but calls extensions that provide those graphics.  Given I don&#8217;t really want to go into Tk or Web programming when discussing a language itself, I will simplify the problem and make it so we only need to get the value somehow&#8230; So &#8216;gets&#8217; is fine.</p>
+
+<h3>Tower of Hanoi &#8211; Procedural with Input &#8211; Ruby</h3>
+
+<p>The only thing we need to do is get the height from the user, so we can just ask for it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Do the tower</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
+</span><span class='line'><span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
+</span><span class='line'><span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span>
+</span><span class='line'><span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Quite simple and probably the only interesting thing is that &#8216;height&#8217; did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a &#8216;strict&#8217; mode would give feedback.</p>
+
+<p>Smalltalk does formally declare variables, so it is more compile-time checked than Ruby.  The Smalltalk IDEs also warn about things in a way that usually avoids typos, but that is not part of the language itself.  But I would think the simplicity of the syntax and programming model makes the Smalltalk compiler much easier to write and optimize, but that is just an impression.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   
@@ -3156,9 +3156,9 @@ move_tower(3,"Tower-1", nil, Proc.new {|| "Tower" })
   
   <entry>
     <title type="html"><![CDATA[Being Ephemeral]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/27/being-ephemeral/"/>
-    <updated>2008-08-27T21:34:40-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/27/being-ephemeral</id>
+    <link href="http://markfussell.github.com/blog/2008/08/28/being-ephemeral/"/>
+    <updated>2008-08-28T04:34:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/28/being-ephemeral</id>
     <content type="html"><![CDATA[<p>There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral.  I don&#8217;t believe people realize it, but &#8220;being ephemeral&#8221; is the core question and the standard answer should be?  42.  Which given it is >0 is &#8216;Yes&#8217;.  So &#8220;Be Ephemeral&#8221; unless you can&#8217;t possibly be ephemeral.</p>
 
 <p>When can&#8217;t you be ephemeral?&#8230; turns out it is in a very small number of cases.  Ruby is more ephemeral than the standard Smalltalk &#8216;image&#8217; approach, so it wins.  Xen/VMWare is more ephemeral than a physical machine, so it wins.  <em>Scripted</em> vm image building is more ephemeral than image snapshots, so its win.  Credit-card receipts in a retail store&#8230; well those have to be remembered (persistent) or you could lose money or customers or both.   So make that persistent :-)</p>

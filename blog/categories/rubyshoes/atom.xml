@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RubyShoes | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/rubyshoes/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -19,6 +19,37 @@
     <updated>2008-09-02T09:46:40-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
+    <updated>2008-09-02T04:12:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi -- Procedural With Input</h2>
+
+<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
+
+<h3>Tower of Hanoi -- Procedural With Input -- Flex</h3>
+
+<p>[sourcecode language="xml"]</p>
+
+<p>[/sourcecode]</p>
+
+<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
+
+<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
+
+<h2>Comments</h2>
+
+<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   
@@ -93,40 +124,9 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-2/"/>
-    <updated>2008-09-01T21:12:08-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi -- Procedural With Input</h2>
-
-<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
-
-<h3>Tower of Hanoi -- Procedural With Input -- Flex</h3>
-
-<p>[sourcecode language="xml"]</p>
-
-<p>[/sourcecode]</p>
-
-<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
-
-<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
-
-<h2>Comments</h2>
-
-<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 5)]]></title>
     <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/"/>
-    <updated>2008-08-29T16:42:30-07:00</updated>
+    <updated>2008-08-29T23:42:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 

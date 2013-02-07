@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Smalltalk | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/smalltalk/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch/"/>
-    <updated>2008-09-07T21:15:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch</id>
+    <link href="http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch/"/>
+    <updated>2008-09-08T04:15:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
 
 <p>You can find the original book here:</p>
@@ -160,9 +160,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure/"/>
-    <updated>2008-09-03T18:20:40-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure</id>
+    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <updated>2008-09-04T01:20:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
@@ -300,9 +300,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6/"/>
-    <updated>2008-09-02T19:18:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6</id>
+    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
+    <updated>2008-09-03T02:18:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
@@ -481,72 +481,33 @@ end
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
-    <updated>2008-09-02T00:44:58-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
+    <updated>2008-09-02T04:12:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<h2>Tower of Hanoi — With Graphics</h2>
+<h2>Tower of Hanoi -- Procedural With Input</h2>
 
-<p>To follow the flow of code progress within "A Taste of Smalltalk", we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to 'contain' yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark -- and again study how different languages work with the same problem.</p>
+<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
 
-<h3>Tower of Hanoi — With Graphics -- Flex</h3>
-
-<p>Given our Flex version is already in a graphics environment, and the model (TowerOfHanoi) is already aware of having to talk the View, the changes are relatively minimal to get things working.  We need to render the disks in the Application/View and we need to notify the view whenever the model changes.</p>
-
-<h4>Main Application</h4>
-
-<p>To add rendering in, we just create a render canvas area and then create the UIComponents (shapes) on each redraw.  Normally we would be more likely to animate a single set of disks (vs. destroying them and recreating them), which would be both better in performance and be <em>much cooler</em>, but this matches the RubyShoes version better.</p>
+<h3>Tower of Hanoi -- Procedural With Input -- Flex</h3>
 
 <p>[sourcecode language="xml"]</p>
 
 <p>[/sourcecode]</p>
 
-<h4>AnimatedTowerOfHanoi</h4>
+<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
 
-<p>The AnimatedTower just needs to send out change events (via a simple callback vs. true event listeners that are in Flex).</p>
+<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
 
-<p>[sourcecode language="jscript"]
-package {</p>
+<h2>Comments</h2>
 
-<p>public class AnimatedTowerOfHanoi extends ModeledTowerOfHanoi {</p>
+<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
 
-<pre><code>protected override function setupDisks() : void {
-    super.setupDisks();
+<h3>Where Next?</h3>
 
-    my_view.noteChange();
-}
-
-public function getStacks() : Array {
-    return my_stacks;
-}
-
-protected override function moveDisk(fromPin : *, toPin : *) : void {
-    super.moveDisk(fromPin, toPin);
-
-    my_view.noteChange();
-}
-</code></pre>
-
-<p>}</p>
-
-<p>} //package
-[/sourcecode]</p>
-
-<h3>Super Easy...But doesn't work</h3>
-
-<p>Well, that was really easy... except it doesn't really work :-(  You can only see the final result of all the nice disks on the last stack.  None of the intermediary steps before this last rendering are shown at all.</p>
-
-<p>Clearly we are missing something... where is the "Sleep" equivalent?  If we could add a 'sleep' then everything would work right?  Unfortunately both "No" and "NO!".  When Flex/Flash are running user code, they are doing it between screen renderings and a bunch of other tasks Flash does.  So you can't just keep rendering things in the same thread (same stack) and have any of that be visible except the last version.  If you could 'sleep', you would just make Flash pause for no good reason.</p>
-
-<p>The solution is to do each rendering on some kind of event.  Something simple like do the next step of the hanoi algorithm every 0.3 seconds.  That sounds easy but: (1) Flex doesn't have continuations either so you can't just 'pause' the stack and (2) The current hanoi algorithm is completely stack based.</p>
-
-<p>Fortunately the fix is both "not that hard" and also happens to be the next chapter of "A Taste of Smalltalk" called "An Algorithm for the Rest of Us".  So for the moment, lets punt on getting the animation in Flex right until we get to the next part.</p>
-
-<h3>What's Next</h3>
-
-<p>A new non-stack algorithm.</p>
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   

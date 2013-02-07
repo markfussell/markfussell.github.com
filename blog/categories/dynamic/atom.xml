@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dynamic | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/dynamic/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 5)]]></title>
     <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/"/>
-    <updated>2008-08-29T16:42:30-07:00</updated>
+    <updated>2008-08-29T23:42:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
@@ -439,123 +439,10 @@ end
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 3)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3/"/>
-    <updated>2008-08-29T00:27:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi -- With A Real Object</h2>
-
-<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just 'tracing' the algorithm, but it does not let us show the state of the towers at any given time.  We also don't see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
-
-<p>```ruby</p>
-
-<h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
-
-<h1>Tower of Hanoi -- Variation 3</h1>
-
-<h1>TowerOfHanoi</h1>
-
-<p>#</p>
-
-<h1>@stacks is an Array of DiskHolders (pins)</h1>
-
-<p>class TowerOfHanoi &lt; Object
-  #Tower of Hanoi program.
-  def hanoi</p>
-
-<pre><code># Do the tower
-puts "How tall a tower?"
-print "&gt;"
-height = gets.to_i
-
-@stacks = Array.new(3).collect { Array.new }
-firstStack = @stacks[0]
-1.upto(height) {|i| firstStack.unshift("Disk-#{(?A+i-1).chr}") }
-
-move_tower(height,1,3,2)
-</code></pre>
-
-<p>  end</p>
-
-<p>  # Recursive procedure to move the disk at a height
-  # from one pin to another pin using a third pin
-  def move_tower(height, fromPin, toPin, usingPin)</p>
-
-<pre><code>if (height&gt;0) then
-  move_tower(height-1, fromPin, usingPin, toPin)
-  move_disk(fromPin, toPin)
-  move_tower(height-1, usingPin, toPin, fromPin)
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>  # Actually move the disk between the pins
-  def move_disk(fromPin,toPin)</p>
-
-<pre><code>disk = (@stacks[fromPin-1]).pop
-@stacks[toPin-1].push(disk)
-print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
-</code></pre>
-
-<p>  end</p>
-
-<p>end</p>
-
-<p>TowerOfHanoi.new.hanoi
-```</p>
-
-<p>So we moved to adding state to an object by simply referencing an instance variable (notationally via the '@').  Again, I find that unpleasant and would rather the compiler (and human reader) was told a bit more formally what instance variables exist.  In quickly typing the above, I made a typo ("@stack") that caused a runtime error and should have been easily detected at compile time.</p>
-
-<p>Comparing with Smalltalk, the similarities are extremely high again.  Basically the core method calls and flow (e.g. the bytecodes) would look almost identical and it is only syntactic differences (built-in keywords in Ruby, shortening of selectors/method-names, etc.) that make the two read differently.  The idioms can be maintained (1.upto(height)) during translation and both versions are natural for their own language.  There is no paradigm change, impedance mismatch, etc.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the 'model' aspects to be realistic, so I guess I will go into the Tk toolkit or Shoes as among the easiest Ruby graphic extensions to use as an example.  If anyone has suggestions for other ones (meant to be super simple), please let me know.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2/"/>
-    <updated>2008-08-29T00:08:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi -- Procedural With Input</h2>
-
-<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.  Smalltalk (started in 1972) was one of the environments that <em>created</em> personal computers and included abilities in its VM and Libraries that are now submerged into the operating system (some 30 years later).  Now that these abilities are 'intrisically' present, there are many different ways to access them -- so Ruby does not include graphics itself (in its own terms) but calls extensions that provide those graphics.  Given I don't really want to go into Tk or Web programming when discussing a language itself, I will simplify the problem and make it so we only need to get the value somehow... So 'gets' is fine.</p>
-
-<h3>Tower of Hanoi -- Procedural with Input -- Ruby</h3>
-
-<p>The only thing we need to do is get the height from the user, so we can just ask for it:
-```ruby</p>
-
-<h1>Do the tower</h1>
-
-<p>puts "How tall a tower?"
-print ">"
-height = gets
-move_tower(height.to_i,1,3,2)
-```</p>
-
-<p>Quite simple and probably the only interesting thing is that 'height' did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a 'strict' mode would give feedback.</p>
-
-<p>Smalltalk does formally declare variables, so it is more compile-time checked than Ruby.  The Smalltalk IDEs also warn about things in a way that usually avoids typos, but that is not part of the language itself.  But I would think the simplicity of the syntax and programming model makes the Smalltalk compiler much easier to write and optimize, but that is just an impression.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 4)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/"/>
-    <updated>2008-08-28T19:53:15-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4</id>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4/"/>
+    <updated>2008-08-29T02:53:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Model Objects</h2>
@@ -749,6 +636,119 @@ end</p>
 <h3>Class Object behavior</h3>
 
 <p>The concept here is clean enough and the notation for Class Variables is nicely clean (and partially helps separate 'Class Variables' from 'Class Instance Variables').  I think 'def self' is less readable than 'class.def' (defining for the HanoiDisk.class vs. HanoiDisk), but that presumes that keywords like 'def' could be more easily understood as messages to classes (a 'Turtles all the way down' concept) as I wrote earlier.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 3)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3/"/>
+    <updated>2008-08-29T00:27:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi -- With A Real Object</h2>
+
+<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just 'tracing' the algorithm, but it does not let us show the state of the towers at any given time.  We also don't see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
+
+<p>```ruby</p>
+
+<h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
+
+<h1>Tower of Hanoi -- Variation 3</h1>
+
+<h1>TowerOfHanoi</h1>
+
+<p>#</p>
+
+<h1>@stacks is an Array of DiskHolders (pins)</h1>
+
+<p>class TowerOfHanoi &lt; Object
+  #Tower of Hanoi program.
+  def hanoi</p>
+
+<pre><code># Do the tower
+puts "How tall a tower?"
+print "&gt;"
+height = gets.to_i
+
+@stacks = Array.new(3).collect { Array.new }
+firstStack = @stacks[0]
+1.upto(height) {|i| firstStack.unshift("Disk-#{(?A+i-1).chr}") }
+
+move_tower(height,1,3,2)
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Recursive procedure to move the disk at a height
+  # from one pin to another pin using a third pin
+  def move_tower(height, fromPin, toPin, usingPin)</p>
+
+<pre><code>if (height&gt;0) then
+  move_tower(height-1, fromPin, usingPin, toPin)
+  move_disk(fromPin, toPin)
+  move_tower(height-1, usingPin, toPin, fromPin)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Actually move the disk between the pins
+  def move_disk(fromPin,toPin)</p>
+
+<pre><code>disk = (@stacks[fromPin-1]).pop
+@stacks[toPin-1].push(disk)
+print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>TowerOfHanoi.new.hanoi
+```</p>
+
+<p>So we moved to adding state to an object by simply referencing an instance variable (notationally via the '@').  Again, I find that unpleasant and would rather the compiler (and human reader) was told a bit more formally what instance variables exist.  In quickly typing the above, I made a typo ("@stack") that caused a runtime error and should have been easily detected at compile time.</p>
+
+<p>Comparing with Smalltalk, the similarities are extremely high again.  Basically the core method calls and flow (e.g. the bytecodes) would look almost identical and it is only syntactic differences (built-in keywords in Ruby, shortening of selectors/method-names, etc.) that make the two read differently.  The idioms can be maintained (1.upto(height)) during translation and both versions are natural for their own language.  There is no paradigm change, impedance mismatch, etc.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the 'model' aspects to be realistic, so I guess I will go into the Tk toolkit or Shoes as among the easiest Ruby graphic extensions to use as an example.  If anyone has suggestions for other ones (meant to be super simple), please let me know.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 2)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2/"/>
+    <updated>2008-08-29T00:08:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi -- Procedural With Input</h2>
+
+<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.  Smalltalk (started in 1972) was one of the environments that <em>created</em> personal computers and included abilities in its VM and Libraries that are now submerged into the operating system (some 30 years later).  Now that these abilities are 'intrisically' present, there are many different ways to access them -- so Ruby does not include graphics itself (in its own terms) but calls extensions that provide those graphics.  Given I don't really want to go into Tk or Web programming when discussing a language itself, I will simplify the problem and make it so we only need to get the value somehow... So 'gets' is fine.</p>
+
+<h3>Tower of Hanoi -- Procedural with Input -- Ruby</h3>
+
+<p>The only thing we need to do is get the height from the user, so we can just ask for it:
+```ruby</p>
+
+<h1>Do the tower</h1>
+
+<p>puts "How tall a tower?"
+print ">"
+height = gets
+move_tower(height.to_i,1,3,2)
+```</p>
+
+<p>Quite simple and probably the only interesting thing is that 'height' did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a 'strict' mode would give feedback.</p>
+
+<p>Smalltalk does formally declare variables, so it is more compile-time checked than Ruby.  The Smalltalk IDEs also warn about things in a way that usually avoids typos, but that is not part of the language itself.  But I would think the simplicity of the syntax and programming model makes the Smalltalk compiler much easier to write and optimize, but that is just an impression.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   

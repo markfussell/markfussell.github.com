@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Scratch | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/scratch/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -67,7 +67,7 @@ current location of the repository is <a href="https://github.com/markfussell/sc
   <entry>
     <title type="html"><![CDATA[Scratch Textual Language]]></title>
     <link href="http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/"/>
-    <updated>2008-09-17T13:28:43-07:00</updated>
+    <updated>2008-09-17T20:28:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/17/scratch-textual-language</id>
     <content type="html"><![CDATA[<p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.  Scratch in it's graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce <a href="a-taste-of-scratch">these diagrams</a> when trying to document a program, and it is even harder to reference sections of the diagram.</p>
 
@@ -532,9 +532,9 @@ if (not ( (potential-disk) = (previous-moved-disk)) )
   
   <entry>
     <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch/"/>
-    <updated>2008-09-07T21:15:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch</id>
+    <link href="http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch/"/>
+    <updated>2008-09-08T04:15:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
 
 <p>You can find the original book here:</p>

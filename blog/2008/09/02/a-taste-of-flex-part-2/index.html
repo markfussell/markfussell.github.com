@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Being Ephemeral - Polyglot</title>
+  <title>A Taste of Flex (Part 2) - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral &hellip;">
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi &#8211; Procedural With Input The second example from &#8220;A Taste of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.github.com/blog/2008/08/27/being-ephemeral/">
+  <link rel="canonical" href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,7 +67,7 @@
   
   <header>
     
-      <h1 class="entry-title">Being Ephemeral</h1>
+      <h1 class="entry-title">A Taste of Flex (Part 2)</h1>
     
     
       <p class="meta">
@@ -83,27 +83,36 @@
   
 
 
-<time datetime="2008-08-27T21:34:40-07:00" pubdate data-updated="true">Aug 27<span>th</span>, 2008</time>
+<time datetime="2008-09-02T04:12:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral.  I don&#8217;t believe people realize it, but &#8220;being ephemeral&#8221; is the core question and the standard answer should be?  42.  Which given it is >0 is &#8216;Yes&#8217;.  So &#8220;Be Ephemeral&#8221; unless you can&#8217;t possibly be ephemeral.</p>
+<div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<p>When can&#8217;t you be ephemeral?&#8230; turns out it is in a very small number of cases.  Ruby is more ephemeral than the standard Smalltalk &#8216;image&#8217; approach, so it wins.  Xen/VMWare is more ephemeral than a physical machine, so it wins.  <em>Scripted</em> vm image building is more ephemeral than image snapshots, so its win.  Credit-card receipts in a retail store&#8230; well those have to be remembered (persistent) or you could lose money or customers or both.   So make that persistent :-)</p>
+<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
 
-<p>Performance is always a consideration: &#8216;rebuilding&#8217; an image could be time-expensive, but the old adage [annotated] of:
-   * Make it work (ephemerally if possible)
-   * Make it right
-   * Make it fast (pull the ephemerally <em>iff necessary</em>)
-is the right approach.   You may be amazed at how ephemeral things can be.  NowUR built virtual desktop in less than 30 seconds &#8211; by being ephemeral.  An with Amazon EC2, for many things I can just plug in a script and have lots of &#8216;yummy&#8217; things happen in the same amount of time.</p>
+<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
 
-<p>Why is &#8220;Being Ephemeral&#8221; right?  Well, there is one simple reason:
-   * Inventory of outdated parts is very expensive (Theory Of Constraints, Lean Methods, etc.)</p>
+<h3>Tower of Hanoi &#8211; Procedural With Input &#8211; Flex</h3>
 
-<p>And if you can make it through the old adage without needing any Inventory, you have a better (less expensive, more agile, higher velocity) solution than someone that cheats by using Inventory.</p>
+<p>[sourcecode language=&#8221;xml&#8221;]</p>
+
+<p>[/sourcecode]</p>
+
+<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
+
+<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
+
+<h2>Comments</h2>
+
+<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 </div>
 
 
@@ -126,12 +135,12 @@ is the right approach.   You may be amazed at how ephemeral things can be.  NowU
   
 
 
-<time datetime="2008-08-27T21:34:40-07:00" pubdate data-updated="true">Aug 27<span>th</span>, 2008</time>
+<time datetime="2008-09-02T04:12:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ephemeral/'>Ephemeral</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+    <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
   
 </span>
 
@@ -140,7 +149,7 @@ is the right approach.   You may be amazed at how ephemeral things can be.  NowU
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/08/27/being-ephemeral/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/08/27/being-ephemeral/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/" >Tweet</a>
   
   
   
@@ -149,10 +158,10 @@ is the right approach.   You may be amazed at how ephemeral things can be.  NowU
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2000/05/10/viking/" title="Previous Post: The Viking: A Direct Marketing System for OOPSLA DesignFest">&laquo; The Viking: A Direct Marketing System for OOPSLA DesignFest</a>
+        <a class="basic-alignment left" href="/blog/2008/09/02/a-taste-of-flex-part-5/" title="Previous Post: A Taste of Flex (Part 5)">&laquo; A Taste of Flex (Part 5)</a>
       
       
-        <a class="basic-alignment right" href="/blog/2008/08/28/a-taste-of-ruby/" title="Next Post: A Taste of Ruby">A Taste of Ruby &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2008/09/02/a-taste-of-flex-part-6/" title="Next Post: A Taste of Flex (Part 6)">A Taste of Flex (Part 6) &raquo;</a>
       
     </p>
   </footer>
@@ -206,7 +215,7 @@ is the right approach.   You may be amazed at how ephemeral things can be.  NowU
       </li>
     
       <li class="post">
-        <a href="/blog/2008/09/07/a-taste-of-scratch/">A Taste of Scratch</a>
+        <a href="/blog/2008/09/08/a-taste-of-scratch/">A Taste of Scratch</a>
       </li>
     
   </ul>
@@ -265,8 +274,8 @@ is the right approach.   You may be amazed at how ephemeral things can be.  NowU
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.github.com/blog/2008/08/27/being-ephemeral/';
-        var disqus_url = 'http://markfussell.github.com/blog/2008/08/27/being-ephemeral/';
+        var disqus_identifier = 'http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/';
+        var disqus_url = 'http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/';
         var disqus_script = 'embed.js';
       
     (function () {

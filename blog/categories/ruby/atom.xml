@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch/"/>
-    <updated>2008-09-07T21:15:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch</id>
+    <link href="http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch/"/>
+    <updated>2008-09-08T04:15:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
 
 <p>You can find the original book here:</p>
@@ -160,9 +160,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure/"/>
-    <updated>2008-09-03T18:20:40-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure</id>
+    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <updated>2008-09-04T01:20:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
@@ -300,18 +300,18 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 7)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7/"/>
-    <updated>2008-09-02T19:28:10-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7</id>
+    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7/"/>
+    <updated>2008-09-03T02:28:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6/"/>
-    <updated>2008-09-02T19:18:13-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6</id>
+    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
+    <updated>2008-09-03T02:18:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:09:58-08:00</updated>
+  <updated>2013-02-06T20:13:59-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure/"/>
-    <updated>2008-09-03T18:20:40-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure</id>
+    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <updated>2008-09-04T01:20:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
