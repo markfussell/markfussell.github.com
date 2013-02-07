@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Database | Foo]]></title>
   <link href="http://markfussell.github.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T17:12:32-08:00</updated>
+  <updated>2013-02-06T17:15:52-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -18,7 +18,7 @@
     <link href="http://markfussell.github.com/blog/1997/06/02/tuplemarks/"/>
     <updated>1997-06-02T18:00:00-07:00</updated>
     <id>http://markfussell.github.com/blog/1997/06/02/tuplemarks</id>
-    <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
+    <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/TupleMarks1j.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 
 <div class=Section2>
@@ -31,7 +31,7 @@ _Toc389861238'>Abstract</span></a></h1>
 
 </div>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>There has been a great deal of discussion about NULL values
 in relational algebra.<span style="mso-spacerun: yes">&nbsp; </span>There is
@@ -43,7 +43,7 @@ yes">&nbsp;</span>These arguments have been very informative and there is no
 reason to repeat them.<span style="mso-spacerun: yes">&nbsp; </span>Instead I
 will change the playing field.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>I propose a simple but unusual meaning for <span
 class=SpellE>NULLs</span>.<span style="mso-spacerun: yes">&nbsp; </span>A NULL
@@ -83,7 +83,7 @@ domain, attribute, and value.<span style="mso-spacerun: yes">&nbsp; </span>I
 will be using these terms because they are more precise and correct for the
 relational model than table, column, and row.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>It would also help to have read some of the previous debates
 on <span class=SpellE>NULLs</span> and missing information in relational
@@ -110,7 +110,7 @@ paper introduces simple additions to the relational model, which will allow us
 to simplify the database with as little impact on relational algebra as
 possible.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>First we introduce the concept of a Multi-Relation Variable
 that can simplify a complex scheme while still being as expressive and correct
@@ -124,400 +124,9 @@ approaches, and how to implement <span class=SpellE>tuple</span>-marks with
 SQL.<span style="mso-spacerun: yes">&nbsp; </span>Finally we close with some
 quotes from related work and a summary.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoSubtitle>Table of Contents</p>
 
-<p class=MsoToc1><!--[if supportFields]><span style='font-style:normal'><span
-style='mso-element:field-begin'></span><span style="mso-spacerun:
-yes">&nbsp;</span>TOC \o &quot;1-5&quot; <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>Abstract<span style='mso-tab-count:1 lined'>________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930928 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>1<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900320038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
 
-<p class=MsoToc1><span style='mso-no-proof:yes'>Background Requirements<span
-style='mso-tab-count:1 lined'>_________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930929 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>1<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900320039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Overview<span style='mso-tab-count:
-1 lined'>______________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930930 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>2<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Knowledge and Meaning<span
-style='mso-tab-count:1 lined'>____________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930931 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>4<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Summary<span style='mso-tab-count:1 lined'>_____________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930932 \h <span
-style='mso-element:field-separator'></span><![endif]-->5<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330032000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Missing Information<span
-style='mso-tab-count:1 lined'>____________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930933 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>7<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330033000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Fully Determined Relations<span style='mso-tab-count:1 lined'>__________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930934 \h <span
-style='mso-element:field-separator'></span><![endif]-->7<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330034000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Predicates that specify known "unknowns"<span
-style='mso-tab-count:1 lined'>____________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930935 \h <span
-style='mso-element:field-separator'></span><![endif]-->8<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330035000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Complexity<span style='mso-tab-count:1 lined'>_________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930936 \h <span
-style='mso-element:field-separator'></span><![endif]-->9<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330036000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Summary<span style='mso-tab-count:1 lined'>_____________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930937 \h <span
-style='mso-element:field-separator'></span><![endif]-->9<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330037000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Multiple Relations in a
-Variable<span style='mso-tab-count:1 lined'>______________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930938 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>10<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Multi-Relation Variables<span style='mso-tab-count:1 lined'>____________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930939 \h <span
-style='mso-element:field-separator'></span><![endif]-->10<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900330039000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Interacting with Multi-Relation Variables<span
-style='mso-tab-count:1 lined'>_____________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930940 \h <span
-style='mso-element:field-separator'></span><![endif]-->11<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340030000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Relation Distinguishing
-Tuple-Marks<span style='mso-tab-count:1 lined'>______________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930941 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>12<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Interacting<span style='mso-tab-count:1 lined'>_________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930942 \h <span
-style='mso-element:field-separator'></span><![endif]-->12<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340032000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Querying<span style='mso-tab-count:1 lined'>___________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930943 \h <span
-style='mso-element:field-separator'></span><![endif]-->12<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340033000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Extending Projection<span style='mso-tab-count:1 lined'>__________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930944 \h <span
-style='mso-element:field-separator'></span><![endif]-->13<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340034000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Include-All<span
-style='mso-tab-count:1 lined'>______________________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930945 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>13<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340035000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Eliminate<span
-style='mso-tab-count:1 lined'>_________________________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930946 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>13<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Choose-marked<span
-style='mso-tab-count:1 lined'>_______________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930947 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>14<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Summary<span style='mso-tab-count:
-1 lined'>__________________________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930948 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>14<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Adding tuples<span style='mso-tab-count:1 lined'>____________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930949 \h <span
-style='mso-element:field-separator'></span><![endif]-->14<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900340039000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Summary<span style='mso-tab-count:1 lined'>___________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930950 \h <span
-style='mso-element:field-separator'></span><![endif]-->15<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350030000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Tuple-Marks in the NULL Debate<span
-style='mso-tab-count:1 lined'>___________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930951 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>16<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Looking at previous NULL criticisms<span style='mso-tab-count:
-1 lined'>__________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930952 \h <span
-style='mso-element:field-separator'></span><![endif]-->16<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350032000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Codd-1<span style='mso-tab-count:1 lined'>______________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930953 \h <span
-style='mso-element:field-separator'></span><![endif]-->16<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350033000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>McGoveran-1<span style='mso-tab-count:1 lined'>____________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930954 \h <span
-style='mso-element:field-separator'></span><![endif]-->17<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350034000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Date-1<span style='mso-tab-count:1 lined'>_______________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930955 \h <span
-style='mso-element:field-separator'></span><![endif]-->17<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350035000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Wrong answers of the first kind<span
-style='mso-tab-count:1 lined'>_______________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930956 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>17<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Right answers of the first kind<span
-style='mso-tab-count:1 lined'>_________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930957 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>17<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Muli-relation variables<span
-style='mso-tab-count:1 lined'>___________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930958 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>18<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Unbound variables<span
-style='mso-tab-count:1 lined'>__________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930959 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900350039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Summary<span style='mso-tab-count:
-1 lined'>__________________________________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930960 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Summary<span style='mso-tab-count:1 lined'>___________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930961 \h <span
-style='mso-element:field-separator'></span><![endif]-->19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360031000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Further Details<span
-style='mso-tab-count:1 lined'>__________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930962 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>20<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360032000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Types of Missing Information<span style='mso-tab-count:1 lined'>_____________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930963 \h <span
-style='mso-element:field-separator'></span><![endif]-->20<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360033000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Relations with no Attributes: Dee and Dum<span
-style='mso-tab-count:1 lined'>_________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930964 \h <span
-style='mso-element:field-separator'></span><![endif]-->21<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360034000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Outer Joins<span style='mso-tab-count:1 lined'>________________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930965 \h <span
-style='mso-element:field-separator'></span><![endif]-->21<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360035000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Tuple-Marks in final results<span style='mso-tab-count:1 lined'>________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930966 \h <span
-style='mso-element:field-separator'></span><![endif]-->21<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360036000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Other Approaches to Missing
-Information<span style='mso-tab-count:1 lined'>______________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930967 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>23<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2>Correct Normalization<span style='mso-tab-count:1 lined'>________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930968 \h <span
-style='mso-element:field-separator'></span><![endif]-->23<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360038000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Special Values<span style='mso-tab-count:1 lined'>___________________________________________________________________________________________________________________ </span><!--[if supportFields]><span
-style='mso-element:field-begin'></span> PAGEREF _Toc389930969 \h <span
-style='mso-element:field-separator'></span><![endif]-->23<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900360039000000</w:data>
-</xml><![endif]--><!--[if supportFields]><span style='mso-element:field-end'></span><![endif]--></p>
-
-<p class=MsoToc2>Multi-relation variables kept independent<span
-style='mso-tab-count:1 lined'>____________________________________________________________________________ </span><a
-name="_Hlt389930975"></a><!--[if supportFields]><span style='mso-bookmark:_Hlt389930975'></span><span
-style='mso-element:field-begin'></span><span style='mso-bookmark:_Hlt389930975'>
-PAGEREF _Toc389930970 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-bookmark:_Hlt389930975'>23<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900370030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-bookmark:_Hlt389930975'></span><span
-style='mso-element:field-end'></span><![endif]--><span style='mso-bookmark:
-_Hlt389930975'></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Implementing Tuple-Marks in SQL<span
-style='mso-tab-count:1 lined'>_________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930971 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>24<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900370031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Related Work<span
-style='mso-tab-count:1 lined'>_____________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930972 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>25<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900370032000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>Summary<span style='mso-tab-count:
-1 lined'>____________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930973 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>26<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900370033000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>References<span
-style='mso-tab-count:1 lined'>_________________________________________________________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc389930974 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>27<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380039003900330030003900370034000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoNormal><!--[if supportFields]><i style='mso-bidi-font-style:normal'><span
-style='font-size:12.0pt;mso-bidi-font-size:10.0pt'><span style='mso-element:
-field-end'></span></span></i><![endif]--><o:p>&nbsp;</o:p></p>
-
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
@@ -534,7 +143,7 @@ class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !s
 style="mso-spacerun: yes">&nbsp; </span>To start, I will bring up the familiar
 Suppliers relation variable (S).</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -575,7 +184,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The first thing me must do is to define what putting a <span
 class=SpellE>tuple</span> (i.e. row) into S means: We must give S a
@@ -592,7 +201,7 @@ person who entered the data, and so on.<span style="mso-spacerun: yes">&nbsp;
 document and disseminate the meaning of each relation (and attribute, domain,
 etc.) in the database.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>What does S mean?<span style="mso-spacerun: yes">&nbsp;
 </span>Well it could mean, if there exists a <span class=SpellE>tuple</span> in
@@ -616,7 +225,7 @@ for S is:</p>
 a supplier with identifier S#, who has the name <span class=SpellE>SName</span>,
 who is located in city <span class=SpellE>City</span>, and ...</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>So adding the <span class=SpellE>tuple</span></p>
 
@@ -687,7 +296,7 @@ who is located in city <span class=SpellE>City</span>, and ...</p>
 <p class=MsoNormal>States that there exists a supplier with identifier S1, who
 has the name Jones, and is located in London. </p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Adding a couple more <span class=SpellE>tuples</span> gives
 us:</p>
@@ -819,7 +428,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We can now ask the database:</p>
 
@@ -829,7 +438,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
 
 <p class=Question>Q3: What suppliers are not in London?</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Actually, we can't.<span style="mso-spacerun: yes">&nbsp;
 </span>Although the above questions use natural wording, the database can not
@@ -848,7 +457,7 @@ questions are:</p>
 <p class=Question>Q3.2: What suppliers can be proven not to be located in
 London?</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>These questions the database can answer.<span
 style="mso-spacerun: yes">&nbsp; </span>For the first question the database
@@ -893,7 +502,7 @@ returns:</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>And for the second question it returns:</p>
 
@@ -917,7 +526,7 @@ returns:</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>And for the third question it...can't answer the
 question.<span style="mso-spacerun: yes">&nbsp; </span>We have no predicate
@@ -966,7 +575,7 @@ in London?</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>But say we really wanted to be able to answer questions like
 Q3.2, how can we?<span style="mso-spacerun: yes">&nbsp; </span>We could modify
@@ -976,7 +585,7 @@ the S predicate:</p>
 a supplier with identifier S#, who has the name <span class=SpellE>SName</span>,
 who is located only in city <span class=SpellE>City</span>, and ...</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We can now answer Q3.2 because we can produce a derived
 relation value<a style='mso-footnote-id:ftn' href="#_ftn3" name="_ftnref"
@@ -1125,7 +734,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
 exists a supplier with identifier S#, who is not located in city <span
 class=SpellE>City</span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>It is impossible to produce the NotIn.1 relation value
 without modifying the predicate for S or adding a new base relation variable to
@@ -1145,7 +754,7 @@ class=SpellE>tuple</span> means.<span style="mso-spacerun: yes">&nbsp;
 because without a formal specification a user will assume its meaning and
 misinterpret the answers to questions.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Second, a database can only answer questions about its
 world.<span style="mso-spacerun: yes">&nbsp; </span>It is up to the user to
@@ -1181,7 +790,7 @@ another mechanism to the relational model.<span style="mso-spacerun:
 yes">&nbsp; </span>That would be adding complexity without any new
 expressiveness.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>To try out this technique, what if we don't know where a
 particular supplier is located?<span style="mso-spacerun: yes">&nbsp; </span>So
@@ -1195,7 +804,7 @@ who is located only in city <span class=SpellE>City</span>, and ...</p>
 use this relation.<span style="mso-spacerun: yes">&nbsp; </span>No problem, we
 can add a new relation to our database.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -1236,18 +845,18 @@ style='mso-bidi-font-style:normal'>S_NoCity.1</i></p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=Predicate><b style='mso-bidi-font-weight:normal'>S_NoCity.1:</b> There
 exists a supplier with identifier S#, who has the name <span class=SpellE>SName</span>,
 and ...</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>And if we add two entries to <span class=SpellE>S_NoCity</span>
 we get:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -1331,7 +940,7 @@ style='mso-bidi-font-style:normal'>S_NoCity.1</i></p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We now have two relation variables that each express exactly
 what we know about their <span class=SpellE>tuples</span>.<span
@@ -1342,7 +951,7 @@ information.<span style="mso-spacerun: yes">&nbsp; </span>The <span
 class=SpellE>S_NoCity</span> relation is "half-full" so it could also be
 considered "half-empty".</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>So how does this new relation and the new <span
 class=SpellE>tuples</span> affect our last two "tough" questions?</p>
@@ -1358,7 +967,7 @@ class=SpellE>S_NoCity</span> predicate doesn't mention cities in any way, it
 can not affect the outcome of any query that mentions a city.<span
 style="mso-spacerun: yes">&nbsp; </span>It has nothing to do with it.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>On the other hand, the easy question:</p>
 
@@ -1438,7 +1047,7 @@ two tables when querying.<span style="mso-spacerun: yes">&nbsp; </span>We could
 also define the following derived relation value (i.e. View) to make this
 particular query easier for the user.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -1536,7 +1145,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
   mso-border-top-alt:solid silver .5pt;mso-border-left-alt:solid silver .5pt;
   mso-border-alt:solid silver .5pt;mso-border-right-alt:solid windowtext 1.5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
  </tr>
  <tr style='mso-yfti-irow:4'>
@@ -1557,7 +1166,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
   mso-border-top-alt:solid silver .5pt;mso-border-left-alt:solid silver .5pt;
   mso-border-alt:solid silver .5pt;mso-border-right-alt:solid windowtext 1.5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
  </tr>
  <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
@@ -1579,7 +1188,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
   border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
   mso-border-top-alt:solid silver .5pt;mso-border-left-alt:solid silver .5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
  </tr>
 </table>
@@ -1588,7 +1197,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
 exists a supplier with identifier S#, who has the name <span class=SpellE>SName</span>,
 and ...</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The user can now query from <span class=SpellE>S_All</span>
 when asking about names, use S when asking about cities, and use <span
@@ -1619,7 +1228,7 @@ and ...</p>
 style="mso-spacerun: yes">&nbsp; </span>&#8211; There exists a supplier with
 identifier S#, who has the name <span class=SpellE>SName</span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We appear to have been a bit vague about the meaning of
 putting a <span class=SpellE>tuple</span> into <span class=SpellE>S_NoCity</span>:
@@ -1638,7 +1247,7 @@ class=SpellE>McGoveran</span> 94b].<span style="mso-spacerun: yes">&nbsp;
 and variables.<span style="mso-spacerun: yes">&nbsp; </span>For example we
 could have:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -1699,7 +1308,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -1768,7 +1377,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
 be a function of all three relations to union them together.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>At the moment we choose to simply correct the predicate of <span
 class=SpellE>S_NoCity</span>:</p>
@@ -1777,7 +1386,7 @@ class=SpellE>S_NoCity</span>:</p>
 exists a supplier with identifier S#, who has the name <span class=SpellE>SName</span>,
 and ... and for which we do not know the city it is located in.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>This new version of the predicate allows us to ask the
 question:</p>
@@ -1819,7 +1428,7 @@ class=SpellE>tuples</span> are placed into one predicate over another.<span
 style="mso-spacerun: yes">&nbsp; </span>This precision is also what enables a
 user to know what the results of a query mean.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Unfortunately, managing all the new predicates proved more
 difficult than we might desire and the resulting scheme may be difficult for a
@@ -1885,7 +1494,7 @@ normal'>S_City.2</i></p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -1926,7 +1535,7 @@ style='mso-bidi-font-style:normal'>S_NoCity.2</i></p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>And we have a useful derived relation value of</p>
 
@@ -1969,7 +1578,7 @@ class=SpellE>S_NoCity</span>)</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Which would be calculated as the union of <span
 class=SpellE>S_City</span> [-City] (projecting away City<a style='mso-footnote-id:
@@ -1978,7 +1587,7 @@ style='mso-special-character:footnote'><![if !supportFootnotes]>[5]<![endif]></s
 and <span class=SpellE>S_NoCity</span>.<span style="mso-spacerun: yes">&nbsp;
 </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The interdependence among these three relations is very
 clear, so it would be nice to be able to express and manage them all
@@ -1992,7 +1601,7 @@ multiple relations within it, where each <span class=SpellE>tuple</span> knew
 what relation it belonged to?<span style="mso-spacerun: yes">&nbsp;
 </span>Something like this:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -2202,7 +1811,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   border-bottom:solid silver 1.0pt;border-right:solid silver 1.0pt;mso-border-top-alt:
   solid silver .5pt;mso-border-left-alt:solid silver .5pt;mso-border-alt:solid silver .5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid silver 1.0pt;border-right:solid windowtext 1.5pt;
@@ -2239,7 +1848,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   mso-border-top-alt:solid silver .5pt;mso-border-left-alt:solid silver .5pt;
   mso-border-alt:solid silver .5pt;mso-border-bottom-alt:solid windowtext 1.5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
@@ -2304,7 +1913,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   border-bottom:solid silver 1.0pt;border-right:solid silver 1.0pt;mso-border-top-alt:
   solid silver .5pt;mso-border-left-alt:solid silver .5pt;mso-border-alt:solid silver .5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid silver 1.0pt;border-right:solid windowtext 1.5pt;
@@ -2337,7 +1946,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   border-bottom:solid silver 1.0pt;border-right:solid silver 1.0pt;mso-border-top-alt:
   solid silver .5pt;mso-border-left-alt:solid silver .5pt;mso-border-alt:solid silver .5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid silver 1.0pt;border-right:solid windowtext 1.5pt;
@@ -2370,7 +1979,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   border-bottom:solid silver 1.0pt;border-right:solid silver 1.0pt;mso-border-top-alt:
   solid silver .5pt;mso-border-left-alt:solid silver .5pt;mso-border-alt:solid silver .5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid silver 1.0pt;border-right:solid windowtext 1.5pt;
@@ -2403,7 +2012,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   border-bottom:solid silver 1.0pt;border-right:solid silver 1.0pt;mso-border-top-alt:
   solid silver .5pt;mso-border-left-alt:solid silver .5pt;mso-border-alt:solid silver .5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid silver 1.0pt;border-right:solid windowtext 1.5pt;
@@ -2440,7 +2049,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
   mso-border-top-alt:solid silver .5pt;mso-border-left-alt:solid silver .5pt;
   mso-border-alt:solid silver .5pt;mso-border-bottom-alt:solid windowtext 1.5pt;
   padding:0in 5.4pt 0in 5.4pt'>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=23 valign=top style='width:22.5pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.5pt;border-right:solid windowtext 1.5pt;
@@ -2451,7 +2060,7 @@ normal'>S_City.2, S_NoCity.2, f(...)</i>)</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We seem to have simplified the number of variables and
 derived values significantly, from three to one.<span style="mso-spacerun:
@@ -2473,7 +2082,7 @@ and ... </p>
 </span>We don't want to reduce the useful meanings in our database; we just
 want to reduce how many entities we have to manage.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal><span class=GramE>He examples has</span> a visual
 duplication of rows.<span style="mso-spacerun: yes">&nbsp; </span>We repeated
@@ -2497,7 +2106,7 @@ class=GramE>ask:</span></p>
 <p class=Question>Q4.1: What suppliers can be proven to be among those that we
 don't know their location?</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>It would appear we would have to add a way to specify which <span
 class=SpellE>tuples</span> we want to consider from the table.<span
@@ -2531,7 +2140,7 @@ class=SpellE>tuple</span> belongs to.<span style="mso-spacerun: yes">&nbsp;
 indicate it in a table.<span style="mso-spacerun: yes">&nbsp; </span>Using this
 approach for our example gives us:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -2753,7 +2362,7 @@ normal'>S_City.2, S_NoCity.2</i>)</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The "-- " <span class=SpellE>tuple</span>-mark is not a type
 of City or any comment on the value of a <span class=SpellE>tuple's</span>
@@ -2765,7 +2374,7 @@ mark.<span style="mso-spacerun: yes">&nbsp; </span>Supplier-S3 is part of the
 relation <span class=SpellE>S_NoCity</span> that does not have a city and the
 mark simply specifies that to be true.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>This approach is only possible if each base relation has a
 distinguishing set of attributes.<span style="mso-spacerun: yes">&nbsp;
@@ -2780,7 +2389,7 @@ style="mso-spacerun: yes">&nbsp; </span>We could not handle our two relations <s
 class=SpellE>S_UnknownCity</span> and <span class=SpellE>S_MuliNational</span>,
 and we will return to this problem later.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The full relation <span class=SpellE>S_All</span> is
 functionally derived as the union of <span class=SpellE>S_City</span> and <span
@@ -2960,7 +2569,7 @@ would consider all the <span class=SpellE>tuples</span>:</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>If a query mentions City (e.g. "SELECT City FROM S_ALL") it
 would only consider the <span class=SpellE>tuples</span> that have a relation
@@ -3084,7 +2693,7 @@ with an attribute City:</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>This allows us to answer Q1-Q3 and gives the same answers as
 our original <span class=SpellE>S_City</span>, <span class=SpellE>S_NoCity</span>,
@@ -3110,7 +2719,7 @@ style="mso-spacerun: yes">&nbsp; </span>We can do this by extending the
 variable "before" it is involved with the rest of the query.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Although not part of SQL it will be easiest to use and
 extend C.J. Date's projection notation: </p>
@@ -3124,7 +2733,7 @@ from what is left)." [Date 95, Page 151].<span style="mso-spacerun: yes">&nbsp;
 </span>In this notation Q1 can be answer by "S_ALL [<span class=SpellE>SName</span>]"
 and finding all the cities of suppliers can be answered by "S_ALL [City]".</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>To the projection notation I will add three new pieces: the
 include-all ("*") indicator, the eliminate ("-") prefix and the choose-marked
@@ -3390,7 +2999,7 @@ don't know their location?</p>
 
 <p class=MsoNormal><span class=GramE>with</span> "S_ALL [S#, !City]"</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>It may seem strange to have a projection operation perform a
 restriction but notice that this pseudo-restriction is complementary with the
@@ -3490,7 +3099,7 @@ pseudo-restriction performed by including the attribute in the projection.
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>"S_ALL [S#, <span class=SpellE>SName</span><span
 class=GramE>, !City</span>]" gives:</p>
@@ -3573,7 +3182,7 @@ that attribute from the projection and will restrict the result to only include
 <span class=SpellE>tuples</span> that have a <span class=SpellE>tuple</span>-mark
 for that attribute</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>These will be the only additions to relational algebra.<span
 style="mso-spacerun: yes">&nbsp; </span>There is no need to add three-valued
@@ -3682,7 +3291,7 @@ VALUES ("S6", "Java", NULL)</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Because <span class=SpellE>NULLs</span> are being used to
 identify the <span class=SpellE>tuple's</span> relation this may cause
@@ -3712,7 +3321,7 @@ yes">&nbsp; </span>Doing so has no impact on what can be express with the
 database: the defined and derivable relations are the same.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Using Relation Distinguishing <span class=SpellE>Tuple</span>-Marks
 made it possible to easily interact with multi-relation variables and only
@@ -3747,7 +3356,7 @@ style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 </span></span><![endif]><span class=SpellE>Tuple</span>-marks have no impact on
 domains and domain operations</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We will return to further detail <span class=SpellE>tuple</span>-marks
 in a later chapter, but first we should consider how the approach handles the
@@ -3797,7 +3406,7 @@ style="mso-spacerun: yes">&nbsp; </span>In that section he criticizes the
 results of a Special Value approach (at the time named as and mixed with the
 default value concept) </p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -3999,7 +3608,7 @@ which we do not know the city it is located in.</p>
 style='mso-bidi-font-weight:normal'>:</b> There exists a supplier with
 identifier S#, who has the name <span class=SpellE>SName</span>, and ... </p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The questions posed of this table are:</p>
 
@@ -4022,7 +3631,7 @@ London.</p>
 <p class=Question>Q2b: Find the suppliers that can proved to be possibly NOT in
 London.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Q1a is easy: " SELECT S# FROM S WHERE City = 'London'
 ".<span style="mso-spacerun: yes">&nbsp; </span>By mentioning City we
@@ -4038,7 +3647,7 @@ London "</p>
 <p class=MsoNormal>Q2b again requires a union between Q2a and "SELECT S# FROM S
 [<span class=GramE>!City</span>]".</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Specifying each query correctly requires understanding the
 relation definitions above, but the <span class=SpellE>tuple</span>-marks give
@@ -4056,7 +3665,7 @@ increase in tables and database complexity.<span style="mso-spacerun:
 yes">&nbsp; </span>Using a slightly modified version of one of <span
 class=SpellE>McGoveran's</span> examples:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -4250,7 +3859,7 @@ class=SpellE>UnpaintedVehicles</span>:</b> There exists...</p>
 <p class=Predicate><b style='mso-bidi-font-weight:normal'>UPMV: <span
 class=SpellE>UnpaintedModellessVehicles</span>:</b> There exists...</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>If we were to divide this table using the different
 relations involved we would get a total of three tables and would have to
@@ -4282,7 +3891,7 @@ query</p>
 
 <p class=Example>OR NOT Job = 'Clerk';</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Assuming a relation and variable of:</p>
 
@@ -4322,7 +3931,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Date asserts that this query should return "all employee
 numbers" even when some <span class=SpellE>tuples</span> have JOB = NULL.</p>
@@ -4369,7 +3978,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -4401,7 +4010,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We would not expect that</p>
 
@@ -4416,7 +4025,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
 <p class=MsoNormal><span class=GramE>would</span> return any of the entries in <span
 class=SpellE>EMP_NoJob</span>.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>It is also nonsensical to form the query:</p>
 
@@ -4437,7 +4046,7 @@ query into a more formal question:</p>
 <p class=Question>Q1: Find the employees that can proved to have a Job 'Clerk'
 or can be proved to be have a Job that is not 'Clerk'.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>This does not mean we can't find employees who are not on
 the Job 'Clerk' simply because they aren't on any job, but we have to express
@@ -4449,7 +4058,7 @@ is likely to be:</p>
 employee with id E# and name <span class=SpellE>Name</span> who is not
 currently on a job.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>So our second query would be:</p>
 
@@ -4461,7 +4070,7 @@ currently on a job.</p>
 from <span class=SpellE>EMP_NoJob</span> to determine who is not on any
 particular Job.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>To get the answer to the question:</p>
 
@@ -4497,7 +4106,7 @@ the same results but it is slightly more obscured by them sharing the same
 variable (table).<span style="mso-spacerun: yes">&nbsp; </span>Our relations
 and variables are:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -4537,7 +4146,7 @@ style='mso-bidi-font-style:normal'>, <span class=SpellE>Emp_NoJob</span></i>)</p
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>To get the answer to the question:</p>
 
@@ -4560,7 +4169,7 @@ style='mso-bidi-font-style:normal'>, <span class=SpellE>Emp_NoJob</span></i>)</p
 
 <p class=Example>FROM EMP [<span class=GramE>!Job</span>]) ;</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Where the projection of EMP using a choose-marked allows us
 to get to the <span class=SpellE>tuples</span> that are members of the relation
@@ -4589,7 +4198,7 @@ variable.<span style="mso-spacerun: yes">&nbsp; </span>Users will have to
 remember that certain variables have multiple relations and must form queries
 appropriately to use the relations desired.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Date's arguments over the problems with 3VL causing wrong
 answers are cause by <span class=SpellE>NULLs</span> being considered an
@@ -4679,7 +4288,7 @@ mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -4747,7 +4356,7 @@ all <span class=SpellE>MultNationals</span> must be located in Delaware so
 their location is guaranteed to not be in London which is quite different from
 just not knowing the location (so it could be in London).</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The <span class=SpellE>tuple</span>-marks discussed so far
 do not allow for a multi-relation variable to have two relations with the same
@@ -4759,7 +4368,7 @@ the appropriate mechanisms are added.<span style="mso-spacerun: yes">&nbsp;
 the choose-marked restriction could select which mark, we could have any number
 of relations in a single variable:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
 mso-border-alt:solid windowtext .75pt;padding:1.0pt 1.0pt 1.0pt 0in;margin-left:
@@ -4986,7 +4595,7 @@ normal'>S_City.2, S_NoCity.2</i>)</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We can answer the questions:</p>
 
@@ -5000,7 +4609,7 @@ London.</p>
 <p class=Question>Q4: Find the suppliers that can proved to be in <span
 class=SpellE>Deleware</span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Using the following queries:</p>
 
@@ -5018,7 +4627,7 @@ class=GramE>!m2</span>! City])</p>
 = '<span class=SpellE>Deleware</span>') UNION (SELECT S# FROM <span
 class=SpellE>S_All</span> [<span class=GramE>!m2</span>! City])</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Although adding the functionality to the database appears to
 mostly a syntax addition, it is certainly a much more difficult mental model to
@@ -5112,7 +4721,7 @@ relation for Names as a whole is:</p>
 <p class=Predicate><b style='mso-bidi-font-weight:normal'>Names:</b> {} &#8211;<b
 style='mso-bidi-font-weight:normal'> </b>There exists a supplier</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>We can ask several interesting (informally phrased)
 questions:</p>
@@ -5124,7 +4733,7 @@ class=GramE>!Name</span>]"</p>
 
 <p class=Question>Q3: Are there any suppliers? "Names []"</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Note that Q2 and Q3 will return a relation with no
 attributes and either zero rows or one row.<span style="mso-spacerun:
@@ -5328,7 +4937,7 @@ attribute occurred within the query.<span style="mso-spacerun: yes">&nbsp;
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal style='page-break-after:avoid'>Although</p>
 
@@ -5457,7 +5066,7 @@ return</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Note that the SELECT operation is performing two operations:
 it is projecting as part of the query and it is ordering the output columns for
@@ -5506,7 +5115,7 @@ it understands how operations interact between "normal" values and the special
 values, but once that domain extension is accomplished it can be used by all
 attributes needing that domain throughout the database.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The main problem with (or feature of) special values is that
 they will be included in all "normal" value comparisons other than equals<a
@@ -5523,7 +5132,7 @@ class=SpellE>NotApplicable</span>" and "Unknown" by default.<span
 style="mso-spacerun: yes">&nbsp; </span>These then have to be filtered out of
 the results if they aren't desired.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal><span class=SpellE>Tuple</span>-marks have the opposite
 property.<span style="mso-spacerun: yes">&nbsp; </span>Marked <span
@@ -5565,7 +5174,7 @@ information it would take a long time for the SQL standard and then the
 database vendors to change over.<span style="mso-spacerun: yes">&nbsp;
 </span>What do we do in the mean time?</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Fortunately <span class=SpellE>tuple</span>-marks can be
 simulated within SQL.<span style="mso-spacerun: yes">&nbsp; </span>The only <span
@@ -5575,7 +5184,7 @@ based on whether they are applicable.<span style="mso-spacerun: yes">&nbsp;
 </span>Although the SQL query engines won't do this for you automatically, you
 can manual code queries to have the correct results.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Returning to our original example of suppliers in <span
 class=SpellE>S_All</span>.</p>
@@ -5806,7 +5415,7 @@ normal'>, <span class=SpellE>S_NoCity</span></i>)</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>If we query over this table we need to simulate what a <span
 class=SpellE>tuple</span>-marked query engine would do.<span
@@ -5826,7 +5435,7 @@ style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><![endif]>Remove (or ignore) the columns that are inapplicable</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>To remove inapplicable rows we will ask either for rows
 "WHERE City NOT NULL" (to get <span class=SpellE>S_City</span>) or "WHERE City
@@ -5836,7 +5445,7 @@ class=SpellE>SName</span>, ..." and leave out City.<span style="mso-spacerun:
 yes">&nbsp; </span>Together these two techniques (used carefully) will allow us
 to simulate the <span class=SpellE>tuple</span>-marked query engine.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>For some of our previous examples:</p>
 
@@ -5950,7 +5559,7 @@ to simulate the <span class=SpellE>tuple</span>-marked query engine.</p>
   <p class=MsoNormal>(SELECT S# FROM <span class=SpellE>S_All</span> WHERE City
   &lt;&gt; 'London') UNION (SELECT S# FROM <span class=SpellE>S_All</span>
   [!City])</p>
-  <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+  
   </td>
   <td width=51 valign=top style='width:51.3pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
@@ -5969,7 +5578,7 @@ to simulate the <span class=SpellE>tuple</span>-marked query engine.</p>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The SQL Version can be significantly more complex that the
 natural SQL but its results will be consistent with <span class=SpellE>tuple</span>-marked
@@ -5988,7 +5597,7 @@ some of the other work done on this subject.<span style="mso-spacerun:
 yes">&nbsp; </span>Just to give a feel for how close people's thoughts were to <span
 class=SpellE>Tuple</span>-marks I include a few quotes:</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>David <span class=SpellE>McGoveran</span></p>
 
@@ -6003,7 +5612,7 @@ imply an appropriate modification of the relation predicate."</p>
 of those entities is thus a contradiction in terms &#8211; it's to say that
 those entities aren't of that type after all!" </p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>David <span class=SpellE>McGoveran</span></p>
 
@@ -6011,7 +5620,7 @@ those entities aren't of that type after all!" </p>
 as operations on multiple relationships (masquerading as single relationships)
 and having a multiple entity result (again masquerading as a single entity)."</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>James R. Alexander</p>
 
@@ -6044,7 +5653,7 @@ these arguments has been very useful and has improved technology and
 practices.<span style="mso-spacerun: yes">&nbsp; </span>Unfortunately this
 debate has not yet lead to a generally agreeable solution.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>I believe multi-relation variables and Relation Distinguishing
 <span class=SpellE>Tuple</span>-Marks are part of that generally agreeable
@@ -6060,7 +5669,7 @@ without any negative side effects: it does not require three-value logic or any
 changes to domains and domain operations.<span style="mso-spacerun: yes">&nbsp;
 </span></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>The only cost of <span class=SpellE>tuple</span>-marks is
 the conceptual complexity of having multiple relations within a single
@@ -6071,7 +5680,7 @@ class=SpellE>Tuple</span>-marks seem to be the minimum cost approach for making
 this tradeoff.<span style="mso-spacerun: yes">&nbsp; </span>They can even be
 manually implemented using current SQL databases.</p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
 
 <p class=MsoNormal>Multi-relation variables and <span class=SpellE>tuple</span>-marks
 can enhance the relational model in a positive manner.<span
@@ -6359,9 +5968,9 @@ padding:0in 0in 1.0pt 0in'>
  </tr>
 </table>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
 
 </div>
 
