@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Virtualization | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/virtualization/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:13:59-08:00</updated>
+  <updated>2013-02-06T20:18:14-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -18,7 +18,7 @@
     <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4/"/>
     <updated>2008-08-29T02:53:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="../2008-08-28/a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Model Objects</h2>
 
