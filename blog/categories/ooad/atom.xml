@@ -1,198 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>Polyglot</title>
-  <meta name="author" content="Mark Fussell">
-
-  
-  <meta name="description" content="This is the second in a series of using git as part of interesting solutions to problems. The first is here: Intro Dealing with Binary Files As &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://markfussell.github.com/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Polyglot</a></h1>
-  
-    <h2>Wants a cracker</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:markfussell.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[Category: OOAD | Polyglot]]></title>
+  <link href="http://markfussell.github.com/blog/categories/ooad/atom.xml" rel="self"/>
+  <link href="http://markfussell.github.com/"/>
+  <updated>2013-02-06T17:35:28-08:00</updated>
+  <id>http://markfussell.github.com/</id>
+  <author>
+    <name><![CDATA[Mark Fussell]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/13/git-about-everything-annex/">Being a Git About Everything (Annexing)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2013-01-13T18:16:00-08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
-
-<h2>Dealing with Binary Files</h2>
-
-<p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
-versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
-
-<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
-&#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/13/git-about-everything-annex/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/11/git-about-everything-intro/">Being a Git About Everything (Intro)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
-
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/11/git-about-everything-intro/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2000/05/10/viking/">The Viking: A Direct Marketing System for OOPSLA DesignFest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2000-05-10T18:00:00-07:00" pubdate data-updated="true">May 10<span>th</span>, 2000</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
+  <entry>
+    <title type="html"><![CDATA[The Viking: A Direct Marketing System for OOPSLA DesignFest]]></title>
+    <link href="http://markfussell.github.com/blog/2000/05/10/viking/"/>
+    <updated>2000-05-10T18:00:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2000/05/10/viking</id>
+    <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 
 <div class=Section1>
@@ -223,7 +49,7 @@ because it has a bit more formatting.</p>
  height:234pt' fillcolor="window">
  <v:imagedata src="TheViking5e_files/image001.wmz" o:title="Viking1.cdr"/>
 </v:shape><![endif]--><![if !vml]><img width=111 height=236
-src="/images/TheViking5e_files/image002.gif" v:shapes="_x0000_i1025"><![endif]></p>
+src="http://markfussell.github.com/images/TheViking5e_files/image002.gif" v:shapes="_x0000_i1025"><![endif]></p>
 
 <p class=MsoSubtitle>A Direct Marketing System</p>
 
@@ -257,7 +83,7 @@ will be with your performance. </p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>The Viking&#8217;s requirements/capabilities are described in the
+<p class=MsoNormal>The Viking's requirements/capabilities are described in the
 attached stories, but the following provides a short summary of these
 details.<span style="mso-spacerun: yes">&nbsp; </span>Ultimately, <span
 class=Term><span style='color:navy'>The Viking</span></span> must be able to:</p>
@@ -287,7 +113,7 @@ style='mso-list:Ignore'>*<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;
 </span></span></span><![endif]>Generate letters from <span class=Term><span
 style='color:navy'>Templates</span></span> that describe both the common,
 static information for the letter and the pluggable, dynamic information that
-must be retrieved from customer information or other information (like today&#8217;s
+must be retrieved from customer information or other information (like today's
 date).<span style="mso-spacerun: yes">&nbsp; </span>A single template can be
 used to generate appropriate letters for thousands of customers.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
@@ -337,7 +163,7 @@ requirements.</p>
  fillcolor="window">
  <v:imagedata src="TheViking5e_files/image003.wmz" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=276 height=267
-src="/images/TheViking5e_files/image004.gif" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
+src="http://markfussell.github.com/images/TheViking5e_files/image004.gif" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
  <o:OLEObject Type="Embed" ProgID="Visio.Drawing.6" ShapeID="_x0000_i1026"
   DrawAspect="Content" ObjectID="_1295532714">
  </o:OLEObject>
@@ -345,7 +171,7 @@ src="/images/TheViking5e_files/image004.gif" v:shapes="_x0000_i1026"><![endif]><
 
 <h2>Requirement Stories</h2>
 
-<p class=MsoNormal>The following pages contain The Viking&#8217;s requirements
+<p class=MsoNormal>The following pages contain The Viking's requirements
 expressed as stories (informal use cases).<span style="mso-spacerun:
 yes">&nbsp; </span>Each story has a header area containing an identifier, a
 name, and a date: these are just for reference purposes.<span
@@ -724,7 +550,7 @@ style='page-break-before:auto;mso-break-type:section-break'>
 <p class=StorySectionText>A user selects a set of customers to whom they wish
 to send letters and a template that defines the letter format.<span
 style="mso-spacerun: yes">&nbsp; </span>The Viking then generates a letter per
-customer that is based on filling in the &#8220;pluggable&#8221; information for the
+customer that is based on filling in the "pluggable" information for the
 template with customer-related information.<span style="mso-spacerun:
 yes">&nbsp; </span>The user then previews the result of expanding the template
 for each of the customers.</p>
@@ -740,7 +566,7 @@ margin-right:.5in'>
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'>Dear &laquo;<span
 class=PluggableField1><span style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Proper
 Salutation</span></span>&raquo; &laquo;<span class=PluggableField1><span style='font-size:
-8.0pt;mso-bidi-font-size:10.0pt'>Customer&#8217;s Name</span></span>&raquo;,</p>
+8.0pt;mso-bidi-font-size:10.0pt'>Customer's Name</span></span>&raquo;,</p>
 
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'><o:p>&nbsp;</o:p></p>
 
@@ -1120,7 +946,7 @@ Viking) for that customer.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=StorySectionText>Ultimately, it will be necessary to support arbitrary
 information associated with a customer, but for this story the information
-necessary can be &#8220;hard-coded&#8221; to be just the information mentioned in the
+necessary can be "hard-coded" to be just the information mentioned in the
 description and augmented as necessary to satisfy other stories.</p>
 
 <p class=StorySection>Notes:</p>
@@ -2146,7 +1972,7 @@ ever bought a particular product.</p>
 
 <p class=StorySection>Description:</p>
 
-<p class=StorySectionText>Allow a user to augment The Viking&#8217;s information
+<p class=StorySectionText>Allow a user to augment The Viking's information
 model with additional property types for customers.<span style="mso-spacerun:
 yes">&nbsp; </span>A user should be able to enter property values for each of
 these new property types for any given customer, and to access the property
@@ -2157,8 +1983,8 @@ properties are always simple strings.</p>
 
 <p class=StorySection>Requirement Notes:</p>
 
-<p class=StorySectionText>An example property type might be &#8220;Pet&#8217;s Name&#8221; and
-&#8220;Pet&#8217;s Pronoun&#8221; (He, She, or It).<span style="mso-spacerun: yes">&nbsp;
+<p class=StorySectionText>An example property type might be "Pet's Name" and
+"Pet's Pronoun" (He, She, or It).<span style="mso-spacerun: yes">&nbsp;
 </span>A corresponding template might be:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.0pt;
@@ -2168,7 +1994,7 @@ margin-right:.5in'>
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'>Dear &laquo;<span
 class=PluggableField1><span style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Proper
 Salutation</span></span>&raquo; &laquo;<span class=PluggableField1><span style='font-size:
-8.0pt;mso-bidi-font-size:10.0pt'>Customer&#8217;s Name</span></span>&raquo;,</p>
+8.0pt;mso-bidi-font-size:10.0pt'>Customer's Name</span></span>&raquo;,</p>
 
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'><o:p>&nbsp;</o:p></p>
 
@@ -2176,12 +2002,12 @@ Salutation</span></span>&raquo; &laquo;<span class=PluggableField1><span style='
 much for ordering from us on &laquo;<span class=PluggableField1><span
 style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Date of Most Recent Order</span></span>&raquo;.<span
 style="mso-spacerun: yes">&nbsp; </span>We are sure &laquo;<span
-class=PluggableField1><span style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Customer&#8217;s
-&#8220;Pet&#8217;s Name&#8221;</span></span>&raquo; will love the delicacy.<span style="mso-spacerun:
+class=PluggableField1><span style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Customer's
+"Pet's Name"</span></span>&raquo; will love the delicacy.<span style="mso-spacerun:
 yes">&nbsp; </span>Please give &laquo;<span class=PluggableField1><span
-style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Customer&#8217;s &#8220;Pet&#8217;s Pronoun&#8221;</span></span>&raquo;
+style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Customer's "Pet's Pronoun"</span></span>&raquo;
 our best wishes and if &laquo;<span class=PluggableField1><span style='font-size:
-8.0pt;mso-bidi-font-size:10.0pt'>Customer&#8217;s &#8220;Pet&#8217;s Pronoun&#8221;</span></span>&raquo;
+8.0pt;mso-bidi-font-size:10.0pt'>Customer's "Pet's Pronoun"</span></span>&raquo;
 would like to order some more, call us at: 1-800-555-1234 or connect to:</p>
 
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'><span
@@ -2193,7 +2019,7 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'>Thanks again from
 all of us at The Happy Viking.<span style="mso-spacerun: yes">&nbsp; </span>We
 hope &laquo;<span class=PluggableField1><span style='font-size:8.0pt;mso-bidi-font-size:
-10.0pt'>Customer&#8217;s &#8220;Pet&#8217;s Name&#8221;</span></span>&raquo; has many days and nights
+10.0pt'>Customer's "Pet's Name"</span></span>&raquo; has many days and nights
 enjoying this wonderful delicacy.</p>
 
 </div>
@@ -2545,7 +2371,7 @@ within the group.</p>
 
 <p class=StorySectionText>For example, the group of templates might be in
 French, English, Chinese, etc.<span style="mso-spacerun: yes">&nbsp; </span>And
-each customer has a &#8220;Preferred Language&#8221; property that will be used to choose
+each customer has a "Preferred Language" property that will be used to choose
 amongst the templates. After that, the template evaluation can be the same as
 always.</p>
 
@@ -2898,7 +2724,7 @@ margin-right:.5in'>
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'>Dear &laquo;<span
 class=PluggableField1><span style='font-size:8.0pt;mso-bidi-font-size:10.0pt'>Proper
 Salutation</span></span>&raquo; &laquo;<span class=PluggableField1><span style='font-size:
-8.0pt;mso-bidi-font-size:10.0pt'>Customer&#8217;s Name</span></span>&raquo;,</p>
+8.0pt;mso-bidi-font-size:10.0pt'>Customer's Name</span></span>&raquo;,</p>
 
 <p class=TemplatePar style='margin:0in;margin-bottom:.0001pt'><o:p>&nbsp;</o:p></p>
 
@@ -2958,7 +2784,7 @@ example information relationship might be:</p>
  fillcolor="window">
  <v:imagedata src="TheViking5e_files/image005.wmz" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=352 height=121
-src="/images/TheViking5e_files/image006.gif" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
+src="http://markfussell.github.com/images/TheViking5e_files/image006.gif" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
  <o:OLEObject Type="Embed" ProgID="Visio.Drawing.6" ShapeID="_x0000_i1027"
   DrawAspect="Content" ObjectID="_1295532715">
  </o:OLEObject>
@@ -3297,20 +3123,20 @@ src="/images/TheViking5e_files/image006.gif" v:shapes="_x0000_i1027"><![endif]><
 <p class=StorySection>Description:</p>
 
 <p class=StorySectionText>A user reviews the letters to see which have been
-sent and whether any of them have &#8220;failed delivery&#8221;.<span style="mso-spacerun:
+sent and whether any of them have "failed delivery".<span style="mso-spacerun:
 yes">&nbsp; </span>If so, the user can choose to resend them either by the same
 MailingSystem or by a different MailingSystem.<span style="mso-spacerun:
 yes">&nbsp; </span>Also, to support this story, the MailingSystem must be able
-to tell The Viking which sent letters &#8220;failed delivery&#8221;.<span
+to tell The Viking which sent letters "failed delivery".<span
 style="mso-spacerun: yes">&nbsp; </span>It is up to The Viking to encode enough
 information in a sent letter to be able to correctly identify (or support a
-human to identify) which sent letter has &#8220;failed delivery&#8221;.</p>
+human to identify) which sent letter has "failed delivery".</p>
 
 <p class=StorySection>Requirement Notes:</p>
 
 <p class=StorySectionText>For the case of postal mail, a person will represent
 the MailingSystem and will need to be given a UI to find a sent letter and say
-that it &#8220;failed delivery&#8221;.<span style="mso-spacerun: yes">&nbsp; </span>For the
+that it "failed delivery".<span style="mso-spacerun: yes">&nbsp; </span>For the
 case of electronic mail, the MailingSystem should be able to talk directly with
 The Viking (i.e. through a non-UI API). </p>
 
@@ -3650,7 +3476,7 @@ The Viking (i.e. through a non-UI API). </p>
 
 <p class=StorySectionText>A user creates a new template either from scratch or
 by copying an existing template.<span style="mso-spacerun: yes">&nbsp; </span>A
-template needs to support both constant and &#8220;pluggable&#8221; information, and a user
+template needs to support both constant and "pluggable" information, and a user
 should be able to create a template and preview its appearance. The editing of
 a template does not need to be WYSIWYG, but it could be. </p>
 
@@ -3995,16 +3821,16 @@ is not required.</p>
 <p class=StorySection>Description:</p>
 
 <p class=StorySectionText>The Viking needs to have the ability to generate
-multiple final formats (e.g. PDF, ASCII, HTML, etc.) from a single &#8220;content
-template&#8221;.<span style="mso-spacerun: yes">&nbsp; </span>The &#8220;content template&#8221;
+multiple final formats (e.g. PDF, ASCII, HTML, etc.) from a single "content
+template".<span style="mso-spacerun: yes">&nbsp; </span>The "content template"
 should describe the information, wording, and structure of the resulting
-letter.<span style="mso-spacerun: yes">&nbsp; </span>A set of &#8220;formatters&#8221;
+letter.<span style="mso-spacerun: yes">&nbsp; </span>A set of "formatters"
 should take this resulting generic letter and be able to convert it into PDF,
 ASCII, HTML with various styles, and so on.<span style="mso-spacerun:
 yes">&nbsp; </span>Basically this is just a content vs. format separation so
 someone focused on presentation issues can deal with the difficulties of HTML
 styling and the other format issues.<span style="mso-spacerun: yes">&nbsp;
-</span>The &#8220;content template&#8221; writer can focus on what information needs to be
+</span>The "content template" writer can focus on what information needs to be
 communicated to the customer independently of the styling.</p>
 
 <p class=StorySection>Requirement Notes:</p>
@@ -4052,9 +3878,9 @@ yes">&nbsp; </span></p>
 and libraries that together total less than US$800 per seat.<span
 style="mso-spacerun: yes">&nbsp; </span>For demonstration purposes, you can use
 evaluation copies of products.<span style="mso-spacerun: yes">&nbsp; </span>A
-third party product should not interfere with enhancing The Viking&#8217;s core
+third party product should not interfere with enhancing The Viking's core
 functionality, so ideally the product would be open source or have a very well
-defined responsibility that is unlikely to grow beyond the product&#8217;s
+defined responsibility that is unlikely to grow beyond the product's
 abilities.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
@@ -4064,7 +3890,7 @@ abilities.<span style="mso-spacerun: yes">&nbsp; </span></p>
 <h2 style='page-break-before:always'>DesignFest Submission Notes</h2>
 
 <p class=MsoNormal>I think The Viking is an intermediate or introductory design
-problem.<span style="mso-spacerun: yes">&nbsp; </span>It is a little &#8220;larger&#8221;
+problem.<span style="mso-spacerun: yes">&nbsp; </span>It is a little "larger"
 than The Vending Machine problem, but it is definitely doable by a mostly
 beginner or intermediate team.<span style="mso-spacerun: yes">&nbsp; </span>I
 recently used this problem as part of an OO training session with a team of
@@ -4083,7 +3909,7 @@ wrong hands.<span style="mso-spacerun: yes">&nbsp; </span></p>
 <h3>Difficulty Adjustments</h3>
 
 <p class=MsoNormal>The difficulty of The Viking as a design problem is
-partially dependent on how much &#8220;Analysis&#8221; is provided.<span
+partially dependent on how much "Analysis" is provided.<span
 style="mso-spacerun: yes">&nbsp; </span>In this first submission I left any
 real analysis deliverables out (for example, there is no abstract system model
 or a conceptual model).<span style="mso-spacerun: yes">&nbsp;&nbsp; </span>We
@@ -4091,15 +3917,15 @@ could put that in as an optional section if people desired, but DesignFest
 problems have tended to be pre-Analysis in the past and teams may like
 that.<span style="mso-spacerun: yes">&nbsp; </span>We might make it optionally
 available to the team.<span style="mso-spacerun: yes">&nbsp; </span>Note that
-in my submission I intentionally lowercased words like &#8216;customer&#8217;, &#8216;user&#8217;, and
-&#8216;letter&#8217;.<span style="mso-spacerun: yes">&nbsp; </span>Just uppercasing these
+in my submission I intentionally lowercased words like 'customer', 'user', and
+'letter'.<span style="mso-spacerun: yes">&nbsp; </span>Just uppercasing these
 words might make the design easier for beginners.<span style="mso-spacerun:
 yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>Obviously a major difficulty adjustment is the number of
-Stories a team&#8217;s Viking can support.<span style="mso-spacerun: yes">&nbsp;
+Stories a team's Viking can support.<span style="mso-spacerun: yes">&nbsp;
 </span>The priority of the stories is meant to provide this path of increased
 difficulty.<span style="mso-spacerun: yes">&nbsp; </span>We might also want to
 group stories into sets that are given out at different times to make them less
@@ -4187,349 +4013,7 @@ many stories to tell, many songs to sing, but only one food to eat.<o:p></o:p></
 
 </div>
 
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/08/27/why-dynamic-typing/">Why Dynamic Typing?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="1997-08-27T18:00:00-07:00" pubdate data-updated="true">Aug 27<span>th</span>, 1997</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is a discussion of the benefits and drawbacks of dynamic typing
-based on specific questions by Anatol Fomenko.</p>
-
-<p>The following is a reference to the main thread-point that this short paper is on:</p>
-
-<ul>
-<li> <a href="https://groups.google.com/forum/?fromgroups=#!topic/comp.lang.java.programmer/hIJfUz2kVIM%5B1-25-false%5D">Re: Why dynamic typing (was: Compiler as mediator)</a></li>
-</ul>
-
-
-<h2>Original Posting: Re: Why dynamic typing (was: Compiler as mediator)</h2>
-
-<pre class="quote1">
-Anatol Fomenko wrote:
-> ...Why Smalltalk is dynamically typed, and why it
-> does not affect negatively the stability of the large Smalltalk
-> applications?
-</pre>
-
-
-<p>Rephrasing slightly gives the two following questions:</p>
-
-<OL class="arab">
-  <LI>Why is Smalltalk dynamically typed?</LI>
-  <LI>Why does dynamic typing (as done with Smalltalk) not negatively
-      affect the stability of large applications?</LI>
-</OL>
-
-
-<p>The first question would be better answered by Alan Kay and the
-Smalltalk team more than anyone else relaying their reasons.  Alan Kay
-has described some of his reasoning in the book &#8220;History of Programming
-Languages II&#8221;, various OOPSLA &amp; Smalltalk talks, and other sources.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/08/27/why-dynamic-typing/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/06/02/tuplemarks/">Tuple-Marks: NULLs Everyone Can Live With</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="1997-06-02T18:00:00-07:00" pubdate data-updated="true">Jun 2<span>nd</span>, 1997</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/TupleMarks1j.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<div class=Section2>
-
-<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
-padding:0in 0in 1.0pt 0in'>
-
-<h1><a name="_Toc389861238"></a><a name="_Toc389930928"><span style='mso-bookmark:
-_Toc389861238'>Abstract</span></a></h1>
-
-</div>
-
-
-
-<p class=MsoNormal>There has been a great deal of discussion about NULL values
-in relational algebra.<span style="mso-spacerun: yes">&nbsp; </span>There is
-the argument that <span class=SpellE>NULLs</span> help us with real database
-problems of handling lack of information. There is a counter-argument that <span
-class=SpellE>NULLs</span> and three-valued logic (3VL) cause major problems
-with relational algebra and are unnecessary. <span style="mso-spacerun:
-yes">&nbsp;</span>These arguments have been very informative and there is no
-reason to repeat them.<span style="mso-spacerun: yes">&nbsp; </span>Instead I
-will change the playing field.</p>
-
-
-
-<p class=MsoNormal>I propose a simple but unusual meaning for <span
-class=SpellE>NULLs</span>.<span style="mso-spacerun: yes">&nbsp; </span>A NULL
-describes a <span class=SpellE>tuple</span>, not an attribute value: A <span
-class=SpellE>tuple</span> with a NULL attribute belongs to a different relation
-than a <span class=SpellE>tuple</span> without a NULL attribute.<span
-style="mso-spacerun: yes">&nbsp; </span>A NULL becomes a Relation
-Distinguishing <span class=SpellE>Tuple</span>-Mark.<span style="mso-spacerun:
-yes">&nbsp; </span>This meaning provides the standard benefits of <span
-class=SpellE>NULLs</span>: It helps us model missing information with a small
-number of relation variables (i.e. tables) and simplifies understanding and
-interacting with a database.<span style="mso-spacerun: yes">&nbsp; </span>On
-the other hand, because <span class=SpellE>NULLs</span> are never attribute
-values (or value &#8220;marks&#8221;) they have no impact on domain operations or the 2VL
-of basic predicate logic.<span style="mso-spacerun: yes">&nbsp; </span>These
-are <span class=SpellE>NULLs</span> I believe everyone can live with.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/06/02/tuplemarks/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/05/07/smalljava/">SmallJava: Smalltalk to Java&#8230; Using Language Transformation to Show Language Differences</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="1997-05-07T18:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 1997</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
-padding:0in 0in 1.0pt 0in'>
-
-<h1><a name="_Toc387781516">Overview and Introduction</a></h1>
-
-</div>
-
-
-
-
-<p class=MsoNormal>In this document I will compare and contrast Smalltalk and
-Java using a somewhat unusual approach: I will transform one language
-(Smalltalk) into the other (Java) by a series of small steps in an intermediary
-language (SmallJava).<span style="mso-spacerun: yes">&nbsp; </span>With each
-step I will discuss how the new properties of the intermediate language compare
-and contrast to the properties of the previous version of the language.<span
-style="mso-spacerun: yes">&nbsp; </span></p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/05/07/smalljava/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>About Me</h1>
-  <p>A little something about me.</p>
-</section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/01/13/git-about-everything-annex/">Being a git about everything (Annexing)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/11/git-about-everything-intro/">Being a git about everything (Intro)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2000/05/10/viking/">The Viking: A Direct Marketing System for OOPSLA DesignFest</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/1997/08/27/why-dynamic-typing/">Why dynamic typing?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/1997/06/02/tuplemarks/">Tuple-Marks: NULLs everyone can live with</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  
-  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'markfussell',
-            count: 6,
-            skip_forks: false,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Mark Fussell -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'markfussell';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
