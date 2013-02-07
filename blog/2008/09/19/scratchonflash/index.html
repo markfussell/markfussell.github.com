@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Being a git about everything (Intro) - Polyglot</title>
+  <title>Scratch on Flash - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics &hellip;">
+  <meta name="description" content="The original version of this posting is on the MIT Scratch Forum In the spirit of release early and often&#8230; I have made a full bottom-to-top &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ existing technology, but certain characteristics &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/">
+  <link rel="canonical" href="http://markfussell.github.com/blog/2008/09/19/scratchonflash/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +67,7 @@ existing technology, but certain characteristics &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Being a Git About Everything (Intro)</h1>
+      <h1 class="entry-title">Scratch on Flash</h1>
     
     
       <p class="meta">
@@ -84,110 +83,55 @@ existing technology, but certain characteristics &hellip;">
   
 
 
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2008-09-19T18:00:00-07:00" pubdate data-updated="true">Sep 19<span>th</span>, 2008</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
+<div class="entry-content"><p>The original version of this posting is on the <a href="http://scratch.mit.edu/forums/viewtopic.php?id=9982">MIT Scratch Forum</a></p>
 
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
+<p>In the spirit of release early and often&#8230;</p>
+
+<p>I have made a full bottom-to-top pass at implementing Scratch in Flash.  It can:</p>
+
+<ul>
+<li> Read a scratch project file</li>
+<li> Create the project model (Stage, Sprites, Blocks, etc.)</li>
+<li> Run that model (the core variable assignments, loops, etc.)</li>
+<li> And do a couple of the other kinds of Sprite blocks in the &#8216;motion&#8217; and &#8216;looks&#8217; categories</li>
+</ul>
+
 
 <!-- more -->
 
 
-<p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
-Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
-but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
-in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
-and company&#8230; but that is a different topic.</p>
-
-<h2>Git Syntax / Overview</h2>
-
-<p>You can learn more about git somewhere like github:</p>
+<p>It most definitely does not:</p>
 
 <ul>
-<li> <a href="http://learn.github.com/p/intro.html">http://learn.github.com/p/intro.html</a></li>
+<li> Respond to mouse or key events yet (but that is trivial to finish&#8230;)</li>
+<li> Do all the blocks&#8230; this is going to take work to map them all into Flash and especially the Sound area could be problematic</li>
+<li> Draw things properly &#8211; for one, the center of the stage is not 0,0 and the y axis is &#8216;upside-down&#8217; [I said this was &#8216;early&#8217;]</li>
+<li> Run the model correctly for all control blocks.  The core concepts are there and the blocks I have tested work right [and I picked interesting ones], but I have not tested beyond a couple projects</li>
+<li> Read the Sound media at all</li>
+<li> Show any of the Watchers &#8211; Either variables or lists</li>
 </ul>
 
 
-<p>Git has a lot of commands, but around seven are core to standard git flows:</p>
+<p>But given those caveats and all that I have forgotten, there is a demo at Scratch on Flash</p>
 
-<ul>
-<li> clone &mdash; copy a repository from a remote location</li>
-<li> fetch &mdash; get updates from a remote repository</li>
-<li> merge &mdash; merge changes from one branch into the current branch</li>
-<li> pull &mdash; &#8216;fetch&#8217; and then &#8216;merge&#8217;</li>
-<li> add &mdash; add changes to the commit stage of the current branch</li>
-<li> commit &mdash; commit the changes into the current branch</li>
-<li> push &mdash; try to make a remote branch look like the current branch</li>
-</ul>
+<p>You put a project URL into the text area and click &#8216;Open&#8217;.  Then click &#8216;Go!&#8217; and if your project responds to &#8216;Go!&#8217; things may or may not start happening :-)    Note that the URL is smart about shared projects on this site (and locates the &#8216;.sb&#8217; file automatically if you give it the project&#8217;s url) but if you use a local file system URL or some other web site, you will need to have a full path to the &#8216;.sb&#8217; file.</p>
 
+<p>The window has a console at the bottom, a textual dump of the program above that, and has a &#8216;Step Processor&#8217; above that.  By default the program is running one step every 30th of a second, but you can turn that off or make more steps occur every 30th of a second.</p>
 
-<p>Actually of those seven &#8216;pull&#8217; basically replaces/combines two of them, so you get
-down to about five with a core loop like this:</p>
+<p>=======================</p>
 
-<ul>
-<li> clone
+<p>It could easily be that only the one project &#8216;Tower of Hanoi&#8217; does anything interesting&#8230; probably within a short time some other projects would work too.  By default, I would probably start picking and choosing among Tutorials or the included &#8216;Projects&#8217; (is there a Gallery on the site for all the Included projects?).</p>
 
-<ul>
-<li>pull</li>
-<li>make changes (if needed)
+<p>I will release source in some format in the next release &#8211; things are pretty clean and somewhat commented, but I think I should get a little further and make sure I am not going to rename or repackage anything.  And I will need to strip out the few &#8216;Flex&#8217; references from within the core Scratch model so a smaller SWF download is possible.</p>
 
-<ul>
-<li>add</li>
-<li>commit</li>
-<li>push</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Of these commands only &#8216;push&#8217; can fail due to timing.  &#8216;push&#8217; is transactional
-and you can be contending with other people or machines that pushed to the same branch
-as you between when you pulled and you pushed.  Merging can fail, but that
-represents some actual file-level conflict vs. a timing issue (someone beat you to the &#8216;push&#8217;).
-A proper &#8216;commit&#8217; can&#8217;t fail because it is local.</p>
-
-<h3>Repositories and branches</h3>
-
-<p>At least to begin, all these solutions will use a standard centralized repository approach
-and generally not use branches.  So you don&#8217;t have to worry about git&#8217;s ability to
-deal with many remotes and which branch a given git repository is using.  By default
-at any current moment there is only</p>
-
-<ul>
-<li> local: &#8216;master&#8217; <-> remote: origin/master</li>
-</ul>
-
-
-<p>where things get interesting because there could be 100 different machines each with their own &#8216;local&#8217;.</p>
-
-<h3>Problems with git / DVCS</h3>
-
-<p>The biggest issue with git and similar DVCSs is that their model doesn&#8217;t work well for large amounts of
-binary assets.  Large amounts of binary assets could occur either because there are a large number of
-assets available at any time but only a subset are needed (so with Perforce or SVN many people would not
-check out those directories) or more commonly, a modest number of binary assets are frequently
-changing.  Because a git repository contains all assets throughout time and to work with a git repository
-you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
-
-<p>What is a large amount?  That depends on the circumstances, but generally passing 100MB can start to
-become painful depending on the purpose git is being used for.  Having 1GB of textual files in
-a single git repository (even over time) is an unusual thing.  GBs of images is common.</p>
-
-<p>So our first problems and solution is going to have to deal with this critical issue.</p>
-
-<p>Enter the annex: <a href="/blog/2013/01/13/git-about-everything-annex/">Annex</a></p>
+<p>If anyone is interested in working on this &#8211; doing Blocks and verifying that functionality is working, please let me know.  If people are interested then I will put source into a public RCS like Subversion or Git sooner than later.</p>
 </div>
 
 
@@ -210,12 +154,12 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
   
 
 
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2008-09-19T18:00:00-07:00" pubdate data-updated="true">Sep 19<span>th</span>, 2008</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/git/'>git</a>
+    <a class='category' href='/blog/categories/scratch/'>Scratch</a>
   
 </span>
 
@@ -224,7 +168,7 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/" data-via="" data-counturl="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/09/19/scratchonflash/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/09/19/scratchonflash/" >Tweet</a>
   
   
   
@@ -233,10 +177,10 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2008/09/19/scratchonflash/" title="Previous Post: Scratch on Flash">&laquo; Scratch on Flash</a>
+        <a class="basic-alignment left" href="/blog/2000/05/10/viking/" title="Previous Post: The Viking: A Direct Marketing System for OOPSLA DesignFest">&laquo; The Viking: A Direct Marketing System for OOPSLA DesignFest</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/01/13/git-about-everything-annex/" title="Next Post: Being a git about everything (Annexing)">Being a git about everything (Annexing) &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/01/11/git-about-everything-intro/" title="Next Post: Being a git about everything (Intro)">Being a git about everything (Intro) &raquo;</a>
       
     </p>
   </footer>
@@ -349,8 +293,8 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/';
-        var disqus_url = 'http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/';
+        var disqus_identifier = 'http://markfussell.github.com/blog/2008/09/19/scratchonflash/';
+        var disqus_url = 'http://markfussell.github.com/blog/2008/09/19/scratchonflash/';
         var disqus_script = 'embed.js';
       
     (function () {
