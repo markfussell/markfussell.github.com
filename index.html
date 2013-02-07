@@ -265,588 +265,15 @@ Languages II&#8221;, various OOPSLA &amp; Smalltalk talks, and other sources.</p
   </header>
 
 
-  <div class="entry-content"><p>This is a discussion of the benefits and drawbacks of dynamic typing</p>
-
-<div class=Section1>
-
-<p class=MsoTitle><o:p>&nbsp;</o:p></p>
-
-<p class=MsoTitle><o:p>&nbsp;</o:p></p>
-
-<p class=MsoTitle><o:p>&nbsp;</o:p></p>
-
-<p class=MsoTitle><o:p>&nbsp;</o:p></p>
-
-<p class=MsoTitle><span style='mso-field-code:"TITLE  \\* MERGEFORMAT"'>SmallJava</span></p>
-
-<p class=MsoSubtitle>Smalltalk to Java</p>
-
-<p class=MsoSubtitle>Using Language Transformation <br>
-to Show Language Differences</p>
-
-<p class=MsoSubtitle><b style='mso-bidi-font-weight:normal'><span
-style='font-size:16.0pt;mso-bidi-font-size:10.0pt'>v0.1 [mlf-970507]<o:p></o:p></span></b></p>
-
-<p class=MsoSubtitle><b style='mso-bidi-font-weight:normal'><span
-style='font-size:16.0pt;mso-bidi-font-size:10.0pt'>Mark L. Fussell<o:p></o:p></span></b></p>
-
-<p class=MsoSubtitle><o:p>&nbsp;</o:p></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>Mark.Fussell@ChiMu.com<o:p></o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'>www.chimu.com<o:p></o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-
-<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
- style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
- 0in 0in 0in 0in'>
- <tr style='mso-yfti-lastrow:yes'>
-  <td width=221 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
-  <p class=MsoHeader style='tab-stops:.5in'><!--[if gte vml 1]><v:shapetype
-   id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
-   path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
-   <v:stroke joinstyle="miter"/>
-   <v:formulas>
-    <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-    <v:f eqn="sum @0 1 0"/>
-    <v:f eqn="sum 0 0 @1"/>
-    <v:f eqn="prod @2 1 2"/>
-    <v:f eqn="prod @3 21600 pixelWidth"/>
-    <v:f eqn="prod @3 21600 pixelHeight"/>
-    <v:f eqn="sum @0 0 1"/>
-    <v:f eqn="prod @6 1 2"/>
-    <v:f eqn="prod @7 21600 pixelWidth"/>
-    <v:f eqn="sum @8 21600 0"/>
-    <v:f eqn="prod @7 21600 pixelHeight"/>
-    <v:f eqn="sum @10 21600 0"/>
-   </v:formulas>
-   <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
-   <o:lock v:ext="edit" aspectratio="t"/>
-  </v:shapetype><v:shape id="_x0000_s1034" type="#_x0000_t75" style='position:absolute;
-   margin-left:128.15pt;margin-top:1.6pt;width:115.2pt;height:94.9pt;z-index:251657728;
-   mso-position-horizontal-relative:text;mso-position-vertical-relative:text'
-   o:allowincell="f">
-   <v:imagedata src="SmallJava1d_2c_files/image001.wmz" o:title=""/>
-   <v:textbox style='mso-next-textbox:#_x0000_s1034'/>
-  </v:shape><![endif]--><![if !vml]><span style='mso-ignore:vglayout;
-  position:absolute;z-index:251657728;margin-left:128px;margin-top:2px;
-  width:117px;height:97px'><img width=117 height=97
-  src="SmallJava1d_2c_files/image002.png" v:shapes="_x0000_s1034"></span><![endif]><span
-  style='mso-no-proof:yes'><o:p></o:p></span></p>
-  </td>
-  <td width=195 valign=top style='width:194.95pt;padding:0in 0in 0in 0in'>
-  <p class=MsoHeader style='tab-stops:.5in'><span style='font-size:18.0pt;
-  mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
-  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
-  style='font-size:14.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond'>ChiMu
-  Corporation<o:p></o:p></span></b></p>
-  <p class=MsoNormal style='margin-top:3.0pt;tab-stops:.1in .2in .3in .4in .5in .6in .7in'><span
-  style='font-size:8.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
-  mso-no-proof:yes'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>1220
-  N. Fair Oaks Ave, #1314<o:p></o:p></span></p>
-  <p class=MsoNormal style='tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
-  style='font-size:8.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
-  mso-no-proof:yes'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Sunnyvale,
-  CA 94089<o:p></o:p></span></p>
-  <p class=MsoNormal style='margin-top:3.0pt;tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
-  style='font-size:8.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
-  mso-no-proof:yes'><span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Phone:
-  408 734-9068<o:p></o:p></span></p>
-  <p class=MsoNormal style='tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
-  style='font-size:8.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
-  mso-no-proof:yes'><span style='mso-tab-count:4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Email:
-  info@chimu.com<o:p></o:p></span></p>
-  <p class=MsoNormal style='margin-top:3.0pt;tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
-  style='font-size:8.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond'><span
-  style='mso-tab-count:5'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
-  style='mso-no-proof:yes'>www</span>.chimu.com</span><b style='mso-bidi-font-weight:
-  normal'><span style='mso-no-proof:yes'><o:p></o:p></span></b></p>
-  </td>
- </tr>
-</table>
-
-<p class=MsoNormal><o:p>&nbsp;</o:p></p>
-
-</div>
-
-
-<p><b style='mso-bidi-font-weight:normal'><span style='font-size:20.0pt;
-mso-bidi-font-size:10.0pt;font-family:"Times New Roman";mso-fareast-font-family:
-"Times New Roman";mso-bidi-font-family:"Times New Roman";mso-font-kerning:14.0pt;
-mso-ansi-language:EN-US;mso-fareast-language:EN-US'><br clear=ALL
-style='page-break-before:always;mso-break-type:section-break'>
-</span></b></p>
-
-<div class=Section2>
-
-<p class=MsoSubtitle>Table of Contents</p>
-
-<p class=MsoToc1><!--[if supportFields]><span style='font-style:normal'><span
-style='mso-element:field-begin'></span><span style="mso-spacerun:
-yes">&nbsp;</span>TOC \o &quot;1-5&quot; <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>Overview and Introduction<span style='mso-tab-count:
-1 lined'>________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781516 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>2<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500310036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>SmallJava<span
-style='mso-tab-count:1 lined'>______________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781517 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>3<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500310037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2><span style='mso-no-proof:yes'>SmallJava-97, The Language<span
-style='mso-tab-count:1 lined'>____________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF _Toc387781518
-\h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>3<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500310038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>SmallJava Semantics<span
-style='mso-tab-count:1 lined'>________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781519 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>3<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500310039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Smalltalk and Java
-Simplification<span style='mso-tab-count:1 lined'>____________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781520 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>3<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>SmallJava Semantics Summary<span
-style='mso-tab-count:1 lined'>_____________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781521 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>3<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>SmallJava Syntax<span
-style='mso-tab-count:1 lined'>__________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781522 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>4<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320032000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>The SmallJava Language<span
-style='mso-tab-count:1 lined'>_____________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781523 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>4<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320033000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>From Java to SmallJava<span
-style='mso-tab-count:1 lined'>___________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781524 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>4<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320034000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>The first SmallJava example<span
-style='mso-tab-count:1 lined'>________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781525 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>6<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320035000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>SmallJava to Smalltalk<span
-style='mso-tab-count:1 lined'>____________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781526 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>6<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Summary: SmallJava as a Vehicle<span
-style='mso-tab-count:1 lined'>_____________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781527 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>6<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2><span style='mso-no-proof:yes'>Becoming Pessimistic: Changing
-when an object&#8217;s type is verified<span style='mso-tab-count:1 lined'>____________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781528 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>7<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Optimistic and Pessimistic
-Messaging<span style='mso-tab-count:1 lined'>__________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781529 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>7<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500320039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Advantages of pessimistic
-messaging<span style='mso-tab-count:1 lined'>_________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781530 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>8<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Forgetting and Remembering
-verification<span style='mso-tab-count:1 lined'>________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781531 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>8<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Remembering verification<span
-style='mso-tab-count:1 lined'>__________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781532 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>8<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330032000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Pessimistic inside: Optimistic
-outside<span style='mso-tab-count:1 lined'>__________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781533 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>9<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330033000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Pessimistic in: Pessimistic out<span
-style='mso-tab-count:1 lined'>______________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781534 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>9<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330034000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Repassing the pessimistic
-requirement<span style='mso-tab-count:1 lined'>_______________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781535 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>10<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330035000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Where does the buck stop?<span
-style='mso-tab-count:1 lined'>________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781536 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>10<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>The Unmentionables<span
-style='mso-tab-count:1 lined'>_______________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781537 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>11<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Where&#8217;s the static typing?<span
-style='mso-tab-count:1 lined'>__________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781538 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>11<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Some final remarks about static
-typing<span style='mso-tab-count:1 lined'>_______________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781539 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>12<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500330039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Conclusion<span
-style='mso-tab-count:1 lined'>_______________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781540 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>12<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Comparing Optimistic and
-Pessimistic messaging<span style='mso-tab-count:1 lined'>_____________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781541 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>12<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Alternatives to explicit
-pessimistic messaging<span style='mso-tab-count:1 lined'>_________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781542 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>13<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340032000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Deciding on Optimistic vs.
-Pessimistic messaging<span style='mso-tab-count:1 lined'>_____________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781543 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>13<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340033000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Requiring Pessimistic Checking<span
-style='mso-tab-count:1 lined'>____________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781544 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>14<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340034000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Summary<span style='mso-tab-count:
-1 lined'>______________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781545 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>14<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340035000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc2><span style='mso-no-proof:yes'>Typing: Better support for
-pessimism<span style='mso-tab-count:1 lined'>____________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781546 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>14<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Annoyances in pessimistic
-messaging<span style='mso-tab-count:1 lined'>_________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781547 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>15<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Combining messages into
-messageGroups<span style='mso-tab-count:1 lined'>______________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781548 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>15<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Types<span style='mso-tab-count:
-1 lined'>___________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781549 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>16<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500340039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Excessively Restrictive Typing<span
-style='mso-tab-count:1 lined'>_____________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781550 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>17<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350030000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Preventing Excessive Typing<span
-style='mso-tab-count:1 lined'>______________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781551 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>18<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350031000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Types and Classes<span
-style='mso-tab-count:1 lined'>_______________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781552 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350032000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Reviewing the variations of
-Typing<span style='mso-tab-count:1 lined'>___________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781553 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350033000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>SmallJava_2 and Pessimistic
-Typing<span style='mso-tab-count:1 lined'>__________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781554 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350034000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Comparing Optimism and
-Pessimism<span style='mso-tab-count:1 lined'>_________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781555 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>19<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350035000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Comments on Reality<span
-style='mso-tab-count:1 lined'>____________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781556 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>21<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350036000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc4><span style='mso-no-proof:yes'>Environments makes a difference<span
-style='mso-tab-count:1 lined'>____________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781557 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>22<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350037000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc3><span style='mso-no-proof:yes'>Choosing<span style='mso-tab-count:
-1 lined'>________________________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781558 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>22<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350038000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoToc1><span style='mso-no-proof:yes'>References<span
-style='mso-tab-count:1 lined'>_____________________________________________________________ </span></span><!--[if supportFields]><span
-style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
-_Toc387781559 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
-style='mso-no-proof:yes'>23<!--[if gte mso 9]><xml>
- <w:data>08D0C9EA79F9BACE118C8200AA004BA90B02000000080000000E0000005F0054006F0063003300380037003700380031003500350039000000</w:data>
-</xml><![endif]--></span><!--[if supportFields]><span style='mso-no-proof:yes'><span
-style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
-yes'><o:p></o:p></span></p>
-
-<p class=MsoNormal><!--[if supportFields]><i style='mso-bidi-font-style:normal'><span
-style='font-size:12.0pt;mso-bidi-font-size:10.0pt'><span style='mso-element:
-field-end'></span></span></i><![endif]--><o:p>&nbsp;</o:p></p>
-
-<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+  <div class="entry-content"><div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
 
 <h1><a name="_Toc387781516">Overview and Introduction</a></h1>
 
 </div>
+
+
+
 
 <p class=MsoNormal>In this document I will compare and contrast Smalltalk and
 Java using a somewhat unusual approach: I will transform one language
@@ -856,7 +283,13 @@ step I will discuss how the new properties of the intermediate language compare
 and contrast to the properties of the previous version of the language.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The reason to use this approach is it allows two languages&#8217;
 features to be compared without the baggage of all the other differences in the
@@ -869,7 +302,13 @@ language removes this particular hurdle to analysis.<span style="mso-spacerun:
 yes">&nbsp; </span>In addition, by using two publicly known languages as
 &quot;end-points&quot;, the intermediate language will also be very familiar.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The reason I can use this approach is the incredible amount
 of similarity between Smalltalk and Java.<span style="mso-spacerun: yes">&nbsp;
@@ -883,7 +322,13 @@ what terms like &quot;statically typed&quot; and &quot;dynamically type&quot; me
 in the context of a &quot;single&quot; language.<span style="mso-spacerun:
 yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>This document will require at least introductory background
 in both Java and Smalltalk.<span style="mso-spacerun: yes">&nbsp;
@@ -896,32 +341,59 @@ approach].<span style="mso-spacerun: yes">&nbsp; </span>Although I don&#8217;t e
 consider a single book to be enough for any language, my current favorite two
 books may be:</p>
 
+
+
+
 <p class=BookCitation><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Smalltalk-80: The Language and its Implementation. </p>
+
+
+
 
 <p class=BookCitation><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Adele Goldberg and David
 Robson. </p>
 
+
+
+
 <p class=BookCitation><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Addison-Wesley, Reading,
 MA, 1983.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=BookCitation><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>The Java Language Specification. </p>
+
+
+
 
 <p class=BookCitation><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>James Gosling, Bill Joy,
 Guy Steele. </p>
 
+
+
+
 <p class=BookCitation><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Addison-Wesley, Reading,
 MA, 1996.</p>
 
+
+
+
 <p class=MsoNormal>But these are not exactly introductory books and will not be
 the best choices for all readers.<span style="mso-spacerun: yes">&nbsp; </span></p>
+
+
+
 
 <div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
@@ -930,7 +402,13 @@ padding:0in 0in 1.0pt 0in'>
 
 </div>
 
+
+
+
 <h2><a name="_Toc387781518">SmallJava-97, The Language</a></h2>
+
+
+
 
 <p class=MsoNormal>This document is comparing Smalltalk and Java through an
 intermediary language, SmallJava.<span style="mso-spacerun: yes">&nbsp;
@@ -941,7 +419,13 @@ the language.<span style="mso-spacerun: yes">&nbsp; </span>The first item on
 the agenda is to specify what the base version of SmallJava will look like in
 both semantics and syntax.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <h3><a name="_Toc387781519">SmallJava Semantics</a></h3>
+
+
+
 
 <p class=MsoNormal>SmallJava semantics will be the intersection of the common
 semantic features of both Smalltalk and Java.<span style="mso-spacerun:
@@ -953,50 +437,95 @@ languages until the remaining cores overlap sufficiently.<span
 style="mso-spacerun: yes">&nbsp; </span>Because of the similarities in the
 languages not very much has to be removed from either. </p>
 
+
+
+
 <h4><a name="_Toc387781520">Smalltalk and Java Simplification</a></h4>
+
+
+
 
 <p class=MsoNormal>First I will simplify Smalltalk to get to its core.<span
 style="mso-spacerun: yes">&nbsp; </span>To do this SmallJava will:</p>
 
+
+
+
 <p class=MsoList2>(S1) Use class declaration instead of class construction</p>
+
+
+
 
 <p class=MsoList2>(S2) Drop all the Metaclass/Class capabilities</p>
 
+
+
+
 <p class=MsoList2>(S3) Ignore how blocks and control messages are different
 from control structures.<span style="mso-spacerun: yes">&nbsp; </span></p>
+
+
+
 
 <p class=MsoList2>(S4) Only have a single root class &quot;Object&quot; that
 all classes must inherit from directly or indirectly.<span style="mso-spacerun:
 yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>This gives us a dialect of Smalltalk like &#8220;Little Smalltalk&#8221;
 [Budd 87].<span style="mso-spacerun: yes">&nbsp; </span>We have dropped (or not
 mentioned) a lot of capabilities of professional Smalltalk dialects, but we
 still have a valid dialect of the Smalltalk language.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Next I will simplify Java to match up with the above simple
 Smalltalk.<span style="mso-spacerun: yes">&nbsp; </span>To do this SmallJava
 will:</p>
 
+
+
+
 <p class=MsoList2>(J1) Drop access control.<span style="mso-spacerun:
 yes">&nbsp; </span>All methods will be public and all instance variables will
 be protected which closely matches Smalltalk&#8217;s standard access controls.</p>
 
+
+
+
 <p class=MsoList2>(J2) Ignore the static side of Java classes.</p>
+
+
+
 
 <p class=MsoList2>(J3) Consider all primitive data types to inherit from
 Object.<span style="mso-spacerun: yes">&nbsp; </span>Viewed differently, you
 could say that all the Java control structures, operators, and other
 expressions work with the Wrapper versions of the primitive data types.</p>
 
+
+
+
 <p class=MsoList2>(J4) Make allowances and simplifications with certain
 packages and operators.<span style="mso-spacerun: yes">&nbsp; </span>For
 example the &#8220;Math&#8221; functions will be made available without needing the &#8220;Math&#8221;
 prefix.</p>
+
+
+
 
 <p class=MsoList2>(J5) Drop the use of static typing.<span style="mso-spacerun:
 yes">&nbsp; </span>All variables, parameters, and return types will be typed as
@@ -1005,7 +534,13 @@ with the right signature.<span style="mso-spacerun: yes">&nbsp; </span>Since
 static typing is removed, interfaces are removed also and we simply have
 classes extending other classes.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The only dramatic change to Java is by J5.<span
 style="mso-spacerun: yes">&nbsp; </span>An interesting aspect of J5 is that if
@@ -1013,11 +548,20 @@ you take a working program it still works after applying J5 to it.<span
 style="mso-spacerun: yes">&nbsp; </span>This will be shown in the example
 below.</p>
 
+
+
+
 <p class=MsoNormal>The change J3 is also sizable but I believe it is an
 &#8220;unquestionable&#8221; improvement so less interesting although this will also be
 discussed in later sections.</p>
 
+
+
+
 <h4><a name="_Toc387781521">SmallJava Semantics Summary</a></h4>
+
+
+
 
 <p class=MsoNormal>Stated again, SmallJava&#8217;s semantics are the intersection
 Smalltalk and Java with each simplified as specified.<span style="mso-spacerun:
@@ -1029,7 +573,13 @@ changing as we add new properties to it.<span style="mso-spacerun: yes">&nbsp;
 provided as the document progresses.<span style="mso-spacerun: yes">&nbsp;
 </span>Next we have to specify SmallJava&#8217;s syntax.</p>
 
+
+
+
 <h3><a name="_Toc387781522">SmallJava Syntax</a></h3>
+
+
+
 
 <p class=MsoNormal>SmallJava uses primarily Java syntax. This is to allow
 easier discussion of adding in Java properties (e.g. static typing and
@@ -1042,6 +592,9 @@ exception) but instead either requires objects to become &#8220;smarter&#8221; (
 messages for Booleans and Collections) or requires developing new types of
 objects (Class objects).<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>If
 you are interested in a syntax level comparison between Smalltalk and Java, you
 might want to look at: http://www.chimu.com/publications/SmalltalkJavaSyntax.html.<span
@@ -1049,7 +602,13 @@ style="mso-spacerun: yes">&nbsp; </span>Also some of my naming conventions make
 Java look a bit more like Smalltalk so the syntax difference will not be quite
 as noticeable.</p>
 
+
+
+
 <h3><a name="_Toc387781523">The SmallJava Language</a></h3>
+
+
+
 
 <p class=MsoNormal>This resulting SmallJava is a language you can view as
 either a simple Java without static typing or as a simple Smalltalk with Java
@@ -1062,13 +621,25 @@ Smalltalk.<span style="mso-spacerun: yes">&nbsp; </span>This will result in a
 total of three versions of the same example code in each of Smalltalk, Java,
 and SmallJava.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
+
+
+
 <h4><a name="_Toc387781524">From Java to SmallJava</a></h4>
+
+
+
 
 <p class=MsoNormal>My primary example will be a simple Point class.<span
 style="mso-spacerun: yes">&nbsp; </span>The following is the original, 100%
 pure Java.</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1158,12 +729,21 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Now I will start applying the SmallJava changes.<span
 style="mso-spacerun: yes">&nbsp; </span>J2 doesn&#8217;t apply because there are no
 static methods.<span style="mso-spacerun: yes">&nbsp; </span>After applying J1,
 J3, and J4 to the example we get:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1251,7 +831,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The major dramatic effect of these changes is that all our
 numbers can now be used like all other objects (e.g. directly placed in Vectors
@@ -1259,10 +845,19 @@ and Hashtables).<span style="mso-spacerun: yes">&nbsp; </span>Except for these
 numbers and the simplified Math calls, the above is completely legal Java.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Next we apply J5 part 1: make all the variables typed to
 Object.</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1350,10 +945,16 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>Strangely enough, this is almost legal Java also.<span
 style="mso-spacerun: yes">&nbsp; </span>Basically it is missing a lot of
 casting to make it work.<span style="mso-spacerun: yes">&nbsp; </span>For
 example the method #vectorFrom needs to have casts like this to be valid Java:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1389,17 +990,29 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>Well, that is a whole lot of casting, so it is fortunate we
 are dropping it.<span style="mso-spacerun: yes">&nbsp; </span>We will allow a
 message to be sent to any Object and if it the actual object does not implement
 that method we will throw a &#8220;DoesNotUnderstandException&#8221; (this behavior will be
 discussed in depth in the next section).</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Now we can finish the J5 transformation and drop all the
 superfluous &#8220;Object&#8221;s.<span style="mso-spacerun: yes">&nbsp; </span>This gives
 us:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1486,7 +1099,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <h4><a name="_Toc387781525">The first SmallJava example</a></h4>
+
+
+
 
 <p class=MsoNormal>The above is the first example of SmallJava.<span
 style="mso-spacerun: yes">&nbsp; </span>From these transformations you can see
@@ -1499,11 +1118,20 @@ behavior of the code at all [1]; it only helps detect incorrect specifications t
 will result in incorrect behavior (as does having multiple types of access
 control).</p>
 
+
+
+
 <h4><a name="_Toc387781526">SmallJava to Smalltalk</a></h4>
+
+
+
 
 <p class=MsoNormal>Next, to show how similar SmallJava is to Smalltalk, the
 following is the SmallJava program converted to Smalltalk-like (see [Budd 87])
 syntax (the bar &#8220;|&#8221; separates method):</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1609,6 +1237,9 @@ yes">&nbsp;&nbsp;&nbsp; </span>]</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>The point of defining the SmallJava language is so people
 familiar with either Smalltalk or Java will all have a single common language
 they also consider familiar.<span style="mso-spacerun: yes">&nbsp; </span>For
@@ -1617,7 +1248,13 @@ style="mso-spacerun: yes">&nbsp; </span>For Java developers the transition is
 mostly relaxing over typing: the Point class will execute correctly whether the
 types are there or not.</p>
 
+
+
+
 <h3><a name="_Toc387781527">Summary: SmallJava as a Vehicle</a> </h3>
+
+
+
 
 <p class=MsoNormal>SmallJava is a vehicle to compare and contrast Smalltalk and
 Java.<span style="mso-spacerun: yes">&nbsp; </span>SmallJava&#8217;s existence is the
@@ -1626,9 +1263,18 @@ possible.<span style="mso-spacerun: yes">&nbsp; </span>In the next sections I
 will start the contrasting by adding properties of Java into SmallJava.<span
 style="mso-spacerun: yes">&nbsp; </span>I will begin by getting &#8220;pessimistic&#8221;.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
+
+
+
 <p class=MsoNormal>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
+
+
+
 
 <p class=EndNote>[1] Static typing can also be used to choose among overloaded
 message names, but I would argue that these Type overloaded messages are a very
@@ -1643,10 +1289,19 @@ different thing.<span style="mso-spacerun: yes">&nbsp; </span>See the comments
 on method naming http://www.chimu.com/publications/javaStandards/ for a
 slightly longer discussion of this.</p>
 
+
+
+
 <h2><a name="_Toc387781528">Becoming Pessimistic: Changing when an object&#8217;s
 type is verified</a> </h2>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>SmallJava&#8217;s most significant difference from Java is that a
 message can be sent to an object that is not known to understand that
@@ -1656,7 +1311,13 @@ expected.<span style="mso-spacerun: yes">&nbsp; </span>If the object has no
 matching method then SmallJava throws a &#8220;DoesNotUnderstandException&#8221;.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>This behavior I call &#8221;<b style='mso-bidi-font-weight:normal'><i
 style='mso-bidi-font-style:normal'>optimistic</i></b>&#8221; messaging: you assume an
@@ -1667,7 +1328,13 @@ normal'>pessimistic</i></b>&#8221; messaging where you make sure an object
 understands a message before sending it to the object [1].<span
 style="mso-spacerun: yes">&nbsp; </span>So let us compare these two approaches.</p>
 
+
+
+
 <h3><a name="_Toc387781529">Optimistic and Pessimistic Messaging</a></h3>
+
+
+
 
 <p class=MsoNormal>Optimistic and pessimistic messaging have identical behavior
 if the message will be successfully understood.<span style="mso-spacerun:
@@ -1677,6 +1344,9 @@ unsuccessful message send is recognized.<span style="mso-spacerun: yes">&nbsp;
 message and for pessimistic it will be recognized at some time before sending
 the message.<span style="mso-spacerun: yes">&nbsp; </span>Using our
 Point#vectorFrom [2] example:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1698,9 +1368,15 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>If we want to make sure messages like #x and #y are
 understood by &#8216;point&#8217; then for an optimistic approach we would have to do
 something like this:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1742,11 +1418,20 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>The approach is identical to what you would do for handling
 any message that could throw an Exception; the only difference is that the
 message is never actually &#8220;received&#8221; by the object [3].</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>So what would pessimistic messaging look like for our
 example?<span style="mso-spacerun: yes">&nbsp; </span>Assume we add to
@@ -1756,6 +1441,9 @@ yes">&nbsp; </span>A message-check will do nothing if the object understands
 the message, but will throw a &#8220;DoesNotUnderstandException&#8221; if the object does
 not.<span style="mso-spacerun: yes">&nbsp; </span>Then we can change our
 example to:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1797,12 +1485,21 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>Now we have guaranteed that &#8216;point&#8217; will successfully
 respond to #x before sending &#8216;x()&#8217; and will successfully respond #y before
 sending &#8216;y()&#8217;.<span style="mso-spacerun: yes">&nbsp; </span>We do not need the
 optimistic messaging anymore.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>OK, that really didn&#8217;t provide us with ANY benefit.<span
 style="mso-spacerun: yes">&nbsp; </span>We still throw the same exception on
@@ -1810,12 +1507,21 @@ failure and we throw that exception &#8220;just a fraction of a second&#8221; be
 would actually have sent the message.<span style="mso-spacerun: yes">&nbsp;
 </span>Why bother?<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <h4><a name="_Toc387781530">Advantages of pessimistic messaging</a></h4>
+
+
+
 
 <p class=MsoNormal>The advantage of pessimistic messaging is that we have more
 control of when the test is done.<span style="mso-spacerun: yes">&nbsp;
 </span>For example, we can make sure nothing happens in the method if we didn&#8217;t
 actually get a &#8216;point&#8217; that responds to #x and #y:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1861,6 +1567,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>This is now different behavior than what our optimistic
 version of the method produced.<span style="mso-spacerun: yes">&nbsp;
 </span>Our optimistic version would have sent &#8216;x()&#8217; to the point before
@@ -1868,7 +1577,13 @@ checking whether the point responded to #y.<span style="mso-spacerun:
 yes">&nbsp; </span>This version verifies [4] that &#8216;point&#8217; understands both #x
 and #y before sending any messages to it. </p>
 
+
+
+
 <h3><a name="_Toc387781531">Forgetting and Remembering verification</a></h3>
+
+
+
 
 <p class=MsoNormal>SmallJava&#8217;s message-check verification happens to the object
 in a variable at a given time.<span style="mso-spacerun: yes">&nbsp;
@@ -1877,6 +1592,9 @@ new variable?<span style="mso-spacerun: yes">&nbsp; </span>We loose the
 verification and must verify again.<span style="mso-spacerun: yes">&nbsp;
 </span>The following is not completely pessimistic because of the second
 assignment to &#8216;pointCopy&#8217;:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1941,9 +1659,15 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>In the example above we do not know whether the second
 &#8216;temp.x()&#8217; will be successful.<span style="mso-spacerun: yes">&nbsp; </span>We
 have to do another check after assigning to the variable a second time:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -1981,13 +1705,22 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 </div>
 
+
+
+
 <h4><a name="_Toc387781532">Remembering verification</a></h4>
+
+
+
 
 <p class=MsoNormal>Well, that produces some very noisy methods.<span
 style="mso-spacerun: yes">&nbsp; </span>It would be better if we could have a
 little more memory of previous verifications.<span style="mso-spacerun:
 yes">&nbsp; </span>We can remember verification of an object by keeping track
 of the object during variable assignments:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2052,13 +1785,25 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>Unfortunately this doesn&#8217;t provide us with too much benefit
 in most programs.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Our other option is to insist that all assignments to a
 particular variable will always be message-checked before the assignment:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2133,6 +1878,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>All assignments to &#8216;temp1&#8217; and &#8216;temp2&#8217; must now check
 whether the value of the assignment passes the message-check.<span
 style="mso-spacerun: yes">&nbsp; </span>This has no impact to our assignment to
@@ -2143,7 +1891,13 @@ temp1 to temp2 will succeed.<span style="mso-spacerun: yes">&nbsp; </span>Since
 we can do this invariant check at compile-time we now have a simple
 &#8220;compile-time message-check&#8221; capability for SmallJava.</p>
 
+
+
+
 <h3><a name="_Toc387781533">Pessimistic inside: Optimistic outside</a></h3>
+
+
+
 
 <p class=MsoNormal>While adding all this support for pessimistic checking, we
 unfortunately have been cheating a bit.<span style="mso-spacerun: yes">&nbsp;
@@ -2156,7 +1910,13 @@ has it will behave differently.<span style="mso-spacerun: yes">&nbsp;
 when we expect a 3d point.<span style="mso-spacerun: yes">&nbsp; </span>This is
 useful behavior but is not the most common behavior.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The more common answer is that if a method doesn&#8217;t get what
 it expects it doesn&#8217;t know what to do.<span style="mso-spacerun: yes">&nbsp;
@@ -2165,16 +1925,28 @@ go to the caller.<span style="mso-spacerun: yes">&nbsp; </span>That makes us an
 optimistic method from the caller&#8217;s point of view.<span style="mso-spacerun:
 yes">&nbsp; </span>For example:</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </span>pointA.vectorFrom(pointB)</p>
+
+
+
 
 <p class=MsoNormal>will throw a DoesNotUnderstandException if pointB is not
 able to respond to (#x,#y).<span style="mso-spacerun: yes">&nbsp; </span>So
 whether we are optimistic or pessimistic within our method, we are still
 optimistic as far as the caller is concerned.</p>
 
+
+
+
 <h4><a name="_Toc387781534">Pessimistic in: Pessimistic out</a></h4>
+
+
+
 
 <p class=MsoNormal>How can we change this?<span style="mso-spacerun:
 yes">&nbsp; </span>We need more invariants within our #vectorFrom method so we
@@ -2183,6 +1955,9 @@ don&#8217;t have any message-checks inside it.<span style="mso-spacerun: yes">&n
 caller guarantee that &#8216;point&#8217; passes our message-check then we will guarantee
 we can execute the method without further verification.<span
 style="mso-spacerun: yes">&nbsp; </span>Notationally this is simple enough:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2205,7 +1980,13 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>We are now forcing the caller to explicitly satisfy our
 requirement that &#8216;point&#8217; understands (#x,#y) before they can even call our
@@ -2215,7 +1996,13 @@ method instead of making the caller handle our DoesNotUnderstandException if
 more-explicit manner than before [6].<span style="mso-spacerun:
 yes">&nbsp;&nbsp; </span></p>
 
+
+
+
 <h4><a name="_Toc387781535">Repassing the pessimistic requirement</a></h4>
+
+
+
 
 <p class=MsoNormal>SmallJava could previously handle the
 DoesNotUnderstandException through the usual exception handling mechanisms, so
@@ -2224,6 +2011,9 @@ be) would need to be involved [7].<span style="mso-spacerun: yes">&nbsp;
 </span>Now we have to handle the pessimistic checking explicitly at all
 levels.<span style="mso-spacerun: yes">&nbsp; </span>If the caller to our
 #vectorFrom method looked like this under optimistic messaging:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2288,8 +2078,14 @@ yes">&nbsp;</span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>It would now have to look like this for pessimistic
 verification:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2353,7 +2149,13 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <h4><a name="_Toc387781536">Where does the buck stop?</a></h4>
+
+
+
 
 <p class=MsoNormal>We keep passing the buck for the pessimistic message-check
 verification, but some SmallJava expression must be a &#8220;buck consumer&#8221; and
@@ -2362,6 +2164,9 @@ already seen one of them: the explicit message-check when used as an expression
 instead of an invariant.<span style="mso-spacerun: yes">&nbsp; </span>All the
 pessimistic-invariants allowed us to do one thing: remember an earlier message-check.<span
 style="mso-spacerun: yes">&nbsp; </span>If we have a method:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2401,6 +2206,9 @@ Line(point,point)).vector();</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>then we can take advantage of the single message-check of
 &#8216;newPoint&#8217; to know all the other messages involved with creating a line and
 sending #vector to the line will succeed.<span style="mso-spacerun: yes">&nbsp;
@@ -2408,7 +2216,13 @@ sending #vector to the line will succeed.<span style="mso-spacerun: yes">&nbsp;
 want to remember (require) about message-understanding throughout the flow of
 the program.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Having one message-check is better than many, but what if I
 want to get rid of that message check too?<span style="mso-spacerun:
@@ -2418,6 +2232,9 @@ of an expression is guaranteed to respond to certain messages, object
 construction.<span style="mso-spacerun: yes">&nbsp; </span>If we build a new
 Point we know what messages it responds to, the methods Point implements.<span
 style="mso-spacerun: yes">&nbsp; </span>The expression:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2429,7 +2246,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>new Point(x,y);</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>is equivalent to:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2441,8 +2264,14 @@ yes">&nbsp;&nbsp;&nbsp; </span>(#x,#y,#r,#theta,#vectorFrom) new Point(x,y);</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>so we can finally get rid of our last message-check for our
 example program:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2460,7 +2289,13 @@ Line(point,point)).vector();</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Now it is completely verifiable at compile time that all
 message sends will be successful (ignoring &#8216;x&#8217; and &#8216;y&#8217;).<span
@@ -2469,7 +2304,13 @@ Optimistic messaging for SmallJava for this particular example and now have a
 completely pessimistic and compile-time verified program.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <h3><a name="_Toc387781537">The Unmentionables</a></h3>
+
+
+
 
 <p class=MsoNormal>There were several aspects unmentioned in the above
 discussion of pessimistically verified message checking. What happens when we
@@ -2481,7 +2322,13 @@ to what we expect the method to do?<span style="mso-spacerun: yes">&nbsp;
 &#8216;interface&#8217; instead of &#8216;message&#8217; based typing.<span style="mso-spacerun:
 yes">&nbsp; </span>For the moment I will leave them unmentioned.</p>
 
+
+
+
 <h3><a name="_Toc387781538">Where&#8217;s the static typing?</a></h3>
+
+
+
 
 <p class=MsoNormal>We have shown how we can make SmallJava pessimistic, but how
 do we make it completely compile-time verified or &#8220;statically typed&#8221;?<span
@@ -2494,6 +2341,9 @@ be a statically message-checked program.<span style="mso-spacerun: yes">&nbsp;
 point we will have to hope that a particular object understands more messages
 than we have been assured that it understands.<span style="mso-spacerun:
 yes">&nbsp; </span>For example, if we have a keyed collection object:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2519,9 +2369,15 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>Then what can we be sure about the object returned from
 #atKey?<span style="mso-spacerun: yes">&nbsp; </span>We can&#8217;t be sure of
 anything.<span style="mso-spacerun: yes">&nbsp; </span>For example, in:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2543,16 +2399,28 @@ namesToPoints.atKey(&quot;test&quot;);</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>We can&#8217;t be sure that &#8216;outPoint&#8217; is able to respond to
 (#x,#y), so we will have to do a runtime message check to verify it.<span
 style="mso-spacerun: yes">&nbsp; </span>We can still be pessimistic by checking
 &#8216;output&#8217; before sending a message to it, but we can not do it statically.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Sure we can!<span style="mso-spacerun: yes">&nbsp; </span>We
 can define a new class:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2578,6 +2446,9 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>Well, that solves our problem but now we have added even
 more information (or &#8220;noise&#8221;) to our program.<span style="mso-spacerun:
 yes">&nbsp; </span>We had to create a whole new class to support being able to
@@ -2591,12 +2462,21 @@ yes">&nbsp; </span>We have to completely rewrite the KeyedCollectionOfPoints
 from scratch to have the new compile-time verifiable message-checks.<span
 style="mso-spacerun: yes">&nbsp; </span>So much for code reuse.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>A solution to all this extra effort is to have parameterized
 classes that &#8220;effectively&#8221; (or actually) code-generate classes that are
 compile-time verifiable for a given set of message constraints.<span
 style="mso-spacerun: yes">&nbsp; </span>We can develop a &#8220;template&#8221; class:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2622,7 +2502,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>And simply use it like so:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2649,14 +2535,26 @@ namesToPoints.atKey(&quot;test&quot;);</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>So now we at least don&#8217;t have to write a bunch of different
 classes for every variation we need, we can let the compiler do it for us.<span
 style="mso-spacerun: yes">&nbsp; </span>And then the compiler can statically
 verify the messages.</p>
 
+
+
+
 <h4><a name="_Toc387781539">Some final remarks about static typing</a></h4>
+
+
+
 
 <p class=MsoNormal>One aspect to notice for the above classes is that they are
 not compatible.<span style="mso-spacerun: yes">&nbsp; </span>A
@@ -2668,7 +2566,13 @@ lenient than #atKey()-&gt;(#x,#y).<span style="mso-spacerun: yes">&nbsp;
 </span>The classes are completely incompatible and effectively unrelated except
 for the design similarity.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The second remark is that Java doesn&#8217;t support parameterized
 classes and interferes with developing your own specialized versions of classes
@@ -2684,7 +2588,13 @@ be discussed again in a later section possibly titled &#8220;EiffelJava&#8221;, 
 we can say Java itself is incapable or poorly capable of making a program
 compile-time verifiable.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;</span>The final
 remark is that all this static typing ignores &#8216;null&#8217; values, which would fail
@@ -2694,15 +2604,30 @@ that static typing work we will have to say what a &#8216;null&#8217; means and 
 interacts with the message-checking or type system.<span style="mso-spacerun:
 yes">&nbsp; </span>This will be discussed in the next posting.</p>
 
+
+
+
 <h3><a name="_Toc387781540">Conclusion</a></h3>
 
+
+
+
 <h4><a name="_Toc387781541">Comparing Optimistic and Pessimistic messaging</a></h4>
+
+
+
 
 <p class=MsoNormal>What are the tradeoffs between optimistic and pessimistic
 messaging now that we have shown both for SmallJava?<span style="mso-spacerun:
 yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Optimistic messaging requires much less noise to accomplish
 the same, if successful, result.<span style="mso-spacerun: yes">&nbsp;
@@ -2717,7 +2642,13 @@ what new messages can be understood in the section on interfaces.)<span
 style="mso-spacerun: yes">&nbsp; </span>Overall, optimistic messaging is much
 less painful and correct programs are still correct programs.</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp; </span></p>
+
+
+
 
 <p class=MsoNormal>Pessimistic messaging allows us to move message-checks
 earlier in a program&#8217;s execution and to consolidate multiple message-checks
@@ -2733,6 +2664,9 @@ programs frequently have mistakes of expecting an object to respond to a
 message that it doesn&#8217;t understand.<span style="mso-spacerun: yes">&nbsp;
 </span></p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Unfortunately complete compile-time checking is rarely possible because
 of weak language support, &#8216;null&#8217;s, or program behavior more complex than the
@@ -2741,7 +2675,13 @@ capabilities of even a good language.<span style="mso-spacerun: yes">&nbsp;
 classes: it requires generating new classes with all the proper &#8220;types&#8221; to be
 used in a particular context.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>All the extra information for pessimistic messaging provided
 us with an additional form of documentation.<span style="mso-spacerun:
@@ -2757,7 +2697,13 @@ pessimistic information may not be at all useful.<span style="mso-spacerun:
 yes">&nbsp; </span>The topic of documentation will be discussed in a later
 section.</p>
 
+
+
+
 <h4><a name="_Toc387781542">Alternatives to explicit pessimistic messaging</a></h4>
+
+
+
 
 <p class=MsoNormal>There are other alternatives to explicitly declaring the
 pessimistic message-checks.<span style="mso-spacerun: yes">&nbsp; </span>We
@@ -2772,7 +2718,13 @@ starting reference point to these types of languages.<span style="mso-spacerun:
 yes">&nbsp; </span>For this document I will ignore inference capabilities since
 they are not available in Java, Smalltalk, and other &#8220;mainstream&#8221; OO languages.</p>
 
+
+
+
 <h4><a name="_Toc387781543">Deciding on Optimistic vs. Pessimistic messaging</a></h4>
+
+
+
 
 <p class=MsoNormal>SmallJava_0 supports optimistic messaging.<span
 style="mso-spacerun: yes">&nbsp; </span>You can send a message to any object
@@ -2785,7 +2737,13 @@ SmallJava.<span style="mso-spacerun: yes">&nbsp; </span>Optimistic messaging&#82
 problems are that a program can only be verified by running it and that there
 is less documentation of what is expected of a variable or parameter.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Should SmallJava_1 support pessimistic messaging: Should it
 support the ability to check whether an object understands a message before
@@ -2796,20 +2754,38 @@ message check or that requires the user of a variable or parameter to do a
 message check.<span style="mso-spacerun: yes">&nbsp; </span>This is useful in
 several ways:</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>It
 allows a program to move the location of a message-check to the point where it
 can better handle a failure</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>It
 provides the possibility of compile-time verification.</p>
+
+
+
 
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>It
 provides the possibility of extra documentation (that the program will actually
 use).</p>
 
+
+
+
 <p class=MsoNormal>These all seem valuable enough to add them to SmallJava. </p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>From Java and Smalltalk&#8217;s point of view this is
 uncontroversial: this capability is in both languages.<span
@@ -2825,7 +2801,13 @@ of commercial Smalltalk.<span style="mso-spacerun: yes">&nbsp; </span>So
 pessimistic message verification is available in both languages and should be
 available in SmallJava.</p>
 
+
+
+
 <h4><a name="_Toc387781544">Requiring Pessimistic Checking</a></h4>
+
+
+
 
 <p class=MsoNormal>Now for the big question: Should SmallJava_1 REQUIRE only
 pessimistic message checking and abandon the optimistic message checking?<span
@@ -2839,7 +2821,13 @@ time we want an explicit message-check we have to add a lot of extra words to
 our program and make sure all these message-checks are in agreement with each
 other.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>In future sections we will be discussing other language
 features that may make pessimistic message checking more useful and less
@@ -2850,7 +2838,13 @@ features and aspects we can revisit the question of whether pessimistic
 checking is useful enough to be required.<span style="mso-spacerun: yes">&nbsp;
 </span>For now, SmallJava_1 supports both.</p>
 
+
+
+
 <h4><a name="_Toc387781545">Summary</a></h4>
+
+
+
 
 <p class=MsoNormal>We defined and analyzed optimistic and pessimistic message
 checking and found that they are both useful enough to include in SmallJava_1
@@ -2859,44 +2853,86 @@ style="mso-spacerun: yes">&nbsp; </span>Our change to SmallJava was the addition
 of a message-check with syntax (#message1, #message2) and of a
 message-requirement invariant which uses the same syntax.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
 
+
+
+
 <p class=EndNote>[1] The terminology and behavior is similar to database
 transactions.</p>
+
+
+
 
 <p class=EndNote>[2] I use &#8220;#foo&#8221; to label a message and &#8220;Class#foo&#8221; for a
 method in a particular class.<span style="mso-spacerun: yes">&nbsp; </span>The
 use of &#8216;#&#8217; is similar enough between both Smalltalk (where it indicates a
 Symbol) and Java (where for Javadoc it indicates a method) to be the best choice.</p>
 
+
+
+
 <p class=EndNote>[3] Or you could view it that Object defines all methods with
 a default behavior of: &#8220;throw new DoesNotUnderstandException();&#8221;</p>
+
+
+
 
 <p class=EndNote>[4] The database transaction terminology would be a
 pessimistic &#8220;lock&#8221; on &#8216;point&#8217;</p>
 
+
+
+
 <p class=EndNote>[5] We might now want to call them &#8220;invariables&#8221;</p>
+
+
+
 
 <p class=EndNote>[6] We have changed the contract with the caller, see [Meyer
 97]</p>
 
+
+
+
 <p class=EndNote>[7] DoesNotUnderstandException is a subclass of
 RuntimeException, which explains why it does not have to be in a Throws clause.</p>
+
+
+
 
 <p class=EndNote>[8] If anyone has a good collection of references for type
 inferencing, I will add them to this.<span style="mso-spacerun:
 yes">&nbsp;&nbsp; </span></p>
 
+
+
+
 <h2><a name="_Toc387781546">Typing: Better support for pessimism</a></h2>
+
+
+
 
 <p class=MsoNormal>SmallJava started with only optimistic messaging.<span
 style="mso-spacerun: yes">&nbsp; </span>You could send a message to any object
 and if the object did not have a corresponding method, a
 &#8220;DoesNotUnderstandException&#8221; would be thrown.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>We added pessimistic messaging capabilities to SmallJava_1
 but we did not require all messaging to be pessimistic.<span
@@ -2908,6 +2944,9 @@ compile time verification.<span style="mso-spacerun: yes">&nbsp;
 </span>Pessimistic messaging also provides extra documentation of how a
 variable is used and what a method does.</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>We
 did not make SmallJava_1 require all messaging to be pessimistic because it was
 not a big enough benefit in all cases to be worth the pain.<span
@@ -2918,7 +2957,13 @@ style="mso-spacerun: yes">&nbsp; </span>This is not worth it in the cases where
 there is no advantage to moving the message-check, the check can not be
 compile-time verified, and the extra documentation is not meaningful.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Our decision might change if we had a better mechanism to
 manage our pessimistic message-checks.<span style="mso-spacerun: yes">&nbsp;
@@ -2931,12 +2976,21 @@ make it the required behavior for SmallJava_2.<span style="mso-spacerun:
 yes">&nbsp; </span>In any case we will have something close enough to Java like
 static typing to be useful to compare.</p>
 
+
+
+
 <h3><a name="_Toc387781547">Annoyances in pessimistic messaging</a></h3>
+
+
+
 
 <p class=MsoNormal>One of the biggest annoyances of pessimism so far is
 explicitly enumerating all the messages we expect of an object.<span
 style="mso-spacerun: yes">&nbsp; </span>Even our simple example program [1] has
 too much noise: </p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3037,13 +3091,22 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>It already has twelve individual message references combined
 into five pessimistic invariants.<span style="mso-spacerun: yes">&nbsp;
 </span>What&#8217;s worse is that changes in PointClass#vectorFrom could cause all
 the other invariants to have to change.<span style="mso-spacerun: yes">&nbsp;
 </span>Assuming a point could have a name, then changing #vectorFrom to:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3067,15 +3130,27 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 </div>
 
+
+
+
 <p class=MsoNormal>will force all the other invariants to be updated to include
 #name also or the compile time verification will complain.</p>
 
+
+
+
 <h3><a name="_Toc387781548">Combining messages into messageGroups</a></h3>
+
+
+
 
 <p class=MsoNormal>If we could define a larger unit of granularity that
 contains multiple messages, a messageGroup[2], we might have an easier
 time.<span style="mso-spacerun: yes">&nbsp; </span>Let&#8217;s try the following
 simple syntax:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3091,6 +3166,9 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point = (#Xy, #vectorFrom);</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>where mentioning a messageGroup is just like mentioning the
 messageGroup&#8217;s messages explicitly.<span style="mso-spacerun: yes">&nbsp;
 </span>Message groups are compared by value: two message groups are equal if
@@ -3098,9 +3176,18 @@ they have the same messages in them after expansion.<span style="mso-spacerun:
 yes">&nbsp; </span>Our previous pessimistic message checks and invariants
 become inline, unnamed message groups.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
+
+
+
 <p class=MsoNormal>Using these messageGroups, our program becomes:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3198,12 +3285,21 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Which now has only two types of message checks in five
 invariants.<span style="mso-spacerun: yes">&nbsp; </span>This is a little
 simpler, but what about adding #name again?<span style="mso-spacerun:
 yes">&nbsp; </span>We can either mention it explicitly as before:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3216,8 +3312,14 @@ point) //&#8230;</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>which would cause all the callers to change their invariants
 or we can modify our #Xy message group to include #name:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3230,7 +3332,13 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>messageGroup #Xy = (#x,
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>That is certainly simple. It also feels a bit
 disingenuous.<span style="mso-spacerun: yes">&nbsp; </span>We named the group
@@ -3240,9 +3348,18 @@ message into the group just because it is convenient does not seem appropriate
 and certainly would confuse the reader of our program.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
+
+
+
 <p class=MsoNormal>If we don&#8217;t modify #Xy we can still modify #Point:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3258,7 +3375,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point = (#Xy, #vectorFrom, #name);<
 
 </div>
 
+
+
+
 <p class=MsoNormal>and </p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3279,7 +3402,13 @@ pointA, (#Xy,#name) pointB) //&#8230;</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Now we only have to change three invariants instead of
 five.<span style="mso-spacerun: yes">&nbsp; </span>But why could we modify
@@ -3287,7 +3416,13 @@ five.<span style="mso-spacerun: yes">&nbsp; </span>But why could we modify
 </span>Just because it had a different name?<span style="mso-spacerun:
 yes">&nbsp; </span>Well, yes.</p>
 
+
+
+
 <h3><a name="_Toc387781549">Types</a></h3>
+
+
+
 
 <p class=MsoNormal>The messageGroup named #Point represents a &#8220;Type&#8221;, a
 meaningful grouping of objects that provide the same interface.<span
@@ -3297,10 +3432,19 @@ yes">&nbsp; </span>For the messageGroup named #Xy we were just providing a
 &#8220;shortcut&#8221; name for several messages without any fuller or independent logical
 meaning.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>So why don&#8217;t we just throw away #Xy and use just
 #Point?<span style="mso-spacerun: yes">&nbsp; </span>This would give us:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3407,9 +3551,18 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
+
+
+
 <p class=MsoNormal>Now if we add #name as a capability because of:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3431,7 +3584,13 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal>we can just add it in one place</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3444,10 +3603,19 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point = (#x, #y , #name,
 
 </div>
 
+
+
+
 <p class=MsoNormal>and we don&#8217;t have to worry about changing anything
 else.<span style="mso-spacerun: yes">&nbsp; </span>Life is easy.</p>
 
+
+
+
 <h4><a name="_Toc387781550">Excessively Restrictive Typing</a></h4>
+
+
+
 
 <p class=MsoNormal>Unfortunately, what we have just done has a large negative
 impact.<span style="mso-spacerun: yes">&nbsp; </span>We just required that an
@@ -3459,13 +3627,25 @@ object to support (#x,#y,#name).<span style="mso-spacerun: yes">&nbsp;
 style="mso-spacerun: yes">&nbsp; </span>We accidentally became excessively
 restrictive of acceptable objects through our simplification.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>So what?<span style="mso-spacerun: yes">&nbsp; </span>We
 were planning on using only PointClasses anyway, and they support all of the
 #Point messages anyway.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Unfortunately that is a sign of being &#8220;near-sighted&#8221; in both
 time and development scope.<span style="mso-spacerun: yes">&nbsp; </span>As the
@@ -3475,18 +3655,33 @@ style="mso-spacerun: yes">&nbsp; </span>But I can not.<span
 style="mso-spacerun: yes">&nbsp; </span>Lines require that a Point understand
 #name even when it never sends a #name message to them.</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Over time I could also want to reuse lines to handle some UI points
 which are floating point and also have names, but I could not because my #Line
 uses #Points and #Point says it only works with #Integers instead of objects
 that respond to just (#+, #-, #*).</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>There are words for this type of program: inflexible,
 limited, not reusable, and &#8220;bad&#8221;.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>If a language feature supports easily doing the wrong thing
 in the short term it is very hard to keep track of the larger picture and we
@@ -3494,7 +3689,13 @@ have to very consciously strive for it.<span style="mso-spacerun: yes">&nbsp;
 </span>The new messageGroups are one of these features so we have to use them
 with care.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The principal problem preventing us from more exact and
 flexible typing is inertia.<span style="mso-spacerun: yes">&nbsp; </span>We do
@@ -3505,12 +3706,24 @@ style="mso-spacerun: yes">&nbsp; </span>And then change them back when we get
 rid of #foo.<span style="mso-spacerun: yes">&nbsp; </span>We are just lazy and
 want as little of the program to change as possible.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>There are words for this type of program too: stable,
 maintainable, and &#8220;good&#8221;.</p>
 
+
+
+
 <h4><a name="_Toc387781551">Preventing Excessive Typing</a></h4>
+
+
+
 
 <p class=MsoNormal>So how do we get the &#8220;good&#8221; with as little of the &#8220;bad&#8221; as
 possible?<span style="mso-spacerun: yes">&nbsp; </span>The main way is to think
@@ -3523,11 +3736,20 @@ want are #x and #y?<span style="mso-spacerun: yes">&nbsp; </span>If we produce
 a good type model we will probably get the best maintainability and reusability
 possible[3]. </p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Although our example is too small to really see much
 difference, we might choose the following as the best description of our
 domain:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3650,7 +3872,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>If we later decide to use #names with our lines then we can
 either change the invariant on pointA (to either &#8220;(#Point,#Named)&#8221;or
@@ -3660,7 +3888,13 @@ yes">&nbsp; </span>We have reduced the excessive restrictions in exchange for
 what looks like more work (more Types) but should be more stable and less work
 over time.</p>
 
+
+
+
 <h4><a name="_Toc387781552">Types and Classes</a></h4>
+
+
+
 
 <p class=MsoNormal>MessageGroups as simple types make the differences between
 classes and types very visible.<span style="mso-spacerun: yes">&nbsp; </span>A
@@ -3672,14 +3906,26 @@ variables (state) so the program can actually build and execute objects.<span
 style="mso-spacerun: yes">&nbsp; </span>Types classify and verify.<span
 style="mso-spacerun: yes">&nbsp; </span>Classes implement.</p>
 
+
+
+
 <h3><a name="_Toc387781553">Reviewing the variations of Typing</a></h3>
+
+
+
 
 <p class=MsoNormal>We now have three variations of typing, optimistic,
 message-level pessimistic, and type-based pessimistic.<span
 style="mso-spacerun: yes">&nbsp; </span>These are all different in terms of
 typing precision.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Optimistic messaging is exactly typed.<span
 style="mso-spacerun: yes">&nbsp; </span>The only messages ever required of an
@@ -3689,12 +3935,21 @@ and flows.<span style="mso-spacerun: yes">&nbsp; </span>During one program
 execution a message might not be required, but in the next it would be.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>The problem with optimistic messaging is that these types can only be
 verified by program execution or through a separate inference and pessimistic
 checking process.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Pessimistic messaging as described in SmallJava_1 is likely
 to be almost exactly typed.<span style="mso-spacerun: yes">&nbsp; </span>Since
@@ -3704,6 +3959,9 @@ style="mso-spacerun: yes">&nbsp; </span>Another source of inexactness is that
 different program flows may have different requirements but the pessimistic
 checks will union all the program flows.</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Pessimistic messaging was a useful addition to SmallJava_1 because it
 could help detect errors earlier in program execution or possibly at compile-time.<span
@@ -3711,7 +3969,13 @@ style="mso-spacerun: yes">&nbsp; </span>It could not completely replace
 optimistic messaging because it was too much work in the cases where there was
 little or no gain.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Pessimistic typing is likely to be excessively
 restrictive.<span style="mso-spacerun: yes">&nbsp; </span>Pessimistic typing
@@ -3722,6 +3986,9 @@ one or two groups instead of many individual messages and we can reduce program
 maintenance by changing a single group instead of many verifications.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Unfortunately these messageGroups lead to combining verifications that
 are not actually identical and restricting an object more than is needed.<span
@@ -3731,13 +3998,25 @@ style="mso-spacerun: yes">&nbsp; </span>It is up to the software developer to
 consciously pick the designs that are descriptive, maintainable, and do not
 cause excessive restriction.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <h3><a name="_Toc387781554">SmallJava_2 and Pessimistic Typing</a></h3>
+
+
+
 
 <p class=MsoNormal>For SmallJava_2 we have to decide whether to use the
 pessimistic typing capabilities described above and ultimately whether to start
 mandating pessimistic behavior.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Should SmallJava_2 support messageGroups and pessimistic
 typing?<span style="mso-spacerun: yes">&nbsp; </span>Yes.<span
@@ -3752,7 +4031,13 @@ yes">&nbsp; </span>The other main cost is that it can encourage less flexible
 software, but it is only a mild encouragement and it is completely under the
 control of the developer.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>Should we REQUIRE pessimistic behavior now that we have
 better language support for it?<span style="mso-spacerun: yes">&nbsp; </span>I
@@ -3761,16 +4046,31 @@ that decision.<span style="mso-spacerun: yes">&nbsp; </span>For the moment I
 will compare optimistic and pessimistic behavior in SmallJava_2 and discuss
 choosing between them.</p>
 
+
+
+
 <h3><a name="_Toc387781555">Comparing Optimism and Pessimism</a></h3>
+
+
+
 
 <p class=MsoNormal>We now have a much more useful and interesting pessimistic
 mechanism.<span style="mso-spacerun: yes">&nbsp; </span>We can now retouch
 bases with our original completely optimistic SmallJava PointClass and see how
 our pessimistic abilities change it.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
+
+
+
 <p class=MsoNormal>The original SmallJava_0 code was:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3898,10 +4198,19 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>A SmallJava_2 version with fully pessimistic typing would
 be:</p>
+
+
+
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -4057,26 +4366,50 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>What are the differences between these two programs?<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>In terms of correct program execution, nothing.<span
 style="mso-spacerun: yes">&nbsp; </span>The optimistic and pessimistic programs
 both send the same messages and both get the same objects back as results.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>In the case of incorrect calls to Point and Line, the
 pessimistic version will throw an exception earlier or quite possibly notify
 the developer at compile time.<span style="mso-spacerun: yes">&nbsp; </span>The
 optimistic version will throw an exception at run time.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The optimistic program is less &#8220;noisy&#8221; and is easier to
 change.<span style="mso-spacerun: yes">&nbsp; </span>We can simply add a new
@@ -4086,6 +4419,9 @@ defining the method in PointClass.<span style="mso-spacerun: yes">&nbsp;
 </span>This will cause a runtime error if and when the program sends this
 message.<span style="mso-spacerun: yes">&nbsp; </span>It is best if this is
 sooner rather than later.</p>
+
+
+
 
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>The pessimistic program is harder to change but will catch more errors
@@ -4097,7 +4433,13 @@ message.<span style="mso-spacerun: yes">&nbsp; </span>If we forget to implement
 the method in PointClass we will get a compile time error saying PointClass
 does not implement all of the #Point type.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The pessimistic program has more description of its
 requirements and behavior.<span style="mso-spacerun: yes">&nbsp; </span>We can
@@ -4109,7 +4451,13 @@ documentation there is no encouragement (to put compiler errors in the most
 positive light) to keep the documentation up to date.<span style="mso-spacerun:
 yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The pessimistic program is less flexible.<span
 style="mso-spacerun: yes">&nbsp; </span>We can only use #Points in our
@@ -4119,7 +4467,13 @@ too (even though LineClass may never need #r and #theta).<span
 style="mso-spacerun: yes">&nbsp; </span>You should also note the comment in the
 next section.</p>
 
+
+
+
 <h4><a name="_Toc387781556">Comments on Reality</a></h4>
+
+
+
 
 <p class=MsoNormal>Unfortunately the type behavior in SmallJava_2 is more
 &#8220;ideal&#8221; and flexible than what most statically typed languages support,
@@ -4137,6 +4491,9 @@ pessimistic typing.<span style="mso-spacerun: yes">&nbsp; </span>This I will
 address in a future chapter when we start bringing some of the idealizations of
 SmallJava down to the realities of Java.</p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Although this document is meant to describe the differences between
 Smalltalk and Java, I though it was unfair to discuss a language feature only
@@ -4148,7 +4505,13 @@ ideally and then explain how Java parts from that ideal.<span
 style="mso-spacerun: yes">&nbsp; </span>Pessimistic type checking is one of
 those features.</p>
 
+
+
+
 <h4><a name="_Toc387781557">Environments makes a difference</a></h4>
+
+
+
 
 <p class=MsoNormal>Overall, the above programs are very similar, but coding
 them will probably feel very different.<span style="mso-spacerun: yes">&nbsp;
@@ -4160,6 +4523,9 @@ and grown.<span style="mso-spacerun: yes">&nbsp; </span>Generally pessimistic
 language development environments have a specify, implement, and verify
 process.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
+
+
+
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Although language features have a significant impact on the development
 environment I will not consider that as part of SmallJava feature
@@ -4167,7 +4533,13 @@ evaluation.<span style="mso-spacerun: yes">&nbsp; </span>This environment
 difference is becoming smaller[4] and comparing environments is beyond the
 scope of this document. </p>
 
+
+
+
 <h3><a name="_Toc387781558">Choosing</a></h3>
+
+
+
 
 <p class=MsoNormal>Choosing between optimistic and pessimistic behavior in the
 SmallJava language will be hard because they each have tradeoffs.<span
@@ -4180,7 +4552,13 @@ style="mso-spacerun: yes">&nbsp; </span>Generally as a subsystem matures it can
 and will become more pessimistic so people can understand and rely on its
 behavior.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>The one tradeoff that is hard to swallow is the diminished
 flexibility and reusability of an excessively typed pessimistic program.<span
@@ -4193,20 +4571,38 @@ identical optimistic program.<span style="mso-spacerun: yes">&nbsp; </span>This
 is by far worse in named-type verification languages (of which Java is a
 member).</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <p class=MsoNormal>But no choosing yet, we must first cover &#8220;nothing&#8221;.</p>
 
+
+
+
 <p class=MsoNormal>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
+
+
+
 
 <p class=MsoNormal>[1] Note the change to suffixing with &#8220;Class&#8221;, this is to
 make discussions about types clearer later on.<span style="mso-spacerun:
 yes">&nbsp; </span>It also happens to be my naming convention for Java
 code.<span style="mso-spacerun: yes">&nbsp; </span>See [Fussell-1] </p>
 
+
+
+
 <p class=MsoNormal>[2] I use the term messageGroup in this chapter because it
 is descriptive and it does not bring in currently unwanted connotations that
 other terms like interfaces or protocols due.</p>
+
+
+
 
 <p class=MsoNormal>[3] Different project goals will adjust this too.<span
 style="mso-spacerun: yes">&nbsp; </span>Prototypes frequently care more about
@@ -4214,11 +4610,20 @@ speed then either of these criteria.<span style="mso-spacerun: yes">&nbsp;
 </span>Larger projects and frameworks tend to care more for reusability than
 other types of projects would.</p>
 
+
+
+
 <p class=MsoNormal>[4] For example, see the IBM VisualAge for Java beta
 (http://www.software.ibm.com/ad/vajava), which is a (currently immature)
 version of one of the best Smalltalk development environments.</p>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+
+
 
 <div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
@@ -4227,6 +4632,9 @@ padding:0in 0in 1.0pt 0in'>
 style='mso-bookmark:_Toc384923228'>References</span></a></h1>
 
 </div>
+
+
+
 
 <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
  style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
@@ -4332,10 +4740,13 @@ style='mso-bookmark:_Toc384923228'>References</span></a></h1>
  </tr>
 </table>
 
+
+
+
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-</div>
 
+<p></div></p>
 </div>
   
   
