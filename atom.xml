@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:59:49-08:00</updated>
+  <updated>2013-02-06T21:01:07-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -1363,51 +1363,234 @@ Then
     <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7/"/>
     <updated>2008-09-03T02:28:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7</id>
-    <content type="html"><![CDATA[<p>[sourcecode language=&#8221;html&#8221;]
-&lt;!DOCTYPE html PUBLIC &#8220;-//W3C//DTD XHTML 1.0 Transitional//EN&#8221;</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
 
-<pre><code>    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
-</code></pre>
+<h2>Tower of Hanoi &mdash; Rules on Rails</h2>
 
-<p><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<title>Foo &lt;%= @page_title %></title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="refresh" content="1">
-&lt;%= javascript_include_tag :defaults %>
-</head></p>
+<p>In part 6 we changed the algorithm of Tower Of Hanoi to work without requiring the stack &#8211; it instead &#8220;more naturally&#8221; put sufficient state and logic into the model that the model could start and stop and continue as needed.  I believe with Ruby 1.8.x, this is required to have Rails be able to work with the Tower of Hanoi.  So we should try it out and see how well it works :-)</p>
 
-<p>&lt;body&lt;% if @page_class %> class=&#8221;&lt;%= @page_class %>&#8221;&lt;% end %>></p>
-
-<h1>Tower of Hanoi (Move <%= @count %>) </h1>
+<!-- more -->
 
 
-<p>It&#8217;s &lt;%= Time.now %>.</p>
-
-<br/>
 
 
-<p>Done = &lt;%= @isDone %></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;hanoi_7&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">HanoiController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>    <span class="vi">@hanoi</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:hanoi</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="vi">@hanoi</span> <span class="o">==</span> <span class="kp">nil</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>      <span class="vi">@hanoi</span> <span class="o">=</span> <span class="n">createHanoi</span>
+</span><span class='line'>      <span class="n">session</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">session</span><span class="o">[</span><span class="ss">:consoleLog</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@hanoi</span><span class="o">.</span><span class="n">initApp</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@isDone</span> <span class="o">=</span> <span class="vi">@hanoi</span><span class="o">.</span><span class="n">doNextMove_IsDone</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">#clear the app because otherwise it will be part of the attempted serialization</span>
+</span><span class='line'>    <span class="c1">#could also override the marshaling code, but this is simpler</span>
+</span><span class='line'>    <span class="vi">@hanoi</span><span class="o">.</span><span class="n">initApp</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">#clear out the session variable, but @hanoi is still valid through</span>
+</span><span class='line'>    <span class="c1">#the rest of this interaction</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:hanoi</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@isDone</span> <span class="p">?</span> <span class="kp">nil</span> <span class="p">:</span> <span class="vi">@hanoi</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@count</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span> <span class="o">||=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="vi">@count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@count</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="vi">@isDone</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>      <span class="n">render</span><span class="p">(</span><span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;say_done&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">appendLog</span><span class="p">(</span><span class="n">outString</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Append to Log: &quot;</span><span class="o">+</span><span class="n">outString</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@consoleLog</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:consoleLog</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="vi">@consoleLog</span> <span class="o">=</span> <span class="vi">@consoleLog</span> <span class="o">+</span> <span class="n">outString</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:consoleLog</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@consoleLog</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">noteChange</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">createHanoi</span>
+</span><span class='line'>    <span class="n">hanoi</span> <span class="o">=</span> <span class="no">RulesTowerOfHanoi</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">hanoi</span><span class="o">.</span><span class="n">initHeight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">hanoi</span><span class="o">.</span><span class="n">setup_disks</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">hanoi</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">getAsciiTowers</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>    <span class="n">lines</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="vi">@hanoi</span><span class="o">.</span><span class="n">stacks</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachStack</span><span class="p">,</span> <span class="n">i</span> <span class="o">|</span>
+</span><span class='line'>      <span class="mi">0</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">j</span> <span class="o">|</span>
+</span><span class='line'>        <span class="n">eachDisk</span> <span class="o">=</span> <span class="n">eachStack</span><span class="o">[</span><span class="n">j</span><span class="o">]</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">eachDisk</span> <span class="o">==</span> <span class="kp">nil</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>          <span class="n">newLine</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">12</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'>          <span class="n">newLine</span> <span class="o">=</span> <span class="n">eachDisk</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">newLine</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="p">(</span><span class="mi">12</span> <span class="o">-</span> <span class="n">newLine</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">currentLine</span> <span class="o">=</span> <span class="n">lines</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>        <span class="n">lines</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">currentLine</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">newLine</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">lines</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="n">result</span> <span class="o">+=</span> <span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<br/>
 
 
-<p>Render =</p>
 
-<pre>
-<%= controller.getAsciiTowers %>
-</pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span>
+</span><span class='line'><span class="cp">        &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span> <span class="na">xml:lang=</span><span class="s">&quot;en&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'><span class="nt">&lt;title&gt;</span>Foo <span class="err">&lt;</span>%= @page_title %&gt;<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;refresh&quot;</span> <span class="na">content=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="err">&lt;</span>%= javascript_include_tag :defaults %&gt;
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;body</span><span class="err">&lt;%</span> <span class="na">if</span> <span class="err">@</span><span class="na">page_class</span> <span class="err">%</span><span class="nt">&gt;</span> class=&quot;<span class="err">&lt;</span>%= @page_class %&gt;&quot;<span class="err">&lt;</span>% end %&gt;&gt;
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>Tower of Hanoi (Move <span class="err">&lt;</span>%= @count %&gt;) <span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'>It&#39;s <span class="err">&lt;</span>%= Time.now %&gt;.
+</span><span class='line'><span class="nt">&lt;br/&gt;</span>
+</span><span class='line'>Done = <span class="err">&lt;</span>%= @isDone %&gt;
+</span><span class='line'><span class="nt">&lt;br/&gt;</span>
+</span><span class='line'>Render =
+</span><span class='line'><span class="nt">&lt;pre&gt;</span>
+</span><span class='line'><span class="err">&lt;</span>%= controller.getAsciiTowers %&gt;
+</span><span class='line'><span class="nt">&lt;/pre&gt;</span>
+</span><span class='line'>Log =
+</span><span class='line'><span class="nt">&lt;pre&gt;</span>
+</span><span class='line'><span class="err">&lt;</span>%= @consoleLog %&gt;
+</span><span class='line'><span class="nt">&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-
-<p>Log =</p>
-
-<pre>
-<%= @consoleLog %>
-</pre>
-
-
-<p></body>
-[/sourcecode]</p>
 ]]></content>
   </entry>
   
