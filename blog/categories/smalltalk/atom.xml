@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Smalltalk | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/smalltalk/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:57:09-08:00</updated>
+  <updated>2013-02-06T20:59:49-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -309,6 +309,9 @@ Then
 
 <p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is 'true' as an algorithm, but comes off as a bit unnatural for humans.</p>
 
+<!-- more -->
+
+
 <p>But it also has a problem in that the algorithm can not be 'suspended' in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  Although Ruby is multi-threaded and running two threads works in RubyShoes, Rails does not work either with a stateful server (and multiple threads) or with continuations.  At the end of each controller dispatch the session or the database has to have persisted all state.  So we need to do something like formalizing the state of the Disks and Towers to make the Tower of Hanoi work with Rails.</p>
 
 <p>Also, the Smalltalk code in this section was among the most 'closure-oriented', so this helps show how that maps to Ruby.</p>
@@ -478,9 +481,12 @@ end
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
+<h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
 
 <p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is 'true' as an algorithm, but comes off as a bit unnatural for humans.  But it also has a problem in that the algorithm can not be 'suspended' in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  For a multi-threaded language, this inability to suspend may not be a problem because you could create one thread for the algorithm and another thread to listen for whenever a new (interesting) change in state occurs.  This is how the RubyShoes version works: the algorithm is in a new thread separate from the GUI thread (otherwise things behave badly).  Similarly, the Smalltalk-80 GUI is being drawn in a different thread than the main execution thread.  But in many circumstances even this multi-thread version would not work: say you have a client-server version (e.g. Rails) or want to pause/suspend the execution of the 100-tall tower of hanoi.  And finally, if you only have a single-threaded language like Flex, things just don't work at all for intermediate renderings unless you can make the algorithm not be dependent on the call stack.</p>
+
+<!-- more -->
+
 
 <h3>Tower of Hanoi — With Rule Disks (and no stack) -- Flex</h3>
 
@@ -779,6 +785,9 @@ protected override function createDisk() : HanoiDisk {
 <h2>Tower of Hanoi — With Graphics</h2>
 
 <p>To follow the flow of code progress within "A Taste of Smalltalk", we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to 'contain' yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark -- and again study how different languages work with the same problem.</p>
+
+<!-- more -->
+
 
 <h3>Tower of Hanoi — With Graphics -- Flex</h3>
 

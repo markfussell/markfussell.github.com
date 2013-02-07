@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Virtualization | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/virtualization/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:57:09-08:00</updated>
+  <updated>2013-02-06T20:59:49-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -23,6 +23,9 @@
 <h2>Tower of Hanoi — With Model Objects</h2>
 
 <p>The book "A Taste of Smalltalk" jumps from showing a single 'TowerOfHanoi' object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Given Ruby has no built-in graphic capability, I want to separate these two changes.  So first we can put in Disk objects and study that change.  This should work for anyone with a Ruby installation and does not require installing Tk or Shoes or anything.  After that, we can go into some GUI toolkit code just to finish up the comparison and have bonus points.</p>
+
+<!-- more -->
+
 
 <p>To make the adding of Disk objects to our Hanoi code a bit more 'realistic', a new bonus requirement (beyond the book) is that we track the number of times a given disk moves.</p>
 

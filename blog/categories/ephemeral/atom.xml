@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ephemeral | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/ephemeral/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:57:09-08:00</updated>
+  <updated>2013-02-06T20:59:49-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -19,6 +19,9 @@
     <updated>2008-08-28T04:34:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/28/being-ephemeral</id>
     <content type="html"><![CDATA[<p>There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral.  I don't believe people realize it, but "being ephemeral" is the core question and the standard answer should be?  42.  Which given it is >0 is 'Yes'.  So "Be Ephemeral" unless you can't possibly be ephemeral.</p>
+
+<!-- more -->
+
 
 <p>When can't you be ephemeral?... turns out it is in a very small number of cases.  Ruby is more ephemeral than the standard Smalltalk 'image' approach, so it wins.  Xen/VMWare is more ephemeral than a physical machine, so it wins.  <em>Scripted</em> vm image building is more ephemeral than image snapshots, so its win.  Credit-card receipts in a retail store... well those have to be remembered (persistent) or you could lose money or customers or both.   So make that persistent :-)</p>
 

@@ -96,6 +96,9 @@
 
 <p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is &#8216;true&#8217; as an algorithm, but comes off as a bit unnatural for humans.</p>
 
+<!-- more -->
+
+
 <p>But it also has a problem in that the algorithm can not be &#8216;suspended&#8217; in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  Although Ruby is multi-threaded and running two threads works in RubyShoes, Rails does not work either with a stateful server (and multiple threads) or with continuations.  At the end of each controller dispatch the session or the database has to have persisted all state.  So we need to do something like formalizing the state of the Disks and Towers to make the Tower of Hanoi work with Rails.</p>
 
 <p>Also, the Smalltalk code in this section was among the most &#8216;closure-oriented&#8217;, so this helps show how that maps to Ruby.</p>

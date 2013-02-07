@@ -96,6 +96,9 @@
 
 <p>To follow the flow of code progress within &#8220;A Taste of Smalltalk&#8221;, we next need to include a graphical representation of the disks and their movement between the poles.  As mentioned previously, converting this part to Ruby has a problem: Ruby doesn&#8217;t include graphic capabilities.  So we have to pick an extension or add-on to Ruby that will enable us to hook into the graphics system.</p>
 
+<!-- more -->
+
+
 <p>Because it seems the easiest to work with, I chose &#8216;Shoes&#8217; (<a href="http://code.whytheluckystiff.net/shoes/">http://code.whytheluckystiff.net/shoes/</a>).  The installation of Shoes is very simple and you just run your &#8216;app&#8217; inside Shoes application world, which includes Ruby itself, the graphic capabilities, and the UI framework.</p>
 
 <p>Shoes seems simple and clean, the only problem is it doesn&#8217;t work within an IDE, so I lost a bit of tooling while doing this.  With the final running program, this isn&#8217;t a problem but it can be painful if you are learning, tweaking, or studying things.  So because this could be painful to others as well, I made the main code base able to run inside a normal irb, and in that case it just logs to the console like it always has been.</p>

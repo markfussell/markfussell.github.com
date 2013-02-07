@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:57:09-08:00</updated>
+  <updated>2013-02-06T20:59:49-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -1422,6 +1422,9 @@ Then
 
 <p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is &#8216;true&#8217; as an algorithm, but comes off as a bit unnatural for humans.</p>
 
+<!-- more -->
+
+
 <p>But it also has a problem in that the algorithm can not be &#8216;suspended&#8217; in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  Although Ruby is multi-threaded and running two threads works in RubyShoes, Rails does not work either with a stateful server (and multiple threads) or with continuations.  At the end of each controller dispatch the session or the database has to have persisted all state.  So we need to do something like formalizing the state of the Disks and Towers to make the Tower of Hanoi work with Rails.</p>
 
 <p>Also, the Smalltalk code in this section was among the most &#8216;closure-oriented&#8217;, so this helps show how that maps to Ruby.</p>
@@ -1648,9 +1651,12 @@ Then
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
+<h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
 
 <p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is &#8216;true&#8217; as an algorithm, but comes off as a bit unnatural for humans.  But it also has a problem in that the algorithm can not be &#8216;suspended&#8217; in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  For a multi-threaded language, this inability to suspend may not be a problem because you could create one thread for the algorithm and another thread to listen for whenever a new (interesting) change in state occurs.  This is how the RubyShoes version works: the algorithm is in a new thread separate from the GUI thread (otherwise things behave badly).  Similarly, the Smalltalk-80 GUI is being drawn in a different thread than the main execution thread.  But in many circumstances even this multi-thread version would not work: say you have a client-server version (e.g. Rails) or want to pause/suspend the execution of the 100-tall tower of hanoi.  And finally, if you only have a single-threaded language like Flex, things just don&#8217;t work at all for intermediate renderings unless you can make the algorithm not be dependent on the call stack.</p>
+
+<!-- more -->
+
 
 <h3>Tower of Hanoi — With Rule Disks (and no stack) &#8211; Flex</h3>
 
@@ -2178,6 +2184,9 @@ Then
 
 <p>To follow the flow of code progress within &#8220;A Taste of Smalltalk&#8221;, we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to &#8216;contain&#8217; yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark &#8211; and again study how different languages work with the same problem.</p>
 
+<!-- more -->
+
+
 <h3>Tower of Hanoi — With Graphics &#8211; Flex</h3>
 
 <p>Given our Flex version is already in a graphics environment, and the model (TowerOfHanoi) is already aware of having to talk the View, the changes are relatively minimal to get things working.  We need to render the disks in the Application/View and we need to notify the view whenever the model changes.</p>
@@ -2375,9 +2384,12 @@ Then
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<h2>Tower of Hanoi — With Model Objects</h2>
+<h2>Tower of Hanoi &mdash; With Model Objects</h2>
 
 <p>The book &#8220;A Taste of Smalltalk&#8221; jumps from showing a single &#8216;TowerOfHanoi&#8217; object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Even though Flex has no issue with graphics, I want to separate these two changes both to match Ruby and because the changes are logically somewhat separate.  So first we can put in Disk objects and study that change.  After that, we can go into the GUI code.</p>
+
+<!-- more -->
+
 
 <h3>The Code</h3>
 
@@ -2659,6 +2671,11 @@ Then
 
 <p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
 
+<!-- more -->
+
+
+
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -2858,6 +2875,9 @@ Then
 
 <p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
 
+<!-- more -->
+
+
 <h3>Tower of Hanoi &#8211; Procedural With Input &#8211; Flex</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -2951,6 +2971,9 @@ Then
     <updated>2008-09-02T00:29:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Flex.  This is the second of my comparisons in this series, where the first one was in Ruby.</p>
+
+<!-- more -->
+
 
 <p>You can find the original book here:</p>
 
@@ -3127,6 +3150,9 @@ Then
 <h2>Tower of Hanoi — With Graphics</h2>
 
 <p>To follow the flow of code progress within &#8220;A Taste of Smalltalk&#8221;, we next need to include a graphical representation of the disks and their movement between the poles.  As mentioned previously, converting this part to Ruby has a problem: Ruby doesn&#8217;t include graphic capabilities.  So we have to pick an extension or add-on to Ruby that will enable us to hook into the graphics system.</p>
+
+<!-- more -->
+
 
 <p>Because it seems the easiest to work with, I chose &#8216;Shoes&#8217; (<a href="http://code.whytheluckystiff.net/shoes/">http://code.whytheluckystiff.net/shoes/</a>).  The installation of Shoes is very simple and you just run your &#8216;app&#8217; inside Shoes application world, which includes Ruby itself, the graphic capabilities, and the UI framework.</p>
 
@@ -3723,6 +3749,9 @@ Then
 
 <p>The book &#8220;A Taste of Smalltalk&#8221; jumps from showing a single &#8216;TowerOfHanoi&#8217; object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Given Ruby has no built-in graphic capability, I want to separate these two changes.  So first we can put in Disk objects and study that change.  This should work for anyone with a Ruby installation and does not require installing Tk or Shoes or anything.  After that, we can go into some GUI toolkit code just to finish up the comparison and have bonus points.</p>
 
+<!-- more -->
+
+
 <p>To make the adding of Disk objects to our Hanoi code a bit more &#8216;realistic&#8217;, a new bonus requirement (beyond the book) is that we track the number of times a given disk moves.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -4000,6 +4029,11 @@ Then
 
 <p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
 
+<!-- more -->
+
+
+
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -4106,6 +4140,9 @@ Then
 
 <p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.  Smalltalk (started in 1972) was one of the environments that <em>created</em> personal computers and included abilities in its VM and Libraries that are now submerged into the operating system (some 30 years later).  Now that these abilities are &#8216;intrisically&#8217; present, there are many different ways to access them &#8211; so Ruby does not include graphics itself (in its own terms) but calls extensions that provide those graphics.  Given I don&#8217;t really want to go into Tk or Web programming when discussing a language itself, I will simplify the problem and make it so we only need to get the value somehow&#8230; So &#8216;gets&#8217; is fine.</p>
 
+<!-- more -->
+
+
 <h3>Tower of Hanoi &#8211; Procedural with Input &#8211; Ruby</h3>
 
 <p>The only thing we need to do is get the height from the user, so we can just ask for it:</p>
@@ -4139,6 +4176,9 @@ Then
     <updated>2008-08-28T18:00:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was &#8216;A Taste of Smalltalk&#8217;.  This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp.  I believe it is always important to show multiple programming languages for concepts and this book followed that rule.  The goal of this post-series is to take &#8216;A Taste of Smalltalk&#8217; and apply it to Ruby.</p>
+
+<!-- more -->
+
 
 <p>You can find the original book here:</p>
 
@@ -4430,6 +4470,9 @@ move_tower(3,"Tower-1", nil, Proc.new {|| "Tower" })
     <updated>2008-08-28T04:34:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/08/28/being-ephemeral</id>
     <content type="html"><![CDATA[<p>There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral.  I don&#8217;t believe people realize it, but &#8220;being ephemeral&#8221; is the core question and the standard answer should be?  42.  Which given it is >0 is &#8216;Yes&#8217;.  So &#8220;Be Ephemeral&#8221; unless you can&#8217;t possibly be ephemeral.</p>
+
+<!-- more -->
+
 
 <p>When can&#8217;t you be ephemeral?&#8230; turns out it is in a very small number of cases.  Ruby is more ephemeral than the standard Smalltalk &#8216;image&#8217; approach, so it wins.  Xen/VMWare is more ephemeral than a physical machine, so it wins.  <em>Scripted</em> vm image building is more ephemeral than image snapshots, so its win.  Credit-card receipts in a retail store&#8230; well those have to be remembered (persistent) or you could lose money or customers or both.   So make that persistent :-)</p>
 
