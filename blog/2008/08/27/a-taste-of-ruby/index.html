@@ -95,8 +95,8 @@
 <p>You can find the original book here:</p>
 
 <ul>
-<li><p><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></p></li>
-<li><p><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></p></li>
+<li><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></li>
+<li><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></li>
 </ul>
 
 
@@ -112,37 +112,48 @@
 
 <h3>Tower of Hanoi &#8211; Procedural &#8211; Ruby</h3>
 
-<p>[sourcecode language=&#8217;ruby&#8217;]</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</span>
+</span><span class='line'><span class="c1"># Tower of Hanoi -- Variation 1</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Recursive procedure to move the disk at a height</span>
+</span><span class='line'><span class="c1"># from one pin to another pin using a third pin</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Actually move the disk between the pins</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span><span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="n">fromPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">toPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Do the tower</span>
+</span><span class='line'><span class="n">move_tower</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
-
-<h1>Tower of Hanoi &#8211; Variation 1</h1>
-
-<h1>Recursive procedure to move the disk at a height</h1>
-
-<h1>from one pin to another pin using a third pin</h1>
-
-<p>def move_tower(height, fromPin, toPin, usingPin)
-  if (height>0) then</p>
-
-<pre><code>move_tower(height-1, fromPin, usingPin, toPin)
-move_disk(fromPin, toPin)
-move_tower(height-1, usingPin, toPin, fromPin)
-</code></pre>
-
-<p>  end
-end</p>
-
-<h1>Actually move the disk between the pins</h1>
-
-<p>def move_disk(fromPin,toPin)
-  print fromPin.to_s, &#8220;->&#8221;, toPin.to_s, &#8220;\n&#8221;
-end</p>
-
-<h1>Do the tower</h1>
-
-<p>move_tower(3,1,3,2)
-[/sourcecode]</p>
 
 <p>You could simply paste this into irb to see it run.</p>
 
@@ -154,24 +165,44 @@ end</p>
 
 <h3>Tower of Hanoi &#8211; Procedural &#8211; Smalltalk</h3>
 
-<pre><code>!Object methodsFor: 'hanoi' stamp: 'MLF 8/28/2008 10:31'!
-moveTower: height from: fromPin to: toPin using: usingPin
-    (height &gt; 0) ifTrue: [
-        self moveTower: (height-1) from: fromPin to: usingPin using: toPin.
-        self moveDisk: fromPin to: toPin.
-        self moveTower: (height-1) from: usingPin to: toPin using: fromPin
-    ]
-!
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='smalltalk'><span class='line'>    !<span class="nc">Object</span> <span class="nf">methodsFor:</span> <span class="s">&#39;hanoi&#39;</span> <span class="nf">stamp:</span> <span class="s">&#39;MLF 8/28/2008 10:31&#39;</span><span class="nf">!</span>
+</span><span class='line'>    <span class="nf">moveTower:</span> <span class="nv">height</span> <span class="nf">from:</span> <span class="nv">fromPin</span> <span class="nf">to:</span> <span class="nv">toPin</span> <span class="nf">using:</span> <span class="nv">usingPin</span>
+</span><span class='line'>        (<span class="nv">height</span> <span class="nf">&gt;</span> <span class="m">0</span>) <span class="nb">ifTrue:</span> [
+</span><span class='line'>          <span class="bp">self</span> <span class="nf">moveTower:</span> (<span class="nv">height</span><span class="nf">-</span><span class="m">1</span>) <span class="nf">from:</span> <span class="nv">fromPin</span> <span class="nf">to:</span> <span class="nv">usingPin</span> <span class="nf">using:</span> <span class="nv">toPin</span><span class="p">.</span>
+</span><span class='line'>          <span class="bp">self</span> <span class="nf">moveDisk:</span> <span class="nv">fromPin</span> <span class="nf">to:</span> <span class="nv">toPin</span><span class="p">.</span>
+</span><span class='line'>          <span class="bp">self</span> <span class="nf">moveTower:</span> (<span class="nv">height</span><span class="nf">-</span><span class="m">1</span>) <span class="nf">from:</span> <span class="nv">usingPin</span> <span class="nf">to:</span> <span class="nv">toPin</span> <span class="nf">using:</span> <span class="nv">fromPin</span>
+</span><span class='line'>      ]
+</span><span class='line'>    <span class="nf">!</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nf">moveDisk:</span> <span class="nv">fromPin</span> <span class="nf">to:</span> <span class="nv">toPin</span>
+</span><span class='line'>      <span class="nc">Transcript</span> <span class="nf">show:</span> (<span class="nv">fromPin</span> <span class="nf">printString,</span> <span class="s">&#39; -&gt; &#39;</span><span class="nf">,</span> <span class="nv">toPin</span> <span class="nf">printString</span>)<span class="p">;</span> <span class="nf">cr</span><span class="p">.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">! !</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="err">&quot;</span><span class="nc">Do</span> <span class="nf">the</span> <span class="nf">tower</span>
+</span><span class='line'>    (<span class="nc">Object</span> <span class="nb">new</span>) <span class="nf">moveTower:</span> <span class="m">3</span> <span class="nf">from:</span> <span class="m">1</span> <span class="nf">to:</span> <span class="m">3</span> <span class="nf">using:</span> <span class="m">2</span>
+</span><span class='line'>    <span class="nf">!</span>
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
 
-moveDisk: fromPin to: toPin
-    Transcript show: (fromPin printString, ' -&gt; ', toPin printString); cr.
-
-! !
-
-"Do the tower
-(Object new) moveTower: 3 from: 1 to: 3 using: 2
-!
-</code></pre>
 
 <p>Now an interesting thing about the Smalltalk version is that we had to create an object to execute our code.  Smalltalk does not have functions or procedures: it only has objects and messages that get sent to objects.  So we need some object to respond to the message.  There could be an implicit object associated with the &#8216;File In&#8217; format &#8211; but there isn&#8217;t.  A second interesting thing about the Smalltalk version is that we modified Object itself.  So any of:</p>
 
@@ -190,24 +221,24 @@ moveDisk: fromPin to: toPin
 <p>In this particular case, Ruby is:</p>
 
 <ul>
-<li><p>Doing a much cleaner thing by default (for this file-in approach)</p></li>
-<li><p>But can do exactly the same thing if told to</p></li>
+<li>Doing a much cleaner thing by default (for this file-in approach)</li>
+<li>But can do exactly the same thing if told to</li>
 </ul>
 
 
 <p>The &#8220;cleaner thing by default&#8221; is that Ruby statements (commands) when being executed are always talking to some object, and the default object is an object called &#8216;main&#8217;.  So statements without an explicit object <em>receiving</em> the message send those messages to &#8216;main&#8217; &#8211; and the message &#8220;move_tower&#8221; is sent to main.  And although Ruby doesn&#8217;t describe itself quite like this, effectively &#8216;def&#8217; could be viewed as a message and it is also sent to &#8216;main&#8217;.  &#8216;def&#8217; creates a method on a Class &#8211; either the eigen-class of the receiving object or on a Class object.  So Ruby behaves almost identically to Smalltalk except it:</p>
 
 <ul>
-<li><p>Has a default object for &#8216;File In&#8217; format</p></li>
-<li><p>Creates methods on the eigen-class if a non-class is the target of the def &#8216;message&#8217;</p></li>
+<li>Has a default object for &#8216;File In&#8217; format</li>
+<li>Creates methods on the eigen-class if a non-class is the target of the def &#8216;message&#8217;</li>
 </ul>
 
 
 <p>Probably the simplest way for Smalltalk to match this cleaner scripting approach is for a Smalltalk &#8216;terminal&#8217; (called IRS :-) to define &#8216;self&#8217; as being itself and then the method definitions would automatically happen on itself.  So you would have lines like:</p>
 
 <ul>
-<li><p>&#8216;!self methodsFor: &#8216;hanoi&#8217; &#8230;</p></li>
-<li><p>self moveTower: 3 from: 1 &#8230;</p></li>
+<li>&#8216;!self methodsFor: &#8216;hanoi&#8217; &#8230;</li>
+<li>self moveTower: 3 from: 1 &#8230;</li>
 </ul>
 
 
@@ -217,45 +248,64 @@ moveDisk: fromPin to: toPin
 
 <p>The second point above was that Ruby can do exactly what the Smalltalk code does.  This isn&#8217;t to show that this is a better approach (in this case it is not), but to show the incredible similarity between the two languages.</p>
 
-<p>[sourcecode language=&#8217;ruby&#8217;]</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</span>
+</span><span class='line'><span class="c1"># Tower of Hanoi -- Variation 1b</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Object</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Recursive procedure to move the disk at a height</span>
+</span><span class='line'><span class="c1"># from one pin to another pin using a third pin</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Actually move the disk between the pins</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span><span class="n">toPin</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">print</span> <span class="n">fromPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">toPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Do the tower</span>
+</span><span class='line'><span class="p">(</span><span class="no">Object</span><span class="o">.</span><span class="n">new</span><span class="p">)</span><span class="o">.</span><span class="n">move_tower</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class='line'><span class="s2">&quot;HiThere&quot;</span><span class="o">.</span><span class="n">move_tower</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;---&quot;</span>
+</span><span class='line'><span class="kp">nil</span><span class="o">.</span><span class="n">move_tower</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
-
-<h1>Tower of Hanoi &#8211; Variation 1b</h1>
-
-<p>class Object</p>
-
-<h1>Recursive procedure to move the disk at a height</h1>
-
-<h1>from one pin to another pin using a third pin</h1>
-
-<p>def move_tower(height, fromPin, toPin, usingPin)
-  if (height>0) then</p>
-
-<pre><code>move_tower(height-1, fromPin, usingPin, toPin)
-move_disk(fromPin, toPin)
-move_tower(height-1, usingPin, toPin, fromPin)
-</code></pre>
-
-<p>  end
-end</p>
-
-<h1>Actually move the disk between the pins</h1>
-
-<p>def move_disk(fromPin,toPin)
-  print fromPin.to_s, &#8220;->&#8221;, toPin.to_s, &#8220;\n&#8221;
-end</p>
-
-<p>end</p>
-
-<h1>Do the tower</h1>
-
-<p>(Object.new).move_tower(3,1,3,2)
-puts &#8220;&#8212;&#8221;
-&#8220;HiThere&#8221;.move_tower(3,1,3,2)
-puts &#8220;&#8212;&#8221;
-nil.move_tower(3,1,3,2)
-[/sourcecode]</p>
 
 <p>This similarity is way beyond casual similarity &#8211; enabling &#8216;nil&#8217; to have a method by augmenting Object with almost exactly the same incantation makes for a very similar DNA.  Basically it seems like the Ruby language is a pure syntactic mutation on Smalltalk.</p>
 
@@ -271,35 +321,42 @@ move_tower(3,"Tower-1", nil, Proc.new {|| "Tower" })
 
 <p>For completeness, we should do the example in Java as well.  Given Java execution starts at some static &#8216;main&#8217; method/procedure, it seems like the most natural version of this Procedural code is to stay on that static side.</p>
 
-<p>[sourcecode language=&#8217;java&#8217;]
-class Hanoi {
-   static public void main(String[] args) {</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">class</span> <span class="nc">Hanoi</span> <span class="o">{</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">moveTower</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">2</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">moveTower</span><span class="o">(</span><span class="kt">int</span> <span class="n">height</span><span class="o">,</span> <span class="n">Object</span> <span class="n">fromPin</span><span class="o">,</span> <span class="n">Object</span> <span class="n">toPin</span><span class="o">,</span> <span class="n">Object</span> <span class="n">usingPin</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>         <span class="n">moveTower</span><span class="o">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">fromPin</span><span class="o">,</span> <span class="n">usingPin</span><span class="o">,</span> <span class="n">toPin</span><span class="o">);</span>
+</span><span class='line'>         <span class="n">moveDisk</span><span class="o">(</span><span class="n">fromPin</span><span class="o">,</span> <span class="n">toPin</span><span class="o">);</span>
+</span><span class='line'>         <span class="n">moveTower</span><span class="o">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">usingPin</span><span class="o">,</span> <span class="n">toPin</span><span class="o">,</span> <span class="n">fromPin</span><span class="o">);</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">moveDisk</span><span class="o">(</span><span class="n">Object</span> <span class="n">fromPin</span><span class="o">,</span> <span class="n">Object</span> <span class="n">toPin</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;&quot;</span><span class="o">+</span><span class="n">fromPin</span><span class="o">+</span><span class="s">&quot;-&gt;&quot;</span><span class="o">+</span><span class="n">toPin</span><span class="o">);</span>
+</span><span class='line'>   <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>  moveTower(3,1,3,2);
-</code></pre>
-
-<p>   }</p>
-
-<p>   static public void moveTower(int height, Object fromPin, Object toPin, Object usingPin) {</p>
-
-<pre><code>  if (height &gt; 0) {
-     moveTower(height-1, fromPin, usingPin, toPin);
-     moveDisk(fromPin, toPin);
-     moveTower(height-1, usingPin, toPin, fromPin);
-  }
-</code></pre>
-
-<p>   }</p>
-
-<p>   static public void moveDisk(Object fromPin, Object toPin) {</p>
-
-<pre><code>  System.out.println(""+fromPin+"-&gt;"+toPin);
-</code></pre>
-
-<p>   }
-}</p>
-
-<p>[/sourcecode]</p>
 
 <h2>Comments</h2>
 

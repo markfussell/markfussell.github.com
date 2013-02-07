@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dynamic | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/dynamic/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T19:00:21-08:00</updated>
+  <updated>2013-02-06T19:10:38-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -762,8 +762,8 @@ move_tower(height.to_i,1,3,2)
 <p>You can find the original book here:</p>
 
 <ul>
-<li><p><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></p></li>
-<li><p><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></p></li>
+<li><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></li>
+<li><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></li>
 </ul>
 
 
@@ -779,7 +779,7 @@ move_tower(height.to_i,1,3,2)
 
 <h3>Tower of Hanoi -- Procedural -- Ruby</h3>
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
 
@@ -809,7 +809,7 @@ end</p>
 <h1>Do the tower</h1>
 
 <p>move_tower(3,1,3,2)
-[/sourcecode]</p>
+```</p>
 
 <p>You could simply paste this into irb to see it run.</p>
 
@@ -820,6 +820,8 @@ end</p>
 <p>To make inter-language comparisons easier, I will instead use the 'File In' format when talking about Smalltalk programs.  Since that is missing from the book, here it is.  Note that the lines starting with '!' are not Smalltalk language syntax but are part of the standard library for being able to 'file in' changes.  For most programming languages the two would be equivalent, but Smalltalk allows multiple ways of creating a program so the coupling is softer.</p>
 
 <h3>Tower of Hanoi -- Procedural -- Smalltalk</h3>
+
+<p>```smalltalk</p>
 
 <pre><code>!Object methodsFor: 'hanoi' stamp: 'MLF 8/28/2008 10:31'!
 moveTower: height from: fromPin to: toPin using: usingPin
@@ -840,6 +842,8 @@ moveDisk: fromPin to: toPin
 !
 </code></pre>
 
+<p>```</p>
+
 <p>Now an interesting thing about the Smalltalk version is that we had to create an object to execute our code.  Smalltalk does not have functions or procedures: it only has objects and messages that get sent to objects.  So we need some object to respond to the message.  There could be an implicit object associated with the 'File In' format -- but there isn't.  A second interesting thing about the Smalltalk version is that we modified Object itself.  So any of:</p>
 
 <ul>
@@ -857,24 +861,24 @@ moveDisk: fromPin to: toPin
 <p>In this particular case, Ruby is:</p>
 
 <ul>
-<li><p>Doing a much cleaner thing by default (for this file-in approach)</p></li>
-<li><p>But can do exactly the same thing if told to</p></li>
+<li>Doing a much cleaner thing by default (for this file-in approach)</li>
+<li>But can do exactly the same thing if told to</li>
 </ul>
 
 
 <p>The "cleaner thing by default" is that Ruby statements (commands) when being executed are always talking to some object, and the default object is an object called 'main'.  So statements without an explicit object <em>receiving</em> the message send those messages to 'main' -- and the message "move_tower" is sent to main.  And although Ruby doesn't describe itself quite like this, effectively 'def' could be viewed as a message and it is also sent to 'main'.  'def' creates a method on a Class -- either the eigen-class of the receiving object or on a Class object.  So Ruby behaves almost identically to Smalltalk except it:</p>
 
 <ul>
-<li><p>Has a default object for 'File In' format</p></li>
-<li><p>Creates methods on the eigen-class if a non-class is the target of the def 'message'</p></li>
+<li>Has a default object for 'File In' format</li>
+<li>Creates methods on the eigen-class if a non-class is the target of the def 'message'</li>
 </ul>
 
 
 <p>Probably the simplest way for Smalltalk to match this cleaner scripting approach is for a Smalltalk 'terminal' (called IRS :-) to define 'self' as being itself and then the method definitions would automatically happen on itself.  So you would have lines like:</p>
 
 <ul>
-<li><p>'!self methodsFor: 'hanoi' ...</p></li>
-<li><p>self moveTower: 3 from: 1 ...</p></li>
+<li>'!self methodsFor: 'hanoi' ...</li>
+<li>self moveTower: 3 from: 1 ...</li>
 </ul>
 
 
@@ -884,7 +888,7 @@ moveDisk: fromPin to: toPin
 
 <p>The second point above was that Ruby can do exactly what the Smalltalk code does.  This isn't to show that this is a better approach (in this case it is not), but to show the incredible similarity between the two languages.</p>
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
 
@@ -922,7 +926,7 @@ puts "---"
 "HiThere".move_tower(3,1,3,2)
 puts "---"
 nil.move_tower(3,1,3,2)
-[/sourcecode]</p>
+```</p>
 
 <p>This similarity is way beyond casual similarity -- enabling 'nil' to have a method by augmenting Object with almost exactly the same incantation makes for a very similar DNA.  Basically it seems like the Ruby language is a pure syntactic mutation on Smalltalk.</p>
 
@@ -938,7 +942,7 @@ move_tower(3,"Tower-1", nil, Proc.new {|| "Tower" })
 
 <p>For completeness, we should do the example in Java as well.  Given Java execution starts at some static 'main' method/procedure, it seems like the most natural version of this Procedural code is to stay on that static side.</p>
 
-<p>[sourcecode language='java']
+<p>```java
 class Hanoi {
    static public void main(String[] args) {</p>
 
@@ -966,7 +970,7 @@ class Hanoi {
 <p>   }
 }</p>
 
-<p>[/sourcecode]</p>
+<p>```</p>
 
 <h2>Comments</h2>
 
