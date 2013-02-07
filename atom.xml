@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T15:38:01-08:00</updated>
+  <updated>2013-02-07T15:40:53-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -104,7 +104,7 @@ as part of the build-deploy pipeline.</p>
 <p>A repository that is paired with an S3 bucket is located here:</p>
 
 <ul>
-<li> https://github.com/markfussell/giteveryrepo1</li>
+<li> <a href="https://github.com/markfussell/giteveryrepo1">https://github.com/markfussell/giteveryrepo1</a></li>
 </ul>
 
 
@@ -213,7 +213,7 @@ content, so a completely flat representation is correct and simple.</p>
 <p>If you cloned the example repository:</p>
 
 <ul>
-<li> https://github.com/markfussell/giteveryrepo1</li>
+<li> <a href="https://github.com/markfussell/giteveryrepo1">https://github.com/markfussell/giteveryrepo1</a></li>
 </ul>
 
 
@@ -337,14 +337,14 @@ different workers.</p>
 can test it out.  The CloudFormation is here:</p>
 
 <ul>
-<li> https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template</li>
+<li> <a href="https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template">https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template</a></li>
 </ul>
 
 
 <p>and it can be run by going to AWS CloudFormation and just giving it one of your keypairs:</p>
 
 <ul>
-<li> https://console.aws.amazon.com/cloudformation/</li>
+<li> <a href="https://console.aws.amazon.com/cloudformation/">https://console.aws.amazon.com/cloudformation/</a></li>
 </ul>
 
 
