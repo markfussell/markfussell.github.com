@@ -1,780 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Java | Foo]]></title>
-  <link href="http://markfussell.github.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T16:08:29-08:00</updated>
-  <id>http://markfussell.github.com/</id>
-  <author>
-    <name><![CDATA[Mark Fussell]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SmallJava: Smalltalk to Java... Using Language Transformation to Show Language Differences - Foo</title>
+  <meta name="author" content="Mark Fussell">
 
   
-  <entry>
-    <title type="html"><![CDATA[Why dynamic typing?]]></title>
-    <link href="http://markfussell.github.com/blog/1997/08/27/why-dynamic-typing/"/>
-    <updated>1997-08-27T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/1997/08/27/why-dynamic-typing</id>
-    <content type="html"><![CDATA[<p>This is a discussion of the benefits and drawbacks of dynamic typing
-based on specific questions by Anatol Fomenko.</p>
+  <meta name="description" content="This is a discussion of the benefits and drawbacks of dynamic typing &nbsp; &nbsp; &nbsp; &nbsp; SmallJava Smalltalk to Java Using Language &hellip;">
+  
 
-<p>The following is a reference to the main thread-point that this short paper is on:</p>
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<ul>
-<li> <a href="https://groups.google.com/forum/?fromgroups=#!topic/comp.lang.java.programmer/hIJfUz2kVIM%5B1-25-false%5D">Re: Why dynamic typing (was: Compiler as mediator)</a></li>
+  
+  <link rel="canonical" href="http://markfussell.github.com/blog/1997/05/07/smalljava/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Foo" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Foo</a></h1>
+  
+    <h2>Bar</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
 
-
-<h2>Original Posting: Re: Why dynamic typing (was: Compiler as mediator)</h2>
-
-<pre class="quote1">
-Anatol Fomenko wrote:
-> ...Why Smalltalk is dynamically typed, and why it
-> does not affect negatively the stability of the large Smalltalk
-> applications?
-</pre>
-
-
-<p>Rephrasing slightly gives the two following questions:</p>
-
-<OL class="arab">
-  <LI>Why is Smalltalk dynamically typed?</LI>
-  <LI>Why does dynamic typing (as done with Smalltalk) not negatively
-      affect the stability of large applications?</LI>
-</OL>
-
-
-<p>The first question would be better answered by Alan Kay and the
-Smalltalk team more than anyone else relaying their reasons.  Alan Kay
-has described some of his reasoning in the book "History of Programming
-Languages II", various OOPSLA &amp; Smalltalk talks, and other sources.</p>
-
-<!-- more -->
-
-
-<p>   In my own words, the main reason is that Smalltalk has a simple &amp;
-powerful concept of building software out of Objects that send Messages
-to other Objects.  This is more powerful in both the small and the large
-than a language that adds the additional concept (and constraints) of
-"Types".  Note that biology has Objects (e.g. Cells) but no Types,
-Humans are Objects but there is no compile-time type-checking between
-humans, and even electronics do not have compile-time Types: you can
-plug the GROUND pin into +5V if you want although some physical
-constructs will discourage (but not prevent) it.  These highly scalable
-areas (life, civilization, electronics) have done fantastically without
-the support of Types, growing in orders of magnitude of functionality.
-Alan Kay (who has a biology background) leveraged insights on how cells
-and other highly-scalable areas could scale, and applied them to
-Smalltalk.  The main concept was membranes/encapsulation and little else
-was needed.</p>
-
-<p>The second question may partially support the first.  The short answer
-is dynamic typing can scale well because one tends to create much less
-code as the system grows bigger.  As the system grows, objects will get
-reused in many different situations for which they work well, and the
-layers of "membranes" allow clients to not worry about internal details
-very much.  It still requires a good architecture to build a big system,
-but the generalizable functionality of the objects is helping a lot with
-the design/implementation.</p>
-
-<p>Now someone could argue that static typing should have the same
-property: you write less code as you create more functionality.  But the
-truth is that static typing does not just avoid/remove bad code, it
-REMOVES GOOD CODE too.  And this good code that static typing is
-removing is exactly the code that makes Smalltalk so scalable: it is the
-code that can be reused in many different situations that were never
-planned for by the original authors.  Dynamic typing excels because it
-allows this highly reusable, good code that would not pass a static
-typecheck.</p>
-
-<h3>Quantifying the benefit of dynamic typing</h3>
-
-<p>To quantify this a bit, consider that ultimately both a correctly
-running Smalltalk program and a correctly running Java program will do
-the same thing, so lets consider just one aspect:</p>
-
-<UL>
-   <LI>How much extra code needs to be written to support static-typing
-vs. dynamic-typing?</LI>
-</UL>
-
-
-<p>The following are all rough estimates between Java and Smalltalk, but
-they are based on years of experience doing very similar tasks in both
-languages [but Your Mileage May Vary].  Smalltalk requires about 1/2 to
-1/3 the number of statements within a method to accomplish the same
-thing as Java [this is one of the most painful aspects of switching back
-and forth between Smalltalk and Java/C++], so the extra code is at least
-100% (2x).  The next level is the number of additional methods needed
-because of static typing.  From my experience this is probably about
-20%: one in six methods in Java would simply not need to exist in
-Smalltalk because they are solely solving a static typing problem and
-could otherwise be collapsed into the remaining five methods.  The next
-level are additional classes, which is at least another 30%.  Finally, I
-will end with additional "packages" of functionality which have to be
-rewritten or somehow significantly copied/changed to use in the desired
-context.  Again, I would say this is about 20% or so (where the 'or so'
-can get really large).  All totaled this is a minimum of:</p>
-
-<pre class="code">
-   2.0 x 1.2 x 1.3 x 1.2 = 3.75  (275% larger)
-</pre>
-
-
-<p>and could get as large as</p>
-
-<pre class="code">
-   3.0 x 1.3 x 1.5 x 1.7 = 9.5   (850% larger)
-</pre>
-
-
-<p>If you take out the method-statement-level multiplier (people don't seem
-to mind this growth as much and it is well localized) you get an 85% to
-230% growth in overall system size (packages of classes of methods).</p>
-
-<p>It would be better to have real experimental numbers (say for TOPLink or
-another cross-language product).  But the above gives the general
-concept of an advantage of dynamic languages and the penalty of static
-typing.</p>
-
-<p>If you need a specific example, consider the [completely randomly
-selected] JDK 1.2 Collection code of:</p>
-
-<pre class="code">
-    public boolean AbstractCollection::removeAll(Collection c) {
-        boolean modified = false;
-        Iterator e = iterator();
-        while (e.hasNext()) {
-            if(c.contains(e.next())) {
-                e.remove();
-                modified = true;
-            }
-        }
-        return modified;
-    }
-</pre>
-
-
-<p>The static-typing problem in this extremely simple code is that 'c' only
-needs to respond to 'contains', not be a Collection.  This means I can't
-just use any containment concept I want to (say, remove all people who
-are 6' tall) by passing in an object that understands 'contains'.
-Because of a static-typing restriction on what would be perfectly good
-code, I have to create extra code that reproduces 90% of the above with
-the one variation that 'c' is something other than a Collection (and I
-am likely to pick something as silly [i.e. too specific] as 'Collection'
-again).  This is the type of 'package'-level punishment that static
-typing tends to cause.</p>
-
-<h3>Affect on stability</h3>
-
-<p>So returning to the question:</p>
-
-<pre>
-  (2) Why does dynamic typing (as done with Smalltalk) not negatively
-      affect the stability of large applications?
-</pre>
-
-
-<p>Because large applications written in a dynamic OO language still have
-well encapsulated parts that can be verified independently, and the
-total implementation can be about 1/2 to 1/3 the size of the
-implementation in Java (or another static-typed language)[2].</p>
-
-<p>In the small you may get a type error that static-typing could have
-catched, but you also get to build a system such that you never have to
-write 40-70% of the code you might otherwise have to.  And a line of
-code not written is a 100% guaranteed correct line of code.</p>
-
-<p>A way to really think about the negative impacts of static typing would
-be to consider (as you walk around) how many things in the real world
-would be extremely difficult to do if static typing was enforced on
-them.  For example, could you have a shoe-rack? (no, someone would have
-to 'cast' their shoes when they took them out again).  Could you use a
-key to cut open a package?  Could gas-injection cork removers exist?
-Heterogeneity, flexibility, extensibility, and reusability are all
-punished by static typing.</p>
-
-<p>Not that I think static-typing isn't useful... it just has serious
-drawbacks.  Certainly Eiffel does it better than Java.  But
-dynamic-typing has conceptual advantages that even the best static-typed
-languages (e.g. Cecil) can't remove and those advantages are very
-helpful in building real, large-scale, applications.</p>
-
-<pre class="signature">
---Mark
-</pre>
-
-
-
-
-<p class="footnote">
-[1] If you would like a longer example of completely removing static
-typing from a Java program and then re-adding it incrementally, see:
-<pre>
-   <a href="http://www.chimu.com/publications/smallJava/index.html">http://www.chimu.com/publications/smallJava/index.html</a>
-</pre>
-
-<p class="footnote">
-[2] On the other hand, the value of a programming language is determined
-by how well it helps developers solve their problems.  Although the
-quality of a language itself can make it a better tool, the real power
-comes from high quality libraries and frameworks available to that
-language.  Smalltalk has an inherent advantage but if the number of
-skilled developers creating for another language (e.g. Java) is high
-enough, than that inherent advantage will go away because enough better
-frameworks will exist in the other language such that Smalltalk would
-not be as close to the solution as the other language is.
-</p>
-
-
-<H2>Subsequent Discussion</H2>
-
-<H3 class="discussion">More details and examples</H3>
-
-
-<pre class="quote1">
-Joern Janneck wrote:
-> Mark Fussell wrote:
-> >    In my own words, the main reason is that Smalltalk has a simple &
-> > powerful concept of building software out of Objects that send Messages
-> > to other Objects.  This is more powerful in both the small and the large
-> > than a language that adds the additional concept (and constraints) of
-> > "Types".
->
-> actually, you could have both, couldn't you? many oo languages do, i see
-> little reason to present them here as alternatives. the question really
-> is, why only one of them is better than the two put together, isn't it?
-</pre>
-
-Sure, there are lots of variations:
-<OL class="arab">
-  <LI>Either you have compile-time types or you don't</LI>
-  <LI>Either those compile-time types are mandatory, they are optional,
-or there are loopholes [e.g. allow dynamic typechecks]</LI>
-  <LI>Either types are explicitly declared or implicit</LI>
-  <LI class="etc">... [equal or identical type matching, granularity, DBC enhancements,
-type/class separation]...</LI>
-</OL>
-
-
-Some OO languages support multiple variations, but usually even if a
-language supports semi-optional compile-time types they will have the
-bulk of their code with mandatory compile-time checks and you can't just
-turn it off.  Most common compile-time typed languages have mandatory
-types with loopholes.
-
-
-But the questions were:
-<pre class="quote2">
->   (1) Why is Smalltalk dynamically typed?
->   (2) Why does dynamic typing (as done with Smalltalk) not negatively
->       affect the stability of large applications?
-</pre>
-
-
-The part you quoted was the auxilary answer to (1): the main answer was
-read HOPL-II and similar sources.  And to discuss (2) we have to compare
-dynamic (optimistic) typing to static (pessimistic) typing.  It would
-certainly be quite valid to consider them within a single language.  I
-did a bit of that in:
-<pre>
-   <a href="http://www.chimu.com/publications/smallJava/index.html">http://www.chimu.com/publications/smallJava/index.html</a>
-</pre>
-
-
-And note that I would prefer not to be comparing relatively
-weak/immature languages (in terms of static typing) like Java and C++.
-I would much rather be talking in terms of Eiffel or Cecil.  But the
-reality is that Java is currently a common language to show examples.  I
-certainly would not make a point of a failing in Java (e.g. invariant
-return type) as a failing in static typing.  I tend to think primarily
-in terms of Eiffel but with the additional separation of types from
-classes (that Eiffel supports but does not enforce).  This seems to be a
-reasonable perspective considering commonly available languages.
-
-
-So returning to the topic, I will add a little more explanation for a
-few of the points.
-
-### Problems with type-checking
-
-Note that there is nothing conceptually wrong with static
-type-checking.  It would be wonderful to create software that can be
-completely verified before execution.  That is provably impossible, but
-getting closer to that goal would be nice.  Static typing is a possible
-approach: you at least make sure that all clients and suppliers agree to
-a contract ahead of time before even attempting to run the program.
-Some of the problems with static typing are that:
-<OL class="upperAlpha">
-  <LI>Types are sometimes bound to Implementation Classes</LI>
-  <LI>Types have poor granularity.  Frequently a Type will be specified
-that has too many operations (is too specific) to be useful in multiple
-contexts even though subsets of those operations (a more general
-concept) is widely useful.  Since it costs effort to name and create
-each Type, there is an impetus of reduction that again impedes reuse and
-generalization.  Save now, pay later.</LI>
-  <LI>Precise type information is lost when objects are fed through more
-generic structures.</LI>
-  <LI>Types restrict future type-safe expansion to programs.  Some
-programs that could have been written type-correctly if done in one
-"lump" are impossible to write given the actual historical growth of a
-program (many people, different companies, over time, with limited
-foresight).  Choose now, pay later.</LI>
-</OL>
-
-
-Of these (A) is actually easily fixable, and Java has helped with that.
-And maybe people accept the workaround with (C): either massive
-conceptual (and usually code) bloat for a myriad of homogeneous
-structures or using a dynamic-typecheck loophole.  But (B) and (D) are
-pretty much intractable flaws in static typing for the near future (next
-10 years of commercial software).  I would love to be wrong, but it
-seems unlikely at the current rate of change in programming languages
-and research.
-
-
-Someone could say somehow they avoid (B) and (D) but I would bet big
-money that they are being bit by them all the time.  I gave an example
-from the Java collections.  Everyone who programs in Java had the
-opportunity to comment on the JDK 1.2 collections for maybe a year
-before they were frozen.  But the final choice was to have neither a
-concept of an 'Iterable' object or a 'Containing' object.  This caused
-all of the following methods to have poor granularity:
-<pre>
-    public boolean containsAll(Collection c)
-    public boolean addAll(Collection c)
-    public boolean removeAll(Collection c)
-    public boolean retainAll(Collection c)
-</pre>
-
-
-Each of the above only needed a single operation: 'contains' or
-'iterator'.  But Javasoft rejected:
-<pre>
-    public boolean containsAll(Container c)
-    public boolean addAll(Iterable c)
-    public boolean removeAll(Container c)
-    public boolean retainAll(Container c)
-</pre>
-
-
-Why?  Because it increased the number of interfaces, which would be a
-pain (consider their design notes and the analyses of Doug Lea's
-collection classes).  A perfect example of both (B) and (D): save now,
-choose now, pay later.  And the examples are all over the place in Java,
-C++, and Eiffel library code.
-
-
-The arguments presented against this existing problem actually reinforce
-the examples of (B) and (D):
-
-<h3>Changing an existing class/interface</h3>
-
-<pre class="quote1">
-Davorin Mestric wrote:
->  Yes you can:
->     ...
->     public interface IContains{ public boolean contains( Object o);}
->     ...
->     public void AbstractCollection::removeAll( IContains c) {
-</pre>
-
-
-No, *I* can't change 'AbstractCollection'.  And Javasoft chose not to do
-it that way.  They may have chosen unwisely, but that actually means a
-whole community of Java programmers chose unwisely because of other
-forces solely attributable to static typing.  The problem was putting
-these forces on their decision in the first place.
-
-<pre class="quote1">
-Joern Janneck wrote:
-> ... now
-> assume that for a given class of collection (hashed collections are a
-> good example) it is more efficient to implement removeAll by iterating
-> over the argument (when it is smaller, maybe) instead of over the
-> original collection:
-[...]
-</pre>
-
-
-OK, so the original contract/type should have been 'IterableContainer'.
-How should I know that ahead of time?  Why did Javasoft not choose that
-interface instead?  Collection is definitely too big
-a requirement because it dramatically limits the usability of the method
-'removeAll'.  I would argue that 'IterableContainer' is also too big.
-Why can't I just support the 'contains' method?  As I gave an example:
-
-<pre class="code">
-   new Container() { public boolean contains(Object o) {
-       ... person is &lt; 6ft...
-   }}
-</pre>
-
-
-I can't iterate over all the people under six feet tall, or it would at
-least be very painful.  Why should iterability be a requirement to a
-method like 'removeAll'?  Intuitively this seems extremely limiting and
-I know it to be so in actually building systems.  But the bigger problem
-isn't just the choices in contract for the 'removeAll' method, but that
-out of simplification that that contract was lumped in with a whole
-bunch
-of other contracts for Collections in general.
-
-<h3>Summary</h3>
-
-
-Within just this one simple class (AbstractCollection):
-<UL>
-  <LI>4 are too specific (they only require an 'Iterable' or 'Container')</LI>
-  <LI>3 are non-typed (typed to Object)</LI>
-  <LI>4 are non-typed (no parameters)</LI>
-  <LI>1 'toArray(Object[])' is redundant (and is effectively dynamically
-    typed)</LI>
-</UL>
-
-
-So 7 out of 12 are identical with the dynamic version (considering only
-parameters), 1/3 are "incorrect" caused by static typing disincentives,
-and 1 is simply redundant.
-
-<pre class="quote1">
-Joern Janneck wrote:
-> ...let me again point out that i think that code size
-> as such is not the issue in big systems. it is design, and code
-> complexity. these don't differ in principle between type systems, and
-> arguably static type systems might encourage more structure. or not, who
-> knows.
-</pre>
-
-
-In principle, with a perfect static type system, there is no
-difference.  But that type system does not exist and current languages
-are very far away from it.  The problems (A)-(D) are not just affecting
-intra-method complexity (semi-harmless code bloat) they are affecting
-inter-object and inter-package complexity.  In just the example
-presented we will have to increase (potentially many) clients effort to
-use a Collection for their goals, or we will have to provide additional
-methods somewhere else (a Collection helper) that a client will need to
-know of and again increase the clients' efforts.
-
-
-And the argument can be more informed than just personal opinion.
-We have plenty of examples of the various languages to compare[1]:
-The libraries of Smalltalk, C++, Perl, Java, Eiffel, etc.; Design
-Patterns in various languages; and so on.  If you review all these
-languages in depth you will find that static typing is certainly harming
-scalability.  It may be helping in certain ways against mistakes in the
-small, but it is interfering with good code (code that will execute
-properly at runtime, is easy to understand, is easy to maintain, and is
-useful to many clients) that helps grow systems in the large and over
-time.
-
-
-But great software can be written in any language in spite of each's
-flaws.  It is just important to keep the great ideas in your team's
-heads ... and the bad ideas too so you can avoid them (or work around
-them) when possible.
-
-<pre class="signature">
---Mark
-</pre>
-
-
-<p class="footnote">
-[1] A multi-year immersive experience in each language would be the best
-approach, but some of the following might be easier to catch up on:
-<UL>
-   <LI>Design Patterns: Elements of Reusable Object-Oriented Software</LI>
-   <LI>The Design Patterns Smalltalk Companion</LI>
-   <LI>Reusable Software: The Base Object-Oriented Component Libraries.</LI>
-   <LI>Smalltalk-80: The Language and its Implementation</LI>
-   <LI>JDK 1.2 & JGL (www.objectspace.com)</LI>
-   <LI>The C++ ANSI/ISO Standard Template Library</LI>
-   <LI>CPAN</LI>
-</UL>
-</p>
-
-
-<H3 class="discussion">Java Collection</H3>
-
-<pre class="quote">
-Joern Janneck wrote:
-> Mark Fussell wrote:
-> > If you need a specific example, consider the [completely randomly
-> > selected] JDK 1.2 Collection code of:
-> >     public boolean AbstractCollection::removeAll(Collection c) {
-[snip]
-> >
-> > The static-typing problem in this extremely simple code is that 'c' only
-> > needs to respond to 'contains', not be a Collection.  This means I can't
-> > just use any containment concept I want to (say, remove all people who
-> > are 6' tall)
->
-> ... which is something that could be defined as a collection, couldn't
-> it? at least in a good design, it should be able to.
-</pre>
-
-I don't think you really mean that.  Of the 13 operations for a
-Collection:
-<pre class="code">
-    public boolean contains(Object o);
-    public boolean containsAll(Collection c);
-    public Iterator iterator();
-    public int size();
-    public boolean isEmpty();
-    public Object[] toArray();
-    public Object[] toArray(Object a[]);
-    public boolean add(Object o);
-    public boolean remove(Object o);
-    public boolean addAll(Collection c);
-    public boolean removeAll(Collection c);
-    public boolean retainAll(Collection c);
-    public void clear();
-</pre>
-
-The concept of "contains a person 6' tall" could only reasonably be
-considered to have the first operation at its core with the second as a
-helper (really an "augmentation" from Collection's point of view).
-_Maybe_ the third through seventh operation if we insist on the set
-being preknown and finite.  All of the rest imply serious mutability
-which it would be unreasonable to cause all clients of 'removeAll' to
-support for the parameter 'c'.  I can't believe you consider this to be
-a good design and good code.  Again, my definition of good code is code
-that will execute properly at runtime, is easy to understand, is easy to
-maintain, and is useful to many clients.  This problematic restriction
-(all 13 operations instead of 1, 2, or maybe 7) makes this code much
-less useful, harder too understand ("why do we need a full heavyweight
-Collection for a simple predicate-like test"), and the system less
-maintainable because we have not specified what we really, precisely,
-wanted from the parameter 'c'.
-
-The argument that HashedCollection would like more from the parameter
-'c' is really a symptom of this imprecision and a weighting towards
-implementers over clients.  Clients are the important ones and need to
-be considered first.  There will be many more clients of a particular
-operation than implementers of it, so the quality/usefulness of the
-contract to the client is much more important to the scalability of the
-application.  Client-punishing contracts are the hobgoblins of static
-typing.
-
-
-<H3 class="discussion">Augmenting existing Types</H3>
-
-<pre class="quote1">
-Mike Anderson wrote:
-[snip]
-> ...If, when implementing the client
-> of a preexisting class, I could create a new interface and declare that (in the
-> context of my client) the preexisting class implements that interface, problem D
-> would be solved (wouldn't it?).  Is such a feature feasible?  Are there
-> compile-time-checked languages that support something like this?
-</pre>
-
-You might look into BeCecil as one example:
-<pre>
-   <a href="http://www.cs.washington.edu/research/projects/cecil/cecil/www/www/Papers/BeCecil.html">http://www.cs.washington.edu/research/projects/cecil/cecil/www/www/Papers/BeCecil.html</a>
-</pre>
-
-<H3 class="discussion">Augmenting existing Types</H3>
-
-<pre class="quote1">
-Joern Janneck wrote:
-> Markus Kohler wrote:
-[snip]
-> > Here's a new example
->
-> i'd still be interested in your answer to my objection to the first
-> example. after all, it was originally supposed to show the virtues of st
-> for _large_ sw development. i am still waiting to be answered on that
-> issue.
-</pre>
-
-
-If I gave the first example you are referring to (as the originator of
-this particular title of thread), I am not sure what answer you are
-looking for.  I think multiple people have showed the problem that
-static typing has with scaling (in both space and time) because of
-certain limitations ['A'-'D'] fairly well.  Nothing that I and others
-presented as problems are _unknown_ to static typing research and people
-are busily working on solving these types of problems.  Language
-families of Cecil, Haskell, ML, and so on are trying to solve these
-problems because they *are* problems.  And they affect scalability.
-
-Dynamic OO languages have benefits that cause (well designed
-applications) to scale extremely well in size and space because they
-allow components to be reused and pieced together in a more optimal way,
-and so reduce overall system complexity.  The reason is that dynamic OO
-languages simply do not artificially enlarge a contract between two
-parties to include irrelevant details from:
-<ol class="arab">
-  <LI>Other parties (by being lumped together in a single named type).</LI>
-  <LI>Other times   (because types were frozen by a compile at one
-moment in time)</LI>
-  <LI>Implementation </LI>
-</ol>
-Current static languages unfortunately encourage or require the
-inclusion of these artificial restrictions in a system, which impedes
-scalability (space and time).
-
-<h3> Specific example </h3>
-
-My example was:
-<pre class="code">
-    public boolean AbstractCollection::removeAll(Collection c)
-</pre>
-
-No, this is not large programming yet, but it is headed that way:
-Collections are a core library in any programming language.  If there
-are serious restrictions and overhead in dealing with them, this is a
-strong indicator of what will come in many areas as the system scales
-(in size and over time).  Simply consider the quality and lifetime of
-the Smalltalk-80 collections.  They are better (more capable, more
-useful, and more maintainable) than anything that has come from the C++
-and Java languages over their unstable lifetimes -- even though both
-languages could have leveraged this existing work and its published
-improvements.  The Smalltalk libraries have been amazingly stable over a
-20 year period of use and growth: Smalltalk code I have from 1986 is
-still CORRECT and is cleaner than (hopefully much more skillfully
-written) Java code from 1999.
-
-My other example included looking at the complexity of all the Design
-Patterns in dynamic OO vs. static-typed OO languages.  If you seriously
-think that the patterns are more elegant, scalable (size and time), and
-maintainable in static-typed OO languages -- Java, for example, needed
-three *totally different* implementations of the Observer/Listener
-pattern to deal with _primarily_ different typing issues -- there is
-unfortunately little to talk about.  If you simply think the tradeoff is
-worth it, there is also little to talk about because I accept that
-perspective.  Note that I was answering a specific question:
-<pre class="quote1">
->   (2) Why does dynamic typing (as done with Smalltalk) not negatively
->       affect the stability of large applications?
-</pre>
-
-for someone who had never built a large application in Smalltalk or a
-similar language.
-
-<h3> Tradeoffs </h3>
-
-The one aspect I do consider very useful with static typing for building
-systems is that it *forces* developers to think formally about
-interfaces between objects or their code breaks quickly.  This is a very
-good training experience and should be repeated off and on to make sure
-people aren't getting sloppy.  But if you are a good designer, the
-realities/restrictions of static typing cause you to produce somewhat
-less scalable (over size and time) applications[1] than for a dynamic OO
-language with similar effort in documentation of protocols and test
-suites.  So the idea of switching back and forth between an optional
-statically-checked and a dynamic [with documented protocols] OO language
-is certainly a good one.  Better than having casting/type-checking
-loopholes (a sort of strange intermediate).
-
-Most large dynamic OO projects do have this characteristic
-(static-oriented documentation) because UML and most other notations
-require a static-type based perspective.  And well-defined
-types/contracts exist all throughout good Smalltalk code, but some of
-the best contracts (Valuable, Observer, Iterable, etc.) are just too
-fine-grained, too pervasive, or too generic to be represented in a
-statically-typed program.  Unfortunately, a dynamically simple concept
-like "augmentations"[1] is also impossible to correctly represent in the
-core UML because of its simplistic (C++ ish) static-typing origin.
-
-
-<pre class="signature">
---Mark
-</pre>
-
-<p class="footnote">
-[1] Just the one feature of Envy extensions (the ability to "augment"
-existing classes with new behavior without modifying the original code)
-is incredibly powerful for building large applications [especially
-dealing with layering] and is only possible if the original compiler did
-not statically freeze the types.
-</p>
-
-
-<H3 class="discussion">Amount of static typing</H3>
-
-<pre class="quote1">
-patrick@c837917-a.potlnd1.or.home.com wrote:
-> : David Jenkins wrote:
-> : > One of my problems with Java is that it pretends to be statically
-> : > typed, but is not--you can always cast your way out of a type.
-> : > Eiffel, I've found, is a very stern taskmaster when it comes to
-> : > typing, but I've learned to appreciate the lessons it teaches.
->
-> Java is no less statically typed than Eiffel, i.e. you cannot cast a
-> Java object to anything that it was not defined to be (as could be
-> done with C++, at least in years past).
-</pre>
-
-<p>
-I think "more" or "less" statically typed was referring to "amount of
-code that is verifiably type-correct at compile-time" not whether the
-type system is safe.  I don't think unsafe type systems are in any way
-interesting to those reading these threads.   I agree with David Jenkins
-that Java code will be far less compile-time verified than Eiffel
-because of weaknesses in the Java type system (especially from the lack
-of covariant return types and some form of parametric types).  A Java
-typecheck cast (a "type attempt") is just as dynamic as standard
-Smalltalk message sends; the Java version just has a larger granularity
-and a slightly different timing (before the message as opposed to at
-message time).  The amount of "type attempts" within Java code is
-enormously larger than the amount of "assignment attempts" within Eiffel
-code.  So the Java code is really "much less statically typed" although
-we are want for nice short phrases that a precise and accurate: "much
-less compile-time type-verified".
-</p>
-
-<p>
-Interestingly, the Eiffel code will be additionally and more precisely
-"dynamically object-verified" through the preconditions, postconditions,
-and invariants.  So a stronger verification applied to the Objects
-themselves is coming from dynamic checks (just like Smalltalk) as
-opposed to compile-time checks.  Smalltalk with Eiffel-like DBC
-capabilities would definitely muddle the linearity of type safety[1]:
-Smalltalk would be more precisely verified at runtime than a Java
-program but less precisely verified at compile time.  This would be
-without the problems of compile-time typing (problems with granularity,
-evolution, genericity, etc.).  Which is safer?... no I don't want to go
-down that topic's path...
-</p>
-
-<p>
-Actually, this Smalltalk augmentation is pretty easy [I previously did a
-prototype and I also recall the concept being published in Smalltalk
-Report] since we could: (1) allow DBC anotations in methods or
-categorize special unit tests into pre, post, and invariant conditions,
-(2) augment the compiler to generate the calls on method entry and exit,
-(3) provide the same behavior as Eiffel [no check on intra-object
-calls], and (4) throw reasonable exceptions depending on who is
-responsible.  The main issues are the exact annotation form (although
-UML's OCL pretty much solves that problem) and
-standardization/portability across Smalltalk platforms.
-</p>
-
-<pre class="signature">
---Mark
-</pre>
-
-
-<p class="footnote">
-[1] Type safety: Amount the program is verified to behave correctly
-</p>
-
-]]></content>
-  </entry>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
   
-  <entry>
-    <title type="html"><![CDATA[SmallJava: Smalltalk to Java... Using Language Transformation to Show Language Differences]]></title>
-    <link href="http://markfussell.github.com/blog/1997/05/07/smalljava/"/>
-    <updated>1997-05-07T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/1997/05/07/smalljava</id>
-    <content type="html"><![CDATA[<p>This is a discussion of the benefits and drawbacks of dynamic typing</p>
+  <header>
+    
+      <h1 class="entry-title">SmallJava: Smalltalk to Java... Using Language Transformation to Show Language Differences</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="1997-05-07T18:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 1997</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is a discussion of the benefits and drawbacks of dynamic typing</p>
 
 <div class=Section1>
 
@@ -1027,7 +343,7 @@ style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proo
 yes'><o:p></o:p></span></p>
 
 <p class=MsoToc2><span style='mso-no-proof:yes'>Becoming Pessimistic: Changing
-when an object's type is verified<span style='mso-tab-count:1 lined'>____________ </span></span><!--[if supportFields]><span
+when an object&#8217;s type is verified<span style='mso-tab-count:1 lined'>____________ </span></span><!--[if supportFields]><span
 style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
 _Toc387781528 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
 style='mso-no-proof:yes'>7<!--[if gte mso 9]><xml>
@@ -1126,7 +442,7 @@ style='mso-no-proof:yes'>11<!--[if gte mso 9]><xml>
 style='mso-element:field-end'></span></span><![endif]--><span style='mso-no-proof:
 yes'><o:p></o:p></span></p>
 
-<p class=MsoToc3><span style='mso-no-proof:yes'>Where's the static typing?<span
+<p class=MsoToc3><span style='mso-no-proof:yes'>Where&#8217;s the static typing?<span
 style='mso-tab-count:1 lined'>__________________________________________________________ </span></span><!--[if supportFields]><span
 style='mso-no-proof:yes'><span style='mso-element:field-begin'></span> PAGEREF
 _Toc387781538 \h <span style='mso-element:field-separator'></span></span><![endif]--><span
@@ -1367,7 +683,7 @@ style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>The reason to use this approach is it allows two languages'
+<p class=MsoNormal>The reason to use this approach is it allows two languages&#8217;
 features to be compared without the baggage of all the other differences in the
 languages.<span style="mso-spacerun: yes">&nbsp; </span>Frequently language
 discussions are difficult because there are so many differences in syntax and
@@ -1398,10 +714,10 @@ yes">&nbsp; </span></p>
 in both Java and Smalltalk.<span style="mso-spacerun: yes">&nbsp;
 </span>Basically the syntax and major concepts of both languages should be
 familiar to you.<span style="mso-spacerun: yes">&nbsp; </span>If you get lost
-during the postings I suggest you look at FAQ's and book related postings for
+during the postings I suggest you look at FAQ&#8217;s and book related postings for
 &quot;comp.lang.smalltalk&quot;, &quot;comp.lang.java.programmer&quot; and
 &quot;comp.object&quot; [using www.dejanews.com might be the easiest
-approach].<span style="mso-spacerun: yes">&nbsp; </span>Although I don't ever
+approach].<span style="mso-spacerun: yes">&nbsp; </span>Although I don&#8217;t ever
 consider a single book to be enough for any language, my current favorite two
 books may be:</p>
 
@@ -1480,7 +796,7 @@ yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>This gives us a dialect of Smalltalk like "Little Smalltalk"
+<p class=MsoNormal>This gives us a dialect of Smalltalk like &#8220;Little Smalltalk&#8221;
 [Budd 87].<span style="mso-spacerun: yes">&nbsp; </span>We have dropped (or not
 mentioned) a lot of capabilities of professional Smalltalk dialects, but we
 still have a valid dialect of the Smalltalk language.</p>
@@ -1493,7 +809,7 @@ will:</p>
 
 <p class=MsoList2>(J1) Drop access control.<span style="mso-spacerun:
 yes">&nbsp; </span>All methods will be public and all instance variables will
-be protected which closely matches Smalltalk's standard access controls.</p>
+be protected which closely matches Smalltalk&#8217;s standard access controls.</p>
 
 <p class=MsoList2>(J2) Ignore the static side of Java classes.</p>
 
@@ -1504,12 +820,12 @@ expressions work with the Wrapper versions of the primitive data types.</p>
 
 <p class=MsoList2>(J4) Make allowances and simplifications with certain
 packages and operators.<span style="mso-spacerun: yes">&nbsp; </span>For
-example the "Math" functions will be made available without needing the "Math"
+example the &#8220;Math&#8221; functions will be made available without needing the &#8220;Math&#8221;
 prefix.</p>
 
 <p class=MsoList2>(J5) Drop the use of static typing.<span style="mso-spacerun:
 yes">&nbsp; </span>All variables, parameters, and return types will be typed as
-"Object" and messages can be successfully sent to an object that has a method
+&#8220;Object&#8221; and messages can be successfully sent to an object that has a method
 with the right signature.<span style="mso-spacerun: yes">&nbsp; </span>Since
 static typing is removed, interfaces are removed also and we simply have
 classes extending other classes.</p>
@@ -1523,12 +839,12 @@ style="mso-spacerun: yes">&nbsp; </span>This will be shown in the example
 below.</p>
 
 <p class=MsoNormal>The change J3 is also sizable but I believe it is an
-"unquestionable" improvement so less interesting although this will also be
+&#8220;unquestionable&#8221; improvement so less interesting although this will also be
 discussed in later sections.</p>
 
 <h4><a name="_Toc387781521">SmallJava Semantics Summary</a></h4>
 
-<p class=MsoNormal>Stated again, SmallJava's semantics are the intersection
+<p class=MsoNormal>Stated again, SmallJava&#8217;s semantics are the intersection
 Smalltalk and Java with each simplified as specified.<span style="mso-spacerun:
 yes">&nbsp; </span>A more formal description might be useful but is not in the
 scope of this document.<span style="mso-spacerun: yes">&nbsp; </span>It would
@@ -1536,7 +852,7 @@ also have to be many formal descriptions because SmallJava will be constantly
 changing as we add new properties to it.<span style="mso-spacerun: yes">&nbsp;
 </span>Beside the above informal description, examples of SmallJava will be
 provided as the document progresses.<span style="mso-spacerun: yes">&nbsp;
-</span>Next we have to specify SmallJava's syntax.</p>
+</span>Next we have to specify SmallJava&#8217;s syntax.</p>
 
 <h3><a name="_Toc387781522">SmallJava Syntax</a></h3>
 
@@ -1544,10 +860,10 @@ provided as the document progresses.<span style="mso-spacerun: yes">&nbsp;
 easier discussion of adding in Java properties (e.g. static typing and
 interfaces) since I can use Java syntax for those properties.<span
 style="mso-spacerun: yes">&nbsp; </span>It is also true that many programmers
-are more familiar with 'C++' like syntax than with Smalltalk syntax.<span
+are more familiar with &#8216;C++&#8217; like syntax than with Smalltalk syntax.<span
 style="mso-spacerun: yes">&nbsp; </span>Adding in Smalltalk properties to
-SmallJava generally does not require extra syntax (blocks "[ | ]" being the notable
-exception) but instead either requires objects to become "smarter" (control
+SmallJava generally does not require extra syntax (blocks &#8220;[ | ]&#8221; being the notable
+exception) but instead either requires objects to become &#8220;smarter&#8221; (control
 messages for Booleans and Collections) or requires developing new types of
 objects (Class objects).<span style="mso-spacerun: yes">&nbsp; </span></p>
 
@@ -1564,9 +880,9 @@ as noticeable.</p>
 either a simple Java without static typing or as a simple Smalltalk with Java
 syntax.<span style="mso-spacerun: yes">&nbsp; </span>I will show each of these
 views in different ways.<span style="mso-spacerun: yes">&nbsp; </span>First I
-will show the similarity to Java by applying the "J" transformations to a Java
+will show the similarity to Java by applying the &#8220;J&#8221; transformations to a Java
 program and turn it into SmallJava.<span style="mso-spacerun: yes">&nbsp;
-</span>Second I will translate the example's syntax between SmallJava and
+</span>Second I will translate the example&#8217;s syntax between SmallJava and
 Smalltalk.<span style="mso-spacerun: yes">&nbsp; </span>This will result in a
 total of three versions of the same example code in each of Smalltalk, Java,
 and SmallJava.<span style="mso-spacerun: yes">&nbsp; </span></p>
@@ -1670,7 +986,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>Now I will start applying the SmallJava changes.<span
-style="mso-spacerun: yes">&nbsp; </span>J2 doesn't apply because there are no
+style="mso-spacerun: yes">&nbsp; </span>J2 doesn&#8217;t apply because there are no
 static methods.<span style="mso-spacerun: yes">&nbsp; </span>After applying J1,
 J3, and J4 to the example we get:</p>
 
@@ -1901,13 +1217,13 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 <p class=MsoNormal>Well, that is a whole lot of casting, so it is fortunate we
 are dropping it.<span style="mso-spacerun: yes">&nbsp; </span>We will allow a
 message to be sent to any Object and if it the actual object does not implement
-that method we will throw a "DoesNotUnderstandException" (this behavior will be
+that method we will throw a &#8220;DoesNotUnderstandException&#8221; (this behavior will be
 discussed in depth in the next section).</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>Now we can finish the J5 transformation and drop all the
-superfluous "Object"s.<span style="mso-spacerun: yes">&nbsp; </span>This gives
+superfluous &#8220;Object&#8221;s.<span style="mso-spacerun: yes">&nbsp; </span>This gives
 us:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
@@ -2012,7 +1328,7 @@ control).</p>
 
 <p class=MsoNormal>Next, to show how similar SmallJava is to Smalltalk, the
 following is the SmallJava program converted to Smalltalk-like (see [Budd 87])
-syntax (the bar "|" separates method):</p>
+syntax (the bar &#8220;|&#8221; separates method):</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2129,15 +1445,15 @@ types are there or not.</p>
 <h3><a name="_Toc387781527">Summary: SmallJava as a Vehicle</a> </h3>
 
 <p class=MsoNormal>SmallJava is a vehicle to compare and contrast Smalltalk and
-Java.<span style="mso-spacerun: yes">&nbsp; </span>SmallJava's existence is the
+Java.<span style="mso-spacerun: yes">&nbsp; </span>SmallJava&#8217;s existence is the
 first comparison: these languages are very similar which makes SmallJava
 possible.<span style="mso-spacerun: yes">&nbsp; </span>In the next sections I
 will start the contrasting by adding properties of Java into SmallJava.<span
-style="mso-spacerun: yes">&nbsp; </span>I will begin by getting "pessimistic".</p>
+style="mso-spacerun: yes">&nbsp; </span>I will begin by getting &#8220;pessimistic&#8221;.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>---------------------------------------------------------------------</p>
+<p class=MsoNormal>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
 
 <p class=EndNote>[1] Static typing can also be used to choose among overloaded
 message names, but I would argue that these Type overloaded messages are a very
@@ -2152,27 +1468,27 @@ different thing.<span style="mso-spacerun: yes">&nbsp; </span>See the comments
 on method naming http://www.chimu.com/publications/javaStandards/ for a
 slightly longer discussion of this.</p>
 
-<h2><a name="_Toc387781528">Becoming Pessimistic: Changing when an object's
+<h2><a name="_Toc387781528">Becoming Pessimistic: Changing when an object&#8217;s
 type is verified</a> </h2>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>SmallJava's most significant difference from Java is that a
+<p class=MsoNormal>SmallJava&#8217;s most significant difference from Java is that a
 message can be sent to an object that is not known to understand that
 message.<span style="mso-spacerun: yes">&nbsp; </span>If the object has
 implemented a method matching the message signature then everything executes as
 expected.<span style="mso-spacerun: yes">&nbsp; </span>If the object has no
-matching method then SmallJava throws a "DoesNotUnderstandException".<span
+matching method then SmallJava throws a &#8220;DoesNotUnderstandException&#8221;.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>This behavior I call "<b style='mso-bidi-font-weight:normal'><i
-style='mso-bidi-font-style:normal'>optimistic</i></b>" messaging: you assume an
+<p class=MsoNormal>This behavior I call &#8221;<b style='mso-bidi-font-weight:normal'><i
+style='mso-bidi-font-style:normal'>optimistic</i></b>&#8221; messaging: you assume an
 object can understand a message and only handle the special cases when the
 object does not.<span style="mso-spacerun: yes">&nbsp; </span>This is as
-opposed to "<b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
-normal'>pessimistic</i></b>" messaging where you make sure an object
+opposed to &#8221;<b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+normal'>pessimistic</i></b>&#8221; messaging where you make sure an object
 understands a message before sending it to the object [1].<span
 style="mso-spacerun: yes">&nbsp; </span>So let us compare these two approaches.</p>
 
@@ -2208,7 +1524,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 </div>
 
 <p class=MsoNormal>If we want to make sure messages like #x and #y are
-understood by 'point' then for an optimistic approach we would have to do
+understood by &#8216;point&#8217; then for an optimistic approach we would have to do
 something like this:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
@@ -2253,16 +1569,16 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 <p class=MsoNormal>The approach is identical to what you would do for handling
 any message that could throw an Exception; the only difference is that the
-message is never actually "received" by the object [3].</p>
+message is never actually &#8220;received&#8221; by the object [3].</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>So what would pessimistic messaging look like for our
 example?<span style="mso-spacerun: yes">&nbsp; </span>Assume we add to
-SmallJava a "message-check" with syntax "(#message)" that allows us to check
+SmallJava a &#8220;message-check&#8221; with syntax &#8220;(#message)&#8221; that allows us to check
 whether an object understands a particular message.<span style="mso-spacerun:
 yes">&nbsp; </span>A message-check will do nothing if the object understands
-the message, but will throw a "DoesNotUnderstandException" if the object does
+the message, but will throw a &#8220;DoesNotUnderstandException&#8221; if the object does
 not.<span style="mso-spacerun: yes">&nbsp; </span>Then we can change our
 example to:</p>
 
@@ -2306,16 +1622,16 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
-<p class=MsoNormal>Now we have guaranteed that 'point' will successfully
-respond to #x before sending 'x()' and will successfully respond #y before
-sending 'y()'.<span style="mso-spacerun: yes">&nbsp; </span>We do not need the
+<p class=MsoNormal>Now we have guaranteed that &#8216;point&#8217; will successfully
+respond to #x before sending &#8216;x()&#8217; and will successfully respond #y before
+sending &#8216;y()&#8217;.<span style="mso-spacerun: yes">&nbsp; </span>We do not need the
 optimistic messaging anymore.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>OK, that really didn't provide us with ANY benefit.<span
+<p class=MsoNormal>OK, that really didn&#8217;t provide us with ANY benefit.<span
 style="mso-spacerun: yes">&nbsp; </span>We still throw the same exception on
-failure and we throw that exception "just a fraction of a second" before we
+failure and we throw that exception &#8220;just a fraction of a second&#8221; before we
 would actually have sent the message.<span style="mso-spacerun: yes">&nbsp;
 </span>Why bother?<span style="mso-spacerun: yes">&nbsp; </span></p>
 
@@ -2323,8 +1639,8 @@ would actually have sent the message.<span style="mso-spacerun: yes">&nbsp;
 
 <p class=MsoNormal>The advantage of pessimistic messaging is that we have more
 control of when the test is done.<span style="mso-spacerun: yes">&nbsp;
-</span>For example, we can make sure nothing happens in the method if we didn't
-actually get a 'point' that responds to #x and #y:</p>
+</span>For example, we can make sure nothing happens in the method if we didn&#8217;t
+actually get a &#8216;point&#8217; that responds to #x and #y:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2372,20 +1688,20 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 <p class=MsoNormal>This is now different behavior than what our optimistic
 version of the method produced.<span style="mso-spacerun: yes">&nbsp;
-</span>Our optimistic version would have sent 'x()' to the point before
+</span>Our optimistic version would have sent &#8216;x()&#8217; to the point before
 checking whether the point responded to #y.<span style="mso-spacerun:
-yes">&nbsp; </span>This version verifies [4] that 'point' understands both #x
+yes">&nbsp; </span>This version verifies [4] that &#8216;point&#8217; understands both #x
 and #y before sending any messages to it. </p>
 
 <h3><a name="_Toc387781531">Forgetting and Remembering verification</a></h3>
 
-<p class=MsoNormal>SmallJava's message-check verification happens to the object
+<p class=MsoNormal>SmallJava&#8217;s message-check verification happens to the object
 in a variable at a given time.<span style="mso-spacerun: yes">&nbsp;
 </span>What happens when that variable changes or when the object moves to a
 new variable?<span style="mso-spacerun: yes">&nbsp; </span>We loose the
 verification and must verify again.<span style="mso-spacerun: yes">&nbsp;
 </span>The following is not completely pessimistic because of the second
-assignment to 'pointCopy':</p>
+assignment to &#8216;pointCopy&#8217;:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -2451,7 +1767,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 </div>
 
 <p class=MsoNormal>In the example above we do not know whether the second
-'temp.x()' will be successful.<span style="mso-spacerun: yes">&nbsp; </span>We
+&#8216;temp.x()&#8217; will be successful.<span style="mso-spacerun: yes">&nbsp; </span>We
 have to do another check after assigning to the variable a second time:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
@@ -2561,7 +1877,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
-<p class=MsoNormal>Unfortunately this doesn't provide us with too much benefit
+<p class=MsoNormal>Unfortunately this doesn&#8217;t provide us with too much benefit
 in most programs.<span style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
@@ -2642,36 +1958,36 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 </div>
 
-<p class=MsoNormal>All assignments to 'temp1' and 'temp2' must now check
+<p class=MsoNormal>All assignments to &#8216;temp1&#8217; and &#8216;temp2&#8217; must now check
 whether the value of the assignment passes the message-check.<span
 style="mso-spacerun: yes">&nbsp; </span>This has no impact to our assignment to
-'temp1', but it does allow us to assign to 'temp2' without doing a further
+&#8216;temp1&#8217;, but it does allow us to assign to &#8216;temp2&#8217; without doing a further
 check.<span style="mso-spacerun: yes">&nbsp; </span>We have defined invariants
 for the variables [5] temp1 and temp2 that guarantee that the assignment from
 temp1 to temp2 will succeed.<span style="mso-spacerun: yes">&nbsp; </span>Since
 we can do this invariant check at compile-time we now have a simple
-"compile-time message-check" capability for SmallJava.</p>
+&#8220;compile-time message-check&#8221; capability for SmallJava.</p>
 
 <h3><a name="_Toc387781533">Pessimistic inside: Optimistic outside</a></h3>
 
 <p class=MsoNormal>While adding all this support for pessimistic checking, we
 unfortunately have been cheating a bit.<span style="mso-spacerun: yes">&nbsp;
-</span>We left out the implementation of "Do the right thing".<span
+</span>We left out the implementation of &#8220;Do the right thing&#8221;.<span
 style="mso-spacerun: yes">&nbsp; </span>What is the right thing to do?<span
 style="mso-spacerun: yes">&nbsp; </span>Well, it is possible that a method can
-handle different types of 'point's and by finding out which type of point it
+handle different types of &#8216;point&#8217;s and by finding out which type of point it
 has it will behave differently.<span style="mso-spacerun: yes">&nbsp;
-</span>For example, we could use a default 'z' value if we are given a 2d point
+</span>For example, we could use a default &#8216;z&#8217; value if we are given a 2d point
 when we expect a 3d point.<span style="mso-spacerun: yes">&nbsp; </span>This is
 useful behavior but is not the most common behavior.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>The more common answer is that if a method doesn't get what
-it expects it doesn't know what to do.<span style="mso-spacerun: yes">&nbsp;
-</span>In this case we really can't catch the error at all: we have to let it
+<p class=MsoNormal>The more common answer is that if a method doesn&#8217;t get what
+it expects it doesn&#8217;t know what to do.<span style="mso-spacerun: yes">&nbsp;
+</span>In this case we really can&#8217;t catch the error at all: we have to let it
 go to the caller.<span style="mso-spacerun: yes">&nbsp; </span>That makes us an
-optimistic method from the caller's point of view.<span style="mso-spacerun:
+optimistic method from the caller&#8217;s point of view.<span style="mso-spacerun:
 yes">&nbsp; </span>For example:</p>
 
 <p class=MsoNormal><span style="mso-spacerun:
@@ -2687,9 +2003,9 @@ optimistic as far as the caller is concerned.</p>
 
 <p class=MsoNormal>How can we change this?<span style="mso-spacerun:
 yes">&nbsp; </span>We need more invariants within our #vectorFrom method so we
-don't have any message-checks inside it.<span style="mso-spacerun: yes">&nbsp;
-</span>Our only message-check is to 'point' itself, so if we can make the
-caller guarantee that 'point' passes our message-check then we will guarantee
+don&#8217;t have any message-checks inside it.<span style="mso-spacerun: yes">&nbsp;
+</span>Our only message-check is to &#8216;point&#8217; itself, so if we can make the
+caller guarantee that &#8216;point&#8217; passes our message-check then we will guarantee
 we can execute the method without further verification.<span
 style="mso-spacerun: yes">&nbsp; </span>Notationally this is simple enough:</p>
 
@@ -2717,9 +2033,9 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>We are now forcing the caller to explicitly satisfy our
-requirement that 'point' understands (#x,#y) before they can even call our
+requirement that &#8216;point&#8217; understands (#x,#y) before they can even call our
 method instead of making the caller handle our DoesNotUnderstandException if
-'point' does not understand (#x,#y).<span style="mso-spacerun: yes">&nbsp;
+&#8216;point&#8217; does not understand (#x,#y).<span style="mso-spacerun: yes">&nbsp;
 </span>We just passed the verification requirement in a different and
 more-explicit manner than before [6].<span style="mso-spacerun:
 yes">&nbsp;&nbsp; </span></p>
@@ -2865,8 +2181,8 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 <h4><a name="_Toc387781536">Where does the buck stop?</a></h4>
 
 <p class=MsoNormal>We keep passing the buck for the pessimistic message-check
-verification, but some SmallJava expression must be a "buck consumer" and
-"verification producer".<span style="mso-spacerun: yes">&nbsp; </span>We have
+verification, but some SmallJava expression must be a &#8220;buck consumer&#8221; and
+&#8220;verification producer&#8221;.<span style="mso-spacerun: yes">&nbsp; </span>We have
 already seen one of them: the explicit message-check when used as an expression
 instead of an invariant.<span style="mso-spacerun: yes">&nbsp; </span>All the
 pessimistic-invariants allowed us to do one thing: remember an earlier message-check.<span
@@ -2911,7 +2227,7 @@ Line(point,point)).vector();</p>
 </div>
 
 <p class=MsoNormal>then we can take advantage of the single message-check of
-'newPoint' to know all the other messages involved with creating a line and
+&#8216;newPoint&#8217; to know all the other messages involved with creating a line and
 sending #vector to the line will succeed.<span style="mso-spacerun: yes">&nbsp;
 </span>We now have a pretty good memory caused by explicitly stating what we
 want to remember (require) about message-understanding throughout the flow of
@@ -2921,7 +2237,7 @@ the program.</p>
 
 <p class=MsoNormal>Having one message-check is better than many, but what if I
 want to get rid of that message check too?<span style="mso-spacerun:
-yes">&nbsp;&nbsp; </span>Aren't there any other "buck consumers"?<span
+yes">&nbsp;&nbsp; </span>Aren&#8217;t there any other &#8220;buck consumers&#8221;?<span
 style="mso-spacerun: yes">&nbsp; </span>There is one other case where the result
 of an expression is guaranteed to respond to certain messages, object
 construction.<span style="mso-spacerun: yes">&nbsp; </span>If we build a new
@@ -2972,7 +2288,7 @@ Line(point,point)).vector();</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>Now it is completely verifiable at compile time that all
-message sends will be successful (ignoring 'x' and 'y').<span
+message sends will be successful (ignoring &#8216;x&#8217; and &#8216;y&#8217;).<span
 style="mso-spacerun: yes">&nbsp; </span>We have turned off the need for
 Optimistic messaging for SmallJava for this particular example and now have a
 completely pessimistic and compile-time verified program.<span
@@ -2982,18 +2298,18 @@ style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal>There were several aspects unmentioned in the above
 discussion of pessimistically verified message checking. What happens when we
-get a 'null'?<span style="mso-spacerun: yes">&nbsp; </span>What are the return
+get a &#8216;null&#8217;?<span style="mso-spacerun: yes">&nbsp; </span>What are the return
 values for the methods?<span style="mso-spacerun: yes">&nbsp; </span>How do we
 know that the method implementing a message (by name) is semantically equivalent
 to what we expect the method to do?<span style="mso-spacerun: yes">&nbsp;
-</span>These I will address in future sections on 'null' explicitly and on
-'interface' instead of 'message' based typing.<span style="mso-spacerun:
+</span>These I will address in future sections on &#8216;null&#8217; explicitly and on
+&#8216;interface&#8217; instead of &#8216;message&#8217; based typing.<span style="mso-spacerun:
 yes">&nbsp; </span>For the moment I will leave them unmentioned.</p>
 
-<h3><a name="_Toc387781538">Where's the static typing?</a></h3>
+<h3><a name="_Toc387781538">Where&#8217;s the static typing?</a></h3>
 
 <p class=MsoNormal>We have shown how we can make SmallJava pessimistic, but how
-do we make it completely compile-time verified or "statically typed"?<span
+do we make it completely compile-time verified or &#8220;statically typed&#8221;?<span
 style="mso-spacerun: yes">&nbsp; </span>If all our pessimistic message-checks
 can be moved to the point of object construction then all of them can be
 verified at compile-time.<span style="mso-spacerun: yes">&nbsp; </span>This would
@@ -3015,11 +2331,11 @@ yes">&nbsp;&nbsp;&nbsp; </span>class KeyedCollection {</p>
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>atKey_put(key, value)
-{...}</p>
+{&#8230;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>atKey(key) {...; return
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>atKey(key) {&#8230;; return
 value;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
@@ -3029,7 +2345,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 </div>
 
 <p class=MsoNormal>Then what can we be sure about the object returned from
-#atKey?<span style="mso-spacerun: yes">&nbsp; </span>We can't be sure of
+#atKey?<span style="mso-spacerun: yes">&nbsp; </span>We can&#8217;t be sure of
 anything.<span style="mso-spacerun: yes">&nbsp; </span>For example, in:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
@@ -3038,7 +2354,7 @@ margin-right:1.0in'>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(#x,#y) inPoint = ...;</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(#x,#y) inPoint = &#8230;;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3052,10 +2368,10 @@ namesToPoints.atKey(&quot;test&quot;);</p>
 
 </div>
 
-<p class=MsoNormal>We can't be sure that 'outPoint' is able to respond to
+<p class=MsoNormal>We can&#8217;t be sure that &#8216;outPoint&#8217; is able to respond to
 (#x,#y), so we will have to do a runtime message check to verify it.<span
 style="mso-spacerun: yes">&nbsp; </span>We can still be pessimistic by checking
-'output' before sending a message to it, but we can not do it statically.<span
+&#8216;output&#8217; before sending a message to it, but we can not do it statically.<span
 style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
@@ -3074,11 +2390,11 @@ yes">&nbsp;&nbsp;&nbsp; </span>class KeyedCollectionOfPoints {</p>
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>atKey_put(key, (#x,#y)
-value) {...}</p>
+value) {&#8230;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(#x,#y) atKey(key) {...;
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(#x,#y) atKey(key) {&#8230;;
 return value;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
@@ -3088,14 +2404,14 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 </div>
 
 <p class=MsoNormal>Well, that solves our problem but now we have added even
-more information (or "noise") to our program.<span style="mso-spacerun:
+more information (or &#8220;noise&#8221;) to our program.<span style="mso-spacerun:
 yes">&nbsp; </span>We had to create a whole new class to support being able to
-statically verify that a "collection of points" is really a
-'CollectionOfPoints'.<span style="mso-spacerun: yes">&nbsp; </span>Also note
-that a 'KeyedCollectionOfPoints' can not be just a "wrapper" of a
-'KeyedCollection': We can not use a KeyedCollection to implement our
+statically verify that a &#8220;collection of points&#8221; is really a
+&#8216;CollectionOfPoints&#8217;.<span style="mso-spacerun: yes">&nbsp; </span>Also note
+that a &#8216;KeyedCollectionOfPoints&#8217; can not be just a &#8220;wrapper&#8221; of a
+&#8216;KeyedCollection&#8217;: We can not use a KeyedCollection to implement our
 KeyedCollectionOfPoints because we would stilly have to do a runtime check to
-convert the "atKey" to an "(#x,#y) atKey".<span style="mso-spacerun:
+convert the &#8220;atKey&#8221; to an &#8220;(#x,#y) atKey&#8221;.<span style="mso-spacerun:
 yes">&nbsp; </span>We have to completely rewrite the KeyedCollectionOfPoints
 from scratch to have the new compile-time verifiable message-checks.<span
 style="mso-spacerun: yes">&nbsp; </span>So much for code reuse.</p>
@@ -3103,9 +2419,9 @@ style="mso-spacerun: yes">&nbsp; </span>So much for code reuse.</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>A solution to all this extra effort is to have parameterized
-classes that "effectively" (or actually) code-generate classes that are
+classes that &#8220;effectively&#8221; (or actually) code-generate classes that are
 compile-time verifiable for a given set of message constraints.<span
-style="mso-spacerun: yes">&nbsp; </span>We can develop a "template" class:</p>
+style="mso-spacerun: yes">&nbsp; </span>We can develop a &#8220;template&#8221; class:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3118,12 +2434,12 @@ yes">&nbsp;&nbsp;&nbsp; </span>class KeyedCollectionOf&lt;valueMessages&gt; {</p
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>atKey_put(key,
-&lt;valueMessages&gt; value) {...}</p>
+&lt;valueMessages&gt; value) {&#8230;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;valueMessages&gt;
-atKey(key) {...; return value;}</p>
+atKey(key) {&#8230;; return value;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3139,7 +2455,7 @@ margin-right:1.0in'>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(#x,#y) inPoint = ...;</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>(#x,#y) inPoint = &#8230;;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3160,7 +2476,7 @@ namesToPoints.atKey(&quot;test&quot;);</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>So now we at least don't have to write a bunch of different
+<p class=MsoNormal>So now we at least don&#8217;t have to write a bunch of different
 classes for every variation we need, we can let the compiler do it for us.<span
 style="mso-spacerun: yes">&nbsp; </span>And then the compiler can statically
 verify the messages.</p>
@@ -3179,27 +2495,27 @@ for the design similarity.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>The second remark is that Java doesn't support parameterized
+<p class=MsoNormal>The second remark is that Java doesn&#8217;t support parameterized
 classes and interferes with developing your own specialized versions of classes
 because of weak interaction between types and polymorphism.<span
 style="mso-spacerun: yes">&nbsp; </span>For example, even if you have your own
 KeyedCollectionOfPoints, you can not develop a subclass of Enumeration that
 will return a (#x,#y) point for #nextElement.<span style="mso-spacerun:
 yes">&nbsp; </span>Java does not support covariant return types so even if you
-defined a 'PointEnumeration' it must either not inherit from 'Enumeration' or
-it has to return the same "type" as Enumeration returns, which knows nothing
+defined a &#8216;PointEnumeration&#8217; it must either not inherit from &#8216;Enumeration&#8217; or
+it has to return the same &#8220;type&#8221; as Enumeration returns, which knows nothing
 about (#x,#y) of point.<span style="mso-spacerun: yes">&nbsp; </span>This will
-be discussed again in a later section possibly titled "EiffelJava", but for now
+be discussed again in a later section possibly titled &#8220;EiffelJava&#8221;, but for now
 we can say Java itself is incapable or poorly capable of making a program
 compile-time verifiable.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;</span>The final
-remark is that all this static typing ignores 'null' values, which would fail
+remark is that all this static typing ignores &#8216;null&#8217; values, which would fail
 all the message-checks we have been applying and prevent the ability to
 statically type a program.<span style="mso-spacerun: yes">&nbsp; </span>To make
-that static typing work we will have to say what a 'null' means and how it
+that static typing work we will have to say what a &#8216;null&#8217; means and how it
 interacts with the message-checking or type system.<span style="mso-spacerun:
 yes">&nbsp; </span>This will be discussed in the next posting.</p>
 
@@ -3216,11 +2532,11 @@ yes">&nbsp; </span></p>
 <p class=MsoNormal>Optimistic messaging requires much less noise to accomplish
 the same, if successful, result.<span style="mso-spacerun: yes">&nbsp;
 </span>It is also far easier to change: if we decide to send a new message to a
-'point' we can just send the message and know (or hope) that the object will
+&#8216;point&#8217; we can just send the message and know (or hope) that the object will
 understand it.<span style="mso-spacerun: yes">&nbsp; </span>With pessimistic
 messaging we have to explicitly say what messages we require an object to
 understand. This caused us to put a lot more information into the program (much
-of it "obvious") and means we have to update all this information if we decide to
+of it &#8220;obvious&#8221;) and means we have to update all this information if we decide to
 send a new message to an object. (I will discuss alternative ways to declaring
 what new messages can be understood in the section on interfaces.)<span
 style="mso-spacerun: yes">&nbsp; </span>Overall, optimistic messaging is much
@@ -3229,7 +2545,7 @@ less painful and correct programs are still correct programs.</p>
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp; </span></p>
 
 <p class=MsoNormal>Pessimistic messaging allows us to move message-checks
-earlier in a program's execution and to consolidate multiple message-checks
+earlier in a program&#8217;s execution and to consolidate multiple message-checks
 into a single check.<span style="mso-spacerun: yes">&nbsp; </span>This allows
 us to identify and respond to failed message-checks long before a program needs
 to rely on those message checks.<span style="mso-spacerun: yes">&nbsp;
@@ -3239,15 +2555,15 @@ style="mso-spacerun: yes">&nbsp; </span>If this were possible then we could be
 surer of what our program does before execution verification.<span
 style="mso-spacerun: yes">&nbsp; </span>We have made a good step forward if our
 programs frequently have mistakes of expecting an object to respond to a
-message that it doesn't understand.<span style="mso-spacerun: yes">&nbsp;
+message that it doesn&#8217;t understand.<span style="mso-spacerun: yes">&nbsp;
 </span></p>
 
 <p class=MsoNormal><span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
 </span>Unfortunately complete compile-time checking is rarely possible because
-of weak language support, 'null's, or program behavior more complex than the
+of weak language support, &#8216;null&#8217;s, or program behavior more complex than the
 capabilities of even a good language.<span style="mso-spacerun: yes">&nbsp;
 </span>Compile-time type checking also significantly reduces the reusability of
-classes: it requires generating new classes with all the proper "types" to be
+classes: it requires generating new classes with all the proper &#8220;types&#8221; to be
 used in a particular context.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
@@ -3279,7 +2595,7 @@ also generate the additional documentation that a pessimistic program can
 provide.<span style="mso-spacerun: yes">&nbsp; </span>See [Brach+G 93][8] for a
 starting reference point to these types of languages.<span style="mso-spacerun:
 yes">&nbsp; </span>For this document I will ignore inference capabilities since
-they are not available in Java, Smalltalk, and other "mainstream" OO languages.</p>
+they are not available in Java, Smalltalk, and other &#8220;mainstream&#8221; OO languages.</p>
 
 <h4><a name="_Toc387781543">Deciding on Optimistic vs. Pessimistic messaging</a></h4>
 
@@ -3287,10 +2603,10 @@ they are not available in Java, Smalltalk, and other "mainstream" OO languages.<
 style="mso-spacerun: yes">&nbsp; </span>You can send a message to any object
 and if the object understands the message (it has implemented a matching
 method) it will respond.<span style="mso-spacerun: yes">&nbsp; </span>If not,
-the object would throw a "DoesNotUnderstandException" that the caller can catch
+the object would throw a &#8220;DoesNotUnderstandException&#8221; that the caller can catch
 and respond to.<span style="mso-spacerun: yes">&nbsp; </span>This is very clean
 and simple, relying on the same exception handling abilities in the rest of
-SmallJava.<span style="mso-spacerun: yes">&nbsp; </span>Optimistic messaging's
+SmallJava.<span style="mso-spacerun: yes">&nbsp; </span>Optimistic messaging&#8217;s
 problems are that a program can only be verified by running it and that there
 is less documentation of what is expected of a variable or parameter.</p>
 
@@ -3300,7 +2616,7 @@ is less documentation of what is expected of a variable or parameter.</p>
 support the ability to check whether an object understands a message before
 sending it to it?<span style="mso-spacerun: yes">&nbsp; </span>The answer would
 seem to be an emphatic yes.<span style="mso-spacerun: yes">&nbsp; </span>The
-only cost is the addition of the syntax "(#message,#message2,...)" that does a
+only cost is the addition of the syntax &#8220;(#message,#message2,&#8230;)&#8221; that does a
 message check or that requires the user of a variable or parameter to do a
 message check.<span style="mso-spacerun: yes">&nbsp; </span>This is useful in
 several ways:</p>
@@ -3320,9 +2636,9 @@ use).</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>From Java and Smalltalk's point of view this is
+<p class=MsoNormal>From Java and Smalltalk&#8217;s point of view this is
 uncontroversial: this capability is in both languages.<span
-style="mso-spacerun: yes">&nbsp; </span>Java provides the "cast" operation and
+style="mso-spacerun: yes">&nbsp; </span>Java provides the &#8220;cast&#8221; operation and
 typed variables that we will discuss in future sections.<span
 style="mso-spacerun: yes">&nbsp; </span>Smalltalk provides the ability to ask
 an object whether it #respondsTo: a message.<span style="mso-spacerun:
@@ -3354,7 +2670,7 @@ other.</p>
 features that may make pessimistic message checking more useful and less
 painful.<span style="mso-spacerun: yes">&nbsp; </span>We will also be
 discussing aspects that make pessimistic message checking less useful (e.g. for
-'null's).<span style="mso-spacerun: yes">&nbsp; </span>After dealing with these
+&#8216;null&#8217;s).<span style="mso-spacerun: yes">&nbsp; </span>After dealing with these
 features and aspects we can revisit the question of whether pessimistic
 checking is useful enough to be required.<span style="mso-spacerun: yes">&nbsp;
 </span>For now, SmallJava_1 supports both.</p>
@@ -3370,23 +2686,23 @@ message-requirement invariant which uses the same syntax.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>---------------------------------------------------------------------</p>
+<p class=MsoNormal>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
 
 <p class=EndNote>[1] The terminology and behavior is similar to database
 transactions.</p>
 
-<p class=EndNote>[2] I use "#foo" to label a message and "Class#foo" for a
+<p class=EndNote>[2] I use &#8220;#foo&#8221; to label a message and &#8220;Class#foo&#8221; for a
 method in a particular class.<span style="mso-spacerun: yes">&nbsp; </span>The
-use of '#' is similar enough between both Smalltalk (where it indicates a
+use of &#8216;#&#8217; is similar enough between both Smalltalk (where it indicates a
 Symbol) and Java (where for Javadoc it indicates a method) to be the best choice.</p>
 
 <p class=EndNote>[3] Or you could view it that Object defines all methods with
-a default behavior of: "throw new DoesNotUnderstandException();"</p>
+a default behavior of: &#8220;throw new DoesNotUnderstandException();&#8221;</p>
 
 <p class=EndNote>[4] The database transaction terminology would be a
-pessimistic "lock" on 'point'</p>
+pessimistic &#8220;lock&#8221; on &#8216;point&#8217;</p>
 
-<p class=EndNote>[5] We might now want to call them "invariables"</p>
+<p class=EndNote>[5] We might now want to call them &#8220;invariables&#8221;</p>
 
 <p class=EndNote>[6] We have changed the contract with the caller, see [Meyer
 97]</p>
@@ -3403,7 +2719,7 @@ yes">&nbsp;&nbsp; </span></p>
 <p class=MsoNormal>SmallJava started with only optimistic messaging.<span
 style="mso-spacerun: yes">&nbsp; </span>You could send a message to any object
 and if the object did not have a corresponding method, a
-"DoesNotUnderstandException" would be thrown.</p>
+&#8220;DoesNotUnderstandException&#8221; would be thrown.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
@@ -3434,7 +2750,7 @@ manage our pessimistic message-checks.<span style="mso-spacerun: yes">&nbsp;
 </span>Either the mechanism has to be more convenient or it has to have added
 benefits that make it more useful.<span style="mso-spacerun: yes">&nbsp;
 </span>This chapter discusses making pessimistic behavior easier and more
-useful by using messageGroups, a preliminary form of "Type".<span
+useful by using messageGroups, a preliminary form of &#8220;Type&#8221;.<span
 style="mso-spacerun: yes">&nbsp; </span>If the pessimism becomes easier we may
 make it the required behavior for SmallJava_2.<span style="mso-spacerun:
 yes">&nbsp; </span>In any case we will have something close enough to Java like
@@ -3458,7 +2774,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>class PointClass {</p>
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span>// ...</p>
+</span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3550,7 +2866,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 <p class=MsoNormal>It already has twelve individual message references combined
 into five pessimistic invariants.<span style="mso-spacerun: yes">&nbsp;
-</span>What's worse is that changes in PointClass#vectorFrom could cause all
+</span>What&#8217;s worse is that changes in PointClass#vectorFrom could cause all
 the other invariants to have to change.<span style="mso-spacerun: yes">&nbsp;
 </span>Assuming a point could have a name, then changing #vectorFrom to:</p>
 
@@ -3583,7 +2899,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 <p class=MsoNormal>If we could define a larger unit of granularity that
 contains multiple messages, a messageGroup[2], we might have an easier
-time.<span style="mso-spacerun: yes">&nbsp; </span>Let's try the following
+time.<span style="mso-spacerun: yes">&nbsp; </span>Let&#8217;s try the following
 simple syntax:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
@@ -3601,7 +2917,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point = (#Xy, #vectorFrom);</p>
 </div>
 
 <p class=MsoNormal>where mentioning a messageGroup is just like mentioning the
-messageGroup's messages explicitly.<span style="mso-spacerun: yes">&nbsp;
+messageGroup&#8217;s messages explicitly.<span style="mso-spacerun: yes">&nbsp;
 </span>Message groups are compared by value: two message groups are equal if
 they have the same messages in them after expansion.<span style="mso-spacerun:
 yes">&nbsp; </span>Our previous pessimistic message checks and invariants
@@ -3621,7 +2937,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>class PointClass {</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// ...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3639,7 +2955,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// ...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3721,7 +3037,7 @@ margin-right:1.0in'>
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>vectorFrom((#Xy,#name)
-point) //...</p>
+point) //&#8230;</p>
 
 </div>
 
@@ -3751,7 +3067,7 @@ style="mso-spacerun: yes">&nbsp; </span></p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>If we don't modify #Xy we can still modify #Point:</p>
+<p class=MsoNormal>If we don&#8217;t modify #Xy we can still modify #Point:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
 padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
@@ -3775,7 +3091,7 @@ margin-right:1.0in'>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp; </span>vectorFrom((#Xy,#name) point) //...</p>
+yes">&nbsp;&nbsp;&nbsp; </span>vectorFrom((#Xy,#name) point) //&#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3784,7 +3100,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>class Line {</p>
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>LineClass((#Point)
-pointA, (#Xy,#name) pointB) //...</p>
+pointA, (#Xy,#name) pointB) //&#8230;</p>
 
 </div>
 
@@ -3792,23 +3108,23 @@ pointA, (#Xy,#name) pointB) //...</p>
 
 <p class=MsoNormal>Now we only have to change three invariants instead of
 five.<span style="mso-spacerun: yes">&nbsp; </span>But why could we modify
-#Point if we couldn't modify #Xy?<span style="mso-spacerun: yes">&nbsp;
+#Point if we couldn&#8217;t modify #Xy?<span style="mso-spacerun: yes">&nbsp;
 </span>Just because it had a different name?<span style="mso-spacerun:
 yes">&nbsp; </span>Well, yes.</p>
 
 <h3><a name="_Toc387781549">Types</a></h3>
 
-<p class=MsoNormal>The messageGroup named #Point represents a "Type", a
+<p class=MsoNormal>The messageGroup named #Point represents a &#8220;Type&#8221;, a
 meaningful grouping of objects that provide the same interface.<span
 style="mso-spacerun: yes">&nbsp; </span>We can include the ability to respond
 to #name as part of the capabilities of a #Point.<span style="mso-spacerun:
 yes">&nbsp; </span>For the messageGroup named #Xy we were just providing a
-"shortcut" name for several messages without any fuller or independent logical
+&#8220;shortcut&#8221; name for several messages without any fuller or independent logical
 meaning.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>So why don't we just throw away #Xy and use just
+<p class=MsoNormal>So why don&#8217;t we just throw away #Xy and use just
 #Point?<span style="mso-spacerun: yes">&nbsp; </span>This would give us:</p>
 
 <div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
@@ -3829,7 +3145,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>class PointClass {</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// ...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3847,7 +3163,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// ...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -3953,7 +3269,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point = (#x, #y , #name,
 
 </div>
 
-<p class=MsoNormal>and we don't have to worry about changing anything
+<p class=MsoNormal>and we don&#8217;t have to worry about changing anything
 else.<span style="mso-spacerun: yes">&nbsp; </span>Life is easy.</p>
 
 <h4><a name="_Toc387781550">Excessively Restrictive Typing</a></h4>
@@ -3976,10 +3292,10 @@ were planning on using only PointClasses anyway, and they support all of the
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>Unfortunately that is a sign of being "near-sighted" in both
+<p class=MsoNormal>Unfortunately that is a sign of being &#8220;near-sighted&#8221; in both
 time and development scope.<span style="mso-spacerun: yes">&nbsp; </span>As the
 system grows I could want to use an independently developed library of classes
-that includes a 'Point' which does not have a method #name.<span
+that includes a &#8216;Point&#8217; which does not have a method #name.<span
 style="mso-spacerun: yes">&nbsp; </span>But I can not.<span
 style="mso-spacerun: yes">&nbsp; </span>Lines require that a Point understand
 #name even when it never sends a #name message to them.</p>
@@ -3993,7 +3309,7 @@ that respond to just (#+, #-, #*).</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>There are words for this type of program: inflexible,
-limited, not reusable, and "bad".</p>
+limited, not reusable, and &#8220;bad&#8221;.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
@@ -4017,11 +3333,11 @@ want as little of the program to change as possible.</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>There are words for this type of program too: stable,
-maintainable, and "good".</p>
+maintainable, and &#8220;good&#8221;.</p>
 
 <h4><a name="_Toc387781551">Preventing Excessive Typing</a></h4>
 
-<p class=MsoNormal>So how do we get the "good" with as little of the "bad" as
+<p class=MsoNormal>So how do we get the &#8220;good&#8221; with as little of the &#8220;bad&#8221; as
 possible?<span style="mso-spacerun: yes">&nbsp; </span>The main way is to think
 harder about our object type models.<span style="mso-spacerun: yes">&nbsp;
 </span>Do we really want all #Points to respond to #name?<span
@@ -4049,7 +3365,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Xy = (#x, #y);</p>
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point = (#Xy , #vectorFrom(#Xy),
-...other stuff...);</p>
+&#8230;other stuff&#8230;);</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -4073,7 +3389,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>class PointClass {</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// ...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -4091,7 +3407,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// ...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>// &#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -4162,8 +3478,8 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</p>
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
 <p class=MsoNormal>If we later decide to use #names with our lines then we can
-either change the invariant on pointA (to either "(#Point,#Named)"or
-"(#NamedPoint)") or we can decide that we really have a new #NamedLine which
+either change the invariant on pointA (to either &#8220;(#Point,#Named)&#8221;or
+&#8221;(#NamedPoint)&#8221;) or we can decide that we really have a new #NamedLine which
 would have a new NamedLineClass to implement it.<span style="mso-spacerun:
 yes">&nbsp; </span>We have reduced the excessive restrictions in exchange for
 what looks like more work (more Types) but should be more stable and less work
@@ -4265,7 +3581,7 @@ control of the developer.</p>
 
 <p class=MsoNormal>Should we REQUIRE pessimistic behavior now that we have
 better language support for it?<span style="mso-spacerun: yes">&nbsp; </span>I
-will say "no" to defer until covering "null" values, but we are close to making
+will say &#8220;no&#8221; to defer until covering &#8220;null&#8221; values, but we are close to making
 that decision.<span style="mso-spacerun: yes">&nbsp; </span>For the moment I
 will compare optimistic and pessimistic behavior in SmallJava_2 and discuss
 choosing between them.</p>
@@ -4317,7 +3633,7 @@ yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>x() {return x;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//&#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -4427,7 +3743,7 @@ yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Point =
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Number = (#^,#-,...);</p>
+yes">&nbsp;&nbsp;&nbsp; </span>messageGroup #Number = (#^,#-,&#8230;);</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -4471,7 +3787,7 @@ x;}</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
-yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//...</p>
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//&#8230;</p>
 
 <p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
 margin-left:.75in;margin-bottom:.0001pt'><span style="mso-spacerun:
@@ -4587,7 +3903,7 @@ optimistic version will throw an exception at run time.</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>The optimistic program is less "noisy" and is easier to
+<p class=MsoNormal>The optimistic program is less &#8220;noisy&#8221; and is easier to
 change.<span style="mso-spacerun: yes">&nbsp; </span>We can simply add a new
 method to PointClass and use it in LineClass.<span style="mso-spacerun:
 yes">&nbsp; </span>But we can also accidentally send a new message without
@@ -4622,7 +3938,7 @@ yes">&nbsp; </span></p>
 
 <p class=MsoNormal>The pessimistic program is less flexible.<span
 style="mso-spacerun: yes">&nbsp; </span>We can only use #Points in our
-LineClass.<span style="mso-spacerun: yes">&nbsp; </span>We can't use another
+LineClass.<span style="mso-spacerun: yes">&nbsp; </span>We can&#8217;t use another
 type of point that only understand #x and #y because #Point requires #r and #theta
 too (even though LineClass may never need #r and #theta).<span
 style="mso-spacerun: yes">&nbsp; </span>You should also note the comment in the
@@ -4631,17 +3947,17 @@ next section.</p>
 <h4><a name="_Toc387781556">Comments on Reality</a></h4>
 
 <p class=MsoNormal>Unfortunately the type behavior in SmallJava_2 is more
-"ideal" and flexible than what most statically typed languages support,
+&#8220;ideal&#8221; and flexible than what most statically typed languages support,
 including Java.<span style="mso-spacerun: yes">&nbsp; </span>For example,
 instead of message based verification with types as message aggregates, most
 statically typed languages use named-type based verification.<span
 style="mso-spacerun: yes">&nbsp; </span>For these languages an object can only
-pass through a type-check if its class specifically "implements" the named
+pass through a type-check if its class specifically &#8220;implements&#8221; the named
 type.<span style="mso-spacerun: yes">&nbsp; </span>You can not use a third
 party PointClass that supports all the #Point messages with LineClass unless it
 actually specifically mentions our #Point type.<span style="mso-spacerun:
 yes">&nbsp; </span>This is not too likely.<span style="mso-spacerun:
-yes">&nbsp; </span>This language "feature" severely punishes reusability for
+yes">&nbsp; </span>This language &#8220;feature&#8221; severely punishes reusability for
 pessimistic typing.<span style="mso-spacerun: yes">&nbsp; </span>This I will
 address in a future chapter when we start bringing some of the idealizations of
 SmallJava down to the realities of Java.</p>
@@ -4664,7 +3980,7 @@ them will probably feel very different.<span style="mso-spacerun: yes">&nbsp;
 </span>Besides language features this will be because of the development
 environments and compiling technology associated with each.<span
 style="mso-spacerun: yes">&nbsp; </span>Generally optimistic languages have
-much more interactive development environments, so programs feel "directly manipulated"
+much more interactive development environments, so programs feel &#8220;directly manipulated&#8221;
 and grown.<span style="mso-spacerun: yes">&nbsp; </span>Generally pessimistic
 language development environments have a specify, implement, and verify
 process.<span style="mso-spacerun: yes">&nbsp; </span></p>
@@ -4704,11 +4020,11 @@ member).</p>
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal>But no choosing yet, we must first cover "nothing".</p>
+<p class=MsoNormal>But no choosing yet, we must first cover &#8220;nothing&#8221;.</p>
 
-<p class=MsoNormal>---------------------------------------------------------------------</p>
+<p class=MsoNormal>&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
 
-<p class=MsoNormal>[1] Note the change to suffixing with "Class", this is to
+<p class=MsoNormal>[1] Note the change to suffixing with &#8220;Class&#8221;, this is to
 make discussions about types clearer later on.<span style="mso-spacerun:
 yes">&nbsp; </span>It also happens to be my naming convention for Java
 code.<span style="mso-spacerun: yes">&nbsp; </span>See [Fussell-1] </p>
@@ -4748,8 +4064,8 @@ style='mso-bookmark:_Toc384923228'>References</span></a></h1>
   <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
   0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'>Gilad
-  Bracha and David Griswold. "Stongtalk: Typechecking Smalltalk in a Production
-  Environment" in <i style='mso-bidi-font-style:normal'>OOPSLA 1993 Conference
+  Bracha and David Griswold. &#8220;Stongtalk: Typechecking Smalltalk in a Production
+  Environment&#8221; in <i style='mso-bidi-font-style:normal'>OOPSLA 1993 Conference
   Proceedings</i>.<span style="mso-spacerun: yes">&nbsp; </span>Addison-Wesley,
   Reading, MA, 1993.</p>
   </td>
@@ -4776,9 +4092,9 @@ style='mso-bookmark:_Toc384923228'>References</span></a></h1>
   <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
   0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'>Mark L.
-  Fussell. "Java Development Standards" <span class=Html1><span
+  Fussell. &#8220;Java Development Standards&#8221; <span class=Html1><span
   style='display:none;mso-hide:all'>&lt;a
-  href="http://www.chimu.com/publications/javaStandards/"&gt;</span>http://www.chimu.com/publications/javaStandards/<span
+  href=&#8221;http://www.chimu.com/publications/javaStandards/&#8221;&gt;</span>http://www.chimu.com/publications/javaStandards/<span
   style='display:none;mso-hide:all'>&lt;/a&gt;</span></span></p>
   </td>
  </tr>
@@ -4790,10 +4106,10 @@ style='mso-bookmark:_Toc384923228'>References</span></a></h1>
   <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
   0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'>Mark L.
-  Fussell. "Java-Smalltalk Syntax comparison" <span class=Html1><span
-  style='display:none;mso-hide:all'>&lt;a href="</span></span><span
+  Fussell. &#8220;Java-Smalltalk Syntax comparison&#8221; <span class=Html1><span
+  style='display:none;mso-hide:all'>&lt;a href=&#8221;</span></span><span
   style='display:none;mso-hide:all'>http://www.chimu.com/publications/javaSmalltalkSyntax.html/
-  <span class=Html1>"&gt;</span></span>http://www.chimu.com/publications/javaSmalltalkSyntax.html<span
+  <span class=Html1>&#8220;&gt;</span></span>http://www.chimu.com/publications/javaSmalltalkSyntax.html<span
   class=Html1>/<span style='display:none;mso-hide:all'>&lt;/a&gt;</span></span>
   </p>
   </td>
@@ -4845,7 +4161,178 @@ style='mso-bookmark:_Toc384923228'>References</span></a></h1>
 
 </div>
 
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-</feed>
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="1997-05-07T18:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 1997</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dynamic/'>Dynamic</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/1997/05/07/smalljava/" data-via="" data-counturl="http://markfussell.github.com/blog/1997/05/07/smalljava/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/1997/08/27/why-dynamic-typing/" title="Next Post: Why dynamic typing?">Why dynamic typing? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/11/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/1997/08/27/why-dynamic-typing/">Why dynamic typing?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/1997/05/07/smalljava/">SmallJava: Smalltalk to Java... Using Language Transformation to Show Language Differences</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.github.com/blog/1997/05/07/smalljava/';
+        var disqus_url = 'http://markfussell.github.com/blog/1997/05/07/smalljava/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
