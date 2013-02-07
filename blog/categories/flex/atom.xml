@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flex | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/flex/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:50:05-08:00</updated>
+  <updated>2013-02-06T20:52:06-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -447,6 +447,178 @@ protected override function createDisk() : HanoiDisk {
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 4)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4/"/>
+    <updated>2008-09-02T07:13:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi — With Model Objects</h2>
+
+<p>The book "A Taste of Smalltalk" jumps from showing a single 'TowerOfHanoi' object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Even though Flex has no issue with graphics, I want to separate these two changes both to match Ruby and because the changes are logically somewhat separate.  So first we can put in Disk objects and study that change.  After that, we can go into the GUI code.</p>
+
+<h3>The Code</h3>
+
+<p>```actionscript
+package {</p>
+
+<p>/<em>*
+ * A ModeledTowerOfHanoi is the TowerOfHanoi algorithm
+ * but it keeps track of the state of the Disks
+ * with actual objects.  This makes it suitable for
+ * model-based behavior (say tracking moves, animation or
+ * other event listening) on top of those Disks
+ </em>/
+public class ModeledTowerOfHanoi extends TowerOfHanoi{</p>
+
+<pre><code>protected var my_height : Number;
+protected var my_mockDisks : Array;
+
+public override function doHanoi(height : int) : void {
+    my_height = height;
+
+    setupDisks();
+
+    logToConsole("\n\nStart\n");
+    printStacks();
+
+    logToConsole("\n\nMoves\n");
+    moveTower(my_height, 1, 3, 2);
+
+    logToConsole("\n\nResult\n");
+    printStacks();
+}
+
+protected function setupDisks() : void {
+    my_stacks = new Array();
+    for (var i:int = 0; i&lt;3; i++) {
+        my_stacks.push(new Array());
+    }
+
+    var firstStack : Array = my_stacks.first(); //[0];
+    for (var j:int = 0; j&lt;my_height; j++) {
+        firstStack.unshift(new HanoiDisk().initWidth_pole(j,1));
+    }
+
+    my_mockDisks = new Array();
+    for (var k:int = 0; k&lt;3; k++) {
+        my_mockDisks[k]=new HanoiDisk().initWidth_pole(1000,k);
+    }
+}
+
+protected function printStacks() : void {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        logToConsole("   &lt;stack&gt;\n");
+        for (var j:int = eachStack.length-1; j&gt;=0; j--) {
+            var eachDisk : * = eachStack[j];
+            logToConsole(eachDisk.toString()+"\n");
+        }
+        logToConsole("   &lt;/stack&gt;\n");
+    }
+}
+
+
+protected override function moveDisk(fromPin : *, toPin : *) : void {
+    var supportDisk = (my_stacks[toPin-1].length == 0) ? my_mockDisks[toPin-1] : my_stacks[toPin-1][0];
+
+    var disk : HanoiDisk = my_stacks[fromPin-1].pop();
+    my_stacks[toPin-1].push(disk);
+
+    disk.moveUpon(supportDisk);
+
+    logToConsole(disk + " moved " + fromPin + "-&gt;" + toPin+"\n");
+}
+
+public function logToConsole(string : String) {
+    my_view.logToConsole(string);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<h4>HanoiDisk</h4>
+
+
+<p>[sourcecode language='jscript']
+package {</p>
+
+<p>public class HanoiDisk {</p>
+
+<pre><code>protected const CONST_asciiA : Number = "A".charCodeAt();
+
+public var width : Number;
+public var pole : Number;
+
+protected var my_name : String;
+protected var my_moveCount : Number = 0;
+
+public function initWidth_pole(aWidth : Number, aPole : Number) : HanoiDisk {
+    width = aWidth;
+    pole = aPole;
+
+    if (width &lt; 1000) {
+        my_name = "Disk-#"+String.fromCharCode(CONST_asciiA+width);
+    } else {
+        my_name = "Base-#"+pole;
+    }
+
+    return this;
+}
+
+
+public function toString() : String {
+    return my_name+"("+my_moveCount+")";
+}
+
+public function moveUpon(destination : HanoiDisk) : void {
+    pole = destination.pole;
+    my_moveCount++;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+```</p>
+
+<h4>ModeledTowerOfHanoi</h4>
+
+<p>I believe the following are the most interesting aspects:</p>
+
+<ol>
+<li><p>Public Attributes (which may be wrapped or unwrapped instance variables)</p></li>
+<li><p>Explicit 'override'</p></li>
+<li><p>Explicit return values</p></li>
+</ol>
+
+
+<h3>Public Attributes</h3>
+
+<p>Flex allows you to have attributes that are either (1) just instance variables or (2) one or a pair of 'set' and 'get' accessors.  The notation of access looks the same, so it is up to the receiver/implementer to decide whether 'wrapping' is necessary.  Although the Macro approach of Ruby is nicer than having to do add accessors manually (or even 'refactor' them in with a tool), the Flex approach is by far the best for this kind of situation.  The language/compiler actually understands the intent of the programmer (declaratively) vs. running through a macro and the results just happen to be the same.</p>
+
+<p>Note that Flex goes beyond simple public attributes and can attach notification capabilities on top of it.</p>
+
+<h3>Explicit 'override'</h3>
+
+<p>Flex and ActionScript again clearly try to help the programmer avoid making a mistake, in this case by making sure code <em>knows</em> it is overriding inherited code and that within that override you have to consider what the superclass wants, whether you need to call 'super', etc.</p>
+
+<h3>Explicit return values</h3>
+
+<p>Flex enables you to avoid specifying the type of a return value (defaulting to 'Any'), but you have to decide whether you are going to return anything or nothing at all.  And if you are going to return anything, you need to explicitly say what you are going to return.</p>
+
+<p>As I mentions in Part 4 of a Taste of Ruby, this approach is clearly the best -- actually better than what I mentioned there.  So then returning 'null' by default becomes a good second best (no language so far mentioned),  Returning 'self' by default is third best (Smalltalk).  And Ruby returning of "whatever happens to be returned by the last statement" is a distant fourth.</p>
+
+<h3>What Next</h3>
+
+<p>Now onto the GUI itself.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 3)]]></title>
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/"/>
     <updated>2008-09-02T05:11:00-07:00</updated>
@@ -651,141 +823,6 @@ protected function moveDisk(fromPin : *, toPin : *) : void {
 <h3>Where Next?</h3>
 
 <p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
-    <updated>2008-09-02T00:44:58-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi — With Graphics</h2>
-
-<p>To follow the flow of code progress within "A Taste of Smalltalk", we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to 'contain' yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark -- and again study how different languages work with the same problem.</p>
-
-<h3>Tower of Hanoi — With Graphics -- Flex</h3>
-
-<p>Given our Flex version is already in a graphics environment, and the model (TowerOfHanoi) is already aware of having to talk the View, the changes are relatively minimal to get things working.  We need to render the disks in the Application/View and we need to notify the view whenever the model changes.</p>
-
-<h4>Main Application</h4>
-
-<p>To add rendering in, we just create a render canvas area and then create the UIComponents (shapes) on each redraw.  Normally we would be more likely to animate a single set of disks (vs. destroying them and recreating them), which would be both better in performance and be <em>much cooler</em>, but this matches the RubyShoes version better.</p>
-
-<p>```xml
-&lt;?xml version="1.0" encoding="utf-8"?>
-&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"</p>
-
-<pre><code>creationComplete="handleCreationComplete()"
-</code></pre>
-
-<blockquote><p>&lt;mx:Script></p>
-
-<pre><code>&lt;![CDATA[
-    import mx.core.UIComponent;
-    var my_model : AnimatedTowerOfHanoi;
-</code></pre></blockquote>
-
-<pre><code>    function handleCreationComplete() : void {
-        Array.prototype.first = function():Object { return this[0]; }
-
-        my_model = new AnimatedTowerOfHanoi();
-        my_model.initView(this);
-    }
-
-    function handleDoItClicked() : void {
-        logToConsole("\n=== Doing a Hanoi tower "+vTowerInput.text+" tall\n");
-        my_model.doHanoi(new Number(vTowerInput.text));
-    }
-
-    public function logToConsole(string : String) : void {
-        vConsole.text = vConsole.text+string;
-    }
-
-    public function noteChange() : void {
-        vRenderArea.removeAllChildren();
-
-        var stacks : Array = my_model.getStacks();
-        for (var i : int = 0; i&lt;stacks.length; i++) {
-            var eachStack : Array = stacks[i];
-            var poleCenterX : Number = i*100 + 50;
-
-            for (var j:int = 0; j&lt;eachStack.length; j++) {
-                var eachDisk : HanoiDisk = eachStack[j];
-
-                var diskHeight : int = 180 - (j * 15);
-                var diskWidth  : int = eachDisk.width * 10;
-
-                var eachShape : UIComponent = new UIComponent();
-                eachShape.graphics.beginFill(0xA00000);
-                eachShape.graphics.drawRect(poleCenterX - diskWidth / 2, diskHeight, diskWidth, 10);
-
-                vRenderArea.addChild(eachShape);
-            }
-        }
-    }
-]]]]&gt;&lt;![CDATA[&gt;
-</code></pre>
-
-<p>&lt;/mx:Script>
-&lt;mx:HBox></p>
-
-<pre><code>&lt;mx:Text text="How tall a tower?" /&gt;
-&lt;mx:TextInput id="vTowerInput" /&gt;
-&lt;mx:Button label="Do It" click="handleDoItClicked()" /&gt;
-</code></pre>
-
-<p>&lt;/mx:HBox>
-&lt;mx:Canvas id="vRenderArea" width="300" height="200" borderStyle="solid" />
-&lt;mx:TextArea id="vConsole" width="100%" height="100%" />
-&lt;/mx:Application>
-```</p>
-
-<h4>AnimatedTowerOfHanoi</h4>
-
-<p>The AnimatedTower just needs to send out change events (via a simple callback vs. true event listeners that are in Flex).</p>
-
-<p>[sourcecode language="jscript"]
-package {</p>
-
-<p>public class AnimatedTowerOfHanoi extends ModeledTowerOfHanoi {</p>
-
-<pre><code>protected override function setupDisks() : void {
-    super.setupDisks();
-
-    my_view.noteChange();
-}
-
-public function getStacks() : Array {
-    return my_stacks;
-}
-
-protected override function moveDisk(fromPin : *, toPin : *) : void {
-    super.moveDisk(fromPin, toPin);
-
-    my_view.noteChange();
-}
-</code></pre>
-
-<p>}</p>
-
-<p>} //package
-[/sourcecode]</p>
-
-<h3>Super Easy...But doesn't work</h3>
-
-<p>Well, that was really easy... except it doesn't really work :-(  You can only see the final result of all the nice disks on the last stack.  None of the intermediary steps before this last rendering are shown at all.</p>
-
-<p>Clearly we are missing something... where is the "Sleep" equivalent?  If we could add a 'sleep' then everything would work right?  Unfortunately both "No" and "NO!".  When Flex/Flash are running user code, they are doing it between screen renderings and a bunch of other tasks Flash does.  So you can't just keep rendering things in the same thread (same stack) and have any of that be visible except the last version.  If you could 'sleep', you would just make Flash pause for no good reason.</p>
-
-<p>The solution is to do each rendering on some kind of event.  Something simple like do the next step of the hanoi algorithm every 0.3 seconds.  That sounds easy but: (1) Flex doesn't have continuations either so you can't just 'pause' the stack and (2) The current hanoi algorithm is completely stack based.</p>
-
-<p>Fortunately the fix is both "not that hard" and also happens to be the next chapter of "A Taste of Smalltalk" called "An Algorithm for the Rest of Us".  So for the moment, lets punt on getting the animation in Flex right until we get to the next part.</p>
-
-<h3>What's Next</h3>
-
-<p>A new non-stack algorithm.</p>
 ]]></content>
   </entry>
   

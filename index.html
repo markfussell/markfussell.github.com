@@ -1679,7 +1679,7 @@ protected override function createDisk() : HanoiDisk {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-3/">A Taste of Flex (Part 3)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-4/">A Taste of Flex (Part 4)</a></h1>
     
     
       <p class="meta">
@@ -1695,18 +1695,20 @@ protected override function createDisk() : HanoiDisk {
   
 
 
-<time datetime="2008-09-02T05:11:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+<time datetime="2008-09-02T07:13:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+  <div class="entry-content"><p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<h2>Tower of Hanoi &#8211; With A Real Object</h2>
+<h2>Tower of Hanoi — With Model Objects</h2>
 
-<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
+<p>The book &#8220;A Taste of Smalltalk&#8221; jumps from showing a single &#8216;TowerOfHanoi&#8217; object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Even though Flex has no issue with graphics, I want to separate these two changes both to match Ruby and because the changes are logically somewhat separate.  So first we can put in Disk objects and study that change.  After that, we can go into the GUI code.</p>
+
+<h3>The Code</h3>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1753,46 +1755,190 @@ protected override function createDisk() : HanoiDisk {
 <span class='line-number'>43</span>
 <span class='line-number'>44</span>
 <span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
 </pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
 </span><span class='line'>
-</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">TowerOfHanoi</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">CONST_asciiA</span> <span class="o">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">();</span>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</span>
+</span><span class='line'><span class="cm"> * but it keeps track of the state of the Disks</span>
+</span><span class='line'><span class="cm"> * with actual objects.  This makes it suitable for</span>
+</span><span class='line'><span class="cm"> * model-based behavior (say tracking moves, animation or</span>
+</span><span class='line'><span class="cm"> * other event listening) on top of those Disks</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">ModeledTowerOfHanoi</span> <span class="kd">extends</span> <span class="nx">TowerOfHanoi</span><span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_height</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_mockDisks</span> <span class="o">:</span> <span class="nb">Array</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_view</span> <span class="o">:</span> <span class="o">*;</span>
-</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_stacks</span> <span class="o">:</span> <span class="nb">Array</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">doHanoi</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_height</span> <span class="o">=</span> <span class="nx">height</span><span class="o">;</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">initView</span><span class="p">(</span><span class="nx">view</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">my_view</span> <span class="o">=</span> <span class="nx">view</span><span class="o">;</span>
+</span><span class='line'>        <span class="nx">setupDisks</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">logToConsole</span><span class="p">(</span><span class="s2">&quot;\n\nStart\n&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">printStacks</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">logToConsole</span><span class="p">(</span><span class="s2">&quot;\n\nMoves\n&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">moveTower</span><span class="p">(</span><span class="nx">my_height</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">logToConsole</span><span class="p">(</span><span class="s2">&quot;\n\nResult\n&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">printStacks</span><span class="p">();</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">doHanoi</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">setupDisks</span><span class="p">()</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
 </span><span class='line'>        <span class="nx">my_stacks</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
 </span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>            <span class="nx">my_stacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nb">Array</span><span class="p">());</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="k">var</span> <span class="nx">firstStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">j</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">height</span><span class="o">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">firstStack</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s2">&quot;Disk-#&quot;</span><span class="o">+</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">CONST_asciiA</span><span class="o">+</span><span class="nx">j</span><span class="p">));</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">firstStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">.</span><span class="nx">first</span><span class="p">();</span> <span class="c1">//[0];</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">j</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">my_height</span><span class="o">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">firstStack</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="k">new</span> <span class="nx">HanoiDisk</span><span class="p">().</span><span class="nx">initWidth_pole</span><span class="p">(</span><span class="nx">j</span><span class="o">,</span><span class="mi">1</span><span class="p">));</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="o">,</span> <span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">usingPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nx">fromPin</span><span class="o">,</span> <span class="nx">usingPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
-</span><span class='line'>            <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
-</span><span class='line'>            <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nx">usingPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="o">,</span> <span class="nx">fromPin</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">my_mockDisks</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">k</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">k</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="nx">k</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">my_mockDisks</span><span class="p">[</span><span class="nx">k</span><span class="p">]</span><span class="o">=</span><span class="k">new</span> <span class="nx">HanoiDisk</span><span class="p">().</span><span class="nx">initWidth_pole</span><span class="p">(</span><span class="mi">1000</span><span class="o">,</span><span class="nx">k</span><span class="p">);</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">var</span> <span class="nx">disk</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">pop</span><span class="p">();</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">printStacks</span><span class="p">()</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="nx">logToConsole</span><span class="p">(</span><span class="s2">&quot;   &lt;stack&gt;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">j</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="nx">j</span><span class="o">&gt;=</span><span class="mi">0</span><span class="o">;</span> <span class="nx">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">var</span> <span class="nx">eachDisk</span> <span class="o">:</span> <span class="o">*</span> <span class="o">=</span> <span class="nx">eachStack</span><span class="p">[</span><span class="nx">j</span><span class="p">];</span>
+</span><span class='line'>                <span class="nx">logToConsole</span><span class="p">(</span><span class="nx">eachDisk</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="nx">logToConsole</span><span class="p">(</span><span class="s2">&quot;   &lt;/stack&gt;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">supportDisk</span> <span class="o">=</span> <span class="p">(</span><span class="nx">my_stacks</span><span class="p">[</span><span class="nx">toPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nx">my_mockDisks</span><span class="p">[</span><span class="nx">toPin</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">:</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">toPin</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">disk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">pop</span><span class="p">();</span>
 </span><span class='line'>        <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">toPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">disk</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">logToConsole</span><span class="p">(</span><span class="nx">disk</span> <span class="o">+</span> <span class="s2">&quot; moved &quot;</span> <span class="o">+</span> <span class="nx">fromPin</span> <span class="o">+</span> <span class="s2">&quot;-&gt;&quot;</span> <span class="o">+</span> <span class="nx">toPin</span><span class="o">+</span><span class="s2">&quot;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">disk</span><span class="p">.</span><span class="nx">moveUpon</span><span class="p">(</span><span class="nx">supportDisk</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">logToConsole</span><span class="p">(</span><span class="nx">disk</span> <span class="o">+</span> <span class="s2">&quot; moved &quot;</span> <span class="o">+</span> <span class="nx">fromPin</span> <span class="o">+</span> <span class="s2">&quot;-&gt;&quot;</span> <span class="o">+</span> <span class="nx">toPin</span><span class="o">+</span><span class="s2">&quot;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">logToConsole</span><span class="p">(</span><span class="nx">string</span> <span class="o">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">logToConsole</span><span class="p">(</span><span class="nx">string</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span><span class='line'><span class="p">[</span><span class="o">/</span><span class="nx">sourcecode</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="nx">HanoiDisk</span><span class="o">&lt;/</span><span class="nx">h4</span><span class="o">&gt;</span>
+</span><span class='line'><span class="p">[</span><span class="nx">sourcecode</span> <span class="nx">language</span><span class="o">=</span><span class="s1">&#39;jscript&#39;</span><span class="p">]</span>
+</span><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">CONST_asciiA</span> <span class="o">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="k">var</span> <span class="nx">width</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="k">var</span> <span class="nx">pole</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_name</span> <span class="o">:</span> <span class="nb">String</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_moveCount</span> <span class="o">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">initWidth_pole</span><span class="p">(</span><span class="nx">aWidth</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">,</span> <span class="nx">aPole</span> <span class="o">:</span> <span class="nb">Number</span><span class="p">)</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">width</span> <span class="o">=</span> <span class="nx">aWidth</span><span class="o">;</span>
+</span><span class='line'>        <span class="nx">pole</span> <span class="o">=</span> <span class="nx">aPole</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">width</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">my_name</span> <span class="o">=</span> <span class="s2">&quot;Disk-#&quot;</span><span class="o">+</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">CONST_asciiA</span><span class="o">+</span><span class="nx">width</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">my_name</span> <span class="o">=</span> <span class="s2">&quot;Base-#&quot;</span><span class="o">+</span><span class="nx">pole</span><span class="o">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">toString</span><span class="p">()</span> <span class="o">:</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">my_name</span><span class="o">+</span><span class="s2">&quot;(&quot;</span><span class="o">+</span><span class="nx">my_moveCount</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">moveUpon</span><span class="p">(</span><span class="nx">destination</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">pole</span> <span class="o">=</span> <span class="nx">destination</span><span class="p">.</span><span class="nx">pole</span><span class="o">;</span>
+</span><span class='line'>        <span class="nx">my_moveCount</span><span class="o">++;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">}</span>
@@ -1801,98 +1947,36 @@ protected override function createDisk() : HanoiDisk {
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>TowerOfHanoi</h3>
+<h4>ModeledTowerOfHanoi</h4>
 
-<p>The TowerOfHanoi main class is now able to be a pure ActionScript class, so it looks much cleaner and formats nicely now.  The only additional feature it needs (compared to say the Smalltalk or Ruby version) is a reference to its View so it can print into the Console of that view.  I could actually just use &#8216;Application.application&#8217; to get the outer view, but this is cleaner, more scalable, and makes it clearer what is happening [even though many people like to cheat with those kinds of Globals].</p>
+<p>I believe the following are the most interesting aspects:</p>
 
-<h3>Main Application</h3>
-
-<p>The main Application is now clean of model code and just (1) holds onto the outer model and (2) provides view services to others.  I made logToConsole public so people could identify what is meant to be used by others vs. what is not.  Ultimately &#8216;logToConsole&#8217; could be put into an interface to make it clearer that is all the &#8216;TowerOfHanoi&#8217; needs from its view.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-</span><span class='line'><span class="nt">&lt;mx:Application</span> <span class="na">xmlns:mx=</span><span class="s">&quot;http://www.adobe.com/2006/mxml&quot;</span> <span class="na">layout=</span><span class="s">&quot;vertical&quot;</span>
-</span><span class='line'>  <span class="na">creationComplete=</span><span class="s">&quot;handleCreationComplete()&quot;</span>
-</span><span class='line'><span class="nt">&gt;</span>
-</span><span class='line'><span class="nt">&lt;mx:Script&gt;</span>
-</span><span class='line'>    <span class="cp">&lt;![CDATA[</span>
-</span><span class='line'><span class="cp">        var my_model : TowerOfHanoi;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">        function handleCreationComplete() : void {</span>
-</span><span class='line'><span class="cp">            my_model = new TowerOfHanoi();</span>
-</span><span class='line'><span class="cp">            my_model.initView(this);</span>
-</span><span class='line'><span class="cp">        }</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">        function handleDoItClicked() : void {</span>
-</span><span class='line'><span class="cp">            logToConsole(&quot;\n=== Doing a Hanoi tower &quot;+vTowerInput.text+&quot; tall\n&quot;);</span>
-</span><span class='line'><span class="cp">            my_model.doHanoi(new Number(vTowerInput.text));</span>
-</span><span class='line'><span class="cp">        }</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">        public function logToConsole(string : String) : void {</span>
-</span><span class='line'><span class="cp">            vConsole.text = vConsole.text+string;</span>
-</span><span class='line'><span class="cp">        }</span>
-</span><span class='line'><span class="cp">    ]]]]&gt;&lt;![CDATA[&gt;</span>
-</span><span class='line'><span class="nt">&lt;/mx:Script&gt;</span>
-</span><span class='line'><span class="nt">&lt;mx:HBox&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;mx:Text</span> <span class="na">text=</span><span class="s">&quot;How tall a tower?&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;mx:TextInput</span> <span class="na">id=</span><span class="s">&quot;vTowerInput&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;mx:Button</span> <span class="na">label=</span><span class="s">&quot;Do It&quot;</span> <span class="na">click=</span><span class="s">&quot;handleDoItClicked()&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'><span class="nt">&lt;/mx:HBox&gt;</span>
-</span><span class='line'><span class="nt">&lt;mx:TextArea</span> <span class="na">id=</span><span class="s">&quot;vConsole&quot;</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">height=</span><span class="s">&quot;100%&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'><span class="nt">&lt;/mx:Application&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li><p>Public Attributes (which may be wrapped or unwrapped instance variables)</p></li>
+<li><p>Explicit &#8216;override&#8217;</p></li>
+<li><p>Explicit return values</p></li>
+</ol>
 
 
-<h2>Comments</h2>
+<h3>Public Attributes</h3>
 
-<p>By moving the ActionScript portion out of the main Application XML, the syntax becomes clearer.  Another feature of Flex that is starting to show is that we can document and compile-time verify visibility (as needed), contractual interfaces (as needed), etc.  But we can also leave them off and things work fine.</p>
+<p>Flex allows you to have attributes that are either (1) just instance variables or (2) one or a pair of &#8216;set&#8217; and &#8216;get&#8217; accessors.  The notation of access looks the same, so it is up to the receiver/implementer to decide whether &#8216;wrapping&#8217; is necessary.  Although the Macro approach of Ruby is nicer than having to do add accessors manually (or even &#8216;refactor&#8217; them in with a tool), the Flex approach is by far the best for this kind of situation.  The language/compiler actually understands the intent of the programmer (declaratively) vs. running through a macro and the results just happen to be the same.</p>
 
-<p>We do need to document the existence of instance variables, local variables, and methods of whatever types we use (e.g. &#8216;self&#8217; / &#8216;this&#8217;) or the compiler will complain.  I believe this is far better (most of the time) than leaving that as a pure runtime issue and having typos potentially take significant time to debug.  And this does not interfere with things being &#8216;dynamic&#8217; (&#8216;duck typed&#8217;) in most cases although it is related to some meta-language capabilities.</p>
+<p>Note that Flex goes beyond simple public attributes and can attach notification capabilities on top of it.</p>
 
-<p>Going into the Flex code itself, we can see a stronger relationship to &#8216;C&#8217; style control structures and not the higher-level block/closure structuring of things.  Although iterators and Functions are available in Flex/AS, they are not as natural in the language as in Smalltalk or Ruby because they don&#8217;t work well with collections (as defined in the current API) and are just a bit too verbose in general.  You could modify (monkey-patch) collections, but then the compiler would not understand the new functionality.    Although that is no worse than in Java/Ruby, it would be unusual in the community.  Maybe if Adobe adds it to AS4 just to be cross-language similar, it would be more natural.  But I didn&#8217;t want to augment the existing classes just to have the language match another language&#8217;s idioms</p>
+<h3>Explicit &#8216;override&#8217;</h3>
 
-<p>Examples of this kind of Monkey-Patch are:</p>
+<p>Flex and ActionScript again clearly try to help the programmer avoid making a mistake, in this case by making sure code <em>knows</em> it is overriding inherited code and that within that override you have to consider what the superclass wants, whether you need to call &#8216;super&#8217;, etc.</p>
 
-<ul>
-<li><p><a href="http://www.rocketboots.com.au/blog/index.cfm?mode=entry&amp;entry=A5C356B1-E081-51EF-A79F47A1601ADEDF">RocketBoots</a></p></li>
-<li><p><a href="http://www.kirupa.com/forum/archive/index.php/t-246045.html">Kirupa</a></p></li>
-</ul>
+<h3>Explicit return values</h3>
 
+<p>Flex enables you to avoid specifying the type of a return value (defaulting to &#8216;Any&#8217;), but you have to decide whether you are going to return anything or nothing at all.  And if you are going to return anything, you need to explicitly say what you are going to return.</p>
 
-<p>A minor note, the CharCode conversion is actually a Unicode conversion.  So you can put pretty much any character in the world languages you want to in there :-)  For example, try it with &#8216;50023&#8217; for the CONST value.</p>
+<p>As I mentions in Part 4 of a Taste of Ruby, this approach is clearly the best &#8211; actually better than what I mentioned there.  So then returning &#8216;null&#8217; by default becomes a good second best (no language so far mentioned),  Returning &#8216;self&#8217; by default is third best (Smalltalk).  And Ruby returning of &#8220;whatever happens to be returned by the last statement&#8221; is a distant fourth.</p>
 
-<h3>Where Next?</h3>
+<h3>What Next</h3>
 
-<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, and for Flex this is not at all difficult, but I will follow the same pattern of &#8216;Parts&#8217; that I did with Ruby, so the next Part is just changing to having real Domain Model Objects (vs. the UI Model separation that occurred above for TowerOfHanoi vs the Application)</p>
+<p>Now onto the GUI itself.</p>
 </div>
   
   
