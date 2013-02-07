@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Taste of Flex (Part 3) - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi &#8211; With A Real Object The first two examples were not really object &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Wants a cracker</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Taste of Flex (Part 3)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T05:11:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi &#8211; With A Real Object</h2>
+
+<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">TowerOfHanoi</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">CONST_asciiA</span> <span class="o">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_view</span> <span class="o">:</span> <span class="o">*;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_stacks</span> <span class="o">:</span> <span class="nb">Array</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">initView</span><span class="p">(</span><span class="nx">view</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_view</span> <span class="o">=</span> <span class="nx">view</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">doHanoi</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_stacks</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">my_stacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nb">Array</span><span class="p">());</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">firstStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">j</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">height</span><span class="o">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">firstStack</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s2">&quot;Disk-#&quot;</span><span class="o">+</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">CONST_asciiA</span><span class="o">+</span><span class="nx">j</span><span class="p">));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="o">,</span> <span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">usingPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nx">fromPin</span><span class="o">,</span> <span class="nx">usingPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nx">usingPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="o">,</span> <span class="nx">fromPin</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">disk</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">pop</span><span class="p">();</span>
+</span><span class='line'>        <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">toPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">disk</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">logToConsole</span><span class="p">(</span><span class="nx">disk</span> <span class="o">+</span> <span class="s2">&quot; moved &quot;</span> <span class="o">+</span> <span class="nx">fromPin</span> <span class="o">+</span> <span class="s2">&quot;-&gt;&quot;</span> <span class="o">+</span> <span class="nx">toPin</span><span class="o">+</span><span class="s2">&quot;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>TowerOfHanoi</h3>
+
+<p>The TowerOfHanoi main class is now able to be a pure ActionScript class, so it looks much cleaner and formats nicely now.  The only additional feature it needs (compared to say the Smalltalk or Ruby version) is a reference to its View so it can print into the Console of that view.  I could actually just use &#8216;Application.application&#8217; to get the outer view, but this is cleaner, more scalable, and makes it clearer what is happening [even though many people like to cheat with those kinds of Globals].</p>
+
+<h3>Main Application</h3>
+
+<p>The main Application is now clean of model code and just (1) holds onto the outer model and (2) provides view services to others.  I made logToConsole public so people could identify what is meant to be used by others vs. what is not.  Ultimately &#8216;logToConsole&#8217; could be put into an interface to make it clearer that is all the &#8216;TowerOfHanoi&#8217; needs from its view.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Application</span> <span class="na">xmlns:mx=</span><span class="s">&quot;http://www.adobe.com/2006/mxml&quot;</span> <span class="na">layout=</span><span class="s">&quot;vertical&quot;</span>
+</span><span class='line'>  <span class="na">creationComplete=</span><span class="s">&quot;handleCreationComplete()&quot;</span>
+</span><span class='line'><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Script&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;![CDATA[</span>
+</span><span class='line'><span class="cp">        var my_model : TowerOfHanoi;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleCreationComplete() : void {</span>
+</span><span class='line'><span class="cp">            my_model = new TowerOfHanoi();</span>
+</span><span class='line'><span class="cp">            my_model.initView(this);</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleDoItClicked() : void {</span>
+</span><span class='line'><span class="cp">            logToConsole(&quot;\n=== Doing a Hanoi tower &quot;+vTowerInput.text+&quot; tall\n&quot;);</span>
+</span><span class='line'><span class="cp">            my_model.doHanoi(new Number(vTowerInput.text));</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        public function logToConsole(string : String) : void {</span>
+</span><span class='line'><span class="cp">            vConsole.text = vConsole.text+string;</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'><span class="cp">    ]]]]&gt;&lt;![CDATA[&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Script&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:HBox&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Text</span> <span class="na">text=</span><span class="s">&quot;How tall a tower?&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:TextInput</span> <span class="na">id=</span><span class="s">&quot;vTowerInput&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Button</span> <span class="na">label=</span><span class="s">&quot;Do It&quot;</span> <span class="na">click=</span><span class="s">&quot;handleDoItClicked()&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:HBox&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:TextArea</span> <span class="na">id=</span><span class="s">&quot;vConsole&quot;</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">height=</span><span class="s">&quot;100%&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Application&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Comments</h2>
+
+<p>By moving the ActionScript portion out of the main Application XML, the syntax becomes clearer.  Another feature of Flex that is starting to show is that we can document and compile-time verify visibility (as needed), contractual interfaces (as needed), etc.  But we can also leave them off and things work fine.</p>
+
+<p>We do need to document the existence of instance variables, local variables, and methods of whatever types we use (e.g. &#8216;self&#8217; / &#8216;this&#8217;) or the compiler will complain.  I believe this is far better (most of the time) than leaving that as a pure runtime issue and having typos potentially take significant time to debug.  And this does not interfere with things being &#8216;dynamic&#8217; (&#8216;duck typed&#8217;) in most cases although it is related to some meta-language capabilities.</p>
+
+<p>Going into the Flex code itself, we can see a stronger relationship to &#8216;C&#8217; style control structures and not the higher-level block/closure structuring of things.  Although iterators and Functions are available in Flex/AS, they are not as natural in the language as in Smalltalk or Ruby because they don&#8217;t work well with collections (as defined in the current API) and are just a bit too verbose in general.  You could modify (monkey-patch) collections, but then the compiler would not understand the new functionality.    Although that is no worse than in Java/Ruby, it would be unusual in the community.  Maybe if Adobe adds it to AS4 just to be cross-language similar, it would be more natural.  But I didn&#8217;t want to augment the existing classes just to have the language match another language&#8217;s idioms</p>
+
+<p>Examples of this kind of Monkey-Patch are:</p>
+
+<ul>
+<li><p><a href="http://www.rocketboots.com.au/blog/index.cfm?mode=entry&amp;entry=A5C356B1-E081-51EF-A79F47A1601ADEDF">RocketBoots</a></p></li>
+<li><p><a href="http://www.kirupa.com/forum/archive/index.php/t-246045.html">Kirupa</a></p></li>
+</ul>
+
+
+<p>A minor note, the CharCode conversion is actually a Unicode conversion.  So you can put pretty much any character in the world languages you want to in there :-)  For example, try it with &#8216;50023&#8217; for the CONST value.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, and for Flex this is not at all difficult, but I will follow the same pattern of &#8216;Parts&#8217; that I did with Ruby, so the next Part is just changing to having real Domain Model Objects (vs. the UI Model separation that occurred above for TowerOfHanoi vs the Application)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T05:11:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/09/02/a-taste-of-flex-part-2/" title="Previous Post: A Taste of Flex (Part 2)">&laquo; A Taste of Flex (Part 2)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/09/02/a-taste-of-flex-part-6/" title="Next Post: A Taste of Flex (Part 6)">A Taste of Flex (Part 6) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+    <!--
+  <ul>
+      <li><a href="http://www.linkedin.com/in/markfussell/">Linked In</a></li>
+      <li><a href="http://github.com/markfussell/">Github</a></li>
+      <li><a href="http://palobots.org/">PaloBots</a></li>
+  </ul>
+  -->
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/11/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/19/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/17/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/08/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/';
+        var disqus_url = 'http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi — With Graphics To follow the flow of code progress within &#8220;A &hellip;">
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi &#8211; Procedural With Input The second example from &#8220;A Taste of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +70,131 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-2/">A Taste of Flex (Part 2)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T04:12:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
+
+<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
+
+<h3>Tower of Hanoi &#8211; Procedural With Input &#8211; Flex</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;mx:Application</span> <span class="na">xmlns:mx=</span><span class="s">&quot;http://www.adobe.com/2006/mxml&quot;</span> <span class="na">layout=</span><span class="s">&quot;vertical&quot;</span>
+</span><span class='line'>  <span class="na">creationComplete=</span><span class="s">&quot;handleCreationComplete()&quot;</span>
+</span><span class='line'><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Script&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;![CDATA[</span>
+</span><span class='line'><span class="cp">        function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {</span>
+</span><span class='line'><span class="cp">            if (height &gt; 0) {</span>
+</span><span class='line'><span class="cp">                moveTower(height-1, fromPin, usingPin, toPin);</span>
+</span><span class='line'><span class="cp">                moveDisk(fromPin, toPin);</span>
+</span><span class='line'><span class="cp">                moveTower(height-1, usingPin, toPin, fromPin);</span>
+</span><span class='line'><span class="cp">            }</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function moveDisk(fromPin : *, toPin : *) : void {</span>
+</span><span class='line'><span class="cp">            vConsole.text = vConsole.text+fromPin + &quot;-&gt;&quot; + toPin+&quot;\n&quot;;</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleCreationComplete() : void {</span>
+</span><span class='line'><span class="cp">            //Don&#39;t need to do anything anymore</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleDoItClicked() : void {</span>
+</span><span class='line'><span class="cp">            vConsole.text = vConsole.text+&quot;\n=== Doing a Hanoi tower &quot;+vTowerInput.text+&quot; tall\n&quot;;</span>
+</span><span class='line'><span class="cp">            moveTower(new Number(vTowerInput.text), 1, 3, 2);</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'><span class="cp">    ]]]]&gt;&lt;![CDATA[&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Script&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:HBox&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Text</span> <span class="na">text=</span><span class="s">&quot;How tall a tower?&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:TextInput</span> <span class="na">id=</span><span class="s">&quot;vTowerInput&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Button</span> <span class="na">label=</span><span class="s">&quot;Do It&quot;</span> <span class="na">click=</span><span class="s">&quot;handleDoItClicked()&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:HBox&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:TextArea</span> <span class="na">id=</span><span class="s">&quot;vConsole&quot;</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">height=</span><span class="s">&quot;100%&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Application&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
+
+<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
+
+<h2>Comments</h2>
+
+<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-5/">A Taste of Flex (Part 5)</a></h1>
     
     
@@ -107,9 +232,122 @@
 
 <p>To add rendering in, we just create a render canvas area and then create the UIComponents (shapes) on each redraw.  Normally we would be more likely to animate a single set of disks (vs. destroying them and recreating them), which would be both better in performance and be <em>much cooler</em>, but this matches the RubyShoes version better.</p>
 
-<p>[sourcecode language=&#8221;xml&#8221;]</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Application</span> <span class="na">xmlns:mx=</span><span class="s">&quot;http://www.adobe.com/2006/mxml&quot;</span> <span class="na">layout=</span><span class="s">&quot;vertical&quot;</span>
+</span><span class='line'>  <span class="na">creationComplete=</span><span class="s">&quot;handleCreationComplete()&quot;</span>
+</span><span class='line'><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Script&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;![CDATA[</span>
+</span><span class='line'><span class="cp">        import mx.core.UIComponent;</span>
+</span><span class='line'><span class="cp">        var my_model : AnimatedTowerOfHanoi;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleCreationComplete() : void {</span>
+</span><span class='line'><span class="cp">            Array.prototype.first = function():Object { return this[0]; }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">            my_model = new AnimatedTowerOfHanoi();</span>
+</span><span class='line'><span class="cp">            my_model.initView(this);</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleDoItClicked() : void {</span>
+</span><span class='line'><span class="cp">            logToConsole(&quot;\n=== Doing a Hanoi tower &quot;+vTowerInput.text+&quot; tall\n&quot;);</span>
+</span><span class='line'><span class="cp">            my_model.doHanoi(new Number(vTowerInput.text));</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        public function logToConsole(string : String) : void {</span>
+</span><span class='line'><span class="cp">            vConsole.text = vConsole.text+string;</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        public function noteChange() : void {</span>
+</span><span class='line'><span class="cp">            vRenderArea.removeAllChildren();</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">            var stacks : Array = my_model.getStacks();</span>
+</span><span class='line'><span class="cp">            for (var i : int = 0; i&lt;stacks.length; i++) {</span>
+</span><span class='line'><span class="cp">                var eachStack : Array = stacks[i];</span>
+</span><span class='line'><span class="cp">                var poleCenterX : Number = i*100 + 50;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">                for (var j:int = 0; j&lt;eachStack.length; j++) {</span>
+</span><span class='line'><span class="cp">                    var eachDisk : HanoiDisk = eachStack[j];</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">                    var diskHeight : int = 180 - (j * 15);</span>
+</span><span class='line'><span class="cp">                    var diskWidth  : int = eachDisk.width * 10;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">                    var eachShape : UIComponent = new UIComponent();</span>
+</span><span class='line'><span class="cp">                    eachShape.graphics.beginFill(0xA00000);</span>
+</span><span class='line'><span class="cp">                    eachShape.graphics.drawRect(poleCenterX - diskWidth / 2, diskHeight, diskWidth, 10);</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">                    vRenderArea.addChild(eachShape);</span>
+</span><span class='line'><span class="cp">                }</span>
+</span><span class='line'><span class="cp">            }</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'><span class="cp">    ]]]]&gt;&lt;![CDATA[&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Script&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:HBox&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Text</span> <span class="na">text=</span><span class="s">&quot;How tall a tower?&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:TextInput</span> <span class="na">id=</span><span class="s">&quot;vTowerInput&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Button</span> <span class="na">label=</span><span class="s">&quot;Do It&quot;</span> <span class="na">click=</span><span class="s">&quot;handleDoItClicked()&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:HBox&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Canvas</span> <span class="na">id=</span><span class="s">&quot;vRenderArea&quot;</span> <span class="na">width=</span><span class="s">&quot;300&quot;</span> <span class="na">height=</span><span class="s">&quot;200&quot;</span> <span class="na">borderStyle=</span><span class="s">&quot;solid&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:TextArea</span> <span class="na">id=</span><span class="s">&quot;vConsole&quot;</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">height=</span><span class="s">&quot;100%&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Application&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>[/sourcecode]</p>
 
 <h4>AnimatedTowerOfHanoi</h4>
 
@@ -167,7 +405,7 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-4/">A Taste of Flex (Part 4)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex/">A Taste of Flex</a></h1>
     
     
       <p class="meta">
@@ -183,79 +421,7 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
   
 
 
-<time datetime="2008-09-02T00:13:17-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2008/09/01/a-taste-of-flex-part-3/">A Taste of Flex (Part 3)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-01T22:11:06-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2008/09/01/a-taste-of-flex/">A Taste of Flex</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-01T17:29:35-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2008</time>
+<time datetime="2008-09-02T00:29:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
         
       </p>
     
@@ -426,6 +592,166 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
 <h3>Where Next?</h3>
 
 <p>Next we should go to Chapter 3 &#8211; Page 36.  The Second Example.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-4/">A Taste of Flex (Part 4)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T00:13:17-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[sourcecode language=&#8217;jscript&#8217;]
+package {</p>
+
+<p>/<em>*
+ * A ModeledTowerOfHanoi is the TowerOfHanoi algorithm
+ * but it keeps track of the state of the Disks
+ * with actual objects.  This makes it suitable for
+ * model-based behavior (say tracking moves, animation or
+ * other event listening) on top of those Disks
+ </em>/
+public class ModeledTowerOfHanoi extends TowerOfHanoi{</p>
+
+<pre><code>protected var my_height : Number;
+protected var my_mockDisks : Array;
+
+public override function doHanoi(height : int) : void {
+    my_height = height;
+
+    setupDisks();
+
+    logToConsole("\n\nStart\n");
+    printStacks();
+
+    logToConsole("\n\nMoves\n");
+    moveTower(my_height, 1, 3, 2);
+
+    logToConsole("\n\nResult\n");
+    printStacks();
+}
+
+protected function setupDisks() : void {
+    my_stacks = new Array();
+    for (var i:int = 0; i&lt;3; i++) {
+        my_stacks.push(new Array());
+    }
+
+    var firstStack : Array = my_stacks.first(); //[0];
+    for (var j:int = 0; j&lt;my_height; j++) {
+        firstStack.unshift(new HanoiDisk().initWidth_pole(j,1));
+    }
+
+    my_mockDisks = new Array();
+    for (var k:int = 0; k&lt;3; k++) {
+        my_mockDisks[k]=new HanoiDisk().initWidth_pole(1000,k);
+    }
+}
+
+protected function printStacks() : void {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        logToConsole("   &lt;stack&gt;\n");
+        for (var j:int = eachStack.length-1; j&gt;=0; j--) {
+            var eachDisk : * = eachStack[j];
+            logToConsole(eachDisk.toString()+"\n");
+        }
+        logToConsole("   &lt;/stack&gt;\n");
+    }
+}
+
+
+protected override function moveDisk(fromPin : *, toPin : *) : void {
+    var supportDisk = (my_stacks[toPin-1].length == 0) ? my_mockDisks[toPin-1] : my_stacks[toPin-1][0];
+
+    var disk : HanoiDisk = my_stacks[fromPin-1].pop();
+    my_stacks[toPin-1].push(disk);
+
+    disk.moveUpon(supportDisk);
+
+    logToConsole(disk + " moved " + fromPin + "-&gt;" + toPin+"\n");
+}
+
+public function logToConsole(string : String) {
+    my_view.logToConsole(string);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<h4>HanoiDisk</h4>
+
+
+<p>[sourcecode language=&#8217;jscript&#8217;]
+package {</p>
+
+<p>public class HanoiDisk {</p>
+
+<pre><code>protected const CONST_asciiA : Number = "A".charCodeAt();
+
+public var width : Number;
+public var pole : Number;
+
+protected var my_name : String;
+protected var my_moveCount : Number = 0;
+
+public function initWidth_pole(aWidth : Number, aPole : Number) : HanoiDisk {
+    width = aWidth;
+    pole = aPole;
+
+    if (width &lt; 1000) {
+        my_name = "Disk-#"+String.fromCharCode(CONST_asciiA+width);
+    } else {
+        my_name = "Base-#"+pole;
+    }
+
+    return this;
+}
+
+
+public function toString() : String {
+    return my_name+"("+my_moveCount+")";
+}
+
+public function moveUpon(destination : HanoiDisk) : void {
+    pole = destination.pole;
+    my_moveCount++;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
 </div>
   
   

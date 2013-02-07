@@ -9,8 +9,8 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="[sourcecode language=&#8221;html&#8221;]
+&lt;!DOCTYPE html PUBLIC &#8220;-//W3C//DTD XHTML 1.0 Transitional//EN&#8221; "http://www.w3.org/TR/xhtml1/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,7 +91,51 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>[sourcecode language=&#8221;html&#8221;]
+&lt;!DOCTYPE html PUBLIC &#8220;-//W3C//DTD XHTML 1.0 Transitional//EN&#8221;</p>
+
+<pre><code>    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+</code></pre>
+
+<p><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Foo &lt;%= @page_title %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="refresh" content="1">
+&lt;%= javascript_include_tag :defaults %>
+</head></p>
+
+<p>&lt;body&lt;% if @page_class %> class=&#8221;&lt;%= @page_class %>&#8221;&lt;% end %>></p>
+
+<h1>Tower of Hanoi (Move <%= @count %>) </h1>
+
+
+<p>It&#8217;s &lt;%= Time.now %>.</p>
+
+<br/>
+
+
+<p>Done = &lt;%= @isDone %></p>
+
+<br/>
+
+
+<p>Render =</p>
+
+<pre>
+<%= controller.getAsciiTowers %>
+</pre>
+
+
+<p>Log =</p>
+
+<pre>
+<%= @consoleLog %>
+</pre>
+
+
+<p></body>
+[/sourcecode]</p>
 </div>
 
 

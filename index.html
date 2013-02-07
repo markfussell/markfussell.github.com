@@ -1078,7 +1078,51 @@ Then
   </header>
 
 
-  <div class="entry-content">
+  <div class="entry-content"><p>[sourcecode language=&#8221;html&#8221;]
+&lt;!DOCTYPE html PUBLIC &#8220;-//W3C//DTD XHTML 1.0 Transitional//EN&#8221;</p>
+
+<pre><code>    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+</code></pre>
+
+<p><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Foo &lt;%= @page_title %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="refresh" content="1">
+&lt;%= javascript_include_tag :defaults %>
+</head></p>
+
+<p>&lt;body&lt;% if @page_class %> class=&#8221;&lt;%= @page_class %>&#8221;&lt;% end %>></p>
+
+<h1>Tower of Hanoi (Move <%= @count %>) </h1>
+
+
+<p>It&#8217;s &lt;%= Time.now %>.</p>
+
+<br/>
+
+
+<p>Done = &lt;%= @isDone %></p>
+
+<br/>
+
+
+<p>Render =</p>
+
+<pre>
+<%= controller.getAsciiTowers %>
+</pre>
+
+
+<p>Log =</p>
+
+<pre>
+<%= @consoleLog %>
+</pre>
+
+
+<p></body>
+[/sourcecode]</p>
 </div>
   
   
@@ -1371,7 +1415,258 @@ Then
   </header>
 
 
-  <div class="entry-content">
+  <div class="entry-content"><p>[sourcecode language=&#8221;jscript&#8221;]
+package {</p>
+
+<p>public class HanoiDiskRules extends HanoiDisk {</p>
+
+<pre><code>protected var my_previousPole : Number;
+protected var my_towers : AnimatedRulesTowerOfHanoi;
+
+public function setupTowers(towers : AnimatedRulesTowerOfHanoi) : void {
+    my_towers = towers;
+}
+
+public function hasLegalMove() : Boolean {
+    var otherTops : Array = my_towers.selectPolesOtherThan(this);
+    for (var i:int = 0; i&lt;otherTops.length; i++) {
+        var eachTopDisk : HanoiDisk = otherTops[i];
+        if (eachTopDisk.width &gt; this.width) return true;
+    }
+    return false;
+}
+
+public function bestMove() : HanoiDisk {
+    var otherTops : Array = my_towers.selectPolesOtherThan(this);
+    for (var i:int = 0; i&lt;otherTops.length; i++) {
+        var eachTopDisk : HanoiDisk = otherTops[i];
+        if ( (eachTopDisk.width &gt; this.width) &amp;&amp; (eachTopDisk.pole != my_previousPole) ) return eachTopDisk;
+    }
+    return null;
+}
+
+public override function moveUpon(destination : HanoiDisk) : void {
+    my_previousPole = pole;
+
+    super.moveUpon(destination);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<p>[sourcecode language=&#8221;jscript&#8221;]
+package {</p>
+
+<p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
+
+<pre><code>protected var my_oldDisk : HanoiDisk;
+protected var my_currentDisk : HanoiDisk;
+protected var my_destinationDisk : HanoiDisk;
+
+protected override function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    //Now that the disks know all the rules... we can ignore all the arguments!
+
+    while (!doNextMove_IsDone) {};
+}
+
+protected function doNextMove_IsDone() : Boolean {
+    my_currentDisk = this.decide();
+
+    (my_stacks[my_currentDisk.pole-1] as Array).pop();
+    (my_stacks[my_destinationDisk.pole-1] as Array).push(my_currentDisk);
+    my_currentDisk.moveUpon(my_destinationDisk);
+
+    my_oldDisk = my_currentDisk;
+
+    my_view.noteChange();
+
+    return isAllOnOneTower();
+}
+
+protected function isAllOnOneTower() : Boolean {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        if (eachStack.length == my_height) return true;
+    }
+    return false;
+}
+
+public function selectTopsOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (eachStack.length == 0) continue;
+
+        var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+        if (topDisk !== disk) {
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+public function selectPolesOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (i == disk.pole-1) continue;
+
+        if (eachStack.length == 0)  {
+            result.push(my_mockDisks[i]);
+        } else {
+            var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+protected function decide() : HanoiDisk {
+    var tops : Array = selectTopsOtherThan(my_oldDisk);
+    for (var i:int = 0; i&lt;tops.length; i++) {
+        var movingDisk : HanoiDiskRules = tops[i];
+        if (movingDisk.hasLegalMove()) {
+            my_destinationDisk = movingDisk.bestMove();
+
+            return movingDisk;
+        }
+    }
+    //This should never happen
+    return null;
+}
+
+protected override function createDisk() : HanoiDisk {
+    var result : HanoiDiskRules = new HanoiDiskRules();
+    result.setupTowers(this);
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<p>[sourcecode language=&#8221;jscript&#8221;]
+package {</p>
+
+<pre><code>import flash.events.TimerEvent;
+import flash.utils.Timer;
+</code></pre>
+
+<p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
+
+<pre><code>protected var my_oldDisk : HanoiDisk;
+protected var my_currentDisk : HanoiDisk;
+protected var my_destinationDisk : HanoiDisk;
+
+protected var my_timer : Timer;
+
+protected override function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    //Now that the disks know all the rules... we can ignore all the arguments!
+
+    my_timer = new Timer(300)
+    my_timer.addEventListener(TimerEvent.TIMER, handleTimer);
+    my_timer.start();
+
+}
+
+public function handleTimer(evt:TimerEvent):void {
+    var isDone : Boolean = doNextMove_IsDone();
+
+    if (isDone) {
+        my_timer.stop();
+        my_timer = null;
+    }
+}
+
+
+
+
+protected function doNextMove_IsDone() : Boolean {
+    my_currentDisk = this.decide();
+
+    (my_stacks[my_currentDisk.pole-1] as Array).pop();
+    (my_stacks[my_destinationDisk.pole-1] as Array).push(my_currentDisk);
+    my_currentDisk.moveUpon(my_destinationDisk);
+
+    my_oldDisk = my_currentDisk;
+
+    my_view.noteChange();
+
+    return isAllOnOneTower();
+}
+
+protected function isAllOnOneTower() : Boolean {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        if (eachStack.length == my_height) return true;
+    }
+    return false;
+}
+
+public function selectTopsOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (eachStack.length == 0) continue;
+
+        var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+        if (topDisk !== disk) {
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+public function selectPolesOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (i == disk.pole-1) continue;
+
+        if (eachStack.length == 0)  {
+            result.push(my_mockDisks[i]);
+        } else {
+            var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+protected function decide() : HanoiDisk {
+    var tops : Array = selectTopsOtherThan(my_oldDisk);
+    for (var i:int = 0; i&lt;tops.length; i++) {
+        var movingDisk : HanoiDiskRules = tops[i];
+        if (movingDisk.hasLegalMove()) {
+            my_destinationDisk = movingDisk.bestMove();
+
+            return movingDisk;
+        }
+    }
+    //This should never happen
+    return null;
+}
+
+protected override function createDisk() : HanoiDisk {
+    var result : HanoiDiskRules = new HanoiDiskRules();
+    result.setupTowers(this);
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
 </div>
   
   
@@ -1384,7 +1679,7 @@ Then
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-2/">A Taste of Flex (Part 2)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2008/09/02/a-taste-of-flex-part-3/">A Taste of Flex (Part 3)</a></h1>
     
     
       <p class="meta">
@@ -1400,7 +1695,7 @@ Then
   
 
 
-<time datetime="2008-09-02T04:12:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+<time datetime="2008-09-02T05:11:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
         
       </p>
     
@@ -1409,27 +1704,195 @@ Then
 
   <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
 
-<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
+<h2>Tower of Hanoi &#8211; With A Real Object</h2>
 
-<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
+<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
 
-<h3>Tower of Hanoi &#8211; Procedural With Input &#8211; Flex</h3>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">TowerOfHanoi</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">CONST_asciiA</span> <span class="o">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_view</span> <span class="o">:</span> <span class="o">*;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_stacks</span> <span class="o">:</span> <span class="nb">Array</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">initView</span><span class="p">(</span><span class="nx">view</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_view</span> <span class="o">=</span> <span class="nx">view</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">doHanoi</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_stacks</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">my_stacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nb">Array</span><span class="p">());</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">firstStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">j</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">j</span><span class="o">&lt;</span><span class="nx">height</span><span class="o">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">firstStack</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s2">&quot;Disk-#&quot;</span><span class="o">+</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">CONST_asciiA</span><span class="o">+</span><span class="nx">j</span><span class="p">));</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="o">,</span> <span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">usingPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">height</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nx">fromPin</span><span class="o">,</span> <span class="nx">usingPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="p">);</span>
+</span><span class='line'>            <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="nx">usingPin</span><span class="o">,</span> <span class="nx">toPin</span><span class="o">,</span> <span class="nx">fromPin</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">moveDisk</span><span class="p">(</span><span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">disk</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">pop</span><span class="p">();</span>
+</span><span class='line'>        <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">toPin</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">disk</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">logToConsole</span><span class="p">(</span><span class="nx">disk</span> <span class="o">+</span> <span class="s2">&quot; moved &quot;</span> <span class="o">+</span> <span class="nx">fromPin</span> <span class="o">+</span> <span class="s2">&quot;-&gt;&quot;</span> <span class="o">+</span> <span class="nx">toPin</span><span class="o">+</span><span class="s2">&quot;\n&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>[sourcecode language=&#8221;xml&#8221;]</p>
 
-<p>[/sourcecode]</p>
+<h3>TowerOfHanoi</h3>
 
-<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
+<p>The TowerOfHanoi main class is now able to be a pure ActionScript class, so it looks much cleaner and formats nicely now.  The only additional feature it needs (compared to say the Smalltalk or Ruby version) is a reference to its View so it can print into the Console of that view.  I could actually just use &#8216;Application.application&#8217; to get the outer view, but this is cleaner, more scalable, and makes it clearer what is happening [even though many people like to cheat with those kinds of Globals].</p>
 
-<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
+<h3>Main Application</h3>
+
+<p>The main Application is now clean of model code and just (1) holds onto the outer model and (2) provides view services to others.  I made logToConsole public so people could identify what is meant to be used by others vs. what is not.  Ultimately &#8216;logToConsole&#8217; could be put into an interface to make it clearer that is all the &#8216;TowerOfHanoi&#8217; needs from its view.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Application</span> <span class="na">xmlns:mx=</span><span class="s">&quot;http://www.adobe.com/2006/mxml&quot;</span> <span class="na">layout=</span><span class="s">&quot;vertical&quot;</span>
+</span><span class='line'>  <span class="na">creationComplete=</span><span class="s">&quot;handleCreationComplete()&quot;</span>
+</span><span class='line'><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:Script&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;![CDATA[</span>
+</span><span class='line'><span class="cp">        var my_model : TowerOfHanoi;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleCreationComplete() : void {</span>
+</span><span class='line'><span class="cp">            my_model = new TowerOfHanoi();</span>
+</span><span class='line'><span class="cp">            my_model.initView(this);</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        function handleDoItClicked() : void {</span>
+</span><span class='line'><span class="cp">            logToConsole(&quot;\n=== Doing a Hanoi tower &quot;+vTowerInput.text+&quot; tall\n&quot;);</span>
+</span><span class='line'><span class="cp">            my_model.doHanoi(new Number(vTowerInput.text));</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">        public function logToConsole(string : String) : void {</span>
+</span><span class='line'><span class="cp">            vConsole.text = vConsole.text+string;</span>
+</span><span class='line'><span class="cp">        }</span>
+</span><span class='line'><span class="cp">    ]]]]&gt;&lt;![CDATA[&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Script&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:HBox&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Text</span> <span class="na">text=</span><span class="s">&quot;How tall a tower?&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:TextInput</span> <span class="na">id=</span><span class="s">&quot;vTowerInput&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;mx:Button</span> <span class="na">label=</span><span class="s">&quot;Do It&quot;</span> <span class="na">click=</span><span class="s">&quot;handleDoItClicked()&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:HBox&gt;</span>
+</span><span class='line'><span class="nt">&lt;mx:TextArea</span> <span class="na">id=</span><span class="s">&quot;vConsole&quot;</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">height=</span><span class="s">&quot;100%&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/mx:Application&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>Comments</h2>
 
-<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
+<p>By moving the ActionScript portion out of the main Application XML, the syntax becomes clearer.  Another feature of Flex that is starting to show is that we can document and compile-time verify visibility (as needed), contractual interfaces (as needed), etc.  But we can also leave them off and things work fine.</p>
+
+<p>We do need to document the existence of instance variables, local variables, and methods of whatever types we use (e.g. &#8216;self&#8217; / &#8216;this&#8217;) or the compiler will complain.  I believe this is far better (most of the time) than leaving that as a pure runtime issue and having typos potentially take significant time to debug.  And this does not interfere with things being &#8216;dynamic&#8217; (&#8216;duck typed&#8217;) in most cases although it is related to some meta-language capabilities.</p>
+
+<p>Going into the Flex code itself, we can see a stronger relationship to &#8216;C&#8217; style control structures and not the higher-level block/closure structuring of things.  Although iterators and Functions are available in Flex/AS, they are not as natural in the language as in Smalltalk or Ruby because they don&#8217;t work well with collections (as defined in the current API) and are just a bit too verbose in general.  You could modify (monkey-patch) collections, but then the compiler would not understand the new functionality.    Although that is no worse than in Java/Ruby, it would be unusual in the community.  Maybe if Adobe adds it to AS4 just to be cross-language similar, it would be more natural.  But I didn&#8217;t want to augment the existing classes just to have the language match another language&#8217;s idioms</p>
+
+<p>Examples of this kind of Monkey-Patch are:</p>
+
+<ul>
+<li><p><a href="http://www.rocketboots.com.au/blog/index.cfm?mode=entry&amp;entry=A5C356B1-E081-51EF-A79F47A1601ADEDF">RocketBoots</a></p></li>
+<li><p><a href="http://www.kirupa.com/forum/archive/index.php/t-246045.html">Kirupa</a></p></li>
+</ul>
+
+
+<p>A minor note, the CharCode conversion is actually a Unicode conversion.  So you can put pretty much any character in the world languages you want to in there :-)  For example, try it with &#8216;50023&#8217; for the CONST value.</p>
 
 <h3>Where Next?</h3>
 
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
+<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, and for Flex this is not at all difficult, but I will follow the same pattern of &#8216;Parts&#8217; that I did with Ruby, so the next Part is just changing to having real Domain Model Objects (vs. the UI Model separation that occurred above for TowerOfHanoi vs the Application)</p>
 </div>
   
   

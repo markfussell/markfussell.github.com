@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flex | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/flex/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:48:02-08:00</updated>
+  <updated>2013-02-06T20:50:05-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -457,7 +457,7 @@ protected override function createDisk() : HanoiDisk {
 
 <p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just 'tracing' the algorithm, but it does not let us show the state of the towers at any given time.  We also don't see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
 
-<p>```jscript
+<p>```actionscript
 package {</p>
 
 <p>public class TowerOfHanoi {</p>
