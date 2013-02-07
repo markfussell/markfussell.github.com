@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:31:43-08:00</updated>
+  <updated>2013-02-06T20:48:02-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -18,7 +18,51 @@
     <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7/"/>
     <updated>2008-09-03T02:28:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>[sourcecode language="html"]
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"</p>
+
+<pre><code>    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+</code></pre>
+
+<p><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Foo &lt;%= @page_title %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="refresh" content="1">
+&lt;%= javascript_include_tag :defaults %>
+</head></p>
+
+<p>&lt;body&lt;% if @page_class %> class="&lt;%= @page_class %>"&lt;% end %>></p>
+
+<h1>Tower of Hanoi (Move <%= @count %>) </h1>
+
+
+<p>It's &lt;%= Time.now %>.</p>
+
+<br/>
+
+
+<p>Done = &lt;%= @isDone %></p>
+
+<br/>
+
+
+<p>Render =</p>
+
+<pre>
+<%= controller.getAsciiTowers %>
+</pre>
+
+
+<p>Log =</p>
+
+<pre>
+<%= @consoleLog %>
+</pre>
+
+
+<p></body>
+[/sourcecode]</p>
 ]]></content>
   </entry>
   

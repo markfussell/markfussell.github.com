@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flex | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/flex/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:31:43-08:00</updated>
+  <updated>2013-02-06T20:48:02-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -191,7 +191,393 @@ end
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T09:46:40-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>[sourcecode language="jscript"]
+package {</p>
+
+<p>public class HanoiDiskRules extends HanoiDisk {</p>
+
+<pre><code>protected var my_previousPole : Number;
+protected var my_towers : AnimatedRulesTowerOfHanoi;
+
+public function setupTowers(towers : AnimatedRulesTowerOfHanoi) : void {
+    my_towers = towers;
+}
+
+public function hasLegalMove() : Boolean {
+    var otherTops : Array = my_towers.selectPolesOtherThan(this);
+    for (var i:int = 0; i&lt;otherTops.length; i++) {
+        var eachTopDisk : HanoiDisk = otherTops[i];
+        if (eachTopDisk.width &gt; this.width) return true;
+    }
+    return false;
+}
+
+public function bestMove() : HanoiDisk {
+    var otherTops : Array = my_towers.selectPolesOtherThan(this);
+    for (var i:int = 0; i&lt;otherTops.length; i++) {
+        var eachTopDisk : HanoiDisk = otherTops[i];
+        if ( (eachTopDisk.width &gt; this.width) &amp;&amp; (eachTopDisk.pole != my_previousPole) ) return eachTopDisk;
+    }
+    return null;
+}
+
+public override function moveUpon(destination : HanoiDisk) : void {
+    my_previousPole = pole;
+
+    super.moveUpon(destination);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<p>[sourcecode language="jscript"]
+package {</p>
+
+<p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
+
+<pre><code>protected var my_oldDisk : HanoiDisk;
+protected var my_currentDisk : HanoiDisk;
+protected var my_destinationDisk : HanoiDisk;
+
+protected override function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    //Now that the disks know all the rules... we can ignore all the arguments!
+
+    while (!doNextMove_IsDone) {};
+}
+
+protected function doNextMove_IsDone() : Boolean {
+    my_currentDisk = this.decide();
+
+    (my_stacks[my_currentDisk.pole-1] as Array).pop();
+    (my_stacks[my_destinationDisk.pole-1] as Array).push(my_currentDisk);
+    my_currentDisk.moveUpon(my_destinationDisk);
+
+    my_oldDisk = my_currentDisk;
+
+    my_view.noteChange();
+
+    return isAllOnOneTower();
+}
+
+protected function isAllOnOneTower() : Boolean {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        if (eachStack.length == my_height) return true;
+    }
+    return false;
+}
+
+public function selectTopsOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (eachStack.length == 0) continue;
+
+        var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+        if (topDisk !== disk) {
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+public function selectPolesOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (i == disk.pole-1) continue;
+
+        if (eachStack.length == 0)  {
+            result.push(my_mockDisks[i]);
+        } else {
+            var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+protected function decide() : HanoiDisk {
+    var tops : Array = selectTopsOtherThan(my_oldDisk);
+    for (var i:int = 0; i&lt;tops.length; i++) {
+        var movingDisk : HanoiDiskRules = tops[i];
+        if (movingDisk.hasLegalMove()) {
+            my_destinationDisk = movingDisk.bestMove();
+
+            return movingDisk;
+        }
+    }
+    //This should never happen
+    return null;
+}
+
+protected override function createDisk() : HanoiDisk {
+    var result : HanoiDiskRules = new HanoiDiskRules();
+    result.setupTowers(this);
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<p>[sourcecode language="jscript"]
+package {</p>
+
+<pre><code>import flash.events.TimerEvent;
+import flash.utils.Timer;
+</code></pre>
+
+<p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
+
+<pre><code>protected var my_oldDisk : HanoiDisk;
+protected var my_currentDisk : HanoiDisk;
+protected var my_destinationDisk : HanoiDisk;
+
+protected var my_timer : Timer;
+
+protected override function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    //Now that the disks know all the rules... we can ignore all the arguments!
+
+    my_timer = new Timer(300)
+    my_timer.addEventListener(TimerEvent.TIMER, handleTimer);
+    my_timer.start();
+
+}
+
+public function handleTimer(evt:TimerEvent):void {
+    var isDone : Boolean = doNextMove_IsDone();
+
+    if (isDone) {
+        my_timer.stop();
+        my_timer = null;
+    }
+}
+
+
+
+
+protected function doNextMove_IsDone() : Boolean {
+    my_currentDisk = this.decide();
+
+    (my_stacks[my_currentDisk.pole-1] as Array).pop();
+    (my_stacks[my_destinationDisk.pole-1] as Array).push(my_currentDisk);
+    my_currentDisk.moveUpon(my_destinationDisk);
+
+    my_oldDisk = my_currentDisk;
+
+    my_view.noteChange();
+
+    return isAllOnOneTower();
+}
+
+protected function isAllOnOneTower() : Boolean {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        if (eachStack.length == my_height) return true;
+    }
+    return false;
+}
+
+public function selectTopsOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (eachStack.length == 0) continue;
+
+        var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+        if (topDisk !== disk) {
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+public function selectPolesOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (i == disk.pole-1) continue;
+
+        if (eachStack.length == 0)  {
+            result.push(my_mockDisks[i]);
+        } else {
+            var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+protected function decide() : HanoiDisk {
+    var tops : Array = selectTopsOtherThan(my_oldDisk);
+    for (var i:int = 0; i&lt;tops.length; i++) {
+        var movingDisk : HanoiDiskRules = tops[i];
+        if (movingDisk.hasLegalMove()) {
+            my_destinationDisk = movingDisk.bestMove();
+
+            return movingDisk;
+        }
+    }
+    //This should never happen
+    return null;
+}
+
+protected override function createDisk() : HanoiDisk {
+    var result : HanoiDiskRules = new HanoiDiskRules();
+    result.setupTowers(this);
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 3)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/"/>
+    <updated>2008-09-02T05:11:00-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi -- With A Real Object</h2>
+
+<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just 'tracing' the algorithm, but it does not let us show the state of the towers at any given time.  We also don't see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
+
+<p>```jscript
+package {</p>
+
+<p>public class TowerOfHanoi {</p>
+
+<pre><code>protected const CONST_asciiA : Number = "A".charCodeAt();
+
+protected var my_view : *;
+protected var my_stacks : Array;
+
+public function initView(view : *) : void {
+    my_view = view;
+}
+
+public function doHanoi(height : int) : void {
+    my_stacks = new Array();
+    for (var i:int = 0; i&lt;3; i++) {
+        my_stacks.push(new Array());
+    }
+
+    var firstStack : Array = my_stacks[0];
+    for (var j:int = 0; j&lt;height; j++) {
+        firstStack.unshift("Disk-#"+String.fromCharCode(CONST_asciiA+j));
+    }
+
+    moveTower(height, 1, 3, 2);
+}
+
+
+protected function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    if (height &gt; 0) {
+        moveTower(height-1, fromPin, usingPin, toPin);
+        moveDisk(fromPin, toPin);
+        moveTower(height-1, usingPin, toPin, fromPin);
+    }
+}
+
+protected function moveDisk(fromPin : *, toPin : *) : void {
+    var disk = my_stacks[fromPin-1].pop();
+    my_stacks[toPin-1].push(disk);
+
+    my_view.logToConsole(disk + " moved " + fromPin + "-&gt;" + toPin+"\n");
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+```</p>
+
+<h3>TowerOfHanoi</h3>
+
+<p>The TowerOfHanoi main class is now able to be a pure ActionScript class, so it looks much cleaner and formats nicely now.  The only additional feature it needs (compared to say the Smalltalk or Ruby version) is a reference to its View so it can print into the Console of that view.  I could actually just use 'Application.application' to get the outer view, but this is cleaner, more scalable, and makes it clearer what is happening [even though many people like to cheat with those kinds of Globals].</p>
+
+<h3>Main Application</h3>
+
+<p>The main Application is now clean of model code and just (1) holds onto the outer model and (2) provides view services to others.  I made logToConsole public so people could identify what is meant to be used by others vs. what is not.  Ultimately 'logToConsole' could be put into an interface to make it clearer that is all the 'TowerOfHanoi' needs from its view.</p>
+
+<p>```xml
+&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"</p>
+
+<pre><code>creationComplete="handleCreationComplete()"
+</code></pre>
+
+<blockquote><p>&lt;mx:Script></p>
+
+<pre><code>&lt;![CDATA[
+    var my_model : TowerOfHanoi;
+</code></pre></blockquote>
+
+<pre><code>    function handleCreationComplete() : void {
+        my_model = new TowerOfHanoi();
+        my_model.initView(this);
+    }
+
+    function handleDoItClicked() : void {
+        logToConsole("\n=== Doing a Hanoi tower "+vTowerInput.text+" tall\n");
+        my_model.doHanoi(new Number(vTowerInput.text));
+    }
+
+    public function logToConsole(string : String) : void {
+        vConsole.text = vConsole.text+string;
+    }
+]]]]&gt;&lt;![CDATA[&gt;
+</code></pre>
+
+<p>&lt;/mx:Script>
+&lt;mx:HBox></p>
+
+<pre><code>&lt;mx:Text text="How tall a tower?" /&gt;
+&lt;mx:TextInput id="vTowerInput" /&gt;
+&lt;mx:Button label="Do It" click="handleDoItClicked()" /&gt;
+</code></pre>
+
+<p>&lt;/mx:HBox>
+&lt;mx:TextArea id="vConsole" width="100%" height="100%" />
+&lt;/mx:Application>
+```</p>
+
+<h2>Comments</h2>
+
+<p>By moving the ActionScript portion out of the main Application XML, the syntax becomes clearer.  Another feature of Flex that is starting to show is that we can document and compile-time verify visibility (as needed), contractual interfaces (as needed), etc.  But we can also leave them off and things work fine.</p>
+
+<p>We do need to document the existence of instance variables, local variables, and methods of whatever types we use (e.g. 'self' / 'this') or the compiler will complain.  I believe this is far better (most of the time) than leaving that as a pure runtime issue and having typos potentially take significant time to debug.  And this does not interfere with things being 'dynamic' ('duck typed') in most cases although it is related to some meta-language capabilities.</p>
+
+<p>Going into the Flex code itself, we can see a stronger relationship to 'C' style control structures and not the higher-level block/closure structuring of things.  Although iterators and Functions are available in Flex/AS, they are not as natural in the language as in Smalltalk or Ruby because they don't work well with collections (as defined in the current API) and are just a bit too verbose in general.  You could modify (monkey-patch) collections, but then the compiler would not understand the new functionality.    Although that is no worse than in Java/Ruby, it would be unusual in the community.  Maybe if Adobe adds it to AS4 just to be cross-language similar, it would be more natural.  But I didn't want to augment the existing classes just to have the language match another language's idioms</p>
+
+<p>Examples of this kind of Monkey-Patch are:</p>
+
+<ul>
+<li><p><a href="http://www.rocketboots.com.au/blog/index.cfm?mode=entry&amp;entry=A5C356B1-E081-51EF-A79F47A1601ADEDF">RocketBoots</a></p></li>
+<li><p><a href="http://www.kirupa.com/forum/archive/index.php/t-246045.html">Kirupa</a></p></li>
+</ul>
+
+
+<p>A minor note, the CharCode conversion is actually a Unicode conversion.  So you can put pretty much any character in the world languages you want to in there :-)  For example, try it with '50023' for the CONST value.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the 'model' aspects to be realistic, and for Flex this is not at all difficult, but I will follow the same pattern of 'Parts' that I did with Ruby, so the next Part is just changing to having real Domain Model Objects (vs. the UI Model separation that occurred above for TowerOfHanoi vs the Application)</p>
 ]]></content>
   </entry>
   
@@ -208,9 +594,51 @@ end
 
 <h3>Tower of Hanoi -- Procedural With Input -- Flex</h3>
 
-<p>[sourcecode language="xml"]</p>
+<p>```xml
+&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"</p>
 
-<p>[/sourcecode]</p>
+<pre><code>creationComplete="handleCreationComplete()"
+</code></pre>
+
+<blockquote><p>&lt;mx:Script></p>
+
+<pre><code>&lt;![CDATA[
+    function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+        if (height &gt; 0) {
+            moveTower(height-1, fromPin, usingPin, toPin);
+            moveDisk(fromPin, toPin);
+            moveTower(height-1, usingPin, toPin, fromPin);
+        }
+    }
+</code></pre></blockquote>
+
+<pre><code>    function moveDisk(fromPin : *, toPin : *) : void {
+        vConsole.text = vConsole.text+fromPin + "-&gt;" + toPin+"\n";
+    }
+
+    function handleCreationComplete() : void {
+        //Don't need to do anything anymore
+    }
+
+    function handleDoItClicked() : void {
+        vConsole.text = vConsole.text+"\n=== Doing a Hanoi tower "+vTowerInput.text+" tall\n";
+        moveTower(new Number(vTowerInput.text), 1, 3, 2);
+    }
+]]]]&gt;&lt;![CDATA[&gt;
+</code></pre>
+
+<p>&lt;/mx:Script>
+&lt;mx:HBox></p>
+
+<pre><code>&lt;mx:Text text="How tall a tower?" /&gt;
+&lt;mx:TextInput id="vTowerInput" /&gt;
+&lt;mx:Button label="Do It" click="handleDoItClicked()" /&gt;
+</code></pre>
+
+<p>&lt;/mx:HBox>
+&lt;mx:TextArea id="vConsole" width="100%" height="100%" />
+&lt;/mx:Application>
+```</p>
 
 <p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
 
@@ -245,9 +673,74 @@ end
 
 <p>To add rendering in, we just create a render canvas area and then create the UIComponents (shapes) on each redraw.  Normally we would be more likely to animate a single set of disks (vs. destroying them and recreating them), which would be both better in performance and be <em>much cooler</em>, but this matches the RubyShoes version better.</p>
 
-<p>[sourcecode language="xml"]</p>
+<p>```xml
+&lt;?xml version="1.0" encoding="utf-8"?>
+&lt;mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"</p>
 
-<p>[/sourcecode]</p>
+<pre><code>creationComplete="handleCreationComplete()"
+</code></pre>
+
+<blockquote><p>&lt;mx:Script></p>
+
+<pre><code>&lt;![CDATA[
+    import mx.core.UIComponent;
+    var my_model : AnimatedTowerOfHanoi;
+</code></pre></blockquote>
+
+<pre><code>    function handleCreationComplete() : void {
+        Array.prototype.first = function():Object { return this[0]; }
+
+        my_model = new AnimatedTowerOfHanoi();
+        my_model.initView(this);
+    }
+
+    function handleDoItClicked() : void {
+        logToConsole("\n=== Doing a Hanoi tower "+vTowerInput.text+" tall\n");
+        my_model.doHanoi(new Number(vTowerInput.text));
+    }
+
+    public function logToConsole(string : String) : void {
+        vConsole.text = vConsole.text+string;
+    }
+
+    public function noteChange() : void {
+        vRenderArea.removeAllChildren();
+
+        var stacks : Array = my_model.getStacks();
+        for (var i : int = 0; i&lt;stacks.length; i++) {
+            var eachStack : Array = stacks[i];
+            var poleCenterX : Number = i*100 + 50;
+
+            for (var j:int = 0; j&lt;eachStack.length; j++) {
+                var eachDisk : HanoiDisk = eachStack[j];
+
+                var diskHeight : int = 180 - (j * 15);
+                var diskWidth  : int = eachDisk.width * 10;
+
+                var eachShape : UIComponent = new UIComponent();
+                eachShape.graphics.beginFill(0xA00000);
+                eachShape.graphics.drawRect(poleCenterX - diskWidth / 2, diskHeight, diskWidth, 10);
+
+                vRenderArea.addChild(eachShape);
+            }
+        }
+    }
+]]]]&gt;&lt;![CDATA[&gt;
+</code></pre>
+
+<p>&lt;/mx:Script>
+&lt;mx:HBox></p>
+
+<pre><code>&lt;mx:Text text="How tall a tower?" /&gt;
+&lt;mx:TextInput id="vTowerInput" /&gt;
+&lt;mx:Button label="Do It" click="handleDoItClicked()" /&gt;
+</code></pre>
+
+<p>&lt;/mx:HBox>
+&lt;mx:Canvas id="vRenderArea" width="300" height="200" borderStyle="solid" />
+&lt;mx:TextArea id="vConsole" width="100%" height="100%" />
+&lt;/mx:Application>
+```</p>
 
 <h4>AnimatedTowerOfHanoi</h4>
 
@@ -293,15 +786,6 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
 <h3>What's Next</h3>
 
 <p>A new non-stack algorithm.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Flex (Part 4)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4/"/>
-    <updated>2008-09-02T00:13:17-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
-    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   

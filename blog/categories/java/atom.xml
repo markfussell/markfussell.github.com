@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:31:43-08:00</updated>
+  <updated>2013-02-06T20:48:02-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -158,7 +158,258 @@
     <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T09:46:40-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>[sourcecode language="jscript"]
+package {</p>
+
+<p>public class HanoiDiskRules extends HanoiDisk {</p>
+
+<pre><code>protected var my_previousPole : Number;
+protected var my_towers : AnimatedRulesTowerOfHanoi;
+
+public function setupTowers(towers : AnimatedRulesTowerOfHanoi) : void {
+    my_towers = towers;
+}
+
+public function hasLegalMove() : Boolean {
+    var otherTops : Array = my_towers.selectPolesOtherThan(this);
+    for (var i:int = 0; i&lt;otherTops.length; i++) {
+        var eachTopDisk : HanoiDisk = otherTops[i];
+        if (eachTopDisk.width &gt; this.width) return true;
+    }
+    return false;
+}
+
+public function bestMove() : HanoiDisk {
+    var otherTops : Array = my_towers.selectPolesOtherThan(this);
+    for (var i:int = 0; i&lt;otherTops.length; i++) {
+        var eachTopDisk : HanoiDisk = otherTops[i];
+        if ( (eachTopDisk.width &gt; this.width) &amp;&amp; (eachTopDisk.pole != my_previousPole) ) return eachTopDisk;
+    }
+    return null;
+}
+
+public override function moveUpon(destination : HanoiDisk) : void {
+    my_previousPole = pole;
+
+    super.moveUpon(destination);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<p>[sourcecode language="jscript"]
+package {</p>
+
+<p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
+
+<pre><code>protected var my_oldDisk : HanoiDisk;
+protected var my_currentDisk : HanoiDisk;
+protected var my_destinationDisk : HanoiDisk;
+
+protected override function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    //Now that the disks know all the rules... we can ignore all the arguments!
+
+    while (!doNextMove_IsDone) {};
+}
+
+protected function doNextMove_IsDone() : Boolean {
+    my_currentDisk = this.decide();
+
+    (my_stacks[my_currentDisk.pole-1] as Array).pop();
+    (my_stacks[my_destinationDisk.pole-1] as Array).push(my_currentDisk);
+    my_currentDisk.moveUpon(my_destinationDisk);
+
+    my_oldDisk = my_currentDisk;
+
+    my_view.noteChange();
+
+    return isAllOnOneTower();
+}
+
+protected function isAllOnOneTower() : Boolean {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        if (eachStack.length == my_height) return true;
+    }
+    return false;
+}
+
+public function selectTopsOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (eachStack.length == 0) continue;
+
+        var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+        if (topDisk !== disk) {
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+public function selectPolesOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (i == disk.pole-1) continue;
+
+        if (eachStack.length == 0)  {
+            result.push(my_mockDisks[i]);
+        } else {
+            var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+protected function decide() : HanoiDisk {
+    var tops : Array = selectTopsOtherThan(my_oldDisk);
+    for (var i:int = 0; i&lt;tops.length; i++) {
+        var movingDisk : HanoiDiskRules = tops[i];
+        if (movingDisk.hasLegalMove()) {
+            my_destinationDisk = movingDisk.bestMove();
+
+            return movingDisk;
+        }
+    }
+    //This should never happen
+    return null;
+}
+
+protected override function createDisk() : HanoiDisk {
+    var result : HanoiDiskRules = new HanoiDiskRules();
+    result.setupTowers(this);
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<p>[sourcecode language="jscript"]
+package {</p>
+
+<pre><code>import flash.events.TimerEvent;
+import flash.utils.Timer;
+</code></pre>
+
+<p>public class AnimatedRulesTowerOfHanoi extends AnimatedTowerOfHanoi {</p>
+
+<pre><code>protected var my_oldDisk : HanoiDisk;
+protected var my_currentDisk : HanoiDisk;
+protected var my_destinationDisk : HanoiDisk;
+
+protected var my_timer : Timer;
+
+protected override function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {
+    //Now that the disks know all the rules... we can ignore all the arguments!
+
+    my_timer = new Timer(300)
+    my_timer.addEventListener(TimerEvent.TIMER, handleTimer);
+    my_timer.start();
+
+}
+
+public function handleTimer(evt:TimerEvent):void {
+    var isDone : Boolean = doNextMove_IsDone();
+
+    if (isDone) {
+        my_timer.stop();
+        my_timer = null;
+    }
+}
+
+
+
+
+protected function doNextMove_IsDone() : Boolean {
+    my_currentDisk = this.decide();
+
+    (my_stacks[my_currentDisk.pole-1] as Array).pop();
+    (my_stacks[my_destinationDisk.pole-1] as Array).push(my_currentDisk);
+    my_currentDisk.moveUpon(my_destinationDisk);
+
+    my_oldDisk = my_currentDisk;
+
+    my_view.noteChange();
+
+    return isAllOnOneTower();
+}
+
+protected function isAllOnOneTower() : Boolean {
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+        if (eachStack.length == my_height) return true;
+    }
+    return false;
+}
+
+public function selectTopsOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (eachStack.length == 0) continue;
+
+        var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+        if (topDisk !== disk) {
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+public function selectPolesOtherThan(disk : HanoiDisk) : Array {
+    var result : Array = new Array();
+    for (var i:int = 0; i&lt;my_stacks.length; i++) {
+        var eachStack : Array = my_stacks[i];
+
+        if (i == disk.pole-1) continue;
+
+        if (eachStack.length == 0)  {
+            result.push(my_mockDisks[i]);
+        } else {
+            var topDisk : HanoiDisk = eachStack[eachStack.length-1];
+            result.push(topDisk);
+        }
+    }
+    return result;
+}
+
+protected function decide() : HanoiDisk {
+    var tops : Array = selectTopsOtherThan(my_oldDisk);
+    for (var i:int = 0; i&lt;tops.length; i++) {
+        var movingDisk : HanoiDiskRules = tops[i];
+        if (movingDisk.hasLegalMove()) {
+            my_destinationDisk = movingDisk.bestMove();
+
+            return movingDisk;
+        }
+    }
+    //This should never happen
+    return null;
+}
+
+protected override function createDisk() : HanoiDisk {
+    var result : HanoiDiskRules = new HanoiDiskRules();
+    result.setupTowers(this);
+    return result;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
 ]]></content>
   </entry>
   
