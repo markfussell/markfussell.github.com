@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T14:18:24-08:00</updated>
+  <updated>2013-02-07T15:38:01-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -86,7 +86,7 @@ of git and combine the two.  The only large remaining issues are the actual proc
 </ul>
 
 
-<p>A highly annex-augmented version of s3cmd is here <a href="https://github.com/markfussell/s3cmd-modification">https://github.com/markfussell/s3cmd-modification</a>
+<p>A highly annex-augmented version of s3cmd is here <a href="https://github.com/markfussell/s3annex">https://github.com/markfussell/s3annex</a>
 and was done while working at <a href="http://www.rumblegames.com">Rumble</a> where we needed to move gigabytes of high-quality art assets around
 as part of the build-deploy pipeline.</p>
 
@@ -97,7 +97,7 @@ as part of the build-deploy pipeline.</p>
 <ul>
 <li> A git repository</li>
 <li> An S3 bucket to put content into</li>
-<li> The augmented s3cmd from here <a href="https://github.com/markfussell/s3cmd-modification">https://github.com/markfussell/s3cmd-modification</a></li>
+<li> The augmented s3cmd from here <a href="https://github.com/markfussell/s3annex">https://github.com/markfussell/s3annex</a></li>
 </ul>
 
 
