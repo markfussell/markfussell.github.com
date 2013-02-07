@@ -1,0 +1,200 @@
+---
+comments: true
+date: 2008-08-29 02:53
+layout: post
+slug: a-taste-of-ruby-part-4
+title: A Taste of Ruby (Part 4)
+wordpress_id: 47
+categories:
+- Dynamic
+- Ruby
+- Smalltalk
+- Virtualization
+---
+
+This is a multi-part series.  The first in the series is [here](../../../08/28/a-taste-of-ruby).
+
+
+
+## Tower of Hanoi — With Model Objects
+
+
+The book "A Taste of Smalltalk" jumps from showing a single 'TowerOfHanoi' object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Given Ruby has no built-in graphic capability, I want to separate these two changes.  So first we can put in Disk objects and study that change.  This should work for anyone with a Ruby installation and does not require installing Tk or Shoes or anything.  After that, we can go into some GUI toolkit code just to finish up the comparison and have bonus points.
+
+<!-- more -->
+
+To make the adding of Disk objects to our Hanoi code a bit more 'realistic', a new bonus requirement (beyond the book) is that we track the number of times a given disk moves.
+
+
+```ruby
+# A ModeledTowerOfHanoi is the TowerOfHanoi algorithm
+# but it keeps track of the state of the Disks
+# with actual objects.  This makes it suitable for
+# model-based behavior (say tracking moves, animation or
+# other event listening) on top of those Disks
+
+class ModeledTowerOfHanoi < TowerOfHanoi
+  def hanoi
+    ask_for_height
+
+    setup_disks
+
+    puts "Start"
+    print_stacks
+
+    puts
+    move_tower(@height,1,3,2)
+    puts
+
+    puts "Result"
+    print_stacks
+  end
+
+  def print_stacks
+    @stacks.each do | eachStack |
+      puts "  "
+      puts eachStack.reverse
+      puts "  "
+    end
+  end
+
+  def ask_for_height
+    puts "How tall a tower?"
+    print ">"
+    height = 5 #gets.to_i
+    puts ""
+    @height = height
+  end
+
+  def setup_disks
+    HanoiDisk.set_towers(self)
+
+    @stacks = Array.new(3).collect { Array.new }
+    firstStack = @stacks[0]
+    1.upto(@height) do |size|
+      disk = HanoiDisk.new.initWidth_pole(size,1)
+      firstStack.unshift(disk)
+    end
+
+    @mockDisks = Array.new(3)
+    1.upto(3) do |i|
+      @mockDisks[i-1]=(HanoiDisk.new.initWidth_pole(1000,i))
+    end
+  end
+
+  def move_disk(fromPin, toPin)
+
+    supportDisk = if (@stacks[toPin-1].empty?) then
+      @mockDisks[toPin-1]
+    else
+      @stacks[toPin-1][0]
+    end
+
+    disk = @stacks[fromPin-1].pop
+    @stacks[toPin-1].push(disk)
+    disk.move_upon(supportDisk)
+
+    print disk, " moved ", fromPin.to_s, "->", toPin.to_s, "\n"
+  end
+end
+
+class HanoiDisk
+  attr_reader :name
+  attr_reader :pole
+
+  def self.set_towers(owner)
+    @@the_towers = owner
+    @@the_thickness = 14
+    @@the_diskgap = 2
+  end
+
+  def initWidth_pole(width, pole)
+    @pole = pole
+    @width = width
+
+    if (width < 1000) then
+      @name="Disk-#{(?A+width-1).chr}"
+    else
+      @name="Base-#{pole}"
+    end
+
+    @move_count = 0
+
+    return self
+  end
+
+  def to_s
+    return "#{@name}(#{@move_count})"
+  end
+
+  def move_upon(destination)
+    @pole = destination.pole
+    @move_count += 1
+  end
+end
+
+ModeledTowerOfHanoi.new.hanoi
+```
+
+Now things are somewhat interesting for comparison purposes.  With the new class 'HanoiDisk', we have:
+
+
+
+	
+  1. Public Attribute macros
+
+        
+  2. Explicit return values
+
+	
+  3. Class Object behavior ('set_towers')
+
+
+
+
+
+### Macros
+
+
+Of these topics, I think the 'macros' is the more interesting.  I have another post on 'Being Ephemeral' which quickly distills the concept, but Ruby (and Lisp before it) gets it right in that program generation (in a controlled fashion) is more powerful than having static programs.  The problem with Smalltalk _in its common usage_ is that people want the image to be mostly static.  But the image is the expansion of all these macros (Smalltalk can have macros as easily as Lisp can) -- and so people are saying that macros must be developer tools (like the Refactoring tools) vs. taking you a level above.  But if you expand the macro and record _the results_ you have lost the value of the macro from that point forward.  If Smalltalk execution environments would accept giving up the image (a snapshot of all previous expansions), it would be more capable than it is.  There is nothing in the language that prevents this, but the execution environments discourage going down this path.
+
+It is purely a 'what is the source' question.  The Smalltalk equivalent of 'attr_reader' is simply:
+
+
+
+	
+  * HanoiDisk attrReader: #name
+
+
+
+Seriously... it would be that short and sweet.  But unless the source of a running application is something other than the image, that line would never be executed.
+
+This is a problem in a totally different-sounding but very similar area: Virtualized Computers (Xen, VMWare).  Snapshotting the 'image' of a virtualized computer sounds cool -- but it immediately causes you lots of havoc.  What if you need to upgrade just one thing in the Snapshot? ... it could be a real head-ache to uninstall and reinstall a new MySQL and is not as simple as 'yum install'.  And if you are doing the Kernel itself, you are totally hosed.  The better approach is to treat the virtualized computer as ephemeral, have scripts in a higher-level-language to rebuild it at any time, and then the only use of a snapshot is to make rebuilding it faster.  A snapshould should just be a cache of the built system vs. the system-of-record for what you want to run.
+
+
+
+### Explicit return values
+
+
+What should a method return if not otherwise stated?  The right answer is 'nil'.  Why?  Because it is the right answer :-)  Actually, it is because the return value of a method may need to be non-trivially transmitted to the caller message.  Specifically the caller of a remote message.  So you want the return value to be as light-weight as possibly by default.  'nil' fits that bill.  Smalltalk gets this wrong but was long-before client-server issues made the problem rear its head, so it gets a pass.
+
+OK... you don't like that answer.  The next 'almost right' answer is 'self'. Why?  Well, what else could possibly make sense?  I didn't say what to return, so just return me.  And this is almost as lightweight as 'nil' (but not quite).
+
+Just because something is on the last line of a method, in _no way_ indicates it is meant to be sent back to the caller.  For example, ending with:
+
+
+
+
+  * really_huge_and_private_object.do_some_command_that_happens_to_return_self
+
+
+does not in any way convey I intend to send 'really_huge_and_private_object' back to the caller.  As far as I stated... I don't want to send anything back to the caller.  I should have to say that I want to do something before the program just 'guesses' I want to do something I don't want to do.  Basically just guesses that whatever happens to be on the stack should be passed back to the caller.  Serious encapsulation breakage.  And I shouldn't have to say something like 'return self' to prevent the program from making that obnoxious guess.
+
+Given the Smalltalk equivalent of a return declaration is a single character ('^') (not too hard to type), and completely reveals the intent of the coder, the fact that Ruby chose neither of the above two variations of plausibly right answers is just bizarre and a source of errors.
+
+
+
+### Class Object behavior
+
+
+The concept here is clean enough and the notation for Class Variables is nicely clean (and partially helps separate 'Class Variables' from 'Class Instance Variables').  I think 'def self' is less readable than 'class.def' (defining for the HanoiDisk.class vs. HanoiDisk), but that presumes that keywords like 'def' could be more easily understood as messages to classes (a 'Turtles all the way down' concept) as I wrote earlier.
