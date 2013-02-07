@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Database | Polyglot]]></title>
-  <link href="http://markfussell.github.com/blog/categories/database/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/blog/categories/database/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tuple-Marks: NULLs everyone can live with]]></title>
-    <link href="http://markfussell.github.com/blog/1997/06/02/tuplemarks/"/>
+    <link href="http://markfussell.emenar.com/blog/1997/06/02/tuplemarks/"/>
     <updated>1997-06-02T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/1997/06/02/tuplemarks</id>
+    <id>http://markfussell.emenar.com/blog/1997/06/02/tuplemarks</id>
     <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/TupleMarks1j.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 

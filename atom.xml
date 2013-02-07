@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Polyglot]]></title>
-  <link href="http://markfussell.github.com/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,12 +15,12 @@
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (Annexing)]]></title>
-    <link href="http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex/"/>
+    <link href="http://markfussell.emenar.com/blog/2013/01/13/git-about-everything-annex/"/>
     <updated>2013-01-13T18:16:00-08:00</updated>
-    <id>http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex</id>
+    <id>http://markfussell.emenar.com/blog/2013/01/13/git-about-everything-annex</id>
     <content type="html"><![CDATA[<p>This is the second in a series of using git as part of interesting solutions to problems.</p>
 
-<p>The first is here: <a href="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
+<p>The first is here: <a href="http://markfussell.emenar.com/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
 
 <h2>Dealing with Binary Files</h2>
 
@@ -453,9 +453,9 @@ projects:</p>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (Intro)]]></title>
-    <link href="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/"/>
+    <link href="http://markfussell.emenar.com/blog/2013/01/11/git-about-everything-intro/"/>
     <updated>2013-01-11T18:16:00-08:00</updated>
-    <id>http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro</id>
+    <id>http://markfussell.emenar.com/blog/2013/01/11/git-about-everything-intro</id>
     <content type="html"><![CDATA[<p>There are times when a new technology comes along, that at first appears to be pretty similar to
 existing technology, but certain characteristics make for radically different or just nicely new solutions.
 A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
@@ -552,15 +552,15 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
 
 <p>So our first problems and solution is going to have to deal with this critical issue.</p>
 
-<p>Enter the annex: <a href="http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex/">Annex</a></p>
+<p>Enter the annex: <a href="http://markfussell.emenar.com/blog/2013/01/13/git-about-everything-annex/">Annex</a></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Scratch on Flash]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/19/scratchonflash/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/19/scratchonflash/"/>
     <updated>2008-09-19T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/19/scratchonflash</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/19/scratchonflash</id>
     <content type="html"><![CDATA[<p>The original version of this posting is on the <a href="http://scratch.mit.edu/forums/viewtopic.php?id=9982">MIT Scratch Forum</a> and the
 current location of the repository is <a href="https://github.com/markfussell/scratchonflash">https://github.com/markfussell/scratchonflash</a></p>
 
@@ -609,9 +609,9 @@ current location of the repository is <a href="https://github.com/markfussell/sc
   
   <entry>
     <title type="html"><![CDATA[Scratch Textual Language]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/17/scratch-textual-language/"/>
     <updated>2008-09-17T20:28:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/17/scratch-textual-language</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/17/scratch-textual-language</id>
     <content type="html"><![CDATA[<p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.
 Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
 <a href="../../08/a-taste-of-scratch">these diagrams</a>
@@ -1294,9 +1294,9 @@ when trying to document a program, and it is even harder to reference sections o
   
   <entry>
     <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/08/a-taste-of-scratch/"/>
     <updated>2008-09-08T04:15:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
 
 <!-- more -->
@@ -1442,9 +1442,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
     <updated>2008-09-04T01:20:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <!-- more -->
@@ -1585,9 +1585,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 7)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-7/"/>
     <updated>2008-09-03T02:28:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-7</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-7</id>
     <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; Rules on Rails</h2>
@@ -1821,9 +1821,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
     <updated>2008-09-03T02:18:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
@@ -2054,9 +2054,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
@@ -2583,9 +2583,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
     <updated>2008-09-02T07:44:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>
@@ -2787,9 +2787,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 4)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-4/"/>
     <updated>2008-09-02T07:13:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Model Objects</h2>
@@ -3070,9 +3070,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 3)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-3/"/>
     <updated>2008-09-02T05:11:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-3</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-3</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; With A Real Object</h2>
@@ -3274,9 +3274,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-2/"/>
     <updated>2008-09-02T04:12:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-2</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; Procedural With Input</h2>
@@ -3375,9 +3375,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex/"/>
     <updated>2008-09-02T00:29:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Flex.  This is the second of my comparisons in this series, where the first one was in Ruby.</p>
 
 <!-- more -->
@@ -3550,9 +3550,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 5)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-5/"/>
     <updated>2008-08-29T23:42:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>
@@ -4148,9 +4148,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 4)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-4/"/>
     <updated>2008-08-29T02:53:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-4</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-4</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Model Objects</h2>
@@ -4428,9 +4428,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 3)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-3/"/>
     <updated>2008-08-29T00:27:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-3</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-3</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; With A Real Object</h2>
@@ -4539,9 +4539,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 2)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-2/"/>
     <updated>2008-08-29T00:08:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-2</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/29/a-taste-of-ruby-part-2</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; Procedural With Input</h2>
@@ -4580,9 +4580,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/28/a-taste-of-ruby/"/>
     <updated>2008-08-28T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/28/a-taste-of-ruby</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was &#8216;A Taste of Smalltalk&#8217;.  This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp.  I believe it is always important to show multiple programming languages for concepts and this book followed that rule.  The goal of this post-series is to take &#8216;A Taste of Smalltalk&#8217; and apply it to Ruby.</p>
 
 <!-- more -->
@@ -4874,9 +4874,9 @@ move_tower(3,"Tower-1", nil, Proc.new {|| "Tower" })
   
   <entry>
     <title type="html"><![CDATA[Being Ephemeral]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/28/being-ephemeral/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/28/being-ephemeral/"/>
     <updated>2008-08-28T04:34:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/28/being-ephemeral</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/28/being-ephemeral</id>
     <content type="html"><![CDATA[<p>There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral.  I don&#8217;t believe people realize it, but &#8220;being ephemeral&#8221; is the core question and the standard answer should be?  42.  Which given it is >0 is &#8216;Yes&#8217;.  So &#8220;Be Ephemeral&#8221; unless you can&#8217;t possibly be ephemeral.</p>
 
 <!-- more -->

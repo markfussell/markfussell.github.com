@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Smalltalk | Polyglot]]></title>
-  <link href="http://markfussell.github.com/blog/categories/smalltalk/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/blog/categories/smalltalk/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/08/a-taste-of-scratch/"/>
     <updated>2008-09-08T04:15:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
 
 <!-- more -->
@@ -163,9 +163,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
     <updated>2008-09-04T01:20:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <!-- more -->
@@ -306,9 +306,9 @@ Then
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
     <updated>2008-09-03T02:18:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
@@ -482,9 +482,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
@@ -783,9 +783,9 @@ protected override function createDisk() : HanoiDisk {
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
     <updated>2008-09-02T07:44:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>

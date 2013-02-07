@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Java | Polyglot]]></title>
-  <link href="http://markfussell.github.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
     <updated>2008-09-04T01:20:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/04/ruby-naming-convention-failure</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <!-- more -->
@@ -158,9 +158,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
-    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
+    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
@@ -459,9 +459,9 @@ protected override function createDisk() : HanoiDisk {
   
   <entry>
     <title type="html"><![CDATA[Why dynamic typing?]]></title>
-    <link href="http://markfussell.github.com/blog/1997/08/27/why-dynamic-typing/"/>
+    <link href="http://markfussell.emenar.com/blog/1997/08/27/why-dynamic-typing/"/>
     <updated>1997-08-27T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/1997/08/27/why-dynamic-typing</id>
+    <id>http://markfussell.emenar.com/blog/1997/08/27/why-dynamic-typing</id>
     <content type="html"><![CDATA[<p>This is a discussion of the benefits and drawbacks of dynamic typing
 based on specific questions by Anatol Fomenko.</p>
 
@@ -1215,9 +1215,9 @@ standardization/portability across Smalltalk platforms.
   
   <entry>
     <title type="html"><![CDATA[SmallJava: Smalltalk to Java... Using Language Transformation to Show Language Differences]]></title>
-    <link href="http://markfussell.github.com/blog/1997/05/07/smalljava/"/>
+    <link href="http://markfussell.emenar.com/blog/1997/05/07/smalljava/"/>
     <updated>1997-05-07T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/1997/05/07/smalljava</id>
+    <id>http://markfussell.emenar.com/blog/1997/05/07/smalljava</id>
     <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 

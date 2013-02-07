@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://markfussell.github.com/sitemap.xml 
+Sitemap: http://markfussell.emenar.com/sitemap.xml 

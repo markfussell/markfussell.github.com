@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: git | Polyglot]]></title>
-  <link href="http://markfussell.github.com/blog/categories/git/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (Annexing)]]></title>
-    <link href="http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex/"/>
+    <link href="http://markfussell.emenar.com/blog/2013/01/13/git-about-everything-annex/"/>
     <updated>2013-01-13T18:16:00-08:00</updated>
-    <id>http://markfussell.github.com/blog/2013/01/13/git-about-everything-annex</id>
+    <id>http://markfussell.emenar.com/blog/2013/01/13/git-about-everything-annex</id>
     <content type="html"><![CDATA[<p>This is the second in a series of using git as part of interesting solutions to problems.</p>
 
 <p>The first is here: <a href="/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
@@ -396,9 +396,9 @@ projects:</p>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (Intro)]]></title>
-    <link href="http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro/"/>
+    <link href="http://markfussell.emenar.com/blog/2013/01/11/git-about-everything-intro/"/>
     <updated>2013-01-11T18:16:00-08:00</updated>
-    <id>http://markfussell.github.com/blog/2013/01/11/git-about-everything-intro</id>
+    <id>http://markfussell.emenar.com/blog/2013/01/11/git-about-everything-intro</id>
     <content type="html"><![CDATA[<p>There are times when a new technology comes along, that at first appears to be pretty similar to
 existing technology, but certain characteristics make for radically different or just nicely new solutions.
 A recent example of this is 'git' and similar distributed version control systems (DVCS).  They may

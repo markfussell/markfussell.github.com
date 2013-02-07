@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: OOPSLA | Polyglot]]></title>
-  <link href="http://markfussell.github.com/blog/categories/oopsla/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/blog/categories/oopsla/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[The Viking: A Direct Marketing System for OOPSLA DesignFest]]></title>
-    <link href="http://markfussell.github.com/blog/2000/05/10/viking/"/>
+    <link href="http://markfussell.emenar.com/blog/2000/05/10/viking/"/>
     <updated>2000-05-10T18:00:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2000/05/10/viking</id>
+    <id>http://markfussell.emenar.com/blog/2000/05/10/viking</id>
     <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/TheViking5e.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 
@@ -49,7 +49,7 @@ because it has a bit more formatting.</p>
  height:234pt' fillcolor="window">
  <v:imagedata src="TheViking5e_files/image001.wmz" o:title="Viking1.cdr"/>
 </v:shape><![endif]--><![if !vml]><img width=111 height=236
-src="http://markfussell.github.com/images/TheViking5e_files/image002.gif" v:shapes="_x0000_i1025"><![endif]></p>
+src="http://markfussell.emenar.com/images/TheViking5e_files/image002.gif" v:shapes="_x0000_i1025"><![endif]></p>
 
 <p class=MsoSubtitle>A Direct Marketing System</p>
 
@@ -159,7 +159,7 @@ requirements.</p>
  fillcolor="window">
  <v:imagedata src="TheViking5e_files/image003.wmz" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=276 height=267
-src="http://markfussell.github.com/images/TheViking5e_files/image004.gif" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
+src="http://markfussell.emenar.com/images/TheViking5e_files/image004.gif" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
  <o:OLEObject Type="Embed" ProgID="Visio.Drawing.6" ShapeID="_x0000_i1026"
   DrawAspect="Content" ObjectID="_1295532714">
  </o:OLEObject>
@@ -2780,7 +2780,7 @@ example information relationship might be:</p>
  fillcolor="window">
  <v:imagedata src="TheViking5e_files/image005.wmz" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=352 height=121
-src="http://markfussell.github.com/images/TheViking5e_files/image006.gif" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
+src="http://markfussell.emenar.com/images/TheViking5e_files/image006.gif" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
  <o:OLEObject Type="Embed" ProgID="Visio.Drawing.6" ShapeID="_x0000_i1027"
   DrawAspect="Content" ObjectID="_1295532715">
  </o:OLEObject>

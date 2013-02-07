@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ephemeral | Polyglot]]></title>
-  <link href="http://markfussell.github.com/blog/categories/ephemeral/atom.xml" rel="self"/>
-  <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T22:09:53-08:00</updated>
-  <id>http://markfussell.github.com/</id>
+  <link href="http://markfussell.emenar.com/blog/categories/ephemeral/atom.xml" rel="self"/>
+  <link href="http://markfussell.emenar.com/"/>
+  <updated>2013-02-06T22:14:58-08:00</updated>
+  <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Being Ephemeral]]></title>
-    <link href="http://markfussell.github.com/blog/2008/08/28/being-ephemeral/"/>
+    <link href="http://markfussell.emenar.com/blog/2008/08/28/being-ephemeral/"/>
     <updated>2008-08-28T04:34:00-07:00</updated>
-    <id>http://markfussell.github.com/blog/2008/08/28/being-ephemeral</id>
+    <id>http://markfussell.emenar.com/blog/2008/08/28/being-ephemeral</id>
     <content type="html"><![CDATA[<p>There are lots of topics in programming languages, IT infrastructure, and system design that turn out to be all about persistence vs. being ephemeral.  I don't believe people realize it, but "being ephemeral" is the core question and the standard answer should be?  42.  Which given it is >0 is 'Yes'.  So "Be Ephemeral" unless you can't possibly be ephemeral.</p>
 
 <!-- more -->
