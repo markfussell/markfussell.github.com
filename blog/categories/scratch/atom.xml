@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Scratch | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/scratch/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T21:01:07-08:00</updated>
+  <updated>2013-02-06T21:04:41-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -71,6 +71,9 @@ current location of the repository is <a href="https://github.com/markfussell/sc
     <id>http://markfussell.github.com/blog/2008/09/17/scratch-textual-language</id>
     <content type="html"><![CDATA[<p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.  Scratch in it's graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce <a href="a-taste-of-scratch">these diagrams</a> when trying to document a program, and it is even harder to reference sections of the diagram.</p>
 
+<!-- more -->
+
+
 <p>This activity came out of producing a Scratch Player in Flash, and I wanted to see whether the parse of the file produced the correct program.  A textual dump of the parse was an obvious solution, but then this 'dump' might as well be the same as a complete program declaration so it was clearly 'complete' and I wasn't missing anything.</p>
 
 <h2>Scratch Textual</h2>
@@ -105,7 +108,7 @@ current location of the repository is <a href="https://github.com/markfussell/sc
 
 <p>The following is a complete "normal expanded format" version.  See further below for a possible optimization to make things more vertically compressed.</p>
 
-<p>[sourcecode language="python"]</p>
+<p>```python</p>
 
 <h1>===========================</h1>
 
@@ -505,13 +508,13 @@ set disk-id to %n</p>
     1
 </code></pre>
 
-<p>[/sourcecode]</p>
+<p>```</p>
 
 <h3>Vertical Compression</h3>
 
 <p>The format above has every block on its own line.  This is readable and informative (you can see the argument types) but is vertically expansive.  Assuming parentheses or some other paired delimiter are not used for anything else in names, we could replace the argument placeholders with parentheses like below.  This gives a more lisp-like feel, at least for the inner evaluations.  If you leave one or more placeholders off, they would come from the next lines in 'missing' order, kind of like a macro.</p>
 
-<p>[sourcecode language="python"]
+<p>```python
 script:</p>
 
 <p>when 'find-next-disk'
@@ -526,7 +529,7 @@ if (not ( (potential-disk) = (previous-moved-disk)) )
 
 <p>broadcast (move-next-disk) and wait</p>
 
-<p>[/sourcecode]</p>
+<p>```</p>
 ]]></content>
   </entry>
   
@@ -536,6 +539,9 @@ if (not ( (potential-disk) = (previous-moved-disk)) )
     <updated>2008-09-08T04:15:00-07:00</updated>
     <id>http://markfussell.github.com/blog/2008/09/08/a-taste-of-scratch</id>
     <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
+
+<!-- more -->
+
 
 <p>You can find the original book here:</p>
 
