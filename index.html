@@ -1145,140 +1145,197 @@ Then
 
 <p>A Rules based HanoiDisk just needs to be able to say &#8220;Can I move somewhere&#8221; and &#8220;If so, where&#8221;.  It does this in collaboration with the Tower.  &#8220;@tower&#8221; is now an instance variable that every Disk has set when it is created.  By using an instance variable, it is cleaner than using class variables (we can have multiple towers at the same time) and it works under Ruby serialization/marshalling.</p>
 
-<p>[sourcecode language=&#8221;ruby&#8221;]
-class RulesHanoiDisk &lt; AnimatedHanoiDisk
-  def hasLegalMove()</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RulesHanoiDisk</span> <span class="o">&lt;</span> <span class="no">AnimatedHanoiDisk</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hasLegalMove</span><span class="p">()</span>
+</span><span class='line'>    <span class="vi">@towers</span><span class="o">.</span><span class="n">forPolesOtherThan_do</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachTopDisk</span> <span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">eachTopDisk</span><span class="o">.</span><span class="n">width</span>  <span class="o">&gt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="k">then</span> <span class="k">return</span> <span class="kp">true</span> <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">bestMove</span><span class="p">()</span>
+</span><span class='line'>    <span class="vi">@towers</span><span class="o">.</span><span class="n">forPolesOtherThan_do</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachTopDisk</span> <span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="n">eachTopDisk</span><span class="o">.</span><span class="n">width</span> <span class="o">&gt;</span> <span class="nb">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">eachTopDisk</span><span class="o">.</span><span class="n">pole</span> <span class="o">!=</span> <span class="vi">@previousPole</span><span class="p">)</span> <span class="p">)</span> <span class="k">then</span> <span class="k">return</span> <span class="n">eachTopDisk</span> <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">move_upon</span><span class="p">(</span><span class="n">destination</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@previousPole</span> <span class="o">=</span> <span class="vi">@pole</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">super</span><span class="p">(</span><span class="n">destination</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>@towers.forPolesOtherThan_do(self) do | eachTopDisk |
-  if (eachTopDisk.width  &gt; self.width) then return true end
-end
-return false
-</code></pre>
-
-<p>  end</p>
-
-<p>  def bestMove()</p>
-
-<pre><code>@towers.forPolesOtherThan_do(self) do | eachTopDisk |
-  if ( (eachTopDisk.width &gt; self.width) &amp;&amp; (eachTopDisk.pole != @previousPole) ) then return eachTopDisk end
-end
-return nil
-</code></pre>
-
-<p>  end</p>
-
-<p>  def move_upon(destination)</p>
-
-<pre><code>@previousPole = @pole
-
-super(destination)
-</code></pre>
-
-<p>  end</p>
-
-<p>end
-[/sourcecode]</p>
 
 <p>Among the interesting things with the new RulesHanoiDisk is the extensive use of Blocks.  By using Blocks, we can iterate over the collection of stacks without creating new collections.  The Disk and the Tower collaborate to create custom iterators with minimal code.  See RulesTowerOfHanoi for the example.</p>
 
 <h4>RulesTowerOfHanoi</h4>
 
-<p>[sourcecode language=&#8221;ruby&#8221;]
-class RulesTowerOfHanoi &lt; AnimatedTowerOfHanoi
-  def initHeight(height)</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RulesTowerOfHanoi</span> <span class="o">&lt;</span> <span class="no">AnimatedTowerOfHanoi</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initHeight</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@height</span> <span class="o">=</span> <span class="n">height</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">self</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">doNextMove_IsDone</span><span class="p">())</span> <span class="k">do</span> <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">createDisk</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="no">RulesHanoiDisk</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">result</span><span class="o">.</span><span class="n">setupTowers</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">doNextMove_IsDone</span><span class="p">()</span>
+</span><span class='line'>    <span class="vi">@currentDisk</span> <span class="o">=</span> <span class="n">decide</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@stacks</span><span class="o">[</span><span class="vi">@currentDisk</span><span class="o">.</span><span class="n">pole</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">pop</span><span class="p">()</span>
+</span><span class='line'>    <span class="vi">@stacks</span><span class="o">[</span><span class="vi">@destinationDisk</span><span class="o">.</span><span class="n">pole</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">push</span><span class="p">(</span><span class="vi">@currentDisk</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@currentDisk</span><span class="o">.</span><span class="n">move_upon</span><span class="p">(</span><span class="vi">@destinationDisk</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@oldDisk</span> <span class="o">=</span> <span class="vi">@currentDisk</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@app</span><span class="o">.</span><span class="n">noteChange</span> <span class="k">if</span> <span class="vi">@app</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">isAllOnOneTower</span><span class="p">()</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">isAllOnOneTower</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">foundStack</span> <span class="o">=</span> <span class="vi">@stacks</span><span class="o">.</span><span class="n">detect</span> <span class="p">{</span> <span class="o">|</span><span class="n">eachStack</span><span class="o">|</span>  <span class="n">eachStack</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="vi">@height</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">foundStack</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">forTopsOtherThan_do</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@stacks</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachStack</span> <span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">eachStack</span><span class="o">.</span><span class="n">empty?</span><span class="p">)</span> <span class="k">then</span> <span class="k">next</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">topDisk</span> <span class="o">=</span> <span class="n">eachStack</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">topDisk</span> <span class="o">==</span> <span class="n">disk</span><span class="p">)</span> <span class="k">then</span> <span class="k">next</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">yield</span> <span class="n">topDisk</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">forPolesOtherThan_do</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@stacks</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachStack</span><span class="p">,</span> <span class="n">i</span> <span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">disk</span><span class="o">.</span><span class="n">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">then</span> <span class="k">next</span> <span class="k">end</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">topDisk</span> <span class="o">=</span> <span class="k">if</span> <span class="p">(</span><span class="n">eachStack</span><span class="o">.</span><span class="n">empty?</span><span class="p">)</span> <span class="k">then</span> <span class="vi">@mockDisks</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="k">else</span> <span class="n">eachStack</span><span class="o">.</span><span class="n">last</span> <span class="k">end</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">yield</span> <span class="n">topDisk</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">decide</span>
+</span><span class='line'>    <span class="n">forTopsOtherThan_do</span><span class="p">(</span><span class="vi">@oldDisk</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachDisk</span> <span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">eachDisk</span><span class="o">.</span><span class="n">hasLegalMove</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>        <span class="vi">@destinationDisk</span> <span class="o">=</span> <span class="n">eachDisk</span><span class="o">.</span><span class="n">bestMove</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">eachDisk</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>@height = height
-
-return self
-</code></pre>
-
-<p>  end</p>
-
-<p>  def move_tower(height, fromPin, toPin, usingPin)</p>
-
-<pre><code>while (!doNextMove_IsDone()) do end
-</code></pre>
-
-<p>  end</p>
-
-<p>  def createDisk()</p>
-
-<pre><code>result = RulesHanoiDisk.new
-result.setupTowers(self)
-
-return result
-</code></pre>
-
-<p>  end</p>
-
-<p>  def doNextMove_IsDone()</p>
-
-<pre><code>@currentDisk = decide()
-
-@stacks[@currentDisk.pole-1].pop()
-@stacks[@destinationDisk.pole-1].push(@currentDisk)
-@currentDisk.move_upon(@destinationDisk)
-
-@oldDisk = @currentDisk
-
-@app.noteChange if @app
-
-return isAllOnOneTower()
-</code></pre>
-
-<p>  end</p>
-
-<p>  def isAllOnOneTower()</p>
-
-<pre><code>foundStack = @stacks.detect { |eachStack|  eachStack.size == @height }
-return foundStack != nil
-</code></pre>
-
-<p>  end</p>
-
-<p>  def forTopsOtherThan_do(disk)</p>
-
-<pre><code>@stacks.each do | eachStack |
-  if (eachStack.empty?) then next end
-
-  topDisk = eachStack.last
-  if (topDisk == disk) then next end
-
-  yield topDisk
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>  def forPolesOtherThan_do(disk)</p>
-
-<pre><code>@stacks.each_with_index do | eachStack, i |
-  if (i == disk.pole-1) then next end;
-
-  topDisk = if (eachStack.empty?) then @mockDisks[i] else eachStack.last end;
-
-  yield topDisk
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>  def decide</p>
-
-<pre><code>forTopsOtherThan_do(@oldDisk) do | eachDisk |
-  if (eachDisk.hasLegalMove) then
-    @destinationDisk = eachDisk.bestMove
-
-    return eachDisk
-  end
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>end</p>
-
-<p>[/sourcecode]</p>
 </div>
   
   

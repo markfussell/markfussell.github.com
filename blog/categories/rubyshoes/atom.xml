@@ -4,7 +4,7 @@
   <title><![CDATA[Category: RubyShoes | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/rubyshoes/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T19:10:38-08:00</updated>
+  <updated>2013-02-06T19:14:45-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -146,7 +146,7 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
 
 <p>This is still the same as the original from 'Part 2'</p>
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
 
@@ -200,7 +200,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 <p>  end</p>
 
 <p>end
-[/sourcecode]</p>
+```</p>
 
 <h4>ModeledTowerOfHanoi</h4>
 
@@ -213,7 +213,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 </ul>
 
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</h1>
 
@@ -366,13 +366,13 @@ return self
 <p>  end
 end</p>
 
-<p>[/sourcecode]</p>
+<p>```</p>
 
 <h4>AnimatedTowerOfHanoi</h4>
 
 <p>Now we are finally to the new "animated" class.  The main changes for this class are to enable it to talk to an owning 'application' if it exists and also it starts hooking into the Shoes code.  For convenience, I made the behavior of the class branch based on whether that '@app' exists.  The final change is that AnimatedHanoiDisk does a sleep so we can see the animation.  This affects both console and graphic behavior.</p>
 
-<p>[sourcecode language='ruby']
+<p>```ruby
 class AnimatedTowerOfHanoi &lt; ModeledTowerOfHanoi
   attr_reader :stacks</p>
 
@@ -449,19 +449,19 @@ sleep 0.3
 <p>  end</p>
 
 <p>end
-[/sourcecode]</p>
+```</p>
 
 <h3>Running via 'irb'</h3>
 
 <p>You can test the above code by running it in the normal Ruby console
-[sourcecode language='ruby']
+<code>ruby
 AnimatedTowerOfHanoi.new.hanoi
-[/sourcecode]</p>
+</code></p>
 
 <h3>Putting on the Shoes</h3>
 
 <p>If you have Shoes running successfully, you can combine the above code with a Shoes app which visualizes the state of the towers.  The Shoes code is:
-[sourcecode language='ruby']
+```ruby
 Shoes.app :width => 520, :height => 600, :resizable => false do</p>
 
 <p>  def answer(v)</p>
@@ -530,7 +530,7 @@ end
 
 <p>  end
 end
-[/sourcecode]</p>
+```</p>
 
 <p>The Shoes app has the main drawing area at the top and then a logging area beneath it.  The HanoiStacks are cleared and redrawn any time they change.  The original Smalltalk code used deltas (disks were moved individually) but that didn't seem critical to match, and partially the code is relying on being on a black-and-white screen.</p>
 

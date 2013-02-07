@@ -98,16 +98,20 @@
 
 <h3>Tower of Hanoi &#8211; Procedural with Input &#8211; Ruby</h3>
 
-<p>The only thing we need to do is get the height from the user, so we can just ask for it:
-[sourcecode language=&#8217;ruby&#8217;]</p>
+<p>The only thing we need to do is get the height from the user, so we can just ask for it:</p>
 
-<h1>Do the tower</h1>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Do the tower</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
+</span><span class='line'><span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
+</span><span class='line'><span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span>
+</span><span class='line'><span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>puts &#8220;How tall a tower?&#8221;
-print &#8220;>&#8221;
-height = gets
-move_tower(height.to_i,1,3,2)
-[/sourcecode]</p>
 
 <p>Quite simple and probably the only interesting thing is that &#8216;height&#8217; did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a &#8216;strict&#8217; mode would give feedback.</p>
 

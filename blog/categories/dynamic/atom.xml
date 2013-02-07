@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dynamic | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/dynamic/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T19:10:38-08:00</updated>
+  <updated>2013-02-06T19:14:45-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -36,7 +36,7 @@
 
 <p>This is still the same as the original from 'Part 2'</p>
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
 
@@ -90,7 +90,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 <p>  end</p>
 
 <p>end
-[/sourcecode]</p>
+```</p>
 
 <h4>ModeledTowerOfHanoi</h4>
 
@@ -103,7 +103,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 </ul>
 
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</h1>
 
@@ -256,13 +256,13 @@ return self
 <p>  end
 end</p>
 
-<p>[/sourcecode]</p>
+<p>```</p>
 
 <h4>AnimatedTowerOfHanoi</h4>
 
 <p>Now we are finally to the new "animated" class.  The main changes for this class are to enable it to talk to an owning 'application' if it exists and also it starts hooking into the Shoes code.  For convenience, I made the behavior of the class branch based on whether that '@app' exists.  The final change is that AnimatedHanoiDisk does a sleep so we can see the animation.  This affects both console and graphic behavior.</p>
 
-<p>[sourcecode language='ruby']
+<p>```ruby
 class AnimatedTowerOfHanoi &lt; ModeledTowerOfHanoi
   attr_reader :stacks</p>
 
@@ -339,19 +339,19 @@ sleep 0.3
 <p>  end</p>
 
 <p>end
-[/sourcecode]</p>
+```</p>
 
 <h3>Running via 'irb'</h3>
 
 <p>You can test the above code by running it in the normal Ruby console
-[sourcecode language='ruby']
+<code>ruby
 AnimatedTowerOfHanoi.new.hanoi
-[/sourcecode]</p>
+</code></p>
 
 <h3>Putting on the Shoes</h3>
 
 <p>If you have Shoes running successfully, you can combine the above code with a Shoes app which visualizes the state of the towers.  The Shoes code is:
-[sourcecode language='ruby']
+```ruby
 Shoes.app :width => 520, :height => 600, :resizable => false do</p>
 
 <p>  def answer(v)</p>
@@ -420,7 +420,7 @@ end
 
 <p>  end
 end
-[/sourcecode]</p>
+```</p>
 
 <p>The Shoes app has the main drawing area at the top and then a logging area beneath it.  The HanoiStacks are cleared and redrawn any time they change.  The original Smalltalk code used deltas (disks were moved individually) but that didn't seem critical to match, and partially the code is relying on being on a black-and-white screen.</p>
 
@@ -451,7 +451,7 @@ end
 
 <p>To make the adding of Disk objects to our Hanoi code a bit more 'realistic', a new bonus requirement (beyond the book) is that we track the number of times a given disk moves.</p>
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</h1>
 
@@ -590,7 +590,7 @@ return self
 end</p>
 
 <p>ModeledTowerOfHanoi.new.hanoi
-[/sourcecode]</p>
+```</p>
 
 <p>Now things are somewhat interesting for comparison purposes.  With the new class 'HanoiDisk', we have:</p>
 
@@ -650,7 +650,7 @@ end</p>
 
 <p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just 'tracing' the algorithm, but it does not let us show the state of the towers at any given time.  We also don't see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
 
-<p>[sourcecode language='ruby']</p>
+<p>```ruby</p>
 
 <h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
 
@@ -706,7 +706,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 <p>end</p>
 
 <p>TowerOfHanoi.new.hanoi
-[/sourcecode]</p>
+```</p>
 
 <p>So we moved to adding state to an object by simply referencing an instance variable (notationally via the '@').  Again, I find that unpleasant and would rather the compiler (and human reader) was told a bit more formally what instance variables exist.  In quickly typing the above, I made a typo ("@stack") that caused a runtime error and should have been easily detected at compile time.</p>
 
@@ -732,7 +732,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 <h3>Tower of Hanoi -- Procedural with Input -- Ruby</h3>
 
 <p>The only thing we need to do is get the height from the user, so we can just ask for it:
-[sourcecode language='ruby']</p>
+```ruby</p>
 
 <h1>Do the tower</h1>
 
@@ -740,7 +740,7 @@ print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
 print ">"
 height = gets
 move_tower(height.to_i,1,3,2)
-[/sourcecode]</p>
+```</p>
 
 <p>Quite simple and probably the only interesting thing is that 'height' did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a 'strict' mode would give feedback.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T19:10:38-08:00</updated>
+  <updated>2013-02-06T19:14:45-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -58,7 +58,7 @@
 
 <p>A Rules based HanoiDisk just needs to be able to say "Can I move somewhere" and "If so, where".  It does this in collaboration with the Tower.  "@tower" is now an instance variable that every Disk has set when it is created.  By using an instance variable, it is cleaner than using class variables (we can have multiple towers at the same time) and it works under Ruby serialization/marshalling.</p>
 
-<p>[sourcecode language="ruby"]
+<p>```ruby
 class RulesHanoiDisk &lt; AnimatedHanoiDisk
   def hasLegalMove()</p>
 
@@ -90,13 +90,13 @@ super(destination)
 <p>  end</p>
 
 <p>end
-[/sourcecode]</p>
+```</p>
 
 <p>Among the interesting things with the new RulesHanoiDisk is the extensive use of Blocks.  By using Blocks, we can iterate over the collection of stacks without creating new collections.  The Disk and the Tower collaborate to create custom iterators with minimal code.  See RulesTowerOfHanoi for the example.</p>
 
 <h4>RulesTowerOfHanoi</h4>
 
-<p>[sourcecode language="ruby"]
+<p>```ruby
 class RulesTowerOfHanoi &lt; AnimatedTowerOfHanoi
   def initHeight(height)</p>
 
@@ -191,7 +191,7 @@ end
 
 <p>end</p>
 
-<p>[/sourcecode]</p>
+<p>```</p>
 ]]></content>
   </entry>
   
