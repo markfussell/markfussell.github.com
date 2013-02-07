@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rails | Polyglot]]></title>
+  <link href="http://markfussell.github.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://markfussell.github.com/"/>
+  <updated>2013-02-06T19:00:21-08:00</updated>
+  <id>http://markfussell.github.com/</id>
+  <author>
+    <name><![CDATA[Mark Fussell]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 7)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7/"/>
+    <updated>2008-09-02T19:28:10-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6/"/>
+    <updated>2008-09-02T19:18:13-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
+
+<p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is 'true' as an algorithm, but comes off as a bit unnatural for humans.</p>
+
+<p>But it also has a problem in that the algorithm can not be 'suspended' in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  Although Ruby is multi-threaded and running two threads works in RubyShoes, Rails does not work either with a stateful server (and multiple threads) or with continuations.  At the end of each controller dispatch the session or the database has to have persisted all state.  So we need to do something like formalizing the state of the Disks and Towers to make the Tower of Hanoi work with Rails.</p>
+
+<p>Also, the Smalltalk code in this section was among the most 'closure-oriented', so this helps show how that maps to Ruby.</p>
+
+<h3>You aren't capitalizing right?</h3>
+
+<p>Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article <a href="ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
+
+<ul>
+<li><p>I use CamelCase for combining words into a 'part' of a method name or variable name</p></li>
+<li><p>I use an underscore as a placeholder for the parameters of the method</p></li>
+<li><p>I use an underscore to break up a phrase into logical parts</p></li>
+</ul>
+
+
+<p>If Ruby supported some other word delimiter than underscore (say hyphen "-" or ":"), I would be agnostic to dropping the CamelCase, but without that second word delimiter, dropping CamelCase is a losing proposition in expressiveness.  In a team setting we might have to discuss this, but in this case this is my code alone... and my standard actually makes it easier to convert to-from Smalltalk, Ruby, Flex, Java, etc.  The standard works cleanly with all of them.</p>
+
+<h3>Tower...</h3>
+
+<p>To migrate to the Rules version of the HanoiTower, it is easiest to start with the Disks themselves.</p>
+
+<h4>RulesHanoiDisk</h4>
+
+<p>A Rules based HanoiDisk just needs to be able to say "Can I move somewhere" and "If so, where".  It does this in collaboration with the Tower.  "@tower" is now an instance variable that every Disk has set when it is created.  By using an instance variable, it is cleaner than using class variables (we can have multiple towers at the same time) and it works under Ruby serialization/marshalling.</p>
+
+<p>[sourcecode language="ruby"]
+class RulesHanoiDisk &lt; AnimatedHanoiDisk
+  def hasLegalMove()</p>
+
+<pre><code>@towers.forPolesOtherThan_do(self) do | eachTopDisk |
+  if (eachTopDisk.width  &gt; self.width) then return true end
+end
+return false
+</code></pre>
+
+<p>  end</p>
+
+<p>  def bestMove()</p>
+
+<pre><code>@towers.forPolesOtherThan_do(self) do | eachTopDisk |
+  if ( (eachTopDisk.width &gt; self.width) &amp;&amp; (eachTopDisk.pole != @previousPole) ) then return eachTopDisk end
+end
+return nil
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_upon(destination)</p>
+
+<pre><code>@previousPole = @pole
+
+super(destination)
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+[/sourcecode]</p>
+
+<p>Among the interesting things with the new RulesHanoiDisk is the extensive use of Blocks.  By using Blocks, we can iterate over the collection of stacks without creating new collections.  The Disk and the Tower collaborate to create custom iterators with minimal code.  See RulesTowerOfHanoi for the example.</p>
+
+<h4>RulesTowerOfHanoi</h4>
+
+<p>[sourcecode language="ruby"]
+class RulesTowerOfHanoi &lt; AnimatedTowerOfHanoi
+  def initHeight(height)</p>
+
+<pre><code>@height = height
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_tower(height, fromPin, toPin, usingPin)</p>
+
+<pre><code>while (!doNextMove_IsDone()) do end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def createDisk()</p>
+
+<pre><code>result = RulesHanoiDisk.new
+result.setupTowers(self)
+
+return result
+</code></pre>
+
+<p>  end</p>
+
+<p>  def doNextMove_IsDone()</p>
+
+<pre><code>@currentDisk = decide()
+
+@stacks[@currentDisk.pole-1].pop()
+@stacks[@destinationDisk.pole-1].push(@currentDisk)
+@currentDisk.move_upon(@destinationDisk)
+
+@oldDisk = @currentDisk
+
+@app.noteChange if @app
+
+return isAllOnOneTower()
+</code></pre>
+
+<p>  end</p>
+
+<p>  def isAllOnOneTower()</p>
+
+<pre><code>foundStack = @stacks.detect { |eachStack|  eachStack.size == @height }
+return foundStack != nil
+</code></pre>
+
+<p>  end</p>
+
+<p>  def forTopsOtherThan_do(disk)</p>
+
+<pre><code>@stacks.each do | eachStack |
+  if (eachStack.empty?) then next end
+
+  topDisk = eachStack.last
+  if (topDisk == disk) then next end
+
+  yield topDisk
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def forPolesOtherThan_do(disk)</p>
+
+<pre><code>@stacks.each_with_index do | eachStack, i |
+  if (i == disk.pole-1) then next end;
+
+  topDisk = if (eachStack.empty?) then @mockDisks[i] else eachStack.last end;
+
+  yield topDisk
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def decide</p>
+
+<pre><code>forTopsOtherThan_do(@oldDisk) do | eachDisk |
+  if (eachDisk.hasLegalMove) then
+    @destinationDisk = eachDisk.bestMove
+
+    return eachDisk
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>[/sourcecode]</p>
+]]></content>
+  </entry>
+  
+</feed>

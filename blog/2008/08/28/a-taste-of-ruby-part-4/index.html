@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Taste of Ruby (Part 4) - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi — With Model Objects The book &#8220;A Taste of Smalltalk&#8221; jumps &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Wants a cracker</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Taste of Ruby (Part 4)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-28T19:53:15-07:00" pubdate data-updated="true">Aug 28<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi — With Model Objects</h2>
+
+<p>The book &#8220;A Taste of Smalltalk&#8221; jumps from showing a single &#8216;TowerOfHanoi&#8217; object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Given Ruby has no built-in graphic capability, I want to separate these two changes.  So first we can put in Disk objects and study that change.  This should work for anyone with a Ruby installation and does not require installing Tk or Shoes or anything.  After that, we can go into some GUI toolkit code just to finish up the comparison and have bonus points.</p>
+
+<p>To make the adding of Disk objects to our Hanoi code a bit more &#8216;realistic&#8217;, a new bonus requirement (beyond the book) is that we track the number of times a given disk moves.</p>
+
+<p>[sourcecode language=&#8217;ruby&#8217;]</p>
+
+<h1>A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</h1>
+
+<h1>but it keeps track of the state of the Disks</h1>
+
+<h1>with actual objects.  This makes it suitable for</h1>
+
+<h1>model-based behavior (say tracking moves, animation or</h1>
+
+<h1>other event listening) on top of those Disks</h1>
+
+<p>class ModeledTowerOfHanoi &lt; TowerOfHanoi
+  def hanoi</p>
+
+<pre><code>ask_for_height
+
+setup_disks
+
+puts "Start"
+print_stacks
+
+puts
+move_tower(@height,1,3,2)
+puts
+
+puts "Result"
+print_stacks
+</code></pre>
+
+<p>  end</p>
+
+<p>  def print_stacks</p>
+
+<pre><code>@stacks.each do | eachStack |
+  puts "  "
+  puts eachStack.reverse
+  puts "  "
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def ask_for_height</p>
+
+<pre><code>puts "How tall a tower?"
+print "&gt;"
+height = 5 #gets.to_i
+puts ""
+@height = height
+</code></pre>
+
+<p>  end</p>
+
+<p>  def setup_disks</p>
+
+<pre><code>HanoiDisk.set_towers(self)
+
+@stacks = Array.new(3).collect { Array.new }
+firstStack = @stacks[0]
+1.upto(@height) do |size|
+  disk = HanoiDisk.new.initWidth_pole(size,1)
+  firstStack.unshift(disk)
+end
+
+@mockDisks = Array.new(3)
+1.upto(3) do |i|
+  @mockDisks[i-1]=(HanoiDisk.new.initWidth_pole(1000,i))
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_disk(fromPin, toPin)</p>
+
+<pre><code>supportDisk = if (@stacks[toPin-1].empty?) then
+  @mockDisks[toPin-1]
+else
+  @stacks[toPin-1][0]
+end
+
+disk = @stacks[fromPin-1].pop
+@stacks[toPin-1].push(disk)
+disk.move_upon(supportDisk)
+
+print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class HanoiDisk
+  attr_reader :name
+  attr_reader :pole</p>
+
+<p>  def self.set_towers(owner)</p>
+
+<pre><code>@@the_towers = owner
+@@the_thickness = 14
+@@the_diskgap = 2
+</code></pre>
+
+<p>  end</p>
+
+<p>  def initWidth_pole(width, pole)</p>
+
+<pre><code>@pole = pole
+@width = width
+
+if (width &lt; 1000) then
+  @name="Disk-#{(?A+width-1).chr}"
+else
+  @name="Base-#{pole}"
+end
+
+@move_count = 0
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def to_s</p>
+
+<pre><code>return "#{@name}(#{@move_count})"
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_upon(destination)</p>
+
+<pre><code>@pole = destination.pole
+@move_count += 1
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>ModeledTowerOfHanoi.new.hanoi
+[/sourcecode]</p>
+
+<p>Now things are somewhat interesting for comparison purposes.  With the new class &#8216;HanoiDisk&#8217;, we have:</p>
+
+<ol>
+<li><p>Public Attribute macros</p></li>
+<li><p>Explicit return values</p></li>
+<li><p>Class Object behavior (&#8216;set_towers&#8217;)</p></li>
+</ol>
+
+
+<h3>Macros</h3>
+
+<p>Of these topics, I think the &#8216;macros&#8217; is the more interesting.  I have another post on &#8216;Being Ephemeral&#8217; which quickly distills the concept, but Ruby (and Lisp before it) gets it right in that program generation (in a controlled fashion) is more powerful than having static programs.  The problem with Smalltalk <em>in its common usage</em> is that people want the image to be mostly static.  But the image is the expansion of all these macros (Smalltalk can have macros as easily as Lisp can) &#8211; and so people are saying that macros must be developer tools (like the Refactoring tools) vs. taking you a level above.  But if you expand the macro and record <em>the results</em> you have lost the value of the macro from that point forward.  If Smalltalk execution environments would accept giving up the image (a snapshot of all previous expansions), it would be more capable than it is.  There is nothing in the language that prevents this, but the execution environments discourage going down this path.</p>
+
+<p>It is purely a &#8216;what is the source&#8217; question.  The Smalltalk equivalent of &#8216;attr_reader&#8217; is simply:</p>
+
+<ul>
+<li>HanoiDisk attrReader: #name</li>
+</ul>
+
+
+<p>Seriously&#8230; it would be that short and sweet.  But unless the source of a running application is something other than the image, that line would never be executed.</p>
+
+<p>This is a problem in a totally different-sounding but very similar area: Virtualized Computers (Xen, VMWare).  Snapshotting the &#8216;image&#8217; of a virtualized computer sounds cool &#8211; but it immediately causes you lots of havoc.  What if you need to upgrade just one thing in the Snapshot? &#8230; it could be a real head-ache to uninstall and reinstall a new MySQL and is not as simple as &#8216;yum install&#8217;.  And if you are doing the Kernel itself, you are totally hosed.  The better approach is to treat the virtualized computer as ephemeral, have scripts in a higher-level-language to rebuild it at any time, and then the only use of a snapshot is to make rebuilding it faster.  A snapshould should just be a cache of the built system vs. the system-of-record for what you want to run.</p>
+
+<h3>Explicit return values</h3>
+
+<p>What should a method return if not otherwise stated?  The right answer is &#8216;nil&#8217;.  Why?  Because it is the right answer :-)  Actually, it is because the return value of a method may need to be non-trivially transmitted to the caller message.  Specifically the caller of a remote message.  So you want the return value to be as light-weight as possibly by default.  &#8216;nil&#8217; fits that bill.  Smalltalk gets this wrong but was long-before client-server issues made the problem rear its head, so it gets a pass.</p>
+
+<p>OK&#8230; you don&#8217;t like that answer.  The next &#8216;almost right&#8217; answer is &#8216;self&#8217;. Why?  Well, what else could possibly make sense?  I didn&#8217;t say what to return, so just return me.  And this is almost as lightweight as &#8216;nil&#8217; (but not quite).</p>
+
+<p>Just because something is on the last line of a method, in <em>no way</em> indicates it is meant to be sent back to the caller.  For example, ending with:</p>
+
+<ul>
+<li>really_huge_and_private_object.do_some_command_that_happens_to_return_self</li>
+</ul>
+
+
+<p>does not in any way convey I intend to send &#8216;really_huge_and_private_object&#8217; back to the caller.  As far as I stated&#8230; I don&#8217;t want to send anything back to the caller.  I should have to say that I want to do something before the program just &#8216;guesses&#8217; I want to do something I don&#8217;t want to do.  Basically just guesses that whatever happens to be on the stack should be passed back to the caller.  Serious encapsulation breakage.  And I shouldn&#8217;t have to say something like &#8216;return self&#8217; to prevent the program from making that obnoxious guess.</p>
+
+<p>Given the Smalltalk equivalent of a return declaration is a single character (&#8217;<sup>&#8217;)</sup> (not too hard to type), and completely reveals the intent of the coder, the fact that Ruby chose neither of the above two variations of plausibly right answers is just bizarre and a source of errors.</p>
+
+<h3>Class Object behavior</h3>
+
+<p>The concept here is clean enough and the notation for Class Variables is nicely clean (and partially helps separate &#8216;Class Variables&#8217; from &#8216;Class Instance Variables&#8217;).  I think &#8216;def self&#8217; is less readable than &#8216;class.def&#8217; (defining for the HanoiDisk.class vs. HanoiDisk), but that presumes that keywords like &#8216;def&#8217; could be more easily understood as messages to classes (a &#8216;Turtles all the way down&#8217; concept) as I wrote earlier.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-28T19:53:15-07:00" pubdate data-updated="true">Aug 28<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dynamic/'>Dynamic</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>, <a class='category' href='/blog/categories/virtualization/'>Virtualization</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/08/28/a-taste-of-ruby-part-3/" title="Previous Post: A Taste of Ruby (Part 3)">&laquo; A Taste of Ruby (Part 3)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/08/29/a-taste-of-ruby-part-5/" title="Next Post: A Taste of Ruby (Part 5)">A Taste of Ruby (Part 5) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+    <!--
+  <ul>
+      <li><a href="http://www.linkedin.com/in/markfussell/">Linked In</a></li>
+      <li><a href="http://github.com/markfussell/">Github</a></li>
+      <li><a href="http://palobots.org/">PaloBots</a></li>
+  </ul>
+  -->
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/11/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/19/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/17/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/07/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/';
+        var disqus_url = 'http://markfussell.github.com/blog/2008/08/28/a-taste-of-ruby-part-4/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

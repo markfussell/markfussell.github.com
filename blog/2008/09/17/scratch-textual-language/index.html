@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Scratch Textual Language - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="Scratch is a visual programming language, but it might usefully have a textual version as well. Scratch in it&#8217;s graphical form can verify &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Wants a cracker</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Scratch Textual Language</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-17T13:28:43-07:00" pubdate data-updated="true">Sep 17<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.  Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce <a href="a-taste-of-scratch">these diagrams</a> when trying to document a program, and it is even harder to reference sections of the diagram.</p>
+
+<p>This activity came out of producing a Scratch Player in Flash, and I wanted to see whether the parse of the file produced the correct program.  A textual dump of the parse was an obvious solution, but then this &#8216;dump&#8217; might as well be the same as a complete program declaration so it was clearly &#8216;complete&#8217; and I wasn&#8217;t missing anything.</p>
+
+<h2>Scratch Textual</h2>
+
+<p>The core concepts in this proposed textual language for Scratch are:</p>
+
+<ul>
+<li><p>It should match Scratch as closely as possible</p></li>
+<li><p>It should be a readable and easily writeable textual language (vs. XML as an interchange format)</p></li>
+<li><p>It should be translatable to other human languages for the blocks (as Scratch is)</p></li>
+<li><p>It should be really simple to produce and parse</p></li>
+<li><p>Given Scratch is graphical, visual indentation is reasonable</p></li>
+<li><p>It is not a complete &#8216;dump&#8217; of the Scratch project &#8211; no media resources are included.</p></li>
+</ul>
+
+
+<p>The above concepts produced the following initial choices:</p>
+
+<ul>
+<li><p>Different sections start with simple keywords: &#8220;stage:&#8221; and &#8220;sprite:&#8221; for the main objects, &#8220;vars:&#8221; and &#8216;listVars:&#8221; for declaring variables, &#8220;comment:&#8221; for a comment section, and &#8220;script:&#8221; for declaring a sequence of blocks.</p></li>
+<li><p>Variables simply define their name and an initial value (if desired&#8230; otherwise it would be &#8216;0&#8217;)</p></li>
+<li><p>Each block is written out textually with its &#8216;spec&#8217; &#8211; a human readable description of the block and its parameters</p></li>
+<li><p>The parameters to a block (if any) come immediately after, and are preferably indented [say 4 spaces] from the block they are parameters too.  Note that the indentation is not necessary because you can tell the number of parameters from the block &#8216;spec&#8217;, but indenting makes it more readable.</p></li>
+<li><p>If a block can contain other blocks, contained blocks <em>must be</em> indented [say 4 spaces] so you can tell they are inside the block vs. after the block.  This is in a fashion similar to Python.</p></li>
+<li><p>There should be no blank line within a &#8216;script:&#8217; section.  The end of a script: section is the first blank (non-comment) line.</p></li>
+<li><p>Comments within the textual blocks use &#8216;#&#8217; to match with Python.  Multi-line comments do not exist.  Note that Textual Comments are not parsed at all (and do not round-trip), so they should be minimal and merely augment parsing the textual source &#8211; use &#8216;comment:&#8217; for real documentation.</p></li>
+<li><p>&#8216;script:&#8217; and &#8216;comment:&#8217; could have position information after them using the &#8216;loc&#8217; property (e.g. &#8220;loc = 500@250&#8221;) but this is not likely to be useful since any edits would cause positions to be wrong</p></li>
+</ul>
+
+
+<h3>An Example</h3>
+
+<p>The following is a complete &#8220;normal expanded format&#8221; version.  See further below for a possible optimization to make things more vertically compressed.</p>
+
+<p>[sourcecode language=&#8221;python&#8221;]</p>
+
+<h1>===========================</h1>
+
+<h1>=== Morph: Stage</h1>
+
+<h1>===========================</h1>
+
+<p>stage: Stage</p>
+
+<h1>============</h1>
+
+<h1>=== Vars</h1>
+
+<h1>============</h1>
+
+<p>vars:
+talest-pole-height = 6
+previous-moved-disk = 0
+potential-disk = 1
+num-disks = 5
+next-disk = 0
+base-disk = 0</p>
+
+<p>listVars:
+pole-1 = undefined
+pole-2 = undefined
+moveable-disks = undefined
+pole-3 = undefined</p>
+
+<h1>============</h1>
+
+<h1>=== Script</h1>
+
+<h1>============</h1>
+
+<p>script:</p>
+
+<p>when &#8216;find-next-disk&#8217;
+set next-disk to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>broadcast %e and wait</p>
+
+<pre><code>propose-next-disk
+</code></pre>
+
+<p>repeat until %b</p>
+
+<pre><code>%n &gt; %n
+    next-disk  
+    0
+set potential-disk to %n
+if %b  
+    not %b
+        %n = %n
+            potential-disk  
+            previous-moved-disk  
+    set next-disk to %n
+        potential-disk  
+</code></pre>
+
+<p>broadcast %e and wait</p>
+
+<pre><code>move-next-disk
+</code></pre>
+
+<h1>============</h1>
+
+<h1>=== Script</h1>
+
+<h1>============</h1>
+
+<p>script:</p>
+
+<p>when &#8216;Scratch-StartClicked&#8217;
+set num-disks to %n</p>
+
+<pre><code>5
+</code></pre>
+
+<p>set base-disk to %n</p>
+
+<pre><code>%n + %n
+    num-disks  
+    1
+</code></pre>
+
+<p>set next-disk to %n</p>
+
+<pre><code>num-disks  
+</code></pre>
+
+<p>repeat until %b</p>
+
+<pre><code>%n &lt; %n
+    next-disk  
+    1
+set next-disk to %n
+    %n - %n
+        next-disk  
+        1
+</code></pre>
+
+<p>broadcast %e and wait</p>
+
+<pre><code>initialize
+</code></pre>
+
+<p>set previous-moved-disk to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>set talest-pole-height to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>repeat until %b</p>
+
+<pre><code>%n &gt; %n
+    talest-pole-height  
+    num-disks  
+broadcast %e and wait
+    find-next-disk
+set talest-pole-height to %n
+if %b  
+    %n &gt; %n
+        talest-pole-height  
+    set talest-pole-height to %n
+</code></pre>
+
+<h1>===========================</h1>
+
+<h1>=== Morph: Sprite1</h1>
+
+<h1>===========================</h1>
+
+<p>sprite: Sprite1</p>
+
+<h1>============</h1>
+
+<h1>=== Vars</h1>
+
+<h1>============</h1>
+
+<p>vars:
+can-move = 3
+am-on-top = 1
+disk-id = 1
+pole = 3
+height = 6
+previous-pole = 1
+pole-at-start = 1</p>
+
+<h1>============</h1>
+
+<h1>=== Script</h1>
+
+<h1>============</h1>
+
+<p>script:</p>
+
+<p>when &#8216;move-next-disk&#8217;
+if %b</p>
+
+<pre><code>%n = %n
+    disk-id  
+    next-disk  
+set previous-moved-disk to %n
+    disk-id  
+set pole-at-start to %n
+    pole  
+if %b  
+    %b and %b
+        not %b
+            %b or %b
+                %n = %n
+                    previous-pole  
+                    1
+                %n = %n
+                    pole  
+                    1
+        %n &lt; %n
+            disk-id  
+    set pole to %n
+        1
+if %b  
+    %b and %b
+        not %b
+            %b or %b
+                %n = %n
+                    previous-pole  
+                    2
+                %n = %n
+                    pole  
+                    2
+        %n &lt; %n
+            disk-id  
+    set pole to %n
+        2
+if %b  
+    %b and %b
+        not %b
+            %b or %b
+                %n = %n
+                    previous-pole  
+                    3
+                %n = %n
+                    pole  
+                    3
+        %n &lt; %n
+            disk-id  
+    set pole to %n
+        3
+set previous-pole to %n
+    pole-at-start  
+if %b  
+    %n = %n
+        previous-pole  
+        1
+if %b  
+    %n = %n
+        previous-pole  
+        2
+if %b  
+    %n = %n
+        previous-pole  
+        3
+if %b  
+    %n = %n
+        pole  
+        1
+    set height to %n
+if %b  
+    %n = %n
+        pole  
+        2
+    set height to %n
+if %b  
+    %n = %n
+        pole  
+        3
+    set height to %n
+</code></pre>
+
+<h1>============</h1>
+
+<h1>=== Script</h1>
+
+<h1>============</h1>
+
+<p>script:</p>
+
+<p>when &#8216;propose-next-disk&#8217;
+set am-on-top to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>set can-move to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>if %b</p>
+
+<pre><code>%b and %b
+    %n = %n
+        pole  
+        1
+    %n = %n
+        disk-id  
+set am-on-top to %n
+    1
+</code></pre>
+
+<p>if %b</p>
+
+<pre><code>%b and %b
+    %n = %n
+        pole  
+        2
+    %n = %n
+        disk-id  
+set am-on-top to %n
+    1
+</code></pre>
+
+<p>if %b</p>
+
+<pre><code>%b and %b
+    %n = %n
+        pole  
+        3
+    %n = %n
+        disk-id  
+set am-on-top to %n
+    1
+</code></pre>
+
+<p>if %b</p>
+
+<pre><code>%n &gt; %n
+    am-on-top  
+    0
+if %b  
+    %b and %b
+        not %b
+            %b or %b
+                %n = %n
+                    previous-pole  
+                    1
+                %n = %n
+                    pole  
+                    1
+        %n &lt; %n
+            disk-id  
+    set can-move to %n
+        1
+if %b  
+    %b and %b
+        not %b
+            %b or %b
+                %n = %n
+                    previous-pole  
+                    2
+                %n = %n
+                    pole  
+                    2
+        %n &lt; %n
+            disk-id  
+    set can-move to %n
+        2
+if %b  
+    %b and %b
+        not %b
+            %b or %b
+                %n = %n
+                    previous-pole  
+                    3
+                %n = %n
+                    pole  
+                    3
+        %n &lt; %n
+            disk-id  
+    set can-move to %n
+        3
+if %b  
+    %n &gt; %n
+        can-move  
+        0
+</code></pre>
+
+<h1>============</h1>
+
+<h1>=== Script</h1>
+
+<h1>============</h1>
+
+<p>script:</p>
+
+<p>when &#8216;initialize&#8217;
+set disk-id to %n</p>
+
+<pre><code>1
+</code></pre>
+
+<p>set pole to %n</p>
+
+<pre><code>1
+</code></pre>
+
+<p>set previous-pole to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>set can-move to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>set am-on-top to %n</p>
+
+<pre><code>0
+</code></pre>
+
+<p>set height to %n</p>
+
+<pre><code>%n + %n
+    %n - %n
+        base-disk  
+        disk-id  
+    1
+</code></pre>
+
+<p>[/sourcecode]</p>
+
+<h3>Vertical Compression</h3>
+
+<p>The format above has every block on its own line.  This is readable and informative (you can see the argument types) but is vertically expansive.  Assuming parentheses or some other paired delimiter are not used for anything else in names, we could replace the argument placeholders with parentheses like below.  This gives a more lisp-like feel, at least for the inner evaluations.  If you leave one or more placeholders off, they would come from the next lines in &#8216;missing&#8217; order, kind of like a macro.</p>
+
+<p>[sourcecode language=&#8221;python&#8221;]
+script:</p>
+
+<p>when &#8216;find-next-disk&#8217;
+set next-disk to (0)
+broadcast (propose-next-disk) and wait
+repeat until ((next-disk) > (0))</p>
+
+<pre><code>set potential-disk to (0)
+if (not ( (potential-disk) = (previous-moved-disk)) )
+    set next-disk to (potential-disk)
+</code></pre>
+
+<p>broadcast (move-next-disk) and wait</p>
+
+<p>[/sourcecode]</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-17T13:28:43-07:00" pubdate data-updated="true">Sep 17<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/scratch/'>Scratch</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/09/07/a-taste-of-scratch/" title="Previous Post: A Taste of Scratch">&laquo; A Taste of Scratch</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/09/19/scratchonflash/" title="Next Post: Scratch on Flash">Scratch on Flash &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+    <!--
+  <ul>
+      <li><a href="http://www.linkedin.com/in/markfussell/">Linked In</a></li>
+      <li><a href="http://github.com/markfussell/">Github</a></li>
+      <li><a href="http://palobots.org/">PaloBots</a></li>
+  </ul>
+  -->
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/11/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/19/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/17/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/07/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/';
+        var disqus_url = 'http://markfussell.github.com/blog/2008/09/17/scratch-textual-language/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

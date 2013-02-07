@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: RubyShoes | Polyglot]]></title>
+  <link href="http://markfussell.github.com/blog/categories/rubyshoes/atom.xml" rel="self"/>
+  <link href="http://markfussell.github.com/"/>
+  <updated>2013-02-06T19:00:21-08:00</updated>
+  <id>http://markfussell.github.com/</id>
+  <author>
+    <name><![CDATA[Mark Fussell]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
+    <updated>2008-09-02T09:46:40-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
+    <updated>2008-09-02T00:44:58-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi — With Graphics</h2>
+
+<p>To follow the flow of code progress within "A Taste of Smalltalk", we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to 'contain' yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark -- and again study how different languages work with the same problem.</p>
+
+<h3>Tower of Hanoi — With Graphics -- Flex</h3>
+
+<p>Given our Flex version is already in a graphics environment, and the model (TowerOfHanoi) is already aware of having to talk the View, the changes are relatively minimal to get things working.  We need to render the disks in the Application/View and we need to notify the view whenever the model changes.</p>
+
+<h4>Main Application</h4>
+
+<p>To add rendering in, we just create a render canvas area and then create the UIComponents (shapes) on each redraw.  Normally we would be more likely to animate a single set of disks (vs. destroying them and recreating them), which would be both better in performance and be <em>much cooler</em>, but this matches the RubyShoes version better.</p>
+
+<p>[sourcecode language="xml"]</p>
+
+<p>[/sourcecode]</p>
+
+<h4>AnimatedTowerOfHanoi</h4>
+
+<p>The AnimatedTower just needs to send out change events (via a simple callback vs. true event listeners that are in Flex).</p>
+
+<p>[sourcecode language="jscript"]
+package {</p>
+
+<p>public class AnimatedTowerOfHanoi extends ModeledTowerOfHanoi {</p>
+
+<pre><code>protected override function setupDisks() : void {
+    super.setupDisks();
+
+    my_view.noteChange();
+}
+
+public function getStacks() : Array {
+    return my_stacks;
+}
+
+protected override function moveDisk(fromPin : *, toPin : *) : void {
+    super.moveDisk(fromPin, toPin);
+
+    my_view.noteChange();
+}
+</code></pre>
+
+<p>}</p>
+
+<p>} //package
+[/sourcecode]</p>
+
+<h3>Super Easy...But doesn't work</h3>
+
+<p>Well, that was really easy... except it doesn't really work :-(  You can only see the final result of all the nice disks on the last stack.  None of the intermediary steps before this last rendering are shown at all.</p>
+
+<p>Clearly we are missing something... where is the "Sleep" equivalent?  If we could add a 'sleep' then everything would work right?  Unfortunately both "No" and "NO!".  When Flex/Flash are running user code, they are doing it between screen renderings and a bunch of other tasks Flash does.  So you can't just keep rendering things in the same thread (same stack) and have any of that be visible except the last version.  If you could 'sleep', you would just make Flash pause for no good reason.</p>
+
+<p>The solution is to do each rendering on some kind of event.  Something simple like do the next step of the hanoi algorithm every 0.3 seconds.  That sounds easy but: (1) Flex doesn't have continuations either so you can't just 'pause' the stack and (2) The current hanoi algorithm is completely stack based.</p>
+
+<p>Fortunately the fix is both "not that hard" and also happens to be the next chapter of "A Taste of Smalltalk" called "An Algorithm for the Rest of Us".  So for the moment, lets punt on getting the animation in Flex right until we get to the next part.</p>
+
+<h3>What's Next</h3>
+
+<p>A new non-stack algorithm.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 2)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-2/"/>
+    <updated>2008-09-01T21:12:08-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/01/a-taste-of-flex-part-2</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi -- Procedural With Input</h2>
+
+<p>The second example from "A Taste of Smalltalk" is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.    Fortunately Flex includes a Windowing system too, and can easily open up dialogs.  Opening up a Dialog might match the Smalltalk example the best, but given Flex is already running within a Window, opening up an extra dialog is a bit artificial.  Instead we can just add an input field for the value and a button to kick off the Hanoi.</p>
+
+<h3>Tower of Hanoi -- Procedural With Input -- Flex</h3>
+
+<p>[sourcecode language="xml"]</p>
+
+<p>[/sourcecode]</p>
+
+<p>To replace the dialog (in Smalltalk) or the command line request (in Ruby), we just create a horizontal row of a question label, an input field, and a Do It button.  Whenever a user clicks Do It, it takes the current value of the field and runs the Hanoi algorithm.</p>
+
+<p>This is both pleasingly simply and also has the added benefit that we produced an interactive tool: you can just keep typing new numbers into it and it will give you new results.</p>
+
+<h2>Comments</h2>
+
+<p>Flex is highly capable with user input and interactivity.  It has a cleaner / simpler UI model than Smalltalk (IMO), which is good given we have had about 30 years of working with UIs to take things forward.  Compared to Ruby, Flex is as easy as RubyShoes for simple things like this example.</p>
+
+<h3>Where Next?</h3>
+
+<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 5)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/"/>
+    <updated>2008-08-29T16:42:30-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi — With Graphics</h2>
+
+<p>To follow the flow of code progress within "A Taste of Smalltalk", we next need to include a graphical representation of the disks and their movement between the poles.  As mentioned previously, converting this part to Ruby has a problem: Ruby doesn't include graphic capabilities.  So we have to pick an extension or add-on to Ruby that will enable us to hook into the graphics system.</p>
+
+<p>Because it seems the easiest to work with, I chose 'Shoes' (<a href="http://code.whytheluckystiff.net/shoes/">http://code.whytheluckystiff.net/shoes/</a>).  The installation of Shoes is very simple and you just run your 'app' inside Shoes application world, which includes Ruby itself, the graphic capabilities, and the UI framework.</p>
+
+<p>Shoes seems simple and clean, the only problem is it doesn't work within an IDE, so I lost a bit of tooling while doing this.  With the final running program, this isn't a problem but it can be painful if you are learning, tweaking, or studying things.  So because this could be painful to others as well, I made the main code base able to run inside a normal irb, and in that case it just logs to the console like it always has been.</p>
+
+<p>The main new class is AnimatedTowerOfHanoi, which is really just a notifying version of ModeledTowerOfHanoi.  This pass also has some cleanup of the previous code of ModeledTowerOfHanoi.  So I include all three classes below</p>
+
+<h3>The New Classes</h3>
+
+<h4>TowerOfHanoi</h4>
+
+<p>This is still the same as the original from 'Part 2'</p>
+
+<p>[sourcecode language='ruby']</p>
+
+<h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
+
+<h1>Tower of Hanoi -- Variation 5</h1>
+
+<h1>TowerOfHanoi</h1>
+
+<p>#</p>
+
+<h1>@stacks is an Array of DiskHolders (pins)</h1>
+
+<p>class TowerOfHanoi &lt; Object
+  #Tower of Hanoi program.
+  def hanoi</p>
+
+<pre><code># Do the tower
+puts "How tall a tower?"
+print "&gt;"
+height = 5 #gets.to_i
+
+@stacks = Array.new(3).collect { Array.new }
+firstStack = @stacks[0]
+1.upto(height) {|i| firstStack.unshift("Disk-#{(?A+i-1).chr}") }
+
+move_tower(height,1,3,2)
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Recursive procedure to move the disk at a height
+  # from one pin to another pin using a third pin
+  def move_tower(height, fromPin, toPin, usingPin)</p>
+
+<pre><code>if (height&gt;0) then
+  move_tower(height-1, fromPin, usingPin, toPin)
+  move_disk(fromPin, toPin)
+  move_tower(height-1, usingPin, toPin, fromPin)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Actually move the disk between the pins
+  def move_disk(fromPin,toPin)</p>
+
+<pre><code>disk = (@stacks[fromPin-1]).pop
+@stacks[toPin-1].push(disk)
+print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+[/sourcecode]</p>
+
+<h4>ModeledTowerOfHanoi</h4>
+
+<p>The ModeledTowerOfHanoi has been cleaned up a little to make subclassing easier and just because it was the right thing to do.  Specifically,</p>
+
+<ul>
+<li><p>There was a fix to the 'move' algorithm, so we tell the disk onto which disk it is moving</p></li>
+<li><p>Some common methods are pulled out</p></li>
+<li><p>Disks are now responsible for describing the move</p></li>
+</ul>
+
+
+<p>[sourcecode language='ruby']</p>
+
+<h1>A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</h1>
+
+<h1>but it actually keeps track of the state of the Disks</h1>
+
+<h1>with actual objects.  This makes it suitable for</h1>
+
+<h1>model-based behavior (say tracking moves, animation or</h1>
+
+<h1>other event listening) on top of those Disks</h1>
+
+<p>class ModeledTowerOfHanoi &lt; TowerOfHanoi
+  def hanoi</p>
+
+<pre><code>ask_for_height
+
+setup_disks
+
+puts "Start"
+print_stacks
+
+puts
+move_tower(@height,1,3,2)
+puts
+
+puts "Result"
+print_stacks
+</code></pre>
+
+<p>  end</p>
+
+<p>  def print_stacks</p>
+
+<pre><code>@stacks.each do | eachStack |
+  puts "  "
+  puts eachStack.reverse
+  puts "  "
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def ask_for_height</p>
+
+<pre><code>puts "How tall a tower?"
+print "&gt;"
+height = 5 #gets.to_i
+puts ""
+@height = height
+</code></pre>
+
+<p>  end</p>
+
+<p>  def setup_disks</p>
+
+<pre><code>HanoiDisk.set_towers(self)
+
+@stacks = Array.new(3).collect { Array.new }
+firstStack = @stacks[0]
+1.upto(@height) do |size|
+  disk = createDisk.initWidth_pole(size,1)
+  firstStack.unshift(disk)
+end
+
+@mockDisks = Array.new(3)
+1.upto(3) do |i|
+  @mockDisks[i-1]=(createDisk.initWidth_pole(1000,i))
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def createDisk()</p>
+
+<pre><code>return HanoiDisk.new
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_disk(fromPin, toPin)</p>
+
+<pre><code>supportDisk = if (@stacks[toPin-1].empty?) then
+  @mockDisks[toPin-1]
+else
+  @stacks[toPin-1].last
+end
+
+disk = @stacks[fromPin-1].pop
+@stacks[toPin-1].push(disk)
+disk.move_upon(supportDisk)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def log(outString)</p>
+
+<pre><code>print outString, "\n"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class HanoiDisk
+  attr_reader :name
+  attr_reader :pole
+  attr_reader :width</p>
+
+<p>  def self.set_towers(owner)</p>
+
+<pre><code>@@the_towers = owner
+@@the_thickness = 14
+@@the_diskgap = 2
+</code></pre>
+
+<p>  end</p>
+
+<p>  def initWidth_pole(width, pole)</p>
+
+<pre><code>@pole = pole
+@width = width
+
+if (width &lt; 1000) then
+  @name="Disk-#{(?A+width-1).chr}"
+else
+  @name="Base-#{pole}"
+end
+
+@move_count = 0
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def to_s</p>
+
+<pre><code>return "#{@name}(#{@pole},#{@move_count})" #{@@the_towers}
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_upon(destination)</p>
+
+<pre><code>@@the_towers.log( "#{self} moved #{@pole.to_s} -&gt; #{destination.pole.to_s}  (#{destination.to_s})" )
+
+@pole = destination.pole
+@move_count += 1
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>[/sourcecode]</p>
+
+<h4>AnimatedTowerOfHanoi</h4>
+
+<p>Now we are finally to the new "animated" class.  The main changes for this class are to enable it to talk to an owning 'application' if it exists and also it starts hooking into the Shoes code.  For convenience, I made the behavior of the class branch based on whether that '@app' exists.  The final change is that AnimatedHanoiDisk does a sleep so we can see the animation.  This affects both console and graphic behavior.</p>
+
+<p>[sourcecode language='ruby']
+class AnimatedTowerOfHanoi &lt; ModeledTowerOfHanoi
+  attr_reader :stacks</p>
+
+<p>  def initApp(shoesApp)</p>
+
+<pre><code>@app = shoesApp
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def setup_disks</p>
+
+<pre><code>super
+
+@app.noteChange if @app
+</code></pre>
+
+<p>  end</p>
+
+<p>  def createDisk()</p>
+
+<pre><code>return AnimatedHanoiDisk.new
+</code></pre>
+
+<p>  end</p>
+
+<p>  def ask_for_height</p>
+
+<pre><code>@height = 5
+return nil unless @app
+answer ask("How Tall A Tower?")
+</code></pre>
+
+<p>  end</p>
+
+<p>  def answer(v)</p>
+
+<pre><code>@height = v.to_i
+@app.answer(v)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def log(outString)</p>
+
+<pre><code>super unless @app
+@app.appendLog(outString) if @app
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_disk(fromPin, toPin)</p>
+
+<pre><code>super
+
+@app.noteChange if @app
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class AnimatedHanoiDisk &lt; HanoiDisk
+  def move_upon(destination)</p>
+
+<pre><code>super(destination)
+
+sleep 0.3
+#@@the_towers.log("Foo")
+#@@the_towers.draw_board
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+[/sourcecode]</p>
+
+<h3>Running via 'irb'</h3>
+
+<p>You can test the above code by running it in the normal Ruby console
+[sourcecode language='ruby']
+AnimatedTowerOfHanoi.new.hanoi
+[/sourcecode]</p>
+
+<h3>Putting on the Shoes</h3>
+
+<p>If you have Shoes running successfully, you can combine the above code with a Shoes app which visualizes the state of the towers.  The Shoes code is:
+[sourcecode language='ruby']
+Shoes.app :width => 520, :height => 600, :resizable => false do</p>
+
+<p>  def answer(v)</p>
+
+<pre><code>@answer.replace "Doing a #{v} story Hanoi"
+</code></pre>
+
+<p>  end</p>
+
+<p>  def appendLog(outString)</p>
+
+<pre><code>@log.append { para outString }
+</code></pre>
+
+<p>  end</p>
+
+<p>  def noteChange</p>
+
+<pre><code>redrawStacks
+</code></pre>
+
+<p>  end</p>
+
+<p>  #redraw the stacks by simply clearing the area and drawing them again
+  def redrawStacks</p>
+
+<pre><code>@render_area.clear do
+  @towerOfHanoi.stacks.each_with_index do |eachStack,i|
+    poleCenterX = i*100 + 50
+
+    eachStack.each_with_index do |eachDisk,j|
+      height = 180 - (j * 15)
+      width = eachDisk.width * 10
+
+      fill "#A00"
+      rect(poleCenterX - width/2 , height, width, 10)
+      j += 1
+    end
+    i += 1
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  #=============================================</p>
+
+<p>  @hanoiArea = stack do</p>
+
+<pre><code>@answer = para "Answers appear here"
+
+@render_area = flow :width =&gt; 300, :height =&gt; 200 do
+  background "#999"
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  @log = stack</p>
+
+<p>  @towerOfHanoi = AnimatedTowerOfHanoi.new.initApp(self)
+  Thread.new do</p>
+
+<pre><code>@towerOfHanoi.hanoi
+</code></pre>
+
+<p>  end
+end
+[/sourcecode]</p>
+
+<p>The Shoes app has the main drawing area at the top and then a logging area beneath it.  The HanoiStacks are cleared and redrawn any time they change.  The original Smalltalk code used deltas (disks were moved individually) but that didn't seem critical to match, and partially the code is relying on being on a black-and-white screen.</p>
+
+<h3>Comments</h3>
+
+<p>Not having a standard Graphics capability is not surprising or a problem for a scripting language (limited in context of usage) but is quite a problem for a language that wants to be mainstream.  There is a similar problem on the server-side with a standard (off-screen) image processing.  Shoes and RMagick and the like are trying to fill these holes but Ruby has been around for a long time for these aspects to not be addressed and part of the standard.</p>
+
+<p>In terms of the resulting code with Shoes, the Ruby version is certainly nice and clean.</p>
+
+<h3>Where Next?</h3>
+
+<p>The last code-changing chapter deals with making the Algorithm a little more human-natural.  If people are interested, I may do that change too.  But comparatively it is a pretty minor change and does not bring out any interesting language aspects.</p>
+
+<h3></h3>
+]]></content>
+  </entry>
+  
+</feed>

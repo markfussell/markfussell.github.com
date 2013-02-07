@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | Polyglot]]></title>
+  <link href="http://markfussell.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://markfussell.github.com/"/>
+  <updated>2013-02-06T19:00:21-08:00</updated>
+  <id>http://markfussell.github.com/</id>
+  <author>
+    <name><![CDATA[Mark Fussell]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Scratch]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch/"/>
+    <updated>2008-09-07T21:15:13-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/07/a-taste-of-scratch</id>
+    <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
+
+<p>You can find the original book here:</p>
+
+<ul>
+<li><p><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></p></li>
+<li><p><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></p></li>
+</ul>
+
+
+<p>Given the original book is available online, I will not repeat it.</p>
+
+<p>You can both see the example in Scratch and get tools and background on the Scratch project at:
+<a href="http://scratch.mit.edu/projects/parseroo/260752">Tower of Hanoi</a>.  The scratch tools and the community web site are free.</p>
+
+<h2>Tower of Hanoi -- Object-Oriented (V4) -- Scratch</h2>
+
+<p>The standard pattern for this series is to translate as closely as possible each of the chapters in "A Taste of Smalltalk" to the new target language.  This worked reasonably well for Ruby and Flex -- the Smalltalk was translated and interesting features of the language came out with each translation.  But this approach utterly fails for Scratch because the first two 'models' of the Hanoi algorithm are completely dependent on recursion, which Scratch does not have.  Even the third, stack-less version of Hanoi requires inter-object calls that Scratch can not handle.  So <em>none</em> of the algorithms within "A Taste of Smalltalk" can be directly translated to Scratch.</p>
+
+<p>This might appear to be a limitation of the language (and in some ways it certainly is), but somewhat impressively, I believe thinking about this problem, with the restrictions of Scratch, actually leads to a better design solution than any of the ones in the book.  It is certainly a very object-oriented solution, where the 'Hanoi Disks' have a lot of intelligence and are made as responsible as possible for figuring out what to do next.  This version of the algorithm, I will call 'V4'.</p>
+
+<h3>The V4 Algorithm</h3>
+
+<p>The V4 Algorithm works as follows:</p>
+
+<ol>
+<li><p>Ask each of the disks whether they have a legal move</p></li>
+<li><p>Decide which of the disks with a legal move should move</p></li>
+<li><p>Tell that disk to move</p></li>
+</ol>
+
+
+<p>The interesting parts of this algorithm are that:</p>
+
+<ul>
+<li><p>Step 1 can be completely parallel.  You can ask 1 to 1000000 disks at the same moment whether they have a legal move.</p></li>
+<li><p>Step 2 is really trivial: just don't move the same disk you did last time</p></li>
+</ul>
+
+
+<p>Compared to the V3 version, the V4 version puts more intelligence in the disks (and less in the tower), couples them less, and supports mass parallel-execution.  The parallel-execution is not useful in Hanoi, but the concepts behind it are definitely very interesting -- and Scratch's restrictions forces this kind of 'sophisticated' approach [or at least it forced me down this path to maintain code-sanity and maintainability].</p>
+
+<h3>The main Scratch Player view</h3>
+
+<p>Scratch is designed to be an easy-to-learn language and environment.  Its heritage is along the lines of the spirit of Logo: there is a Stage drawing area and a default Sprite (a Cat) that you interact with for animation and drawing.  But this Stage can also show the variables involved with the program.  So it produces a nice overview of the whole Hanoi program:</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d3.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d3.png" alt="" /></a></p>
+
+<p>Not all application variables are shown, but those shown are the most important ones.  The details of the variables will be gone over later, but some are self-evident:</p>
+
+<ul>
+<li><p>num-disks: The number of disks (the height) of the Tower of Hanoi</p></li>
+<li><p>pole-#: A List (treated as a Stack) of Disk identifiers, where '6' = a base (immovable) disk</p></li>
+<li><p>movable-disks: A List of disks that can be moved.  This is transitory for each iteration of the algorithm.</p></li>
+</ul>
+
+
+<p>If you click the 'Green Flag', the program executes and on pretty much every step the display is updated, so you can see disks being proposed and moved (in both animation and variables).  Independently of Scratch having a graphical programming language, it has a very nice graphical development and run environment.</p>
+
+<h3>Application Variables</h3>
+
+<p>The application variables are shown below.  All of these are 'Globals' and can be accessed by any object.  Those variables colored in red are lists and those colored in orange are numbers/strings/etc.  All the variables that have check-marks next to them are being displayed on top of the Stage above.</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d1.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d1.png" alt="" /></a></p>
+
+<p>There is no such thing as a 'local' variable (private to a block of code), so it might be useful to use a naming prefix to differentiate between 'local' variables (like 'potential-disk') from instance variables and even 'parameter' variables that go with a broadcast ('next-disk').  But in-the-small, that is not particularly important.</p>
+
+<h3>Application Initialization</h3>
+
+<p>Now that we have an overview of the application and its global state variables, we can start working through the algorithm itself.  The main 'Object' in Scratch is the Stage, and I made this own the outer-most aspects of the Hanoi application and algorithm.  The first activity is 'Initialization', which is triggered by the 'Green Flag' [my particular choice].</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d2.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d2.png" alt="" /></a></p>
+
+<p>Because this is the first example of Scratch, I will walk through the sections of the code and what they do with a few visual marker numbers (see the right column of blue).</p>
+
+<p>When the Stage gets the Green Flag event:</p>
+
+<ol>
+<li><p>It sets the number of disks to '5'.  This is hard-coded because Scratch is currently unable to clone Sprites (objects) on the fly, so we have to precreate all the needed sprites.  In any case, this is simple enough to change if someone wants.  The additional variable 'base-disk' is defined so it can be used below.  'base-disk' is just a local variable and is never used again. After this, we just clear the lists so they are 'clean'</p></li>
+<li><p>Next we add the 'base-disk' to the bottom of each pole.  The base-disks are invisible and immovable (no matching Sprite/Object), so this is a very clean way of making the algorithm simpler later on.</p></li>
+<li><p>Next we add the disks to 'pole-1' using what should be another local variable.  Later I reuse this variable [something I don't like doing] just because we otherwise have a clutter of variables.</p></li>
+<li><p>Next we send out a broadcast to <em>all objects</em> telling them to initialize themselves.  There is no direct message send to an object, so it is up to the other objects to know what to respond to and what to ignore.  The broadcast waits until all object's acknowledge they are finished.</p></li>
+<li><p>Finally, we go into the main loop.  Until all the disks have moved to a new pole, we will execute 'find-next-disk' which both finds and moves the next disk.  When we are done, we make a noise :-)</p></li>
+</ol>
+
+
+<h3>Find and Move Next Disk</h3>
+
+<p>The main part of the algorithm has some nice aspects and some nastier aspects.  The nice side: We simply send out a broadcast of 'propose-next-disk', which all Disks should respond to by adding themselves to 'movable-disks' if they have a desire to move.  This will only ever be one or two movable disks at any given time.  One of those disks may have been moved immediately previously, so we skip over it.  The selected disk is put into 'next-disk' and another broadcast goes out "move-next-disk".  The second broadcast is not really a broadcast.  It is a message send to 'next-disk', but it is only by the disks themselves ignoring a broadcast that isn't to them that it becomes a message send.  So that is slightly nasty.</p>
+
+<p>In any case, the code is pretty clean and concise, and this ends the code on the Stage itself.  The rest of the algorithm is on the Disks.</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d4.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d4.png" alt="" /></a></p>
+
+<h3>Disks Variables</h3>
+
+<p>The Disks have access to all the Stage global variables.  In addition, each Sprite can have its own instance-private variables, which are either true instance variables ('disk-id', 'pole', 'previous-pole') or would be local variables if Scratch supported them ('can-move', 'am-on-top', etc.)</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d5.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d5.png" alt="" /></a></p>
+
+<p>Instance variables can be displayed on the Stage also, but this becomes overwhelming if all instances are turned on.</p>
+
+<h3>Disk Initialization</h3>
+
+<p>Upon receiving the 'initialize' broadcast, all Disks set their 'disk-id' (which must be different for each disk), and then set themselves up properly in size, color, and move onto the correct pole.</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d6.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d6.png" alt="" /></a></p>
+
+<h3>Propose Next Disk</h3>
+
+<p>Scratch has certain deficiencies that rear their heads badly in the Hanoi code.  The concept of Propose Next Disk is as simple as:</p>
+
+<pre><code>If 
+   * I am on-top of a pole 
+   * And I can move to a new pole (with a bigger disk on its top) 
+   * And that new pole isn't the pole I just came from
+Then
+   * Add myself to the movable-disks list
+</code></pre>
+
+<p>But because Scratch (or my knowledge of Scratch) is deficient in dynamic referencing of variables, the 'propose-next-disk' code needs to expand all the potential pole values from 1 through 3.  Fortunately this is only a three-valued expansion, but the code looks quite nasty for being as simple as the above.</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d7.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d7.png" alt="" /></a></p>
+
+<h3>Move Next Disk</h3>
+
+<p>The Move Next Disk code has (1) the filter on the broadcast (in this case by 'disk-id') to make it only go to a single object and (2) a ton of noise due to 'pole' expansion mentioned above.  But the code gets the job done and it looks fairly colorful :-)</p>
+
+<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d8.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d8.png" alt="" /></a></p>
+
+<h2>Conclusions</h2>
+
+<p>I was impressed that Scratch was able to get Tower of Hanoi to run properly.  Scratch has actively avoided certain features that the Scratch team finds are difficult to understand.  But the toolbox of event processing, broadcasts, lists, and Sprites (objects with Stage presence :-) ) are rich enough that a pre-sized Hanoi can be created and will run correctly.  A dynamic Hanoi would require Sprite cloning, which is not in Scratch 1.3.</p>
+
+<p>The nastiest aspect to Scratch was its inability to dynamically reference the pole lists.  And a missing feature to Scratch are simple procedures (for example, the 'glide' code is repeated twice).  The missing recursion is clearly another missing feature, but in this case getting rid of that recursion made the algorithm somewhat nicer.</p>
+
+<p>On the whole, Scratch is a very inspiring visual language and development environment, and it did a good job with this 'offbeat' test.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure/"/>
+    <updated>2008-09-03T18:20:40-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/03/ruby-naming-convention-failure</id>
+    <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
+
+<p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
+
+<ol>
+<li><p>Mark-Fussell (or mark-fussell)</p></li>
+<li><p>MarkFussell</p></li>
+<li><p>Mark_Fussell (or mark_fussell)</p></li>
+</ol>
+
+
+<p>where the underscore goes third mostly because it can be hard to see [URLs and other things put underlines <em>on top</em> of that underline like thus <em>Mark_Fussell</em>], is harder to type, and it over spaces things visually.  So I (and lots of people actually) believe programming languages <em>should</em> use hyphens, but because a bunch of programming languages want 'a-b' to be interpreted as 'a - b', they cop out and prevent the hyphen from being part of a name.  Ruby has that same cop out, so we can't use hyphens in Ruby :-(</p>
+
+<h2>Missing Phrase Delimiter</h2>
+
+<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a 'word' and a 'phrase' delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="http://www.chimu.com/publications/javaStandards2/part0006.html#E11E13">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
+
+<p>For method naming, the quick summary is:</p>
+
+<ul>
+<li><p>When naming a method</p></li>
+<li><p>Start with a verb phrase (what you are asking the object to do)</p></li>
+<li><p>Put an underscore where a parameter is expected (up to the first two at least)</p></li>
+<li><p>Describe what that parameter is for right before the underscore, if it is not obvious from the verb</p></li>
+</ul>
+
+
+<p>this way, the reader of the code can immediately know how the parameters (in the parentheses) map onto their role in the method itself.  And the whole method name becomes a readable phrase... not just a weird long word strung together (by whatever convention you want).</p>
+
+<h3>Array::insert</h3>
+
+<p>So an example is:</p>
+
+<pre><code>Array::insert(index, obj)
+</code></pre>
+
+<p>This is a method name that is ambiguous in usage:</p>
+
+<pre><code>anArray.insert(3,2)
+</code></pre>
+
+<p>It is not clear what the code is going to do and I would actually intuitively expect it to be the other way around (except I know about getting burned so would then have to look it up).</p>
+
+<p>A better name would be:</p>
+
+<pre><code>Array::insert_at(obj,index)
+</code></pre>
+
+<p>so reading:</p>
+
+<pre><code>anArray.insert_at(3,2)
+</code></pre>
+
+<p>is clearly inserting the '3' not inserting the '2'.</p>
+
+<p>Or if people like the order the other way:</p>
+
+<pre><code>   Array::insertAt_value(index,obj)
+
+   anArray.insertAt_value(2,3)
+</code></pre>
+
+<p>And in the Ruby case where any number of values could follow, we should have:</p>
+
+<pre><code>   Array::insertAt_values(index,obj...)
+
+   anArray.insertAt_values(2,3)
+   anArray.insertAt_values(2,5,3)
+</code></pre>
+
+<p>and everything reads naturally something like this "anArray insertAt: 2 values: 5 and 3".</p>
+
+<h3>forPolesOtherThan_do(disk)</h3>
+
+<p>Related to a recent post on the Tower of Hanoi, I believe the resulting choice of:</p>
+
+<pre><code>forPolesOtherThan_do(disk) [block]
+</code></pre>
+
+<p>is much clearer in both communicating what the passed in 'disk' is for and that it requires a block as a second (semi-hidden) argument than if you have only a word delimiter and have any of:</p>
+
+<pre><code>   for_poles_other_than
+   for_poles_other_than_do
+   forPolesOtherThan
+   forPolesOtherThanDo
+</code></pre>
+
+<h2>What to do?</h2>
+
+<p>Given Ruby wants to use underscore to separate words... I can't separate the phrases at all.  I tried to wrestle my mind around using something different, but Ruby surprisingly (for a modern and internationally-created) language does not have any other punctuation that is allowed and could plausibly work.  So maybe use two underscores for the phrase point?  That seems seriously ugly and also two underscores don't really look different from one underscore:</p>
+
+<pre><code>   insert_at__values
+   for_poles_other_than__do
+</code></pre>
+
+<p>Using capitals for this purpose just comes off weird (plausible but weird):</p>
+
+<pre><code>   insert_at_Values
+   for_poles_other_than_Do
+</code></pre>
+
+<p>It is also exactly the opposite of Smalltalk, and I try to be able to work across languages without having to flip upside down all the time.  Same regarding Java and Flex (two other languages I actively work in).  For reference, the Smalltalk version of these examples are:</p>
+
+<pre><code>   insertAt: values:
+   forPolesOtherThan: do:
+</code></pre>
+
+<h3>Arguments about non-English speakers</h3>
+
+<p>One argument I (so far) find specious is that using capitals prevents non-native speakers from understanding the code.  I could maybe believe this is true in rare cases -- but (1) nobody has a study referenced that shows that, and (2) if that were true, someone simply has to learn the language better.  You can't argue that some people's inability to use a language is a reason to not use a feature of that language.  That would argue that almost all syntax in languages should be stripped, and few languages (and especially computer languages) can survive that.  Actually only Lisp survives that (give me just a pair of delimiters, and I can rule the world :-) )</p>
+
+<p>Also given Ruby uses CamelCase for classes, you already have a requirement to understand this kind of syntax aspect.  So Ruby is presupposing the reader can read the syntax it is arguing the reader can't read.</p>
+
+<h3>The standard, in different languages</h3>
+
+<p>A more interesting question is whether the "word and phrase standard" survives human-language change.  Obviously the standard does not work "as written" if the language used is not a capital-capable language.  And an obviously important language for that test is written Chinese (traditional or simplified).  But actually the 'underscores for phrases and parameters' degrades with Chinese better than 'underscores for words'.  Chinese doesn't require spaces for words to be apparent, and does not use spaces at all for that purpose (normally) -- it is obvious where each word starts and ends without spacing because a word is only a couple characters long.  So given words are apparent, the only thing left is to have phrases.  Although unnatural to use underscores for phrases and parameters, it at least seems plausibly useful.</p>
+
+<p>Admittedly I have not tried in depth to program in Chinese (Smalltalk/Agents by QKS had the ability way back but I only played with it a little) and have not found a study on it...  so I can't say for sure whether the underscore for parameters would make sense.  But it is at least plausible it would make sense and it would make much more sense than underscore to separate (already separated) words.</p>
+
+<p>Another plausible language to test against would be Hindi, but (I believe) most writers of Hindi in the computer field are also excellent English writers, so that is harder to argue for.</p>
+
+<h3>Could be hyphens</h3>
+
+<p>Note that the convention is totally happy with using 'hyphens' as word separators if the environment supports it.</p>
+
+<pre><code>   insert-at_values
+   for-poles-other-than_do
+</code></pre>
+
+<h2>Summary: Ruby has it wrong -- We need CamelWords or hyphen-words</h2>
+
+<p>So I believe Ruby has it wrong and am very unhappy a modern language started 20 years after Smalltalk and several years after Dylan would get this kind of thing wrong.  And I recommend moving the Ruby standard to the CamelWord_UnderPhrase standard, or allowing the hyphen and use the hyphen-word_under-phrase standard.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 7)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7/"/>
+    <updated>2008-09-02T19:28:10-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-7</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6/"/>
+    <updated>2008-09-02T19:18:13-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-ruby-part-6</id>
+    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
+
+<p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is 'true' as an algorithm, but comes off as a bit unnatural for humans.</p>
+
+<p>But it also has a problem in that the algorithm can not be 'suspended' in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  Although Ruby is multi-threaded and running two threads works in RubyShoes, Rails does not work either with a stateful server (and multiple threads) or with continuations.  At the end of each controller dispatch the session or the database has to have persisted all state.  So we need to do something like formalizing the state of the Disks and Towers to make the Tower of Hanoi work with Rails.</p>
+
+<p>Also, the Smalltalk code in this section was among the most 'closure-oriented', so this helps show how that maps to Ruby.</p>
+
+<h3>You aren't capitalizing right?</h3>
+
+<p>Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article <a href="ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
+
+<ul>
+<li><p>I use CamelCase for combining words into a 'part' of a method name or variable name</p></li>
+<li><p>I use an underscore as a placeholder for the parameters of the method</p></li>
+<li><p>I use an underscore to break up a phrase into logical parts</p></li>
+</ul>
+
+
+<p>If Ruby supported some other word delimiter than underscore (say hyphen "-" or ":"), I would be agnostic to dropping the CamelCase, but without that second word delimiter, dropping CamelCase is a losing proposition in expressiveness.  In a team setting we might have to discuss this, but in this case this is my code alone... and my standard actually makes it easier to convert to-from Smalltalk, Ruby, Flex, Java, etc.  The standard works cleanly with all of them.</p>
+
+<h3>Tower...</h3>
+
+<p>To migrate to the Rules version of the HanoiTower, it is easiest to start with the Disks themselves.</p>
+
+<h4>RulesHanoiDisk</h4>
+
+<p>A Rules based HanoiDisk just needs to be able to say "Can I move somewhere" and "If so, where".  It does this in collaboration with the Tower.  "@tower" is now an instance variable that every Disk has set when it is created.  By using an instance variable, it is cleaner than using class variables (we can have multiple towers at the same time) and it works under Ruby serialization/marshalling.</p>
+
+<p>[sourcecode language="ruby"]
+class RulesHanoiDisk &lt; AnimatedHanoiDisk
+  def hasLegalMove()</p>
+
+<pre><code>@towers.forPolesOtherThan_do(self) do | eachTopDisk |
+  if (eachTopDisk.width  &gt; self.width) then return true end
+end
+return false
+</code></pre>
+
+<p>  end</p>
+
+<p>  def bestMove()</p>
+
+<pre><code>@towers.forPolesOtherThan_do(self) do | eachTopDisk |
+  if ( (eachTopDisk.width &gt; self.width) &amp;&amp; (eachTopDisk.pole != @previousPole) ) then return eachTopDisk end
+end
+return nil
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_upon(destination)</p>
+
+<pre><code>@previousPole = @pole
+
+super(destination)
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+[/sourcecode]</p>
+
+<p>Among the interesting things with the new RulesHanoiDisk is the extensive use of Blocks.  By using Blocks, we can iterate over the collection of stacks without creating new collections.  The Disk and the Tower collaborate to create custom iterators with minimal code.  See RulesTowerOfHanoi for the example.</p>
+
+<h4>RulesTowerOfHanoi</h4>
+
+<p>[sourcecode language="ruby"]
+class RulesTowerOfHanoi &lt; AnimatedTowerOfHanoi
+  def initHeight(height)</p>
+
+<pre><code>@height = height
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_tower(height, fromPin, toPin, usingPin)</p>
+
+<pre><code>while (!doNextMove_IsDone()) do end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def createDisk()</p>
+
+<pre><code>result = RulesHanoiDisk.new
+result.setupTowers(self)
+
+return result
+</code></pre>
+
+<p>  end</p>
+
+<p>  def doNextMove_IsDone()</p>
+
+<pre><code>@currentDisk = decide()
+
+@stacks[@currentDisk.pole-1].pop()
+@stacks[@destinationDisk.pole-1].push(@currentDisk)
+@currentDisk.move_upon(@destinationDisk)
+
+@oldDisk = @currentDisk
+
+@app.noteChange if @app
+
+return isAllOnOneTower()
+</code></pre>
+
+<p>  end</p>
+
+<p>  def isAllOnOneTower()</p>
+
+<pre><code>foundStack = @stacks.detect { |eachStack|  eachStack.size == @height }
+return foundStack != nil
+</code></pre>
+
+<p>  end</p>
+
+<p>  def forTopsOtherThan_do(disk)</p>
+
+<pre><code>@stacks.each do | eachStack |
+  if (eachStack.empty?) then next end
+
+  topDisk = eachStack.last
+  if (topDisk == disk) then next end
+
+  yield topDisk
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def forPolesOtherThan_do(disk)</p>
+
+<pre><code>@stacks.each_with_index do | eachStack, i |
+  if (i == disk.pole-1) then next end;
+
+  topDisk = if (eachStack.empty?) then @mockDisks[i] else eachStack.last end;
+
+  yield topDisk
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def decide</p>
+
+<pre><code>forTopsOtherThan_do(@oldDisk) do | eachDisk |
+  if (eachDisk.hasLegalMove) then
+    @destinationDisk = eachDisk.bestMove
+
+    return eachDisk
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>[/sourcecode]</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
+    <link href="http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
+    <updated>2008-09-02T09:46:40-07:00</updated>
+    <id>http://markfussell.github.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Taste of Ruby (Part 5) - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi — With Graphics To follow the flow of code progress within &#8220;A &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Wants a cracker</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Taste of Ruby (Part 5)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-29T16:42:30-07:00" pubdate data-updated="true">Aug 29<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
+
+<h2>Tower of Hanoi — With Graphics</h2>
+
+<p>To follow the flow of code progress within &#8220;A Taste of Smalltalk&#8221;, we next need to include a graphical representation of the disks and their movement between the poles.  As mentioned previously, converting this part to Ruby has a problem: Ruby doesn&#8217;t include graphic capabilities.  So we have to pick an extension or add-on to Ruby that will enable us to hook into the graphics system.</p>
+
+<p>Because it seems the easiest to work with, I chose &#8216;Shoes&#8217; (<a href="http://code.whytheluckystiff.net/shoes/">http://code.whytheluckystiff.net/shoes/</a>).  The installation of Shoes is very simple and you just run your &#8216;app&#8217; inside Shoes application world, which includes Ruby itself, the graphic capabilities, and the UI framework.</p>
+
+<p>Shoes seems simple and clean, the only problem is it doesn&#8217;t work within an IDE, so I lost a bit of tooling while doing this.  With the final running program, this isn&#8217;t a problem but it can be painful if you are learning, tweaking, or studying things.  So because this could be painful to others as well, I made the main code base able to run inside a normal irb, and in that case it just logs to the console like it always has been.</p>
+
+<p>The main new class is AnimatedTowerOfHanoi, which is really just a notifying version of ModeledTowerOfHanoi.  This pass also has some cleanup of the previous code of ModeledTowerOfHanoi.  So I include all three classes below</p>
+
+<h3>The New Classes</h3>
+
+<h4>TowerOfHanoi</h4>
+
+<p>This is still the same as the original from &#8216;Part 2&#8217;</p>
+
+<p>[sourcecode language=&#8217;ruby&#8217;]</p>
+
+<h1>A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</h1>
+
+<h1>Tower of Hanoi &#8211; Variation 5</h1>
+
+<h1>TowerOfHanoi</h1>
+
+<p>#</p>
+
+<h1>@stacks is an Array of DiskHolders (pins)</h1>
+
+<p>class TowerOfHanoi &lt; Object
+  #Tower of Hanoi program.
+  def hanoi</p>
+
+<pre><code># Do the tower
+puts "How tall a tower?"
+print "&gt;"
+height = 5 #gets.to_i
+
+@stacks = Array.new(3).collect { Array.new }
+firstStack = @stacks[0]
+1.upto(height) {|i| firstStack.unshift("Disk-#{(?A+i-1).chr}") }
+
+move_tower(height,1,3,2)
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Recursive procedure to move the disk at a height
+  # from one pin to another pin using a third pin
+  def move_tower(height, fromPin, toPin, usingPin)</p>
+
+<pre><code>if (height&gt;0) then
+  move_tower(height-1, fromPin, usingPin, toPin)
+  move_disk(fromPin, toPin)
+  move_tower(height-1, usingPin, toPin, fromPin)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  # Actually move the disk between the pins
+  def move_disk(fromPin,toPin)</p>
+
+<pre><code>disk = (@stacks[fromPin-1]).pop
+@stacks[toPin-1].push(disk)
+print disk, " moved ", fromPin.to_s, "-&gt;", toPin.to_s, "\n"
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+[/sourcecode]</p>
+
+<h4>ModeledTowerOfHanoi</h4>
+
+<p>The ModeledTowerOfHanoi has been cleaned up a little to make subclassing easier and just because it was the right thing to do.  Specifically,</p>
+
+<ul>
+<li><p>There was a fix to the &#8216;move&#8217; algorithm, so we tell the disk onto which disk it is moving</p></li>
+<li><p>Some common methods are pulled out</p></li>
+<li><p>Disks are now responsible for describing the move</p></li>
+</ul>
+
+
+<p>[sourcecode language=&#8217;ruby&#8217;]</p>
+
+<h1>A ModeledTowerOfHanoi is the TowerOfHanoi algorithm</h1>
+
+<h1>but it actually keeps track of the state of the Disks</h1>
+
+<h1>with actual objects.  This makes it suitable for</h1>
+
+<h1>model-based behavior (say tracking moves, animation or</h1>
+
+<h1>other event listening) on top of those Disks</h1>
+
+<p>class ModeledTowerOfHanoi &lt; TowerOfHanoi
+  def hanoi</p>
+
+<pre><code>ask_for_height
+
+setup_disks
+
+puts "Start"
+print_stacks
+
+puts
+move_tower(@height,1,3,2)
+puts
+
+puts "Result"
+print_stacks
+</code></pre>
+
+<p>  end</p>
+
+<p>  def print_stacks</p>
+
+<pre><code>@stacks.each do | eachStack |
+  puts "  "
+  puts eachStack.reverse
+  puts "  "
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def ask_for_height</p>
+
+<pre><code>puts "How tall a tower?"
+print "&gt;"
+height = 5 #gets.to_i
+puts ""
+@height = height
+</code></pre>
+
+<p>  end</p>
+
+<p>  def setup_disks</p>
+
+<pre><code>HanoiDisk.set_towers(self)
+
+@stacks = Array.new(3).collect { Array.new }
+firstStack = @stacks[0]
+1.upto(@height) do |size|
+  disk = createDisk.initWidth_pole(size,1)
+  firstStack.unshift(disk)
+end
+
+@mockDisks = Array.new(3)
+1.upto(3) do |i|
+  @mockDisks[i-1]=(createDisk.initWidth_pole(1000,i))
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  def createDisk()</p>
+
+<pre><code>return HanoiDisk.new
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_disk(fromPin, toPin)</p>
+
+<pre><code>supportDisk = if (@stacks[toPin-1].empty?) then
+  @mockDisks[toPin-1]
+else
+  @stacks[toPin-1].last
+end
+
+disk = @stacks[fromPin-1].pop
+@stacks[toPin-1].push(disk)
+disk.move_upon(supportDisk)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def log(outString)</p>
+
+<pre><code>print outString, "\n"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class HanoiDisk
+  attr_reader :name
+  attr_reader :pole
+  attr_reader :width</p>
+
+<p>  def self.set_towers(owner)</p>
+
+<pre><code>@@the_towers = owner
+@@the_thickness = 14
+@@the_diskgap = 2
+</code></pre>
+
+<p>  end</p>
+
+<p>  def initWidth_pole(width, pole)</p>
+
+<pre><code>@pole = pole
+@width = width
+
+if (width &lt; 1000) then
+  @name="Disk-#{(?A+width-1).chr}"
+else
+  @name="Base-#{pole}"
+end
+
+@move_count = 0
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def to_s</p>
+
+<pre><code>return "#{@name}(#{@pole},#{@move_count})" #{@@the_towers}
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_upon(destination)</p>
+
+<pre><code>@@the_towers.log( "#{self} moved #{@pole.to_s} -&gt; #{destination.pole.to_s}  (#{destination.to_s})" )
+
+@pole = destination.pole
+@move_count += 1
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>[/sourcecode]</p>
+
+<h4>AnimatedTowerOfHanoi</h4>
+
+<p>Now we are finally to the new &#8220;animated&#8221; class.  The main changes for this class are to enable it to talk to an owning &#8216;application&#8217; if it exists and also it starts hooking into the Shoes code.  For convenience, I made the behavior of the class branch based on whether that &#8216;@app&#8217; exists.  The final change is that AnimatedHanoiDisk does a sleep so we can see the animation.  This affects both console and graphic behavior.</p>
+
+<p>[sourcecode language=&#8217;ruby&#8217;]
+class AnimatedTowerOfHanoi &lt; ModeledTowerOfHanoi
+  attr_reader :stacks</p>
+
+<p>  def initApp(shoesApp)</p>
+
+<pre><code>@app = shoesApp
+
+return self
+</code></pre>
+
+<p>  end</p>
+
+<p>  def setup_disks</p>
+
+<pre><code>super
+
+@app.noteChange if @app
+</code></pre>
+
+<p>  end</p>
+
+<p>  def createDisk()</p>
+
+<pre><code>return AnimatedHanoiDisk.new
+</code></pre>
+
+<p>  end</p>
+
+<p>  def ask_for_height</p>
+
+<pre><code>@height = 5
+return nil unless @app
+answer ask("How Tall A Tower?")
+</code></pre>
+
+<p>  end</p>
+
+<p>  def answer(v)</p>
+
+<pre><code>@height = v.to_i
+@app.answer(v)
+</code></pre>
+
+<p>  end</p>
+
+<p>  def log(outString)</p>
+
+<pre><code>super unless @app
+@app.appendLog(outString) if @app
+</code></pre>
+
+<p>  end</p>
+
+<p>  def move_disk(fromPin, toPin)</p>
+
+<pre><code>super
+
+@app.noteChange if @app
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class AnimatedHanoiDisk &lt; HanoiDisk
+  def move_upon(destination)</p>
+
+<pre><code>super(destination)
+
+sleep 0.3
+#@@the_towers.log("Foo")
+#@@the_towers.draw_board
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+[/sourcecode]</p>
+
+<h3>Running via &#8216;irb&#8217;</h3>
+
+<p>You can test the above code by running it in the normal Ruby console
+[sourcecode language=&#8217;ruby&#8217;]
+AnimatedTowerOfHanoi.new.hanoi
+[/sourcecode]</p>
+
+<h3>Putting on the Shoes</h3>
+
+<p>If you have Shoes running successfully, you can combine the above code with a Shoes app which visualizes the state of the towers.  The Shoes code is:
+[sourcecode language=&#8217;ruby&#8217;]
+Shoes.app :width => 520, :height => 600, :resizable => false do</p>
+
+<p>  def answer(v)</p>
+
+<pre><code>@answer.replace "Doing a #{v} story Hanoi"
+</code></pre>
+
+<p>  end</p>
+
+<p>  def appendLog(outString)</p>
+
+<pre><code>@log.append { para outString }
+</code></pre>
+
+<p>  end</p>
+
+<p>  def noteChange</p>
+
+<pre><code>redrawStacks
+</code></pre>
+
+<p>  end</p>
+
+<p>  #redraw the stacks by simply clearing the area and drawing them again
+  def redrawStacks</p>
+
+<pre><code>@render_area.clear do
+  @towerOfHanoi.stacks.each_with_index do |eachStack,i|
+    poleCenterX = i*100 + 50
+
+    eachStack.each_with_index do |eachDisk,j|
+      height = 180 - (j * 15)
+      width = eachDisk.width * 10
+
+      fill "#A00"
+      rect(poleCenterX - width/2 , height, width, 10)
+      j += 1
+    end
+    i += 1
+  end
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  #=============================================</p>
+
+<p>  @hanoiArea = stack do</p>
+
+<pre><code>@answer = para "Answers appear here"
+
+@render_area = flow :width =&gt; 300, :height =&gt; 200 do
+  background "#999"
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  @log = stack</p>
+
+<p>  @towerOfHanoi = AnimatedTowerOfHanoi.new.initApp(self)
+  Thread.new do</p>
+
+<pre><code>@towerOfHanoi.hanoi
+</code></pre>
+
+<p>  end
+end
+[/sourcecode]</p>
+
+<p>The Shoes app has the main drawing area at the top and then a logging area beneath it.  The HanoiStacks are cleared and redrawn any time they change.  The original Smalltalk code used deltas (disks were moved individually) but that didn&#8217;t seem critical to match, and partially the code is relying on being on a black-and-white screen.</p>
+
+<h3>Comments</h3>
+
+<p>Not having a standard Graphics capability is not surprising or a problem for a scripting language (limited in context of usage) but is quite a problem for a language that wants to be mainstream.  There is a similar problem on the server-side with a standard (off-screen) image processing.  Shoes and RMagick and the like are trying to fill these holes but Ruby has been around for a long time for these aspects to not be addressed and part of the standard.</p>
+
+<p>In terms of the resulting code with Shoes, the Ruby version is certainly nice and clean.</p>
+
+<h3>Where Next?</h3>
+
+<p>The last code-changing chapter deals with making the Algorithm a little more human-natural.  If people are interested, I may do that change too.  But comparatively it is a pretty minor change and does not bring out any interesting language aspects.</p>
+
+<h3></h3>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-29T16:42:30-07:00" pubdate data-updated="true">Aug 29<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dynamic/'>Dynamic</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/" data-via="" data-counturl="http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/08/28/a-taste-of-ruby-part-4/" title="Previous Post: A Taste of Ruby (Part 4)">&laquo; A Taste of Ruby (Part 4)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/09/01/a-taste-of-flex/" title="Next Post: A Taste of Flex">A Taste of Flex &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+    <!--
+  <ul>
+      <li><a href="http://www.linkedin.com/in/markfussell/">Linked In</a></li>
+      <li><a href="http://github.com/markfussell/">Github</a></li>
+      <li><a href="http://palobots.org/">PaloBots</a></li>
+  </ul>
+  -->
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/11/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/19/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/17/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2008/09/07/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/';
+        var disqus_url = 'http://markfussell.github.com/blog/2008/08/29/a-taste-of-ruby-part-5/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
