@@ -4,7 +4,7 @@
   <title><![CDATA[Foo]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T16:17:03-08:00</updated>
+  <updated>2013-02-06T16:18:30-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -1317,7 +1317,8 @@ standardization/portability across Smalltalk platforms.
     <link href="http://markfussell.github.com/blog/1997/05/07/smalljava/"/>
     <updated>1997-05-07T18:00:00-07:00</updated>
     <id>http://markfussell.github.com/blog/1997/05/07/smalljava</id>
-    <content type="html"><![CDATA[<p>There is also a PDF version <a href="http://markfussell.github.com/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read.</p>
+    <content type="html"><![CDATA[<p>There is also a PDF version <a href="http://markfussell.github.com/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
+because it has a bit more formatting.</p>
 
 <div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
