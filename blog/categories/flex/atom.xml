@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flex | Polyglot]]></title>
   <link href="http://markfussell.github.com/blog/categories/flex/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:55:32-08:00</updated>
+  <updated>2013-02-06T20:57:09-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -711,12 +711,11 @@ public function logToConsole(string : String) {
 <p>}</p>
 
 <p>} //package
-[/sourcecode]</p>
+```</p>
 
 <h4>HanoiDisk</h4>
 
-
-<p>[sourcecode language='jscript']
+<p>```actionscript
 package {</p>
 
 <p>public class HanoiDisk {</p>

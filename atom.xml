@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.github.com/atom.xml" rel="self"/>
   <link href="http://markfussell.github.com/"/>
-  <updated>2013-02-06T20:55:32-08:00</updated>
+  <updated>2013-02-06T20:57:09-08:00</updated>
   <id>http://markfussell.github.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -2457,47 +2457,6 @@ Then
 <span class='line-number'>74</span>
 <span class='line-number'>75</span>
 <span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
 </pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'><span class="cm">/**</span>
@@ -2574,11 +2533,49 @@ Then
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
-</span><span class='line'><span class="p">[</span><span class="o">/</span><span class="nx">sourcecode</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nx">h4</span><span class="o">&gt;</span><span class="nx">HanoiDisk</span><span class="o">&lt;/</span><span class="nx">h4</span><span class="o">&gt;</span>
-</span><span class='line'><span class="p">[</span><span class="nx">sourcecode</span> <span class="nx">language</span><span class="o">=</span><span class="s1">&#39;jscript&#39;</span><span class="p">]</span>
-</span><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>HanoiDisk</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
 </span><span class='line'>    <span class="kd">protected</span> <span class="kd">const</span> <span class="nx">CONST_asciiA</span> <span class="o">:</span> <span class="nb">Number</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">();</span>
