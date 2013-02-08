@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:20:10-08:00</updated>
+  <updated>2013-02-07T21:35:04-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -36,7 +36,7 @@
 
 <h2>Missing Phrase Delimiter</h2>
 
-<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a 'word' and a 'phrase' delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="http://www.chimu.com/publications/javaStandards2/part0006.html#E11E13">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
+<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a 'word' and a 'phrase' delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="/blog/java-development-standards">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
 
 <p>For method naming, the quick summary is:</p>
 
@@ -161,7 +161,7 @@
     <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="/blog/a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
 

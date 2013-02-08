@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:20:10-08:00</updated>
+  <updated>2013-02-07T21:35:04-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -20,7 +20,7 @@
     <id>http://markfussell.emenar.com/blog/git-about-everything-annex</id>
     <content type="html"><![CDATA[<p>This is the second in a series of using git as part of interesting solutions to problems.</p>
 
-<p>The first is here: <a href="http://markfussell.emenar.com/blog/2013/01/11/git-about-everything-intro/">Intro</a></p>
+<p>The first is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-intro/">Intro</a></p>
 
 <h2>Dealing with Binary Files</h2>
 
@@ -552,7 +552,7 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
 
 <p>So our first problems and solution is going to have to deal with this critical issue.</p>
 
-<p>Enter the annex: <a href="http://markfussell.emenar.com/blog/2013/01/13/git-about-everything-annex/">Annex</a></p>
+<p>Enter the annex: <a href="http://markfussell.emenar.com/blog/git-about-everything-annex/">Annex</a></p>
 ]]></content>
   </entry>
   
@@ -614,7 +614,7 @@ current location of the repository is <a href="https://github.com/markfussell/sc
     <id>http://markfussell.emenar.com/blog/scratch-textual-language</id>
     <content type="html"><![CDATA[<p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.
 Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
-<a href="../../08/a-taste-of-scratch">these diagrams</a>
+<a href="http://markfussell.emenar.com/blog/a-taste-of-scratch">these diagrams</a>
 when trying to document a program, and it is even harder to reference sections of the diagram.</p>
 
 <!-- more -->
@@ -1463,7 +1463,7 @@ Then
 
 <h2>Missing Phrase Delimiter</h2>
 
-<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a &#8216;word&#8217; and a &#8216;phrase&#8217; delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="http://www.chimu.com/publications/javaStandards2/part0006.html#E11E13">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
+<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a &#8216;word&#8217; and a &#8216;phrase&#8217; delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="http://markfussell.emenar.com/blog/java-development-standards">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
 
 <p>For method naming, the quick summary is:</p>
 
@@ -1588,7 +1588,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-7/"/>
     <updated>2008-09-03T02:28:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-7</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series. The first in the series is <a href="a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; Rules on Rails</h2>
 
@@ -1824,7 +1824,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-6/"/>
     <updated>2008-09-03T02:18:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-6</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
 
@@ -1839,7 +1839,7 @@ Then
 
 <h3>You aren&#8217;t capitalizing right?</h3>
 
-<p>Before continuing into the code, people should realize I actively object to Ruby&#8217;s choice to have only one &#8216;word&#8217; delimiter by convention.  See my article <a href="../../04/ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
+<p>Before continuing into the code, people should realize I actively object to Ruby&#8217;s choice to have only one &#8216;word&#8217; delimiter by convention.  See my article <a href="http://markfussell.emenar.com/blog/ruby-naming-convention-failure">Ruby Naming Convention Failure</a> for details and the naming conventions I use, especially for methods.  But the quick summary is:</p>
 
 <ul>
 <li><p>I use CamelCase for combining words into a &#8216;part&#8217; of a method name or variable name</p></li>
@@ -2057,7 +2057,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-6</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
 
@@ -2586,7 +2586,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-5/"/>
     <updated>2008-09-02T07:44:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-5</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>
 
@@ -2790,7 +2790,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-4/"/>
     <updated>2008-09-02T07:13:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-4</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Model Objects</h2>
 
@@ -3073,7 +3073,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-3/"/>
     <updated>2008-09-02T05:11:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-3</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; With A Real Object</h2>
 
@@ -3277,7 +3277,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-2/"/>
     <updated>2008-09-02T04:12:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; Procedural With Input</h2>
 
@@ -3553,7 +3553,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-5/"/>
     <updated>2008-08-29T23:42:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-5</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>
 
@@ -4151,7 +4151,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-4/"/>
     <updated>2008-08-29T02:53:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-4</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Model Objects</h2>
 
@@ -4431,7 +4431,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-3/"/>
     <updated>2008-08-29T00:27:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-3</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; With A Real Object</h2>
 
@@ -4542,7 +4542,7 @@ Then
     <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-2/"/>
     <updated>2008-08-29T00:08:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
+    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi &#8211; Procedural With Input</h2>
 
