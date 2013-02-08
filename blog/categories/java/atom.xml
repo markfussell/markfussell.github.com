@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T17:15:01-08:00</updated>
+  <updated>2013-02-07T21:06:21-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -482,11 +482,6 @@ style='mso-bookmark:_Toc390967791'>.<span style="mso-spacerun: yes">&nbsp;
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This document is
 organized with an initial introduction and then the summary of our
 standards.<span style="mso-spacerun: yes">&nbsp; </span>Following this is the
@@ -541,11 +536,6 @@ into your standards will help.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Some of the
 guidelines may sound like more work than you as designer or coder would like to
 do, but over time they will pay off to your clients, your maintainers, and you
@@ -572,11 +562,6 @@ general standards as well as our own experiences.<span style="mso-spacerun:
 yes">&nbsp; </span>The following sources document these general "software
 engineering" practices.<span style="mso-spacerun: yes">&nbsp; </span>The full
 references are at the end of the document.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -665,11 +650,6 @@ much closer to a cross between a very diluted Eiffel and Smalltalk.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Software design and
 object oriented design have a much broader range of relevant topics and
 resources, but the following are some good introductions. </span></p>
@@ -725,11 +705,6 @@ resources, but the following are some good introductions. </span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
  </tr>
 </table>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -1376,21 +1351,11 @@ changing standards</span></a></span></h3>
 </table>
 
 
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
 <p><span style='font-size:10.0pt;font-family:"Times New Roman";mso-fareast-font-family:
 "Times New Roman";mso-bidi-font-family:"Times New Roman";mso-ansi-language:
 EN-US;mso-fareast-language:EN-US'><br clear=ALL style='mso-special-character:
 line-break;page-break-before:always'>
 </span></p>
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
 
 <div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
@@ -1459,11 +1424,6 @@ when you want to provide the ability for a client to subclass.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Interfaces should
 be given no suffixes or prefixes: they have the &quot;normal&quot; name
 space.<span style="mso-spacerun: yes">&nbsp; </span>Classes are given a suffix
@@ -1495,11 +1455,6 @@ style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
 yes">&nbsp;&nbsp;&nbsp; </span>Point aPoint = GeometryPack.newPointX_y(3,5);</span></p>
 
 </div>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -1585,11 +1540,6 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Similarly, methods
 specify the parameter type they need but do not restrict the implementation of
 that type:</span></p>
@@ -1641,19 +1591,9 @@ yes">&nbsp;&nbsp;&nbsp; </span>}</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The only place
 where the Class itself is exposed is within the implementation of the factory
 method (as above) and the methods of the actual object.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -1715,11 +1655,6 @@ support different access views of the same class (see below on Access Control).<
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The penalties of
 using interfaces everywhere are having to managing interfaces separately from
 classes and any performance penalty a particular JVM has for calling through
@@ -1752,11 +1687,6 @@ reverse if other needs take precedence.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Overall, the
 advantages of using interfaces far outweigh the disadvantages, especially for
 the client and maintainer.<span style="mso-spacerun: yes">&nbsp; </span>The
@@ -1779,11 +1709,6 @@ class.<span style="mso-spacerun: yes">&nbsp; </span>If it is designed to be
 very general, choose a very simple name.<span style="mso-spacerun: yes">&nbsp;
 </span>If it is designed to be used in a more specific context, qualify it
 enough to describe the range of functionality that it is meant to have.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -1899,11 +1824,6 @@ implementation.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Our default order
 of access is:</span></p>
 
@@ -1961,11 +1881,6 @@ of access is:</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Although the above
 access control standards work fine on their own, they do not work well with
 interfaces which requires methods to be public.<span style="mso-spacerun:
@@ -2007,11 +1922,6 @@ use methods (although also "public" on the class).<span style="mso-spacerun:
 yes">&nbsp; </span>A class that has the package interface (which is private to the
 package) will be able to use both the public and the "package public"
 interfaces.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -2078,11 +1988,6 @@ Subsystem interfaces is as follows:</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>In this case, these
 interfaces form a "perfect" hierarchy (Foo - FooXi - FooSi - FooPi) so moving
 both up and down the hierarchy is guaranteed to succeed for an instance of
@@ -2142,11 +2047,6 @@ Symbol;mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&bull;<span
 style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Naturally
 flow into more sophisticated factory designs (See [Gamma+HJV<span
 style="mso-spacerun: yes">&nbsp; </span>95])</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -2397,11 +2297,6 @@ Source code format section below). </span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following are
 common method prefixes</span></p>
 
@@ -2452,7 +2347,7 @@ common method prefixes</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'><span
   style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
@@ -2634,7 +2529,7 @@ specific prefixes are:</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'><span
   style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
@@ -2650,7 +2545,7 @@ specific prefixes are:</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'><span
   style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
@@ -2750,11 +2645,6 @@ signature of the method.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>To produce good
 code, the developer needs to make it easy for the client of the code to do what
 was intended.<span style="mso-spacerun: yes">&nbsp; </span>The developer, the
@@ -2830,11 +2720,6 @@ Person or as only a general object.<span style="mso-spacerun: yes">&nbsp;
 </span>In general we consider this to be unacceptable, so we only use this
 feature (overloading of signature based on a parameters declared type) in very
 controlled circumstances (See below).</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -2932,11 +2817,6 @@ style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//
 set the entry at index to the type using value?</span></p>
 
 </div>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -3063,11 +2943,6 @@ style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nb
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Although this was a
 very consistent and logically understandable solution, all the added
 underscores were annoying, especially because the underscores at the end of the
@@ -3127,11 +3002,6 @@ reveals intention and its use better.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Because the
 trailing underscores have now been dropped, we can not tell how many parameters
 a method takes.<span style="mso-spacerun: yes">&nbsp; </span>We know the
@@ -3179,11 +3049,6 @@ object (which will use an active verb).<span style="mso-spacerun: yes">&nbsp;
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>On the positive
 side, leaving off the 'get' avoids a noisy and uninformative word</span><a
 style='mso-footnote-id:ftn' href="#_ftn5" name="_ftnref" title=""><span
@@ -3199,11 +3064,6 @@ used by JavaBeans to automatically guess a class's BeanInfo description.<span
 style="mso-spacerun: yes">&nbsp; </span>The second of these is solvable by
 using explicit BeanInfos, which provides a number of benefits in addition to
 naming flexibility.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -3254,11 +3114,6 @@ Java from an object-oriented, interface-based language into a very poor
 compile-time binding and implementation binding.<span style="mso-spacerun:
 yes">&nbsp; </span>You can not use interfaces with 'static' functionality and
 you can not subclass to provide a different implementation.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -3487,11 +3342,6 @@ style="mso-spacerun: yes">&nbsp; </span>Categorizing is designed to make a
 class or interface file more organized and readable, so you should try to stay
 in the happy middle between too few categories (e.g. none) and too many
 sections (e.g. one per method) </span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -3749,11 +3599,6 @@ ordered list of categories and definitions:</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following is an
 example of sectioning in code.<span style="mso-spacerun: yes">&nbsp;
 </span>This would look a bit more balanced if the method bodies were included.</span></p>
@@ -3980,21 +3825,11 @@ JavaDoc requires it to be before the declaration.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Because we try to
 have communicative method names and standard patterns for categories of method,
 we will frequently leave off method comments.<span style="mso-spacerun:
 yes">&nbsp; </span>We never repeat the information that can be found simply by
 reading the declaration.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -4079,11 +3914,6 @@ EN-US;mso-fareast-language:EN-US'><br clear=ALL style='mso-special-character:
 line-break;page-break-before:always'>
 </span></p>
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
 padding:0in 0in 1.0pt 0in'>
 
@@ -4110,11 +3940,6 @@ ideas.</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We use an object
 design notation that is similar to UML (see [Rational-1
 http://www.rational.com/uml/]), but it has some variations that are
@@ -4124,11 +3949,6 @@ Ross on information modeling [Kilov+R 94] to be very useful and important.<span
 style="mso-spacerun: yes">&nbsp; </span>Although [Kilov+R 94] does not require
 a specific visual notation, they do suggest one, which I merged into my
 notation.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -4168,9 +3988,9 @@ style='mso-list:Ignore'>5.1 </span><![endif]>Objects and Classes</span></a></spa
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1025" type="#_x0000_t75" style='width:77pt;height:59pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image003.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image003.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=79 height=61
-  src="Standards_0_8a_files/image004.png" v:shapes="_x0000_i1025"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image004.png" v:shapes="_x0000_i1025"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1025"
     DrawAspect="Content" ObjectID="_1295617734">
    </o:OLEObject>
@@ -4179,11 +3999,6 @@ style='mso-list:Ignore'>5.1 </span><![endif]>Objects and Classes</span></a></spa
   <span style='mso-bookmark:_Toc390967791'></span>
  </tr>
 </table>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -4233,24 +4048,24 @@ name="_Toc408310779"><span style='mso-bookmark:_Toc402802601'>Methods</span></a>
   potentially publicly visible.<span style="mso-spacerun: yes">&nbsp;
   </span>Methods can either all be in one compartment, or separated into
   different compartments for the different interfaces to the class.</span></p>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>If placed within
   one compartment, different protocols (groups of methods) are organized like
   lists are in UML.</span></p>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>I use UML method
   annotations.</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=113 valign=top style='width:112.5pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1026" type="#_x0000_t75" style='width:101pt;height:104pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image005.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image005.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=103 height=106
-  src="Standards_0_8a_files/image006.png" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image006.png" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1026"
     DrawAspect="Content" ObjectID="_1295617735">
    </o:OLEObject>
@@ -4282,16 +4097,16 @@ name="_Toc408310780"><span style='mso-bookmark:_Toc402802602'>Attributes</span><
   attributes are independently changable, they will have a corresponding 'set'
   method.</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=113 valign=top style='width:112.5pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1027"
    type="#_x0000_t75" style='width:101pt;height:95pt' o:ole="" fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image007.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image007.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=103 height=97
-  src="Standards_0_8a_files/image008.png" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image008.png" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1027"
     DrawAspect="Content" ObjectID="_1295617736">
    </o:OLEObject>
@@ -4302,9 +4117,9 @@ name="_Toc408310780"><span style='mso-bookmark:_Toc402802602'>Attributes</span><
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1028"
    type="#_x0000_t75" style='width:103pt;height:95pt' o:ole="" fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image009.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image009.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=105 height=97
-  src="Standards_0_8a_files/image010.png" v:shapes="_x0000_i1028"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image010.png" v:shapes="_x0000_i1028"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1028"
     DrawAspect="Content" ObjectID="_1295617737">
    </o:OLEObject>
@@ -4313,11 +4128,6 @@ name="_Toc408310780"><span style='mso-bookmark:_Toc402802602'>Attributes</span><
   <span style='mso-bookmark:_Toc390967791'></span>
  </tr>
 </table>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -4355,9 +4165,9 @@ Variables</span></a></span></h3>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1029" type="#_x0000_t75" style='width:96pt;height:115pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image011.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image011.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=98 height=117
-  src="Standards_0_8a_files/image012.png" v:shapes="_x0000_i1029"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image012.png" v:shapes="_x0000_i1029"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1029"
     DrawAspect="Content" ObjectID="_1295617738">
    </o:OLEObject>
@@ -4390,9 +4200,9 @@ name="_Toc408310782"><span style='mso-bookmark:_Toc402802604'>Message Sends</spa
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1030" type="#_x0000_t75" style='width:210pt;height:136pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image013.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image013.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=212 height=138
-  src="Standards_0_8a_files/image014.png" v:shapes="_x0000_i1030"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image014.png" v:shapes="_x0000_i1030"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1030"
     DrawAspect="Content" ObjectID="_1295617739">
    </o:OLEObject>
@@ -4445,9 +4255,9 @@ style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1031"
    type="#_x0000_t75" style='width:104pt;height:59pt' o:ole="" fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image015.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image015.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=106 height=61
-  src="Standards_0_8a_files/image016.png" v:shapes="_x0000_i1031"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image016.png" v:shapes="_x0000_i1031"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1031"
     DrawAspect="Content" ObjectID="_1295617740">
    </o:OLEObject>
@@ -4466,9 +4276,9 @@ style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1032"
    type="#_x0000_t75" style='width:76pt;height:39pt' o:ole="" fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image017.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image017.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=78 height=41
-  src="Standards_0_8a_files/image018.png" v:shapes="_x0000_i1032"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image018.png" v:shapes="_x0000_i1032"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1032"
     DrawAspect="Content" ObjectID="_1295617742">
    </o:OLEObject>
@@ -4477,11 +4287,6 @@ style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
   <span style='mso-bookmark:_Toc390967791'></span>
  </tr>
 </table>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -4495,16 +4300,16 @@ style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
   Object) can be shown to implement a Type by an arrow pointing from the Class
   to the Type.</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1033" type="#_x0000_t75" style='width:156pt;height:118pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image019.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image019.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=158 height=120
-  src="Standards_0_8a_files/image020.png" v:shapes="_x0000_i1033"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image020.png" v:shapes="_x0000_i1033"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1033"
     DrawAspect="Content" ObjectID="_1295617743">
    </o:OLEObject>
@@ -4525,9 +4330,9 @@ style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1034" type="#_x0000_t75" style='width:217pt;height:92pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image021.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image021.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=219 height=94
-  src="Standards_0_8a_files/image022.png" v:shapes="_x0000_i1034"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image022.png" v:shapes="_x0000_i1034"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1034"
     DrawAspect="Content" ObjectID="_1295617744">
    </o:OLEObject>
@@ -4579,18 +4384,13 @@ relationship types</span></a></span></h3>
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
  id="_x0000_i1035" type="#_x0000_t75" style='width:194pt;height:131pt' o:ole=""
  fillcolor="window">
- <v:imagedata src="Standards_0_8a_files/image023.wmz" o:title=""/>
+ <v:imagedata src="images/Standards_0_8a_files/image023.wmz" o:title=""/>
 </v:shape><![endif]--><![if !vml]><img width=196 height=133
-src="Standards_0_8a_files/image024.png" v:shapes="_x0000_i1035"><![endif]><!--[if gte mso 9]><xml>
+src="images/Standards_0_8a_files/image024.png" v:shapes="_x0000_i1035"><![endif]><!--[if gte mso 9]><xml>
  <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1035"
   DrawAspect="Content" ObjectID="_1295617745">
  </o:OLEObject>
 </xml><![endif]--></span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -4618,9 +4418,9 @@ style='mso-list:Ignore'>5.4 </span><![endif]>Code Blocks</span></a></span></h2>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1036" type="#_x0000_t75" style='width:86pt;height:37pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image025.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image025.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=88 height=39
-  src="Standards_0_8a_files/image026.png" v:shapes="_x0000_i1036"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image026.png" v:shapes="_x0000_i1036"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1036"
     DrawAspect="Content" ObjectID="_1295617746">
    </o:OLEObject>
@@ -4668,9 +4468,9 @@ name="_Toc408310790"><span style='mso-bookmark:_Toc402802612'>Functor</span></a>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1037" type="#_x0000_t75" style='width:113pt;height:37pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image027.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image027.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=115 height=39
-  src="Standards_0_8a_files/image028.png" v:shapes="_x0000_i1037"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image028.png" v:shapes="_x0000_i1037"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1037"
     DrawAspect="Content" ObjectID="_1295617747">
    </o:OLEObject>
@@ -4707,16 +4507,16 @@ name="_Toc408310791"><span style='mso-bookmark:_Toc402802613'>Enhancement</span>
   </span>Since Java doesn't support enhancements this notation is only useful
   for conceptual modeling.</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=104 valign=top style='width:103.5pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
    id="_x0000_i1038" type="#_x0000_t75" style='width:90pt;height:118pt' o:ole=""
    fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image029.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image029.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=92 height=120
-  src="Standards_0_8a_files/image030.png" v:shapes="_x0000_i1038"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image030.png" v:shapes="_x0000_i1038"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1038"
     DrawAspect="Content" ObjectID="_1295617748">
    </o:OLEObject>
@@ -4749,16 +4549,16 @@ Functionality</span></a></span></h3>
   change its state representation (e.g. delegating to another object) without
   impacting the public methods.</span></p>
   <span style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=158 valign=top style='width:157.5pt;padding:0in 5.4pt 0in 5.4pt'>
   <p class=MsoNormal align=center style='text-align:center'><span
   style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1039"
    type="#_x0000_t75" style='width:112pt;height:113pt' o:ole="" fillcolor="window">
-   <v:imagedata src="Standards_0_8a_files/image031.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image031.wmz" o:title=""/>
   </v:shape><![endif]--><![if !vml]><img width=114 height=115
-  src="Standards_0_8a_files/image032.png" v:shapes="_x0000_i1039"><![endif]><!--[if gte mso 9]><xml>
+  src="images/Standards_0_8a_files/image032.png" v:shapes="_x0000_i1039"><![endif]><!--[if gte mso 9]><xml>
    <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1039"
     DrawAspect="Content" ObjectID="_1295617749">
    </o:OLEObject>
@@ -4814,11 +4614,6 @@ compared and reconciled many of the terms with:</span></p>
 
 
 
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
-
-
-
-
 <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>In choosing and
 defining terms, I try to follow the following priority (best to worst).<span
 style="mso-spacerun: yes">&nbsp; </span>The best term:</span></p>
@@ -4865,11 +4660,6 @@ l6 level1 lfo10;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><!
 style='mso-list:Ignore'>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
 </span></span><![endif]>Has a different, somewhat common, meaning than my
 definition (Slot)</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -5175,12 +4965,12 @@ definition (Slot)</span></p>
  <tr>
   <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
   style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
   <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
   style='mso-bookmark:_Toc390967791'></span>
-  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  
   </td>
   <span style='mso-bookmark:_Toc390967791'></span>
  </tr>
@@ -5381,11 +5171,6 @@ definition (Slot)</span></p>
 <p class=MsoNormal style='margin-left:1.25in;text-indent:-1.25in;tab-stops:
 9.0pt'><span style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:
 1'>&nbsp;&nbsp; </span>.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
 
 
 
@@ -5899,7 +5684,7 @@ mso-break-type:section-break'>
    margin-top:7.2pt;width:115.2pt;height:94.9pt;z-index:251658240;
    mso-position-horizontal-relative:text;mso-position-vertical-relative:text'
    o:allowincell="f">
-   <v:imagedata src="Standards_0_8a_files/image033.wmz" o:title=""/>
+   <v:imagedata src="images/Standards_0_8a_files/image033.wmz" o:title=""/>
    <v:textbox style='mso-next-textbox:#_x0000_s1029'/>
   </v:shape><![if gte mso 9]><o:OLEObject Type="Embed"
    ProgID="CorelDRAW.Graphic.6" ShapeID="_x0000_s1029" DrawAspect="Content"
@@ -5907,7 +5692,7 @@ mso-break-type:section-break'>
   </o:OLEObject>
  <![endif]><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
   absolute;z-index:251658240;margin-left:128px;margin-top:7px;width:117px;
-  height:97px'><img width=117 height=97 src="Standards_0_8a_files/image034.png"
+  height:97px'><img width=117 height=97 src="images/Standards_0_8a_files/image034.png"
   v:shapes="_x0000_s1029"></span><![endif]><span style='mso-no-proof:yes'><o:p></o:p></span></p>
   </td>
   <td width=195 valign=top style='width:194.95pt;padding:0in 0in 0in 0in'>
