@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Polyglot</title>
+  <title>Java Development Standards - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="There is also a PDF version here which might be easier to read
-because it has a bit more formatting. The Viking <v:shapetype id="_x0000_t75" &hellip;">
+  <meta name="description" content="This document
+describes the standards ChiMu Corporation uses for Java development.<span
+style="mso-spacerun: yes">&nbsp; Documenting these standards &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@ because it has a bit more formatting. The Viking <v:shapetype id="_x0000_t75" &h
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/page/3/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/1997/08/27/java-development-standards/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,101 +64,13 @@ because it has a bit more formatting. The Viking <v:shapetype id="_x0000_t75" &h
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
+   <link href="/stylesheets/smalljava.css" rel="stylesheet" />
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2000/05/10/viking/">The Viking: A Direct Marketing System for OOPSLA DesignFest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2000-05-10T18:00:00-07:00" pubdate data-updated="true">May 10<span>th</span>, 2000</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/TheViking5e.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<div class=Section1>
-
-<p class=MsoTitle style='margin-top:0in'>The Viking</p>
-
-<p class=MsoSubtitle><!--[if gte vml 1]><v:shapetype id="_x0000_t75"
- coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
- filled="f" stroked="f">
- <v:stroke joinstyle="miter"/>
- <v:formulas>
-  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-  <v:f eqn="sum @0 1 0"/>
-  <v:f eqn="sum 0 0 @1"/>
-  <v:f eqn="prod @2 1 2"/>
-  <v:f eqn="prod @3 21600 pixelWidth"/>
-  <v:f eqn="prod @3 21600 pixelHeight"/>
-  <v:f eqn="sum @0 0 1"/>
-  <v:f eqn="prod @6 1 2"/>
-  <v:f eqn="prod @7 21600 pixelWidth"/>
-  <v:f eqn="sum @8 21600 0"/>
-  <v:f eqn="prod @7 21600 pixelHeight"/>
-  <v:f eqn="sum @10 21600 0"/>
- </v:formulas>
- <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
- <o:lock v:ext="edit" aspectratio="t"/>
-</v:shapetype><v:shape id="_x0000_i1025" type="#_x0000_t75" style='width:109pt;
- height:234pt' fillcolor="window">
- <v:imagedata src="TheViking5e_files/image001.wmz" o:title="Viking1.cdr"/>
-</v:shape><![endif]--><![if !vml]><img width=111 height=236
-src="/images/TheViking5e_files/image002.gif" v:shapes="_x0000_i1025"><![endif]></p>
-
-<p class=MsoSubtitle>A Direct Marketing System</p>
-
-<p class=AuthorInfo style='margin-top:6.0pt'><b style='mso-bidi-font-weight:
-normal'><span style='font-size:9.0pt;mso-bidi-font-size:10.0pt'>Mark L. Fussell<o:p></o:p></span></b></p>
-
-<h2>Introduction</h2>
-
-<p class=MsoNormal>The Viking is a system that maintains information about
-customers and can send them letters tailored with important, relevant, and
-time-critical information.<span style="mso-spacerun: yes">&nbsp; </span>The
-Viking is the core of a direct marketing system: it will directly interact with
-users to configure the campaigns and will work with other system components to
-accomplish the mailing itself. </p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2000/05/10/viking/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/08/27/why-dynamic-typing/">Why Dynamic Typing?</a></h1>
+      <h1 class="entry-title">Java Development Standards</h1>
     
     
       <p class="meta">
@@ -180,80 +93,7 @@ accomplish the mailing itself. </p>
   </header>
 
 
-  <div class="entry-content"><p>This is a discussion of the benefits and drawbacks of dynamic typing
-based on specific questions by Anatol Fomenko.</p>
-
-<p>The following is a reference to the main thread-point that this short paper is on:</p>
-
-<ul>
-<li> <a href="https://groups.google.com/forum/?fromgroups=#!topic/comp.lang.java.programmer/hIJfUz2kVIM%5B1-25-false%5D">Re: Why dynamic typing (was: Compiler as mediator)</a></li>
-</ul>
-
-
-<h2>Original Posting: Re: Why dynamic typing (was: Compiler as mediator)</h2>
-
-<pre class="quote1">
-Anatol Fomenko wrote:
-> ...Why Smalltalk is dynamically typed, and why it
-> does not affect negatively the stability of the large Smalltalk
-> applications?
-</pre>
-
-
-<p>Rephrasing slightly gives the two following questions:</p>
-
-<OL class="arab">
-  <LI>Why is Smalltalk dynamically typed?</LI>
-  <LI>Why does dynamic typing (as done with Smalltalk) not negatively
-      affect the stability of large applications?</LI>
-</OL>
-
-
-<p>The first question would be better answered by Alan Kay and the
-Smalltalk team more than anyone else relaying their reasons.  Alan Kay
-has described some of his reasoning in the book &#8220;History of Programming
-Languages II&#8221;, various OOPSLA &amp; Smalltalk talks, and other sources.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/08/27/why-dynamic-typing/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/08/27/java-development-standards/">Java Development Standards</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="1997-08-27T18:00:00-07:00" pubdate data-updated="true">Aug 27<span>th</span>, 1997</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This document
+<div class="entry-content"><p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This document
 describes the standards ChiMu Corporation uses for Java development.<span
 style="mso-spacerun: yes">&nbsp; </span>Documenting these standards is
 important for our own needs and our customers, but we provide these standards
@@ -5812,110 +5652,16 @@ itself is not even the right word, which should instead be something like
 
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/07/03/object-relational/">Foundations of Object-Relational Mapping</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
 
-<time datetime="1997-07-03T18:00:00-07:00" pubdate data-updated="true">Jul 3<span>rd</span>, 1997</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p class=MsoNormal>This document describes general concepts needed for
-object-relational mapping.<span style="mso-spacerun: yes">&nbsp; </span>It
-serves as an introduction to the issues involved in doing general
-object-relational mapping and provides a foundation for understanding
-frameworks that supports that mapping.</p>
-
-
-
-
-<p class=MsoNormal>The document begins by describing object modeling and
-relational modeling.<span style="mso-spacerun: yes">&nbsp; </span>It then
-covers how to integrate objects into the relational model.<span
-style="mso-spacerun: yes">&nbsp; </span>This is followed by how to implement
-that integration with current database systems.<span style="mso-spacerun:
-yes">&nbsp; </span>Next, the issues for client-server objects are covered
-independently from the whole mapping problem.<span style="mso-spacerun:
-yes">&nbsp; </span>This leads to the conclusion, which finishes the preparation
-for analyzing specific object-relational approaches by reviewing the topics and
-describing object-relational approaches.</p>
-
-
-
-
-<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
-padding:0in 0in 1.0pt 0in'>
-
-<h1><a name="_Toc392525244">Introduction</a></h1>
-
-</div>
-
-
-
-
-<p class=MsoNormal>Object-relational mapping is the process of transforming
-between object and relational modeling approaches and between the systems that
-support these approaches.<span style="mso-spacerun: yes">&nbsp; </span>Doing a
-good job at object-relational mapping requires a solid understanding of object
-modeling and relational modeling, how they are similar, and how they are
-different.<span style="mso-spacerun: yes">&nbsp; </span>Ideally we should have
-a single integrated model that described both approaches.<span
-style="mso-spacerun: yes">&nbsp; </span>This would ensure we understand and
-explicitly document both concepts and their relationships.<span
-style="mso-spacerun: yes">&nbsp; </span>This document will present what we
-believe to be the only correct integration of the two worlds that is suitable
-for implementation on a relational database.</p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/07/03/object-relational/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/06/02/tuplemarks/">Tuple-Marks: NULLs Everyone Can Live With</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -5927,121 +5673,46 @@ for implementation on a relational database.</p>
   
 
 
-<time datetime="1997-06-02T18:00:00-07:00" pubdate data-updated="true">Jun 2<span>nd</span>, 1997</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/TupleMarks1j.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<div class=Section2>
-
-<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
-padding:0in 0in 1.0pt 0in'>
-
-<h1><a name="_Toc389861238"></a><a name="_Toc389930928"><span style='mso-bookmark:
-_Toc389861238'>Abstract</span></a></h1>
-
-</div>
-
-
-
-<p class=MsoNormal>There has been a great deal of discussion about NULL values
-in relational algebra.<span style="mso-spacerun: yes">&nbsp; </span>There is
-the argument that <span class=SpellE>NULLs</span> help us with real database
-problems of handling lack of information. There is a counter-argument that <span
-class=SpellE>NULLs</span> and three-valued logic (3VL) cause major problems
-with relational algebra and are unnecessary. <span style="mso-spacerun:
-yes">&nbsp;</span>These arguments have been very informative and there is no
-reason to repeat them.<span style="mso-spacerun: yes">&nbsp; </span>Instead I
-will change the playing field.</p>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/06/02/tuplemarks/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="1997-08-27T18:00:00-07:00" pubdate data-updated="true">Aug 27<span>th</span>, 1997</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/1997/05/07/smalljava/">SmallJava: Smalltalk to Java&#8230; Using Language Transformation to Show Language Differences</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/dynamic/'>Dynamic</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+  
+</span>
 
 
-<time datetime="1997-05-07T18:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 1997</time>
-        
-      </p>
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/1997/08/27/java-development-standards/" data-via="" data-counturl="http://markfussell.emenar.com/blog/1997/08/27/java-development-standards/" >Tweet</a>
+  
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/1997/07/03/object-relational/" title="Previous Post: Foundations of Object-Relational Mapping">&laquo; Foundations of Object-Relational Mapping</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/1997/08/27/why-dynamic-typing/" title="Next Post: Why dynamic typing?">Why dynamic typing? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
-padding:0in 0in 1.0pt 0in'>
-
-<h1><a name="_Toc387781516">Overview and Introduction</a></h1>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
-
-
-
-<p class=MsoNormal>In this document I will compare and contrast Smalltalk and
-Java using a somewhat unusual approach: I will transform one language
-(Smalltalk) into the other (Java) by a series of small steps in an intermediary
-language (SmallJava).<span style="mso-spacerun: yes">&nbsp; </span>With each
-step I will discuss how the new properties of the intermediate language compare
-and contrast to the properties of the previous version of the language.<span
-style="mso-spacerun: yes">&nbsp; </span></p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/1997/05/07/smalljava/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -6087,7 +5758,7 @@ style="mso-spacerun: yes">&nbsp; </span></p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/markfussell">@markfussell</a> on GitHub
@@ -6121,6 +5792,8 @@ style="mso-spacerun: yes">&nbsp; </span></p>
   
 </aside>
 
+
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -6135,7 +5808,10 @@ style="mso-spacerun: yes">&nbsp; </span></p>
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/1997/08/27/java-development-standards/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/1997/08/27/java-development-standards/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
