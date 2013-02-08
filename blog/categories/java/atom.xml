@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:09:58-08:00</updated>
+  <updated>2013-02-07T21:15:01-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -832,8 +832,7 @@ Summary</span></a></span></h1>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802557"></a><a
-name="_Toc408310745"><span style='mso-bookmark:_Toc402802557'>Ultimate
-Principles</span></a></span></h3>
+name="_Toc408310745"><span style='mso-bookmark:_Toc402802557'>Ultimate Principles</span></a></span></h3>
 
 
 
@@ -881,8 +880,7 @@ Principles</span></a></span></h3>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802558"></a><a
-name="_Toc408310746"><span style='mso-bookmark:_Toc402802558'>Interfaces and
-Classes</span></a></span></h3>
+name="_Toc408310746"><span style='mso-bookmark:_Toc402802558'>Interfaces and Classes</span></a></span></h3>
 
 
 
@@ -1238,8 +1236,7 @@ name="_Toc408310748"><span style='mso-bookmark:_Toc402802560'>Organizing</span><
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802561"></a><a
-name="_Toc408310749"><span style='mso-bookmark:_Toc402802561'>Abbreviation and
-Acronyms</span></a></span></h3>
+name="_Toc408310749"><span style='mso-bookmark:_Toc402802561'>Abbreviation and Acronyms</span></a></span></h3>
 
 
 
@@ -1294,8 +1291,7 @@ Acronyms</span></a></span></h3>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802562"></a><a
-name="_Toc408310750"><span style='mso-bookmark:_Toc402802562'>Growing and
-changing standards</span></a></span></h3>
+name="_Toc408310750"><span style='mso-bookmark:_Toc402802562'>Growing and changing standards</span></a></span></h3>
 
 
 
@@ -1399,8 +1395,7 @@ client's point of view first.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802565"></a><a
-name="_Toc408310753"><span style='mso-bookmark:_Toc402802565'>Interfaces for
-interfacing</span></a></span></h3>
+name="_Toc408310753"><span style='mso-bookmark:_Toc402802565'>Interfaces for interfacing</span></a></span></h3>
 
 
 
@@ -1697,8 +1692,7 @@ provided by interfaces improve programs significantly.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802568"></a><a
-name="_Toc408310754"><span style='mso-bookmark:_Toc402802568'>Interface and
-Class naming</span></a></span></h3>
+name="_Toc408310754"><span style='mso-bookmark:_Toc402802568'>Interface and Class naming</span></a></span></h3>
 
 
 
@@ -1725,8 +1719,7 @@ before other people have mentally and programmatically committed to a name.</spa
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802569"></a><a
-name="_Toc408310755"><span style='mso-bookmark:_Toc402802569'>Types and
-protocols</span></a></span></h3>
+name="_Toc408310755"><span style='mso-bookmark:_Toc402802569'>Types and protocols</span></a></span></h3>
 
 
 
@@ -1891,8 +1884,7 @@ of this limitation in Java.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802571"></a><a
-name="_Toc408310757"><span style='mso-bookmark:_Toc402802571'>Package Interfaces
-and Subsystem Interfaces</span></a></span></h3>
+name="_Toc408310757"><span style='mso-bookmark:_Toc402802571'>Package Interfaces and Subsystem Interfaces</span></a></span></h3>
 
 
 
@@ -1997,8 +1989,7 @@ both up and down the hierarchy is guaranteed to succeed for an instance of
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802572"></a><a
-name="_Toc408310758"><span style='mso-bookmark:_Toc402802572'>Constructors and
-Factory methods</span></a></span></h3>
+name="_Toc408310758"><span style='mso-bookmark:_Toc402802572'>Constructors and Factory methods</span></a></span></h3>
 
 
 
@@ -2148,8 +2139,7 @@ complex program much simpler and understandable.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802576"></a><a
-name="_Toc408310762"><span style='mso-bookmark:_Toc402802576'>Standardized,
-woven, intention-revealing method names</span></a></span></h3>
+name="_Toc408310762"><span style='mso-bookmark:_Toc402802576'>Standardized, woven, intention-revealing method names</span></a></span></h3>
 
 
 
@@ -2257,8 +2247,7 @@ for asking about an attribute (see below for the discussion of attributes).</spa
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802578"></a><a
-name="_Toc408310763"><span style='mso-bookmark:_Toc402802578'>Intention
-revealing names</span></a></span></h3>
+name="_Toc408310763"><span style='mso-bookmark:_Toc402802578'>Intention revealing names</span></a></span></h3>
 
 
 
@@ -2280,8 +2269,7 @@ revealing selector&quot; in [Beck 96].<span style="mso-spacerun: yes">&nbsp;
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802579"></a><a
-name="_Toc408310764"><span style='mso-bookmark:_Toc402802579'>Standardized
-naming patterns</span></a></span></h3>
+name="_Toc408310764"><span style='mso-bookmark:_Toc402802579'>Standardized naming patterns</span></a></span></h3>
 
 
 
@@ -2630,8 +2618,7 @@ both reused vocabulary and new vocabulary.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802580"></a><a
-name="_Toc408310765"><span style='mso-bookmark:_Toc402802580'>Java method
-signatures</span></a></span></h3>
+name="_Toc408310765"><span style='mso-bookmark:_Toc402802580'>Java method signatures</span></a></span></h3>
 
 
 
@@ -2738,8 +2725,7 @@ it.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802581"></a><a
-name="_Toc408310766"><span style='mso-bookmark:_Toc402802581'>Principles for
-signatures</span></a></span></h3>
+name="_Toc408310766"><span style='mso-bookmark:_Toc402802581'>Principles for signatures</span></a></span></h3>
 
 
 
@@ -2777,8 +2763,7 @@ more), so the names are not likely to be unique.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802582"></a><a
-name="_Toc408310767"><span style='mso-bookmark:_Toc402802582'>Parameter positions
-woven into the method name</span></a></span></h3>
+name="_Toc408310767"><span style='mso-bookmark:_Toc402802582'>Parameter positions woven into the method name</span></a></span></h3>
 
 
 
@@ -3135,8 +3120,7 @@ implementation (or have multiple instances) without the client being harmed.</sp
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802589"></a><a
-name="_Toc408310770"><span style='mso-bookmark:_Toc402802589'>Instance
-variables</span></a> </span></h3>
+name="_Toc408310770"><span style='mso-bookmark:_Toc402802589'>Instance variables</span></a> </span></h3>
 
 
 
@@ -3842,8 +3826,7 @@ have enough information that they are not optional on released software.</span><
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802596"></a><a
-name="_Toc408310774"><span style='mso-bookmark:_Toc402802596'>Interfaces and
-comments</span></a></span></h3>
+name="_Toc408310774"><span style='mso-bookmark:_Toc402802596'>Interfaces and comments</span></a></span></h3>
 
 
 
@@ -4141,8 +4124,7 @@ be used to store that state.</span></p>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802603"></a><a
-name="_Toc408310781"><span style='mso-bookmark:_Toc402802603'>Instance
-Variables</span></a></span></h3>
+name="_Toc408310781"><span style='mso-bookmark:_Toc402802603'>Instance Variables</span></a></span></h3>
 
 
 
@@ -4216,8 +4198,7 @@ name="_Toc408310782"><span style='mso-bookmark:_Toc402802604'>Message Sends</spa
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802605"></a><a
-name="_Toc408310783"><span style='mso-bookmark:_Toc402802605'>Shorthand for
-hand drawings</span></a></span></h3>
+name="_Toc408310783"><span style='mso-bookmark:_Toc402802605'>Shorthand for hand drawings</span></a></span></h3>
 
 
 
@@ -4346,8 +4327,7 @@ style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802607"></a><a
-name="_Toc408310785"><span style='mso-bookmark:_Toc402802607'>Shorthand for
-hand drawings</span></a></span></h3>
+name="_Toc408310785"><span style='mso-bookmark:_Toc402802607'>Shorthand for hand drawings</span></a></span></h3>
 
 
 
@@ -4375,8 +4355,7 @@ certain diagrams I will use them instead of the less precise UML notations.</spa
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802609"></a><a
-name="_Toc408310787"><span style='mso-bookmark:_Toc402802609'>Kilov and Ross
-relationship types</span></a></span></h3>
+name="_Toc408310787"><span style='mso-bookmark:_Toc402802609'>Kilov and Ross relationship types</span></a></span></h3>
 
 
 
@@ -4530,8 +4509,7 @@ name="_Toc408310791"><span style='mso-bookmark:_Toc402802613'>Enhancement</span>
 
 
 <h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802614"></a><a
-name="_Toc408310792"><span style='mso-bookmark:_Toc402802614'>Private
-Functionality</span></a></span></h3>
+name="_Toc408310792"><span style='mso-bookmark:_Toc402802614'>Private Functionality</span></a></span></h3>
 
 
 
