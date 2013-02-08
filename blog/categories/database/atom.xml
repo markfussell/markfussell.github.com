@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Database | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:18:41-08:00</updated>
+  <updated>2013-02-07T21:20:10-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Foundations of Object-Relational Mapping]]></title>
-    <link href="http://markfussell.emenar.com/blog/1997/07/03/object-relational/"/>
+    <link href="http://markfussell.emenar.com/blog/object-relational/"/>
     <updated>1997-07-03T18:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/1997/07/03/object-relational</id>
+    <id>http://markfussell.emenar.com/blog/object-relational</id>
     <content type="html"><![CDATA[<p class=MsoNormal>This document describes general concepts needed for
 object-relational mapping.<span style="mso-spacerun: yes">&nbsp; </span>It
 serves as an introduction to the issues involved in doing general
@@ -2783,9 +2783,9 @@ padding:0in 0in 1.0pt 0in'>
   
   <entry>
     <title type="html"><![CDATA[Tuple-Marks: NULLs everyone can live with]]></title>
-    <link href="http://markfussell.emenar.com/blog/1997/06/02/tuplemarks/"/>
+    <link href="http://markfussell.emenar.com/blog/tuplemarks/"/>
     <updated>1997-06-02T18:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/1997/06/02/tuplemarks</id>
+    <id>http://markfussell.emenar.com/blog/tuplemarks</id>
     <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/TupleMarks1j.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 

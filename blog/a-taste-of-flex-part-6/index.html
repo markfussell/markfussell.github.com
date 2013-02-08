@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Taste of Flex (Part 6) - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi &mdash; With Rule Disks (and no stack) The first passes at the Tower of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Build Valuable Systems, Better and Faster</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.emenar.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Taste of Flex (Part 6)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T16:46:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
+
+<p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is &#8216;true&#8217; as an algorithm, but comes off as a bit unnatural for humans.  But it also has a problem in that the algorithm can not be &#8216;suspended&#8217; in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  For a multi-threaded language, this inability to suspend may not be a problem because you could create one thread for the algorithm and another thread to listen for whenever a new (interesting) change in state occurs.  This is how the RubyShoes version works: the algorithm is in a new thread separate from the GUI thread (otherwise things behave badly).  Similarly, the Smalltalk-80 GUI is being drawn in a different thread than the main execution thread.  But in many circumstances even this multi-thread version would not work: say you have a client-server version (e.g. Rails) or want to pause/suspend the execution of the 100-tall tower of hanoi.  And finally, if you only have a single-threaded language like Flex, things just don&#8217;t work at all for intermediate renderings unless you can make the algorithm not be dependent on the call stack.</p>
+
+<!-- more -->
+
+
+<h3>Tower of Hanoi — With Rule Disks (and no stack) &#8211; Flex</h3>
+
+<p>I think it is easiest to work up from the Disk perspective, although see the book for a different flow.  The main changes to HanoiDisk are to have it be able to figure out whether it has any legal moves, and what the bestMove (next move) would be.  To do each of these, the disk needs to communicate back with the towers.  In the Smalltalk code this was done through a Class Variable, but it is far simpler and more scalable to do this through instance variables: each Disk needs to know what tower it belongs to.</p>
+
+<h4>HanoiDiskRules</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">HanoiDiskRules</span> <span class="kd">extends</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_previousPole</span> <span class="o">:</span> <span class="nb">Number</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_towers</span> <span class="o">:</span> <span class="nx">AnimatedRulesTowerOfHanoi</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">setupTowers</span><span class="p">(</span><span class="nx">towers</span> <span class="o">:</span> <span class="nx">AnimatedRulesTowerOfHanoi</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_towers</span> <span class="o">=</span> <span class="nx">towers</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">hasLegalMove</span><span class="p">()</span> <span class="o">:</span> <span class="nb">Boolean</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">otherTops</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_towers</span><span class="p">.</span><span class="nx">selectPolesOtherThan</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">otherTops</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachTopDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">otherTops</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachTopDisk</span><span class="p">.</span><span class="nx">width</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">bestMove</span><span class="p">()</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">otherTops</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_towers</span><span class="p">.</span><span class="nx">selectPolesOtherThan</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">otherTops</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachTopDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">otherTops</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nx">eachTopDisk</span><span class="p">.</span><span class="nx">width</span> <span class="o">&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">width</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">eachTopDisk</span><span class="p">.</span><span class="nx">pole</span> <span class="o">!=</span> <span class="nx">my_previousPole</span><span class="p">)</span> <span class="p">)</span> <span class="k">return</span> <span class="nx">eachTopDisk</span><span class="o">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">moveUpon</span><span class="p">(</span><span class="nx">destination</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_previousPole</span> <span class="o">=</span> <span class="nx">pole</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">super</span><span class="p">.</span><span class="nx">moveUpon</span><span class="p">(</span><span class="nx">destination</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Compared to the Smalltalk version of this, the main difference is we are creating Array objects instead of passing a function into an iterator.  Again this seems the more natural for Flex&#8230; but&#8230; it is starting to get annoying looking and has real performance impact, so later we should try to do an iterator + function-based version.</p>
+
+<h4>AnimatedRulesTowerOfHanoi (No Animation)</h4>
+
+<p>The change to the Tower code for Flex is two parts:</p>
+
+<ul>
+<li><p>Provide methods that support the rules that the smarter HanoiDiskRules has</p></li>
+<li><p>Drive the algorithm in a way to enable Flex to render the intermediary results</p></li>
+</ul>
+
+
+<p>We can do these in two steps, with the current step focused on just the algorithm changes</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">AnimatedRulesTowerOfHanoi</span> <span class="kd">extends</span> <span class="nx">AnimatedTowerOfHanoi</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_oldDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_currentDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_destinationDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="o">,</span> <span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">usingPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//Now that the disks know all the rules... we can ignore all the arguments!</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nx">doNextMove_IsDone</span><span class="p">)</span> <span class="p">{};</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">doNextMove_IsDone</span><span class="p">()</span> <span class="o">:</span> <span class="nb">Boolean</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_currentDisk</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">decide</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nx">my_stacks</span><span class="p">[</span><span class="nx">my_currentDisk</span><span class="p">.</span><span class="nx">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="nx">as</span> <span class="nb">Array</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">(</span><span class="nx">my_stacks</span><span class="p">[</span><span class="nx">my_destinationDisk</span><span class="p">.</span><span class="nx">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="nx">as</span> <span class="nb">Array</span><span class="p">).</span><span class="nx">push</span><span class="p">(</span><span class="nx">my_currentDisk</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">my_currentDisk</span><span class="p">.</span><span class="nx">moveUpon</span><span class="p">(</span><span class="nx">my_destinationDisk</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_oldDisk</span> <span class="o">=</span> <span class="nx">my_currentDisk</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">noteChange</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">isAllOnOneTower</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">isAllOnOneTower</span><span class="p">()</span> <span class="o">:</span> <span class="nb">Boolean</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">my_height</span><span class="p">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">selectTopsOtherThan</span><span class="p">(</span><span class="nx">disk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="p">)</span> <span class="o">:</span> <span class="nb">Array</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">result</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">topDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">eachStack</span><span class="p">[</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">topDisk</span> <span class="o">!==</span> <span class="nx">disk</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">topDisk</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">selectPolesOtherThan</span><span class="p">(</span><span class="nx">disk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="p">)</span> <span class="o">:</span> <span class="nb">Array</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">result</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">==</span> <span class="nx">disk</span><span class="p">.</span><span class="nx">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="p">{</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">my_mockDisks</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">var</span> <span class="nx">topDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">eachStack</span><span class="p">[</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">topDisk</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">decide</span><span class="p">()</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">tops</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">selectTopsOtherThan</span><span class="p">(</span><span class="nx">my_oldDisk</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">tops</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">movingDisk</span> <span class="o">:</span> <span class="nx">HanoiDiskRules</span> <span class="o">=</span> <span class="nx">tops</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">movingDisk</span><span class="p">.</span><span class="nx">hasLegalMove</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">my_destinationDisk</span> <span class="o">=</span> <span class="nx">movingDisk</span><span class="p">.</span><span class="nx">bestMove</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">return</span> <span class="nx">movingDisk</span><span class="o">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="c1">//This should never happen</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">createDisk</span><span class="p">()</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">result</span> <span class="o">:</span> <span class="nx">HanoiDiskRules</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HanoiDiskRules</span><span class="p">();</span>
+</span><span class='line'>        <span class="nx">result</span><span class="p">.</span><span class="nx">setupTowers</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As mentioned in HanoiDiskRules section, the main annoyance of this particular implementation of the new algorithm compared to Smalltalk is having to create intermediate array objects just to communicate between the Disk and the Tower.</p>
+
+<p>But things should work again.  Except we will still get only one rendering because the whole algorithm is executed in one call within a &#8220;while&#8221; loop.</p>
+
+<h3>Tower of Hanoi — With Rule Disks and Correct Animation &#8211; Flex</h3>
+
+<p>To make things work in Flex now, all we do is have to unwrap the immediacy [single call stack] of the while loop.  Instead of calling each &#8216;doNextMove&#8217; immediately, we will wait for an event.  That event could be anything, like clicking a button or the server sending a response.  Each time we get an event, we will do the next step.  To be easy to present and view, we will make the events be driven by a simple timer.  Each time the timer fires an event, we will do the next step.  Repeating this until we are done.</p>
+
+<p>The only method changes are to &#8216;moveTower&#8217; and to &#8216;handleTimer&#8217;.  Everything else works just the way it was.</p>
+
+<h4>AnimatedRulesTowerOfHanoi (No Animation)</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+</pre></td><td class='code'><pre><code class='actionscript'><span class='line'><span class="kd">package</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nb">TimerEvent</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">import</span> <span class="nx">flash</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nb">Timer</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nx">AnimatedRulesTowerOfHanoi</span> <span class="kd">extends</span> <span class="nx">AnimatedTowerOfHanoi</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_oldDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_currentDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_destinationDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="k">var</span> <span class="nx">my_timer</span> <span class="o">:</span> <span class="nb">Timer</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">moveTower</span><span class="p">(</span><span class="nx">height</span> <span class="o">:</span> <span class="nb">int</span><span class="o">,</span> <span class="nx">fromPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">toPin</span> <span class="o">:</span> <span class="o">*,</span> <span class="nx">usingPin</span> <span class="o">:</span> <span class="o">*</span><span class="p">)</span> <span class="o">:</span> <span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//Now that the disks know all the rules... we can ignore all the arguments!</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_timer</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Timer</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span>
+</span><span class='line'>        <span class="nx">my_timer</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nb">TimerEvent</span><span class="p">.</span><span class="nx">TIMER</span><span class="o">,</span> <span class="nx">handleTimer</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">my_timer</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">handleTimer</span><span class="p">(</span><span class="nx">evt</span><span class="o">:</span><span class="nb">TimerEvent</span><span class="p">)</span><span class="o">:</span><span class="nx">void</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">isDone</span> <span class="o">:</span> <span class="nb">Boolean</span> <span class="o">=</span> <span class="nx">doNextMove_IsDone</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">isDone</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">my_timer</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+</span><span class='line'>            <span class="nx">my_timer</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">doNextMove_IsDone</span><span class="p">()</span> <span class="o">:</span> <span class="nb">Boolean</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">my_currentDisk</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">decide</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="p">(</span><span class="nx">my_stacks</span><span class="p">[</span><span class="nx">my_currentDisk</span><span class="p">.</span><span class="nx">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="nx">as</span> <span class="nb">Array</span><span class="p">).</span><span class="nx">pop</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">(</span><span class="nx">my_stacks</span><span class="p">[</span><span class="nx">my_destinationDisk</span><span class="p">.</span><span class="nx">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="nx">as</span> <span class="nb">Array</span><span class="p">).</span><span class="nx">push</span><span class="p">(</span><span class="nx">my_currentDisk</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">my_currentDisk</span><span class="p">.</span><span class="nx">moveUpon</span><span class="p">(</span><span class="nx">my_destinationDisk</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_oldDisk</span> <span class="o">=</span> <span class="nx">my_currentDisk</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nx">my_view</span><span class="p">.</span><span class="nx">noteChange</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">isAllOnOneTower</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">isAllOnOneTower</span><span class="p">()</span> <span class="o">:</span> <span class="nb">Boolean</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">my_height</span><span class="p">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">selectTopsOtherThan</span><span class="p">(</span><span class="nx">disk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="p">)</span> <span class="o">:</span> <span class="nb">Array</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">result</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">topDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">eachStack</span><span class="p">[</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">topDisk</span> <span class="o">!==</span> <span class="nx">disk</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">topDisk</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">function</span> <span class="nx">selectPolesOtherThan</span><span class="p">(</span><span class="nx">disk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span><span class="p">)</span> <span class="o">:</span> <span class="nb">Array</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">result</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">my_stacks</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">eachStack</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">my_stacks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">i</span> <span class="o">==</span> <span class="nx">disk</span><span class="p">.</span><span class="nx">pole</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>  <span class="p">{</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">my_mockDisks</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">var</span> <span class="nx">topDisk</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="o">=</span> <span class="nx">eachStack</span><span class="p">[</span><span class="nx">eachStack</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>                <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">topDisk</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">function</span> <span class="nx">decide</span><span class="p">()</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">tops</span> <span class="o">:</span> <span class="nb">Array</span> <span class="o">=</span> <span class="nx">selectTopsOtherThan</span><span class="p">(</span><span class="nx">my_oldDisk</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="nx">i</span><span class="o">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">tops</span><span class="p">.</span><span class="nx">length</span><span class="o">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">var</span> <span class="nx">movingDisk</span> <span class="o">:</span> <span class="nx">HanoiDiskRules</span> <span class="o">=</span> <span class="nx">tops</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">movingDisk</span><span class="p">.</span><span class="nx">hasLegalMove</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">my_destinationDisk</span> <span class="o">=</span> <span class="nx">movingDisk</span><span class="p">.</span><span class="nx">bestMove</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="k">return</span> <span class="nx">movingDisk</span><span class="o">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="c1">//This should never happen</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">protected</span> <span class="kd">override</span> <span class="kd">function</span> <span class="nx">createDisk</span><span class="p">()</span> <span class="o">:</span> <span class="nx">HanoiDisk</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">var</span> <span class="nx">result</span> <span class="o">:</span> <span class="nx">HanoiDiskRules</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HanoiDiskRules</span><span class="p">();</span>
+</span><span class='line'>        <span class="nx">result</span><span class="p">.</span><span class="nx">setupTowers</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">result</span><span class="o">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span> <span class="c1">//package</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T16:46:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/" data-via="" data-counturl="http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/a-taste-of-flex-part-5/" title="Previous Post: A Taste of Flex (Part 5)">&laquo; A Taste of Flex (Part 5)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/a-taste-of-ruby-part-6/" title="Next Post: A Taste of Ruby (Part 6)">A Taste of Ruby (Part 6) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+    <h1>Categories</h1>
+    <span id="category-list"><a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 107.05882352941177%'>git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

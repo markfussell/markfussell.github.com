@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Scratch on Flash - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="The original version of this posting is on the MIT Scratch Forum and the
+current location of the repository is https://github.com/markfussell/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/scratchonflash/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Build Valuable Systems, Better and Faster</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.emenar.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Scratch on Flash</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-19T18:00:00-07:00" pubdate data-updated="true">Sep 19<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>The original version of this posting is on the <a href="http://scratch.mit.edu/forums/viewtopic.php?id=9982">MIT Scratch Forum</a> and the
+current location of the repository is <a href="https://github.com/markfussell/scratchonflash">https://github.com/markfussell/scratchonflash</a></p>
+
+<p>In the spirit of release early and often&#8230;</p>
+
+<p>I have made a full bottom-to-top pass at implementing Scratch in Flash.  It can:</p>
+
+<ul>
+<li> Read a scratch project file</li>
+<li> Create the project model (Stage, Sprites, Blocks, etc.)</li>
+<li> Run that model (the core variable assignments, loops, etc.)</li>
+<li> And do a couple of the other kinds of Sprite blocks in the &#8216;motion&#8217; and &#8216;looks&#8217; categories</li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>It most definitely does not:</p>
+
+<ul>
+<li> Respond to mouse or key events yet (but that is trivial to finish&#8230;)</li>
+<li> Do all the blocks&#8230; this is going to take work to map them all into Flash and especially the Sound area could be problematic</li>
+<li> Draw things properly &#8211; for one, the center of the stage is not 0,0 and the y axis is &#8216;upside-down&#8217; [I said this was &#8216;early&#8217;]</li>
+<li> Run the model correctly for all control blocks.  The core concepts are there and the blocks I have tested work right [and I picked interesting ones], but I have not tested beyond a couple projects</li>
+<li> Read the Sound media at all</li>
+<li> Show any of the Watchers &#8211; Either variables or lists</li>
+</ul>
+
+
+<p>But given those caveats and all that I have forgotten, there is a demo at Scratch on Flash</p>
+
+<p>You put a project URL into the text area and click &#8216;Open&#8217;.  Then click &#8216;Go!&#8217; and if your project responds to &#8216;Go!&#8217; things may or may not start happening :-)    Note that the URL is smart about shared projects on this site (and locates the &#8216;.sb&#8217; file automatically if you give it the project&#8217;s url) but if you use a local file system URL or some other web site, you will need to have a full path to the &#8216;.sb&#8217; file.</p>
+
+<p>The window has a console at the bottom, a textual dump of the program above that, and has a &#8216;Step Processor&#8217; above that.  By default the program is running one step every 30th of a second, but you can turn that off or make more steps occur every 30th of a second.</p>
+
+<p>=======================</p>
+
+<p>It could easily be that only the one project &#8216;Tower of Hanoi&#8217; does anything interesting&#8230; probably within a short time some other projects would work too.  By default, I would probably start picking and choosing among Tutorials or the included &#8216;Projects&#8217; (is there a Gallery on the site for all the Included projects?).</p>
+
+<p>I will release source in some format in the next release &#8211; things are pretty clean and somewhat commented, but I think I should get a little further and make sure I am not going to rename or repackage anything.  And I will need to strip out the few &#8216;Flex&#8217; references from within the core Scratch model so a smaller SWF download is possible.</p>
+
+<p>If anyone is interested in working on this &#8211; doing Blocks and verifying that functionality is working, please let me know.  If people are interested then I will put source into a public RCS like Subversion or Git sooner than later.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-19T18:00:00-07:00" pubdate data-updated="true">Sep 19<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/scratch/'>Scratch</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/scratchonflash/" data-via="" data-counturl="http://markfussell.emenar.com/blog/scratchonflash/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/scratch-textual-language/" title="Previous Post: Scratch Textual Language">&laquo; Scratch Textual Language</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/git-about-everything-intro/" title="Next Post: Being a git about everything (Intro)">Being a git about everything (Intro) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+    <h1>Categories</h1>
+    <span id="category-list"><a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 107.05882352941177%'>git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/scratchonflash/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/scratchonflash/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

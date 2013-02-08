@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dylan | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/dylan/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:18:41-08:00</updated>
+  <updated>2013-02-07T21:20:10-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure/"/>
+    <link href="http://markfussell.emenar.com/blog/ruby-naming-convention-failure/"/>
     <updated>2008-09-04T01:20:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2008/09/04/ruby-naming-convention-failure</id>
+    <id>http://markfussell.emenar.com/blog/ruby-naming-convention-failure</id>
     <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
 
 <!-- more -->

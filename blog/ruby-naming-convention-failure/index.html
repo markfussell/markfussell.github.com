@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Naming Convention Failure - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead. There are lots of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/ruby-naming-convention-failure/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Build Valuable Systems, Better and Faster</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.emenar.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby Naming Convention Failure</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-04T01:20:00-07:00" pubdate data-updated="true">Sep 4<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
+
+<!-- more -->
+
+
+<p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
+
+<ol>
+<li><p>Mark-Fussell (or mark-fussell)</p></li>
+<li><p>MarkFussell</p></li>
+<li><p>Mark_Fussell (or mark_fussell)</p></li>
+</ol>
+
+
+<p>where the underscore goes third mostly because it can be hard to see [URLs and other things put underlines <em>on top</em> of that underline like thus <em>Mark_Fussell</em>], is harder to type, and it over spaces things visually.  So I (and lots of people actually) believe programming languages <em>should</em> use hyphens, but because a bunch of programming languages want &#8216;a-b&#8217; to be interpreted as &#8216;a - b&#8217;, they cop out and prevent the hyphen from being part of a name.  Ruby has that same cop out, so we can&#8217;t use hyphens in Ruby :-(</p>
+
+<h2>Missing Phrase Delimiter</h2>
+
+<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a &#8216;word&#8217; and a &#8216;phrase&#8217; delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="http://www.chimu.com/publications/javaStandards2/part0006.html#E11E13">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
+
+<p>For method naming, the quick summary is:</p>
+
+<ul>
+<li><p>When naming a method</p></li>
+<li><p>Start with a verb phrase (what you are asking the object to do)</p></li>
+<li><p>Put an underscore where a parameter is expected (up to the first two at least)</p></li>
+<li><p>Describe what that parameter is for right before the underscore, if it is not obvious from the verb</p></li>
+</ul>
+
+
+<p>this way, the reader of the code can immediately know how the parameters (in the parentheses) map onto their role in the method itself.  And the whole method name becomes a readable phrase&#8230; not just a weird long word strung together (by whatever convention you want).</p>
+
+<h3>Array::insert</h3>
+
+<p>So an example is:</p>
+
+<pre><code>Array::insert(index, obj)
+</code></pre>
+
+<p>This is a method name that is ambiguous in usage:</p>
+
+<pre><code>anArray.insert(3,2)
+</code></pre>
+
+<p>It is not clear what the code is going to do and I would actually intuitively expect it to be the other way around (except I know about getting burned so would then have to look it up).</p>
+
+<p>A better name would be:</p>
+
+<pre><code>Array::insert_at(obj,index)
+</code></pre>
+
+<p>so reading:</p>
+
+<pre><code>anArray.insert_at(3,2)
+</code></pre>
+
+<p>is clearly inserting the &#8216;3&#8217; not inserting the &#8216;2&#8217;.</p>
+
+<p>Or if people like the order the other way:</p>
+
+<pre><code>   Array::insertAt_value(index,obj)
+
+   anArray.insertAt_value(2,3)
+</code></pre>
+
+<p>And in the Ruby case where any number of values could follow, we should have:</p>
+
+<pre><code>   Array::insertAt_values(index,obj...)
+
+   anArray.insertAt_values(2,3)
+   anArray.insertAt_values(2,5,3)
+</code></pre>
+
+<p>and everything reads naturally something like this &#8220;anArray insertAt: 2 values: 5 and 3&#8221;.</p>
+
+<h3>forPolesOtherThan_do(disk)</h3>
+
+<p>Related to a recent post on the Tower of Hanoi, I believe the resulting choice of:</p>
+
+<pre><code>forPolesOtherThan_do(disk) [block]
+</code></pre>
+
+<p>is much clearer in both communicating what the passed in &#8216;disk&#8217; is for and that it requires a block as a second (semi-hidden) argument than if you have only a word delimiter and have any of:</p>
+
+<pre><code>   for_poles_other_than
+   for_poles_other_than_do
+   forPolesOtherThan
+   forPolesOtherThanDo
+</code></pre>
+
+<h2>What to do?</h2>
+
+<p>Given Ruby wants to use underscore to separate words&#8230; I can&#8217;t separate the phrases at all.  I tried to wrestle my mind around using something different, but Ruby surprisingly (for a modern and internationally-created) language does not have any other punctuation that is allowed and could plausibly work.  So maybe use two underscores for the phrase point?  That seems seriously ugly and also two underscores don&#8217;t really look different from one underscore:</p>
+
+<pre><code>   insert_at__values
+   for_poles_other_than__do
+</code></pre>
+
+<p>Using capitals for this purpose just comes off weird (plausible but weird):</p>
+
+<pre><code>   insert_at_Values
+   for_poles_other_than_Do
+</code></pre>
+
+<p>It is also exactly the opposite of Smalltalk, and I try to be able to work across languages without having to flip upside down all the time.  Same regarding Java and Flex (two other languages I actively work in).  For reference, the Smalltalk version of these examples are:</p>
+
+<pre><code>   insertAt: values:
+   forPolesOtherThan: do:
+</code></pre>
+
+<h3>Arguments about non-English speakers</h3>
+
+<p>One argument I (so far) find specious is that using capitals prevents non-native speakers from understanding the code.  I could maybe believe this is true in rare cases &#8211; but (1) nobody has a study referenced that shows that, and (2) if that were true, someone simply has to learn the language better.  You can&#8217;t argue that some people&#8217;s inability to use a language is a reason to not use a feature of that language.  That would argue that almost all syntax in languages should be stripped, and few languages (and especially computer languages) can survive that.  Actually only Lisp survives that (give me just a pair of delimiters, and I can rule the world :-) )</p>
+
+<p>Also given Ruby uses CamelCase for classes, you already have a requirement to understand this kind of syntax aspect.  So Ruby is presupposing the reader can read the syntax it is arguing the reader can&#8217;t read.</p>
+
+<h3>The standard, in different languages</h3>
+
+<p>A more interesting question is whether the &#8220;word and phrase standard&#8221; survives human-language change.  Obviously the standard does not work &#8220;as written&#8221; if the language used is not a capital-capable language.  And an obviously important language for that test is written Chinese (traditional or simplified).  But actually the &#8216;underscores for phrases and parameters&#8217; degrades with Chinese better than &#8216;underscores for words&#8217;.  Chinese doesn&#8217;t require spaces for words to be apparent, and does not use spaces at all for that purpose (normally) &#8211; it is obvious where each word starts and ends without spacing because a word is only a couple characters long.  So given words are apparent, the only thing left is to have phrases.  Although unnatural to use underscores for phrases and parameters, it at least seems plausibly useful.</p>
+
+<p>Admittedly I have not tried in depth to program in Chinese (Smalltalk/Agents by QKS had the ability way back but I only played with it a little) and have not found a study on it&#8230;  so I can&#8217;t say for sure whether the underscore for parameters would make sense.  But it is at least plausible it would make sense and it would make much more sense than underscore to separate (already separated) words.</p>
+
+<p>Another plausible language to test against would be Hindi, but (I believe) most writers of Hindi in the computer field are also excellent English writers, so that is harder to argue for.</p>
+
+<h3>Could be hyphens</h3>
+
+<p>Note that the convention is totally happy with using &#8216;hyphens&#8217; as word separators if the environment supports it.</p>
+
+<pre><code>   insert-at_values
+   for-poles-other-than_do
+</code></pre>
+
+<h2>Summary: Ruby has it wrong &#8211; We need CamelWords or hyphen-words</h2>
+
+<p>So I believe Ruby has it wrong and am very unhappy a modern language started 20 years after Smalltalk and several years after Dylan would get this kind of thing wrong.  And I recommend moving the Ruby standard to the CamelWord_UnderPhrase standard, or allowing the hyphen and use the hyphen-word_under-phrase standard.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-04T01:20:00-07:00" pubdate data-updated="true">Sep 4<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dylan/'>Dylan</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/ruby-naming-convention-failure/" data-via="" data-counturl="http://markfussell.emenar.com/blog/ruby-naming-convention-failure/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/a-taste-of-ruby-part-7/" title="Previous Post: A Taste of Ruby (Part 7)">&laquo; A Taste of Ruby (Part 7)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/a-taste-of-scratch/" title="Next Post: A Taste of Scratch">A Taste of Scratch &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/git-about-everything-annex/">Being a git about everything (Annexing)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/git-about-everything-intro/">Being a git about everything (Intro)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/scratchonflash/">Scratch on Flash</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/scratch-textual-language/">Scratch Textual Language</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/a-taste-of-scratch/">A Taste of Scratch</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+    <h1>Categories</h1>
+    <span id="category-list"><a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 107.05882352941177%'>git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/ruby-naming-convention-failure/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/ruby-naming-convention-failure/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

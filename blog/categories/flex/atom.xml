@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flex | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/flex/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:18:41-08:00</updated>
+  <updated>2013-02-07T21:20:10-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Taste of Ruby (Part 6)]]></title>
-    <link href="http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-6/"/>
     <updated>2008-09-03T02:18:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2008/09/03/a-taste-of-ruby-part-6</id>
+    <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../../../08/28/a-taste-of-ruby">here</a>.</p>
 
 <h2>Tower of Hanoi — With Rule Disks (and no stack)</h2>
@@ -191,9 +191,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 6)]]></title>
-    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6/"/>
+    <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-6/"/>
     <updated>2008-09-02T16:46:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-6</id>
+    <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-6</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
@@ -492,9 +492,9 @@ protected override function createDisk() : HanoiDisk {
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 5)]]></title>
-    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-5/"/>
+    <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-5/"/>
     <updated>2008-09-02T07:44:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-5</id>
+    <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-5</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi — With Graphics</h2>
@@ -630,9 +630,9 @@ protected override function moveDisk(fromPin : *, toPin : *) : void {
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 4)]]></title>
-    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-4/"/>
+    <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-4/"/>
     <updated>2008-09-02T07:13:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-4</id>
+    <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-4</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi &mdash; With Model Objects</h2>
@@ -804,9 +804,9 @@ public function moveUpon(destination : HanoiDisk) : void {
   
   <entry>
     <title type="html"><![CDATA[A Taste of Flex (Part 3)]]></title>
-    <link href="http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-3/"/>
+    <link href="http://markfussell.emenar.com/blog/a-taste-of-flex-part-3/"/>
     <updated>2008-09-02T05:11:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2008/09/02/a-taste-of-flex-part-3</id>
+    <id>http://markfussell.emenar.com/blog/a-taste-of-flex-part-3</id>
     <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="../a-taste-of-flex">here</a>.</p>
 
 <h2>Tower of Hanoi -- With A Real Object</h2>

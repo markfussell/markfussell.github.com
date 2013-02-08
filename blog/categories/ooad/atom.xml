@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OOAD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/ooad/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:18:41-08:00</updated>
+  <updated>2013-02-07T21:20:10-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[The Viking: A Direct Marketing System for OOPSLA DesignFest]]></title>
-    <link href="http://markfussell.emenar.com/blog/2000/05/10/viking/"/>
+    <link href="http://markfussell.emenar.com/blog/viking/"/>
     <updated>2000-05-10T18:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/2000/05/10/viking</id>
+    <id>http://markfussell.emenar.com/blog/viking</id>
     <content type="html"><![CDATA[<p>There is also a PDF version <a href="/pdfs/TheViking5e.pdf">here</a> which might be easier to read
 because it has a bit more formatting.</p>
 
