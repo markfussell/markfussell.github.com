@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-07T21:40:13-08:00</updated>
+  <updated>2013-02-08T18:11:00-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -359,7 +359,13 @@ sys 0m2.948s
 ```</p>
 
 <p>So it took 10 seconds to download 100MB.  That is 80Mb/s on an 'm1.small' which is a pretty nice number to work with.  Changing to 100 workers doesn't make much difference (about 9 seconds),
-so this is pretty much the saturation of 'm1.small' to S3 performance.  Larger instance types can perform even better.</p>
+so this is pretty much the saturation of 'm1.small' to S3 performance.</p>
+
+<p>Larger instance types can perform even better.  During a particularly grueling annexing, the performance numbers looked like this:</p>
+
+<p><img source="/images/git-about-everything-annex/ec2performance2.png" /></p>
+
+<p>That is getting 200MB/s <em>minimum</em> and passing 1GB/s at peaks.</p>
 
 <h2>Summary -- Annexing makes Git good at binary files</h2>
 

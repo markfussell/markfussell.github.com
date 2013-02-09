@@ -488,7 +488,13 @@ can test it out.  The CloudFormation is here:</p>
 
 
 <p>So it took 10 seconds to download 100MB.  That is 80Mb/s on an &#8216;m1.small&#8217; which is a pretty nice number to work with.  Changing to 100 workers doesn&#8217;t make much difference (about 9 seconds),
-so this is pretty much the saturation of &#8216;m1.small&#8217; to S3 performance.  Larger instance types can perform even better.</p>
+so this is pretty much the saturation of &#8216;m1.small&#8217; to S3 performance.</p>
+
+<p>Larger instance types can perform even better.  During a particularly grueling annexing, the performance numbers looked like this:</p>
+
+<p><img source="/images/git-about-everything-annex/ec2performance2.png" /></p>
+
+<p>That is getting 200MB/s <em>minimum</em> and passing 1GB/s at peaks.</p>
 
 <h2>Summary &#8211; Annexing makes Git good at binary files</h2>
 
