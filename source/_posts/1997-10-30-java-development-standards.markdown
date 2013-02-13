@@ -1,0 +1,4704 @@
+---
+layout: post
+title: "Java Development Standards"
+date: 1997-10-30 18:00
+comments: true
+categories: Guideline Java
+---
+
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This document
+describes the standards ChiMu Corporation uses for Java development.<span
+style="mso-spacerun: yes">&nbsp; </span>Documenting these standards is
+important for our own needs and our customers, but we provide these standards
+publicly to help other teams who are establishing or growing their own
+standards.<span style="mso-spacerun: yes">&nbsp; </span>These standards may
+also help developers to better understand good software design: they are
+especially designed to help a developer think about the issues (e.g. some of
+them are "radical").<span style="mso-spacerun: yes">&nbsp; </span>In many cases
+you may object to our recommendations and decide on a different standard, but
+the acts of reasoning about the issues and documenting your solutions is even
+more important</span><a style='mso-footnote-id:ftn' href="#_ftn1" name="_ftnref"
+title=""><span style='mso-bookmark:_Toc390967791'><span
+class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !supportFootnotes]>[*]<![endif]></span></span></span></a><span
+style='mso-bookmark:_Toc390967791'>.<span style="mso-spacerun: yes">&nbsp;
+</span></span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This document is
+organized with an initial introduction and then the summary of our
+standards.<span style="mso-spacerun: yes">&nbsp; </span>Following this is the
+main discussion, explanation, and details of the standards.<span
+style="mso-spacerun: yes">&nbsp; </span>The document ends with definitions and
+references.</span></p>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
+
+<h1 style='margin-top:24.0pt;page-break-before:auto'><span style='mso-bookmark:
+_Toc390967791'><a name="_Toc402802553"></a><a name="_Toc408310742"><span
+style='mso-bookmark:_Toc402802553'><![if !supportLists]><span style='mso-list:
+Ignore'>2<span style="mso-spacerun: yes">&nbsp; </span></span><![endif]>Introduction</span></a></span></h1>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The two most important
+principles to consider for high-quality software development are:</span></p>
+
+<p class=MsoListBullet2><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>To think from the client's point of view</span></p>
+
+<p class=MsoListBullet2><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>To think from the maintainer's point of view</span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Understanding and
+considering these two customers' needs during development makes most of the difference
+between poorly designed and very nicely designed systems.<span
+style="mso-spacerun: yes">&nbsp; </span>Object-oriented techniques can help
+support both of these customers' needs, but the principles must always be on
+your mind.<span style="mso-spacerun: yes">&nbsp; </span>Codifying those needs
+into your standards will help.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Some of the
+guidelines may sound like more work than you as designer or coder would like to
+do, but over time they will pay off to your clients, your maintainers, and you
+yourself when you are filling those two roles.<span style="mso-spacerun:
+yes">&nbsp; </span>And in these two roles is where most of the time and energy
+for software development is spent, even for a one-person project.<span
+style="mso-spacerun: yes">&nbsp; </span>Anything we write today will be used
+and maintained for many days, months, and years ahead.<span
+style="mso-spacerun: yes">&nbsp; </span>Or so we hope.</span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802554"></a><a
+name="_Toc408310743"><span style='mso-bookmark:_Toc402802554'><![if !supportLists]><span
+style='mso-list:Ignore'>2.1 </span><![endif]>Sources of Standards</span></a></span></h2>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The design and
+development standards documented here are summaries and extractions from more
+general standards as well as our own experiences.<span style="mso-spacerun:
+yes">&nbsp; </span>The following sources document these general "software
+engineering" practices.<span style="mso-spacerun: yes">&nbsp; </span>The full
+references are at the end of the document.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>For publicly
+available coding standards I recommend the following resources for Java,
+Smalltalk, and Eiffel.<span style="mso-spacerun: yes">&nbsp; </span>I choose
+these standards because Java is best thought of as simplified Smalltalk with
+interfaces and bare-bones static typing added to it.<span style="mso-spacerun:
+yes">&nbsp; </span>The syntax looks like 'C' or 'C++', but the semantics are
+much closer to a cross between a very diluted Eiffel and Smalltalk.</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Doug Lea's Java
+  coding standards </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Lea]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Smalltalk Best
+  Practice Patterns: Coding </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Beck 96]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Code Complete </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[McConnell 93]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Object-Oriented
+  Software Construction, 2<sup>nd</sup> Edition </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Meyer 97]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Eiffel, The
+  Language</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Meyer 92]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Smalltalk with
+  Style </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Skublics+KT 96]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Software design and
+object oriented design have a much broader range of relevant topics and
+resources, but the following are some good introductions. </span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Design Patterns</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Gamma+HJV 95]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Object-Oriented
+  Analysis and Design with Applications</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Booch 94]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Object-Oriented
+  Modeling and Design</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Rumbaugh+BPEL
+  91]<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Information
+  Modeling</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Kilov+R 94]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Finally, in terms
+of relational databases, there are two primary authors (Codd and Date) and much
+of the recent discussions have been in Database Programming and Design.<span
+style="mso-spacerun: yes">&nbsp; </span>The following are some of the books
+that may be useful.</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The Relational
+  Model for Database Management</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Codd 90]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An Introduction
+  to Database Systems</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Date 95]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Relational
+  Database Writing</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Date 95b] and
+  the previous editions</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The Object
+  Database Standard: ODMG-93</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Cattell+ 96]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Object-Relation
+  DBMSs</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Stonebraker+M
+  96]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><a
+name="_Toc402802555"><o:p>&nbsp;</o:p></a></span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style='mso-bookmark:_Toc402802555'>There is a collection of terms and
+definitions at the end of this document, which form part of our standard
+development dictionary.<span style="mso-spacerun: yes">&nbsp; </span>Many of
+these terms are reconciled with:</span></span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+  style='mso-bookmark:_Toc402802555'>Directory of Object Technology</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'><span style='mso-bookmark:_Toc402802555'></span></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+  style='mso-bookmark:_Toc402802555'>[Firesmith+E 95]</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'><span style='mso-bookmark:_Toc402802555'></span></span>
+ </tr>
+</table>
+
+<span style='mso-bookmark:_Toc402802555'></span>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
+
+<h1><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802556"></a><a
+name="_Toc408310744"><span style='mso-bookmark:_Toc402802556'><![if !supportLists]><span
+style='mso-list:Ignore'>3<span style="mso-spacerun: yes">&nbsp; </span></span><![endif]>Standards Summary</span></a></span></h1>
+
+</div>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802557"></a><a
+name="_Toc408310745"><span style='mso-bookmark:_Toc402802557'>Ultimate Principles</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Think from the Client's point of view<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Think
+  about what a client needs and how a client will be using your
+  functionality.<span style="mso-spacerun: yes">&nbsp; </span>Support their
+  needs before yours.<span style="mso-spacerun: yes">&nbsp; </span>Protect
+  their code from changes.<span style="mso-spacerun: yes">&nbsp; </span>Make
+  sure they will know how to correctly use you system.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Think from the Maintainer's<span style="mso-spacerun: yes">&nbsp;
+  </span>point of view<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Think
+  about what a maintainer needs to support the maintenance and enhancement
+  process.<span style="mso-spacerun: yes">&nbsp; </span>Make sure they can
+  understand your code's responsibilities and its implementation.<span
+  style="mso-spacerun: yes">&nbsp; </span>Make life as simple as possible.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802558"></a><a
+name="_Toc408310746"><span style='mso-bookmark:_Toc402802558'>Interfaces and Classes</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Interface with 'interface's<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Use
+  interface as the glue throughout your code instead of classes.<span
+  style="mso-spacerun: yes">&nbsp; </span>Interfaces focus on the client's
+  needs: they define what functionality a client will receive without coupling
+  them to the implementation. Variables, parameters, return values, and casts
+  should all use interfaces.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Avoid exposing classes<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Avoid
+  exposing implementation classes at all.<span style="mso-spacerun: yes">&nbsp;
+  </span>Provide creation methods on interfaces to other objects or on
+  Packs.<span style="mso-spacerun: yes">&nbsp; </span>Only expose classes that
+  are meant to be subclassed.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Do not suffix interfaces<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Do
+  not suffix or prefix interfaces.<span style="mso-spacerun: yes">&nbsp;
+  </span>Interfaces describe functionality publicly and own the "normal"
+  namespace. </span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  Query, Table, Sequence</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Suffix classes with 'Class'<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>To
+  avoid collisions between interfaces and implementation classes, suffix your
+  classes with 'Class'.<span style="mso-spacerun: yes">&nbsp; </span>Classes
+  provide implementation and are both localized and secondary compared to
+  interfaces.<span style="mso-spacerun: yes">&nbsp; </span>If it is an abstract
+  class suffix it with 'AbsClass'.<span style="mso-spacerun: yes">&nbsp;
+  </span></span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>An
+  exception is a class called from the command line (i.e. main entrypoints)
+  which does not need to be suffixed for user convenience.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  QueryClass, TableAbsClass, JdkVectorWrapperClass</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Provide different interfaces for different clients<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Use
+  different interfaces to document and control the functionality provided to
+  different types of clients.<span style="mso-spacerun: yes">&nbsp; </span>For
+  example, you can document the functionality provided to users of a subsystem
+  through a public interface, which is separate from the interface used within
+  the subsystem.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Suffix Extended, Subsystem, and Package interfaces <o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Use
+  suffixes for extended (Xi), subsystem (Si), and package (Pi) interfaces and
+  inherit in a hierarchy (Xi&lt;-Si&lt;-Pi). This allows you to identify which
+  interfaces should be visible to whom, and also to know whether an internal
+  cast will succeed.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  Query, QueryXi, QuerySi, QueryPi</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Provide creation methods<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Instead
+  of having clients use 'new' provide creation methods to construct
+  objects.<span style="mso-spacerun: yes">&nbsp; </span>Prefix these creation
+  methods with 'new' and place them on interfaces of an appropriate object or
+  on a 'Pack'.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:17.1pt;margin-bottom:.0001pt;text-indent:-17.1pt'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:9.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  MetaPack.newMethodReference, Orm.newObjectMapperNamed_table</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802559"></a><a
+name="_Toc408310747"><span style='mso-bookmark:_Toc402802559'>Naming</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Name things well<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Spend
+  extra effort to choose good names for your Types and Methods.<span
+  style="mso-spacerun: yes">&nbsp; </span>Choose intention revealing method
+  names [Beck 96] and simple, appropriate class names.<span
+  style="mso-spacerun: yes">&nbsp; </span>Always try out a name by using it in
+  client code before committing to a name in real code.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Standardize your naming<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Decide
+  on the meaning of a word or pattern and then use it consistently.<span
+  style="mso-spacerun: yes">&nbsp; </span>This is especially important for
+  method naming patterns, which should be reused as much as possible.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  is..., setup..., new..., with </span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Use Woven Parameters<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Put
+  underscores ('_') as placeholders for where parameters belong in a
+  selector.<span style="mso-spacerun: yes">&nbsp; </span>Leave off any trailing
+  underscores.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  atIndex_put, newDirectSlot_column_type<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802560"></a><a
+name="_Toc408310748"><span style='mso-bookmark:_Toc402802560'>Organizing</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Use 'Pack' classes<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Every
+  package should have a 'Pack' class that documents the package's functionality
+  and provides a common place for creation methods and required static
+  functionality.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:17.1pt;margin-bottom:.0001pt;text-indent:-.25in'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:9.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  FunctorsPack<span style="mso-spacerun: yes">&nbsp; </span>/** Functors
+  contains interfaces that support using object that encapsulate functions (aka
+  Commands)... **/<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Avoid 'static' methods<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Try
+  to avoid making public members 'static'.<span style="mso-spacerun:
+  yes">&nbsp; </span>Instead try to allocate the functionality to another
+  appropriate object or use the Singleton pattern.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  VmPack.theVm().canSupportWeakReferences().</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Consistently order your modifiers<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Use
+  a consistent ordering of class and member modifiers. Put 'static' first to
+  make conspicuous this different (non-OO) kind of member.<span
+  style="mso-spacerun: yes">&nbsp; </span>Put access modifiers next so a client
+  can tell if a method is visible.<span style="mso-spacerun: yes">&nbsp;
+  </span>Follow access with the special modifiers.<span style="mso-spacerun:
+  yes">&nbsp; </span>Finish with return type.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  public int, static protected void, private synchronized final Object</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Augment access modifiers<span style="mso-spacerun: yes">&nbsp;
+  </span>with comments<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Use
+  comments to describe more precisely what type of access you are
+  providing.<span style="mso-spacerun: yes">&nbsp; </span>Be explicit about
+  'package' visibility, mention if you expect 'protected' to really be
+  'progeny' (i.e. no package visibility), and specify if a method is 'public'
+  but is only so to support a 'system' or 'package' interface (interfaces
+  require methods to be public).</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:17.1pt;margin-bottom:.0001pt;text-indent:-17.1pt'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:9.0pt;mso-bidi-font-size:
+  10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  public, /*subsystem*/&nbsp;public, /*package*/&nbsp;public, /*package*/,
+  protected, /*progeny*/&nbsp;protected, private</span><o:p></o:p></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Categorize your methods<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Divide
+  your methods into categories and organize your class structure around them.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802561"></a><a
+name="_Toc408310749"><span style='mso-bookmark:_Toc402802561'>Abbreviation and Acronyms</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Initial cap acronyms<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Initial
+  cap acronyms instead of putting them in all capitals (i.e. treat them as
+  words).</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  JdbcConnection, JglCollection, FormPack</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Keep capitalization when abbreviating<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Abbreviate
+  long names by reducing their internal words to the initial letter.<span
+  style="mso-spacerun: yes">&nbsp; </span>A sequences of capitals indicates
+  multiple words abbreviated in a row.</span></p>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>Example</span></i></b></span><span
+  style='mso-bookmark:_Toc390967791'><i style='mso-bidi-font-style:normal'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:"Courier New"'>:
+  CompLangJava -&gt; CLJava.</span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802562"></a><a
+name="_Toc408310750"><span style='mso-bookmark:_Toc402802562'>Growing and changing standards</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Try it out<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Live
+  with a standard for a while before deciding to scrap or change it.<span
+  style="mso-spacerun: yes">&nbsp; </span>Let the goals of a standard grow into
+  your habits so you fully understand its value to you.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Prove performance<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>Do
+  not sacrifice a standard for performance reasons until you see the profiling
+  numbers.<span style="mso-spacerun: yes">&nbsp; </span>Only optimize when it
+  will quantifiably be worth the maintenance penalty.<span style="mso-spacerun:
+  yes">&nbsp; </span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=149 valign=top style='width:149.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt'><span style='mso-bookmark:_Toc390967791'><i
+  style='mso-bidi-font-style:normal'><span style='font-size:12.0pt;mso-bidi-font-size:
+  10.0pt'>Take out the trash<o:p></o:p></span></i></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:8.0pt'><span style='mso-bookmark:_Toc390967791'>If
+  a standard does not work for your team, create a new one or let the issue be
+  context and programmer dependent until a new standard emerges.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<span style='font-size:10.0pt;font-family:"Times New Roman";mso-fareast-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";mso-ansi-language:
+EN-US;mso-fareast-language:EN-US'><br clear=ALL style='mso-special-character:
+line-break;page-break-before:always'>
+</span>
+
+
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
+
+<h1><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802563"></a><a
+name="_Toc408310751"><span style='mso-bookmark:_Toc402802563'><![if !supportLists]><span
+style='mso-list:Ignore'>4<span style="mso-spacerun: yes">&nbsp; </span></span><![endif]>Coding and Design Standards</span></a></span></h1>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This chapter
+describes our standards for both coding and coding related design.<span
+style="mso-spacerun: yes">&nbsp; </span>I believe these to be inseparable: All
+object-oriented software development project I have dealt with require the
+"coder" to also be at least a partial designer, and the better the design
+skills the better the software.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802564"></a><a
+name="_Toc408310752"><span style='mso-bookmark:_Toc402802564'><![if !supportLists]><span
+style='mso-list:Ignore'>4.1 </span><![endif]>Classes, Interfaces, Types and Protocol standards</span></a></span></h2>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Interfaces and
+Classes are the dominant structuring mechanism for object-oriented
+programming.<span style="mso-spacerun: yes">&nbsp; </span>They determine how
+your system looks to clients and they help organize your implementation.<span
+style="mso-spacerun: yes">&nbsp; </span>It is important to consider the
+client's point of view first.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802565"></a><a
+name="_Toc408310753"><span style='mso-bookmark:_Toc402802565'>Interfaces for interfacing</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Use interfaces as
+the glue throughout your code instead of classes.<span style="mso-spacerun:
+yes">&nbsp; </span>Interfaces focus on the client's needs: they define what
+functionality a client will receive without coupling them to the
+implementation. Variables, parameters, return values, and casts should all use
+interfaces.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+
+<p class=Normal2nd><span style='mso-bookmark:_Toc390967791'>Classes are
+implementations of interfaces and should provide no public behavior beyond the
+interface itself (other than how to create and initialize an object of that
+class).<span style="mso-spacerun: yes">&nbsp; </span>Avoid exposing classes except
+when you want to provide the ability for a client to subclass.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Interfaces should
+be given no suffixes or prefixes: they have the &quot;normal&quot; name
+space.<span style="mso-spacerun: yes">&nbsp; </span>Classes are given a suffix
+of &quot;Class&quot; if they are meant to be instantiated or are given a suffix
+of &quot;AbsClass&quot; if they are an abstract class that provides inheritable
+implementation but is not complete and instantiable by itself.<span
+style="mso-spacerun: yes">&nbsp; </span></span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802566">Examples</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>All variables,
+return values, and parameters are typed to an interface (a Type).</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>Point aPoint = GeometryPack.newPointX_y(3,5);</span></p>
+
+</div>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Methods commit to
+what type they return, but not the particular implementation class</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>Point newPointX_y(float x, float y) {</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if ((x == 0) &amp;&amp;
+(y ==0)) return ZERO_POINT;</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (y == 0) return
+newPointR_theta(x,0);<span style="mso-spacerun: yes">&nbsp; </span>//Just to show
+the encapsulation</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return new
+PointXYClass(x,y);</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>}</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>Point newPointR_theta(float r, float theta) {</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (r == 0) return
+ZERO_POINT;</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return new
+PointRThetaClass(r,theta);</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>}</span></p>
+
+</div>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Similarly, methods
+specify the parameter type they need but do not restrict the implementation of
+that type:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>Rectangle newRectangle(Point c1, Point c2) {</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if (c1.equals(c2))
+return new DegenRectangleClass(c1);</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return new
+RectangleClass(c1.x(), c1.y(), c2.x(), c2.y());</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style="mso-spacerun: yes">&nbsp;&nbsp;</span>//We know c1 can tell us x(), y(),
+but not if it</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>//actually stores 'x' and 'y' as instance variables</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt;tab-stops:.5in .75in 1.0in 1.25in 1.5in 1.75in 2.0in 2.25in'><span
+style='mso-bookmark:_Toc390967791'><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp; </span>}</span></p>
+
+</div>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The only place
+where the Class itself is exposed is within the implementation of the factory
+method (as above) and the methods of the actual object.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Classes and
+abstract classes can implement the &quot;unsuffixed&quot; interface directly:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>public
+class PointAbsClass implements Point {...</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>or indirectly when
+a parent class implements it for them:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>public
+class PointXYClass extends PointAbsClass {...</span></p>
+
+</div>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802567">Discussion</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>There are many
+benefits to using interfaces as the glue throughout your systems, the following
+are just two of the most important benefits.<span style="mso-spacerun:
+yes">&nbsp; </span>First, clients will not be coupled to the specific
+implementation, so you can have much more flexibility in evolving the
+implementation plus you can provide alternative implementations to support
+proxies, tracing, and performance variations.<span style="mso-spacerun:
+yes">&nbsp; </span>Second, you can use multiple inheritance among interfaces
+and between interfaces and classes, which can help with OO modeling and can
+support different access views of the same class (see below on Access Control).</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The penalties of
+using interfaces everywhere are having to managing interfaces separately from
+classes and any performance penalty a particular JVM has for calling through
+interfaces.<span style="mso-spacerun: yes">&nbsp; </span>Managing separate
+files is overhead but it provides an important reward: you are focused on the
+client when modifying the 'interface' file.<span style="mso-spacerun:
+yes">&nbsp; </span>It is much harder to keep a 'client' focus when in a 'class'
+file with all the implementation details around.<span style="mso-spacerun:
+yes">&nbsp; </span></span></p>
+
+<p class=Normal2nd><span style='mso-bookmark:_Toc390967791'>The performance
+penalty depends on the particular VM.<span style="mso-spacerun: yes">&nbsp;
+</span>On some current VMs it varies between 30% overhead and 150% overhead
+over a straight message call</span><a style='mso-footnote-id:ftn' href="#_ftn2"
+name="_ftnref" title=""><span style='mso-bookmark:_Toc390967791'><span
+class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !supportFootnotes]>[&dagger;]<![endif]></span></span></span></a><span
+style='mso-bookmark:_Toc390967791'>.<span style="mso-spacerun: yes">&nbsp;
+</span>Rarely is this "message overhead" a significant burden for an
+application, but in a few tight circumstances it may be and 'class-typing' can
+replacing the 'interface-typing'</span><a style='mso-footnote-id:ftn'
+href="#_ftn3" name="_ftnref" title=""><span style='mso-bookmark:_Toc390967791'><span
+class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !supportFootnotes]>[&Dagger;]<![endif]></span></span></span></a><span
+style='mso-bookmark:_Toc390967791'>.<span style="mso-spacerun: yes">&nbsp;
+</span>Because classes are conspicuous these cases will be easy to identify and
+reverse if other needs take precedence.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Overall, the
+advantages of using interfaces far outweigh the disadvantages, especially for
+the client and maintainer.<span style="mso-spacerun: yes">&nbsp; </span>The
+extra flexibility, object modeling improvement, and client consideration
+provided by interfaces improve programs significantly.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802568"></a><a
+name="_Toc408310754"><span style='mso-bookmark:_Toc402802568'>Interface and Class naming</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Make sure the name
+of an interface or a class matches the range of usage of the interface or
+class.<span style="mso-spacerun: yes">&nbsp; </span>If it is designed to be
+very general, choose a very simple name.<span style="mso-spacerun: yes">&nbsp;
+</span>If it is designed to be used in a more specific context, qualify it
+enough to describe the range of functionality that it is meant to have.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>You should spend a
+fair amount of time making sure your interface and class names are very
+good.<span style="mso-spacerun: yes">&nbsp; </span>Try names out and fix them
+if they don't work well in actual use or if they do not fit well with other
+interfaces and classes in the system.<span style="mso-spacerun: yes">&nbsp;
+</span>This is especially valuable in the younger stages of a project &#8211;
+before other people have mentally and programmatically committed to a name.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802569"></a><a
+name="_Toc408310755"><span style='mso-bookmark:_Toc402802569'>Types and protocols</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We separate
+specifying an object's public interfaces in two ways: specifying what an object
+is (its Types) and specifying what an object responds to (its Protocols).<span
+style="mso-spacerun: yes">&nbsp; </span>These are both specified using Java
+interfaces, but protocols tend to be "mixed in" to the Types as opposed to
+having their own hierarchy.<span style="mso-spacerun: yes">&nbsp; </span>It is
+useful for modeling to make the distinction, and we to suffix the mixin
+protocol with "able" (Printable, Sortable).</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802570"></a><a
+name="_Toc408310756"><span style='mso-bookmark:_Toc402802570'>Access Control</span></a></span></h3>
+
+<p class=MsoNormal style='page-break-after:avoid'><span style='mso-bookmark:
+_Toc390967791'>Java has 4 levels of access control</span><a style='mso-footnote-id:
+ftn' href="#_ftn4" name="_ftnref" title=""><span style='mso-bookmark:_Toc390967791'><span
+class=MsoFootnoteReference><span style='mso-special-character:footnote'><![if !supportFootnotes]>[&sect;]<![endif]></span></span></span></a><span
+style='mso-bookmark:_Toc390967791'>:</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Public</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Visible to
+  everyone</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Protected</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Visible only to
+  the class and its subclasses (when each is acting as a subclass)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Private</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Visible only to
+  the class itself (no subclasses)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Package</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Visible only to
+  the classes within the same package</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We primarily use
+Public and Protected access control.<span style="mso-spacerun: yes">&nbsp;
+</span>Since we use interfaces to specify the public interface of a class, the
+only methods that are public and not in some interface are creation methods
+(constructors and initialization). We use package visibility if we want a
+method to be visible to other classes in the package to support implementation
+that is not part of the public behavior.<span style="mso-spacerun: yes">&nbsp;
+</span>We rarely use Private because we rarely find it necessary to consider a
+subclass as not having the ability to access its superclasses'
+implementation.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Our default order
+of access is:</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Protected</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>All instance
+  variables and methods that are not part of the public interface to the class.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Public</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Methods that are
+  part of the public Type interface or are publicly needed to create the object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Package</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Any non-public
+  methods that other classes in the package need for implementation</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=54 valign=top style='width:.75in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Private</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=353 valign=top style='width:4.9in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Special use.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Although the above
+access control standards work fine on their own, they do not work well with
+interfaces which requires methods to be public.<span style="mso-spacerun:
+yes">&nbsp; </span>The following section overrides the current section because
+of this limitation in Java.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802571"></a><a
+name="_Toc408310757"><span style='mso-bookmark:_Toc402802571'>Package Interfaces and Subsystem Interfaces</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>In a continued
+attempt to document and encapsulate types and classes, We now use interfaces
+for package access as well as public access.<span style="mso-spacerun:
+yes">&nbsp; </span>Unfortunately, Java does not allow you to specify that an
+interface contains methods that are only package accessible.<span
+style="mso-spacerun: yes">&nbsp; </span>When you create an interface, its
+methods are automatically public and that means the methods must be public in
+the class implementing those methods.<span style="mso-spacerun: yes">&nbsp;
+</span>So if we use an interface to specify the package interface, all those methods
+must be public on the class.</span></p>
+
+<p class=Normal2nd><span style='mso-bookmark:_Toc390967791'>Fortunately, this
+is not a problem when considered with the other standards.<span
+style="mso-spacerun: yes">&nbsp; </span>Since no client of the class is
+expected to ever see the class itself, but must instead interact with the
+interface that is available to the client.<span style="mso-spacerun:
+yes">&nbsp; </span>So if a class only has access to a public interface, it can
+only use the methods specified in that interface and can not normally see or
+use methods (although also "public" on the class).<span style="mso-spacerun:
+yes">&nbsp; </span>A class that has the package interface (which is private to the
+package) will be able to use both the public and the "package public"
+interfaces.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The standard is
+still that the public interfaces have no suffixes.<span style="mso-spacerun:
+yes">&nbsp; </span>The naming convention for the additional Package and
+Subsystem interfaces is as follows:</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=23 valign=top style='width:22.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'>Pi</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=383 valign=top style='width:382.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Package Interface:
+  Interface <i style='mso-bidi-font-style:normal'>for within</i> Package .<span
+  style="mso-spacerun: yes">&nbsp; </span>This specifies the interface/methods
+  available to other classes in the same package.<span style="mso-spacerun:
+  yes">&nbsp; </span>This is usually the most inclusive interface (other than
+  for the class itself).</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=23 valign=top style='width:22.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'>Si</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=383 valign=top style='width:382.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Subsystem
+  Interface: Interface <i style='mso-bidi-font-style:normal'>for within </i>Subsystem.<span
+  style="mso-spacerun: yes">&nbsp; </span>This specifies the interface/methods
+  available to other classes in the same subsystem but in a different
+  package.<span style="mso-spacerun: yes">&nbsp; </span>This is more inclusive
+  than the public interface but more restrictive than the package interface.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=23 valign=top style='width:22.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'>Xi</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=383 valign=top style='width:382.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Extended
+  Interface: An extension of an interface to provide more functionality than is
+  commonly needed.<span style="mso-spacerun: yes">&nbsp; </span>Only certain
+  "sophisticated" clients will want to use an Xi interface.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>In this case, these
+interfaces form a "perfect" hierarchy (Foo - FooXi - FooSi - FooPi) so moving
+both up and down the hierarchy is guaranteed to succeed for an instance of
+'FooClass'.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802572"></a><a
+name="_Toc408310758"><span style='mso-bookmark:_Toc402802572'>Constructors and Factory methods</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>For Java we always
+use Factories and Factory methods for "public" object construction.<span
+style="mso-spacerun: yes">&nbsp; </span>We use factory creation methods instead
+of straight constructors because they </span></p>
+
+<p class=MsoListBullet2 style='mso-list:l3 level1 lfo1'><span style='mso-bookmark:
+_Toc390967791'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:
+Symbol;mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&bull;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Allow
+more flexibility in creating a new object: maybe we just reuse an existing
+object</span></p>
+
+<p class=MsoListBullet2 style='mso-list:l3 level1 lfo1'><span style='mso-bookmark:
+_Toc390967791'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:
+Symbol;mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&bull;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Can
+have better names: "newTimeNow()" and "newTimeFromSeconds(...)" instead of "new
+Time()" and "new Time(...)"</span></p>
+
+<p class=MsoListBullet2 style='mso-list:l3 level1 lfo1'><span style='mso-bookmark:
+_Toc390967791'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:
+Symbol;mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&bull;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Provide
+better separation between interface and implementation: we can document the
+factory method in an interface</span></p>
+
+<p class=MsoListBullet2 style='mso-list:l3 level1 lfo1'><span style='mso-bookmark:
+_Toc390967791'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:
+Symbol;mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&bull;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Naturally
+flow into more sophisticated factory designs (See [Gamma+HJV<span
+style="mso-spacerun: yes">&nbsp; </span>95])</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Generally we try to
+use another appropriate object as the Factory for a particular class (a database
+object create Tables).<span style="mso-spacerun: yes">&nbsp; </span>For classes
+that have no other appropriate factory object we use the 'Pack' object as the
+factory.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802573"></a><a
+name="_Toc408310759"><span style='mso-bookmark:_Toc402802573'>Pack Objects</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>It is very useful
+to be able to treat a Package as an object, so in every package we have a class
+named "&lt;packageName&gt;Pack" (e.g. java.util would have a "UtilPack"
+class).<span style="mso-spacerun: yes">&nbsp; </span>This provides clients with
+a single interface for creating objects, finding singleton objects, and any
+other "static" (non-object) behavior.<span style="mso-spacerun: yes">&nbsp;
+</span>It also prevents the problem of exposing a class from behind the
+interfaces: class constructors and static methods can be private to the package
+with the pack object exposing what ever functionality is needed.<span
+style="mso-spacerun: yes">&nbsp; </span>Clients of a package see only the
+public interfaces and the Pack's functionality and have no visibility to the
+implementation classes.</span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>You
+can interact with a Pack in two ways: as either a singleton object or as a
+"static-side" virtual object.<span style="mso-spacerun: yes">&nbsp; </span>The
+singleton object is more flexible because you can pass the object around within
+a program (for example, to recurse a package hierarchy).<span
+style="mso-spacerun: yes">&nbsp; </span>The static object is more convenient
+for construction (e.g. "UtilPack.newDate()") but is less flexible and more
+coupled.<span style="mso-spacerun: yes">&nbsp; </span>Overall, convenience
+tends to win out because construction is the main use of a Pack (but remember
+that it is better to give Factory responsibilities to another suitable object
+than the Pack).</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802574"></a><a
+name="_Toc408310760"><span style='mso-bookmark:_Toc402802574'>Abbreviations</span> note</a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Using initial
+capitalization for words implies abbreviations should be initial capitalized as
+well.<span style="mso-spacerun: yes">&nbsp; </span>This makes it easier to
+identify the word boundaries but is against normal abbreviation policies: in
+this approach abbreviations are inherently all lowercase and are only
+capitalized when the start of a word boundary.<span style="mso-spacerun:
+yes">&nbsp; </span>Effectively abbreviations are treated like normal 'words'
+(i.e. as if they had come into common usage for English).<span
+style="mso-spacerun: yes">&nbsp; </span>This also means that if a word is
+abbreviated to a single letter, there can be a series of capital letters that
+indicate a series of one letter abbreviated words.<span style="mso-spacerun:
+yes">&nbsp; </span>DomainStorageInformation can be abbreviated to DSInformation
+and would have three words ('D', 'S', 'Information').<span style="mso-spacerun:
+yes">&nbsp; </span>The previous example of PointXYClass is four words ('Point',
+'X', 'Y', 'Class).<span style="mso-spacerun: yes">&nbsp; </span>Numbers are
+considered to start their own word consisting of numbers followed by any
+non-capitalized letters.<span style="mso-spacerun: yes">&nbsp; </span>For example,<span
+style="mso-spacerun: yes">&nbsp; </span>'Procedure2Arg' is three words
+('Procedure', '2', 'Arg'),<span style="mso-spacerun: yes">&nbsp; </span>'49ers'
+is one word, and 'root4The49ers' is 4 words ('root', '4', 'the', '49ers').</span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802575"></a><a
+name="_Toc408310761"><span style='mso-bookmark:_Toc402802575'><![if !supportLists]><span
+style='mso-list:Ignore'>4.2 </span><![endif]>Method Standards</span></a></span></h2>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Although not as
+visibly dominant as Classes and Interfaces, methods form a potentially equally
+valuable organization of a programs behavior.<span style="mso-spacerun:
+yes">&nbsp; </span>By having well named methods that are used consistently a
+client can correctly use and predict the functionality in interfaces and
+objects.<span style="mso-spacerun: yes">&nbsp; </span>This makes a potentially
+complex program much simpler and understandable.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802576"></a><a
+name="_Toc408310762"><span style='mso-bookmark:_Toc402802576'>Standardized, woven, intention-revealing method names</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We use intention
+revealing method names where parameter positions are interwoven into the name
+by the inclusion of underscores &quot;_&quot;.<span style="mso-spacerun:
+yes">&nbsp; </span>Any underscores at the end of the name (before the open parenthesis)
+are omitted from the name.<span style="mso-spacerun: yes">&nbsp;
+</span>Generally a method's name will uniquely determine the number and types
+of parameters it requires, but if there are a large number of parameters, the
+signature may not be unique without including the number of parameters.<span
+style="mso-spacerun: yes">&nbsp; </span>It is a rare and very controlled
+condition for when we will have two methods with signature's that are unique
+except for the type of a parameter.<span style="mso-spacerun: yes">&nbsp;
+</span></span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>We
+have many standardized words (especially prefixes) used in naming methods which
+reveal what the method does.<span style="mso-spacerun: yes">&nbsp; </span>We <i
+style='mso-bidi-font-style:normal'>do not</i> use &quot;get&quot; as a prefix
+for asking about an attribute (see below for the discussion of attributes).</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802577">Examples</a></span></h4>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=189 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>dictionary.atKey_put(key,value);</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=176 valign=top style='width:175.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Woven parameters</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=189 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>person.name();</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=176 valign=top style='width:175.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>GetAttribute</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=189 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>person.setName(newName);</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=176 valign=top style='width:175.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>SetAttribute (if
+  necessary and atomic)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=189 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>array.atIndex(index);</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=176 valign=top style='width:175.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>&quot;at&quot; is
+  not overloaded to take both a key (Object) and an index (int)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=189 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>person.isHappy();</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=176 valign=top style='width:175.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Returns Boolean</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=189 valign=top style='width:189.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>factory.paintCar_using(aCar,white,quickly)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=176 valign=top style='width:175.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Extra unwoven
+  parameters</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802578"></a><a
+name="_Toc408310763"><span style='mso-bookmark:_Toc402802578'>Intention revealing names</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Having &quot;intention
+revealing method names&quot; is the primary rule for naming methods.<span
+style="mso-spacerun: yes">&nbsp; </span>Create a name that suggests what the
+method &quot;provides for the caller&quot;, not how the method accomplishes
+this service.<span style="mso-spacerun: yes">&nbsp; </span>The clearer you can
+make your methods behavior by the name of the method, the easier it is for the
+client (who repeatedly uses your method) to understand your class or
+interface.<span style="mso-spacerun: yes">&nbsp; </span>This is one of the many
+incarnations of thinking from the client's perspective.<span
+style="mso-spacerun: yes">&nbsp; </span>See the coding pattern &quot;Intention
+revealing selector&quot; in [Beck 96].<span style="mso-spacerun: yes">&nbsp;
+</span></span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802579"></a><a
+name="_Toc408310764"><span style='mso-bookmark:_Toc402802579'>Standardized naming patterns</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The next rule after
+picking intention revealing method names is to standardize the vocabulary used
+in the name.<span style="mso-spacerun: yes">&nbsp; </span>As much as possible,
+words should be used consistently and uniquely when part of a method.<span
+style="mso-spacerun: yes">&nbsp; </span>The following is an example subset of
+the standard meanings for method name parts and method categories (see the
+Source code format section below). </span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following are
+common method prefixes</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Prefixes<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Category<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Description<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>is, can, has,
+  will</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Testing</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Return a Boolean
+  and test the state of the object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>copy, <br>
+  copy&lt;Property&gt;</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Produce a copy of
+  the current object.<span style="mso-spacerun: yes">&nbsp; </span>Suffix
+  describes properties that the new object will have. </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>init, setup</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Initializing</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>These methods are
+  called before you can use an object.<span style="mso-spacerun: yes">&nbsp;
+  </span>Only a single init function should be called which can then be
+  followed by whatever setup methods you need to change the default
+  configuration of the object.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>doneSetup</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Initializing</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Some objects
+  require calling a &quot;doneSetup&quot; to allow them to prepare themselves
+  for normal, post initialization, interactions.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>new</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Creating</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Create and return
+  a new object from a factory that creates only a single type of object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>new&lt;Type&gt;</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Creating</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Create and return
+  a new object of a specific type</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>as&lt;Type&gt;,<br>
+  as&lt;Property&gt;</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Converting</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Produce a copy of
+  the object (if changes were required) converted to a different type or
+  property. 'asString', 'asUppercase'</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>to&lt;Type&gt;,<br>
+  to&lt;Property&gt;</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Converting</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>If the current
+  object is mutable, modify it to satisfy the type or property.<span
+  style="mso-spacerun: yes">&nbsp; </span>Otherwise this is synonymous with
+  as&lt;Type&gt;.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-left:189.0pt;text-indent:-189.0pt;tab-stops:
+.5in 112.5pt 189.0pt'><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:189.0pt;text-indent:-189.0pt;tab-stops:
+.5in 112.5pt 189.0pt'><span style='mso-bookmark:_Toc390967791'>A few type
+specific prefixes are:</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>find</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Searching</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Retrieve a single
+  object or null if unsuccessful</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>select</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Searching</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Retrieve multiple
+  objects or an empty collection</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>value</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Evaluating</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Evaluate the
+  function and return an object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>execute</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Execute the
+  procedure, no return value</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>add</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=212 valign=top style='width:211.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Add an object to
+  a collection</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-left:189.0pt;text-indent:-189.0pt;tab-stops:
+.5in 112.5pt 189.0pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=MsoNormal style='margin-left:189.0pt;text-indent:-189.0pt;tab-stops:
+.5in 112.5pt 189.0pt'><span style='mso-bookmark:_Toc390967791'>Non-prefix
+method name patterns</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>with</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This prefix is
+  used to add subsequent parameters to a basic method when the parameters have
+  no distinguishing features (an example is the &quot;value, valueWith,
+  valueWith_with&quot; series for Function objects)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>any</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Return any object
+  that satisfies the request (findAny)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=77 valign=top style='width:76.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>all</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=293 valign=top style='width:292.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Return all
+  objects that satisfy the request (selectAll)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-left:1.5in;text-indent:-1.5in;tab-stops:.5in 1.5in'><span
+style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Within each Type or
+domain area (Collections, Functors, SQL, Mapping, Domain models) there will be
+both reused vocabulary and new vocabulary.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802580"></a><a
+name="_Toc408310765"><span style='mso-bookmark:_Toc402802580'>Java method signatures</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Java selects the
+method to execute based on the name of the method, the number of parameters to
+the method, and the declared (not actual) types of the parameters to the method.
+[&sect;8.4.2]<span style="mso-spacerun: yes">&nbsp; </span>Together these form the
+signature of the method.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>To produce good
+code, the developer needs to make it easy for the client of the code to do what
+was intended.<span style="mso-spacerun: yes">&nbsp; </span>The developer, the
+client, and the compiler must all agree on what will happen when the program
+executes; it should be easy for a client to remember what methods are needed
+and how to call them.<span style="mso-spacerun: yes">&nbsp; </span>Allowing
+differences in certain features of a signature to change what method is called
+makes life harder on the client.<span style="mso-spacerun: yes">&nbsp; </span></span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>The
+first problem is with using the declared type of a variable to modify what
+method is called.<span style="mso-spacerun: yes">&nbsp; </span>This makes it
+harder for the caller to realize they are calling the wrong method because the
+information used to decide which method to call is spread over two locations:
+the actual method call and the variable declaration.<span style="mso-spacerun:
+yes">&nbsp; </span>For example, given the methods:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>void
+doItTo(Person person);</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>void
+doItTo(Company company);</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>void
+doItTo(Object anyObject);</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>the call to a
+method:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>doItTo(person);</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>is not enough to
+determine which method is called.<span style="mso-spacerun: yes">&nbsp;
+</span>Even if the object in the variable person is really a person (not a
+company), it will depend on whether the variable 'person' was declared as type
+Person or as only a general object.<span style="mso-spacerun: yes">&nbsp;
+</span>In general we consider this to be unacceptable, so we only use this
+feature (overloading of signature based on a parameters declared type) in very
+controlled circumstances (See below).</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>The
+second problem is having the number of parameters determine different behavior
+of methods.<span style="mso-spacerun: yes">&nbsp; </span>Although it is visible
+which version of the method you are calling (simply count the parameters), it
+is unclear what the purpose of the parameters are and what order they should be
+placed in.<span style="mso-spacerun: yes">&nbsp; </span>Although we do allow
+methods that are only distinguishable by the number of parameters, we try to avoid
+it.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802581"></a><a
+name="_Toc408310766"><span style='mso-bookmark:_Toc402802581'>Principles for signatures</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Our standard for
+method signatures is to have them be mostly distinguishable by name.<span
+style="mso-spacerun: yes">&nbsp; </span>Ideally two methods with the same name
+will take the same number and type of arguments.<span style="mso-spacerun:
+yes">&nbsp; </span>In infrequent cases the number of parameters will determine
+what method to call, but this primarily happens when a method has a significant
+number of parameters (4 or more) so the &quot;Parameter positions interwoven
+into the method name&quot; pattern is cumbersome.</span></p>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>The
+only time the type of a parameter will determine which method to call is to
+support using literal values (Strings, Numbers, and Booleans) as direct
+parameters.<span style="mso-spacerun: yes">&nbsp; </span>These types will
+always be incompatible with the &quot;standard&quot; type of the parameter.<span
+style="mso-spacerun: yes">&nbsp; </span>For example, if the standard method
+requires an object of type Person, say &quot;Company::firePerson(Person
+p)&quot;, it is acceptable to have a method with an identical name that takes a
+String instead of a Person in that parameter position
+&quot;Company::firePerson(String personName)&quot;.<span style="mso-spacerun:
+yes">&nbsp; </span>This is disapproved of, and it would be better to name the
+method &quot;Company::firePersonNamed(String personName)&quot;.<span
+style="mso-spacerun: yes">&nbsp; </span>Usually this is only a problem when a
+set of related messages all have a significant number of parameters (4 or
+more), so the names are not likely to be unique.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802582"></a><a
+name="_Toc408310767"><span style='mso-bookmark:_Toc402802582'>Parameter positions woven into the method name</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>A general problem
+with parenthesized parameters is that there is no reminder of the order of
+parameters. This is especially true of methods with more than two arguments,
+but can also be a problem even with only two parameters.<span
+style="mso-spacerun: yes">&nbsp; </span>Examples of these problems are:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>hash.put(value,key)<span
+style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//
+put value at key? no, wrong order</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>statement.setObject(index,type,value)<span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//
+set the entry at index to the type using value?</span></p>
+
+</div>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Generally Smalltalk
+has less of a problem with this because the parameters are woven into the
+method call, which encourages a much higher level of readability.<span
+style="mso-spacerun: yes">&nbsp; </span>The example of a method definition in
+Smalltalk is:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>Dictionary&gt;&gt;at:
+key put: value</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>or to put it into
+close to Java terms:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>public
+void at: Object key put: Object value {...};</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Because of this
+message weaving, we have come up with a clearer name &quot;at:put:&quot;
+instead of just &quot;put&quot;, both of what the method does and especially of
+which parameter is expected in what position.<span style="mso-spacerun:
+yes">&nbsp; </span>Even though Java does not allow this type of syntax, it
+would be nice to encourage these improved message names and to have the
+messages document for the client the order to put the parameters.</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802583">First
+Solution</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The first solution
+we used was to put underscores &quot;_&quot; as place holders to identify where
+a particular parameter is woven into the message send.<span
+style="mso-spacerun: yes">&nbsp; </span>For example:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>at_put_(key,value)</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>would read as
+at_(first parameter)put_(second parameter) or &quot;at (key) put
+(value)&quot;.<span style="mso-spacerun: yes">&nbsp; </span>The second example
+would be:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>setIndex_to_asType_(index,value,type)</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>or &quot;set index
+(index) to (value) as type (type)&quot;.<span style="mso-spacerun: yes">&nbsp;
+</span>This does a good job of specifying the meaning of the message, the
+number of parameters, and the specific positions of all the parameters.<span
+style="mso-spacerun: yes">&nbsp; </span>If you have a large number of
+parameters that you do not want to specifically mention/weave into the method
+name, you can use a double underscore to indicate two or more values.<span
+style="mso-spacerun: yes">&nbsp; </span>For example:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample1Line style='margin:0in;margin-bottom:.0001pt'><span
+style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>at_putStuff__(key,value1,value2,value3)</span></p>
+
+</div>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Although this was a
+very consistent and logically understandable solution, all the added
+underscores were annoying, especially because the underscores at the end of the
+name visibly separated the method name from the parameter list.<span
+style="mso-spacerun: yes">&nbsp; </span>Those trailing underscores were also
+the hardest to remember to put in, probably partially because they were not
+really part of the &quot;spoken name&quot; itself: it is easy to pause within a
+name, but hard to express a pause at the end of a name.</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802584">Better
+Solution</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>A better working
+solution is a hybrid approach.<span style="mso-spacerun: yes">&nbsp; </span>Put
+in the underscores just as before, but drop all trailing underscores.<span
+style="mso-spacerun: yes">&nbsp; </span>The examples become:</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>at_put(key,value)</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>setIndex_to_asType(index,value,type)</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>at_putStuff(key,value1,value,value3)</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>So there are
+underscores to indicate the position of all parameters except the last one (and
+any unwoven ones).<span style="mso-spacerun: yes">&nbsp; </span>This means
+&quot;put(value,key)&quot; is also valid, because it has an intermediary form
+&quot;put__(value,key)&quot; and then the underscores are dropped.<span
+style="mso-spacerun: yes">&nbsp; </span>Although &quot;put&quot; is valid using
+the standard, it is still an inferior method name to &quot;at_put&quot; which
+reveals intention and its use better.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Because the
+trailing underscores have now been dropped, we can not tell how many parameters
+a method takes.<span style="mso-spacerun: yes">&nbsp; </span>We know the
+minimum: 0 if no underscores and 1+#underscores if there are any.<span
+style="mso-spacerun: yes">&nbsp; </span>Unfortunately we can not tell the
+difference between 0 and 1, or between 3 and 7.<span style="mso-spacerun:
+yes">&nbsp; </span>Luckily other standards or the obvious intention of caller
+make these not much of a problem: calling a method that requires no parameters
+(asking about an attribute) is so significantly different from calling a method
+that requires a parameter (setting an attribute) that they are not likely to be
+confused.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802585"></a><a
+name="_Toc408310768"><span style='mso-bookmark:_Toc402802585'>Attributes</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An attribute is a
+public property of an object that shows the state of the object.<span
+style="mso-spacerun: yes">&nbsp; </span>Frequently there is a minimal
+collection of attributes that uniquely determine the state of the object, but
+this should not be confused with the instance variables which may be used to
+store that state.</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802586">No 'get'
+prefix for attributes</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We do not use the
+prefix &quot;get&quot; to ask the value of an object's attributes.<span
+style="mso-spacerun: yes">&nbsp; </span>A method sounding like a noun indicates
+an attribute, which distinguishes it from a method that changes the state of an
+object (which will use an active verb).<span style="mso-spacerun: yes">&nbsp;
+</span>This has several positive and a couple negative consequences.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>On the positive
+side, leaving off the 'get' avoids a noisy and uninformative word</span><a
+style='mso-footnote-id:ftn' href="#_ftn5" name="_ftnref" title=""><span
+style='mso-bookmark:_Toc390967791'><span class=MsoFootnoteReference><span
+style='mso-special-character:footnote'><![if !supportFootnotes]>[**]<![endif]></span></span></span></a><span
+style='mso-bookmark:_Toc390967791'>.<span style="mso-spacerun: yes">&nbsp;
+</span>Not using 'get' makes code read better in terms of objects and is
+consistent with the standards in most other OO languages.<span
+style="mso-spacerun: yes">&nbsp; </span>On the negative side, leaving off 'get'
+causes two problems.<span style="mso-spacerun: yes">&nbsp; </span>It is
+different from the standard Java idiom and it is different from the 'pattern'
+used by JavaBeans to automatically guess a class's BeanInfo description.<span
+style="mso-spacerun: yes">&nbsp; </span>The second of these is solvable by
+using explicit BeanInfos, which provides a number of benefits in addition to
+naming flexibility.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Overall, considered
+in isolation, it is the better choice to avoid 'get'.<span style="mso-spacerun:
+yes">&nbsp; </span>Considered in the context of Java's idioms and libraries it
+might be better to use 'get', but it will depend on your particular context.<span
+style="mso-spacerun: yes">&nbsp; </span>For us the conceptual correctness and
+improved naming is worth the overhead.<span style="mso-spacerun: yes">&nbsp;
+</span>We do use 'get' for classes designed to be treated like basic data
+structures.</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802587">Attribute
+setting</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Not all attributes
+are changeable, in which case they will not have a setter.<span
+style="mso-spacerun: yes">&nbsp; </span>Not all attributes can be changed
+independently (state transitions should be as valid and complete as possible),
+in which case they will not have a setter, but will instead be changed as the
+result of another method.<span style="mso-spacerun: yes">&nbsp; </span>Finally,
+if an attribute is independently changeable it will have a setter with a
+signature of the attribute name prefixed with "set", returning "void", and
+taking a single argument.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802588"></a><a
+name="_Toc408310769"><span style='mso-bookmark:_Toc402802588'>Avoid 'static'</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Rarely use 'static'
+members as part of a class or subsystems public interface.</span><span
+style='mso-bookmark:_Toc390967791'><span style='font-size:14.0pt;mso-bidi-font-size:
+10.0pt'> </span>The keyword 'static' is the most powerful destructive force in
+Java.<span style="mso-spacerun: yes">&nbsp; </span>With one word you can turn
+Java from an object-oriented, interface-based language into a very poor
+compile-time binding and implementation binding.<span style="mso-spacerun:
+yes">&nbsp; </span>You can not use interfaces with 'static' functionality and
+you can not subclass to provide a different implementation.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The better option
+is to place the functionality on another appropriate object, which allows you
+to have all the interface and implementation benefits of OO programming.<span
+style="mso-spacerun: yes">&nbsp; </span>If there is currently no Type
+appropriate for the functionality, use the Singleton pattern [see Gamma+HJV
+95].<span style="mso-spacerun: yes">&nbsp; </span>With this pattern you would
+create a real interface and class that you expect only a single instance
+of.<span style="mso-spacerun: yes">&nbsp; </span>Then you can provide (through
+another object or the 'Pack') a way for clients to retrieve that object and
+interact with it normally from then on.<span style="mso-spacerun: yes">&nbsp;
+</span>The client is only bound to the interface, so you can swap out the
+implementation (or have multiple instances) without the client being harmed.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802589"></a><a
+name="_Toc408310770"><span style='mso-bookmark:_Toc402802589'>Instance variables</span></a> </span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An instance
+variable is an implementation detail of a class and should be "private" or
+"protected".<span style="mso-spacerun: yes">&nbsp; </span>Whether we wrap an
+instance variable with private get/set methods is dependent on the needs of the
+class.<span style="mso-spacerun: yes">&nbsp; </span>We never use the ability to
+access another object's (of the same class) instance variables except in
+"clone" type methods.</span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802590"></a><a
+name="_Toc408310771"><span style='mso-bookmark:_Toc402802590'><![if !supportLists]><span
+style='mso-list:Ignore'>4.3 </span><![endif]>Source code format</span></a></span></h2>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Almost none of this
+standards document is focused on the actual formatting of code.<span
+style="mso-spacerun: yes">&nbsp; </span>This is because the most important
+rules "be consistent" and "be logical" seem to suffice in most cases and the
+set of existing formatting standards suffice for the rest.<span
+style="mso-spacerun: yes">&nbsp; </span>The following sections discuss some
+higher level or less well covered considerations for Java code formatting.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802591"></a><a
+name="_Toc408310772"><span style='mso-bookmark:_Toc402802591'>Sectioning</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following
+describes the general sectioning of interface and class files. There are also
+method categories within these major sections, and these are visible in source
+files but not in the JavaDoc API.<span style="mso-spacerun: yes">&nbsp;
+</span>Because classes are encapsulated within interfaces and "packs", the
+sectioning of a class file is only important for the class developer or
+maintainer and should be organized to help that person.</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc385013955"></a><a
+name="_Toc402802592"><span style='mso-bookmark:_Toc385013955'>Section ordering
+for Interfaces</span></a></span></h4>
+
+<p class=MsoListBullet2 style='page-break-after:avoid;mso-list:l3 level1 lfo1'><span
+style='mso-bookmark:_Toc390967791'><![if !supportLists]><span style='font-family:
+Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
+style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]>Constants</span></p>
+
+<p class=MsoListBullet2 style='mso-list:l3 level1 lfo1'><span style='mso-bookmark:
+_Toc390967791'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:
+Symbol;mso-bidi-font-family:Symbol'><span style='mso-list:Ignore'>&bull;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>Methods</span></p>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc385013956"></a><a
+name="_Toc402802593"><span style='mso-bookmark:_Toc385013956'>Section Ordering
+for Classes</span></a></span></h4>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=221 valign=top style='width:221.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoListBullet2 style='page-break-after:avoid;mso-list:l3 level1 lfo1'><span
+  style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Object</span></p>
+  <p class=MsoListBullet3 style='margin-left:.75in;text-indent:-.25in;
+  page-break-after:avoid;mso-list:l2 level1 lfo2'><span style='mso-bookmark:
+  _Toc390967791'><![if !supportLists]><span style='font-family:Symbol;
+  mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
+  style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Public</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Constructors</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Constants </span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Methods</span></p>
+  <p class=MsoListBullet3 style='margin-left:.75in;text-indent:-.25in;
+  page-break-after:avoid;mso-list:l2 level1 lfo2'><span style='mso-bookmark:
+  _Toc390967791'><![if !supportLists]><span style='font-family:Symbol;
+  mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
+  style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Private</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Constructors</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Methods </span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Instance variables</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=221 valign=top style='width:221.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoListBullet2 style='page-break-after:avoid;mso-list:l3 level1 lfo1'><span
+  style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Static/Class</span></p>
+  <p class=MsoListBullet3 style='margin-left:.75in;text-indent:-.25in;
+  page-break-after:avoid;mso-list:l2 level1 lfo2'><span style='mso-bookmark:
+  _Toc390967791'><![if !supportLists]><span style='font-family:Symbol;
+  mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
+  style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Public</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Constants</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Methods</span></p>
+  <p class=MsoListBullet3 style='margin-left:.75in;text-indent:-.25in;
+  page-break-after:avoid;mso-list:l2 level1 lfo2'><span style='mso-bookmark:
+  _Toc390967791'><![if !supportLists]><span style='font-family:Symbol;
+  mso-fareast-font-family:Symbol;mso-bidi-font-family:Symbol'><span
+  style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Private</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Constants</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Methods</span></p>
+  <p class=MsoListBullet4 style='page-break-after:avoid;mso-list:l1 level1 lfo6;
+  tab-stops:list 1.0in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+  style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:
+  Symbol'><span style='mso-list:Ignore'>&bull;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]>Instance variables</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='page-break-after:avoid'><span style='mso-bookmark:
+  _Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h4><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802594">Subsectioning</a></span></h4>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Within each section
+are method categories that organize the methods of that section.<span
+style="mso-spacerun: yes">&nbsp; </span>These are equivalent to Eiffel features
+labels (without the export control) or Smalltalk protocols/method-categories
+(without having a nice browser).<span style="mso-spacerun: yes">&nbsp; </span>A
+category normally ends with 'ing'.<span style="mso-spacerun: yes">&nbsp;
+</span>Categories can have subcategories that organize on a more refined level.<span
+style="mso-spacerun: yes">&nbsp; </span>Categorizing is designed to make a
+class or interface file more organized and readable, so you should try to stay
+in the happy middle between too few categories (e.g. none) and too many
+sections (e.g. one per method) </span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following is an
+ordered list of categories and definitions:</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:23.4pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Constructing<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>A section and
+  category.<span style="mso-spacerun: yes">&nbsp; </span>The constructors for
+  the class.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Initializing<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An additional
+  method that should be applied directly after constructing the object.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Setup<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Methods that can
+  optionally be applied to an object but must be done immediately after
+  construction and initialization and before using the object normally.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Validating<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Check whether the
+  current object is in an acceptable state (could also be under asking if this
+  is possible after construction is finishing).</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Asking<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Asking the state
+  of the current object without causing any (visible) side effects.<span
+  style="mso-spacerun: yes">&nbsp; </span>A pure function.<span
+  style="mso-spacerun: yes">&nbsp; </span>ISE Eiffel 'Query'.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Testing<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An asking method
+  that returns a Boolean value</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Querying<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>More complicated
+  asking questions.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Printing<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Return a
+  printable representation of the object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Displaying<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Render an object
+  (as text or graphics) on a display medium</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Creating<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Create new
+  objects</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;&nbsp;&nbsp;Copying<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Produce a copy of
+  the current object with possibly different properties (e.g., a subset of a
+  collection)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;&nbsp;&nbsp;Converting<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Transform the
+  current object to another type of object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Enumerating<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Perform an
+  element-by-element operation on a collection</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Altering<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>General changing
+  of the state of an object.<span style="mso-spacerun: yes">&nbsp;
+  </span>Altering methods can also return values so they are not guaranteed to
+  be pure procedures although they frequently are.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Adding<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Add elements to a
+  collection</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Removing<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Remove elements
+  from a collection</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Notifying<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Notify a
+  dependent of a change</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>&nbsp;&nbsp;Releasing<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Remove any
+  dependents and references to other objects (this helps with garbage
+  collection)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><b
+  style='mso-bidi-font-weight:normal'>Utilities<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=266 valign=top style='width:265.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Usually part of
+  the private section.<span style="mso-spacerun: yes">&nbsp; </span>Just internal
+  private methods that help get a job done.<span style="mso-spacerun:
+  yes">&nbsp; </span>Not-elsewhere-classified.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following is an
+example of sectioning in code.<span style="mso-spacerun: yes">&nbsp;
+</span>This would look a bit more balanced if the method bodies were included.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//(P)*********************
+Copying *************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public Object copy() {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>protected void
+initFrom(CompanyClass company) {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//(P)******************
+Displaying *************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public String toString()
+{...}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public String info() {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//(P)*********************
+Asking **************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public String name() {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public int revenue() {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp; </span><span style="mso-spacerun:
+yes">&nbsp;&nbsp;</span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//(P)********************
+Creating *************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public Project
+newProject(String name, Date startDate) {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>//(P)********************
+Altering *************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;
+</span>//**********************************************************</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span></span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public void setName(String
+name) {..}</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public void setRevenue(int
+revenue) ..}</span></p>
+
+</div>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802595"></a><a
+name="_Toc408310773"><span style='mso-bookmark:_Toc402802595'>Comments</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We place the
+JavaDoc comments immediately above and inset relative to the method
+declaration.<span style="mso-spacerun: yes">&nbsp; </span>This is so it is easy
+to read the method declaration <b style='mso-bidi-font-weight:normal'><i
+style='mso-bidi-font-style:normal'>before</i></b> reading the comment.<span
+style="mso-spacerun: yes">&nbsp; </span>A method should have a good, intention
+revealing selector, good parameter names, and a suitable return value
+type.<span style="mso-spacerun: yes">&nbsp; </span>This implies that the
+declaration itself is the best first source for documentation of the public use
+of the method.</span></p>
+
+<div style='mso-element:para-border-div;border:solid windowtext 1.5pt;
+padding:1.0pt 1.0pt 1.0pt 1.0pt;mso-border-shadow:yes;margin-left:.25in;
+margin-right:1.0in'>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>/**</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*
+Prepare the query so that its unbound variables can</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*
+be bound</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>*/</span></p>
+
+<p class=CodeExample style='margin-top:0in;margin-right:0in;margin-bottom:0in;
+margin-left:.75in;margin-bottom:.0001pt'><span style='mso-bookmark:_Toc390967791'><span
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </span>public void
+prepareForBinding() {</span></p>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>In effect, we
+consider the comment to be inside and subservient to the declaration, but
+JavaDoc requires it to be before the declaration.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Because we try to
+have communicative method names and standard patterns for categories of method,
+we will frequently leave off method comments.<span style="mso-spacerun:
+yes">&nbsp; </span>We never repeat the information that can be found simply by
+reading the declaration.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We do not indent
+Class comments.<span style="mso-spacerun: yes">&nbsp; </span>Class comments
+have enough information that they are not optional on released software.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802596"></a><a
+name="_Toc408310774"><span style='mso-bookmark:_Toc402802596'>Interfaces and comments</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Interfaces are
+where the public protocols of a system are defined, so they provide the main
+documentation.<span style="mso-spacerun: yes">&nbsp; </span>Documentation is
+not repeated in a class for the methods that are defined in an interface.<span
+style="mso-spacerun: yes">&nbsp; </span>Only implementation documentation will
+be in a class.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802597"></a><a
+name="_Toc408310775"><span style='mso-bookmark:_Toc402802597'>Keyword Order</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Since we consider
+static methods to be a completely different kind of method (they are actually
+statically bound functions and procedures), this is the first qualifier
+mentioned.<span style="mso-spacerun: yes">&nbsp; </span>After this comes the
+access control (including the comment specifying more specific access than Java
+currently provides).<span style="mso-spacerun: yes">&nbsp; </span>This is followed
+by all the not-elsewhere-mentioned qualifiers.<span style="mso-spacerun:
+yes">&nbsp; </span>Finally we have the type specification.</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l0 level1 lfo9;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>['static']</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l0 level1 lfo9;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>'public' | '/*subsystem*/ public' | '/*package*/
+public' | '/*package*/' | 'protected' | '/*progeny*/ protected' | 'private'</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l0 level1 lfo9;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>['abstract'], ['synchronized'], ['final'], ['native'],
+['transient'], ['volatile']</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l0 level1 lfo9;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>'void' | &lt;TypeName&gt;</span></p>
+
+<span style='font-size:10.0pt;font-family:"Times New Roman";mso-fareast-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";mso-ansi-language:
+EN-US;mso-fareast-language:EN-US'><br clear=ALL style='mso-special-character:
+line-break;page-break-before:always'>
+</span>
+
+
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
+
+<h1><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802598"></a><a
+name="_Toc408310776"><span style='mso-bookmark:_Toc402802598'><![if !supportLists]><span
+style='mso-list:Ignore'>5<span style="mso-spacerun: yes">&nbsp; </span></span><![endif]>Design Notation</span></a></span></h1>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Design notation
+enhances communication among people.<span style="mso-spacerun: yes">&nbsp;
+</span>It is an important tool for both the design process itself and for
+communicating the finished design to clients and maintainers.<span
+style="mso-spacerun: yes">&nbsp; </span>Design notation needs to be
+standardized because it is shared among many people who must all interpret it
+consistently.<span style="mso-spacerun: yes">&nbsp; </span>On the other hand,
+the notation needs flexibility to grow and support the expression of newer
+ideas.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>We use an object
+design notation that is similar to UML (see [Rational-1
+http://www.rational.com/uml/]), but it has some variations that are
+improvements, additions, or legacies from earlier notations.<span
+style="mso-spacerun: yes">&nbsp; </span>We also consider the work by Kilov and
+Ross on information modeling [Kilov+R 94] to be very useful and important.<span
+style="mso-spacerun: yes">&nbsp; </span>Although [Kilov+R 94] does not require
+a specific visual notation, they do suggest one, which I merged into my
+notation.</span></p>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The following
+describe my notation's differences from UML.<span style="mso-spacerun:
+yes">&nbsp; </span>If something is not mentioned it should be assumed that the
+UML notation is the correct notation.</span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802599"></a><a
+name="_Toc408310777"><span style='mso-bookmark:_Toc402802599'><![if !supportLists]><span
+style='mso-list:Ignore'>5.1 </span><![endif]>Objects and Classes</span></a></span></h2>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=343 valign=top style='width:342.9pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The most obvious
+  difference between UML and my notation is I use hexagons instead of
+  rectangles to identify objects and classes.<span style="mso-spacerun:
+  yes">&nbsp; </span>This is to maintain the property from Booch notation of
+  objects being distinctly recognizable and visible in diagrams.<span
+  style="mso-spacerun: yes">&nbsp; </span>UML/OMT rectangles are neither
+  distinct (other notations use rectangles to indicate tables, rows, layers,
+  etc.) nor particularly visible in complex diagrams.<span style="mso-spacerun:
+  yes">&nbsp; </span>These properties are very important for me.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=90 valign=top style='width:1.25in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1025" type="#_x0000_t75" style='width:77pt;height:59pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image003.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=79 height=61
+  src="/images/Standards_0_8a_files/image004.png" v:shapes="_x0000_i1025"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1025"
+    DrawAspect="Content" ObjectID="_1295617734">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Rumbaugh did have a
+legitimate argument that Booch clouds were difficult to draw and even to
+electronically use (because they are hard to connect to).<span
+style="mso-spacerun: yes">&nbsp; </span>Booch and Rumbaugh came up with a very
+good (synergistic) solution of using hexagons in early versions of the UML, but
+later versions of the UML abandoned them.<span style="mso-spacerun: yes">&nbsp;
+</span>This was unfortunate and I decided not to make the same mistake.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802600"></a><a
+name="_Toc408310778"><span style='mso-bookmark:_Toc402802600'>Class Names</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The examples do not
+have the Java standard suffix of "Class" for classes.<span style="mso-spacerun:
+yes">&nbsp; </span>This is because it is unneeded: classes and types have
+distinct symbols, so do not share the same name space.<span
+style="mso-spacerun: yes">&nbsp; </span>When converting design class names to
+Java names, all classes will have the "Class" or "AbsClass" suffix added to
+them, and variables will be typed to Java interfaces (for the Type) instead of
+classes.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802601"></a><a
+name="_Toc408310779"><span style='mso-bookmark:_Toc402802601'>Methods</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=329 valign=top style='width:329.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The "compartment"
+  for methods extends beyond the edge of the hexagon because methods are
+  potentially publicly visible.<span style="mso-spacerun: yes">&nbsp;
+  </span>Methods can either all be in one compartment, or separated into
+  different compartments for the different interfaces to the class.</span></p>
+  
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>If placed within
+  one compartment, different protocols (groups of methods) are organized like
+  lists are in UML.</span></p>
+  
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>I use UML method
+  annotations.</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=113 valign=top style='width:112.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1026" type="#_x0000_t75" style='width:101pt;height:104pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image005.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=103 height=106
+  src="/images/Standards_0_8a_files/image006.png" v:shapes="_x0000_i1026"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1026"
+    DrawAspect="Content" ObjectID="_1295617735">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802602"></a><a
+name="_Toc408310780"><span style='mso-bookmark:_Toc402802602'>Attributes</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=212 valign=top style='width:2.95in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An attribute is a
+  public property of an object that shows the state of the object.<span
+  style="mso-spacerun: yes">&nbsp; </span>I do not make any distinction between
+  attributes and other methods other than possibly showing them as a separate
+  protocol from other methods.<span style="mso-spacerun: yes">&nbsp; </span>If
+  attributes are independently changable, they will have a corresponding 'set'
+  method.</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=113 valign=top style='width:112.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1027"
+   type="#_x0000_t75" style='width:101pt;height:95pt' o:ole="" fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image007.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=103 height=97
+  src="/images/Standards_0_8a_files/image008.png" v:shapes="_x0000_i1027"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1027"
+    DrawAspect="Content" ObjectID="_1295617736">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=117 valign=top style='width:117.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1028"
+   type="#_x0000_t75" style='width:103pt;height:95pt' o:ole="" fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image009.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=105 height=97
+  src="/images/Standards_0_8a_files/image010.png" v:shapes="_x0000_i1028"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1028"
+    DrawAspect="Content" ObjectID="_1295617737">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Frequently there is
+a minimal collection of attributes that uniquely determine the state of the
+object, but this should not be confused with the instance variables which may
+be used to store that state.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802603"></a><a
+name="_Toc408310781"><span style='mso-bookmark:_Toc402802603'>Instance Variables</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=334 valign=top style='width:333.9pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Instance
+  variables are private to a class and a shown in a compartment completely
+  within the hexagon and (usually) below the methods.<span style="mso-spacerun:
+  yes">&nbsp; </span>This is inverted from UML where frequently instance
+  variables are considered attributes and are shown before the methods.<span
+  style="mso-spacerun: yes">&nbsp; </span>Stylistically they are centered and
+  italicized. </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=108 valign=top style='width:1.5in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1029" type="#_x0000_t75" style='width:96pt;height:115pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image011.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=98 height=117
+  src="/images/Standards_0_8a_files/image012.png" v:shapes="_x0000_i1029"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1029"
+    DrawAspect="Content" ObjectID="_1295617738">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802604"></a><a
+name="_Toc408310782"><span style='mso-bookmark:_Toc402802604'>Message Sends</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=221 valign=top style='width:221.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Inter-class
+  interfaces and message sends can be shown by connecting arrows to the
+  appropriate method of a class.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=221 valign=top style='width:221.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1030" type="#_x0000_t75" style='width:210pt;height:136pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image013.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=212 height=138
+  src="/images/Standards_0_8a_files/image014.png" v:shapes="_x0000_i1030"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1030"
+    DrawAspect="Content" ObjectID="_1295617739">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802605"></a><a
+name="_Toc408310783"><span style='mso-bookmark:_Toc402802605'>Shorthand for hand drawings</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>It is acceptable to
+fall back on just using a rectangle with three compartments (but having
+instance variables at the bottom) when drawing classes by hand.</span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802606"></a><a
+name="_Toc408310784"><span style='mso-bookmark:_Toc402802606'><![if !supportLists]><span
+style='mso-list:Ignore'>5.2 </span><![endif]>Types</span></a></span></h2>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid windowtext .5pt;mso-padding-alt:0in 5.4pt 0in 5.4pt;
+ mso-border-insideh:.5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+ <tr>
+  <td width=311 valign=top style='width:311.4pt;border:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>I use a separate
+  notation for Types than for classes.<span style="mso-spacerun: yes">&nbsp;
+  </span>Types are shown with a "Set-like" notation of a curly edged box.<span
+  style="mso-spacerun: yes">&nbsp; </span>This distinguishes them from classes
+  and makes them more distinct then just a rectangle again.<span
+  style="mso-spacerun: yes">&nbsp; </span>Otherwise they have the same meaning
+  as the rectangles in [Kilov+R 94].</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=117 valign=top style='width:117.0pt;border:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1031"
+   type="#_x0000_t75" style='width:104pt;height:59pt' o:ole="" fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image015.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=106 height=61
+  src="/images/Standards_0_8a_files/image016.png" v:shapes="_x0000_i1031"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1031"
+    DrawAspect="Content" ObjectID="_1295617740">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=311 valign=top style='width:311.4pt;border:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Method (and
+  Attribute) compartments can be specified for a Type, but instance variables
+  can not be.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=117 valign=top style='width:117.0pt;border:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1032"
+   type="#_x0000_t75" style='width:76pt;height:39pt' o:ole="" fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image017.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=78 height=41
+  src="/images/Standards_0_8a_files/image018.png" v:shapes="_x0000_i1032"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1032"
+    DrawAspect="Content" ObjectID="_1295617742">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=176 valign=top style='width:2.45in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>A Class (or
+  Object) can be shown to implement a Type by an arrow pointing from the Class
+  to the Type.</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1033" type="#_x0000_t75" style='width:156pt;height:118pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image019.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=158 height=120
+  src="/images/Standards_0_8a_files/image020.png" v:shapes="_x0000_i1033"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1033"
+    DrawAspect="Content" ObjectID="_1295617743">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=176 valign=top style='width:2.45in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>When the class is
+  not important enough to be very large, its symbol can be shrunk and the name
+  placed outside.<span style="mso-spacerun: yes">&nbsp; </span>This is
+  frequently useful for giving example implementations of a Type in a
+  complicated diagram.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1034" type="#_x0000_t75" style='width:217pt;height:92pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image021.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=219 height=94
+  src="/images/Standards_0_8a_files/image022.png" v:shapes="_x0000_i1034"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1034"
+    DrawAspect="Content" ObjectID="_1295617744">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802607"></a><a
+name="_Toc408310785"><span style='mso-bookmark:_Toc402802607'>Shorthand for hand drawings</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>It is acceptable to
+draw types as straight rectangles instead of the curly rectangles.</span></p>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802608"></a><a
+name="_Toc408310786"><span style='mso-bookmark:_Toc402802608'><![if !supportLists]><span
+style='mso-list:Ignore'>5.3 </span><![endif]>Relationships</span></a></span></h2>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Generally I use UML
+notation when possible.<span style="mso-spacerun: yes">&nbsp; </span><i
+style='mso-bidi-font-style:normal'>Information Modeling</i> [Kilov+R 94] has a
+richer set of relationships than UML and a cleaner decomposition of them, so in
+certain diagrams I will use them instead of the less precise UML notations.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802609"></a><a
+name="_Toc408310787"><span style='mso-bookmark:_Toc402802609'>Kilov and Ross relationship types</span></a></span></h3>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1035" type="#_x0000_t75" style='width:194pt;height:131pt' o:ole=""
+ fillcolor="window">
+ <v:imagedata src="/images/Standards_0_8a_files/image023.wmz" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=196 height=133
+src="/images/Standards_0_8a_files/image024.png" v:shapes="_x0000_i1035"><![endif]><!--[if gte mso 9]><xml>
+ <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1035"
+  DrawAspect="Content" ObjectID="_1295617745">
+ </o:OLEObject>
+</xml><![endif]--></span></p>
+
+
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802610"></a><a
+name="_Toc408310788"><span style='mso-bookmark:_Toc402802610'><![if !supportLists]><span
+style='mso-list:Ignore'>5.4 </span><![endif]>Code Blocks</span></a></span></h2>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=347 valign=top style='width:347.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>I use the same
+  dog-eared notation as <i style='mso-bidi-font-style:normal'>Design Patterns</i>
+  [Gamma+HJV 95] for methods and other code annotations</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoHeader style='tab-stops:.5in'><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=99 valign=top style='width:99.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1036" type="#_x0000_t75" style='width:86pt;height:37pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image025.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=88 height=39
+  src="/images/Standards_0_8a_files/image026.png" v:shapes="_x0000_i1036"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1036"
+    DrawAspect="Content" ObjectID="_1295617746">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h2><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802611"></a><a
+name="_Toc408310789"><span style='mso-bookmark:_Toc402802611'><![if !supportLists]><span
+style='mso-list:Ignore'>5.5 </span><![endif]>Other Notations</span></a></span></h2>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This section shows
+some other more unusual notations that are also interesting.</span></p>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802612"></a><a
+name="_Toc408310790"><span style='mso-bookmark:_Toc402802612'>Functor</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=311 valign=top style='width:311.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Functors are
+  objects that model operations that can be performed.<span
+  style="mso-spacerun: yes">&nbsp; </span>Their notation is interesting because
+  of its distinctive combination of other notations already existing: hexagons
+  for classes and dog-eared notes for Code blocks.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=135 valign=top style='width:135.0pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1037" type="#_x0000_t75" style='width:113pt;height:37pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image027.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=115 height=39
+  src="/images/Standards_0_8a_files/image028.png" v:shapes="_x0000_i1037"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1037"
+    DrawAspect="Content" ObjectID="_1295617747">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802613"></a><a
+name="_Toc408310791"><span style='mso-bookmark:_Toc402802613'>Enhancement</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=338 valign=top style='width:4.7in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>An enhancement to
+  a class is an added piece of functionality beyond the core class
+  functionality.<span style="mso-spacerun: yes">&nbsp; </span>Enhancements
+  allow you to manage portions of functionality of a cClass individually while
+  still having all that functionality directly available on instance of the
+  class.<span style="mso-spacerun: yes">&nbsp; </span>For example, you might
+  want your presentation logic to be separate from your true (presentation
+  independent) business domain logic.<span style="mso-spacerun: yes">&nbsp;
+  </span>You could make the ability to create user-readable information an
+  enhancement of your domain class.<span style="mso-spacerun: yes">&nbsp;
+  </span>Since Java doesn't support enhancements this notation is only useful
+  for conceptual modeling.</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=104 valign=top style='width:103.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape
+   id="_x0000_i1038" type="#_x0000_t75" style='width:90pt;height:118pt' o:ole=""
+   fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image029.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=92 height=120
+  src="/images/Standards_0_8a_files/image030.png" v:shapes="_x0000_i1038"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1038"
+    DrawAspect="Content" ObjectID="_1295617748">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<h3><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802614"></a><a
+name="_Toc408310792"><span style='mso-bookmark:_Toc402802614'>Private Functionality</span></a></span></h3>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=284 valign=top style='width:3.95in;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>A class can be
+  considered to have a public interface that talks to an inner class that
+  manages the state of the object.<span style="mso-spacerun: yes">&nbsp;
+  </span>This means all communication from the public interface will go through
+  private methods to access state information, which allows the object to
+  change its state representation (e.g. delegating to another object) without
+  impacting the public methods.</span></p>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=158 valign=top style='width:157.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='mso-bookmark:_Toc390967791'><!--[if gte vml 1]><v:shape id="_x0000_i1039"
+   type="#_x0000_t75" style='width:112pt;height:113pt' o:ole="" fillcolor="window">
+   <v:imagedata src="/images/Standards_0_8a_files/image031.wmz" o:title=""/>
+  </v:shape><![endif]--><![if !vml]><img width=114 height=115
+  src="/images/Standards_0_8a_files/image032.png" v:shapes="_x0000_i1039"><![endif]><!--[if gte mso 9]><xml>
+   <o:OLEObject Type="Embed" ProgID="Visio.Drawing.4" ShapeID="_x0000_i1039"
+    DrawAspect="Content" ObjectID="_1295617749">
+   </o:OLEObject>
+  </xml><![endif]--></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
+
+<h1><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802615"></a><a
+name="_Toc408310793"><span style='mso-bookmark:_Toc402802615'><![if !supportLists]><span
+style='mso-list:Ignore'>6<span style="mso-spacerun: yes">&nbsp; </span></span><![endif]>Standard Definitions</span></a></span></h1>
+
+</div>
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This section
+collects our standard project-independent definition of terms.<span
+style="mso-spacerun: yes">&nbsp; </span>Though these do include terms that are
+relevant to the areas of specialty we normally deal with (Information Systems),
+it is only at the highest level.<span style="mso-spacerun: yes">&nbsp;
+</span>The following collects terms and definition from many sources, but I
+compared and reconciled many of the terms with:</span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='margin-left:36.9pt;border-collapse:collapse;mso-table-layout-alt:fixed;
+ mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=230 valign=top style='width:229.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>Directory of
+  Object Technology</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=177 valign=top style='width:177.3pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>[Firesmith+E 95]</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+
+
+<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>In choosing and
+defining terms, I try to follow the following priority (best to worst).<span
+style="mso-spacerun: yes">&nbsp; </span>The best term:</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l6 level1 lfo10;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Has a precise meaning in a known context (MetaClass for
+Smalltalk or CLOS)</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l6 level1 lfo10;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Has common meaning in most OO discussions (Object)</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l6 level1 lfo10;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Is infrequently used and I will define a precise
+meaning (Stub,Replicate,Forwarder)</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l6 level1 lfo10;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>4.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Has overloaded or disputed meanings (Attribute)</span></p>
+
+<p class=MsoListNumber2 style='margin-left:.5in;text-indent:-.25in;mso-list:
+l6 level1 lfo10;tab-stops:list .5in'><span style='mso-bookmark:_Toc390967791'><![if !supportLists]><span
+style='mso-list:Ignore'>5.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><![endif]>Has a different, somewhat common, meaning than my
+definition (Slot)</span></p>
+
+
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Object</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>An identifiable, encapsulated entity that
+  is interacted with by sending messages.<span style="mso-spacerun: yes">&nbsp;
+  </span>Objects have behavior, state, and identity (but see ValueObject for a
+  variation).</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Type</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Specifies the public behavior and a
+  conceptual grouping for objects that are members of the Type</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Protocol</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Specifies a collection of methods that
+  together provide a higher level interface to an object.<span
+  style="mso-spacerun: yes">&nbsp; </span>An object can <b style='mso-bidi-font-weight:
+  normal'>be</b> a Type, an object can <b style='mso-bidi-font-weight:normal'>support</b>
+  a Protocol, and a Type can <b style='mso-bidi-font-weight:normal'>specify</b>
+  <b style='mso-bidi-font-weight:normal'>support for</b> a Protocol.<span
+  style="mso-spacerun: yes">&nbsp; </span>Protocol and interface can be synonymous.<span
+  style="mso-spacerun: yes">&nbsp; </span>Certain contexts suggest using one or
+  the other to prevent conflict with a language term (e.g. Java's "interface").</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Class</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Describes the types and the implementation
+  for a set of objects.<span style="mso-spacerun: yes">&nbsp; </span>A class
+  conforms to (or implements) a Type, Protocol, or interface.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Factory</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>An object that can create other objects. </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Identity</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>The ability to tell an object apart from
+  another object independent of whether their type and state is equal.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Immutable</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Can not be changed after being created.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>ValueObject</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>An object that does not have identity
+  independent of its value.<span style="mso-spacerun: yes">&nbsp; </span>A
+  ValueObject is immutable and should be considered identical to anything that
+  it is equal to.<span style="mso-spacerun: yes">&nbsp; </span>Primitive data
+  types in Smalltalk (such as most numbers and Symbols) are ValueObjects. Java
+  Strings are very close to ValueObjects except they are not guaranteed to be
+  identical for the same value (they would be if they did an automatic
+  "intern()").<span style="mso-spacerun: yes">&nbsp; </span>Java primitive
+  types are not Objects.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>AbstractDataType</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Synonymous with ValueObject in the Object
+  realm.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Attribute</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>A public property of an object that shows
+  the state of the object.<span style="mso-spacerun: yes">&nbsp;
+  </span>Frequently there is a minimal collection of attributes that uniquely
+  determine the state of the object.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>BasicAttribute</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>An attribute that takes its value from
+  ValueObjects.<span style="mso-spacerun: yes">&nbsp; </span>This is as opposed
+  to associations which connect two or more objects with identity.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Association</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>A defined relationship between two objects
+  with identity.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Instance Variable</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>A private implementation to remember part
+  of an object's state</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>ObjectShadow</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>The information needed to see that an
+  object exists without any true representation of the real object.<span
+  style="mso-spacerun: yes">&nbsp; </span>Relational databases could be
+  considered to work with ObjectShadows: they record the information about an
+  object but never have a real object to interact with.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Proxy</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:12.95pt;margin-bottom:.0001pt;text-indent:-12.95pt;
+  mso-pagination:widow-orphan lines-together'><span style='mso-bookmark:_Toc390967791'>An
+  object that stands in for another object (the RealObject) and manages the
+  client interaction with the RealObject.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Forwarder</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:12.95pt;margin-bottom:.0001pt;text-indent:-12.95pt;
+  mso-pagination:widow-orphan lines-together'><span style='mso-bookmark:_Toc390967791'>A
+  proxy which immediately forwards messages, possibly over process and machine
+  boundaries, to the RealSubject.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Replicate</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:12.95pt;margin-bottom:.0001pt;text-indent:-12.95pt;
+  mso-pagination:widow-orphan lines-together'><span style='mso-bookmark:_Toc390967791'>A
+  proxy which holds local state and performs local operations which are later
+  propagated to the RealSubject</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Stub</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:12.95pt;margin-bottom:.0001pt;text-indent:-12.95pt;
+  mso-pagination:widow-orphan lines-together'><span style='mso-bookmark:_Toc390967791'>A
+  proxy which is simply a placeholder for the RealObject and must become
+  another type of proxy (for example, forwarder or replicate) when interacted
+  with by a client.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>RealIdentity</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>The identity of the RealObject that a
+  proxy represents instead of the proxy's independent identity.<span
+  style="mso-spacerun: yes">&nbsp; </span>For proxies we are rarely interested
+  in their own identity, we just want to know the identity of the RealObject on
+  the server.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>IdentityKey</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>A value that defines the RealIdentity of a
+  Proxy. </span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Binding</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Associating a client object to a database
+  object, which turns the client object into a Proxy</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'><span
+  style='mso-bookmark:_Toc390967791'></span>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Builder</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Builds up another object that can later be
+  extracted</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Writer</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Writes information directly to another
+  object (usually another writer or a Stream)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Reader</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Reads information from another object
+  (another Reader or a Stream)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=95 valign=top style='width:95.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Stream</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=356 valign=top style='width:355.5pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:9.0pt;margin-bottom:.0001pt;text-indent:-9.0pt'><span
+  style='mso-bookmark:_Toc390967791'>Able to sequentially retrieve or store
+  information</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-left:1.25in;text-indent:-1.25in;tab-stops:
+9.0pt'><span style='mso-bookmark:_Toc390967791'><span style='mso-tab-count:
+1'>&nbsp;&nbsp; </span>.</span></p>
+
+
+
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
+
+<h1><span style='mso-bookmark:_Toc390967791'><a name="_Toc402802616"></a><a
+name="_Toc408310794"><span style='mso-bookmark:_Toc402802616'><![if !supportLists]><span
+style='mso-list:Ignore'>7<span style="mso-spacerun: yes">&nbsp; </span></span><![endif]>References</span></a></span></h1>
+
+</div>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 5.4pt 0in 5.4pt'>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Beck
+  96<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Kent Beck. <i style='mso-bidi-font-style:
+  normal'>Smalltalk Best Practice Patterns, Volume 1: Coding</i>. (also see
+  writings at http://c2.com/ppr/titles.html)</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'><span
+  style="mso-spacerun: yes">&nbsp;</span>Booch 94<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Grady Booch. <i style='mso-bidi-font-style:
+  normal'>Object-Oriented Analysis and Design with Applications</i>.
+  Benjamin/Cummings, Redwood City, CA, 1994.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Brooks
+  75<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Fred Brooks. <i style='mso-bidi-font-style:
+  normal'>The Mythical Man-Month</i>. Addison-Wesley, Reading MA, 1975.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Brown+W<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Kyle Brown and Bruce G. Whitenack.<span
+  style="mso-spacerun: yes">&nbsp; </span>"Crossing Chasms: A Pattern Language
+  for Object-RDBMS Integration". http://www.ksccary.com/ORDBJrnl.htm</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Burbeck<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Steve Burbeck, Ph.D. "Applications Programming
+  in Smalltalk-80(TM): How to use Model-View-Controller (MVC)". <span
+  style='display:none;mso-hide:all'>&lt;a
+  href="http://st-www.cs.uiuc.edu/users/smarch/st-docs/mvc.html"&gt;</span>http://st-www.cs.uiuc.edu/users/smarch/st-docs/mvc.html<span
+  style='display:none;mso-hide:all'>&lt;/a&gt;</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Cattell+
+  96<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>R.G.G. Cattell, Editor.<span
+  style="mso-spacerun: yes">&nbsp; </span><i style='mso-bidi-font-style:normal'>The
+  Object Database Standard: ODMG-93, Release 1.2.</i><span style="mso-spacerun:
+  yes">&nbsp; </span>Morgan Kaufmann, San Francisco, 1996.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Codd
+  90<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>E.F. Codd. <i style='mso-bidi-font-style:
+  normal'>The Relational Model for Database Management, Version 2.</i><span
+  style="mso-spacerun: yes">&nbsp; </span>Addison-Wesley, Reading, MA, 1990</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Coplien
+  92<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>James O. Coplien. <i style='mso-bidi-font-style:
+  normal'>Advanced C++ Programming Styles and Idioms. </i><span
+  style="mso-spacerun: yes">&nbsp;</span>Addison-Wesley, Reading, MA, 1992.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Coplien+S
+  95<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>James Coplien and Douglas Schmidt,
+  Editors.<span style="mso-spacerun: yes">&nbsp; </span><i style='mso-bidi-font-style:
+  normal'>Pattern Languages of Program Design</i>. Addison-Wesley, Reading, MA,
+  1995.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Date
+  95<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>C.J. Date.<span style="mso-spacerun:
+  yes">&nbsp; </span><i style='mso-bidi-font-style:normal'>An Introduction to
+  Database Systems</i>.<span style="mso-spacerun: yes">&nbsp;
+  </span>Addison-Wesley, Reading, MA, 1995.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Date
+  95b<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>C.J. Date.<span style="mso-spacerun:
+  yes">&nbsp; </span><i style='mso-bidi-font-style:normal'>Relational Database
+  Writings 1991- 1994.</i><span style="mso-spacerun: yes">&nbsp;
+  </span>Addison-Wesley, Reading, MA, 1995.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Firesmith+E
+  95<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Donald Firesmith, Edward Eykholt. <i
+  style='mso-bidi-font-style:normal'>Dictionary of Object Technology: The
+  Definitive Desk Reference. </i>SIGS Books, Inc., New York, NY, 1995.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Gamma+HJV
+  95<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Erich Gamma, Richard Helm, Ralph Johnson,
+  and John Vlissides. <i style='mso-bidi-font-style:normal'>Design Patterns:
+  Elements of Object-Oriented Architecture</i>. Addison-Wesley, Reading, MA,
+  1995.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Goldberg+R
+  83<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Adele Goldberg and David Robson.<span
+  style="mso-spacerun: yes">&nbsp; </span><i style='mso-bidi-font-style:normal'>Smalltalk-80:
+  The Language and its Implementation</i>.<span style="mso-spacerun:
+  yes">&nbsp; </span>Addison-Wesley, Reading, MA, 1983.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Gosling+JS
+  96<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>James Gosling, Bill Joy, Guy Steele.<span
+  style="mso-spacerun: yes">&nbsp; </span><i style='mso-bidi-font-style:normal'>The
+  Java<sup>TM</sup> Language Specification</i>.<span style="mso-spacerun:
+  yes">&nbsp; </span>Addison-Wesley, Reading, MA, 1996.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Howard
+  95<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Tim Howard. <i style='mso-bidi-font-style:
+  normal'>The Smalltalk Developer's Guide to VisualWorks</i>. SIGS Books, New
+  York, NY, 1995.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Kilov+R
+  94<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Haim Kilov and James Ross. <i
+  style='mso-bidi-font-style:normal'>Information Modeling: An Object-Oriented
+  Approach</i>. Prentice-Hall, Englewood Cliffs, NJ, 1994.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'><span
+  style='display:none;mso-hide:all'>&lt;a name="Lea"&gt;</span>Lea<span
+  style='display:none;mso-hide:all'>&lt;/a&gt;</span><o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Doug Lea.<span style="mso-spacerun:
+  yes">&nbsp; </span>"Java Coding standards".<span style="mso-spacerun:
+  yes">&nbsp; </span><span style='display:none;mso-hide:all'>&lt;a
+  href="http://gee.cs.oswego.edu/dl/html/javaCodingStd.html"&gt;</span>http://gee.cs.oswego.edu/dl/html/javaCodingStd.html<span
+  style='display:none;mso-hide:all'>&lt;/a&gt;</span></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>McConnell
+  93<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Steve McConnell. <i style='mso-bidi-font-style:
+  normal'>Code Complete: A Practical Handbook of Software Construction</i>.
+  Microsoft Press, Redmond, WA, 1993.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Meyer
+  92<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Bertrand Meyer. <i style='mso-bidi-font-style:
+  normal'>Eiffel, The Language.</i> Prentice-Hall, Englewood Cliffs, NJ, 1992.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Meyer
+  97<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Bertrand Meyer. <i style='mso-bidi-font-style:
+  normal'>Object Oriented Software Construction, 2<sup>nd</sup> Edition</i>.<span
+  style="mso-spacerun: yes">&nbsp; </span>Prentice-Hall, Englewood Cliffs, NJ,
+  1997.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Rumbaugh+BPEL
+  91<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>James Rumbaugh, Michael Blaha, William
+  Premerlani, Frederick Eddy, and William Lorenson.<span style="mso-spacerun:
+  yes">&nbsp; </span><i style='mso-bidi-font-style:normal'>Object-Oriented
+  Modeling and Design</i>.<span style="mso-spacerun: yes">&nbsp;
+  </span>Prentice-Hall, Englewood Cliffs, NJ, 1991.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Skublics+KT
+  96<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Suzanne Skublics, Edward J. Klimas, David
+  A. Thomas.<span style="mso-spacerun: yes">&nbsp; </span><i style='mso-bidi-font-style:
+  normal'>Smalltalk with Style</i>.<span style="mso-spacerun: yes">&nbsp;
+  </span>Prentice Hall, Upper Saddle River, NJ, 1996</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Stonebraker+M
+  96<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>Michael Stonebraker with Dorothy
+  Moore.<span style="mso-spacerun: yes">&nbsp; </span><i style='mso-bidi-font-style:
+  normal'>Object-Relational DBMSs, The Next Great Wave.</i><span
+  style="mso-spacerun: yes">&nbsp; </span>Morgan Kauffman, San Francisco, CA,
+  1996.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=113 valign=top style='width:113.4pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=right style='margin-top:6.0pt;text-align:right'><span
+  style='mso-bookmark:_Toc390967791'><b style='mso-bidi-font-weight:normal'>Vlissides+CK
+  96<o:p></o:p></b></span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+  <td width=373 valign=top style='width:372.6pt;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:
+  0in;margin-left:30.6pt;margin-bottom:.0001pt;text-indent:-30.6pt'><span
+  style='mso-bookmark:_Toc390967791'>John Vlissides, James Coplien, and Norman
+  Kerth, Editors. <i style='mso-bidi-font-style:normal'>Pattern Languages of
+  Program Design 2. </i>Addison-Wesley, Reading, MA, 1996.</span></p>
+  </td>
+  <span style='mso-bookmark:_Toc390967791'></span>
+ </tr>
+</table>
+
+<p class=MsoHeader style='tab-stops:.5in'><span style='mso-bookmark:_Toc390967791'><o:p>&nbsp;</o:p></span></p>
+
+<span style='mso-bookmark:_Toc390967791'></span></div>
+
+<span style='font-size:10.0pt;font-family:"Times New Roman";mso-fareast-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";mso-ansi-language:
+EN-US;mso-fareast-language:EN-US'><br clear=ALL style='page-break-before:always;
+mso-break-type:section-break'>
+</span>
+
+<div class=Section4>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoSubtitle><span style='font-size:14.0pt;mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;mso-padding-alt:
+ 0in 0in 0in 0in'>
+ <tr style='mso-yfti-lastrow:yes'>
+  <td width=221 valign=top style='width:220.5pt;padding:0in 0in 0in 0in'>
+  <p class=MsoHeader style='tab-stops:.5in'><!--[if gte vml 1]><v:shape id="_x0000_s1029"
+   type="#_x0000_t75" style='position:absolute;margin-left:128.15pt;
+   margin-top:7.2pt;width:115.2pt;height:94.9pt;z-index:251658240;
+   mso-position-horizontal-relative:text;mso-position-vertical-relative:text'
+   o:allowincell="f">
+   <v:imagedata src="/images/Standards_0_8a_files/image033.wmz" o:title=""/>
+   <v:textbox style='mso-next-textbox:#_x0000_s1029'/>
+  </v:shape><![if gte mso 9]><o:OLEObject Type="Embed"
+   ProgID="CorelDRAW.Graphic.6" ShapeID="_x0000_s1029" DrawAspect="Content"
+   ObjectID="_1295617750">
+  </o:OLEObject>
+ <![endif]><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+  absolute;z-index:251658240;margin-left:128px;margin-top:7px;width:117px;
+  height:97px'><img width=117 height=97 src="/images/Standards_0_8a_files/image034.png"
+  v:shapes="_x0000_s1029"></span><![endif]><span style='mso-no-proof:yes'><o:p></o:p></span></p>
+  </td>
+  <td width=195 valign=top style='width:194.95pt;padding:0in 0in 0in 0in'>
+  <p class=MsoHeader style='tab-stops:.5in'><span style='font-size:18.0pt;
+  mso-bidi-font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+  <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
+  style='font-size:14.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond'>ChiMu
+  Corporation<o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-top:3.0pt;tab-stops:.1in .2in .3in .4in .5in .6in .7in'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
+  mso-no-proof:yes'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp; </span>1220
+  N. Fair Oaks Ave, #1314<o:p></o:p></span></p>
+  <p class=MsoNormal style='tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
+  mso-no-proof:yes'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Sunnyvale,
+  CA 94089<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-top:3.0pt;tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
+  mso-no-proof:yes'><span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Phone:
+  408 734-9068<o:p></o:p></span></p>
+  <p class=MsoNormal style='tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
+  mso-no-proof:yes'><span style='mso-tab-count:4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Email:
+  info@chimu.com<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-top:3.0pt;tab-stops:8.1pt .2in .3in .4in 35.1pt .6in .7in'><span
+  style='font-size:9.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond'><span
+  style='mso-tab-count:5'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+  style='mso-no-proof:yes'>www</span>.chimu.com</span><b style='mso-bidi-font-weight:
+  normal'><span style='mso-no-proof:yes'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal><o:p>&nbsp;</o:p></p>
+
+</div>
+
+<div style='mso-element:footnote-list'><![if !supportFootnotes]><br clear=all>
+
+<hr align=left size=1 width="33%">
+
+<![endif]>
+
+<div style='mso-element:footnote' id=ftn>
+
+<p class=MsoFootnoteText><a style='mso-footnote-id:ftn' href="#_ftnref"
+name="_ftn1" title=""><span class=MsoFootnoteReference><span style='mso-special-character:
+footnote'><![if !supportFootnotes]>[*]<![endif]></span></span></a> Although
+this document does not use the Pattern literary form, conceptually it has
+similar goals.</p>
+
+</div>
+
+<div style='mso-element:footnote' id=ftn>
+
+<p class=MsoFootnoteText><a style='mso-footnote-id:ftn' href="#_ftnref"
+name="_ftn2" title=""><span class=MsoFootnoteReference><span style='mso-special-character:
+footnote'><![if !supportFootnotes]>[&dagger;]<![endif]></span></span></a> Although the
+percentage is significant, the actual overhead is very small in time: less than
+1 microsecond on older VMs on a 100MHz machines and less than 1/10th a
+microsecond on newer VMs.</p>
+
+</div>
+
+<div style='mso-element:footnote' id=ftn>
+
+<p class=MsoFootnoteText><a style='mso-footnote-id:ftn' href="#_ftnref"
+name="_ftn3" title=""><span class=MsoFootnoteReference><span style='mso-special-character:
+footnote'><![if !supportFootnotes]>[&Dagger;]<![endif]></span></span></a> The actual
+overhead should be verified through a performance profiler.<span
+style="mso-spacerun: yes">&nbsp; </span>Never assume something is a bottleneck
+until you actually see the numbers.</p>
+
+</div>
+
+<div style='mso-element:footnote' id=ftn>
+
+<p class=MsoFootnoteText><a style='mso-footnote-id:ftn' href="#_ftnref"
+name="_ftn4" title=""><span class=MsoFootnoteReference><span style='mso-special-character:
+footnote'><![if !supportFootnotes]>[&sect;]<![endif]></span></span></a> See
+[Gosling+JS 96] for more details on these access controls, especially the
+formal definition of the protected access level.<span style="mso-spacerun:
+yes">&nbsp; </span>Java has a more complicated concept of access than Smalltalk
+would because access is considered from the class perspective instead of from
+the object perspective.<span style="mso-spacerun: yes">&nbsp; </span>In Java a
+method being executed within one object can access another object's private and
+protected areas if the other object is of the same class.<span
+style="mso-spacerun: yes">&nbsp; </span>In Smalltalk this would not be allowed:
+an object would be able to access another object's methods only if they have
+public or package visibility.<span style="mso-spacerun: yes">&nbsp; </span>Java
+has trades the advantage of easy cloning for breaking encapsulation at the
+object level.</p>
+
+</div>
+
+<div style='mso-element:footnote' id=ftn>
+
+<p class=MsoFootnoteText><a style='mso-footnote-id:ftn' href="#_ftnref"
+name="_ftn5" title=""><span class=MsoFootnoteReference><span style='mso-special-character:
+footnote'><![if !supportFootnotes]>[**]<![endif]></span></span></a> Plus 'get'
+itself is not even the right word, which should instead be something like
+'give', 'your', or 'produce'.<span style="mso-spacerun: yes">&nbsp; </span></p>
+
+</div>
+
+</div>
+
+
+
+

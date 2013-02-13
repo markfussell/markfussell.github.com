@@ -8,7 +8,7 @@ categories: git
 
 This is the second in a series of using git as part of interesting solutions to problems.
 
-The first is here: [Intro](/blog/2013/01/11/git-about-everything-intro/)
+The first is here: [Intro](/blog/git-about-everything-intro/)
 
 ## Dealing with Binary Files
 
@@ -64,7 +64,7 @@ of git and combine the two.  The only large remaining issues are the actual proc
    * 'deflating': moving the content of a file somewhere and leaving a content-hash in its place.
    * 'inflating': replacing a content-hash with the actual content
 
-A highly annex-augmented version of s3cmd is here [https://github.com/markfussell/s3cmd-modification](https://github.com/markfussell/s3cmd-modification)
+A highly annex-augmented version of s3cmd is here [https://github.com/markfussell/s3annex](https://github.com/markfussell/s3annex)
 and was done while working at [Rumble](http://www.rumblegames.com) where we needed to move gigabytes of high-quality art assets around
 as part of the build-deploy pipeline.
 
@@ -74,11 +74,11 @@ The three things you need for an S3-Annexed repository are:
 
    * A git repository
    * An S3 bucket to put content into
-   * The augmented s3cmd from here [https://github.com/markfussell/s3cmd-modification](https://github.com/markfussell/s3cmd-modification)
+   * The augmented s3cmd from here [https://github.com/markfussell/s3annex](https://github.com/markfussell/s3annex)
 
 A repository that is paired with an S3 bucket is located here:
 
-   * https://github.com/markfussell/giteveryrepo1
+   * [https://github.com/markfussell/giteveryrepo1](https://github.com/markfussell/giteveryrepo1)
 
 You can clone that repository and get a working annexed-repository and some example content (without write permission).  The repository is tiny but
 grants access to several megabytes worth of images.
@@ -168,7 +168,7 @@ content, so a completely flat representation is correct and simple.
 
 If you cloned the example repository:
 
-   * https://github.com/markfussell/giteveryrepo1
+   * [https://github.com/markfussell/giteveryrepo1](https://github.com/markfussell/giteveryrepo1)
 
 you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).  But all the image
 files are stubbed out with just the content hash inside.
@@ -268,11 +268,11 @@ different workers.
 On EC2 the performance numbers are pretty amazing, so I created a simple CloudFormation so people
 can test it out.  The CloudFormation is here:
 
-   * https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template
+   * [https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template](https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template)
 
 and it can be run by going to AWS CloudFormation and just giving it one of your keypairs:
 
-   * https://console.aws.amazon.com/cloudformation/
+   * [https://console.aws.amazon.com/cloudformation/](https://console.aws.amazon.com/cloudformation/)
 
 
 #### EC2 Performance
@@ -315,7 +315,13 @@ sys	0m2.948s
 ```
 
 So it took 10 seconds to download 100MB.  That is 80Mb/s on an 'm1.small' which is a pretty nice number to work with.  Changing to 100 workers doesn't make much difference (about 9 seconds),
-so this is pretty much the saturation of 'm1.small' to S3 performance.  Larger instance types can perform even better.
+so this is pretty much the saturation of 'm1.small' to S3 performance.
+
+Larger instance types can perform even better.  During a particularly grueling annexing, the performance numbers looked like this:
+
+<img width="743" height="352" src="/images/git-about-everything-annex/ec2performance2.png" />
+
+That is getting 200MB/s _minimum_ and passing 1GB/s at peaks.
 
 ## Summary -- Annexing makes Git good at binary files
 

@@ -82,7 +82,7 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
 
 So our first problems and solution is going to have to deal with this critical issue.
 
-Enter the annex: [Annex](/blog/2013/01/13/git-about-everything-annex/)
+Enter the annex: [Annex](/blog/git-about-everything-annex/)
 
 
 

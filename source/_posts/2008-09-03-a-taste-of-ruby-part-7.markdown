@@ -11,7 +11,7 @@ categories:
 ---
 
 
-This is a multi-part series. The first in the series is [here](a-taste-of-ruby).
+This is a multi-part series.  The first in the series is [here](/blog/a-taste-of-ruby).
 
 
 

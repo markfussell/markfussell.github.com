@@ -12,7 +12,7 @@ categories:
 - Smalltalk
 ---
 
-This is a multi-part series.  The first in the series is [here](../../../08/28/a-taste-of-ruby).
+This is a multi-part series.  The first in the series is [here](/blog/a-taste-of-ruby).
 
 
 
@@ -33,7 +33,7 @@ Also, the Smalltalk code in this section was among the most 'closure-oriented', 
 ### You aren't capitalizing right?
 
 
-Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article [Ruby Naming Convention Failure](../../04/ruby-naming-convention-failure) for details and the naming conventions I use, especially for methods.  But the quick summary is:
+Before continuing into the code, people should realize I actively object to Ruby's choice to have only one 'word' delimiter by convention.  See my article [Ruby Naming Convention Failure](/blog/ruby-naming-convention-failure) for details and the naming conventions I use, especially for methods.  But the quick summary is:
 
 
 

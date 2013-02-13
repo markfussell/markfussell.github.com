@@ -11,7 +11,7 @@ categories:
 - Smalltalk
 ---
 
-This is a multi-part series.  The first in the series is [here](../../../08/28/a-taste-of-ruby).
+This is a multi-part series.  The first in the series is [here](/blog/a-taste-of-ruby).
 
 
 

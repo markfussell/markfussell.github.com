@@ -11,7 +11,7 @@ categories:
 
 [Scratch](http://scratch.mit.edu/) is a visual programming language, but it might usefully have a textual version as well.
 Scratch in it's graphical form can verify syntax intuitively & automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
-[these diagrams](../../08/a-taste-of-scratch)
+[these diagrams](/blog/a-taste-of-scratch)
 when trying to document a program, and it is even harder to reference sections of the diagram.
 
 <!-- more -->
