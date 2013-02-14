@@ -348,7 +348,8 @@ projects:
 
 ### Next
 
-Our next problem will be...
+Our next problem will be [IT](/blog/git-about-everything-it/)
+
 
 
 
