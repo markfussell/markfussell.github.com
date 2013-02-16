@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-13T18:51:29-08:00</updated>
+  <updated>2013-02-16T12:36:09-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Being a git about everything (IT Automation)]]></title>
+    <link href="http://markfussell.emenar.com/blog/git-about-everything-it-automation/"/>
+    <updated>2013-02-16T18:16:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/git-about-everything-it-automation</id>
+    <content type="html"><![CDATA[<p>This is the fourth in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
+
+<h2>Leveraging git to help enable automated IT</h2>
+
+<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
+The ultimate IT is one that <em>'simply works'</em> and involves almost no human interaction
+even in failure situations.  Basically IT should be equivalent to
+a macro-level program that does everything that does not require touching
+a physical machine.</p>
+
+<p>This IT-as-program has become easier and easier over the last many years with
+better and more standardized operating systems, free software that does not
+require some annoying human interaction, and virtualization on top of physical
+hardware that makes provisioning and reprovisioning easier.  With cloud computing
+IT-as-program becomes almost a necessity as hundreds of virtual computers are created, fail,
+migrated, and decommissioned.</p>
+
+<p>Git doesn't enable IT-as-program but it can help with many areas.  Among these are:</p>
+
+<ul>
+<li> Easy 'live' servers</li>
+<li> A Push-Me-Pull-You model for continual deployment</li>
+<li> Server presence</li>
+</ul>
+
+
+<p>Having git as a core piece of IT infrastructure enables thousands of machines to very rapidly react (within a minute or two)
+without needing a heavy infrastructure.  You simply need one or two (for redundancy) git servers, of which one can be GitHub
+or a similar free or inexpensive service.  Other technologies in this space have significantly more complicated servers,
+are more likely to be SPOFs (Single points of failures) or bottlenecks, and are much more expensive as a service.</p>
+
+<!-- more -->
+
+
+<h2>References</h2>
+
+<ul>
+<li> Chef-Server Scalability
+
+<ul>
+<li><a href="http://lists.opscode.com/sympa/arc/chef/2012-01/msg00422.html">http://lists.opscode.com/sympa/arc/chef/2012-01/msg00422.html</a></li>
+<li><a href="http://www.opscode.com/hosted-chef/">http://www.opscode.com/hosted-chef/</a></li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Next</h2>
+
+<p>Our next problem will be...</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (IT)]]></title>
