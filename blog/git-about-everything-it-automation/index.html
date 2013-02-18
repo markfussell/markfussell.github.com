@@ -98,21 +98,21 @@
 
 <p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
 The ultimate IT is one that <em>&#8216;simply works&#8217;</em> and involves almost no human interaction
-even in failure situations.  Basically IT should be equivalent to
+even in failure situations.  Ideally IT should be equivalent to
 a macro-level program that does everything that does not require touching
 a physical machine.</p>
 
 <p>This IT-as-program has become easier and easier over the last many years with
 better and more standardized operating systems, free software that does not
-require some annoying human interaction, and virtualization on top of physical
-hardware that makes provisioning and reprovisioning easier.  With cloud computing
-IT-as-program becomes almost a necessity as hundreds of virtual computers are created, fail,
+require annoying human interaction during installation, and virtualization on top of physical
+hardware that makes provisioning and reprovisioning easier.  With cloud computing,
+IT-as-program becomes almost a necessity as hundreds of virtual computers are created, updated, failed,
 migrated, and decommissioned.</p>
 
-<p>Git doesn&#8217;t enable IT-as-program but it can help with many areas.  Among these are:</p>
+<p>Git alone doesn&#8217;t enable IT-as-program but it can be a core component in many areas.  Among these are:</p>
 
 <ul>
-<li> Easy &#8216;live&#8217; servers</li>
+<li> Easy &#8216;Live IT&#8217; servers</li>
 <li> A Push-Me-Pull-You model for continual deployment</li>
 <li> Server presence</li>
 </ul>
@@ -124,6 +124,131 @@ or a similar free or inexpensive service.  Other technologies in this space have
 are more likely to be SPOFs (Single points of failures) or bottlenecks, and are much more expensive as a service.</p>
 
 <!-- more -->
+
+
+<h2>Easy &#8216;Live IT&#8217; servers</h2>
+
+<p>A &#8216;Live IT&#8217; server is one that can automatically do new things when something about the IT world changes.  This
+is not referring to how sophisticated the applications on a server are, but whether the server itself can
+manage upgrades or other configuration changes to itself.  Examples are:</p>
+
+<ul>
+<li> Deploying new version of a Java war or a Rails app</li>
+<li> Doing database backups and offloads</li>
+<li> Offloading or deleting logs (that are harder than logrotate)</li>
+<li> Reacting to simple configuration changes</li>
+<li> Reacting to server presence changes</li>
+</ul>
+
+
+<p>There are a number of ways to do the activities listed above, from manually interacting with machines, through cron jobs,
+mass &#8216;push&#8217; model interactions (e.g. Capistrano), and finally puppetry via Chef and similar.  I have found almost all of
+these to be lacking in many ways, including:</p>
+
+<ul>
+<li> Lack of documented change-to-server</li>
+<li> Difficulty in rolling back changes</li>
+<li> Not scaling nicely (one client hitting many servers, or many servers doing queries against another server)</li>
+<li> Lack of flexibility</li>
+<li> Slowness or non-responsiveness (delays) of applying changes</li>
+<li> Differences from &#8216;bootstrap&#8217; of cloud servers</li>
+</ul>
+
+
+<h3>Pull Model</h3>
+
+<p>A different approach leveraging Git (or any other DVCS) seems to produce much simpler and more powerful
+solutions.  The approach is composed of:</p>
+
+<ul>
+<li> A git repository that has working scripts (in any language people like, including Chef-solo)</li>
+<li> A simple bootstrap script that clones the repository and calls an <code>init.sh</code> script in it</li>
+<li> A cron job that is set up by the <code>init.sh</code> script.  This cron job executes every minute
+
+<ul>
+<li>Goes into the working git repository</li>
+<li>Does a pull to get the latest version of scripts</li>
+<li>Then calls into a <code>work.sh</code> script</li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'>  <span class="s2">&quot;Properties&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;ImageId&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;AWSRegionArch2AMI&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::Region&quot;</span> <span class="p">},</span>
+</span><span class='line'>                      <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;AWSInstanceType2Arch&quot;</span><span class="p">,</span> <span class="s2">&quot;m1.small&quot;</span><span class="p">,</span> <span class="s2">&quot;Arch&quot;</span> <span class="p">]</span> <span class="p">}</span> <span class="p">]</span> <span class="p">},</span>
+</span><span class='line'>    <span class="nt">&quot;InstanceType&quot;</span>   <span class="p">:</span> <span class="s2">&quot;m1.small&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;SecurityGroups&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span><span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;PrimarySecurityGroup&quot;</span><span class="p">}</span> <span class="p">],</span>
+</span><span class='line'>    <span class="nt">&quot;KeyName&quot;</span>        <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;KeyName&quot;</span> <span class="p">},</span>
+</span><span class='line'>    <span class="nt">&quot;UserData&quot;</span>       <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Base64&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span>
+</span><span class='line'>      <span class="s2">&quot;#!/bin/bash -v\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;yum update -y aws-cfn-bootstrap\n&quot;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;# Helper function\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;function error_exit\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;{\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;  /opt/aws/bin/cfn-signal -e 1 -r \&quot;$1\&quot; &#39;&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;WaitHandle&quot;</span> <span class="p">},</span> <span class="s2">&quot;&#39;\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;  exit 1\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;}\n&quot;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;# Install LAMP packages\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;/opt/aws/bin/cfn-init -s &quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::StackName&quot;</span> <span class="p">},</span> <span class="s2">&quot; -r PrimaryLaunchConfig &quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;    --access-key &quot;</span><span class="p">,</span>  <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;HostKeys&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="s2">&quot;    --secret-key &quot;</span><span class="p">,</span> <span class="p">{</span><span class="nt">&quot;Fn::GetAtt&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;HostKeys&quot;</span><span class="p">,</span> <span class="s2">&quot;SecretAccessKey&quot;</span><span class="p">]},</span>
+</span><span class='line'>      <span class="s2">&quot;    --region &quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::Region&quot;</span> <span class="p">},</span> <span class="s2">&quot; || error_exit &#39;Failed to run cfn-init&#39;\n&quot;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;yum -y install git \n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;mkdir /root/gitrepo \n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;cd /root/gitrepo \n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;git clone git://github.com/markfussell/giteveryrepo3.git  \n&quot;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;cd /root/gitrepo/giteveryrepo3 \n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;source bin/init/common/init.sh \n&quot;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;# All is well so signal success\n&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;/opt/aws/bin/cfn-signal -e 0 -r \&quot;LAMP Stack setup complete\&quot; &#39;&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;WaitHandle&quot;</span> <span class="p">},</span> <span class="s2">&quot;&#39;\n&quot;</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;#Zzzzz....&quot;</span>
+</span><span class='line'>    <span class="p">]]}}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>References</h2>
@@ -169,7 +294,7 @@ are more likely to be SPOFs (Single points of failures) or bottlenecks, and are 
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/automation/'>automation</a>, <a class='category' href='/blog/categories/cloud/'>cloud</a>, <a class='category' href='/blog/categories/git/'>git</a>
+    <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
   
 </span>
 
@@ -242,7 +367,7 @@ are more likely to be SPOFs (Single points of failures) or bottlenecks, and are 
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/automation' style='font-size: 103.52941176470588%'>automation</a> <a href='/blog/categories/cloud' style='font-size: 107.05882352941177%'>cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 114.11764705882354%'>git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 107.05882352941177%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/automation' style='font-size: 103.52941176470588%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 103.52941176470588%'>Cloud</a> <a href='/blog/categories/cloud' style='font-size: 103.52941176470588%'>cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 114.11764705882354%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 107.05882352941177%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: git | Polyglot]]></title>
+  <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-16T12:36:09-08:00</updated>
+  <updated>2013-02-18T13:49:42-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -26,21 +26,21 @@
 
 <p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
 The ultimate IT is one that <em>'simply works'</em> and involves almost no human interaction
-even in failure situations.  Basically IT should be equivalent to
+even in failure situations.  Ideally IT should be equivalent to
 a macro-level program that does everything that does not require touching
 a physical machine.</p>
 
 <p>This IT-as-program has become easier and easier over the last many years with
 better and more standardized operating systems, free software that does not
-require some annoying human interaction, and virtualization on top of physical
-hardware that makes provisioning and reprovisioning easier.  With cloud computing
-IT-as-program becomes almost a necessity as hundreds of virtual computers are created, fail,
+require annoying human interaction during installation, and virtualization on top of physical
+hardware that makes provisioning and reprovisioning easier.  With cloud computing,
+IT-as-program becomes almost a necessity as hundreds of virtual computers are created, updated, failed,
 migrated, and decommissioned.</p>
 
-<p>Git doesn't enable IT-as-program but it can help with many areas.  Among these are:</p>
+<p>Git alone doesn't enable IT-as-program but it can be a core component in many areas.  Among these are:</p>
 
 <ul>
-<li> Easy 'live' servers</li>
+<li> Easy 'Live IT' servers</li>
 <li> A Push-Me-Pull-You model for continual deployment</li>
 <li> Server presence</li>
 </ul>
@@ -53,6 +53,97 @@ are more likely to be SPOFs (Single points of failures) or bottlenecks, and are 
 
 <!-- more -->
 
+
+<h2>Easy 'Live IT' servers</h2>
+
+<p>A 'Live IT' server is one that can automatically do new things when something about the IT world changes.  This
+is not referring to how sophisticated the applications on a server are, but whether the server itself can
+manage upgrades or other configuration changes to itself.  Examples are:</p>
+
+<ul>
+<li> Deploying new version of a Java war or a Rails app</li>
+<li> Doing database backups and offloads</li>
+<li> Offloading or deleting logs (that are harder than logrotate)</li>
+<li> Reacting to simple configuration changes</li>
+<li> Reacting to server presence changes</li>
+</ul>
+
+
+<p>There are a number of ways to do the activities listed above, from manually interacting with machines, through cron jobs,
+mass 'push' model interactions (e.g. Capistrano), and finally puppetry via Chef and similar.  I have found almost all of
+these to be lacking in many ways, including:</p>
+
+<ul>
+<li> Lack of documented change-to-server</li>
+<li> Difficulty in rolling back changes</li>
+<li> Not scaling nicely (one client hitting many servers, or many servers doing queries against another server)</li>
+<li> Lack of flexibility</li>
+<li> Slowness or non-responsiveness (delays) of applying changes</li>
+<li> Differences from 'bootstrap' of cloud servers</li>
+</ul>
+
+
+<h3>Pull Model</h3>
+
+<p>A different approach leveraging Git (or any other DVCS) seems to produce much simpler and more powerful
+solutions.  The approach is composed of:</p>
+
+<ul>
+<li> A git repository that has working scripts (in any language people like, including Chef-solo)</li>
+<li> A simple bootstrap script that clones the repository and calls an <code>init.sh</code> script in it</li>
+<li> A cron job that is set up by the <code>init.sh</code> script.  This cron job executes every minute
+
+<ul>
+<li>Goes into the working git repository</li>
+<li>Does a pull to get the latest version of scripts</li>
+<li>Then calls into a <code>work.sh</code> script</li>
+</ul>
+</li>
+</ul>
+
+
+<p>```json</p>
+
+<pre><code>  "Properties": {
+    "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                      { "Fn::FindInMap" : [ "AWSInstanceType2Arch", "m1.small", "Arch" ] } ] },
+    "InstanceType"   : "m1.small",
+    "SecurityGroups" : [ {"Ref" : "PrimarySecurityGroup"} ],
+    "KeyName"        : { "Ref" : "KeyName" },
+    "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+      "#!/bin/bash -v\n",
+      "yum update -y aws-cfn-bootstrap\n",
+
+      "# Helper function\n",
+      "function error_exit\n",
+      "{\n",
+      "  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+      "  exit 1\n",
+      "}\n",
+
+      "# Install LAMP packages\n",
+      "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r PrimaryLaunchConfig ",
+      "    --access-key ",  { "Ref" : "HostKeys" },
+      "    --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},
+      "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+      "yum -y install git \n",
+      "mkdir /root/gitrepo \n",
+      "cd /root/gitrepo \n",
+      "git clone git://github.com/markfussell/giteveryrepo3.git  \n",
+
+      "cd /root/gitrepo/giteveryrepo3 \n",
+      "source bin/init/common/init.sh \n",
+
+      "# All is well so signal success\n",
+      "/opt/aws/bin/cfn-signal -e 0 -r \"LAMP Stack setup complete\" '", { "Ref" : "WaitHandle" }, "'\n",
+
+      "#Zzzzz...."
+    ]]}}
+  }
+</code></pre>
+
+<p>```</p>
 
 <h2>References</h2>
 
