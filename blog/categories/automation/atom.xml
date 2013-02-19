@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-19T00:18:12-08:00</updated>
+  <updated>2013-02-19T15:25:24-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -339,11 +339,218 @@ to have a truly useful approach.</p>
 
 
 <p>The last one has a nice feature of showing 'history-according-to-this-machine' where the other two are purely
-'what is now'.</p>
+'what is now', but it is simpler to avoid having a per-machine branch and multiple versions (the differing
+merges depending on local history) occurring
+everywhere.</p>
 
-<h4>Fetch-based</h4>
+<h4>Fetch based</h4>
 
-<h4>Pull-record-based</h4>
+<p>The simplest check is just to see if there are any differences between the 'origin' and the local branch.  This
+would look something like <code>detectOriginFetchDiff.sh</code>:</p>
+
+<p>```bash</p>
+
+<h1>=================================================</h1>
+
+<h1>=== Detect whether the version of the origin</h1>
+
+<h1>=== is the same as the local version.</h1>
+
+<h1>=== Return the ORIGIN_VERSION if different</h1>
+
+<h1>=================================================</h1>
+
+<p>git fetch</p>
+
+<p>export ORIGIN_VERSION=<code>git rev-parse origin/master</code>
+export LOCAL_VERSION=<code>git rev-parse HEAD</code></p>
+
+<p>if [ "${ORIGIN_VERSION}" = "${LOCAL_VERSION}" ]; then</p>
+
+<pre><code>: #Don't do anything
+</code></pre>
+
+<p>else</p>
+
+<pre><code>echo ${ORIGIN_VERSION}
+</code></pre>
+
+<p>fi
+```</p>
+
+<p>Where you can use this script with:</p>
+
+<p><code>bash
+if [[ -n "`./bin/pushmepullyou/detectOriginDiff.sh`" ]] ; then
+   : #React to the change
+else
+   : #Do nothing / exit
+fi
+</code></p>
+
+<p>This should be lightning fast.  The only drawback is:</p>
+
+<ul>
+<li> If you don't pull (merge) until after executing the script... you might not be able to easily change the code determining whether to executing the script</li>
+</ul>
+
+
+<p>You can redo an action by forcing the local branch back a version.  For example:</p>
+
+<p><code>bash
+git reset --hard master~1
+</code></p>
+
+<h4>Last-action based</h4>
+
+<p>An alternative to the fetch-based model is to record the last action performed by the local machine.  This
+deals with the drawback above: you already have the latest version of code no matter what.  Also it starts
+down the path of 'mid-action' protection (to avoid doing a change or sequence of changes on top of each
+other).  For example <code>detectLastActionDiff.sh</code>:</p>
+
+<p>```bash</p>
+
+<h1>=================================================</h1>
+
+<h1>=== Detect whether the last action version</h1>
+
+<h1>=== is the same as the current pulled version.</h1>
+
+<h1>=== Return the LOCAL_VERSION if different</h1>
+
+<h1>=================================================</h1>
+
+<p>export LOCAL_VERSION=<code>git rev-parse HEAD</code>
+export LASTACTION_FILE=./.temp/nodeinfo/lastaction.txt</p>
+
+<p>if [[ -e ${LASTACTION_FILE} ]]; then</p>
+
+<pre><code>export LAST_ACTION=`cat ${LASTACTION_FILE}`
+if [ "${LAST_ACTION}" = "${LOCAL_VERSION}" ]; then
+    : #Don't do anything
+else
+    echo ${LOCAL_VERSION}
+fi
+</code></pre>
+
+<p>else</p>
+
+<pre><code>echo ${LOCAL_VERSION}
+</code></pre>
+
+<p>fi
+```</p>
+
+<p>And after completing any action you write the version into the lastaction version file:</p>
+
+<p>```bash</p>
+
+<p>export LOCAL_VERSION=<code>git rev-parse HEAD</code>
+export LASTACTION_FILE=./.temp/nodeinfo/lastaction.txt
+export LASTACTION_DIR="$( cd -P "$( dirname "${LASTACTION_FILE}" )" &amp;&amp; pwd )/"</p>
+
+<p>mkdir -p LASTACTION_DIR
+echo ${LOCAL_VERSION} > ${LASTACTION_FILE}
+```</p>
+
+<h3>Avoiding mid-action collision</h3>
+
+<p>The main advantage of the Last-action approach is it starts down the path of
+making sure you are not executing things twice.  Alternatively, you could
+have an <code>flock</code> associated with the calling script (say the <code>cron_1m.sh</code>),
+but writing to a <code>currentaction</code> file is a bit more
+OS independent, can document what version is being acted upon,
+and supports multiple paths hitting the same file.</p>
+
+<p>Ideally if anything is currently working, the automatic <code>merge</code> would stop,
+so the test for <code>currentaction</code> should be very early.  We should go
+back to our initial worker example</p>
+
+<p>```bash</p>
+
+<h1>! /bin/bash</h1>
+
+<h1>================================</h1>
+
+<h1>=== Simple worker example</h1>
+
+<h1>================================</h1>
+
+<p>export ME=<code>basename $0</code>
+export LOG=/root/log/${ME}<em>log.txt
+export ERROR=/root/log/${ME}</em>error.txt
+export START_TSS="<code>date +%Y%m%d-%H%M%S</code>"</p>
+
+<p>export CURRENTACTION_FILE=./.temp/nodeinfo/currentaction.txt</p>
+
+<p>mkdir -p /root/log/</p>
+
+<p>exec 1>> ${LOG}
+exec 2>> ${ERROR}</p>
+
+<p>echo "${ME}: Start  ${START_TSS}" >> ${LOG}</p>
+
+<p>export REPOS=<code>find /root/gitrepo/ -maxdepth 1 -mindepth 1</code>
+for REPO in ${REPOS}; do</p>
+
+<pre><code>pushd ${REPO}
+    if [[ -e ${CURRENTACTION_FILE} ]]; then
+        : #Don't do anything until the current action completes
+    else
+        git pull
+
+        source bin/work/common/work.sh
+    fi
+popd
+</code></pre>
+
+<p>done</p>
+
+<p>export FINISH_TSS="<code>date +%Y%m%d-%H%M%S</code>"
+echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}</p>
+
+<p>```</p>
+
+<p>While the action is running you can either touch or copy
+the current version into <code>currentaction</code>, and when
+finished, delete or rename it.  Since everything
+is running so fast, you probably don't need to do
+an <code>flock</code> or even a second <code>[[ -e ]]</code> check.  Acquiring
+the lock is simply:</p>
+
+<p><code>``bash
+export LOCAL_VERSION=</code>git rev-parse HEAD`
+export CURRENTACTION_FILE=./.temp/nodeinfo/currentaction.txt
+export CURRENTACTION_DIR="$( cd -P "$( dirname "${CURRENTACTION_FILE}" )" &amp;&amp; pwd )/"</p>
+
+<p>mkdir -p CURRENTACTION_DIR
+echo ${LOCAL_VERSION} > ${CURRENTACTION_FILE}</p>
+
+<h1>Now officially own the current action</h1>
+
+<p>```</p>
+
+<h3>Dealing with different types and collections of servers</h3>
+
+<p>All the above had a single type of machine watching any changes in the
+repository and doing the same thing.  Although this does work if you
+have either very few servers or are happy with a plethora of repositories
+or branches, it would be good to have a way for many different types
+and collections of servers to share a single repository.  We
+will deal with that in the next blog.</p>
+
+<h2>Summary</h2>
+
+<p>Git can help automate IT with a very fast and effective PushMePullYou
+model.  Hundreds of servers can be continually polling one or more
+central Git servers to see if anything has changed and then act
+upon those changes.  This provides history for any activity, a
+very fast response time, and almost no load when nothing has changed.
+Also, this approach enables bootstrapping and updating to use exactly
+the same paths.</p>
+
+<p>In all, it provides a superior foundation for IT automation in spite of
+being so simple.</p>
 
 <h2>References</h2>
 

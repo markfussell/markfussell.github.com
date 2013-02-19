@@ -457,11 +457,277 @@ to have a truly useful approach.</p>
 
 
 <p>The last one has a nice feature of showing &#8216;history-according-to-this-machine&#8217; where the other two are purely
-&#8216;what is now&#8217;.</p>
+&#8216;what is now&#8217;, but it is simpler to avoid having a per-machine branch and multiple versions (the differing
+merges depending on local history) occurring
+everywhere.</p>
 
-<h4>Fetch-based</h4>
+<h4>Fetch based</h4>
 
-<h4>Pull-record-based</h4>
+<p>The simplest check is just to see if there are any differences between the &#8216;origin&#8217; and the local branch.  This
+would look something like <code>detectOriginFetchDiff.sh</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'><span class="c">#=== Detect whether the version of the origin</span>
+</span><span class='line'><span class="c">#=== is the same as the local version.</span>
+</span><span class='line'><span class="c">#=== Return the ORIGIN_VERSION if different</span>
+</span><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'>
+</span><span class='line'>git fetch
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">ORIGIN_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse origin/master<span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LOCAL_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;${ORIGIN_VERSION}&quot;</span> <span class="o">=</span> <span class="s2">&quot;${LOCAL_VERSION}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'>    : <span class="c">#Don&#39;t do anything</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="k">${</span><span class="nv">ORIGIN_VERSION</span><span class="k">}</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Where you can use this script with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;`./bin/pushmepullyou/detectOriginDiff.sh`&quot;</span> <span class="o">]]</span> ; <span class="k">then</span>
+</span><span class='line'>   : <span class="c">#React to the change</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>   : <span class="c">#Do nothing / exit</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should be lightning fast.  The only drawback is:</p>
+
+<ul>
+<li> If you don&#8217;t pull (merge) until after executing the script&#8230; you might not be able to easily change the code determining whether to executing the script</li>
+</ul>
+
+
+<p>You can redo an action by forcing the local branch back a version.  For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git reset --hard master~1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Last-action based</h4>
+
+<p>An alternative to the fetch-based model is to record the last action performed by the local machine.  This
+deals with the drawback above: you already have the latest version of code no matter what.  Also it starts
+down the path of &#8216;mid-action&#8217; protection (to avoid doing a change or sequence of changes on top of each
+other).  For example <code>detectLastActionDiff.sh</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'><span class="c">#=== Detect whether the last action version</span>
+</span><span class='line'><span class="c">#=== is the same as the current pulled version.</span>
+</span><span class='line'><span class="c">#=== Return the LOCAL_VERSION if different</span>
+</span><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">LOCAL_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LASTACTION_FILE</span><span class="o">=</span>./.temp/nodeinfo/lastaction.txt
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">LASTACTION_FILE</span><span class="k">}</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">export </span><span class="nv">LAST_ACTION</span><span class="o">=</span><span class="sb">`</span>cat <span class="k">${</span><span class="nv">LASTACTION_FILE</span><span class="k">}</span><span class="sb">`</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;${LAST_ACTION}&quot;</span> <span class="o">=</span> <span class="s2">&quot;${LOCAL_VERSION}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'>        : <span class="c">#Don&#39;t do anything</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'><span class="k">        </span><span class="nb">echo</span> <span class="k">${</span><span class="nv">LOCAL_VERSION</span><span class="k">}</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="k">${</span><span class="nv">LOCAL_VERSION</span><span class="k">}</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And after completing any action you write the version into the lastaction version file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">LOCAL_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LASTACTION_FILE</span><span class="o">=</span>./.temp/nodeinfo/lastaction.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">LASTACTION_DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${LASTACTION_FILE}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )/&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p LASTACTION_DIR
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">LOCAL_VERSION</span><span class="k">}</span> &gt; <span class="k">${</span><span class="nv">LASTACTION_FILE</span><span class="k">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Avoiding mid-action collision</h3>
+
+<p>The main advantage of the Last-action approach is it starts down the path of
+making sure you are not executing things twice.  Alternatively, you could
+have an <code>flock</code> associated with the calling script (say the <code>cron_1m.sh</code>),
+but writing to a <code>currentaction</code> file is a bit more
+OS independent, can document what version is being acted upon,
+and supports multiple paths hitting the same file.</p>
+
+<p>Ideally if anything is currently working, the automatic <code>merge</code> would stop,
+so the test for <code>currentaction</code> should be very early.  We should go
+back to our initial worker example</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/bash</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'><span class="c">#=== Simple worker example</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">ME</span><span class="o">=</span><span class="sb">`</span>basename <span class="nv">$0</span><span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LOG</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_log.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">ERROR</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_error.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">START_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">CURRENTACTION_FILE</span><span class="o">=</span>./.temp/nodeinfo/currentaction.txt
+</span><span class='line'>
+</span><span class='line'>mkdir -p /root/log/
+</span><span class='line'>
+</span><span class='line'><span class="nb">exec </span>1&gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'><span class="nb">exec </span>2&gt;&gt; <span class="k">${</span><span class="nv">ERROR</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Start  ${START_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">REPOS</span><span class="o">=</span><span class="sb">`</span>find /root/gitrepo/ -maxdepth 1 -mindepth 1 <span class="sb">`</span>
+</span><span class='line'><span class="k">for </span>REPO in <span class="k">${</span><span class="nv">REPOS</span><span class="k">}</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">pushd</span> <span class="k">${</span><span class="nv">REPO</span><span class="k">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">CURRENTACTION_FILE</span><span class="k">}</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'>            : <span class="c">#Don&#39;t do anything until the current action completes</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'><span class="k">            </span>git pull
+</span><span class='line'>
+</span><span class='line'>            <span class="nb">source </span>bin/work/common/work.sh
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    </span><span class="nb">popd</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">FINISH_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Finish ${FINISH_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While the action is running you can either touch or copy
+the current version into <code>currentaction</code>, and when
+finished, delete or rename it.  Since everything
+is running so fast, you probably don&#8217;t need to do
+an <code>flock</code> or even a second <code>[[ -e ]]</code> check.  Acquiring
+the lock is simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">LOCAL_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">CURRENTACTION_FILE</span><span class="o">=</span>./.temp/nodeinfo/currentaction.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">CURRENTACTION_DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${CURRENTACTION_FILE}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )/&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p CURRENTACTION_DIR
+</span><span class='line'><span class="nb">echo</span> <span class="k">${</span><span class="nv">LOCAL_VERSION</span><span class="k">}</span> &gt; <span class="k">${</span><span class="nv">CURRENTACTION_FILE</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#Now officially own the current action</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Dealing with different types and collections of servers</h3>
+
+<p>All the above had a single type of machine watching any changes in the
+repository and doing the same thing.  Although this does work if you
+have either very few servers or are happy with a plethora of repositories
+or branches, it would be good to have a way for many different types
+and collections of servers to share a single repository.  We
+will deal with that in the next blog.</p>
+
+<h2>Summary</h2>
+
+<p>Git can help automate IT with a very fast and effective PushMePullYou
+model.  Hundreds of servers can be continually polling one or more
+central Git servers to see if anything has changed and then act
+upon those changes.  This provides history for any activity, a
+very fast response time, and almost no load when nothing has changed.
+Also, this approach enables bootstrapping and updating to use exactly
+the same paths.</p>
+
+<p>In all, it provides a superior foundation for IT automation in spite of
+being so simple.</p>
 
 <h2>References</h2>
 
