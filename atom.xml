@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-18T13:49:42-08:00</updated>
+  <updated>2013-02-19T00:18:12-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -102,6 +102,96 @@ solutions.  The approach is composed of:</p>
 </ul>
 
 
+<p>This flow enables activity at every minute, using the latest version of the git repository, and with very little overhead
+for the core behavior.  Advantages are:</p>
+
+<ul>
+<li> All changes to a server are caused by one or more git repositories changing.  Servers can even publish there status by showing the git revision they are on.</li>
+<li> Rolling back changes is simply reversing a commit</li>
+<li> The only centralized activity is the <code>git fetch</code> which is very simple and fast.</li>
+<li> So far the only constraint is the time is every minute, and that could be sub-minute but needing that is rare</li>
+<li> Delays are at most a minute, and again that could easily become less (but not sub-second)</li>
+<li> The behavior is actually the same as bootstrapping a server.  A bootstrap is just the first minute of work.</li>
+</ul>
+
+
+<h3>Example-1</h3>
+
+<p>Example-1 is the initial example of this model.  The repository is</p>
+
+<ul>
+<li> <a href="https://github.com/markfussell/giteveryrepo3/">https://github.com/markfussell/giteveryrepo3/</a></li>
+</ul>
+
+
+<p>with the CloudFormation template being:</p>
+
+<ul>
+<li> <a href="https://github.com/markfussell/giteveryrepo3/blob/master/it/aws/cloudformation/GitEverythingServer3.template">https://github.com/markfussell/giteveryrepo3/blob/master/it/aws/cloudformation/GitEverythingServer3.template</a></li>
+</ul>
+
+
+<p>This has a UserData section which does the initial bootstrap of cloning the repository and
+calling an init script inside it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'>      <span class="s2">&quot;yum -y install git \n&quot;</span><span class="err">,</span>
+</span><span class='line'>      <span class="s2">&quot;mkdir /root/gitrepo \n&quot;</span><span class="err">,</span>
+</span><span class='line'>      <span class="s2">&quot;cd /root/gitrepo \n&quot;</span><span class="err">,</span>
+</span><span class='line'>      <span class="s2">&quot;git clone git://github.com/markfussell/giteveryrepo3.git  \n&quot;</span><span class="err">,</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="s2">&quot;cd /root/gitrepo/giteveryrepo3 \n&quot;</span><span class="err">,</span>
+</span><span class='line'>      <span class="s2">&quot;source bin/init/common/init.sh \n&quot;</span><span class="err">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>init.sh</code> script simply sets up a cron job that calls the <code>cron_1m.sh</code> script
+in <code>/root/bin/</code>.  I prefer to have crontab files that are very simple (e.g. one line)
+and call into /root/bin/ scripts so (a) it is more visible what crons are running
+(b) if there are any inter-cron issues they can be managed, and (c) it is easy to
+disable a cron by doing a rename.</p>
+
+<p>The <code>init.sh</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">================================</span>
+</span><span class='line'><span class="c">#=== Have a preference that crons</span>
+</span><span class='line'><span class="c">#=== all go through a single file</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p /root/bin
+</span><span class='line'>cp ./bin/init/common/cron_1m.sh /root/bin/cron_1m.sh
+</span><span class='line'>chmod +x /root/bin/cron_1m.sh
+</span><span class='line'>
+</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt; /var/spool/cron/root</span>
+</span><span class='line'><span class="s">MAILTO=&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">* * * * *  /root/bin/cron_1m.sh</span>
+</span><span class='line'><span class="s">EOS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the <code>cron_1m.sh</code> file:</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -131,53 +221,175 @@ solutions.  The approach is composed of:</p>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
 <span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'>  <span class="s2">&quot;Properties&quot;</span><span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;ImageId&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;AWSRegionArch2AMI&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::Region&quot;</span> <span class="p">},</span>
-</span><span class='line'>                      <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;AWSInstanceType2Arch&quot;</span><span class="p">,</span> <span class="s2">&quot;m1.small&quot;</span><span class="p">,</span> <span class="s2">&quot;Arch&quot;</span> <span class="p">]</span> <span class="p">}</span> <span class="p">]</span> <span class="p">},</span>
-</span><span class='line'>    <span class="nt">&quot;InstanceType&quot;</span>   <span class="p">:</span> <span class="s2">&quot;m1.small&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;SecurityGroups&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span><span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;PrimarySecurityGroup&quot;</span><span class="p">}</span> <span class="p">],</span>
-</span><span class='line'>    <span class="nt">&quot;KeyName&quot;</span>        <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;KeyName&quot;</span> <span class="p">},</span>
-</span><span class='line'>    <span class="nt">&quot;UserData&quot;</span>       <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Base64&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span class='line'>      <span class="s2">&quot;#!/bin/bash -v\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;yum update -y aws-cfn-bootstrap\n&quot;</span><span class="p">,</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/bash</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'><span class="c">#=== Simple worker example</span>
+</span><span class='line'><span class="c">#================================</span>
 </span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;# Helper function\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;function error_exit\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;{\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;  /opt/aws/bin/cfn-signal -e 1 -r \&quot;$1\&quot; &#39;&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;WaitHandle&quot;</span> <span class="p">},</span> <span class="s2">&quot;&#39;\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;  exit 1\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;}\n&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">ME</span><span class="o">=</span><span class="sb">`</span>basename <span class="nv">$0</span><span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LOG</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_log.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">ERROR</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_error.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">START_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
 </span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;# Install LAMP packages\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;/opt/aws/bin/cfn-init -s &quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::StackName&quot;</span> <span class="p">},</span> <span class="s2">&quot; -r PrimaryLaunchConfig &quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;    --access-key &quot;</span><span class="p">,</span>  <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;HostKeys&quot;</span> <span class="p">},</span>
-</span><span class='line'>      <span class="s2">&quot;    --secret-key &quot;</span><span class="p">,</span> <span class="p">{</span><span class="nt">&quot;Fn::GetAtt&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;HostKeys&quot;</span><span class="p">,</span> <span class="s2">&quot;SecretAccessKey&quot;</span><span class="p">]},</span>
-</span><span class='line'>      <span class="s2">&quot;    --region &quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::Region&quot;</span> <span class="p">},</span> <span class="s2">&quot; || error_exit &#39;Failed to run cfn-init&#39;\n&quot;</span><span class="p">,</span>
+</span><span class='line'>mkdir -p /root/log/
 </span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;yum -y install git \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;mkdir /root/gitrepo \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;cd /root/gitrepo \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;git clone git://github.com/markfussell/giteveryrepo3.git  \n&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="nb">exec </span>1&gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'><span class="nb">exec </span>2&gt;&gt; <span class="k">${</span><span class="nv">ERROR</span><span class="k">}</span>
 </span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;cd /root/gitrepo/giteveryrepo3 \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;source bin/init/common/init.sh \n&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Start  ${START_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
 </span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;# All is well so signal success\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;/opt/aws/bin/cfn-signal -e 0 -r \&quot;LAMP Stack setup complete\&quot; &#39;&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;WaitHandle&quot;</span> <span class="p">},</span> <span class="s2">&quot;&#39;\n&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">REPOS</span><span class="o">=</span><span class="sb">`</span>find /root/gitrepo/ -maxdepth 1 -mindepth 1 <span class="sb">`</span>
+</span><span class='line'><span class="k">for </span>REPO in <span class="k">${</span><span class="nv">REPOS</span><span class="k">}</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">pushd</span> <span class="k">${</span><span class="nv">REPO</span><span class="k">}</span>
+</span><span class='line'>        git pull
 </span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;#Zzzzz....&quot;</span>
-</span><span class='line'>    <span class="p">]]}}</span>
-</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>        <span class="nb">source </span>bin/work/common/work.sh
+</span><span class='line'>    <span class="nb">popd</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">FINISH_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Finish ${FINISH_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>As you can see the <code>cron_1m.sh</code> script is &#8220;repo flexible&#8221;.
+It will do any and all <code>work.sh</code> file it finds in the repositories under
+<code>/root/gitrepo/</code>.  You might want to be more restrictive than
+that (say only &#8216;active&#8217; repos), but this at least shows the power of the
+generalization.</p>
+
+<p>If you login to the server, you will find it doing some kind of work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@ip-10-120-174-182 ~<span class="o">]</span><span class="c"># tail -f /root/log/*</span>
+</span><span class='line'><span class="o">==</span>&gt; /root/log/cron_1m.sh_error.txt &lt;<span class="o">==</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">==</span>&gt; /root/log/cron_1m.sh_log.txt &lt;<span class="o">==</span>
+</span><span class='line'>Already up-to-date.
+</span><span class='line'>We are doing some kind of work
+</span><span class='line'>~
+</span><span class='line'>cron_1m.sh: Finish 20130219-050202
+</span><span class='line'>cron_1m.sh: Start  20130219-050301
+</span><span class='line'>~/gitrepo/giteveryrepo3 ~
+</span><span class='line'>Already up-to-date.
+</span><span class='line'>We are doing some kind of work
+</span><span class='line'>~
+</span><span class='line'>cron_1m.sh: Finish 20130219-050301
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, the total time to do a &#8220;Hello World&#8221; is under a second.  Very fast!</p>
+
+<h4>Inherent overhead of approach</h4>
+
+<p>The amount of overhead associated associated with this approach is less than a second.  The fetch itself:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@ip-10-120-174-182 giteveryrepo3<span class="o">]</span><span class="c"># time git fetch</span>
+</span><span class='line'>
+</span><span class='line'>real  0m0.087s
+</span><span class='line'>user  0m0.002s
+</span><span class='line'>sys   0m0.006s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>is 87 milliseconds and the system overhead is 8 milliseconds on an m1.small (that isn&#8217;t doing anything else).
+With a busier server the &#8216;real&#8217; time goes up a bit, but the system overhead is still tens of milliseconds at
+most.</p>
+
+<p>Although fetching is useful on its own, we will initially always merge as well, so let us time that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@ip-10-120-174-182 giteveryrepo3<span class="o">]</span><span class="c"># time git pull</span>
+</span><span class='line'>Already up-to-date.
+</span><span class='line'>
+</span><span class='line'>real  0m0.105s
+</span><span class='line'>user  0m0.007s
+</span><span class='line'>sys   0m0.053s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pulling requires a bit more effort to do a no-op merge but things are still in the tens of milliseconds of &#8216;effort&#8217;
+and a clock time well under a second.</p>
+
+<h2>Push-Me-Pull-You</h2>
+
+<div style="float:right">
+<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
+</div>
+
+
+<p>The previous section discussed having &#8216;Live IT&#8217; servers that use the very-fast git pull to
+get updates that the server will react to.  Updating central git repositories uses an atomic &#8216;push&#8217;
+operation, so the obvious name for this pattern of pushing changes from one place (say &#8216;me&#8217;)
+to a hundred servers who are listening (let us call them &#8216;you&#8217;) is&#8230; &#8216;Push-Me-Pull-You&#8217;&#8230;
+which even has a handy mascot.</p>
+
+<p>Some great things about the PushMePullYou were identified above:</p>
+
+<ul>
+<li> Extremely low overhead and very simple model</li>
+<li> All changes to a server are caused by one or more git repositories changing.  Servers can even publish there status by showing the git revision they are on.</li>
+<li> Rolling back changes is simply reversing a commit</li>
+<li> The only centralized activity is the <code>git fetch</code> which is very simple and fast.</li>
+<li> So far the only constraint is the time is every minute, and that could be sub-minute but needing that is rare</li>
+<li> Delays are at most a minute, and again that could easily become less (but not sub-second)</li>
+<li> The behavior is actually the same as bootstrapping a server.  A bootstrap is just the first minute of work.</li>
+</ul>
+
+
+<p>A few additional ones are:</p>
+
+<ul>
+<li> You can &#8216;push&#8217; from anywhere you want&#8230; so you can test a change on the target IT environment and then push from there if it works</li>
+<li> It is very easy to organize many different kinds of machines, kinds of deployments, etc. within a single repository</li>
+<li> It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action</li>
+</ul>
+
+
+<p>The Example-1 above had the naive &#8216;pull and do something no matter what&#8217;.  We need to get a bit beyond that
+to have a truly useful approach.</p>
+
+<h3>Checking commit version</h3>
+
+<p>The simplest sanity check is to see whether we have a new commit.  This can be done in a few ways, including:</p>
+
+<ul>
+<li> Do a &#8216;fetch&#8217; and check whether the remote branch is different from the local branch</li>
+<li> After each action, store the commit version that was acted upon.  On each pull compare the old to the new</li>
+<li> Have a local acted-upon branch separate from the main branch</li>
+</ul>
+
+
+<p>The last one has a nice feature of showing &#8216;history-according-to-this-machine&#8217; where the other two are purely
+&#8216;what is now&#8217;.</p>
+
+<h4>Fetch-based</h4>
+
+<h4>Pull-record-based</h4>
 
 <h2>References</h2>
 
@@ -189,6 +401,13 @@ solutions.  The approach is composed of:</p>
 <li><a href="http://www.opscode.com/hosted-chef/">http://www.opscode.com/hosted-chef/</a></li>
 </ul>
 </li>
+</ul>
+
+
+<h2>Credit</h2>
+
+<ul>
+<li> Initial Llama for Push-Me-Pull-You Image credit: <a href='http://www.123rf.com/photo_11398752_llama-llove--two-llamas-kiss-their-necks-forming-a-heart-shape.html'>fiftyfootelvis / 123RF Stock Photo</a></li>
 </ul>
 
 

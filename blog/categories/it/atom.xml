@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-18T13:49:42-08:00</updated>
+  <updated>2013-02-19T00:18:12-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -102,48 +102,248 @@ solutions.  The approach is composed of:</p>
 </ul>
 
 
+<p>This flow enables activity at every minute, using the latest version of the git repository, and with very little overhead
+for the core behavior.  Advantages are:</p>
+
+<ul>
+<li> All changes to a server are caused by one or more git repositories changing.  Servers can even publish there status by showing the git revision they are on.</li>
+<li> Rolling back changes is simply reversing a commit</li>
+<li> The only centralized activity is the <code>git fetch</code> which is very simple and fast.</li>
+<li> So far the only constraint is the time is every minute, and that could be sub-minute but needing that is rare</li>
+<li> Delays are at most a minute, and again that could easily become less (but not sub-second)</li>
+<li> The behavior is actually the same as bootstrapping a server.  A bootstrap is just the first minute of work.</li>
+</ul>
+
+
+<h3>Example-1</h3>
+
+<p>Example-1 is the initial example of this model.  The repository is</p>
+
+<ul>
+<li> <a href="https://github.com/markfussell/giteveryrepo3/">https://github.com/markfussell/giteveryrepo3/</a></li>
+</ul>
+
+
+<p>with the CloudFormation template being:</p>
+
+<ul>
+<li> <a href="https://github.com/markfussell/giteveryrepo3/blob/master/it/aws/cloudformation/GitEverythingServer3.template">https://github.com/markfussell/giteveryrepo3/blob/master/it/aws/cloudformation/GitEverythingServer3.template</a></li>
+</ul>
+
+
+<p>This has a UserData section which does the initial bootstrap of cloning the repository and
+calling an init script inside it.</p>
+
 <p>```json</p>
 
-<pre><code>  "Properties": {
-    "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
-                      { "Fn::FindInMap" : [ "AWSInstanceType2Arch", "m1.small", "Arch" ] } ] },
-    "InstanceType"   : "m1.small",
-    "SecurityGroups" : [ {"Ref" : "PrimarySecurityGroup"} ],
-    "KeyName"        : { "Ref" : "KeyName" },
-    "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
-      "#!/bin/bash -v\n",
-      "yum update -y aws-cfn-bootstrap\n",
-
-      "# Helper function\n",
-      "function error_exit\n",
-      "{\n",
-      "  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
-      "  exit 1\n",
-      "}\n",
-
-      "# Install LAMP packages\n",
-      "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r PrimaryLaunchConfig ",
-      "    --access-key ",  { "Ref" : "HostKeys" },
-      "    --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},
-      "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
-
-      "yum -y install git \n",
+<pre><code>      "yum -y install git \n",
       "mkdir /root/gitrepo \n",
       "cd /root/gitrepo \n",
       "git clone git://github.com/markfussell/giteveryrepo3.git  \n",
 
       "cd /root/gitrepo/giteveryrepo3 \n",
       "source bin/init/common/init.sh \n",
-
-      "# All is well so signal success\n",
-      "/opt/aws/bin/cfn-signal -e 0 -r \"LAMP Stack setup complete\" '", { "Ref" : "WaitHandle" }, "'\n",
-
-      "#Zzzzz...."
-    ]]}}
-  }
 </code></pre>
 
 <p>```</p>
+
+<p>The <code>init.sh</code> script simply sets up a cron job that calls the <code>cron_1m.sh</code> script
+in <code>/root/bin/</code>.  I prefer to have crontab files that are very simple (e.g. one line)
+and call into /root/bin/ scripts so (a) it is more visible what crons are running
+(b) if there are any inter-cron issues they can be managed, and (c) it is easy to
+disable a cron by doing a rename.</p>
+
+<p>The <code>init.sh</code> file:</p>
+
+<h1>```bash</h1>
+
+<h1>=== Have a preference that crons</h1>
+
+<h1>=== all go through a single file</h1>
+
+<h1>================================</h1>
+
+<p>mkdir -p /root/bin
+cp ./bin/init/common/cron_1m.sh /root/bin/cron_1m.sh
+chmod +x /root/bin/cron_1m.sh</p>
+
+<p>cat &lt;<EOS > /var/spool/cron/root
+MAILTO=""</p>
+
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>/root/bin/cron_1m.sh
+EOS</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>```</p>
+
+<p>And the <code>cron_1m.sh</code> file:</p>
+
+<p>```bash</p>
+
+<h1>! /bin/bash</h1>
+
+<h1>================================</h1>
+
+<h1>=== Simple worker example</h1>
+
+<h1>================================</h1>
+
+<p>export ME=<code>basename $0</code>
+export LOG=/root/log/${ME}<em>log.txt
+export ERROR=/root/log/${ME}</em>error.txt
+export START_TSS="<code>date +%Y%m%d-%H%M%S</code>"</p>
+
+<p>mkdir -p /root/log/</p>
+
+<p>exec 1>> ${LOG}
+exec 2>> ${ERROR}</p>
+
+<p>echo "${ME}: Start  ${START_TSS}" >> ${LOG}</p>
+
+<p>export REPOS=<code>find /root/gitrepo/ -maxdepth 1 -mindepth 1</code>
+for REPO in ${REPOS}; do</p>
+
+<pre><code>pushd ${REPO}
+    git pull
+
+    source bin/work/common/work.sh
+popd
+</code></pre>
+
+<p>done</p>
+
+<p>export FINISH_TSS="<code>date +%Y%m%d-%H%M%S</code>"
+echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}</p>
+
+<p>```</p>
+
+<p>As you can see the <code>cron_1m.sh</code> script is "repo flexible".
+It will do any and all <code>work.sh</code> file it finds in the repositories under
+<code>/root/gitrepo/</code>.  You might want to be more restrictive than
+that (say only 'active' repos), but this at least shows the power of the
+generalization.</p>
+
+<p>If you login to the server, you will find it doing some kind of work:</p>
+
+<p>```bash
+[root@ip-10-120-174-182 ~]# tail -f /root/log/*
+==> /root/log/cron_1m.sh_error.txt &lt;==</p>
+
+<p>==> /root/log/cron_1m.sh_log.txt &lt;==
+Already up-to-date.
+We are doing some kind of work
+~
+cron_1m.sh: Finish 20130219-050202
+cron_1m.sh: Start  20130219-050301
+~/gitrepo/giteveryrepo3 ~
+Already up-to-date.
+We are doing some kind of work
+~
+cron_1m.sh: Finish 20130219-050301</p>
+
+<p>```</p>
+
+<p>As you can see, the total time to do a "Hello World" is under a second.  Very fast!</p>
+
+<h4>Inherent overhead of approach</h4>
+
+<p>The amount of overhead associated associated with this approach is less than a second.  The fetch itself:</p>
+
+<p>```bash
+[root@ip-10-120-174-182 giteveryrepo3]# time git fetch</p>
+
+<p>real    0m0.087s
+user    0m0.002s
+sys 0m0.006s
+```</p>
+
+<p>is 87 milliseconds and the system overhead is 8 milliseconds on an m1.small (that isn't doing anything else).
+With a busier server the 'real' time goes up a bit, but the system overhead is still tens of milliseconds at
+most.</p>
+
+<p>Although fetching is useful on its own, we will initially always merge as well, so let us time that:</p>
+
+<p>```bash
+[root@ip-10-120-174-182 giteveryrepo3]# time git pull
+Already up-to-date.</p>
+
+<p>real    0m0.105s
+user    0m0.007s
+sys 0m0.053s
+```</p>
+
+<p>Pulling requires a bit more effort to do a no-op merge but things are still in the tens of milliseconds of 'effort'
+and a clock time well under a second.</p>
+
+<h2>Push-Me-Pull-You</h2>
+
+<div style="float:right">
+<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
+</div>
+
+
+<p>The previous section discussed having 'Live IT' servers that use the very-fast git pull to
+get updates that the server will react to.  Updating central git repositories uses an atomic 'push'
+operation, so the obvious name for this pattern of pushing changes from one place (say 'me')
+to a hundred servers who are listening (let us call them 'you') is... 'Push-Me-Pull-You'...
+which even has a handy mascot.</p>
+
+<p>Some great things about the PushMePullYou were identified above:</p>
+
+<ul>
+<li> Extremely low overhead and very simple model</li>
+<li> All changes to a server are caused by one or more git repositories changing.  Servers can even publish there status by showing the git revision they are on.</li>
+<li> Rolling back changes is simply reversing a commit</li>
+<li> The only centralized activity is the <code>git fetch</code> which is very simple and fast.</li>
+<li> So far the only constraint is the time is every minute, and that could be sub-minute but needing that is rare</li>
+<li> Delays are at most a minute, and again that could easily become less (but not sub-second)</li>
+<li> The behavior is actually the same as bootstrapping a server.  A bootstrap is just the first minute of work.</li>
+</ul>
+
+
+<p>A few additional ones are:</p>
+
+<ul>
+<li> You can 'push' from anywhere you want... so you can test a change on the target IT environment and then push from there if it works</li>
+<li> It is very easy to organize many different kinds of machines, kinds of deployments, etc. within a single repository</li>
+<li> It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action</li>
+</ul>
+
+
+<p>The Example-1 above had the naive 'pull and do something no matter what'.  We need to get a bit beyond that
+to have a truly useful approach.</p>
+
+<h3>Checking commit version</h3>
+
+<p>The simplest sanity check is to see whether we have a new commit.  This can be done in a few ways, including:</p>
+
+<ul>
+<li> Do a 'fetch' and check whether the remote branch is different from the local branch</li>
+<li> After each action, store the commit version that was acted upon.  On each pull compare the old to the new</li>
+<li> Have a local acted-upon branch separate from the main branch</li>
+</ul>
+
+
+<p>The last one has a nice feature of showing 'history-according-to-this-machine' where the other two are purely
+'what is now'.</p>
+
+<h4>Fetch-based</h4>
+
+<h4>Pull-record-based</h4>
 
 <h2>References</h2>
 
@@ -155,6 +355,13 @@ solutions.  The approach is composed of:</p>
 <li><a href="http://www.opscode.com/hosted-chef/">http://www.opscode.com/hosted-chef/</a></li>
 </ul>
 </li>
+</ul>
+
+
+<h2>Credit</h2>
+
+<ul>
+<li> Initial Llama for Push-Me-Pull-You Image credit: <a href='http://www.123rf.com/photo_11398752_llama-llove--two-llamas-kiss-their-necks-forming-a-heart-shape.html'>fiftyfootelvis / 123RF Stock Photo</a></li>
 </ul>
 
 
