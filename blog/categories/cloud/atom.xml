@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-19T15:25:24-08:00</updated>
+  <updated>2013-02-19T15:40:38-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -499,7 +499,7 @@ for REPO in ${REPOS}; do</p>
     else
         git pull
 
-        source bin/work/common/work.sh
+        bash bin/work/common/work.sh
     fi
 popd
 </code></pre>
@@ -510,6 +510,9 @@ popd
 echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}</p>
 
 <p>```</p>
+
+<blockquote><p>Note: If you want to have each repository have more control of it's behavior
+you would need to move the <code>if</code> test and the <code>pull</code> into the work file.</p></blockquote>
 
 <p>While the action is running you can either touch or copy
 the current version into <code>currentaction</code>, and when

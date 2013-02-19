@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-19T15:25:24-08:00</updated>
+  <updated>2013-02-19T15:40:38-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -598,7 +598,7 @@ back to our initial worker example</p>
 </span><span class='line'>        <span class="k">else</span>
 </span><span class='line'><span class="k">            </span>git pull
 </span><span class='line'>
-</span><span class='line'>            <span class="nb">source </span>bin/work/common/work.sh
+</span><span class='line'>            bash bin/work/common/work.sh
 </span><span class='line'>        <span class="k">fi</span>
 </span><span class='line'><span class="k">    </span><span class="nb">popd</span>
 </span><span class='line'><span class="k">done</span>
@@ -608,6 +608,9 @@ back to our initial worker example</p>
 </span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Finish ${FINISH_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<blockquote><p>Note: If you want to have each repository have more control of it&#8217;s behavior
+you would need to move the <code>if</code> test and the <code>pull</code> into the work file.</p></blockquote>
 
 <p>While the action is running you can either touch or copy
 the current version into <code>currentaction</code>, and when
