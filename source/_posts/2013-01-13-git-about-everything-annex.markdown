@@ -3,7 +3,7 @@ layout: post
 title: "Being a git about everything (Annexing)"
 date: 2013-01-13 18:16
 comments: true
-categories: git
+categories: Git
 ---
 
 This is the second in a series of using git as part of interesting solutions to problems.

@@ -3,7 +3,7 @@ layout: post
 title: "Being a git about everything (IT)"
 date: 2013-02-13 18:16
 comments: true
-categories: git
+categories: Git IT Cloud
 ---
 
 This is the third in a series of using git as part of interesting solutions to problems.

@@ -3,7 +3,7 @@ layout: post
 title: "Being a git about everything (Intro)"
 date: 2013-01-11 18:16
 comments: true
-categories: git
+categories: Git
 ---
 
 There are times when a new technology comes along, that at first appears to be pretty similar to
