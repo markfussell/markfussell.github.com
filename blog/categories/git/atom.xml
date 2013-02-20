@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-19T15:42:01-08:00</updated>
+  <updated>2013-02-19T17:23:46-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
+    <link href="http://markfussell.emenar.com/blog/git-about-everything-it-automation-2/"/>
+    <updated>2013-02-19T18:16:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/git-about-everything-it-automation-2</id>
+    <content type="html"><![CDATA[<p>This is the fifth in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a> and the previous
+part of this topic is here: <a href="/blog/git-about-everything-it-automation/">IT Automation</a></p>
+
+<h2>PushMePullYou or Leveraging git to enable mass-automated IT</h2>
+
+<div style="float:right">
+<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
+</div>
+
+
+<p>The previous post dealt with the groundwork of having Git be a central part of IT automation.  That
+showed the core idea but was a bit too simple to fully express the power of the approach.
+This post will be dealing with all the things that were left off, especially support for:</p>
+
+<ul>
+<li> Many different types of servers with both their own and shared 'recipes'</li>
+<li> More complicated install/upgrade actions</li>
+<li> More sophisticated install behavior</li>
+<li> Multiple versions of 'recipes' and an ability to promote whole IT from development to production</li>
+<li> Getting information from other active repositories</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Summary</h2>
+
+<h2>References</h2>
+
+<h2>Credit</h2>
+
+<h2>Next</h2>
+
+<p>Our next problem will be...</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (IT Automation)]]></title>
@@ -577,7 +622,7 @@ being so simple.</p>
 
 <h2>Next</h2>
 
-<p>Our next problem will be...</p>
+<p>Our next problem will be <a href="/blog/git-about-everything-it-automation-2/">Mass IT Automation</a></p>
 ]]></content>
   </entry>
   
@@ -901,7 +946,7 @@ The above wasn't showing IT automation, but it shows a valuable tool for IT auto
 
 <h2>Next</h2>
 
-<p>Our next problem will be...</p>
+<p>Our next problem will be <a href="/blog/git-about-everything-it-automation/">IT Automation</a></p>
 ]]></content>
   </entry>
   

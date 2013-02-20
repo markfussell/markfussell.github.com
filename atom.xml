@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-19T15:42:01-08:00</updated>
+  <updated>2013-02-19T17:23:46-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
+    <link href="http://markfussell.emenar.com/blog/git-about-everything-it-automation-2/"/>
+    <updated>2013-02-19T18:16:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/git-about-everything-it-automation-2</id>
+    <content type="html"><![CDATA[<p>This is the fifth in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-intro/">Intro</a> and the previous
+part of this topic is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-it-automation/">IT Automation</a></p>
+
+<h2>PushMePullYou or Leveraging git to enable mass-automated IT</h2>
+
+<div style="float:right">
+<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
+</div>
+
+
+<p>The previous post dealt with the groundwork of having Git be a central part of IT automation.  That
+showed the core idea but was a bit too simple to fully express the power of the approach.
+This post will be dealing with all the things that were left off, especially support for:</p>
+
+<ul>
+<li> Many different types of servers with both their own and shared &#8216;recipes&#8217;</li>
+<li> More complicated install/upgrade actions</li>
+<li> More sophisticated install behavior</li>
+<li> Multiple versions of &#8216;recipes&#8217; and an ability to promote whole IT from development to production</li>
+<li> Getting information from other active repositories</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h2>Summary</h2>
+
+<h2>References</h2>
+
+<h2>Credit</h2>
+
+<h2>Next</h2>
+
+<p>Our next problem will be&#8230;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (IT Automation)]]></title>
@@ -682,7 +727,7 @@ being so simple.</p>
 
 <h2>Next</h2>
 
-<p>Our next problem will be&#8230;</p>
+<p>Our next problem will be <a href="http://markfussell.emenar.com/blog/git-about-everything-it-automation-2/">Mass IT Automation</a></p>
 ]]></content>
   </entry>
   
@@ -1065,7 +1110,7 @@ The above wasn&#8217;t showing IT automation, but it shows a valuable tool for I
 
 <h2>Next</h2>
 
-<p>Our next problem will be&#8230;</p>
+<p>Our next problem will be <a href="http://markfussell.emenar.com/blog/git-about-everything-it-automation/">IT Automation</a></p>
 ]]></content>
   </entry>
   
@@ -5596,47 +5641,6 @@ Then
 <h3>Where Next?</h3>
 
 <p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, so I guess I will go into the Tk toolkit or Shoes as among the easiest Ruby graphic extensions to use as an example.  If anyone has suggestions for other ones (meant to be super simple), please let me know.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 2)]]></title>
-    <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-2/"/>
-    <updated>2008-08-29T00:08:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-2</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi &#8211; Procedural With Input</h2>
-
-<p>The second example from &#8220;A Taste of Smalltalk&#8221; is in Chapter 3, page 36 and does basic IO.  Except that Smalltalk-80 includes a Windowing graphics system so it can automatically open Dialogs and other things.  Smalltalk (started in 1972) was one of the environments that <em>created</em> personal computers and included abilities in its VM and Libraries that are now submerged into the operating system (some 30 years later).  Now that these abilities are &#8216;intrisically&#8217; present, there are many different ways to access them &#8211; so Ruby does not include graphics itself (in its own terms) but calls extensions that provide those graphics.  Given I don&#8217;t really want to go into Tk or Web programming when discussing a language itself, I will simplify the problem and make it so we only need to get the value somehow&#8230; So &#8216;gets&#8217; is fine.</p>
-
-<!-- more -->
-
-
-<h3>Tower of Hanoi &#8211; Procedural with Input &#8211; Ruby</h3>
-
-<p>The only thing we need to do is get the height from the user, so we can just ask for it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Do the tower</span>
-</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
-</span><span class='line'><span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
-</span><span class='line'><span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span>
-</span><span class='line'><span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Quite simple and probably the only interesting thing is that &#8216;height&#8217; did not need to be declared at all.  Personally I find this <em>unpleasant</em> and bad for system stability, but I can see the convenience of it.  I would rather Ruby had a way to formally declare local variables, instance variables, etc. and in a &#8216;strict&#8217; mode would give feedback.</p>
-
-<p>Smalltalk does formally declare variables, so it is more compile-time checked than Ruby.  The Smalltalk IDEs also warn about things in a way that usually avoids typos, but that is not part of the language itself.  But I would think the simplicity of the syntax and programming model makes the Smalltalk compiler much easier to write and optimize, but that is just an impression.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
 ]]></content>
   </entry>
   
