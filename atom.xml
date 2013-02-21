@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-21T14:12:00-08:00</updated>
+  <updated>2013-02-21T14:15:09-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -234,24 +234,6 @@ control server, which isn&#8217;t really part of the running deployment).</p>
 <h2>Next</h2>
 
 <p>Our next problem will be&#8230;</p>
-
-<!--
-    8  curl -L http://opscode.com/chef/install.sh | sudo bash
-    9  chef
-   10  knife
-   11  mkdir -p ~/chef-repo/cookbooks/my_thing/recipes/
-   12  cd ~/chef-repo
-   13  echo -e "file_cache_path '${HOME}/.chef/cache'\ncookbook_path '${HOME}/chef-repo/cookbooks'\nchecksum_path '${HOME}/.chef/checksums'" > ~/chef-repo/solo.rb
-   14  echo &#8216;{&#8220;run_list&#8221;: [ &#8220;recipe[my_thing]&#8221; ] }&#8217; > ~/chef-repo/node.json
-   15  echo &#8216;log &#8220;Im running Chef!&#8221;&#8217; > ~/chef-repo/cookbooks/my_thing/recipes/default.rb
-   16* chef-solo -N guineapig -j node.json -c solo.
-   17  chef-solo -?
-   18  chef-solo -help
-   19  cat /var/log/cloud-init.log
-   20  ls -la ~
-   21  history
-&#8211;>
-
 ]]></content>
   </entry>
   
