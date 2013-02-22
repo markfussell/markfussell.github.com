@@ -280,7 +280,8 @@ The above wasn't showing IT automation, but it shows a valuable tool for IT auto
 
 ## Next
 
-Our next problem will be...
+Our next problem will be [IT Automation](/blog/git-about-everything-it-automation/)
+
 
 
 

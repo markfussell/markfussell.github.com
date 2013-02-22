@@ -475,7 +475,7 @@ being so simple.
 
 ## Next
 
-Our next problem will be...
+Our next problem will be [Mass IT Automation](/blog/git-about-everything-it-automation-2/)
 
 
 
