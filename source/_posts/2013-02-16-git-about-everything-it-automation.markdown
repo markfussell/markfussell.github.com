@@ -257,8 +257,16 @@ A few additional ones are:
    * It is very easy to organize many different kinds of machines, kinds of deployments, etc. within a single repository
    * It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action
 
+The architectural model looks a bit like this
+
+<img src="/images/git-about-everything-it-automation/pushmepullyou_simpleawsarch.png" />
+
+### Going beyond naive
+
 The Example-1 above had the naive 'pull and do something no matter what'.  We need to get a bit beyond that
 to have a truly useful approach.
+
+
 
 ### Checking commit version
 

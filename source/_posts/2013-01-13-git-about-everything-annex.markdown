@@ -68,6 +68,13 @@ A highly annex-augmented version of s3cmd is here [https://github.com/markfussel
 and was done while working at [Rumble](http://www.rumblegames.com) where we needed to move gigabytes of high-quality art assets around
 as part of the build-deploy pipeline.
 
+The architectural design looks a bit like this:
+
+<img width="743" height="352" src="/images/git-about-everything-annex/annex_architecture.png" />
+
+where the GH/BB repository in the upper left is just symbolizing pushing to some central repo.  It isn't required for the
+annex concept, but is standard Git behavior.
+
 ## Working with S3 Annexed Git Repositories
 
 The three things you need for an S3-Annexed repository are:

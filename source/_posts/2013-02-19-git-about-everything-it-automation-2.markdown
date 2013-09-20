@@ -162,7 +162,11 @@ the five parts are `applbnode` (The main application load balancer), `appnode` (
 riak database node), `presencenode` (A server presence recording server), and `controlnode` (The main launching
 control server, which isn't really part of the running deployment).
 
+With just the application and load-balancing parts/nodes running along with the controlnode, we have something like this:
 
+<img src="/images/git-about-everything-it-automation-2/pushmepullyou_lbandappawsarch.png" />
+
+Each `part` has its own stack template and instance, which creates one or more nodes of that `part` type.
 
 
 
