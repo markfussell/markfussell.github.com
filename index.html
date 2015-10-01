@@ -9,8 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="I have been paid to develop and deliver software since about 1980. That is 35 years of professional experience.
-When I started in 1980 there were a &hellip;">
+  <meta name="description" content="This is the second installment of describing a radically more productive development and delivery environment. The first part is here: Intro, but to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,103 @@ When I started in 1980 there were a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-2/">Advanced Development and Delivery (ADD) [Part-2]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-24T01:00:00-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
+to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
+by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
+and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
+It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
+people&#8217;s masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
+
+<h2>ADD: How Better?</h2>
+
+<p>As described before, ADD has four ingredients:</p>
+
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
+
+
+<p>And these are hooked together to enable &#8216;Changers&#8217;, &#8216;Watchders&#8217;, and &#8216;Machines&#8217; to be super-productive.  How
+is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
+of the clone model:</p>
+
+<ul>
+<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
+<li>How do we reduce the amount of information we have to clone?</li>
+<li>How do we reduce the time it takes to transport the clone?</li>
+<li>How do we know what version of the clone is on any machine?</li>
+<li>How do we create thousands of clones?</li>
+<li>How do we know what is different about the different clones?</li>
+<li>&#8230;</li>
+</ul>
+
+
+<p>The first three ingredients are the most powerful and enables a fantastic improvement to the tweak and clone model.
+The last ingredient is mainly for people to be able to enjoy the ADD more easily.  It is like the &#8216;salt-to-taste&#8217;
+and how much you integrate HipChat in with the rest of the ecosystem is up to your team.  But the more it is integrated,
+the more your team will know what is going on, the more easily your team will solve problems/issues, and the more easily
+you will onboard new people.</p>
+
+<h2>ADD: GitHub</h2>
+
+<p>GitHub will become your primary resource for <em>everything</em> related to &#8216;information&#8217;.  Human notes&#8230; go into GitHub
+in Markdown format (like this blog).  Meeting notes.  GitHub.  Images to go with Meeting notes.  GitHub.  Your first,
+most important, repository will be called &#8216;repo1&#8217; and will be all the notes you want the team to see.  No more
+arguing about the best Wiki, blogger, file store, etc.  The answer will always be the same.  It is in GitHub.  Because
+<em>everything</em> is in GitHub.</p>
+
+<p>Why?  Because it is simple.  It is accessible.  It is powerful.  Keeps history.  Takes almost no space.
+It works offline (on an airplane).  And it works with multiple writers.  And if GitHub dies&#8230;
+you have a complete copy of everything you need to bring up your own &#8216;Git&#8217;.  Asking &#8216;Why?&#8217; is silly.  First
+move to GitHub for all of this, and then ask &#8216;Why?&#8217; to everything else.</p>
+
+<h2>ADD: S3 : Annexed Repositories</h2>
+
+<p>Git and GitHub are not good with large binary assets.  They get stored in a notably raw way and just make the
+repository huge for no benefit.  So don&#8217;t store large binary assets in GitHub.  Instead store a reference to
+the binary object up in S3.  Retrieve it as needed.  See <a href="/blog/git-about-everything-annex">Annex</a></p>
+
+<h2>ADD: EC2 and Vagrant</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -562,47 +658,6 @@ when trying to document a program, and it is even harder to reference sections o
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/ruby-naming-convention-failure/">Ruby Naming Convention Failure</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-04T01:20:00-07:00" pubdate data-updated="true">Sep 4<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/ruby-naming-convention-failure/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -628,6 +683,10 @@ when trying to document a program, and it is even harder to reference sections o
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/add-2/">Advanced Development and Delivery (ADD) [Part-2]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/add-1/">Advanced Development and Delivery (ADD)</a>
       </li>
     
@@ -643,15 +702,11 @@ when trying to document a program, and it is even harder to reference sections o
         <a href="/blog/git-about-everything-it/">Being a git about everything (IT)</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/git-about-everything-annex/">Being a git about everything (Annexing)</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 103.52941176470588%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 110.58823529411765%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 114.11764705882354%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 121.17647058823529%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 114.11764705882354%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 107.05882352941177%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 114.11764705882354%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 117.64705882352942%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 124.70588235294117%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 117.64705882352942%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

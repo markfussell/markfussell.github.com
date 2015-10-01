@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T11:18:33-07:00</updated>
+  <updated>2015-10-01T12:10:57-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-2]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-2/"/>
+    <updated>2015-09-24T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-2</id>
+    <content type="html"><![CDATA[<p>This is the second installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
+to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
+by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
+and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
+It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
+people's masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
+
+<h2>ADD: How Better?</h2>
+
+<p>As described before, ADD has four ingredients:</p>
+
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
+
+
+<p>And these are hooked together to enable 'Changers', 'Watchders', and 'Machines' to be super-productive.  How
+is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
+of the clone model:</p>
+
+<ul>
+<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
+<li>How do we reduce the amount of information we have to clone?</li>
+<li>How do we reduce the time it takes to transport the clone?</li>
+<li>How do we know what version of the clone is on any machine?</li>
+<li>How do we create thousands of clones?</li>
+<li>How do we know what is different about the different clones?</li>
+<li>...</li>
+</ul>
+
+
+<p>The first three ingredients are the most powerful and enables a fantastic improvement to the tweak and clone model.
+The last ingredient is mainly for people to be able to enjoy the ADD more easily.  It is like the 'salt-to-taste'
+and how much you integrate HipChat in with the rest of the ecosystem is up to your team.  But the more it is integrated,
+the more your team will know what is going on, the more easily your team will solve problems/issues, and the more easily
+you will onboard new people.</p>
+
+<h2>ADD: GitHub</h2>
+
+<p>GitHub will become your primary resource for <em>everything</em> related to 'information'.  Human notes... go into GitHub
+in Markdown format (like this blog).  Meeting notes.  GitHub.  Images to go with Meeting notes.  GitHub.  Your first,
+most important, repository will be called 'repo1' and will be all the notes you want the team to see.  No more
+arguing about the best Wiki, blogger, file store, etc.  The answer will always be the same.  It is in GitHub.  Because
+<em>everything</em> is in GitHub.</p>
+
+<p>Why?  Because it is simple.  It is accessible.  It is powerful.  Keeps history.  Takes almost no space.
+It works offline (on an airplane).  And it works with multiple writers.  And if GitHub dies...
+you have a complete copy of everything you need to bring up your own 'Git'.  Asking 'Why?' is silly.  First
+move to GitHub for all of this, and then ask 'Why?' to everything else.</p>
+
+<h2>ADD: S3 : Annexed Repositories</h2>
+
+<p>Git and GitHub are not good with large binary assets.  They get stored in a notably raw way and just make the
+repository huge for no benefit.  So don't store large binary assets in GitHub.  Instead store a reference to
+the binary object up in S3.  Retrieve it as needed.  See <a href="/blog/git-about-everything-annex">Annex</a></p>
+
+<h2>ADD: EC2 and Vagrant</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD)]]></title>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: RubyShoes - Polyglot</title>
+  <title>Advanced Development and Delivery (ADD) [Part-2] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="Category: RubyShoes">
+  <meta name="description" content="This is the second installment of describing a radically more productive development and delivery environment. The first part is here: Intro, but to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.comblog/categories/rubyshoes/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,78 +63,152 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: RubyShoes</h1>
+    
+      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-2]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-24T01:00:00-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>This is the second installment of describing a radically more productive development and delivery environment.</p>
 
-  
-  <h2>2008</h2>
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
+to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
+by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
+and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
+It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
+people&#8217;s masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-6/">A Taste of Flex (Part 6)</a></h1>
-<time datetime="2008-09-02T16:46:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
+<h2>ADD: How Better?</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<p>As described before, ADD has four ingredients:</p>
 
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-5/">A Taste of Flex (Part 5)</a></h1>
-<time datetime="2008-09-02T07:44:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
 
 
-</article>
+<p>And these are hooked together to enable &#8216;Changers&#8217;, &#8216;Watchders&#8217;, and &#8216;Machines&#8217; to be super-productive.  How
+is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
+of the clone model:</p>
+
+<ul>
+<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
+<li>How do we reduce the amount of information we have to clone?</li>
+<li>How do we reduce the time it takes to transport the clone?</li>
+<li>How do we know what version of the clone is on any machine?</li>
+<li>How do we create thousands of clones?</li>
+<li>How do we know what is different about the different clones?</li>
+<li>&#8230;</li>
+</ul>
 
 
+<p>The first three ingredients are the most powerful and enables a fantastic improvement to the tweak and clone model.
+The last ingredient is mainly for people to be able to enjoy the ADD more easily.  It is like the &#8216;salt-to-taste&#8217;
+and how much you integrate HipChat in with the rest of the ecosystem is up to your team.  But the more it is integrated,
+the more your team will know what is going on, the more easily your team will solve problems/issues, and the more easily
+you will onboard new people.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-2/">A Taste of Flex (Part 2)</a></h1>
-<time datetime="2008-09-02T04:12:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
+<h2>ADD: GitHub</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<p>GitHub will become your primary resource for <em>everything</em> related to &#8216;information&#8217;.  Human notes&#8230; go into GitHub
+in Markdown format (like this blog).  Meeting notes.  GitHub.  Images to go with Meeting notes.  GitHub.  Your first,
+most important, repository will be called &#8216;repo1&#8217; and will be all the notes you want the team to see.  No more
+arguing about the best Wiki, blogger, file store, etc.  The answer will always be the same.  It is in GitHub.  Because
+<em>everything</em> is in GitHub.</p>
 
+<p>Why?  Because it is simple.  It is accessible.  It is powerful.  Keeps history.  Takes almost no space.
+It works offline (on an airplane).  And it works with multiple writers.  And if GitHub dies&#8230;
+you have a complete copy of everything you need to bring up your own &#8216;Git&#8217;.  Asking &#8216;Why?&#8217; is silly.  First
+move to GitHub for all of this, and then ask &#8216;Why?&#8217; to everything else.</p>
 
-</article>
+<h2>ADD: S3 : Annexed Repositories</h2>
 
+<p>Git and GitHub are not good with large binary assets.  They get stored in a notably raw way and just make the
+repository huge for no benefit.  So don&#8217;t store large binary assets in GitHub.  Instead store a reference to
+the binary object up in S3.  Retrieve it as needed.  See <a href="/blog/git-about-everything-annex">Annex</a></p>
 
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-ruby-part-5/">A Taste of Ruby (Part 5)</a></h1>
-<time datetime="2008-08-29T23:42:00-07:00" pubdate><span class='month'>Aug</span> <span class='day'>29</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/dynamic/'>Dynamic</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
+<h2>ADD: EC2 and Vagrant</h2>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-09-24T01:00:00-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-2/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/add-1/" title="Previous Post: Advanced Development and Delivery (ADD)">&laquo; Advanced Development and Delivery (ADD)</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -232,7 +306,10 @@
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-2/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/add-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
