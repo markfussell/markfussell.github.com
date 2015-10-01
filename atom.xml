@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:17:40-07:00</updated>
+  <updated>2015-10-01T13:18:12-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -29,6 +29,9 @@ first part of the Vagrant bootstrap.</p>
 the &#8216;init&#8217; itself to get access to the repo (repo2) that contains the true configuration.  For EC2
 the same thing happens within a CloudFormation template.  The code of the &#8216;init&#8217; is almost identical, but because
 it is in a JSON file there is a lot of noise as the string gets concatenated together.</p>
+
+<!-- more -->
+
 
 <h3>Shaping</h3>
 
