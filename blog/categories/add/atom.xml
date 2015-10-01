@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:01:11-07:00</updated>
+  <updated>2015-10-01T13:12:26-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -14,9 +14,126 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-3]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-3/"/>
+    <updated>2015-10-01T02:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-3</id>
+    <content type="html"><![CDATA[<p>This is the third installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the
+first part of the Vagrant bootstrap.</p>
+
+<h2>EC2</h2>
+
+<p>The Vagrant bootstrap occurred through 'bash' files that shaped (put shape information into files) and
+the 'init' itself to get access to the repo (repo2) that contains the true configuration.  For EC2
+the same thing happens within a CloudFormation template.  The code of the 'init' is almost identical, but because
+it is in a JSON file there is a lot of noise as the string gets concatenated together.</p>
+
+<h3>Shaping</h3>
+
+<p>```json</p>
+
+<pre><code>"TemplateConstant" : {
+  "stacktype" : { "value" : "ControlServer1" },
+  "initgitrepo" : { "value" : "repo2_petulant-cyril" },
+  "nodepart" : { "value" : "controlnode" }
+},
+</code></pre>
+
+<p>```</p>
+
+<p>```json</p>
+
+<pre><code>        "files" : {
+          "/root/nodeinfo/stacktype.txt" : {
+            "content" : { "Fn::Join" : ["", [
+              { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] },
+              ""
+            ]]},
+            "mode"  : "000700",
+            "owner" : "root",
+            "group" : "root"
+          },
+          "/root/nodeinfo/initgitrepo.txt" : {
+            "content" : { "Fn::Join" : ["", [
+              { "Fn::FindInMap" : [ "TemplateConstant", "initgitrepo", "value" ] },
+              ""
+            ]]},
+            "mode"  : "000700",
+            "owner" : "root",
+            "group" : "root"
+          },
+</code></pre>
+
+<p> ```</p>
+
+<h3>Init</h3>
+
+<p>```json</p>
+
+<pre><code>    "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+      "#!/bin/bash -v\n",
+      "yum update -y aws-cfn-bootstrap\n",
+
+      "# Helper function\n",
+      "function error_exit\n",
+      "{\n",
+      "  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+      "  exit 1\n",
+      "}\n",
+
+      "# Install LAMP packages\n",
+      "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r PrimaryLaunchConfig ",
+      "    --access-key ",  { "Ref" : "HostKeys" },
+      "    --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},
+      "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+      "yum -y install git \n",
+
+      "echo 'Fetch s3cmd to get credentials' \n",
+      "mkdir /root/download/ \n",
+      "pushd /root/download/ \n",
+      "git clone git://github.com/s3tools/s3cmd.git \n",
+</code></pre>
+
+<p>```</p>
+
+<h3>Launching and Clusters</h3>
+
+<p>A CloudFormation can provision a single server, but it is used more for clusters.  Instead of creating a server, we create
+a server definition and then say how many servers we want.  The 'PrimaryServerGroup' defines this:</p>
+
+<p>```json</p>
+
+<pre><code>"PrimaryServerGroup" : {
+  "Type" : "AWS::AutoScaling::AutoScalingGroup",
+  "Properties" : {
+    "Tags": [
+      { "Key": "add:stacktype", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] }, "PropagateAtLaunch" : "true" },
+      { "Key": "add:nodepart", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, "PropagateAtLaunch" : "true" }
+    ],
+    "AvailabilityZones" : { "Fn::GetAZs" : "" },
+    "LaunchConfigurationName" : { "Ref" : "PrimaryLaunchConfig" },
+    "MinSize" : "1",
+    "MaxSize" : "1",
+    "DesiredCapacity" : "1"
+  }
+},
+</code></pre>
+
+<p>```</p>
+
+<p>Note that it ends with '1', '1', '1' meaning this is just a single server.  But those numbers can be changed at any time.</p>
+
+<p>Given the DesiredCapacity is '1', if you ever kill a server, a new one will be spun up.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-2]]]></title>
     <link href="http://markfussell.emenar.com/blog/add-2/"/>
-    <updated>2015-09-24T01:00:00-07:00</updated>
+    <updated>2015-10-01T01:00:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/add-2</id>
     <content type="html"><![CDATA[<p>This is the second installment of describing a radically more productive development and delivery environment.</p>
 
@@ -254,8 +371,6 @@ The suffix is generated by GitHub or other name generators.</p>
 
 
 <p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
-
-<h3>EC2</h3>
 ]]></content>
   </entry>
   

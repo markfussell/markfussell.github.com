@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Polyglot</title>
+  <title>Advanced Development and Delivery (ADD) [Part-3] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-3/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/add-3/">Advanced Development and Delivery (ADD) [Part-3]</a></h1>
+      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-3]</h1>
     
     
       <p class="meta">
@@ -93,7 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><p>This is the third installment of describing a radically more productive development and delivery environment.</p>
+<div class="entry-content"><p>This is the third installment of describing a radically more productive development and delivery environment.</p>
 
 <p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the
 first part of the Vagrant bootstrap.</p>
@@ -233,97 +230,16 @@ it is in a JSON file there is a lot of noise as the string gets concatenated tog
 
 <p>Given the DesiredCapacity is &#8216;1&#8217;, if you ever kill a server, a new one will be spun up.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-2/">Advanced Development and Delivery (ADD) [Part-2]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
 
-<time datetime="2015-10-01T01:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
-to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
-by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
-and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
-It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
-people&#8217;s masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
-
-<h2>ADD: How Better?</h2>
-
-<p>As described before, ADD has four ingredients:</p>
-
-<ul>
-<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-</ul>
-
-
-<p>And these are hooked together to enable &#8216;Changers&#8217;, &#8216;Watchders&#8217;, and &#8216;Machines&#8217; to be super-productive.  How
-is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
-of the clone model:</p>
-
-<ul>
-<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
-<li>How do we reduce the amount of information we have to clone?</li>
-<li>How do we reduce the time it takes to transport the clone?</li>
-<li>How do we know what version of the clone is on any machine?</li>
-<li>How do we create thousands of clones?</li>
-<li>How do we know what is different about the different clones?</li>
-<li>&#8230;</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-2/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-1/">Advanced Development and Delivery (ADD)</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -335,448 +251,44 @@ of the clone model:</p>
   
 
 
-<time datetime="2015-09-24T01:00:00-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I have been paid to develop and deliver software since about 1980.  That is 35 years of professional experience.
-When I started in 1980 there were a lot of &#8216;old timers&#8217; who had been around since 1965 or so.  They were 15 years
-ahead of me, and even after finishing college, I had less than ten years to their twenty or so.  This was both
-intimidating but also very helpful: after college my main programming language was Smalltalk (ParcPlace, Digitalk, etc.),
-which included full source to everything.  So the &#8216;masters&#8217; would write masterpieces of code, and I would read them.  And then
-try to write my own beautiful things leveraging the masterpieces.  I was late to the party, but could learn quickly.</p>
-
-<p>I also have one other unusual advantage: I do startups.  Lots of startups (<a href="http://SlumsOfPaloAlto.com/">http://SlumsOfPaloAlto.com/</a>).  A total of ten software startups over a period of
-a bit more than a decade.  Each of these startups failed for one reason or another, but each one <em>hugely</em> progressed in
-how good my development team ran.  Eight, nine, and ten were <em>crazy</em> productive: I would run production servers for the
-whole company at the same time that I built out the product.  Alone.  And generally way faster than the product management
-team could keep up.  At PeerCase the product team actually asked me to <em>slow down</em> delivery so they could ponder what
-they wanted for longer.  I literally went to Disney World during ASH (a medical conference) to prevent myself from
-releasing new features I knew they wanted.  I was paid to <em>not work</em> (well, I was contracting at the time, so I stopped the
-hourly billing clock, but my project bonus was the same).</p>
-
-<h2>10x Productivity</h2>
-
-<p>Besides doing startups, I also consult for companies.  I try to help them improve their development methods, usually by at least 4x if not 10x.
-A lot of times, people don&#8217;t believe you can improve things to &#8216;10x&#8217; the productivity of the current team using new
-development and delivery techniques.  At one company, the CIO and a number of other executives believed me, but I had to convince
-a lot more stakeholders.  So two amigos and I sent me into the trenches.  I started taking projects estimated as two-developers, six-months,
-and doing them in one month.  Part time.  That is more than 12x productivity.  Realistically it was likely about 20x the productivity
-because the teams tend to miss their estimates (they go over).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-1/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2015-10-01T02:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-it-automation-2/">Being a Git About Everything (IT Automation [2])</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
+  
+</span>
 
 
-<time datetime="2013-02-19T18:16:00-08:00" pubdate data-updated="true">Feb 19<span>th</span>, 2013</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>This is the fifth in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a> and the previous
-part of this topic is here: <a href="/blog/git-about-everything-it-automation/">IT Automation</a></p>
-
-<h2>PushMePullYou or Leveraging git to enable mass-automated IT</h2>
-
-<div style="float:right">
-<img width="244" height="191" src="/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-3/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-3/" >Tweet</a>
+  
+  
+  
 </div>
 
-
-<p>The previous post dealt with the groundwork of having Git be a central part of IT automation.  That
-showed the core idea but was a bit too simple to fully express the power of the approach.
-This post will be dealing with all the things that were left off, especially support for:</p>
-
-<ul>
-<li> Many different types of servers with both their own and shared &#8216;recipes&#8217;</li>
-<li> More complicated install/upgrade actions</li>
-<li> More sophisticated install behavior</li>
-<li> Multiple versions of &#8216;recipes&#8217; and an ability to promote whole IT from development to production</li>
-<li> Getting information from other active repositories</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-it-automation-2/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-it-automation/">Being a Git About Everything (IT Automation)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-16T18:16:00-08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the fourth in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Leveraging git to help enable automated IT</h2>
-
-<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
-The ultimate IT is one that <em>&#8216;simply works&#8217;</em> and involves almost no human interaction
-even in failure situations.  Ideally IT should be equivalent to
-a macro-level program that does everything that does not require touching
-a physical machine.</p>
-
-<p>This IT-as-program has become easier and easier over the last many years with
-better and more standardized operating systems, free software that does not
-require annoying human interaction during installation, and virtualization on top of physical
-hardware that makes provisioning and reprovisioning easier.  With cloud computing,
-IT-as-program becomes almost a necessity as hundreds of virtual computers are created, updated, failed,
-migrated, and decommissioned.</p>
-
-<p>Git alone doesn&#8217;t enable IT-as-program but it can be a core component in many areas.  Among these are:</p>
-
-<ul>
-<li> Easy &#8216;Live IT&#8217; servers</li>
-<li> A Push-Me-Pull-You model for continual deployment</li>
-<li> Server presence</li>
-</ul>
-
-
-<p>Having git as a core piece of IT infrastructure enables thousands of machines to very rapidly react (within a minute or two)
-without needing a heavy infrastructure.  You simply need one or two (for redundancy) git servers, of which one can be GitHub
-or a similar free or inexpensive service.  Other technologies in this space have significantly more complicated servers,
-are more likely to be SPOFs (Single points of failures) or bottlenecks, and are much more expensive as a service.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-it-automation/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/add-2/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-2]">&laquo; Advanced Development and Delivery (ADD) [Part-2]</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-it/">Being a Git About Everything (IT)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-13T18:16:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the third in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Leveraging git to help with IT tasks</h2>
-
-<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
-Git can help out with a lot of this, with several big benefits.  Some examples:</p>
-
-<ul>
-<li> IT changes should always be version controlled in case of mistake.  Git and a couple patterns/tools makes that easy</li>
-<li> Installing software can frequently be done with &#8216;yum&#8217; and similar commands, but some software needs a package, and some times you want more direct &#8216;this version&#8217; control.  An annexed git repository helps with that</li>
-<li> Doing backups or other kinds of off-lining with an annexed repo is very simple and flexible</li>
-<li> Git enables a PushMePullYou model that is very flexible and capable of driving hundreds of machines to do either (or both) very light and very heavy-weight operation</li>
-</ul>
-
-
-<p>Some of these things can be done with other tools, but I have found an annexed git repository to make doing these things easier and better</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-it/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-annex/">Being a Git About Everything (Annexing)</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-13T18:16:00-08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Dealing with Binary Files</h2>
-
-<p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
-versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
-
-<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
-&#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-annex/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-intro/">Being a Git About Everything (Intro)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
-
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-intro/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/scratchonflash/">Scratch on Flash</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-19T18:00:00-07:00" pubdate data-updated="true">Sep 19<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The original version of this posting is on the <a href="http://scratch.mit.edu/forums/viewtopic.php?id=9982">MIT Scratch Forum</a> and the
-current location of the repository is <a href="https://github.com/markfussell/scratchonflash">https://github.com/markfussell/scratchonflash</a></p>
-
-<p>In the spirit of release early and often&#8230;</p>
-
-<p>I have made a full bottom-to-top pass at implementing Scratch in Flash.  It can:</p>
-
-<ul>
-<li> Read a scratch project file</li>
-<li> Create the project model (Stage, Sprites, Blocks, etc.)</li>
-<li> Run that model (the core variable assignments, loops, etc.)</li>
-<li> And do a couple of the other kinds of Sprite blocks in the &#8216;motion&#8217; and &#8216;looks&#8217; categories</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/scratchonflash/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/scratch-textual-language/">Scratch Textual Language</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-17T20:28:00-07:00" pubdate data-updated="true">Sep 17<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.
-Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
-<a href="/blog/a-taste-of-scratch">these diagrams</a>
-when trying to document a program, and it is even harder to reference sections of the diagram.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/scratch-textual-language/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -822,7 +334,7 @@ when trying to document a program, and it is even harder to reference sections o
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/markfussell">@markfussell</a> on GitHub
@@ -856,6 +368,7 @@ when trying to document a program, and it is even harder to reference sections o
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -870,7 +383,10 @@ when trying to document a program, and it is even harder to reference sections o
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-3/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/add-3/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
