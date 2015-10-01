@@ -221,9 +221,153 @@ indicate it should do something.  You should never have to SSH into the machine&
 (like the Magic Schoolbus) but you should treat it like it is a living creature and <em>never</em> touch anything inside
 it.  If you have to touch something, fix the &#8216;DNA&#8217; (that boot script), kill the server, and launch a new one.</p>
 
-<p>Given this is a Vagrant file on the developer&#8217;s machine, they can certain free fiddle with things.  But that is
-to get to understand the server.  Some EC2 servers may be for &#8216;fiddling&#8217;.  But QA and production servers should
+<p>Given this is a Vagrant file on the developer&#8217;s machine, they can certainly feel free to fiddle with things.  But that is
+to learn to <em>understand</em> the server.  Some EC2 servers may even be for &#8216;fiddling&#8217;.  But QA and production servers should
 never be touched and should only be looked at if they are confusing people (who already understand the fiddling and Vagrant servers).</p>
+
+<p>Both &#8216;ControlServer1.sh&#8217; and &#8216;cred_bot1.sh&#8217; simply put information into files under &#8216;/root/nodeinfo/&#8217;.  This is an
+amazingly flexible approach that works very simply for Vagrant and EC2.</p>
+
+<h4>ControlServer1.sh</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash -v</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">stacktype</span><span class="o">=</span><span class="s2">&quot;ControlServer1&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">initgitrepo</span><span class="o">=</span><span class="s2">&quot;repo2_petulant-cyril&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">nodepart</span><span class="o">=</span><span class="s2">&quot;controlnode&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir /root/nodeinfo
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$stacktype</span> &gt; /root/nodeinfo/stacktype.txt
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$initgitrepo</span> &gt; /root/nodeinfo/initgitrepo.txt
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$nodepart</span> &gt; /root/nodeinfo/nodepart.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>cred_bot1.sh</h4>
+
+<p>The actual version of this would contain real credential information.  The actual version would be developer-specific and not in version control.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash -v</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">access_key</span><span class="o">=</span><span class="s2">&quot;access_key&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">secret_key</span><span class="o">=</span><span class="s2">&quot;secret_key&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">keyname</span><span class="o">=</span><span class="s2">&quot;keyname&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$access_key</span> &gt; /root/nodeinfo/access_key.txt
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$secret_key</span> &gt; /root/nodeinfo/secret_key.txt
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$keyname</span> &gt; /root/nodeinfo/keyname.txt
+</span><span class='line'>
+</span><span class='line'>cat &gt;&gt; /root/.s3cfg <span class="s">&lt;&lt;EOS</span>
+</span><span class='line'><span class="s">[default]</span>
+</span><span class='line'><span class="s">access_key = $access_key</span>
+</span><span class='line'><span class="s">secret_key = $secret_key</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">EOS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>centos7a_boot1.sh</h4>
+
+<p>This script mirrors most of how EC2 works: we need this machine to be able to checkout a repository from GitHub but
+we only have Amazon credentials.  So we put the full credentials into S3 and check them out.  Then we can clone
+the &#8216;repo2&#8217; provisioning repo and go from there.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash -v</span>
+</span><span class='line'>
+</span><span class='line'>yum -y install git
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;Fetch s3cmd to get credentials&#39;</span>
+</span><span class='line'>mkdir /root/download/
+</span><span class='line'><span class="nb">pushd</span> /root/download/
+</span><span class='line'>git clone git://github.com/s3tools/s3cmd.git
+</span><span class='line'><span class="nb">cd </span>s3cmd
+</span><span class='line'>git checkout a91c40fcd14772fa48297e676c8c6efa1aabc3c0
+</span><span class='line'>python --version
+</span><span class='line'>python setup.py install
+</span><span class='line'>mkdir /root/bin/
+</span><span class='line'>mv /root/download/s3cmd /root/bin/s3cmd
+</span><span class='line'><span class="nb">popd</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;Retrieve SSH keys for Github&#39;</span>
+</span><span class='line'><span class="nb">pushd</span> /root/.ssh
+</span><span class='line'>/root/bin/s3cmd/s3cmd --config /root/.s3cfg get s3://gapshaklee/it/key/shakbot1key2/*
+</span><span class='line'>chmod 600 id*
+</span><span class='line'><span class="nb">cd</span> /root
+</span><span class='line'>ssh -v -o <span class="nv">StrictHostKeyChecking</span><span class="o">=</span>no -T git@github.com
+</span><span class='line'>
+</span><span class='line'>mkdir /root/gitrepo
+</span><span class='line'><span class="nb">cd</span> /root/gitrepo
+</span><span class='line'>git clone git@github.com:shaklee/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>.git
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
+</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
+</span><span class='line'>include it/nodeinit/common/init.sh
+</span><span class='line'>
+</span><span class='line'><span class="c">#Zzzzz....</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Vagrantfile</h3>
 </div>
 
 

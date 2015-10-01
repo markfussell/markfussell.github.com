@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T12:40:48-07:00</updated>
+  <updated>2015-10-01T12:48:49-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -146,9 +146,97 @@ indicate it should do something.  You should never have to SSH into the machine.
 (like the Magic Schoolbus) but you should treat it like it is a living creature and <em>never</em> touch anything inside
 it.  If you have to touch something, fix the 'DNA' (that boot script), kill the server, and launch a new one.</p>
 
-<p>Given this is a Vagrant file on the developer's machine, they can certain free fiddle with things.  But that is
-to get to understand the server.  Some EC2 servers may be for 'fiddling'.  But QA and production servers should
+<p>Given this is a Vagrant file on the developer's machine, they can certainly feel free to fiddle with things.  But that is
+to learn to <em>understand</em> the server.  Some EC2 servers may even be for 'fiddling'.  But QA and production servers should
 never be touched and should only be looked at if they are confusing people (who already understand the fiddling and Vagrant servers).</p>
+
+<p>Both 'ControlServer1.sh' and 'cred_bot1.sh' simply put information into files under '/root/nodeinfo/'.  This is an
+amazingly flexible approach that works very simply for Vagrant and EC2.</p>
+
+<h4>ControlServer1.sh</h4>
+
+<p>```bash</p>
+
+<h1>!/bin/bash -v</h1>
+
+<p>export stacktype="ControlServer1"
+export initgitrepo="repo2_petulant-cyril"
+export nodepart="controlnode"</p>
+
+<p>mkdir /root/nodeinfo
+echo $stacktype > /root/nodeinfo/stacktype.txt
+echo $initgitrepo > /root/nodeinfo/initgitrepo.txt
+echo $nodepart > /root/nodeinfo/nodepart.txt
+```</p>
+
+<h4>cred_bot1.sh</h4>
+
+<p>The actual version of this would contain real credential information.  The actual version would be developer-specific and not in version control.</p>
+
+<p>```bash</p>
+
+<h1>!/bin/bash -v</h1>
+
+<p>export access_key="access_key"
+export secret_key="secret_key"
+export keyname="keyname"</p>
+
+<p>echo $access_key > /root/nodeinfo/access_key.txt
+echo $secret_key > /root/nodeinfo/secret_key.txt
+echo $keyname > /root/nodeinfo/keyname.txt</p>
+
+<p>cat >> /root/.s3cfg &lt;&lt;EOS
+[default]
+access_key = $access_key
+secret_key = $secret_key</p>
+
+<p>EOS
+```</p>
+
+<h4>centos7a_boot1.sh</h4>
+
+<p>This script mirrors most of how EC2 works: we need this machine to be able to checkout a repository from GitHub but
+we only have Amazon credentials.  So we put the full credentials into S3 and check them out.  Then we can clone
+the 'repo2' provisioning repo and go from there.</p>
+
+<p>```bash</p>
+
+<h1>!/bin/bash -v</h1>
+
+<p>yum -y install git</p>
+
+<p>echo 'Fetch s3cmd to get credentials'
+mkdir /root/download/
+pushd /root/download/
+git clone git://github.com/s3tools/s3cmd.git
+cd s3cmd
+git checkout a91c40fcd14772fa48297e676c8c6efa1aabc3c0
+python --version
+python setup.py install
+mkdir /root/bin/
+mv /root/download/s3cmd /root/bin/s3cmd
+popd</p>
+
+<p>echo 'Retrieve SSH keys for Github'
+pushd /root/.ssh
+/root/bin/s3cmd/s3cmd --config /root/.s3cfg get s3://gapshaklee/it/key/shakbot1key2/<em>
+chmod 600 id</em>
+cd /root
+ssh -v -o StrictHostKeyChecking=no -T git@github.com</p>
+
+<p>mkdir /root/gitrepo
+cd /root/gitrepo
+git clone git@github.com:shaklee/<code>cat /root/nodeinfo/initgitrepo.txt</code>.git</p>
+
+<p>cd /root/gitrepo/<code>cat /root/nodeinfo/initgitrepo.txt</code>
+include () { if [[ -f \"$1\" ]]; then source \"$1\"; else echo \"Skipped missing: $1\"; fi }
+include it/nodeinit/common/init.sh</p>
+
+<h1>Zzzzz....</h1>
+
+<p>```</p>
+
+<h3>Vagrantfile</h3>
 ]]></content>
   </entry>
   
