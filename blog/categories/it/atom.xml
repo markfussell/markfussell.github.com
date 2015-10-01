@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T12:22:22-07:00</updated>
+  <updated>2015-10-01T12:37:48-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -106,7 +106,49 @@ But it is beyond them: like a mathematical formula (the Golden Ratio) that can b
 <h2>Demo or Die!</h2>
 
 <p>The core demo for this article will walk through bringing up a server on EC2 <em>and</em> Vagrant.  If you are not familiar
-with EC2 and Vagrant, please read some of my other articles</p>
+with EC2 and Vagrant, please read some of my other articles or meeting notes, or look to the web for resources.</p>
+
+<h3>Vagrant</h3>
+
+<p>The demo in Vagrant is slightly simpler than in EC2 because you are dealing with a machine at a time.  On EC2 you
+should be thinking 'Clusters' of machines that work together in 'Federations', and the technology to do that is
+more complicated and more EC2-centric.</p>
+
+<p>In Vagrant, you have a 'Box' definition and then an actual virtual instance.  To provision an instance you have
+to 'init' it, bring it up, and then configure it.  Except you don't.  As long as the instance knows how to
+bootstrap itself.  Demo:</p>
+
+<h4>Vagrantfile</h4>
+
+<p>```ruby
+  config.vm.provision "shell", inline: &lt;&lt;-SHELL</p>
+
+<pre><code> su root
+ source /vagrant/resource/centos7a_cf2_ControlServer1.sh
+ source /vagrant/resource/centos7a_cred_bot1.sh
+ source /vagrant/resource/centos7a_boot1.sh
+</code></pre>
+
+<p>  SHELL
+```</p>
+
+<p>As the last step of the Vagrantfile, the (linux) server does three things:</p>
+
+<ul>
+<li>It 'shapes' itself to be a ControlServer</li>
+<li>It 'shapes' itself to be 'bot1' for it's credentials</li>
+<li>It configures itself with a boot script</li>
+</ul>
+
+
+<p>By the end of the boot script it will be fully alive and running.  Watching for changes to repositories that
+indicate it should do something.  You should never have to SSH into the machine... ever.  You can to look around
+(like the Magic Schoolbus) but you should treat it like it is a living creature and <em>never</em> touch anything inside
+it.  If you have to touch something, fix the 'DNA' (that boot script), kill the server, and launch a new one.</p>
+
+<p>Given this is a Vagrant file on the developer's machine, they can certain free fiddle with things.  But that is
+to get to understand the server.  Some EC2 servers may be for 'fiddling'.  But QA and production servers should
+never be touched and should only be looked at if they are confusing people (who already understand the fiddling and Vagrant servers).</p>
 ]]></content>
   </entry>
   
