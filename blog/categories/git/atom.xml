@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:23:17-07:00</updated>
+  <updated>2015-10-01T16:31:27-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-r]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-4/"/>
+    <updated>2015-10-01T03:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-4</id>
+    <content type="html"><![CDATA[<p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
+
+<h2>Node initialization</h2>
+
+<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages 'host' virtual
+disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
+In both cases the very last thing the node does in the bootstrap is:</p>
+
+<p><code>bash
+cd /root/gitrepo/`cat /root/nodeinfo/initgitrepo.txt`
+include () { if [[ -f \"$1\" ]]; then source \"$1\"; else echo \"Skipped missing: $1\"; fi }
+include it/nodeinit/common/init.sh
+</code></p>
+
+<p>It is an 'include/source' to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
+logging, so continual sourcing is preferred.  In other cases, the 'source' enables sub-scripts to set values for subsequent
+scripts where subshells are more isolated.</p>
+
+<h3>init.sh</h3>
+
+<p>The init script first figures out where it is and sets up some important paths.</p>
+
+<p>```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>================================================</h1>
+
+<h1>=== Want DIR to be root of the 'it' directory</h1>
+
+<h1>================================================</h1>
+
+<p>export DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )/../"
+export RESOURCE=${DIR}/resource
+export COMMON=${DIR}/common
+```</p>
+
+<h3>cron_1m.sh</h3>
+
+<p>It then gets some AWS resources, sets up a shared 'cron', and so on.  I like a single 'cron' job running every minute
+so it is easy to understand what is going on.  This is the 'heartbeat' of the server configuration infrastructure: a
+server can want to change any 'minute'.  The look every minute for something that makes them want to change and
+then they launch an activity.  The look need to be fast: take about a second or two per 'look' and not cause much load.
+But the 'change' does not have to be fast: it could take minutes to reconfigure based on the change.  So while
+changing, the 'looking' is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
+for new WARs when deploying a WAR.  Then starts looking again when it is back online.</p>
+
+<p>At scale (say 100 servers) with servers all on NTP this one-minute rhythm can cause resource rushing.  To
+counter that we need to 'jitter' the servers so they work on a different
+second of the minute, or even as much as minutes later at super-scale (1000 servers).
+That is done within the cron_1m.sh script after the look has established something needs to be done.</p>
+
+<p>```bash
+mkdir -p /root/bin
+cp ${RESOURCE}/cron_1m.sh /root/bin/cron_1m.sh
+chmod +x /root/bin/cron_1m.sh</p>
+
+<p>cat &lt;<EOS > /var/spool/cron/root
+MAILTO=""</p>
+
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>/root/bin/cron_1m.sh
+EOS
+```</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>More specific initialization</h3>
+
+<p>The above activities are done for any node.  They all need to have heartbeats and some other common resources.
+But beyond that, it depends on the type of node and the type of stack what should be put on a particular node.
+This is done by simple 'includes' with the 'nodeinfo' that came from the configuration.</p>
+
+<p>```bash</p>
+
+<p>include ${DIR}part/<code>cat /root/nodeinfo/nodepart.txt</code>/init.sh
+include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/init.sh
+include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/part/<code>cat /root/nodeinfo/nodepart.txt</code>/init.sh</p>
+
+<p>```</p>
+
+<p>You can see the layout in the initial directory picture</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-3]]]></title>
@@ -738,580 +844,6 @@ control server, which isn't really part of the running deployment).</p>
 <h2>Next</h2>
 
 <p>Our next problem will be...</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (IT Automation)]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-it-automation/"/>
-    <updated>2013-02-16T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-it-automation</id>
-    <content type="html"><![CDATA[<p>This is the fourth in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Leveraging git to help enable automated IT</h2>
-
-<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
-The ultimate IT is one that <em>'simply works'</em> and involves almost no human interaction
-even in failure situations.  Ideally IT should be equivalent to
-a macro-level program that does everything that does not require touching
-a physical machine.</p>
-
-<p>This IT-as-program has become easier and easier over the last many years with
-better and more standardized operating systems, free software that does not
-require annoying human interaction during installation, and virtualization on top of physical
-hardware that makes provisioning and reprovisioning easier.  With cloud computing,
-IT-as-program becomes almost a necessity as hundreds of virtual computers are created, updated, failed,
-migrated, and decommissioned.</p>
-
-<p>Git alone doesn't enable IT-as-program but it can be a core component in many areas.  Among these are:</p>
-
-<ul>
-<li> Easy 'Live IT' servers</li>
-<li> A Push-Me-Pull-You model for continual deployment</li>
-<li> Server presence</li>
-</ul>
-
-
-<p>Having git as a core piece of IT infrastructure enables thousands of machines to very rapidly react (within a minute or two)
-without needing a heavy infrastructure.  You simply need one or two (for redundancy) git servers, of which one can be GitHub
-or a similar free or inexpensive service.  Other technologies in this space have significantly more complicated servers,
-are more likely to be SPOFs (Single points of failures) or bottlenecks, and are much more expensive as a service.</p>
-
-<!-- more -->
-
-
-<h2>Easy 'Live IT' servers</h2>
-
-<p>A 'Live IT' server is one that can automatically do new things when something about the IT world changes.  This
-is not referring to how sophisticated the applications on a server are, but whether the server itself can
-manage upgrades or other configuration changes to itself.  Examples are:</p>
-
-<ul>
-<li> Deploying new version of a Java war or a Rails app</li>
-<li> Doing database backups and offloads</li>
-<li> Offloading or deleting logs (that are harder than logrotate)</li>
-<li> Reacting to simple configuration changes</li>
-<li> Reacting to server presence changes</li>
-</ul>
-
-
-<p>There are a number of ways to do the activities listed above, from manually interacting with machines, through cron jobs,
-mass 'push' model interactions (e.g. Capistrano), and finally puppetry via Chef and similar.  I have found almost all of
-these to be lacking in many ways, including:</p>
-
-<ul>
-<li> Lack of documented change-to-server</li>
-<li> Difficulty in rolling back changes</li>
-<li> Not scaling nicely (one client hitting many servers, or many servers doing queries against another server)</li>
-<li> Lack of flexibility</li>
-<li> Slowness or non-responsiveness (delays) of applying changes</li>
-<li> Differences from 'bootstrap' of cloud servers</li>
-</ul>
-
-
-<h3>Pull Model</h3>
-
-<p>A different approach leveraging Git (or any other DVCS) seems to produce much simpler and more powerful
-solutions.  The approach is composed of:</p>
-
-<ul>
-<li> A git repository that has working scripts (in any language people like, including Chef-solo)</li>
-<li> A simple bootstrap script that clones the repository and calls an <code>init.sh</code> script in it</li>
-<li> A cron job that is set up by the <code>init.sh</code> script.  This cron job executes every minute
-
-<ul>
-<li>Goes into the working git repository</li>
-<li>Does a pull to get the latest version of scripts</li>
-<li>Then calls into a <code>work.sh</code> script</li>
-</ul>
-</li>
-</ul>
-
-
-<p>This flow enables activity at every minute, using the latest version of the git repository, and with very little overhead
-for the core behavior.  Advantages are:</p>
-
-<ul>
-<li> All changes to a server are caused by one or more git repositories changing.  Servers can even publish there status by showing the git revision they are on.</li>
-<li> Rolling back changes is simply reversing a commit</li>
-<li> The only centralized activity is the <code>git fetch</code> which is very simple and fast.</li>
-<li> So far the only constraint is the time is every minute, and that could be sub-minute but needing that is rare</li>
-<li> Delays are at most a minute, and again that could easily become less (but not sub-second)</li>
-<li> The behavior is actually the same as bootstrapping a server.  A bootstrap is just the first minute of work.</li>
-</ul>
-
-
-<h3>Example-1</h3>
-
-<p>Example-1 is the initial example of this model.  The repository is</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo3/">https://github.com/markfussell/giteveryrepo3/</a></li>
-</ul>
-
-
-<p>with the CloudFormation template being:</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo3/blob/master/it/aws/cloudformation/GitEverythingServer3.template">https://github.com/markfussell/giteveryrepo3/blob/master/it/aws/cloudformation/GitEverythingServer3.template</a></li>
-</ul>
-
-
-<p>This has a UserData section which does the initial bootstrap of cloning the repository and
-calling an init script inside it.</p>
-
-<p>```json</p>
-
-<pre><code>      "yum -y install git \n",
-      "mkdir /root/gitrepo \n",
-      "cd /root/gitrepo \n",
-      "git clone git://github.com/markfussell/giteveryrepo3.git  \n",
-
-      "cd /root/gitrepo/giteveryrepo3 \n",
-      "source bin/init/common/init.sh \n",
-</code></pre>
-
-<p>```</p>
-
-<p>The <code>init.sh</code> script simply sets up a cron job that calls the <code>cron_1m.sh</code> script
-in <code>/root/bin/</code>.  I prefer to have crontab files that are very simple (e.g. one line)
-and call into /root/bin/ scripts so (a) it is more visible what crons are running
-(b) if there are any inter-cron issues they can be managed, and (c) it is easy to
-disable a cron by doing a rename.</p>
-
-<p>The <code>init.sh</code> file:</p>
-
-<h1>```bash</h1>
-
-<h1>=== Have a preference that crons</h1>
-
-<h1>=== all go through a single file</h1>
-
-<h1>================================</h1>
-
-<p>mkdir -p /root/bin
-cp ./bin/init/common/cron_1m.sh /root/bin/cron_1m.sh
-chmod +x /root/bin/cron_1m.sh</p>
-
-<p>cat &lt;<EOS > /var/spool/cron/root
-MAILTO=""</p>
-
-<ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li>/root/bin/cron_1m.sh
-EOS</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>```</p>
-
-<p>And the <code>cron_1m.sh</code> file:</p>
-
-<p>```bash</p>
-
-<h1>! /bin/bash</h1>
-
-<h1>================================</h1>
-
-<h1>=== Simple worker example</h1>
-
-<h1>================================</h1>
-
-<p>export ME=<code>basename $0</code>
-export LOG=/root/log/${ME}<em>log.txt
-export ERROR=/root/log/${ME}</em>error.txt
-export START_TSS="<code>date +%Y%m%d-%H%M%S</code>"</p>
-
-<p>mkdir -p /root/log/</p>
-
-<p>exec 1>> ${LOG}
-exec 2>> ${ERROR}</p>
-
-<p>echo "${ME}: Start  ${START_TSS}" >> ${LOG}</p>
-
-<p>export REPOS=<code>find /root/gitrepo/ -maxdepth 1 -mindepth 1</code>
-for REPO in ${REPOS}; do</p>
-
-<pre><code>pushd ${REPO}
-    git pull
-
-    source bin/work/common/work.sh
-popd
-</code></pre>
-
-<p>done</p>
-
-<p>export FINISH_TSS="<code>date +%Y%m%d-%H%M%S</code>"
-echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}</p>
-
-<p>```</p>
-
-<p>As you can see the <code>cron_1m.sh</code> script is "repo flexible".
-It will do any and all <code>work.sh</code> file it finds in the repositories under
-<code>/root/gitrepo/</code>.  You might want to be more restrictive than
-that (say only 'active' repos), but this at least shows the power of the
-generalization.</p>
-
-<p>If you login to the server, you will find it doing some kind of work:</p>
-
-<p>```bash
-[root@ip-10-120-174-182 ~]# tail -f /root/log/*
-==> /root/log/cron_1m.sh_error.txt &lt;==</p>
-
-<p>==> /root/log/cron_1m.sh_log.txt &lt;==
-Already up-to-date.
-We are doing some kind of work
-~
-cron_1m.sh: Finish 20130219-050202
-cron_1m.sh: Start  20130219-050301
-~/gitrepo/giteveryrepo3 ~
-Already up-to-date.
-We are doing some kind of work
-~
-cron_1m.sh: Finish 20130219-050301</p>
-
-<p>```</p>
-
-<p>As you can see, the total time to do a "Hello World" is under a second.  Very fast!</p>
-
-<h4>Inherent overhead of approach</h4>
-
-<p>The amount of overhead associated associated with this approach is less than a second.  The fetch itself:</p>
-
-<p>```bash
-[root@ip-10-120-174-182 giteveryrepo3]# time git fetch</p>
-
-<p>real    0m0.087s
-user    0m0.002s
-sys 0m0.006s
-```</p>
-
-<p>is 87 milliseconds and the system overhead is 8 milliseconds on an m1.small (that isn't doing anything else).
-With a busier server the 'real' time goes up a bit, but the system overhead is still tens of milliseconds at
-most.</p>
-
-<p>Although fetching is useful on its own, we will initially always merge as well, so let us time that:</p>
-
-<p>```bash
-[root@ip-10-120-174-182 giteveryrepo3]# time git pull
-Already up-to-date.</p>
-
-<p>real    0m0.105s
-user    0m0.007s
-sys 0m0.053s
-```</p>
-
-<p>Pulling requires a bit more effort to do a no-op merge but things are still in the tens of milliseconds of 'effort'
-and a clock time well under a second.</p>
-
-<h2>Push-Me-Pull-You</h2>
-
-<div style="float:right">
-<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
-</div>
-
-
-<p>The previous section discussed having 'Live IT' servers that use the very-fast git pull to
-get updates that the server will react to.  Updating central git repositories uses an atomic 'push'
-operation, so the obvious name for this pattern of pushing changes from one place (say 'me')
-to a hundred servers who are listening (let us call them 'you') is... 'Push-Me-Pull-You'...
-which even has a handy mascot.</p>
-
-<p>Some great things about the PushMePullYou were identified above:</p>
-
-<ul>
-<li> Extremely low overhead and very simple model</li>
-<li> All changes to a server are caused by one or more git repositories changing.  Servers can even publish there status by showing the git revision they are on.</li>
-<li> Rolling back changes is simply reversing a commit</li>
-<li> The only centralized activity is the <code>git fetch</code> which is very simple and fast.</li>
-<li> So far the only constraint is the time is every minute, and that could be sub-minute but needing that is rare</li>
-<li> Delays are at most a minute, and again that could easily become less (but not sub-second)</li>
-<li> The behavior is actually the same as bootstrapping a server.  A bootstrap is just the first minute of work.</li>
-</ul>
-
-
-<p>A few additional ones are:</p>
-
-<ul>
-<li> You can 'push' from anywhere you want... so you can test a change on the target IT environment and then push from there if it works</li>
-<li> It is very easy to organize many different kinds of machines, kinds of deployments, etc. within a single repository</li>
-<li> It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action</li>
-</ul>
-
-
-<p>The architectural model looks a bit like this</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation/pushmepullyou_simpleawsarch.png" /></p>
-
-<h3>Going beyond naive</h3>
-
-<p>The Example-1 above had the naive 'pull and do something no matter what'.  We need to get a bit beyond that
-to have a truly useful approach.</p>
-
-<h3>Checking commit version</h3>
-
-<p>The simplest sanity check is to see whether we have a new commit.  This can be done in a few ways, including:</p>
-
-<ul>
-<li> Do a 'fetch' and check whether the remote branch is different from the local branch</li>
-<li> After each action, store the commit version that was acted upon.  On each pull compare the old to the new</li>
-<li> Have a local acted-upon branch separate from the main branch</li>
-</ul>
-
-
-<p>The last one has a nice feature of showing 'history-according-to-this-machine' where the other two are purely
-'what is now', but it is simpler to avoid having a per-machine branch and multiple versions (the differing
-merges depending on local history) occurring
-everywhere.</p>
-
-<h4>Fetch based</h4>
-
-<p>The simplest check is just to see if there are any differences between the 'origin' and the local branch.  This
-would look something like <code>detectOriginFetchDiff.sh</code>:</p>
-
-<p>```bash</p>
-
-<h1>=================================================</h1>
-
-<h1>=== Detect whether the version of the origin</h1>
-
-<h1>=== is the same as the local version.</h1>
-
-<h1>=== Return the ORIGIN_VERSION if different</h1>
-
-<h1>=================================================</h1>
-
-<p>git fetch</p>
-
-<p>export ORIGIN_VERSION=<code>git rev-parse origin/master</code>
-export LOCAL_VERSION=<code>git rev-parse HEAD</code></p>
-
-<p>if [ "${ORIGIN_VERSION}" = "${LOCAL_VERSION}" ]; then</p>
-
-<pre><code>: #Don't do anything
-</code></pre>
-
-<p>else</p>
-
-<pre><code>echo ${ORIGIN_VERSION}
-</code></pre>
-
-<p>fi
-```</p>
-
-<p>Where you can use this script with:</p>
-
-<p><code>bash
-if [[ -n "`./bin/pushmepullyou/detectOriginDiff.sh`" ]] ; then
-   : #React to the change
-else
-   : #Do nothing / exit
-fi
-</code></p>
-
-<p>This should be lightning fast.  The only drawback is:</p>
-
-<ul>
-<li> If you don't pull (merge) until after executing the script... you might not be able to easily change the code determining whether to executing the script</li>
-</ul>
-
-
-<p>You can redo an action by forcing the local branch back a version.  For example:</p>
-
-<p><code>bash
-git reset --hard master~1
-</code></p>
-
-<h4>Last-action based</h4>
-
-<p>An alternative to the fetch-based model is to record the last action performed by the local machine.  This
-deals with the drawback above: you already have the latest version of code no matter what.  Also it starts
-down the path of 'mid-action' protection (to avoid doing a change or sequence of changes on top of each
-other).  For example <code>detectLastActionDiff.sh</code>:</p>
-
-<p>```bash</p>
-
-<h1>=================================================</h1>
-
-<h1>=== Detect whether the last action version</h1>
-
-<h1>=== is the same as the current pulled version.</h1>
-
-<h1>=== Return the LOCAL_VERSION if different</h1>
-
-<h1>=================================================</h1>
-
-<p>export LOCAL_VERSION=<code>git rev-parse HEAD</code>
-export LASTACTION_FILE=./.temp/nodeinfo/lastaction.txt</p>
-
-<p>if [[ -e ${LASTACTION_FILE} ]]; then</p>
-
-<pre><code>export LAST_ACTION=`cat ${LASTACTION_FILE}`
-if [ "${LAST_ACTION}" = "${LOCAL_VERSION}" ]; then
-    : #Don't do anything
-else
-    echo ${LOCAL_VERSION}
-fi
-</code></pre>
-
-<p>else</p>
-
-<pre><code>echo ${LOCAL_VERSION}
-</code></pre>
-
-<p>fi
-```</p>
-
-<p>And after completing any action you write the version into the lastaction version file:</p>
-
-<p>```bash</p>
-
-<p>export LOCAL_VERSION=<code>git rev-parse HEAD</code>
-export LASTACTION_FILE=./.temp/nodeinfo/lastaction.txt
-export LASTACTION_DIR="$( cd -P "$( dirname "${LASTACTION_FILE}" )" &amp;&amp; pwd )/"</p>
-
-<p>mkdir -p LASTACTION_DIR
-echo ${LOCAL_VERSION} > ${LASTACTION_FILE}
-```</p>
-
-<h3>Avoiding mid-action collision</h3>
-
-<p>The main advantage of the Last-action approach is it starts down the path of
-making sure you are not executing things twice.  Alternatively, you could
-have an <code>flock</code> associated with the calling script (say the <code>cron_1m.sh</code>),
-but writing to a <code>currentaction</code> file is a bit more
-OS independent, can document what version is being acted upon,
-and supports multiple paths hitting the same file.</p>
-
-<p>Ideally if anything is currently working, the automatic <code>merge</code> would stop,
-so the test for <code>currentaction</code> should be very early.  We should go
-back to our initial worker example</p>
-
-<p>```bash</p>
-
-<h1>! /bin/bash</h1>
-
-<h1>================================</h1>
-
-<h1>=== Simple worker example</h1>
-
-<h1>================================</h1>
-
-<p>export ME=<code>basename $0</code>
-export LOG=/root/log/${ME}<em>log.txt
-export ERROR=/root/log/${ME}</em>error.txt
-export START_TSS="<code>date +%Y%m%d-%H%M%S</code>"</p>
-
-<p>export CURRENTACTION_FILE=./.temp/nodeinfo/currentaction.txt</p>
-
-<p>mkdir -p /root/log/</p>
-
-<p>exec 1>> ${LOG}
-exec 2>> ${ERROR}</p>
-
-<p>echo "${ME}: Start  ${START_TSS}" >> ${LOG}</p>
-
-<p>export REPOS=<code>find /root/gitrepo/ -maxdepth 1 -mindepth 1</code>
-for REPO in ${REPOS}; do</p>
-
-<pre><code>pushd ${REPO}
-    if [[ -e ${CURRENTACTION_FILE} ]]; then
-        : #Don't do anything until the current action completes
-    else
-        git pull
-
-        bash bin/work/common/work.sh
-    fi
-popd
-</code></pre>
-
-<p>done</p>
-
-<p>export FINISH_TSS="<code>date +%Y%m%d-%H%M%S</code>"
-echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}</p>
-
-<p>```</p>
-
-<blockquote><p>Note: If you want to have each repository have more control of it's behavior
-you would need to move the <code>if</code> test and the <code>pull</code> into the work file.</p></blockquote>
-
-<p>While the action is running you can either touch or copy
-the current version into <code>currentaction</code>, and when
-finished, delete or rename it.  Since everything
-is running so fast, you probably don't need to do
-an <code>flock</code> or even a second <code>[[ -e ]]</code> check.  Acquiring
-the lock is simply:</p>
-
-<p><code>``bash
-export LOCAL_VERSION=</code>git rev-parse HEAD`
-export CURRENTACTION_FILE=./.temp/nodeinfo/currentaction.txt
-export CURRENTACTION_DIR="$( cd -P "$( dirname "${CURRENTACTION_FILE}" )" &amp;&amp; pwd )/"</p>
-
-<p>mkdir -p CURRENTACTION_DIR
-echo ${LOCAL_VERSION} > ${CURRENTACTION_FILE}</p>
-
-<h1>Now officially own the current action</h1>
-
-<p>```</p>
-
-<h3>Dealing with different types and collections of servers</h3>
-
-<p>All the above had a single type of machine watching any changes in the
-repository and doing the same thing.  Although this does work if you
-have either very few servers or are happy with a plethora of repositories
-or branches, it would be good to have a way for many different types
-and collections of servers to share a single repository.  We
-will deal with that in the next blog.</p>
-
-<h2>Summary</h2>
-
-<p>Git can help automate IT with a very fast and effective PushMePullYou
-model.  Hundreds of servers can be continually polling one or more
-central Git servers to see if anything has changed and then act
-upon those changes.  This provides history for any activity, a
-very fast response time, and almost no load when nothing has changed.
-Also, this approach enables bootstrapping and updating to use exactly
-the same paths.</p>
-
-<p>In all, it provides a superior foundation for IT automation in spite of
-being so simple.</p>
-
-<h2>References</h2>
-
-<ul>
-<li> Chef-Server Scalability
-
-<ul>
-<li><a href="http://lists.opscode.com/sympa/arc/chef/2012-01/msg00422.html">http://lists.opscode.com/sympa/arc/chef/2012-01/msg00422.html</a></li>
-<li><a href="http://www.opscode.com/hosted-chef/">http://www.opscode.com/hosted-chef/</a></li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Credit</h2>
-
-<ul>
-<li> Initial Llama for Push-Me-Pull-You Image credit: <a href='http://www.123rf.com/photo_11398752_llama-llove--two-llamas-kiss-their-necks-forming-a-heart-shape.html'>fiftyfootelvis / 123RF Stock Photo</a></li>
-</ul>
-
-
-<h2>Next</h2>
-
-<p>Our next problem will be <a href="/blog/git-about-everything-it-automation-2/">Mass IT Automation</a></p>
 ]]></content>
   </entry>
   

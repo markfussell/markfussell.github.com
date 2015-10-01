@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:23:17-07:00</updated>
+  <updated>2015-10-01T16:31:27-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-r]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-4/"/>
+    <updated>2015-10-01T03:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-4</id>
+    <content type="html"><![CDATA[<p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
+
+<h2>Node initialization</h2>
+
+<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages 'host' virtual
+disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
+In both cases the very last thing the node does in the bootstrap is:</p>
+
+<p><code>bash
+cd /root/gitrepo/`cat /root/nodeinfo/initgitrepo.txt`
+include () { if [[ -f \"$1\" ]]; then source \"$1\"; else echo \"Skipped missing: $1\"; fi }
+include it/nodeinit/common/init.sh
+</code></p>
+
+<p>It is an 'include/source' to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
+logging, so continual sourcing is preferred.  In other cases, the 'source' enables sub-scripts to set values for subsequent
+scripts where subshells are more isolated.</p>
+
+<h3>init.sh</h3>
+
+<p>The init script first figures out where it is and sets up some important paths.</p>
+
+<p>```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>================================================</h1>
+
+<h1>=== Want DIR to be root of the 'it' directory</h1>
+
+<h1>================================================</h1>
+
+<p>export DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )/../"
+export RESOURCE=${DIR}/resource
+export COMMON=${DIR}/common
+```</p>
+
+<h3>cron_1m.sh</h3>
+
+<p>It then gets some AWS resources, sets up a shared 'cron', and so on.  I like a single 'cron' job running every minute
+so it is easy to understand what is going on.  This is the 'heartbeat' of the server configuration infrastructure: a
+server can want to change any 'minute'.  The look every minute for something that makes them want to change and
+then they launch an activity.  The look need to be fast: take about a second or two per 'look' and not cause much load.
+But the 'change' does not have to be fast: it could take minutes to reconfigure based on the change.  So while
+changing, the 'looking' is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
+for new WARs when deploying a WAR.  Then starts looking again when it is back online.</p>
+
+<p>At scale (say 100 servers) with servers all on NTP this one-minute rhythm can cause resource rushing.  To
+counter that we need to 'jitter' the servers so they work on a different
+second of the minute, or even as much as minutes later at super-scale (1000 servers).
+That is done within the cron_1m.sh script after the look has established something needs to be done.</p>
+
+<p>```bash
+mkdir -p /root/bin
+cp ${RESOURCE}/cron_1m.sh /root/bin/cron_1m.sh
+chmod +x /root/bin/cron_1m.sh</p>
+
+<p>cat &lt;<EOS > /var/spool/cron/root
+MAILTO=""</p>
+
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>/root/bin/cron_1m.sh
+EOS
+```</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>More specific initialization</h3>
+
+<p>The above activities are done for any node.  They all need to have heartbeats and some other common resources.
+But beyond that, it depends on the type of node and the type of stack what should be put on a particular node.
+This is done by simple 'includes' with the 'nodeinfo' that came from the configuration.</p>
+
+<p>```bash</p>
+
+<p>include ${DIR}part/<code>cat /root/nodeinfo/nodepart.txt</code>/init.sh
+include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/init.sh
+include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/part/<code>cat /root/nodeinfo/nodepart.txt</code>/init.sh</p>
+
+<p>```</p>
+
+<p>You can see the layout in the initial directory picture</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-3]]]></title>

@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:23:17-07:00</updated>
+  <updated>2015-10-01T16:31:27-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,116 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-r]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-4/"/>
+    <updated>2015-10-01T03:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-4</id>
+    <content type="html"><![CDATA[<p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
+
+<h2>Node initialization</h2>
+
+<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages &#8216;host&#8217; virtual
+disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
+In both cases the very last thing the node does in the bootstrap is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
+</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
+</span><span class='line'>include it/nodeinit/common/init.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is an &#8216;include/source&#8217; to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
+logging, so continual sourcing is preferred.  In other cases, the &#8216;source&#8217; enables sub-scripts to set values for subsequent
+scripts where subshells are more isolated.</p>
+
+<h3>init.sh</h3>
+
+<p>The init script first figures out where it is and sets up some important paths.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'><span class="c">#=== Want DIR to be root of the &#39;it&#39; directory</span>
+</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${BASH_SOURCE[0]}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )/../&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">RESOURCE</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/resource
+</span><span class='line'><span class="nb">export </span><span class="nv">COMMON</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/common
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>cron_1m.sh</h3>
+
+<p>It then gets some AWS resources, sets up a shared &#8216;cron&#8217;, and so on.  I like a single &#8216;cron&#8217; job running every minute
+so it is easy to understand what is going on.  This is the &#8216;heartbeat&#8217; of the server configuration infrastructure: a
+server can want to change any &#8216;minute&#8217;.  The look every minute for something that makes them want to change and
+then they launch an activity.  The look need to be fast: take about a second or two per &#8216;look&#8217; and not cause much load.
+But the &#8216;change&#8217; does not have to be fast: it could take minutes to reconfigure based on the change.  So while
+changing, the &#8216;looking&#8217; is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
+for new WARs when deploying a WAR.  Then starts looking again when it is back online.</p>
+
+<p>At scale (say 100 servers) with servers all on NTP this one-minute rhythm can cause resource rushing.  To
+counter that we need to &#8216;jitter&#8217; the servers so they work on a different
+second of the minute, or even as much as minutes later at super-scale (1000 servers).
+That is done within the cron_1m.sh script after the look has established something needs to be done.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/bin
+</span><span class='line'>cp <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/cron_1m.sh /root/bin/cron_1m.sh
+</span><span class='line'>chmod +x /root/bin/cron_1m.sh
+</span><span class='line'>
+</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt; /var/spool/cron/root</span>
+</span><span class='line'><span class="s">MAILTO=&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">* * * * *  /root/bin/cron_1m.sh</span>
+</span><span class='line'><span class="s">EOS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>More specific initialization</h3>
+
+<p>The above activities are done for any node.  They all need to have heartbeats and some other common resources.
+But beyond that, it depends on the type of node and the type of stack what should be put on a particular node.
+This is done by simple &#8216;includes&#8217; with the &#8216;nodeinfo&#8217; that came from the configuration.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
+</span><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/init.sh
+</span><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see the layout in the initial directory picture</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-3]]]></title>
@@ -5303,181 +5413,6 @@ Then
 <h3>Where Next?</h3>
 
 <p>Next we should go to Chapter 4 — Page 44. The Third Example (with Real Hanoi Classes)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Flex]]></title>
-    <link href="http://markfussell.emenar.com/blog/a-taste-of-flex/"/>
-    <updated>2008-09-02T00:29:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/a-taste-of-flex</id>
-    <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Flex.  This is the second of my comparisons in this series, where the first one was in Ruby.</p>
-
-<!-- more -->
-
-
-<p>You can find the original book here:</p>
-
-<ul>
-<li><p><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></p></li>
-<li><p><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></p></li>
-</ul>
-
-
-<p>Given the original book is available online, I will not repeat it.</p>
-
-<p>To run these Flex examples, you should have a Flex SDK, which you can find at <a href="http://opensource.adobe.com/wiki/display/flexsdk/Flex+SDK">FlexSDK</a> or via <a href="http://www.adobe.com/">http://www.adobe.com/</a>.  The SDK is free.</p>
-
-<p>For playing with Smalltalk, you can pick up Squeak from <a href="http://squeak.org/">http://squeak.org/</a>.  Squeak&#8217;s UI is a bit different from Smalltalk-80 (in the book), but if you go through a quick Squeak tutorial, you should be able to connect the two.</p>
-
-<h2>Tower of Hanoi &#8211; Procedural &#8211; Flex</h2>
-
-<p>The first example in &#8216;A Taste&#8217; is in multiple languages (Chapter 1).  This is Tower of Hanoi done totally procedurally.  Converting to Flex is very simple, where the &#8216;creationComplete&#8217; event is about the equivalent of a &#8216;main&#8217; / script entrypoint.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-</span><span class='line'><span class="nt">&lt;mx:Application</span> <span class="na">xmlns:mx=</span><span class="s">&quot;http://www.adobe.com/2006/mxml&quot;</span> <span class="na">layout=</span><span class="s">&quot;absolute&quot;</span>
-</span><span class='line'>  <span class="na">creationComplete=</span><span class="s">&quot;handleCreationComplete()&quot;</span>
-</span><span class='line'><span class="nt">&gt;</span>
-</span><span class='line'><span class="nt">&lt;mx:Script&gt;</span>
-</span><span class='line'>    <span class="cp">&lt;![CDATA[</span>
-</span><span class='line'><span class="cp">        function moveTower(height : int, fromPin : *, toPin : *, usingPin : *) : void {</span>
-</span><span class='line'><span class="cp">            if (height &gt; 0) {</span>
-</span><span class='line'><span class="cp">                moveTower(height-1, fromPin, usingPin, toPin);</span>
-</span><span class='line'><span class="cp">                moveDisk(fromPin, toPin);</span>
-</span><span class='line'><span class="cp">                moveTower(height-1, usingPin, toPin, fromPin);</span>
-</span><span class='line'><span class="cp">            }</span>
-</span><span class='line'><span class="cp">        }</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">        function moveDisk(fromPin : *, toPin : *) : void {</span>
-</span><span class='line'><span class="cp">            trace(fromPin + &quot;-&gt;&quot; + toPin);</span>
-</span><span class='line'><span class="cp">        }</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">        function handleCreationComplete() : void {</span>
-</span><span class='line'><span class="cp">            moveTower(3,1,3,2);</span>
-</span><span class='line'><span class="cp">        }</span>
-</span><span class='line'><span class="cp">    ]]]]&gt;</span>
-</span><span class='line'><span class="nt">&lt;/mx:Script&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;/mx:Application&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that Flex will be treated a bit unfairly in the formatting department (as is Smalltalk) because the &#8216;sourcode plugin&#8217; in WordPress isn&#8217;t working for them.  If someone recommends a &#8216;snippet&#8217; location that understand Flex or AS3 (and Smalltalk and everything else :-) ), I can put this up there to format it more nicely.</p>
-
-<p>So what is interesting about Flex in this example?</p>
-
-<ul>
-<li>Multiple Syntaxes</li>
-<li>Pascal Declaration Ordering</li>
-<li>As Statically Typed As You Want</li>
-<li>No Main</li>
-<li>The Cheat</li>
-</ul>
-
-
-<h3>Multiple Syntaxes, each for a different purpose</h3>
-
-<p>Well, obviously first Flex is not a single syntax but a composite of at least two syntaxes used for different purposes:</p>
-
-<ul>
-<li><p>XML is used to create objects, including the outer &#8216;Application&#8217; object</p></li>
-<li><p>AS3 (ActionScript3) is used to define classes</p></li>
-</ul>
-
-
-<p>So any Flex application will have both of these syntaxes, and they can either be in the same file (as above), or a better practice is to separate the two as much as possible where the XML becomes the View/Layout and the AS files manage behavior.  But for the moment, I will keep them together.</p>
-
-<p>The third syntax is CSS, which can again be either embedded or kept in a separate file.  Although learning three syntaxes is an increase in initial work, two of the three syntaxes are almost universal (XML, CSS) and necessary for doing most anything.  And because each is used for a different purpose, they blend together quite naturally.</p>
-
-<h3>Pascal Notation</h3>
-
-<p>ActionScript chose to go down the far more natural &#8216;type suffix&#8217; notation of Pascal and related languages.  This isn&#8217;t really interesting except that C (for compiler ease) went down a different path and a lot of mainstream languages (e.g. Java) followed in that path.  Especially given that ActionScript does not require type declarations, it seems to have chosen wisely, but people are touchy about this kind of syntax choice.</p>
-
-<h3>As Statically Typed As You Want</h3>
-
-<p>In the code, you can see types declared as &#8216;: <em>&#8217; &#8211; meaning &#8216;Any Type&#8217;.  You could also leave off the type declaration and it would mean the same thing, but including the &#8216;: </em>&#8217; makes it clear I intend to allow any type of object to be used.  So ActionScript can be as statically typed as you want: either completely dynamic like Smalltalk or Ruby or others, or basically as statically as Java (with a similar static type model).</p>
-
-<h3>No Main</h3>
-
-<p>Flex is not a scripting language&#8230; it is a graphical application language and application environment that can run either standalone (in Air) or within a browser.  So there is not really a &#8216;main&#8217; script that executes.  The equivalent to &#8216;main&#8217; is that when an Application is constructed, at the very end of that construction, an event of &#8216;creationComplete&#8217; will be sent out.  So this is about as close to a &#8216;main&#8217; as we can get.  You could pick up command-line arguments or browser parameters within this &#8216;handleCreationComplete&#8217; handler.</p>
-
-<h3>The Cheat</h3>
-
-<p>OK, now for the cheat that is in the above code.  If anyone executed the above code within Flex in Debug mode, it would work pretty much as you expect and put lines out to a debugging console.  But it would have to be run in Debug mode for that.  If you run it normally, the &#8216;trace&#8217; output wouldn&#8217;t show anywhere.</p>
-
-<p>I only cheated to make it easier to see the main core of the application code separate from the GUI aspects of the language (just as I tried to do with Ruby).  Flex has graphics capabilities (just like Smalltalk) but is not part of an IDE (as opposed to Smalltalk) and is not a scripting language (like Perl or Ruby) and did not include &#8216;System output&#8217; (like Java) because it would be useless in a Browser and for 99.9% of any Flex / Flash deployment.  But it does include tracing for development and debugging purposes&#8230; so I cheated and used that.</p>
-
-<p>The important thing about a cheat is to recognize it and fix it&#8230; so let&#8217;s next enhance the Flex application to show output.</p>
-
-<h2>Showing Console-like output in Flex</h2>
-
-<p>Adding a console output only requires two lines of code</p>
-
-<pre><code>        function moveDisk(fromPin : *, toPin : *) : void {
-            vConsole.text = vConsole.text+fromPin + "-&gt;" + toPin+"\n";
-        }
-</code></pre>
-
-<p>and</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;mx:TextArea</span> <span class="na">id=</span><span class="s">&quot;vConsole&quot;</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">height=</span><span class="s">&quot;100%&quot;</span> <span class="nt">/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>so it would have been just as easy to do it this way initially, but then a &#8220;language&#8221; difference in its application environment would have been a bit more hidden.</p>
-
-<h2>Augmenting Existing Classes (Monkey-Patching)</h2>
-
-<p>As described in &#8216;A Taste of Ruby&#8217;, the Smalltalk example from the book actually modifies &#8216;Object&#8217;, so &#8216;moveTower&#8217; is available on any object.  This is certainly possible in Flex but would require actively talking to Object.prototype to add behavior.  If you do this, the system will run but the compiler will have no idea that it will run correctly (and really it will have no &#8216;understanding&#8217; of the code you added).  Modifying Object was contrived but easy in Smalltalk, contrived but easy in Ruby, and contrived but &#8216;not-so-hard&#8217; in Flex.  So for Flex it is the strangest to do.  But here is the very contrived Flex code anyway :-)</p>
-
-<pre><code>Foo
-</code></pre>
-
-<h3>Monkey-Patching vs. Source Patching/Augmenting</h3>
-
-<p>For Smalltalk and Flex you have the vendor-supplied source, which you could easily patch as part of the source version/modification control system.  So the question becomes:</p>
-
-<blockquote><p>Why wouldn&#8217;t patching occur at the source-code level so people can see what changes have happened?</p></blockquote>
-
-<p>Smalltalk wrestled with this for years with different vendors and different teams choosing different approaches.  I personally believe that the current Monticello for Squeak and the heavyweight &#8216;Envy&#8217; (and similar source code tools) get this right in that you could certainly modify an existing class but those changes had to be documented as source changes and had to <em>not conflict</em> (with Monticello having a nicer model than Envy [if memory serves for Envy]).</p>
-
-<p>So although I don&#8217;t think Flex needs these kinds of changes particularly for what Flex is used for, something that enables you to bring system classes into your own modifiable version-control space and then allow patching on that space is nicer than having everyone hit the main space without clear visibility to what they are doing (effectively Ruby&#8217;s current mainstream choice).</p>
-
-<h2>Comments</h2>
-
-<p>This example from &#8220;A Taste of Smalltalk&#8221; is the highly procedural version.  It is not meant to be a particularly good program, but it is a simple and good introductory example.  Flex does fine with this example: it does not artificially type the &#8216;moveTower&#8217; parameters.  It has a bit more static typing, which helps avoid typos.  But everything is an object, so dynamic typing works fine too.</p>
-
-<p>Because Flex includes an inherent GUI environment (but no inherent Console) we had to add one line of MX code to create that console.  Flex is a three-syntax set of families so it can look a bit complex to begin with (wrapper XML and the CDATA ActionScript) but the use of the XML is clean and for a specific purpose that ActionScript and most languages (say other than Lisp) are not as good for.  And using XML for page layout is very familiar to people (e.g. XHTML) and goes nicely with the CSS capabilities in Flex as well.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 3 &#8211; Page 36.  The Second Example.</p>
 ]]></content>
   </entry>
   

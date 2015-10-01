@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the third installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="This is the fourth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,143 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-4/">Advanced Development and Delivery (ADD) [Part-r]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-01T03:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
+
+<h2>Node initialization</h2>
+
+<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages &#8216;host&#8217; virtual
+disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
+In both cases the very last thing the node does in the bootstrap is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
+</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
+</span><span class='line'>include it/nodeinit/common/init.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It is an &#8216;include/source&#8217; to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
+logging, so continual sourcing is preferred.  In other cases, the &#8216;source&#8217; enables sub-scripts to set values for subsequent
+scripts where subshells are more isolated.</p>
+
+<h3>init.sh</h3>
+
+<p>The init script first figures out where it is and sets up some important paths.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'><span class="c">#=== Want DIR to be root of the &#39;it&#39; directory</span>
+</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${BASH_SOURCE[0]}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )/../&quot;</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">RESOURCE</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/resource
+</span><span class='line'><span class="nb">export </span><span class="nv">COMMON</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/common
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>cron_1m.sh</h3>
+
+<p>It then gets some AWS resources, sets up a shared &#8216;cron&#8217;, and so on.  I like a single &#8216;cron&#8217; job running every minute
+so it is easy to understand what is going on.  This is the &#8216;heartbeat&#8217; of the server configuration infrastructure: a
+server can want to change any &#8216;minute&#8217;.  The look every minute for something that makes them want to change and
+then they launch an activity.  The look need to be fast: take about a second or two per &#8216;look&#8217; and not cause much load.
+But the &#8216;change&#8217; does not have to be fast: it could take minutes to reconfigure based on the change.  So while
+changing, the &#8216;looking&#8217; is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
+for new WARs when deploying a WAR.  Then starts looking again when it is back online.</p>
+
+<p>At scale (say 100 servers) with servers all on NTP this one-minute rhythm can cause resource rushing.  To
+counter that we need to &#8216;jitter&#8217; the servers so they work on a different
+second of the minute, or even as much as minutes later at super-scale (1000 servers).
+That is done within the cron_1m.sh script after the look has established something needs to be done.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/bin
+</span><span class='line'>cp <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/cron_1m.sh /root/bin/cron_1m.sh
+</span><span class='line'>chmod +x /root/bin/cron_1m.sh
+</span><span class='line'>
+</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt; /var/spool/cron/root</span>
+</span><span class='line'><span class="s">MAILTO=&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">* * * * *  /root/bin/cron_1m.sh</span>
+</span><span class='line'><span class="s">EOS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>More specific initialization</h3>
+
+<p>The above activities are done for any node.  They all need to have heartbeats and some other common resources.
+But beyond that, it depends on the type of node and the type of stack what should be put on a particular node.
+This is done by simple &#8216;includes&#8217; with the &#8216;nodeinfo&#8217; that came from the configuration.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
+</span><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/init.sh
+</span><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see the layout in the initial directory picture</p>
+
+<p><img src="/images/add-2/vag1_20151001b.png" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -602,50 +739,6 @@ current location of the repository is <a href="https://github.com/markfussell/sc
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/scratch-textual-language/">Scratch Textual Language</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-17T20:28:00-07:00" pubdate data-updated="true">Sep 17<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.
-Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
-<a href="/blog/a-taste-of-scratch">these diagrams</a>
-when trying to document a program, and it is even harder to reference sections of the diagram.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/scratch-textual-language/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -671,6 +764,10 @@ when trying to document a program, and it is even harder to reference sections o
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/add-4/">Advanced Development and Delivery (ADD) [Part-r]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/add-3/">Advanced Development and Delivery (ADD) [Part-3]</a>
       </li>
     
@@ -686,15 +783,11 @@ when trying to document a program, and it is even harder to reference sections o
         <a href="/blog/git-about-everything-it-automation-2/">Being a git about everything (IT Automation [2])</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/git-about-everything-it-automation/">Being a git about everything (IT Automation)</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 110.58823529411765%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 117.64705882352942%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 121.17647058823529%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 128.23529411764707%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 121.17647058823529%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 114.11764705882354%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 121.17647058823529%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 124.70588235294117%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 131.76470588235293%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 124.70588235294117%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>
