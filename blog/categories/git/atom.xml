@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T12:10:57-07:00</updated>
+  <updated>2015-10-01T12:22:22-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -54,6 +54,9 @@ of the clone model:</p>
 </ul>
 
 
+<!-- more -->
+
+
 <p>The first three ingredients are the most powerful and enables a fantastic improvement to the tweak and clone model.
 The last ingredient is mainly for people to be able to enjoy the ADD more easily.  It is like the 'salt-to-taste'
 and how much you integrate HipChat in with the rest of the ecosystem is up to your team.  But the more it is integrated,
@@ -79,7 +82,31 @@ move to GitHub for all of this, and then ask 'Why?' to everything else.</p>
 repository huge for no benefit.  So don't store large binary assets in GitHub.  Instead store a reference to
 the binary object up in S3.  Retrieve it as needed.  See <a href="/blog/git-about-everything-annex">Annex</a></p>
 
-<h2>ADD: EC2 and Vagrant</h2>
+<h2>ADD: EC2 and Vagrant and GitHub and S3</h2>
+
+<p>Using EC2 and Vagrant with a 'PushMe-PullYou' model (see <a href="/blog/git-about-everything-automation-2">PushMePullYou</a>)
+solves a host of development, delivery, and operations issues.  The benefits are:</p>
+
+<ul>
+<li>Complete version control of machines – both operations and developers' machines (or part of a developers' machines)</li>
+<li>A very simple model that enables machines to be provisioned rapidly and to change their state every minute (if needed)</li>
+<li>An impressive fan-out of activity</li>
+<li>An ability to work offline (say GitHub goes down) or to have complete redundancy (use both GitHub and BitBucket to avoid SPOF)</li>
+<li>Inherently no SPOF</li>
+<li>Dependent on <em>nothing</em> - Not EC2, Not Vagrant, not GitHub, not S3.  These may be gold standards, but they can all be swapped out</li>
+</ul>
+
+
+<p>This is where the ADD just shoots through the roof.  The ADD uses particular technology to show "How it is done" and
+get you doing it right.  But it is not dependent on those technologies.  No Chef.  Unless you want it (and I recommend 'Solo').
+No Linux unless you want it.  No Grails or Groovy unless you want it.  Use Google Compute if you want to.  Or even your
+own Big Iron.  The ADD is a set of tools and methods that work well together and is most easily seen with the Gold Standard.
+But it is beyond them: like a mathematical formula (the Golden Ratio) that can be present in many forms.</p>
+
+<h2>Demo or Die!</h2>
+
+<p>The core demo for this article will walk through bringing up a server on EC2 <em>and</em> Vagrant.  If you are not familiar
+with EC2 and Vagrant, please read some of my other articles</p>
 ]]></content>
   </entry>
   
