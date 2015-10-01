@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:19:21-07:00</updated>
+  <updated>2015-10-01T13:23:17-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -188,6 +188,11 @@ a server definition and then say how many servers we want.  The &#8216;PrimarySe
 doesn&#8217;t need to be exposed.  And further, the EC2 version creates a special &#8216;IAM&#8217; agent for the machine.</p>
 
 <h3>EC2 Dashboard</h3>
+
+<p>The dashboard shows some standard EC2 properties along with the add:stacktype and add:nodepart.  The nodepart shows the
+kind of node it is (say a load-balancer vs. a game server) and is used within the bootstrap to put the right software
+onto the machine.  The &#8216;nodepart&#8217; and the &#8216;stacktype&#8217; are the core DNA switches of a server.  Later we will add in
+&#8216;federation&#8217; which primarily configures the size of the node (e.g. no &#8216;small&#8217; in production)</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-3/add3_ec2_cv1.png" /></p>
 ]]></content>
