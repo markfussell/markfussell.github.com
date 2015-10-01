@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T16:31:27-07:00</updated>
+  <updated>2015-10-01T16:32:44-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-r]]]></title>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-4]]]></title>
     <link href="http://markfussell.emenar.com/blog/add-4/"/>
     <updated>2015-10-01T03:00:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/add-4</id>
@@ -35,6 +35,11 @@ In both cases the very last thing the node does in the bootstrap is:</p>
 </span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
 </span><span class='line'>include it/nodeinit/common/init.sh
 </span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
 
 
 <p>It is an &#8216;include/source&#8217; to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
