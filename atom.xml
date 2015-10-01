@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T16:32:44-07:00</updated>
+  <updated>2015-10-01T16:35:24-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -61,9 +61,9 @@ scripts where subshells are more isolated.</p>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
 </span><span class='line'>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'><span class="c">#=== Want DIR to be root of the &#39;it&#39; directory</span>
-</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'><span class="c">#===================================================</span>
+</span><span class='line'><span class="c">#=== Want DIR to be root of the &#39;nodeinit&#39; directory</span>
+</span><span class='line'><span class="c">#===================================================</span>
 </span><span class='line'>
 </span><span class='line'><span class="nb">export </span><span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${BASH_SOURCE[0]}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )/../&quot;</span>
 </span><span class='line'><span class="nb">export </span><span class="nv">RESOURCE</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/resource
@@ -75,7 +75,7 @@ scripts where subshells are more isolated.</p>
 
 <p>It then gets some AWS resources, sets up a shared &#8216;cron&#8217;, and so on.  I like a single &#8216;cron&#8217; job running every minute
 so it is easy to understand what is going on.  This is the &#8216;heartbeat&#8217; of the server configuration infrastructure: a
-server can want to change any &#8216;minute&#8217;.  The look every minute for something that makes them want to change and
+server can want to change any &#8216;minute&#8217;.  They look every minute for something that makes them want to change and
 then they launch an activity.  The look need to be fast: take about a second or two per &#8216;look&#8217; and not cause much load.
 But the &#8216;change&#8217; does not have to be fast: it could take minutes to reconfigure based on the change.  So while
 changing, the &#8216;looking&#8217; is disabled.  For example, deploying a new WAR can take a while.  The server stops looking

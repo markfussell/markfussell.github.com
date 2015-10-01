@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T16:32:44-07:00</updated>
+  <updated>2015-10-01T16:35:24-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -49,11 +49,11 @@ scripts where subshells are more isolated.</p>
 
 <h1>!/bin/bash</h1>
 
-<h1>================================================</h1>
+<h1>===================================================</h1>
 
-<h1>=== Want DIR to be root of the 'it' directory</h1>
+<h1>=== Want DIR to be root of the 'nodeinit' directory</h1>
 
-<h1>================================================</h1>
+<h1>===================================================</h1>
 
 <p>export DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )/../"
 export RESOURCE=${DIR}/resource
@@ -64,7 +64,7 @@ export COMMON=${DIR}/common
 
 <p>It then gets some AWS resources, sets up a shared 'cron', and so on.  I like a single 'cron' job running every minute
 so it is easy to understand what is going on.  This is the 'heartbeat' of the server configuration infrastructure: a
-server can want to change any 'minute'.  The look every minute for something that makes them want to change and
+server can want to change any 'minute'.  They look every minute for something that makes them want to change and
 then they launch an activity.  The look need to be fast: take about a second or two per 'look' and not cause much load.
 But the 'change' does not have to be fast: it could take minutes to reconfigure based on the change.  So while
 changing, the 'looking' is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
