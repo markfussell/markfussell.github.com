@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:18:12-07:00</updated>
+  <updated>2015-10-01T13:19:21-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -69,7 +69,7 @@ it is in a JSON file there is a lot of noise as the string gets concatenated tog
           },
 </code></pre>
 
-<p> ```</p>
+<p>```</p>
 
 <h3>Init</h3>
 
