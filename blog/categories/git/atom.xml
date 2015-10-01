@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T12:48:49-07:00</updated>
+  <updated>2015-10-01T12:49:38-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -236,7 +236,11 @@ include it/nodeinit/common/init.sh</p>
 
 <p>```</p>
 
-<h3>Vagrantfile</h3>
+<h4>Directory Layout</h4>
+
+<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001.png" /></p>
+
+<h3>EC2</h3>
 ]]></content>
   </entry>
   
