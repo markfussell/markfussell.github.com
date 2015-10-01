@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T16:35:24-07:00</updated>
+  <updated>2015-10-01T16:44:41-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -116,9 +116,41 @@ include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/part/<code
 
 <p>```</p>
 
-<p>You can see the layout in the initial directory picture</p>
+<p>You can see the layout in the directory picture.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
+
+<p>As of that picture, no 'part' or 'stacktype' exists.  So a machine that is brought up is simply a heartbeat server.</p>
+
+<h2>What are nodes doing every minute?</h2>
+
+<p>The next cool feature of ADD is that nodes do work based on the state of git repositories.  For any given repository, they
+look for a 'work.sh' file within a 'nodework' directory for either all types of nodes (i.e. common again), or the specific
+type of node they are.  So just like the other include we get:</p>
+
+<p>```bash</p>
+
+<pre><code>        bash_ifexist bin/nodework/common/work.sh
+        bash_ifexist bin/nodework/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
+        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/work.sh
+        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
+</code></pre>
+
+<p>```</p>
+
+<p>where the only change is these are not 'sourced' but executed within a sub-shell since they could do weird things to each other, and
+also this enables them not to block each other (if desired).</p>
+
+<p>All of these 'work' scripts should quickly determine if anything has changed and then release themselves.  While 'work' is going on,
+ the main cron script is locked out.</p>
+
+<p>```bash</p>
+
+<pre><code>     if [[ -e ${CURRENT_ACTION_FILE} ]]; then
+         : #Don't do anything until the current action completes
+</code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   
