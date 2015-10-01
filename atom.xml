@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T10:29:15-07:00</updated>
+  <updated>2015-10-01T11:05:56-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -63,12 +63,80 @@ was not possible.  Or at least the scale had to be different (i.e. add 50% for e
 <p>The problem was that software development had made <em>absolutely no progress</em> for 40+ years.  &#8220;You lie!&#8221; people claim.  &#8220;We build software very
 differently then we used to!&#8221; they say.  Yes, <em>some people</em> have made progress.  But it was people doing it wrong for 40+ years.  The
 people who did it right (Xerox PARC, MIT&#8217;s Lisp group, Xerox El Segundo, Tektronics, etc.) were buzzing along happily with a 4-10x speed
-of the rest of the industry.  For 40+ years, the best way to write software was to take a working computer and tweak it.
+of the rest of the industry.</p>
+
+<p>What is this amazing way to build software?  Well, for 40+ years, the best way to write software was to take a working computer and tweak it.
 Then clone that. Voila: you have a new capability on all your computers.  Testing is trivial.  Demoing is trivial.  Fixing
 is trivial.  Tweak.  Clone.  Repeat.  Smalltalk, Lisp Machines, Xerox Stars, and so on all used this model.  And they were
 blazingly fast to develop on.  And to learn how to develop on.</p>
 
+<p>If you wrote software any way different from that, you were just punishing yourself.  Your software would regress because
+you touched too much and broke things.  Your software would take too long to write and be buggy because you wrote it
+from scratch instead of tweaking something that worked.  Your software would not do what the business wanted because
+you spent months writing it instead of hours tweaking something that was close.  Pain&#8230; pain&#8230; pain&#8230;</p>
+
+<p>When I shifted to Java, I dropped to a &#8216;6&#8217; from an &#8216;8&#8217; in Smalltalk.  Lots of developers hated leaving Smalltalk
+because of that.  But in my case, I cared about the libraries and people who were moving into Java.  It is not
+a great language, but it had a lot of potential.  And Smalltalk imploded when Java was released for free.</p>
+
+<h2>Automated Testing</h2>
+
+<p>So I am in this crappy new language, dealing with jars (usually with source), deploying to containers, building out
+linux servers in data centers, and trying to make this whole thing scale to millions of users and international
+development teams who like to break my code.  It was fun and hell at the same time.  To avoid my going down to a &#8216;4&#8217;
+because other people broke my code, I leveraged XP practices that were entrenched in startup #3 (Evant / Retail Aspect).
+This was one of the first full-bore XP companies with Kent Beck and Rob Mee at the helm of the development team.</p>
+
+<p>XP is very much oriented to &#8220;Write tests first&#8221;.  That is stupid.  You need to figure out what you are doing and
+writing tests is not a good way to figure out how to do something.  You <em>do it</em> to figure out how to do it.  But
+after you <em>do it</em>, you should write tests to make sure the code still does it tomorrow.  Unfortunately, people
+usually forget to write tests after, hence the XP maxim.  I lucked out and a whole bunch of tests existed
+when I showed up.  I needed to scale the product to be 1-million times bigger and 1-thousands times faster.
+And not break any existing test (unless we changed functionality).</p>
+
+<p>That sold me on automated testing.  It made me slower (say a &#8216;5&#8217;) but it protected me from other people breaking
+my working code.  Eventually we used Excel for the automated tests, the business people wrote them directly, and
+I was back to a &#8216;6&#8217;.</p>
+
+<h2>Grails and Opinionated Frameworks</h2>
+
+<p>I became an &#8216;8&#8217; again when I started using <a href="http://grails.org/">http://grails.org/</a>.  The language (Groovy and Annotated Java)
+was now approaching Smalltalk if a bit uglier.  And the automated binding to the database, plugin model,
+and other great features in Grails made it so I simply didn&#8217;t have to worry about a lot of stuff.  I
+was getting different benefits from Smalltalk, but they netted out.  And I had the same benefit as
+Smalltalk in onboarding others: (1) This is the Grails way, (2) This is my &#8216;tweaks&#8217; to the Grails way&#8230;
+now start asking for features and build them.</p>
+
+<h2>Flex and Angular</h2>
+
+<p>On the client side, I had shifted to using Flex very early on for a company called Winster.  It was a bit
+bleading edge at the time, but Flex was very powerful and very productive.  It was basically Smalltalk
+on the client.  Eventually Flex/Flash became non-viable because of the iPhone issue, but then Angular
+jumped in to replace it.  I tried others (e.g. YUI, Sencha, etc.) and they have pros-and-cons, but Angular
+is very good and very Flex-like.</p>
+
 <h2>Advanced Development and Delivery (ADD)</h2>
+
+<p>OK, so above describes a lot of the stack I tend to use, but that isn&#8217;t where the &#8216;256x&#8217; comes from.  Above I claimed
+I was an &#8216;8&#8217; but that was on the old &#8216;50%&#8217; or maybe &#8216;70%&#8217; more scale.  On the new scale, I am a &#8216;6&#8217; with the stack above
+<em>until</em> you add in the ADD: The Advanced Development and Delivery environment.</p>
+
+<p>The ADD came to me incrementally from Evant, through my own failed attempt at productizing it (Velidom), and fully
+germinated with my last software startup: Rumble.  &#8220;Amusingly&#8221;, Velidom was killed by two of the four ingredients,
+tried to work around problems with SVN that is replaced by one of the four ingredients, and included as part
+of the product one of the four ingredients.  If we had just focused on that <em>one ingredient</em> and not the whole
+software factory, Velidom would now be owned by Atlassian.</p>
+
+<p>The four ingredients are:
+   * Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a>
+   * Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a>
+   * GitHub.com <a href="http://github.com/">http://github.com/</a>
+   * HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></p>
+
+<p>These four ingredients, when baked properly together, give individuals and teams 4x or more productivity.  No, you
+can not substitute the ingredients.  Not until you understand what they are and how they work together.  Yes, <em>I</em>
+can substitute ingredients for the above, but the above are the current gold standard.  And hosting your own &#8216;Git&#8217; is
+not equal to using &#8216;GitHub.com&#8217;.</p>
 ]]></content>
   </entry>
   
