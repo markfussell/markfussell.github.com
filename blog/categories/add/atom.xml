@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T13:12:26-07:00</updated>
+  <updated>2015-10-01T13:17:40-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -127,6 +127,15 @@ a server definition and then say how many servers we want.  The 'PrimaryServerGr
 <p>Note that it ends with '1', '1', '1' meaning this is just a single server.  But those numbers can be changed at any time.</p>
 
 <p>Given the DesiredCapacity is '1', if you ever kill a server, a new one will be spun up.</p>
+
+<h3>EC2 Keypairs</h3>
+
+<p>Another difference of the EC2 model is that EC2 holds onto the keypair that is used for logging into it.  So that information
+doesn't need to be exposed.  And further, the EC2 version creates a special 'IAM' agent for the machine.</p>
+
+<h3>EC2 Dashboard</h3>
+
+<p><img src="http://markfussell.emenar.com/images/add-3/add3_ec2_cv1.png" /></p>
 ]]></content>
   </entry>
   

@@ -232,6 +232,15 @@ it is in a JSON file there is a lot of noise as the string gets concatenated tog
 <p>Note that it ends with &#8216;1&#8217;, &#8216;1&#8217;, &#8216;1&#8217; meaning this is just a single server.  But those numbers can be changed at any time.</p>
 
 <p>Given the DesiredCapacity is &#8216;1&#8217;, if you ever kill a server, a new one will be spun up.</p>
+
+<h3>EC2 Keypairs</h3>
+
+<p>Another difference of the EC2 model is that EC2 holds onto the keypair that is used for logging into it.  So that information
+doesn&#8217;t need to be exposed.  And further, the EC2 version creates a special &#8216;IAM&#8217; agent for the machine.</p>
+
+<h3>EC2 Dashboard</h3>
+
+<p><img src="/images/add-3/add3_ec2_cv1.png" /></p>
 </div>
   
   
