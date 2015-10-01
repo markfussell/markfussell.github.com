@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-21T14:15:09-08:00</updated>
+  <updated>2015-10-01T10:29:15-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD)]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-1/"/>
+    <updated>2015-09-24T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-1</id>
+    <content type="html"><![CDATA[<p>I have been paid to develop and deliver software since about 1980.  That is 35 years of professional experience.
+When I started in 1980 there were a lot of &#8216;old timers&#8217; who had been around since 1965 or so.  They were 15 years
+ahead of me, and even after finishing college, I had less than ten years to their twenty or so.  This was both
+intimidating but also very helpful: after college my main programming language was Smalltalk (ParcPlace, Digitalk, etc.),
+which included full source to everything.  So the &#8216;masters&#8217; would write masterpieces of code, and I would read them.  And then
+try to write my own beautiful things leveraging the masterpieces.  I was late to the party, but could learn quickly.</p>
+
+<p>I also have one other unusual advantage: I do startups.  Lots of startups (http://SlumsOfPaloAlto.com/).  A total of ten software startups over a period of
+a bit more than a decade.  Each of these startups failed for one reason or another, but each one <em>hugely</em> progressed in
+how good my development team ran.  Eight, nine, and ten were <em>crazy</em> productive: I would run production servers for the
+whole company at the same time that I built out the product.  Alone.  And generally way faster than the product management
+team could keep up.  At PeerCase the product team actually asked me to <em>slow down</em> delivery so they could ponder what
+they wanted for longer.  I literally went to Disney World during ASH (a medical conference) to prevent myself from
+releasing new features I knew they wanted.  I was paid to <em>not work</em> (well, I was contracting at the time, so I stopped the
+hourly billing clock, but my project bonus was the same).</p>
+
+<h2>10x Productivity</h2>
+
+<p>Besides doing startups, I also consult for companies.  I try to help them improve their development methods, usually by at least 4x if not 10x.
+A lot of times, people don&#8217;t believe you can improve things to &#8216;10x&#8217; the productivity of the current team using new
+development and delivery techniques.  At one company, the CIO and a number of other executives believed me, but I had to convince
+a lot more stakeholders.  So two amigos and I sent me into the trenches.  I started taking projects estimated as two-developers, six-months,
+and doing them in one month.  Part time.  That is more than 12x productivity.  Realistically it was likely about 20x the productivity
+because the teams tend to miss their estimates (they go over).</p>
+
+<p>Then for fun, I was sent into the trenches again but this time had to use <em>some</em> of their development methods.  Still way faster,
+but back down to 10x or a bit better.  As the trenches became &#8220;less mine&#8221; and &#8220;more theirs&#8221; I would slow down more and more.
+Eventually everyone tired of each other and the experiments stopped.</p>
+
+<p>Bizarrely, this company that saw the 20x continues to use the slow, unreliable, method of development.  The workers may have
+been scared that the company would only need one in ten of them if they changed to a better method.</p>
+
+<h2>Development Stagnation</h2>
+
+<p>Again, I have been doing this for 35 years.  My skill as a developer has improved over that time, and I now view myself as an &#8216;8&#8217;
+where each increase from &#8216;0&#8217; represents a doubling of business productivity.  So I am 256 times as productive as a &#8216;0&#8217;, and 16 times
+as productive as a &#8216;4&#8217;.  Stephen Wolfram, Bill Joy, and others are above me, but there are not a lot of people up there anymore.</p>
+
+<p>Getting to be a &#8216;4&#8217; involves understanding how to program.  Getting to a &#8216;6&#8217; involves understanding business needs.  But getting to an &#8216;8&#8217;
+involved an incredible / revolutionary change to how software is developed and delivered.  For most of my career, getting to an &#8216;8&#8217;
+was not possible.  Or at least the scale had to be different (i.e. add 50% for each number vs. doubling).</p>
+
+<p>The problem was that software development had made <em>absolutely no progress</em> for 40+ years.  &#8220;You lie!&#8221; people claim.  &#8220;We build software very
+differently then we used to!&#8221; they say.  Yes, <em>some people</em> have made progress.  But it was people doing it wrong for 40+ years.  The
+people who did it right (Xerox PARC, MIT&#8217;s Lisp group, Xerox El Segundo, Tektronics, etc.) were buzzing along happily with a 4-10x speed
+of the rest of the industry.  For 40+ years, the best way to write software was to take a working computer and tweak it.
+Then clone that. Voila: you have a new capability on all your computers.  Testing is trivial.  Demoing is trivial.  Fixing
+is trivial.  Tweak.  Clone.  Repeat.  Smalltalk, Lisp Machines, Xerox Stars, and so on all used this model.  And they were
+blazingly fast to develop on.  And to learn how to develop on.</p>
+
+<h2>Advanced Development and Delivery (ADD)</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
@@ -218,8 +277,14 @@ also allows versioning if <code>stacktype</code> includes a version number.</p>
 conflict with Chef where a node can have many roles.  A node has exactly one <code>part</code> it plays in the deployment,
 and each <code>part</code> can have any number of <code>roles</code>.  A <code>part</code> should normally be fairly universal.  In our case
 the five parts are <code>applbnode</code> (The main application load balancer), <code>appnode</code> (The main app), <code>riaknode</code> (The
-riak database node), <code>presencenode</code> (A presence recording server), and <code>controlnode</code> (The main launching
+riak database node), <code>presencenode</code> (A server presence recording server), and <code>controlnode</code> (The main launching
 control server, which isn&#8217;t really part of the running deployment).</p>
+
+<p>With just the application and load-balancing parts/nodes running along with the controlnode, we have something like this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/pushmepullyou_lbandappawsarch.png" /></p>
+
+<p>Each <code>part</code> has its own stack template and instance, which creates one or more nodes of that <code>part</code> type.</p>
 
 <p>&#8230;More To Come&#8230;</p>
 
@@ -593,6 +658,12 @@ which even has a handy mascot.</p>
 <li> It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action</li>
 </ul>
 
+
+<p>The architectural model looks a bit like this</p>
+
+<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation/pushmepullyou_simpleawsarch.png" /></p>
+
+<h3>Going beyond naive</h3>
 
 <p>The Example-1 above had the naive &#8216;pull and do something no matter what&#8217;.  We need to get a bit beyond that
 to have a truly useful approach.</p>
@@ -1369,6 +1440,13 @@ of git and combine the two.  The only large remaining issues are the actual proc
 <p>A highly annex-augmented version of s3cmd is here <a href="https://github.com/markfussell/s3annex">https://github.com/markfussell/s3annex</a>
 and was done while working at <a href="http://www.rumblegames.com">Rumble</a> where we needed to move gigabytes of high-quality art assets around
 as part of the build-deploy pipeline.</p>
+
+<p>The architectural design looks a bit like this:</p>
+
+<p><img width="743" height="352" src="http://markfussell.emenar.com/images/git-about-everything-annex/annex_architecture.png" /></p>
+
+<p>where the GH/BB repository in the upper left is just symbolizing pushing to some central repo.  It isn&#8217;t required for the
+annex concept, but is standard Git behavior.</p>
 
 <h2>Working with S3 Annexed Git Repositories</h2>
 
@@ -5709,117 +5787,6 @@ Then
 <h3>Class Object behavior</h3>
 
 <p>The concept here is clean enough and the notation for Class Variables is nicely clean (and partially helps separate &#8216;Class Variables&#8217; from &#8216;Class Instance Variables&#8217;).  I think &#8216;def self&#8217; is less readable than &#8216;class.def&#8217; (defining for the HanoiDisk.class vs. HanoiDisk), but that presumes that keywords like &#8216;def&#8217; could be more easily understood as messages to classes (a &#8216;Turtles all the way down&#8217; concept) as I wrote earlier.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 3)]]></title>
-    <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-3/"/>
-    <updated>2008-08-29T00:27:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-3</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi &#8211; With A Real Object</h2>
-
-<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A Taste of Ruby.  Based on a Taste of Smalltalk (Kaehler and Patterson)</span>
-</span><span class='line'><span class="c1"># Tower of Hanoi -- Variation 3</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># TowerOfHanoi</span>
-</span><span class='line'><span class="c1">#</span>
-</span><span class='line'><span class="c1"># @stacks is an Array of DiskHolders (pins)</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">TowerOfHanoi</span> <span class="o">&lt;</span> <span class="no">Object</span>
-</span><span class='line'>  <span class="c1">#Tower of Hanoi program.</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hanoi</span>
-</span><span class='line'>    <span class="c1"># Do the tower</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;How tall a tower?&quot;</span>
-</span><span class='line'>    <span class="nb">print</span> <span class="s2">&quot;&gt;&quot;</span>
-</span><span class='line'>    <span class="n">height</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="vi">@stacks</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span> <span class="p">}</span>
-</span><span class='line'>    <span class="n">firstStack</span> <span class="o">=</span> <span class="vi">@stacks</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'>    <span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="n">height</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">firstStack</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot;Disk-</span><span class="si">#{</span><span class="p">(</span><span class="sc">?A</span><span class="o">+</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">chr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Recursive procedure to move the disk at a height</span>
-</span><span class='line'>  <span class="c1"># from one pin to another pin using a third pin</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">move_tower</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
-</span><span class='line'>      <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">)</span>
-</span><span class='line'>      <span class="n">move_tower</span><span class="p">(</span><span class="n">height</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">usingPin</span><span class="p">,</span> <span class="n">toPin</span><span class="p">,</span> <span class="n">fromPin</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># Actually move the disk between the pins</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">move_disk</span><span class="p">(</span><span class="n">fromPin</span><span class="p">,</span><span class="n">toPin</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">disk</span> <span class="o">=</span> <span class="p">(</span><span class="vi">@stacks</span><span class="o">[</span><span class="n">fromPin</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span>
-</span><span class='line'>    <span class="vi">@stacks</span><span class="o">[</span><span class="n">toPin</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">push</span><span class="p">(</span><span class="n">disk</span><span class="p">)</span>
-</span><span class='line'>    <span class="nb">print</span> <span class="n">disk</span><span class="p">,</span> <span class="s2">&quot; moved &quot;</span><span class="p">,</span> <span class="n">fromPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">toPin</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">TowerOfHanoi</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">hanoi</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So we moved to adding state to an object by simply referencing an instance variable (notationally via the &#8216;@&#8217;).  Again, I find that unpleasant and would rather the compiler (and human reader) was told a bit more formally what instance variables exist.  In quickly typing the above, I made a typo (&#8220;@stack&#8221;) that caused a runtime error and should have been easily detected at compile time.</p>
-
-<p>Comparing with Smalltalk, the similarities are extremely high again.  Basically the core method calls and flow (e.g. the bytecodes) would look almost identical and it is only syntactic differences (built-in keywords in Ruby, shortening of selectors/method-names, etc.) that make the two read differently.  The idioms can be maintained (1.upto(height)) during translation and both versions are natural for their own language.  There is no paradigm change, impedance mismatch, etc.</p>
-
-<h3>Where Next?</h3>
-
-<p>Next we should go to Chapter 5 (Animating the Program) — Page 64.  This involves some graphic work for the &#8216;model&#8217; aspects to be realistic, so I guess I will go into the Tk toolkit or Shoes as among the easiest Ruby graphic extensions to use as an example.  If anyone has suggestions for other ones (meant to be super simple), please let me know.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-21T14:15:09-08:00</updated>
+  <updated>2015-10-01T10:29:15-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD)]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-1/"/>
+    <updated>2015-09-24T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-1</id>
+    <content type="html"><![CDATA[<p>I have been paid to develop and deliver software since about 1980.  That is 35 years of professional experience.
+When I started in 1980 there were a lot of 'old timers' who had been around since 1965 or so.  They were 15 years
+ahead of me, and even after finishing college, I had less than ten years to their twenty or so.  This was both
+intimidating but also very helpful: after college my main programming language was Smalltalk (ParcPlace, Digitalk, etc.),
+which included full source to everything.  So the 'masters' would write masterpieces of code, and I would read them.  And then
+try to write my own beautiful things leveraging the masterpieces.  I was late to the party, but could learn quickly.</p>
+
+<p>I also have one other unusual advantage: I do startups.  Lots of startups (http://SlumsOfPaloAlto.com/).  A total of ten software startups over a period of
+a bit more than a decade.  Each of these startups failed for one reason or another, but each one <em>hugely</em> progressed in
+how good my development team ran.  Eight, nine, and ten were <em>crazy</em> productive: I would run production servers for the
+whole company at the same time that I built out the product.  Alone.  And generally way faster than the product management
+team could keep up.  At PeerCase the product team actually asked me to <em>slow down</em> delivery so they could ponder what
+they wanted for longer.  I literally went to Disney World during ASH (a medical conference) to prevent myself from
+releasing new features I knew they wanted.  I was paid to <em>not work</em> (well, I was contracting at the time, so I stopped the
+hourly billing clock, but my project bonus was the same).</p>
+
+<h2>10x Productivity</h2>
+
+<p>Besides doing startups, I also consult for companies.  I try to help them improve their development methods, usually by at least 4x if not 10x.
+A lot of times, people don't believe you can improve things to '10x' the productivity of the current team using new
+development and delivery techniques.  At one company, the CIO and a number of other executives believed me, but I had to convince
+a lot more stakeholders.  So two amigos and I sent me into the trenches.  I started taking projects estimated as two-developers, six-months,
+and doing them in one month.  Part time.  That is more than 12x productivity.  Realistically it was likely about 20x the productivity
+because the teams tend to miss their estimates (they go over).</p>
+
+<p>Then for fun, I was sent into the trenches again but this time had to use <em>some</em> of their development methods.  Still way faster,
+but back down to 10x or a bit better.  As the trenches became "less mine" and "more theirs" I would slow down more and more.
+Eventually everyone tired of each other and the experiments stopped.</p>
+
+<p>Bizarrely, this company that saw the 20x continues to use the slow, unreliable, method of development.  The workers may have
+been scared that the company would only need one in ten of them if they changed to a better method.</p>
+
+<h2>Development Stagnation</h2>
+
+<p>Again, I have been doing this for 35 years.  My skill as a developer has improved over that time, and I now view myself as an '8'
+where each increase from '0' represents a doubling of business productivity.  So I am 256 times as productive as a '0', and 16 times
+as productive as a '4'.  Stephen Wolfram, Bill Joy, and others are above me, but there are not a lot of people up there anymore.</p>
+
+<p>Getting to be a '4' involves understanding how to program.  Getting to a '6' involves understanding business needs.  But getting to an '8'
+involved an incredible / revolutionary change to how software is developed and delivered.  For most of my career, getting to an '8'
+was not possible.  Or at least the scale had to be different (i.e. add 50% for each number vs. doubling).</p>
+
+<p>The problem was that software development had made <em>absolutely no progress</em> for 40+ years.  "You lie!" people claim.  "We build software very
+differently then we used to!" they say.  Yes, <em>some people</em> have made progress.  But it was people doing it wrong for 40+ years.  The
+people who did it right (Xerox PARC, MIT's Lisp group, Xerox El Segundo, Tektronics, etc.) were buzzing along happily with a 4-10x speed
+of the rest of the industry.  For 40+ years, the best way to write software was to take a working computer and tweak it.
+Then clone that. Voila: you have a new capability on all your computers.  Testing is trivial.  Demoing is trivial.  Fixing
+is trivial.  Tweak.  Clone.  Repeat.  Smalltalk, Lisp Machines, Xerox Stars, and so on all used this model.  And they were
+blazingly fast to develop on.  And to learn how to develop on.</p>
+
+<h2>Advanced Development and Delivery (ADD)</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
@@ -198,8 +257,14 @@ also allows versioning if <code>stacktype</code> includes a version number.</p>
 conflict with Chef where a node can have many roles.  A node has exactly one <code>part</code> it plays in the deployment,
 and each <code>part</code> can have any number of <code>roles</code>.  A <code>part</code> should normally be fairly universal.  In our case
 the five parts are <code>applbnode</code> (The main application load balancer), <code>appnode</code> (The main app), <code>riaknode</code> (The
-riak database node), <code>presencenode</code> (A presence recording server), and <code>controlnode</code> (The main launching
+riak database node), <code>presencenode</code> (A server presence recording server), and <code>controlnode</code> (The main launching
 control server, which isn't really part of the running deployment).</p>
+
+<p>With just the application and load-balancing parts/nodes running along with the controlnode, we have something like this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/pushmepullyou_lbandappawsarch.png" /></p>
+
+<p>Each <code>part</code> has its own stack template and instance, which creates one or more nodes of that <code>part</code> type.</p>
 
 <p>...More To Come...</p>
 
@@ -527,6 +592,12 @@ which even has a handy mascot.</p>
 <li> It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action</li>
 </ul>
 
+
+<p>The architectural model looks a bit like this</p>
+
+<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation/pushmepullyou_simpleawsarch.png" /></p>
+
+<h3>Going beyond naive</h3>
 
 <p>The Example-1 above had the naive 'pull and do something no matter what'.  We need to get a bit beyond that
 to have a truly useful approach.</p>
@@ -1186,6 +1257,13 @@ of git and combine the two.  The only large remaining issues are the actual proc
 and was done while working at <a href="http://www.rumblegames.com">Rumble</a> where we needed to move gigabytes of high-quality art assets around
 as part of the build-deploy pipeline.</p>
 
+<p>The architectural design looks a bit like this:</p>
+
+<p><img width="743" height="352" src="http://markfussell.emenar.com/images/git-about-everything-annex/annex_architecture.png" /></p>
+
+<p>where the GH/BB repository in the upper left is just symbolizing pushing to some central repo.  It isn't required for the
+annex concept, but is standard Git behavior.</p>
+
 <h2>Working with S3 Annexed Git Repositories</h2>
 
 <p>The three things you need for an S3-Annexed repository are:</p>
@@ -1493,111 +1571,6 @@ projects:</p>
 <h3>Next</h3>
 
 <p>Our next problem will be <a href="/blog/git-about-everything-it/">IT</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (Intro)]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-intro/"/>
-    <updated>2013-01-11T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-intro</id>
-    <content type="html"><![CDATA[<p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is 'git' and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more... a core piece of technology useful for many things.</p>
-
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
-
-<!-- more -->
-
-
-<p>There are alternative DVCSs but I am not going to compare or translate examples... at least not on a first pass.
-Git was created by Linus Torvalds in 2005.  It was initially quite 'raw' and still maintains much of that rawness,
-but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
-in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
-and company... but that is a different topic.</p>
-
-<h2>Git Syntax / Overview</h2>
-
-<p>You can learn more about git somewhere like github:</p>
-
-<ul>
-<li> <a href="http://learn.github.com/p/intro.html">http://learn.github.com/p/intro.html</a></li>
-</ul>
-
-
-<p>Git has a lot of commands, but around seven are core to standard git flows:</p>
-
-<ul>
-<li> clone &mdash; copy a repository from a remote location</li>
-<li> fetch &mdash; get updates from a remote repository</li>
-<li> merge &mdash; merge changes from one branch into the current branch</li>
-<li> pull &mdash; 'fetch' and then 'merge'</li>
-<li> add &mdash; add changes to the commit stage of the current branch</li>
-<li> commit &mdash; commit the changes into the current branch</li>
-<li> push &mdash; try to make a remote branch look like the current branch</li>
-</ul>
-
-
-<p>Actually of those seven 'pull' basically replaces/combines two of them, so you get
-down to about five with a core loop like this:</p>
-
-<ul>
-<li> clone
-
-<ul>
-<li>pull</li>
-<li>make changes (if needed)
-
-<ul>
-<li>add</li>
-<li>commit</li>
-<li>push</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Of these commands only 'push' can fail due to timing.  'push' is transactional
-and you can be contending with other people or machines that pushed to the same branch
-as you between when you pulled and you pushed.  Merging can fail, but that
-represents some actual file-level conflict vs. a timing issue (someone beat you to the 'push').
-A proper 'commit' can't fail because it is local.</p>
-
-<h3>Repositories and branches</h3>
-
-<p>At least to begin, all these solutions will use a standard centralized repository approach
-and generally not use branches.  So you don't have to worry about git's ability to
-deal with many remotes and which branch a given git repository is using.  By default
-at any current moment there is only</p>
-
-<ul>
-<li> local: 'master' <-> remote: origin/master</li>
-</ul>
-
-
-<p>where things get interesting because there could be 100 different machines each with their own 'local'.</p>
-
-<h3>Problems with git / DVCS</h3>
-
-<p>The biggest issue with git and similar DVCSs is that their model doesn't work well for large amounts of
-binary assets.  Large amounts of binary assets could occur either because there are a large number of
-assets available at any time but only a subset are needed (so with Perforce or SVN many people would not
-check out those directories) or more commonly, a modest number of binary assets are frequently
-changing.  Because a git repository contains all assets throughout time and to work with a git repository
-you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
-
-<p>What is a large amount?  That depends on the circumstances, but generally passing 100MB can start to
-become painful depending on the purpose git is being used for.  Having 1GB of textual files in
-a single git repository (even over time) is an unusual thing.  GBs of images is common.</p>
-
-<p>So our first problems and solution is going to have to deal with this critical issue.</p>
-
-<p>Enter the annex: <a href="/blog/git-about-everything-annex/">Annex</a></p>
 ]]></content>
   </entry>
   

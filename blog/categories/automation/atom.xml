@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2013-02-21T14:15:09-08:00</updated>
+  <updated>2015-10-01T10:29:15-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD)]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-1/"/>
+    <updated>2015-09-24T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-1</id>
+    <content type="html"><![CDATA[<p>I have been paid to develop and deliver software since about 1980.  That is 35 years of professional experience.
+When I started in 1980 there were a lot of 'old timers' who had been around since 1965 or so.  They were 15 years
+ahead of me, and even after finishing college, I had less than ten years to their twenty or so.  This was both
+intimidating but also very helpful: after college my main programming language was Smalltalk (ParcPlace, Digitalk, etc.),
+which included full source to everything.  So the 'masters' would write masterpieces of code, and I would read them.  And then
+try to write my own beautiful things leveraging the masterpieces.  I was late to the party, but could learn quickly.</p>
+
+<p>I also have one other unusual advantage: I do startups.  Lots of startups (http://SlumsOfPaloAlto.com/).  A total of ten software startups over a period of
+a bit more than a decade.  Each of these startups failed for one reason or another, but each one <em>hugely</em> progressed in
+how good my development team ran.  Eight, nine, and ten were <em>crazy</em> productive: I would run production servers for the
+whole company at the same time that I built out the product.  Alone.  And generally way faster than the product management
+team could keep up.  At PeerCase the product team actually asked me to <em>slow down</em> delivery so they could ponder what
+they wanted for longer.  I literally went to Disney World during ASH (a medical conference) to prevent myself from
+releasing new features I knew they wanted.  I was paid to <em>not work</em> (well, I was contracting at the time, so I stopped the
+hourly billing clock, but my project bonus was the same).</p>
+
+<h2>10x Productivity</h2>
+
+<p>Besides doing startups, I also consult for companies.  I try to help them improve their development methods, usually by at least 4x if not 10x.
+A lot of times, people don't believe you can improve things to '10x' the productivity of the current team using new
+development and delivery techniques.  At one company, the CIO and a number of other executives believed me, but I had to convince
+a lot more stakeholders.  So two amigos and I sent me into the trenches.  I started taking projects estimated as two-developers, six-months,
+and doing them in one month.  Part time.  That is more than 12x productivity.  Realistically it was likely about 20x the productivity
+because the teams tend to miss their estimates (they go over).</p>
+
+<p>Then for fun, I was sent into the trenches again but this time had to use <em>some</em> of their development methods.  Still way faster,
+but back down to 10x or a bit better.  As the trenches became "less mine" and "more theirs" I would slow down more and more.
+Eventually everyone tired of each other and the experiments stopped.</p>
+
+<p>Bizarrely, this company that saw the 20x continues to use the slow, unreliable, method of development.  The workers may have
+been scared that the company would only need one in ten of them if they changed to a better method.</p>
+
+<h2>Development Stagnation</h2>
+
+<p>Again, I have been doing this for 35 years.  My skill as a developer has improved over that time, and I now view myself as an '8'
+where each increase from '0' represents a doubling of business productivity.  So I am 256 times as productive as a '0', and 16 times
+as productive as a '4'.  Stephen Wolfram, Bill Joy, and others are above me, but there are not a lot of people up there anymore.</p>
+
+<p>Getting to be a '4' involves understanding how to program.  Getting to a '6' involves understanding business needs.  But getting to an '8'
+involved an incredible / revolutionary change to how software is developed and delivered.  For most of my career, getting to an '8'
+was not possible.  Or at least the scale had to be different (i.e. add 50% for each number vs. doubling).</p>
+
+<p>The problem was that software development had made <em>absolutely no progress</em> for 40+ years.  "You lie!" people claim.  "We build software very
+differently then we used to!" they say.  Yes, <em>some people</em> have made progress.  But it was people doing it wrong for 40+ years.  The
+people who did it right (Xerox PARC, MIT's Lisp group, Xerox El Segundo, Tektronics, etc.) were buzzing along happily with a 4-10x speed
+of the rest of the industry.  For 40+ years, the best way to write software was to take a working computer and tweak it.
+Then clone that. Voila: you have a new capability on all your computers.  Testing is trivial.  Demoing is trivial.  Fixing
+is trivial.  Tweak.  Clone.  Repeat.  Smalltalk, Lisp Machines, Xerox Stars, and so on all used this model.  And they were
+blazingly fast to develop on.  And to learn how to develop on.</p>
+
+<h2>Advanced Development and Delivery (ADD)</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
@@ -198,8 +257,14 @@ also allows versioning if <code>stacktype</code> includes a version number.</p>
 conflict with Chef where a node can have many roles.  A node has exactly one <code>part</code> it plays in the deployment,
 and each <code>part</code> can have any number of <code>roles</code>.  A <code>part</code> should normally be fairly universal.  In our case
 the five parts are <code>applbnode</code> (The main application load balancer), <code>appnode</code> (The main app), <code>riaknode</code> (The
-riak database node), <code>presencenode</code> (A presence recording server), and <code>controlnode</code> (The main launching
+riak database node), <code>presencenode</code> (A server presence recording server), and <code>controlnode</code> (The main launching
 control server, which isn't really part of the running deployment).</p>
+
+<p>With just the application and load-balancing parts/nodes running along with the controlnode, we have something like this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/pushmepullyou_lbandappawsarch.png" /></p>
+
+<p>Each <code>part</code> has its own stack template and instance, which creates one or more nodes of that <code>part</code> type.</p>
 
 <p>...More To Come...</p>
 
@@ -527,6 +592,12 @@ which even has a handy mascot.</p>
 <li> It is very easy to detect whether a change happens at all, whether it is potentially relevant, and with a few easy patterns, whether it would have an impact that requires real action</li>
 </ul>
 
+
+<p>The architectural model looks a bit like this</p>
+
+<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation/pushmepullyou_simpleawsarch.png" /></p>
+
+<h3>Going beyond naive</h3>
 
 <p>The Example-1 above had the naive 'pull and do something no matter what'.  We need to get a bit beyond that
 to have a truly useful approach.</p>
