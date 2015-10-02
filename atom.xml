@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:29:09-07:00</updated>
+  <updated>2015-10-01T18:35:01-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -278,7 +278,44 @@ what the previous state is/was.</p>
 <h3>Speed!</h3>
 
 <p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the &#8216;git pull&#8217;.  With a
-&#8216;small&#8217; server this is two seconds and basically no load:</p>
+&#8216;small&#8217; server and a small change, this a single second and basically no load:</p>
+
+<h4>Difference detected: start the work</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cron_1m.sh: Start  20151002-013401
+</span><span class='line'>~/gitrepo/repo2_petulant-cyril ~
+</span><span class='line'>
+</span><span class='line'><span class="o">==</span>&gt; /root/log/cron_1m.sh_error.txt &lt;<span class="o">==</span>
+</span><span class='line'>From github.com:shaklee/repo2_petulant-cyril
+</span><span class='line'>   57f20ff..6f85e76  master     -&gt; origin/master
+</span><span class='line'>
+</span><span class='line'><span class="o">==</span>&gt; /root/log/cron_1m.sh_log.txt &lt;<span class="o">==</span>
+</span><span class='line'>Updating 57f20ff..6f85e76
+</span><span class='line'>Fast-forward
+</span><span class='line'> bin/nodework/common/work.sh | 2 ++
+</span><span class='line'> 1 file changed, 2 insertions<span class="o">(</span>+<span class="o">)</span>
+</span><span class='line'>Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 6f85e76a507ce599f42762ad7bf4ae639884ae12 <span class="k">for  </span>and got 6f85e76a507ce599f42762ad7bf4ae639884ae12
+</span><span class='line'>Detected Change in Git Version!
+</span><span class='line'>Starting ActualWork at 20151002-013402
+</span><span class='line'>Doing the work <span class="k">for </span>6f85e76a507ce599f42762ad7bf4ae639884ae12
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h4>Difference detected (but already doing something)</h4>
 

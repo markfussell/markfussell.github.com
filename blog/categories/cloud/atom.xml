@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:29:09-07:00</updated>
+  <updated>2015-10-01T18:35:01-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -240,7 +240,28 @@ fi
 <h3>Speed!</h3>
 
 <p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the 'git pull'.  With a
-'small' server this is two seconds and basically no load:</p>
+'small' server and a small change, this a single second and basically no load:</p>
+
+<h4>Difference detected: start the work</h4>
+
+<p>```bash
+cron_1m.sh: Start  20151002-013401
+~/gitrepo/repo2_petulant-cyril ~</p>
+
+<p>==> /root/log/cron_1m.sh_error.txt &lt;==
+From github.com:shaklee/repo2_petulant-cyril
+   57f20ff..6f85e76  master     -> origin/master</p>
+
+<p>==> /root/log/cron_1m.sh_log.txt &lt;==
+Updating 57f20ff..6f85e76
+Fast-forward
+ bin/nodework/common/work.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 6f85e76a507ce599f42762ad7bf4ae639884ae12 for  and got 6f85e76a507ce599f42762ad7bf4ae639884ae12
+Detected Change in Git Version!
+Starting ActualWork at 20151002-013402
+Doing the work for 6f85e76a507ce599f42762ad7bf4ae639884ae12
+```</p>
 
 <h4>Difference detected (but already doing something)</h4>
 
