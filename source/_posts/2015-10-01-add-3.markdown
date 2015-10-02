@@ -1,0 +1,127 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) [Part-3]"
+date: 2015-10-01 2:00
+comments: true
+categories: IT Automation Cloud Git ADD
+---
+
+This is the third installment of describing a radically more productive development and delivery environment.
+
+The first part is here: [Intro](/blog/add-1/).  In the previous parts I described the big picture and the
+first part of the Vagrant bootstrap.
+
+## EC2
+
+The Vagrant bootstrap occurred through 'bash' files that shaped (put shape information into files) and
+the 'init' itself to get access to the repo (repo2) that contains the true configuration.  For EC2
+the same thing happens within a CloudFormation template.  The code of the 'init' is almost identical, but because
+it is in a JSON file there is a lot of noise as the string gets concatenated together.
+
+<!-- more -->
+
+### Shaping
+
+```json
+    "TemplateConstant" : {
+      "stacktype" : { "value" : "ControlServer1" },
+      "initgitrepo" : { "value" : "repo2_petulant-cyril" },
+      "nodepart" : { "value" : "controlnode" }
+    },
+```
+
+
+```json
+            "files" : {
+              "/root/nodeinfo/stacktype.txt" : {
+                "content" : { "Fn::Join" : ["", [
+                  { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] },
+                  ""
+                ]]},
+                "mode"  : "000700",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/root/nodeinfo/initgitrepo.txt" : {
+                "content" : { "Fn::Join" : ["", [
+                  { "Fn::FindInMap" : [ "TemplateConstant", "initgitrepo", "value" ] },
+                  ""
+                ]]},
+                "mode"  : "000700",
+                "owner" : "root",
+                "group" : "root"
+              },
+```
+
+
+### Init
+
+```json
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+          "#!/bin/bash -v\n",
+          "yum update -y aws-cfn-bootstrap\n",
+
+          "# Helper function\n",
+          "function error_exit\n",
+          "{\n",
+          "  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+          "  exit 1\n",
+          "}\n",
+
+          "# Install LAMP packages\n",
+          "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r PrimaryLaunchConfig ",
+          "    --access-key ",  { "Ref" : "HostKeys" },
+          "    --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},
+          "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+
+          "yum -y install git \n",
+
+          "echo 'Fetch s3cmd to get credentials' \n",
+          "mkdir /root/download/ \n",
+          "pushd /root/download/ \n",
+          "git clone git://github.com/s3tools/s3cmd.git \n",
+```
+
+### Launching and Clusters
+
+A CloudFormation can provision a single server, but it is used more for clusters.  Instead of creating a server, we create
+a server definition and then say how many servers we want.  The 'PrimaryServerGroup' defines this:
+
+```json
+    "PrimaryServerGroup" : {
+      "Type" : "AWS::AutoScaling::AutoScalingGroup",
+      "Properties" : {
+        "Tags": [
+          { "Key": "add:stacktype", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] }, "PropagateAtLaunch" : "true" },
+          { "Key": "add:nodepart", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, "PropagateAtLaunch" : "true" }
+        ],
+        "AvailabilityZones" : { "Fn::GetAZs" : "" },
+        "LaunchConfigurationName" : { "Ref" : "PrimaryLaunchConfig" },
+        "MinSize" : "1",
+        "MaxSize" : "1",
+        "DesiredCapacity" : "1"
+      }
+    },
+
+```
+
+Note that it ends with '1', '1', '1' meaning this is just a single server.  But those numbers can be changed at any time.
+
+Given the DesiredCapacity is '1', if you ever kill a server, a new one will be spun up.
+
+### EC2 Keypairs
+
+Another difference of the EC2 model is that EC2 holds onto the keypair that is used for logging into it.  So that information
+doesn't need to be exposed.  And further, the EC2 version creates a special 'IAM' agent for the machine.
+
+### EC2 Dashboard
+
+The dashboard shows some standard EC2 properties along with the add:stacktype and add:nodepart.  The nodepart shows the
+kind of node it is (say a load-balancer vs. a game server) and is used within the bootstrap to put the right software
+onto the machine.  The 'nodepart' and the 'stacktype' are the core DNA switches of a server.  Later we will add in
+'federation' which primarily configures the size of the node (e.g. no 'small' in production)
+
+<img src="/images/add-3/add3_ec2_cv1.png" />
+
+
+
