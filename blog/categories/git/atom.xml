@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-02T15:28:47-07:00</updated>
+  <updated>2015-10-02T15:49:17-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -38,6 +38,19 @@ of parts would be the LAMP stack:</p>
 
 <!-- more -->
 
+
+<p>The most interesting thing about parts is hooking them together.  Load balancers need to know about application servers.
+Application servers need to know where the databases are.  This feature I call 'presence'.  There are a lot
+of fancy ways to solve 'presence'.  There could be 'presence' servers that servers register with.  Or 'presence' servers
+that poll AWS registries.  Certain products keep their 'CI' (Configuration Item) information in databases: both SQL and
+other kinds.</p>
+
+<p>All of this is stupidly complex and treats the nodes as if they are idiots.  Pretty sure these nodes can be made about
+as smart as a young student (say elementary school or even younger).  A young person is perfectly capable of putting
+their name on a list.  And then listing some other interesting things about them.  A node can do the same.  So all
+we need is a list.  The classic list for a computer?  A folder.  A folder containing files.  A file named after a node's
+unique name.  And a file containing information about the node.  Voila.  No SPOF (can have two folders stored differently),
+and no additional nodes doing something stupidly simple.</p>
 ]]></content>
   </entry>
   
