@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:36:52-07:00</updated>
+  <updated>2015-10-02T13:46:45-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-5]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-5/"/>
+    <updated>2015-10-02T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-5</id>
+    <content type="html"><![CDATA[<p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, and the one minute configuration HeartBeat.</p>
+
+<h2>HipChat</h2>
+
+<p>The fourth ingredient is HipChat.  HipChat is meant to help people communicate and see the state of the world.
+It is an excellent text program with a plethora of integrations.  But for ADD the critical capability is
+to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
+system (kind of like a command line) but that isn't very important since it would just make changes in GitHub
+which can be made in lots of different ways.</p>
+
+<p>The demo of this is very simple:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-5/add5_hipchat_cv1.png" /></p>
+
+<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
+to the working script:</p>
+
+<p><code>bash
+echo "Doing the work for ${GIT_VERSION}"
+echo "Doing the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh
+sleep 121
+echo "Done the work for ${GIT_VERSION}"
+echo "Done the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh -c green
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-4]]]></title>

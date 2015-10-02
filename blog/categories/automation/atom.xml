@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:36:52-07:00</updated>
+  <updated>2015-10-02T13:46:45-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-5]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-5/"/>
+    <updated>2015-10-02T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-5</id>
+    <content type="html"><![CDATA[<p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, and the one minute configuration HeartBeat.</p>
+
+<h2>HipChat</h2>
+
+<p>The fourth ingredient is HipChat.  HipChat is meant to help people communicate and see the state of the world.
+It is an excellent text program with a plethora of integrations.  But for ADD the critical capability is
+to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
+system (kind of like a command line) but that isn't very important since it would just make changes in GitHub
+which can be made in lots of different ways.</p>
+
+<p>The demo of this is very simple:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-5/add5_hipchat_cv1.png" /></p>
+
+<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
+to the working script:</p>
+
+<p><code>bash
+echo "Doing the work for ${GIT_VERSION}"
+echo "Doing the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh
+sleep 121
+echo "Done the work for ${GIT_VERSION}"
+echo "Done the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh -c green
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-4]]]></title>
@@ -812,216 +847,6 @@ of any of these products is also a 'substitution' and not equivalent to using th
 <p><img width="432" height="414" src="http://markfussell.emenar.com/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" /></p>
 
 <p>For more details or questions, please contact me.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-it-automation-2/"/>
-    <updated>2013-02-19T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-it-automation-2</id>
-    <content type="html"><![CDATA[<p>This is the fifth in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a> and the previous
-part of this topic is here: <a href="/blog/git-about-everything-it-automation/">IT Automation</a></p>
-
-<h2>PushMePullYou or Leveraging git to enable mass-automated IT</h2>
-
-<div style="float:right">
-<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
-</div>
-
-
-<p>The previous post dealt with the groundwork of having Git be a central part of IT automation.  That
-showed the core idea but was a bit too simple to fully express the power of the approach.
-This post will be dealing with all the things that were left off, especially support for:</p>
-
-<ul>
-<li> Many different types of servers with both their own and shared 'recipes'</li>
-<li> More complicated install/upgrade actions</li>
-<li> More sophisticated install behavior</li>
-<li> Multiple versions of 'recipes' and an ability to promote whole IT from development to production</li>
-<li> Getting information from other active repositories</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>To just jump-in and not be so incremental, I want to build the following deployment:</p>
-
-<ul>
-<li> A load-balancing layer that registers itself with the outside world and knows how to talk to the application layer</li>
-<li> An application layer that runs an application which may be updated at any time</li>
-<li> A database layer using a cluster of Riak servers</li>
-<li> A presence server that can record what servers are present (so other servers can leverage)</li>
-</ul>
-
-
-<p>Each of these will be a different stack for easier management.  There will also be a Control server
-which makes setting up the deployment easier (for example, it will make sure you have the latest AWS CLI).</p>
-
-<h2>The Control Server</h2>
-
-<p>To get everything up and running check out the repository:</p>
-
-<p><code>bash
-git clone git://github.com/markfussell/giteveryrepo4.git
-</code></p>
-
-<p>And then in the Amazon AWS console launch the control server with the file template at <code>it/aws/cloudformation/GitEvery4ControlServer.template</code>.</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/create_control_stack.png" /></p>
-
-<p>You can then SSH into the server and <code>sudo su -</code> to change to root. And <code>cd gitrepo/giteveryrepo4</code> to get into the root of the repository.</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/control_server_login.png" /></p>
-
-<h2>Handling Different Types of Servers</h2>
-
-<p>A major difference from the previous example is there are now several types of servers, and they
-will have different:</p>
-
-<ul>
-<li> Firewall permissions</li>
-<li> Initial setup of software</li>
-<li> Ongoing configuration changes</li>
-</ul>
-
-
-<p>There are also a number of similarities and ideally the CloudFormation files are as similar and
-simple as possible.</p>
-
-<h3>Firewall Permissions</h3>
-
-<p>One major change is to get rid of stack-generated security groups: these are difficult to manage since
-they have ever-changing and obscure names.  I believe it is better for any real deployment to control
-the security groups independently of the Stacks.  So now we have two kinds of security groups:</p>
-
-<ul>
-<li> One for the <code>deployment</code> as a whole</li>
-<li> One for each <code>part</code> a server node can be</li>
-</ul>
-
-
-<p>The <code>deployment</code> and <code>part</code> are assigned as constants in the Stack template mappings:</p>
-
-<p>```json
-  "Mappings" : {</p>
-
-<pre><code>"TemplateConstant" : {
-   "stacktype" : { "value" : "GitEvery4LbServer" },
-   "initgitrepo" : { "value" : "giteveryrepo4" },
-   "nodepart" : { "value" : "applbnode" },
-   "deployment" : { "value" : "testdeployment" }
-},
-</code></pre>
-
-<p>```</p>
-
-<p>and then later referenced in the security group section:</p>
-
-<p>```json</p>
-
-<pre><code>    "SecurityGroups" : [ { "Fn::FindInMap" : [ "TemplateConstant", "deployment", "value" ] }, { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] } ],
-</code></pre>
-
-<p>```</p>
-
-<p>Before we create the stack, we create the appropriate groups.  For example, the <code>deployment</code> group will enable SSH into
-the nodes and any node within the deployment to talk to any other node:</p>
-
-<p>```bash</p>
-
-<h1>===================</h1>
-
-<h1>=== testdeployment</h1>
-
-<h1>===================</h1>
-
-<p>ec2-create-group testdeployment -d  testdeployment
-export OWNER=<code>ec2-describe-group | grep GROUP | head -n 1 | cut -f 3</code></p>
-
-<h1>Enable SSH In</h1>
-
-<p>ec2-authorize testdeployment -p 22 -s 0.0.0.0/0</p>
-
-<h1>Enable deployment to talk to itself</h1>
-
-<p>ec2-authorize testdeployment -o testdeployment -u ${OWNER}</p>
-
-<p>```</p>
-
-<h3>Initial setup of software</h3>
-
-<p>Within the CloudFormation template, we use the same approach as last time: simply checkout a git repository and call into it.  In Bash it would be:</p>
-
-<p><code>``bash
-yum -y install git
-mkdir /root/gitrepo
-cd /root/gitrepo
-git clone git://github.com/markfussell/</code>cat /root/nodeinfo/initgitrepo.txt`.git</p>
-
-<p>cd /root/gitrepo/<code>cat /root/nodeinfo/initgitrepo.txt</code>
-include () { if [[ -f "$1" ]]; then source "$1"; else echo "Skipped missing: $1"; fi }
-include bin/init/common/init.sh
-```</p>
-
-<p>which is converted to JSON (string-quoted) within the template.</p>
-
-<p>This entering on a common <code>init.sh</code> entrypoint makes the CloudFormation stacks simpler and more general.  It is much
-easier to update and push to the git repository than to update all the stacks that are using the repository.</p>
-
-<p>The new part is now at the end of the common entrypoint: jumping into more specific initialization depending
-on the properties of the node:</p>
-
-<p><code>bash
-include bin/init/part/`cat /root/nodeinfo/nodepart.txt`/init.sh
-include bin/init/stacktype/`cat /root/nodeinfo/stacktype.txt`/init.sh
-include bin/init/stacktype/`cat /root/nodeinfo/stacktype.txt`/part/`cat /root/nodeinfo/nodepart.txt`/init.sh
-</code></p>
-
-<p>We so far have three variations:</p>
-
-<ul>
-<li> The <code>part</code></li>
-<li> The <code>stacktype</code></li>
-<li> Combining both of the above.</li>
-</ul>
-
-
-<p>We can be as general or as specific as we want.</p>
-
-<p>A <code>stacktype</code> is simply the name of the template (vs. the name of an instantiated stack which has to be unique).
-The main advantage of <code>stacktype</code> is it allows easy separation of behavior by kind of stack and
-also allows versioning if <code>stacktype</code> includes a version number.</p>
-
-<p>A <code>part</code> is the singular role a node plays within a deployment.  I use <code>part</code> instead of <code>role</code> to avoid
-conflict with Chef where a node can have many roles.  A node has exactly one <code>part</code> it plays in the deployment,
-and each <code>part</code> can have any number of <code>roles</code>.  A <code>part</code> should normally be fairly universal.  In our case
-the five parts are <code>applbnode</code> (The main application load balancer), <code>appnode</code> (The main app), <code>riaknode</code> (The
-riak database node), <code>presencenode</code> (A server presence recording server), and <code>controlnode</code> (The main launching
-control server, which isn't really part of the running deployment).</p>
-
-<p>With just the application and load-balancing parts/nodes running along with the controlnode, we have something like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/pushmepullyou_lbandappawsarch.png" /></p>
-
-<p>Each <code>part</code> has its own stack template and instance, which creates one or more nodes of that <code>part</code> type.</p>
-
-<p>...More To Come...</p>
-
-<h2>References</h2>
-
-<ul>
-<li> <a href="http://bitfieldconsulting.com/scaling-puppet-with-distributed-version-control">http://bitfieldconsulting.com/scaling-puppet-with-distributed-version-control</a></li>
-<li> <a href="http://blog.afistfulofservers.net/post/2012/12/21/promises-lies-and-dryrun-mode/">http://blog.afistfulofservers.net/post/2012/12/21/promises-lies-and-dryrun-mode/</a></li>
-</ul>
-
-
-<h2>Next</h2>
-
-<p>Our next problem will be...</p>
 ]]></content>
   </entry>
   
