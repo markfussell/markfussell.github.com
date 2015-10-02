@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:35:01-07:00</updated>
+  <updated>2015-10-01T18:36:52-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -126,7 +126,8 @@ This is done by simple &#8216;includes&#8217; with the &#8216;nodeinfo&#8217; th
 
 <p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
 
-<p>As of that picture, no &#8216;part&#8217; or &#8216;stacktype&#8217; exists.  So a machine that is brought up is simply a heartbeat server.</p>
+<p>As of that picture, no &#8216;part&#8217; or &#8216;stacktype&#8217; exists.  So a machine that is brought up is simply a heart-beating server,
+but a heart-beating server that can mutate on command every minute.</p>
 
 <h2>What are nodes doing every minute?</h2>
 

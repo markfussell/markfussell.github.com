@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:35:01-07:00</updated>
+  <updated>2015-10-01T18:36:52-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -120,7 +120,8 @@ include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/part/<code
 
 <p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
 
-<p>As of that picture, no 'part' or 'stacktype' exists.  So a machine that is brought up is simply a heartbeat server.</p>
+<p>As of that picture, no 'part' or 'stacktype' exists.  So a machine that is brought up is simply a heart-beating server,
+but a heart-beating server that can mutate on command every minute.</p>
 
 <h2>What are nodes doing every minute?</h2>
 
