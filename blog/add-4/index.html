@@ -347,6 +347,36 @@ what the previous state is/was.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>Speed!</h3>
+
+<p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the &#8216;git pull&#8217;.  With a
+&#8216;small&#8217; server this is two seconds and basically no load:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cron_1m.sh: Start  20151002-012301
+</span><span class='line'>~/gitrepo/repo2_petulant-cyril ~
+</span><span class='line'>Already up-to-date.
+</span><span class='line'>Compared 7916053bb9f8bc3d952588a87a48da96dda7abe6 to 57f20ff734c8836fa34f938bcc540a89bad9215c <span class="k">for  </span>and got 57f20ff734c8836fa34f938bcc540a89bad9215c
+</span><span class='line'>Detected Change in Git Version!
+</span><span class='line'>Already doing 57f20ff734c8836fa34f938bcc540a89bad9215c
+</span><span class='line'>Skipped missing: bin/nodework/part/controlnode/work.sh
+</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
+</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
+</span><span class='line'>~
+</span><span class='line'>cron_1m.sh: Finish 20151002-012302
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
 

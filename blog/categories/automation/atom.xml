@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:22:50-07:00</updated>
+  <updated>2015-10-01T18:28:01-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -236,6 +236,25 @@ fi
 <p>fi</p>
 
 <p>```</p>
+
+<h3>Speed!</h3>
+
+<p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the 'git pull'.  With a
+'small' server this is two seconds and basically no load:</p>
+
+<p><code>bash
+cron_1m.sh: Start  20151002-012301
+~/gitrepo/repo2_petulant-cyril ~
+Already up-to-date.
+Compared 7916053bb9f8bc3d952588a87a48da96dda7abe6 to 57f20ff734c8836fa34f938bcc540a89bad9215c for  and got 57f20ff734c8836fa34f938bcc540a89bad9215c
+Detected Change in Git Version!
+Already doing 57f20ff734c8836fa34f938bcc540a89bad9215c
+Skipped missing: bin/nodework/part/controlnode/work.sh
+Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
+Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
+~
+cron_1m.sh: Finish 20151002-012302
+</code></p>
 ]]></content>
   </entry>
   
