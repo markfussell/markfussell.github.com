@@ -97,8 +97,8 @@ node initialization, and the one minute configuration HeartBeat.</p>
 
 <h2>HipChat</h2>
 
-<p>The fourth ingredient is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent text program with a plethora of integrations.  But for ADD the critical capability is
+<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
+It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
 to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
 system (kind of like a command line) but that isn&#8217;t very important since it would just make changes in GitHub
 which can be made in lots of different ways.</p>
@@ -122,6 +122,11 @@ to the working script:</p>
 </span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh -c green
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>So now we have &#8216;Action in GitHub&#8217; and visibility to all the activities of the machines that reacted to
+that action.  Finally we can have human augmentation like &#8220;@Team New version is up on the development server&#8221;
+to transform something technical to something more meaningful.  With proper use of colors, the state
+of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
 </div>
 
 

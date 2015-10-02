@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-02T13:46:45-07:00</updated>
+  <updated>2015-10-02T15:19:54-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -25,8 +25,8 @@ node initialization, and the one minute configuration HeartBeat.</p>
 
 <h2>HipChat</h2>
 
-<p>The fourth ingredient is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent text program with a plethora of integrations.  But for ADD the critical capability is
+<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
+It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
 to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
 system (kind of like a command line) but that isn't very important since it would just make changes in GitHub
 which can be made in lots of different ways.</p>
@@ -45,6 +45,11 @@ sleep 121
 echo "Done the work for ${GIT_VERSION}"
 echo "Done the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh -c green
 </code></p>
+
+<p>So now we have 'Action in GitHub' and visibility to all the activities of the machines that reacted to
+that action.  Finally we can have human augmentation like "@Team New version is up on the development server"
+to transform something technical to something more meaningful.  With proper use of colors, the state
+of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
 ]]></content>
   </entry>
   
