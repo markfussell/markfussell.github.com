@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T18:28:01-07:00</updated>
+  <updated>2015-10-01T18:29:09-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -280,6 +280,8 @@ what the previous state is/was.</p>
 <p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the &#8216;git pull&#8217;.  With a
 &#8216;small&#8217; server this is two seconds and basically no load:</p>
 
+<h4>Difference detected (but already doing something)</h4>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -302,6 +304,31 @@ what the previous state is/was.</p>
 </span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
 </span><span class='line'>~
 </span><span class='line'>cron_1m.sh: Finish 20151002-012302
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>No Difference</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cron_1m.sh: Start  20151002-012801
+</span><span class='line'>~/gitrepo/repo2_petulant-cyril ~
+</span><span class='line'>Already up-to-date.
+</span><span class='line'>Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 57f20ff734c8836fa34f938bcc540a89bad9215c <span class="k">for  </span>and got
+</span><span class='line'>No change, move along
+</span><span class='line'>Skipped missing: bin/nodework/part/controlnode/work.sh
+</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
+</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
+</span><span class='line'>~
+</span><span class='line'>cron_1m.sh: Finish 20151002-012802
 </span></code></pre></td></tr></table></div></figure>
 
 
