@@ -204,7 +204,7 @@ This is done by simple &#8216;includes&#8217; with the &#8216;nodeinfo&#8217; th
 
 <p>The next cool feature of ADD is that nodes do work based on the state of git repositories.  For any given repository, they
 look for a &#8216;work.sh&#8217; file within a &#8216;nodework&#8217; directory for either all types of nodes (i.e. common again), or the specific
-type of node they are.  So just like the other include we get:</p>
+type of node they are.  So just like the other &#8216;include&#8217; we get:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -228,6 +228,125 @@ also this enables them not to block each other (if desired).</p>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>     <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">CURRENT_ACTION_FILE</span><span class="k">}</span> <span class="o">]]</span>; <span class="k">then</span>
 </span><span class='line'>         : <span class="c">#Don&#39;t do anything until the current action completes</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<h3>work.sh</h3>
+
+<p>The main purpose of &#8216;work.sh&#8217; is to detect changes.  Any actual work will be in &#8216;work_ActualWork.sh&#8217;.  In reverse, the ActualWork is
+simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So a one-liner appears in the log for the cron job just to prove the &#8216;ActualWork&#8217; was done.</p>
+
+<p>But &#8216;work.sh&#8217; has to do a few things (very quickly) to detect if there are changes of relevance.  It stores files in the &#8216;repo/.temp/add&#8217;
+directory that keeps track of state.  The example &#8216;work.sh&#8217; will detect changes to the repository based on a watched &#8216;path&#8217;.  This
+allows multiple things to use the same git repository but be looking at different parts.  By default they look at the root, but it
+can be changed.  No matter what &#8216;path&#8217; is watched, the version of the &#8216;work&#8217; is always the version of the git repository&#8230; not the path itself.
+In total, there are four &#8216;outer&#8217; states possible:</p>
+
+<ul>
+<li>The version of the work previously done is identical to the version of git now</li>
+<li>The version of the work previously done is different from the version of git now, but the version of the watched path is the same</li>
+<li>The version of the work previously done is different from the version of git now, and the watched path has changed</li>
+<li>There is no work previously done (the first run of the work)</li>
+</ul>
+
+
+<p>Of the above, only the last two should trigger work.  You can branch differently based on the first run or subsequent runs, but
+generally it is best to be &#8216;idempotent&#8217; with the work: you change the state of the server to a new state without caring
+what the previous state is/was.</p>
+
+<p>The &#8216;inner&#8217; state issue is the server could already be doing &#8216;ActualWork&#8217;, so you have to wait until that is done.</p>
+
+<p>The core of the work.sh script is</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">WORK_VERSION</span><span class="o">=</span><span class="nv">$ADD_TEMP</span>/work.sh_VERSION
+</span><span class='line'><span class="nb">export </span><span class="nv">WORK_DOING_VERSION</span><span class="o">=</span><span class="nv">$ADD_TEMP</span>/work.sh_DOING_VERSION
+</span><span class='line'><span class="nb">export </span><span class="nv">WORK_WATCH_PATH</span><span class="o">=</span><span class="nv">$ADD_TEMP</span>/work.sh_WATCH_PATH.txt
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">WORK_WATCH_VALUE</span><span class="o">=</span><span class="sb">`</span>cat <span class="nv">$WORK_WATCH_PATH</span><span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PREV_WORK_VERSION</span><span class="o">=</span><span class="sb">`</span>cat <span class="nv">$WORK_VERSION</span><span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== Now do comparison</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">GIT_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">DETECT_GIT_CHANGE</span><span class="o">=</span><span class="sb">`</span>git log --pretty<span class="o">=</span>oneline <span class="k">${</span><span class="nv">PREV_WORK_VERSION</span><span class="k">}</span>..  -- <span class="k">${</span><span class="nv">WORK_WATCH_VALUE</span><span class="k">}</span> | awk <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Compared ${PREV_WORK_VERSION} to ${GIT_VERSION} for ${WORK_WATCH_VALUE} and got ${DETECT_GIT_CHANGE}&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p <span class="k">${</span><span class="nv">ADD_TEMP</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;${DETECT_GIT_CHANGE}&quot;</span> <span class="o">]]</span> ;
+</span><span class='line'><span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;Detected Change in Git Version!&quot;</span>;
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span> <span class="o">]]</span> ;
+</span><span class='line'>    <span class="k">then</span>
+</span><span class='line'><span class="k">       </span><span class="nb">echo</span> <span class="s2">&quot;Already doing `cat ${WORK_DOING_VERSION}`&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'><span class="k">       </span><span class="nb">echo</span> <span class="nv">$GIT_VERSION</span> &gt; <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span>
+</span><span class='line'>       <span class="nb">source</span> <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/work_ActualWork.sh
+</span><span class='line'>
+</span><span class='line'>       <span class="c">#Update the state.  This also does a clean startup on first run</span>
+</span><span class='line'>
+</span><span class='line'>       <span class="nb">echo</span> <span class="nv">$GIT_VERSION</span> &gt; <span class="k">${</span><span class="nv">WORK_VERSION</span><span class="k">}</span>
+</span><span class='line'>       <span class="nb">echo</span> <span class="nv">$WORK_WATCH_VALUE</span> &gt; <span class="k">${</span><span class="nv">WORK_WATCH_PATH</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>       rm -fr <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;No change, move along&quot;</span>;
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
 

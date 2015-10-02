@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-01T16:44:41-07:00</updated>
+  <updated>2015-10-01T18:22:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -126,7 +126,7 @@ include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/part/<code
 
 <p>The next cool feature of ADD is that nodes do work based on the state of git repositories.  For any given repository, they
 look for a 'work.sh' file within a 'nodework' directory for either all types of nodes (i.e. common again), or the specific
-type of node they are.  So just like the other include we get:</p>
+type of node they are.  So just like the other 'include' we get:</p>
 
 <p>```bash</p>
 
@@ -149,6 +149,91 @@ also this enables them not to block each other (if desired).</p>
 <pre><code>     if [[ -e ${CURRENT_ACTION_FILE} ]]; then
          : #Don't do anything until the current action completes
 </code></pre>
+
+<p>```</p>
+
+<h3>work.sh</h3>
+
+<p>The main purpose of 'work.sh' is to detect changes.  Any actual work will be in 'work_ActualWork.sh'.  In reverse, the ActualWork is
+simply:</p>
+
+<p><code>bash
+echo "Doing the work for ${GIT_VERSION}"
+</code></p>
+
+<p>So a one-liner appears in the log for the cron job just to prove the 'ActualWork' was done.</p>
+
+<p>But 'work.sh' has to do a few things (very quickly) to detect if there are changes of relevance.  It stores files in the 'repo/.temp/add'
+directory that keeps track of state.  The example 'work.sh' will detect changes to the repository based on a watched 'path'.  This
+allows multiple things to use the same git repository but be looking at different parts.  By default they look at the root, but it
+can be changed.  No matter what 'path' is watched, the version of the 'work' is always the version of the git repository... not the path itself.
+In total, there are four 'outer' states possible:</p>
+
+<ul>
+<li>The version of the work previously done is identical to the version of git now</li>
+<li>The version of the work previously done is different from the version of git now, but the version of the watched path is the same</li>
+<li>The version of the work previously done is different from the version of git now, and the watched path has changed</li>
+<li>There is no work previously done (the first run of the work)</li>
+</ul>
+
+
+<p>Of the above, only the last two should trigger work.  You can branch differently based on the first run or subsequent runs, but
+generally it is best to be 'idempotent' with the work: you change the state of the server to a new state without caring
+what the previous state is/was.</p>
+
+<p>The 'inner' state issue is the server could already be doing 'ActualWork', so you have to wait until that is done.</p>
+
+<p>The core of the work.sh script is</p>
+
+<p>```bash
+export WORK_VERSION=$ADD_TEMP/work.sh_VERSION
+export WORK_DOING_VERSION=$ADD_TEMP/work.sh_DOING_VERSION
+export WORK_WATCH_PATH=$ADD_TEMP/work.sh_WATCH_PATH.txt</p>
+
+<p>export WORK_WATCH_VALUE=<code>cat $WORK_WATCH_PATH</code>
+export PREV_WORK_VERSION=<code>cat $WORK_VERSION</code></p>
+
+<h1>====================================================</h1>
+
+<h1>=== Now do comparison</h1>
+
+<h1>====================================================</h1>
+
+<p>export GIT_VERSION=<code>git rev-parse HEAD</code></p>
+
+<p>export DETECT_GIT_CHANGE=<code>git log --pretty=oneline ${PREV_WORK_VERSION}..  -- ${WORK_WATCH_VALUE} | awk '{print $1}'</code></p>
+
+<p>echo "Compared ${PREV_WORK_VERSION} to ${GIT_VERSION} for ${WORK_WATCH_VALUE} and got ${DETECT_GIT_CHANGE}"</p>
+
+<p>mkdir -p ${ADD_TEMP}</p>
+
+<p>if [[ -n "${DETECT_GIT_CHANGE}" ]] ;
+then</p>
+
+<pre><code>echo "Detected Change in Git Version!";
+
+if [[ -e ${WORK_DOING_VERSION} ]] ;
+then
+   echo "Already doing `cat ${WORK_DOING_VERSION}`"
+else
+   echo $GIT_VERSION &gt; ${WORK_DOING_VERSION}
+   source ${COMMON}/work_ActualWork.sh
+
+   #Update the state.  This also does a clean startup on first run
+
+   echo $GIT_VERSION &gt; ${WORK_VERSION}
+   echo $WORK_WATCH_VALUE &gt; ${WORK_WATCH_PATH}
+
+   rm -fr ${WORK_DOING_VERSION}
+fi
+</code></pre>
+
+<p>else</p>
+
+<pre><code>echo "No change, move along";
+</code></pre>
+
+<p>fi</p>
 
 <p>```</p>
 ]]></content>
