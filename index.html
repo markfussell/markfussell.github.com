@@ -110,28 +110,12 @@ which can be made in lots of different ways.</p>
 
 <p><img src="/images/add-5/add5_hipchat_cv1.png" /></p>
 
-<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
-to the working script:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh
-</span><span class='line'>sleep 121
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh -c green
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So now we have &#8216;Action in GitHub&#8217; and visibility to all the activities of the machines that reacted to
-that action.  Finally we can have human augmentation like &#8220;@Team New version is up on the development server&#8221;
-to transform something technical to something more meaningful.  With proper use of colors, the state
-of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-5/">Read on &rarr;</a>
+    </footer>
   
 
 

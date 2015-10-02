@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-02T15:19:54-07:00</updated>
+  <updated>2015-10-02T15:20:30-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -34,6 +34,9 @@ which can be made in lots of different ways.</p>
 <p>The demo of this is very simple:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-5/add5_hipchat_cv1.png" /></p>
+
+<!-- more -->
+
 
 <p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
 to the working script:</p>
