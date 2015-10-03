@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-02T18:26:14-07:00</updated>
+  <updated>2015-10-02T18:29:44-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -152,6 +152,10 @@ fi</p>
 <p>popd</p>
 
 <p>```</p>
+
+<p>And with the above script we get this simple and beautiful view:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-6/add6_sourceTree_cv1.png" /></p>
 
 <h2>Collisions</h2>
 
