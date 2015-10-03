@@ -1,0 +1,145 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) [Part-6]"
+date: 2015-10-02 1:00
+comments: true
+categories: IT Automation Cloud Git ADD
+---
+
+This is the sixth installment of describing a radically more productive development and delivery environment.
+
+The first part is here: [Intro](/blog/add-1/).  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, and HipChat integration.
+
+## 'Part' Provisioning
+
+Each node plays a singular 'Part'.  A 'part' is a unique combination of roles (in the chef sense) that identifies
+exactly how the node should be provisioned, usually globally, but at least for each stacktype.  A standard array
+of parts would be the LAMP stack:
+
+   * Load Balancer (lb)
+   * Application Server (app)
+   * Database Server  (db)
+
+<!-- more -->
+
+The most interesting thing about parts is hooking them together.  Load balancers need to know about application servers.
+Application servers need to know where the databases are.  This feature I call 'presence'.  There are a lot
+of fancy ways to solve 'presence'.  There could be 'presence' servers that servers register with.  Or 'presence' servers
+that poll AWS registries.  Certain products keep their 'CI' (Configuration Item) information in databases: both SQL and
+other kinds.
+
+All of this is stupidly complex and treats the nodes as if they are idiots.  Pretty sure these nodes can be made about
+as smart as a young student (say elementary school or even younger).  A young person is perfectly capable of putting
+their name on a list.  And then listing some other interesting things about them.  A node can do the same.  So all
+we need is a list.  The classic list for a computer?  A folder.  A folder containing files.  A file named after a node's
+unique name.  And a file containing information about the node.  Voila.  No SPOF (can have two folders stored differently),
+and no additional nodes doing something stupidly simple.
+
+## Demo or Die!
+
+So we already have a 'HeartBeat' server, all we need are for it to write somewhere what it's state is.  That is
+quite simple:
+
+### updatePresence.sh
+
+This simply writes information in ~/nodeinfo into a JSON file.  To make that JSON file a little nicer we python
+format it.  What gets written into the JSON file?  Basically anything we want!  When?  Every minute!  Ta Da...
+the trick is done.
+
+```bash
+#!/bin/bash
+
+...
+
+#====================================================
+#=== Generate file
+#====================================================
+
+export INSTANCE_ID="`cat /root/nodeinfo/instance-id.txt`"
+echo $INSTANCE_ID
+
+cat <<EOS >>$PRESENCE_TEMP
+{
+"filetype":"nodepresence",
+"value": {
+    "a":"a"
+EOS
+
+FILES=( "initgitrepo" "instance-id" "nodepart" "stacktype" )
+
+for i in "${FILES[@]}"
+do
+    cat <<EOS >>$PRESENCE_TEMP
+    ,
+    "$i":"`cat /root/nodeinfo/${i}.txt`"
+EOS
+done
+
+cat <<EOS >>$PRESENCE_TEMP
+}
+}
+EOS
+
+cat $PRESENCE_TEMP | python -mjson.tool > $PRESENCE_TEMP2
+cat $PRESENCE_TEMP2
+
+#| bash ${COMMON}/send_hipchat.sh -c green
+
+#====================================================
+#=== Switch to the presence repository and copy file
+#====================================================
+
+pushd $REPO_ROOT
+
+if [ ! -d "$PRESENCE_REPO" ]; then
+  echo "git clone git@github.com:shaklee/${PRESENCE_REPO}.git"
+  git clone git@github.com:shaklee/${PRESENCE_REPO}.git
+fi
+
+if [ -d "$PRESENCE_REPO" ]; then
+  cd $PRESENCE_REPO
+  git pull
+
+  #Now splat it out to all the proper places
+  TARGETS=( "it/presence/all" )
+  for i in "${TARGETS[@]}"
+  do
+    mkdir -p $i
+    cp -f $PRESENCE_TEMP2 $i/${INSTANCE_ID}.json
+  done
+
+  git add .
+  git commit -m "Updated by $INSTANCE_ID"; git push
+  #Now need to see if this works... but the following is an easy trick in the small
+  git pull; git push; git pull; git push
+
+  #Repeat until push succeeds
+else
+  echo "Not working!"
+fi
+
+popd
+
+```
+
+And with the above script we get this simple and beautiful view:
+
+<img src="/images/add-6/add6_sourceTree_cv1.png" />
+
+
+## Collisions
+
+OK, updating a GitHub repository every minute is not the smartest thing to do at scale... but: if the file
+is the same, Git won't do anything.  And if we want, we can always turn down the noise.
+
+## Death
+
+A machine can die or be killed, so presence information could be out of date.  The solution is just to
+broadcast a 'HeartBeat' in either the presence repository or another repository.  Or to make sure to
+check if the machine is actually responsive (e.g. HAProxy will interact with the machine to make sure it
+is actually alive) vs. being present.  This final interaction is pretty critical (no Zombies in my data center),
+so that is the best way to figure out who is alive and alert vs. just being present.
+
+
+

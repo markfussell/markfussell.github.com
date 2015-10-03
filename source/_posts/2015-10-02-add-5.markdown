@@ -1,0 +1,43 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) [Part-5]"
+date: 2015-10-02 1:00
+comments: true
+categories: IT Automation Cloud Git ADD
+---
+
+This is the fifth installment of describing a radically more productive development and delivery environment.
+
+The first part is here: [Intro](/blog/add-1/).  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, and the one minute configuration HeartBeat.
+
+## HipChat
+
+The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
+It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
+to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
+system (kind of like a command line) but that isn't very important since it would just make changes in GitHub
+which can be made in lots of different ways.
+
+The demo of this is very simple:
+
+<img src="/images/add-5/add5_hipchat_cv1.png" />
+
+<!-- more -->
+
+The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
+to the working script:
+
+```bash
+echo "Doing the work for ${GIT_VERSION}"
+echo "Doing the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh
+sleep 121
+echo "Done the work for ${GIT_VERSION}"
+echo "Done the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh -c green
+```
+
+So now we have 'Action in GitHub' and visibility to all the activities of the machines that reacted to
+that action.  Finally we can have human augmentation like "@Team New version is up on the development server"
+to transform something technical to something more meaningful.  With proper use of colors, the state
+of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).
+
