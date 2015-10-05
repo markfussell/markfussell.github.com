@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-02T18:29:44-07:00</updated>
+  <updated>2015-10-04T19:02:57-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-7]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-7/"/>
+    <updated>2015-10-04T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-7</id>
+    <content type="html"><![CDATA[<p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
+
+<h2>Fuller Presence and EC2 Integration</h2>
+
+<p>In the previous part, I went through a very simple but powerful model of 'presence' using simply GitHub repositories.
+The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
+The second level of presence is to update the state of the node as it changes.  For example, a node goes through
+a few bootstrap steps:</p>
+
+<ul>
+<li> presetup – The node before any updates are possible (no ability to change status)</li>
+<li> setup – The beginning of the 'setup' phase where the node is alive enough to change it's status</li>
+<li> setup_done – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is</li>
+</ul>
+
+
+<p>A node getting to 'setup' is pretty important: before that it may be a zombie!  And we don't want zombie's in
+our federation!  Later we will add a logging part that has timestamps so if a machine is a zombie for too long
+we will simply kill it and hope the next node comes up better.</p>
+
+<!-- more -->
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-6]]]></title>
@@ -630,250 +665,6 @@ onto the machine.  The 'nodepart' and the 'stacktype' are the core DNA switches 
 'federation' which primarily configures the size of the node (e.g. no 'small' in production)</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-3/add3_ec2_cv1.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-2]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-2/"/>
-    <updated>2015-10-01T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-2</id>
-    <content type="html"><![CDATA[<p>This is the second installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
-to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
-by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
-and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
-It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
-people's masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
-
-<h2>ADD: How Better?</h2>
-
-<p>As described before, ADD has four ingredients:</p>
-
-<ul>
-<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-</ul>
-
-
-<p>And these are hooked together to enable 'Changers', 'Watchders', and 'Machines' to be super-productive.  How
-is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
-of the clone model:</p>
-
-<ul>
-<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
-<li>How do we reduce the amount of information we have to clone?</li>
-<li>How do we reduce the time it takes to transport the clone?</li>
-<li>How do we know what version of the clone is on any machine?</li>
-<li>How do we create thousands of clones?</li>
-<li>How do we know what is different about the different clones?</li>
-<li>...</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>The first three ingredients are the most powerful and enables a fantastic improvement to the tweak and clone model.
-The last ingredient is mainly for people to be able to enjoy the ADD more easily.  It is like the 'salt-to-taste'
-and how much you integrate HipChat in with the rest of the ecosystem is up to your team.  But the more it is integrated,
-the more your team will know what is going on, the more easily your team will solve problems/issues, and the more easily
-you will onboard new people.</p>
-
-<h2>ADD: GitHub</h2>
-
-<p>GitHub will become your primary resource for <em>everything</em> related to 'information'.  Human notes... go into GitHub
-in Markdown format (like this blog).  Meeting notes.  GitHub.  Images to go with Meeting notes.  GitHub.  Your first,
-most important, repository will be called 'repo1' and will be all the notes you want the team to see.  No more
-arguing about the best Wiki, blogger, file store, etc.  The answer will always be the same.  It is in GitHub.  Because
-<em>everything</em> is in GitHub.</p>
-
-<p>Why?  Because it is simple.  It is accessible.  It is powerful.  Keeps history.  Takes almost no space.
-It works offline (on an airplane).  And it works with multiple writers.  And if GitHub dies...
-you have a complete copy of everything you need to bring up your own 'Git'.  Asking 'Why?' is silly.  First
-move to GitHub for all of this, and then ask 'Why?' to everything else.</p>
-
-<h2>ADD: S3 : Annexed Repositories</h2>
-
-<p>Git and GitHub are not good with large binary assets.  They get stored in a notably raw way and just make the
-repository huge for no benefit.  So don't store large binary assets in GitHub.  Instead store a reference to
-the binary object up in S3.  Retrieve it as needed.  See <a href="/blog/git-about-everything-annex">Annex</a></p>
-
-<h2>ADD: EC2 and Vagrant and GitHub and S3</h2>
-
-<p>Using EC2 and Vagrant with a 'PushMe-PullYou' model (see <a href="/blog/git-about-everything-it-automation-2">PushMePullYou</a>)
-solves a host of development, delivery, and operations issues.  The benefits are:</p>
-
-<ul>
-<li>Complete version control of machines – both operations and developers' machines (or part of a developers' machines)</li>
-<li>A very simple model that enables machines to be provisioned rapidly and to change their state every minute (if needed)</li>
-<li>An impressive fan-out of activity</li>
-<li>An ability to work offline (say GitHub goes down) or to have complete redundancy (use both GitHub and BitBucket to avoid SPOF)</li>
-<li>Inherently no SPOF</li>
-<li>Dependent on <em>nothing</em> - Not EC2, Not Vagrant, not GitHub, not S3.  These may be gold standards, but they can all be swapped out</li>
-</ul>
-
-
-<p>This is where the ADD just shoots through the roof.  The ADD uses particular technology to show "How it is done" and
-get you doing it right.  But it is not dependent on those technologies.  No Chef.  Unless you want it (and I recommend 'Solo').
-No Linux unless you want it.  No Grails or Groovy unless you want it.  Use Google Compute if you want to.  Or even your
-own Big Iron.  The ADD is a set of tools and methods that work well together and is most easily seen with the Gold Standard.
-But it is beyond them: like a mathematical formula (the Golden Ratio) that can be present in many forms.</p>
-
-<h2>Demo or Die!</h2>
-
-<p>The core demo for this article will walk through bringing up a server on EC2 <em>and</em> Vagrant.  If you are not familiar
-with EC2 and Vagrant, please read some of my other articles or meeting notes, or look to the web for resources.</p>
-
-<h3>Vagrant</h3>
-
-<p>The demo in Vagrant is slightly simpler than in EC2 because you are dealing with a machine at a time.  On EC2 you
-should be thinking 'Clusters' of machines that work together in 'Federations', and the technology to do that is
-more complicated and more EC2-centric.</p>
-
-<p>In Vagrant, you have a 'Box' definition and then an actual virtual instance.  To provision an instance you have
-to 'init' it, bring it up, and then configure it.  Except you don't.  As long as the instance knows how to
-bootstrap itself.  Demo:</p>
-
-<h4>Vagrantfile</h4>
-
-<p>```ruby
-  config.vm.provision "shell", inline: &lt;&lt;-SHELL</p>
-
-<pre><code> su root
- source /vagrant/resource/centos7a_cf2_ControlServer1.sh
- source /vagrant/resource/centos7a_cred_bot1.sh
- source /vagrant/resource/centos7a_boot1.sh
-</code></pre>
-
-<p>  SHELL
-```</p>
-
-<p>As the last step of the Vagrantfile, the (linux) server does three things:</p>
-
-<ul>
-<li>It 'shapes' itself to be a ControlServer</li>
-<li>It 'shapes' itself to be 'bot1' for it's credentials</li>
-<li>It configures itself with a boot script</li>
-</ul>
-
-
-<p>By the end of the boot script it will be fully alive and running.  Watching for changes to repositories that
-indicate it should do something.  You should never have to SSH into the machine... ever.  You can to look around
-(like the Magic Schoolbus) but you should treat it like it is a living creature and <em>never</em> touch anything inside
-it.  If you have to touch something, fix the 'DNA' (that boot script), kill the server, and launch a new one.</p>
-
-<p>Given this is a Vagrant file on the developer's machine, they can certainly feel free to fiddle with things.  But that is
-to learn to <em>understand</em> the server.  Some EC2 servers may even be for 'fiddling'.  But QA and production servers should
-never be touched and should only be looked at if they are confusing people (who already understand the fiddling and Vagrant servers).</p>
-
-<p>Both 'ControlServer1.sh' and 'cred_bot1.sh' simply put information into files under '/root/nodeinfo/'.  This is an
-amazingly flexible approach that works very simply for Vagrant and EC2.</p>
-
-<h4>ControlServer1.sh</h4>
-
-<p>```bash</p>
-
-<h1>!/bin/bash -v</h1>
-
-<p>export stacktype="ControlServer1"
-export initgitrepo="repo2_petulant-cyril"
-export nodepart="controlnode"</p>
-
-<p>mkdir /root/nodeinfo
-echo $stacktype > /root/nodeinfo/stacktype.txt
-echo $initgitrepo > /root/nodeinfo/initgitrepo.txt
-echo $nodepart > /root/nodeinfo/nodepart.txt
-```</p>
-
-<h4>cred_bot1.sh</h4>
-
-<p>The actual version of this would contain real credential information.  The actual version would be developer-specific and not in version control.</p>
-
-<p>```bash</p>
-
-<h1>!/bin/bash -v</h1>
-
-<p>export access_key="access_key"
-export secret_key="secret_key"
-export keyname="keyname"</p>
-
-<p>echo $access_key > /root/nodeinfo/access_key.txt
-echo $secret_key > /root/nodeinfo/secret_key.txt
-echo $keyname > /root/nodeinfo/keyname.txt</p>
-
-<p>cat >> /root/.s3cfg &lt;&lt;EOS
-[default]
-access_key = $access_key
-secret_key = $secret_key</p>
-
-<p>EOS
-```</p>
-
-<h4>centos7a_boot1.sh</h4>
-
-<p>This script mirrors most of how EC2 works: we need this machine to be able to checkout a repository from GitHub but
-we only have Amazon credentials.  So we put the full credentials into S3 and check them out.  Then we can clone
-the 'repo2' provisioning repo and go from there.</p>
-
-<p>```bash</p>
-
-<h1>!/bin/bash -v</h1>
-
-<p>yum -y install git</p>
-
-<p>echo 'Fetch s3cmd to get credentials'
-mkdir /root/download/
-pushd /root/download/
-git clone git://github.com/s3tools/s3cmd.git
-cd s3cmd
-git checkout a91c40fcd14772fa48297e676c8c6efa1aabc3c0
-python --version
-python setup.py install
-mkdir /root/bin/
-mv /root/download/s3cmd /root/bin/s3cmd
-popd</p>
-
-<p>echo 'Retrieve SSH keys for Github'
-pushd /root/.ssh
-/root/bin/s3cmd/s3cmd --config /root/.s3cfg get s3://gapshaklee/it/key/shakbot1key2/<em>
-chmod 600 id</em>
-cd /root
-ssh -v -o StrictHostKeyChecking=no -T git@github.com</p>
-
-<p>mkdir /root/gitrepo
-cd /root/gitrepo
-git clone git@github.com:shaklee/<code>cat /root/nodeinfo/initgitrepo.txt</code>.git</p>
-
-<p>cd /root/gitrepo/<code>cat /root/nodeinfo/initgitrepo.txt</code>
-include () { if [[ -f \"$1\" ]]; then source \"$1\"; else echo \"Skipped missing: $1\"; fi }
-include it/nodeinit/common/init.sh</p>
-
-<h1>Zzzzz....</h1>
-
-<p>```</p>
-
-<h4>Directory Layout</h4>
-
-<p>An image of the directory structure is below.  The little-meaning but organized name 'repo2' is augmented with a human suffix 'petulant-cyril'
-to make it unique and memorable. 'repo2' is always the first operations repo and 'repo3' is always the first development repo.
-The suffix is generated by GitHub or other name generators.</p>
-
-<p>The layout of the directory contains a few things:</p>
-
-<ul>
-<li> A 'bin' that contains scripts that can be run within this repository.  The 'deflateAll.sh' script is important enough to be put in the root, but the rest are inside 'bin'.</li>
-<li> All things other than the README and deflatAll should be in consistent subdirectories.  The 's3info' is for the annex.  And 'it' is for everything related to being it.  'src' and 'test' are meaningless at the root level and should not be checked in.</li>
-<li> You can see the 'node' folders.  A 'node' is a virtual server (Chef and others terminology).  'nodeaws' is for aws related node configuration.  'nodeinit' is common.  'nodevag' is for vagrant.  'resource' contains resourceds in general if under 'it' and for something more specific if lower</li>
-<li> folder names are never capitalized or pluralized to avoid inter-operating-system issues.  File names can be any format, but I use augmented CamelCase (with snakes) or snake_case depending on the situation.</li>
-<li> You can see the annexed files in the '/it/resource' folder.  They are all '50 bytes'</li>
-</ul>
-
-
-<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
 ]]></content>
   </entry>
   

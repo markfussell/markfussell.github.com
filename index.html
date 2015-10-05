@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the sixth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="This is the seventh installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-04T01:00:00-07:00" pubdate data-updated="true">Oct 4<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
+
+<h2>Fuller Presence and EC2 Integration</h2>
+
+<p>In the previous part, I went through a very simple but powerful model of &#8216;presence&#8217; using simply GitHub repositories.
+The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
+The second level of presence is to update the state of the node as it changes.  For example, a node goes through
+a few bootstrap steps:</p>
+
+<ul>
+<li> presetup – The node before any updates are possible (no ability to change status)</li>
+<li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
+<li> setup_done – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
+</ul>
+
+
+<p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
+our federation!  Later we will add a logging part that has timestamps so if a machine is a zombie for too long
+we will simply kill it and hope the next node comes up better.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-7/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -622,57 +684,6 @@ Git can help out with a lot of this, with several big benefits.  Some examples:<
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-annex/">Being a Git About Everything (Annexing)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-13T18:16:00-08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Dealing with Binary Files</h2>
-
-<p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
-versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
-
-<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
-&#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-annex/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -698,6 +709,10 @@ versions of 10MB files will produce gigabytes worth of data that must be cloned 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/add-6/">Advanced Development and Delivery (ADD) [Part-6]</a>
       </li>
     
@@ -713,15 +728,11 @@ versions of 10MB files will produce gigabytes worth of data that must be cloned 
         <a href="/blog/add-3/">Advanced Development and Delivery (ADD) [Part-3]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-2/">Advanced Development and Delivery (ADD) [Part-2]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 121.17647058823529%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 128.23529411764707%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 131.76470588235293%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 138.8235294117647%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 131.76470588235293%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 124.70588235294117%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 131.76470588235293%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 135.29411764705884%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 142.35294117647058%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 135.29411764705884%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>
