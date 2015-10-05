@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-05T10:17:55-07:00</updated>
+  <updated>2015-10-05T10:18:22-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -96,9 +96,9 @@ of concepts are intentionally alphabetically 'sorted' so they appear in the corr
 <p>The ‘stacktype’ of ‘lad1’ in the capture is short for a stack of</p>
 
 <ul>
-<li> Load Balancer</li>
-<li> Application</li>
-<li> Database</li>
+<li>Load Balancer</li>
+<li>Application</li>
+<li>Database</li>
 </ul>
 
 
