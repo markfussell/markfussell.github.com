@@ -1,0 +1,33 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) [Part-7]"
+date: 2015-10-04 1:00
+comments: true
+categories: IT Automation Cloud Git ADD
+---
+
+This is the seventh installment of describing a radically more productive development and delivery environment.
+
+The first part is here: [Intro](/blog/add-1/).  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.
+
+## Fuller Presence and EC2 Integration
+
+In the previous part, I went through a very simple but powerful model of 'presence' using simply GitHub repositories.
+The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
+The second level of presence is to update the state of the node as it changes.  For example, a node goes through
+a few bootstrap steps:
+
+   * presetup – The node before any updates are possible (no ability to change status)
+   * setup – The beginning of the 'setup' phase where the node is alive enough to change it's status
+   * setup_done – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is
+
+A node getting to 'setup' is pretty important: before that it may be a zombie!  And we don't want zombie's in
+our federation!  Later we will add a logging part that has timestamps so if a machine is a zombie for too long
+we will simply kill it and hope the next node comes up better.
+
+<!-- more -->
+
+
+
+
