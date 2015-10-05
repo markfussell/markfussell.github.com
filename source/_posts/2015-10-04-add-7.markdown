@@ -20,13 +20,55 @@ a few bootstrap steps:
 
    * presetup – The node before any updates are possible (no ability to change status)
    * setup – The beginning of the 'setup' phase where the node is alive enough to change it's status
-   * setup_done – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is
+   * initdone – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is
 
 A node getting to 'setup' is pretty important: before that it may be a zombie!  And we don't want zombie's in
-our federation!  Later we will add a logging part that has timestamps so if a machine is a zombie for too long
-we will simply kill it and hope the next node comes up better.
+our federation!
 
 <!-- more -->
+
+So far for the ADD we now have four resources within which track node states:
+
+   * On the node (say '/root/log' or '/root/nodeinfo/state.txt)
+   * Within the presence system
+   * Within HipChat
+   * On EC2 itself
+
+I recommend using _all_ of them.
+
+### On node
+
+ On the node is very helpful in that it is isolated from any other failures.  You
+ can 'tail' the logs or 'cat' the state file.  This tangibility helps understand things and debug if there is failure.
+
+### Within Presence
+
+ Within the presence system is the most powerful and flexible.  It is easy to see history and all the activity of your
+ nodegrid.  And the nodegrid can use the presence system to figure out what nodes are present and in full 'working'
+ mode.
+
+### HipChat
+
+ Within HipChat lets everyone see and talk about the changes.  It can get noisy though, so you need
+ to separate the 'chatty' state changes from the 'critical' ones.  An example of 'critical' is when a machine realizes
+ it is broken.  It is running the cron job, but something is wrong and it can tell that the 'work' is not completable.
+ I call this being 'wedged'.  If a machine is 'wedged', it should tell people and then we can work on improving its
+ DNA so it can unwedge itself in the future.  And then kill the machine.
+
+### EC2
+
+ By using EC2 tags you can leverage the EC2 dashboard.  I view 'tags' as read-only because the ADD should not get
+ attached (be dependent) on EC2, but it is helpful for visibility.
+
+### Examples
+
+ The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
+ killing the existing two instances: the AutoScalingGroup automatically replaced them.
+
+
+
+
+
 
 
 
