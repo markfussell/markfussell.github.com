@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-05T09:47:58-07:00</updated>
+  <updated>2015-10-05T09:58:30-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -90,6 +90,10 @@ killing the existing two instances: the AutoScalingGroup automatically replaced 
 of concepts are intentionally alphabetically 'sorted' so they appear in the correct column.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-7/add7_ec2_cv1b.png" /></p>
+
+<h4>Working viewed within HipChat</h4>
+
+<p><img src="http://markfussell.emenar.com/images/add-7/add7_hipchat_cv1.png" /></p>
 ]]></content>
   </entry>
   
