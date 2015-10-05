@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-04T19:02:57-07:00</updated>
+  <updated>2015-10-05T09:35:38-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -33,18 +33,56 @@ a few bootstrap steps:</p>
 <ul>
 <li> presetup – The node before any updates are possible (no ability to change status)</li>
 <li> setup – The beginning of the 'setup' phase where the node is alive enough to change it's status</li>
-<li> setup_done – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is</li>
+<li> initdone – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is</li>
 </ul>
 
 
 <p>A node getting to 'setup' is pretty important: before that it may be a zombie!  And we don't want zombie's in
-our federation!  Later we will add a logging part that has timestamps so if a machine is a zombie for too long
-we will simply kill it and hope the next node comes up better.</p>
+our federation!</p>
 
 <!-- more -->
 
 
+<p>So far for the ADD we now have four resources within which track node states:</p>
 
+<ul>
+<li> On the node (say '/root/log' or '/root/nodeinfo/state.txt)</li>
+<li> Within the presence system</li>
+<li> Within HipChat</li>
+<li> On EC2 itself</li>
+</ul>
+
+
+<p> I recommend using <em>all</em> of them.</p>
+
+<p> ### On node</p>
+
+<p> On the node is very helpful in that it is isolated from any other failures.  You
+ can 'tail' the logs or 'cat' the state file.  This tangibility helps understand things and debug if there is failure.</p>
+
+<p> ### Within Presence</p>
+
+<p> Within the presence system is the most powerful and flexible.  It is easy to see history and all the activity of your
+ nodegrid.  And the nodegrid can use the presence system to figure out what nodes are present and in full 'working'
+ mode.</p>
+
+<p> ### HipChat</p>
+
+<p> Within HipChat lets everyone see and talk about the changes.  It can get noisy though, so you need
+ to separate the 'chatty' state changes from the 'critical' ones.  An example of 'critical' is when a machine realizes
+ it is broken.  It is running the cron job, but something is wrong and it can tell that the 'work' is not completable.
+ I call this being 'wedged'.  If a machine is 'wedged', it should tell people and then we can work on improving its
+ DNA so it can unwedge itself in the future.  And then kill the machine.</p>
+
+<p> ### EC2</p>
+
+<p> By using EC2 tags you can leverage the EC2 dashboard.  I view 'tags' as read-only because the ADD should not get
+ attached (be dependent) on EC2, but it is helpful for visibility.</p>
+
+<p> ### Examples</p>
+
+<p> The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
+ killing the existing two instances: the AutoScalingGroup automatically replaced them.</p>
 ]]></content>
   </entry>
   

@@ -108,13 +108,12 @@ a few bootstrap steps:</p>
 <ul>
 <li> presetup – The node before any updates are possible (no ability to change status)</li>
 <li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
-<li> setup_done – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
+<li> initdone – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
 </ul>
 
 
 <p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
-our federation!  Later we will add a logging part that has timestamps so if a machine is a zombie for too long
-we will simply kill it and hope the next node comes up better.</p>
+our federation!</p>
 
 </div>
   
