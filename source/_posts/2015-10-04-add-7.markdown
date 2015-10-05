@@ -62,8 +62,34 @@ I recommend using _all_ of them.
 
 ### Examples
 
- The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
- killing the existing two instances: the AutoScalingGroup automatically replaced them.
+The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
+killing the existing two instances: the AutoScalingGroup automatically replaced them.
+
+#### Launching viewed within EC2 Dashboard
+
+Nicely the 'add:' prefix makes all the properties that are most important appear on the left.  Some of the names
+of concepts are intentionally alphabetically 'sorted' so they appear in the correct column.
+
+<img src="/images/add-7/add7_ec2_cv1b.png" />
+
+Click here: <a target="add7_ec2_cv1b" href="/images/add-7/add7_ec2_cv1b.png" >add7_ec2_cv1b</a> to expand.
+
+The ‘stacktype’ of ‘lad1’ in the capture is short for a stack of
+
+  * Load Balancer
+  * Application
+  * Database
+
+
+#### Working viewed within HipChat
+
+<img src="/images/add-7/add7_hipchat_cv1.png" />
+
+#### Working viewed within Presence / SourceTree
+
+<img src="/images/add-7/add7_presence_cv1.png" />
+
+
 
 
 
