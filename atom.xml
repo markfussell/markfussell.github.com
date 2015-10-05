@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-05T09:35:38-07:00</updated>
+  <updated>2015-10-05T09:40:46-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -53,20 +53,20 @@ our federation!</p>
 </ul>
 
 
-<p> I recommend using <em>all</em> of them.</p>
+<p>I recommend using <em>all</em> of them.</p>
 
-<p> ### On node</p>
+<h3>On node</h3>
 
 <p> On the node is very helpful in that it is isolated from any other failures.  You
  can &#8216;tail&#8217; the logs or &#8216;cat&#8217; the state file.  This tangibility helps understand things and debug if there is failure.</p>
 
-<p> ### Within Presence</p>
+<h3>Within Presence</h3>
 
 <p> Within the presence system is the most powerful and flexible.  It is easy to see history and all the activity of your
  nodegrid.  And the nodegrid can use the presence system to figure out what nodes are present and in full &#8216;working&#8217;
  mode.</p>
 
-<p> ### HipChat</p>
+<h3>HipChat</h3>
 
 <p> Within HipChat lets everyone see and talk about the changes.  It can get noisy though, so you need
  to separate the &#8216;chatty&#8217; state changes from the &#8216;critical&#8217; ones.  An example of &#8216;critical&#8217; is when a machine realizes
@@ -74,12 +74,12 @@ our federation!</p>
  I call this being &#8216;wedged&#8217;.  If a machine is &#8216;wedged&#8217;, it should tell people and then we can work on improving its
  DNA so it can unwedge itself in the future.  And then kill the machine.</p>
 
-<p> ### EC2</p>
+<h3>EC2</h3>
 
 <p> By using EC2 tags you can leverage the EC2 dashboard.  I view &#8216;tags&#8217; as read-only because the ADD should not get
  attached (be dependent) on EC2, but it is helpful for visibility.</p>
 
-<p> ### Examples</p>
+<h3>Examples</h3>
 
 <p> The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
  killing the existing two instances: the AutoScalingGroup automatically replaced them.</p>
