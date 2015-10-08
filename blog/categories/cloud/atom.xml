@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T13:36:49-07:00</updated>
+  <updated>2015-10-08T13:38:51-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -39,7 +39,13 @@ over to the 'app' nodes so they can process it.</p>
 
 <p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
 
+<p>As of this writing, repo4 looks like this:</p>
+
 <p><img src="http://markfussell.emenar.com/images/add-9/add9_all.png" /></p>
+
+<p>And the live hipchat still looks like this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
 ]]></content>
   </entry>
   
