@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:29:28-07:00</updated>
+  <updated>2015-10-08T12:30:46-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -146,13 +146,13 @@ But are they what they say they are?</p>
 <h2>Being the 'user', fixing the 'user'</h2>
 
 <p>If you use the script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
-During 'boot' there is no user to confirm anything.  So you the 'yum' fails although the repository is there.
+During 'boot' there is no user to confirm anything.  So the 'yum' fails although the yum repository is there (the user is 'root' so it has permission).
 The three annoying issues in automation:</p>
 
 <ul>
 <li> The user could be different from the user you think it is (say 'ec2' vs. 'root')</li>
 <li> The user is not interactive</li>
-<li> The user did not "launch a login shell" and so some launch things that happen for you did not happen to them.</li>
+<li> The user did not "launch a login shell" and so some launch things that happen for you did not happen for them.</li>
 </ul>
 
 
