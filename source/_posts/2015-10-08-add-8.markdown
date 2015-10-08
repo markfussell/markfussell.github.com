@@ -1,0 +1,180 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) [Part-8]"
+date: 2015-10-08 1:00
+comments: true
+categories: IT Automation Cloud Git ADD
+---
+
+This is the eighth installment of describing a radically more productive development and delivery environment.
+
+The first part is here: [Intro](/blog/add-1/).  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.
+
+## Configuring Node Parts and even fuller Presence and visibility
+
+So far our node was a generic 'ControlNode'.  A ControlNode is a node that is in your data center
+(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
+It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
+start configuring a database node.  You launch and login to a ControlNode and then try to install a database
+(for example Maria).
+
+<!-- more -->
+
+```bash
+cat > /etc/yum.repos.d/mariadb10.repo <<EOS
+# MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC
+# http://mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOS
+
+yum install MariaDB-server MariaDB-client
+```
+
+Assuming you changed to root for the instance:
+
+```bash
+sudo bash
+```
+
+This works!  After confirming some things along the way...
+
+OK, so now we want to have our database servers install MariaDB.  We first need an 'installMaria' script with the above
+in it.  Say
+
+### installMaria10.sh
+
+```bash
+#!/bin/bash
+#================================================
+#=== Java
+#================================================
+
+cat > /etc/yum.repos.d/mariadb10.repo <<EOS
+# MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC
+# http://mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOS
+
+yum install MariaDB-server MariaDB-client
+```
+
+### adding init
+
+And unless you want every node to install Maria, you need to add an 'init' for the type of node we are dealing with.
+In our case, the StackType is 'lad1' (Load,App,Db,1) and the node type / part is 'db1'.
+
+So we get this hierarchy:
+
+<img src="/images/add-8/add8_hierarchy1.png" />
+
+
+And the content of the 'init.sh' file is simply:
+```bash
+#!/bin/bash
+
+#====================================================
+#=== fed1/db1
+#====================================================
+
+bash ${COMMON}/installMaria10.sh
+
+```
+
+### CloudFormation
+
+We have a new CloudFormation named 'awscf4_Fed1Db1' with the simple change of the nodepart being 'db1'
+
+```json
+    "TemplateConstant" : {
+      "stacktype" : { "value" : "lad1" },
+      "initgitrepo" : { "value" : "repo2_petulant-cyril" },
+      "nodepart" : { "value" : "db1" },
+      "state" : { "value" : "presetup" },
+      "statetss" : { "value" : "" },
+      "statelog" : { "value" : "" },
+      "deployment" : { "value" : "fed1" }
+    },
+```
+
+### Demo or Die!
+
+Since the previous presence description, the presence system has upped itself and now nodes check-in with
+more information than before.  After launcher two 'app' and one 'db' stack we get this:
+
+<img src="/images/add-8/add8_demo1.png" />
+
+So clearly our nodes know how they are, what deployment they are in, and what the 'part' in that deployment is.
+But are they what they say they are?
+
+## Being the 'user', fixing the 'user'
+
+If you use the script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
+During 'boot' there is no user to confirm anything.  So the 'yum' fails although the yum repository is there (the user is 'root' so it has permission).
+The three annoying issues in automation:
+
+   * The user could be different from the user you think it is (say 'ec2' vs. 'root')
+   * The user is not interactive
+   * The user did not "launch a login shell" and so some launch things that happen for you did not happen for them.
+
+There are trivial and super-effective solutions to all of these, but until you get them right, you can bang your head
+quite a bit.
+
+### Who is the user?  'root'
+
+The user provisioning a machine should always be 'root'.  Yes, 'root' is dangerous.  Because 'root' is powerful.  And
+given (a) if you mess up you simply kill the machine, and (b) everything is from version-controlled source files...
+you can handle that power.  So don't add silly hoops to jump through.  On a ControlNode, immediately 'sudo bash'.
+And if for some reason the default user isn't 'root' in a launch or cron script, 'su root' or 'sudo bash' to fix that.
+
+### Is the user interactive? 'no'
+
+We are doing production automation that is designed to scale into thousands of machines.  No one is going to answer
+questions for thousands of machines.  That is not 'scalable' or at all valuable.  You should always know all the
+answers when a machine launches.  So script any UI that really requires some value put in, or use the variant of
+a command that has default answers.
+
+The true script for 'installMaria' has this line.
+
+```bash
+yes | yum -y install MariaDB-server MariaDB-client
+```
+
+The 'yum -y' _should_ never ask any questions.  But just in case it does, I give it a 'y' for every answer.  If you
+are testing something and get a question, check if it has a flag like '-y'
+
+<img src="/images/add-8/add8_yes.png" />
+
+### Has the user launch as a login shel? 'yes'
+
+Since getting on a machine without 'logging in' is quite a bit more painful than 'ssh' into the machine, just make sure
+any 'init' and 'work' script has read the files a login shell would automatically read.
+
+A simple 'source /root/.bashrc' fixes the problem immediately
+
+```bash
+#========================================
+#=== Do the work for this repository
+#========================================
+
+source /root/.bashrc
+...
+```
+
+## Node Work
+
+Just like the 'init' hierarchy, the 'db1' nodes can have their own work items to do regularly by simply adding the 'work.sh'
+into the hierarchy:
+
+<img src="/images/add-8/add8_hierarchy2.png" />
+
+
+
