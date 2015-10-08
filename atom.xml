@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T14:26:19-07:00</updated>
+  <updated>2015-10-08T14:37:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -38,6 +38,9 @@ over to the &#8216;app&#8217; nodes so they can process it.</p>
 <p>But wait?  All nodes have &#8216;repo4&#8217; for writing?  Don&#8217;t they already have everything in &#8216;repo4&#8217; for reading as well?</p>
 
 <p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
+
+<!-- more -->
+
 
 <p>As of this writing, repo4 looks like this:</p>
 
