@@ -118,6 +118,92 @@ over to the &#8216;app&#8217; nodes so they can process it.</p>
 <p>And the live hipchat still looks like this:</p>
 
 <p><img src="/images/add-8/add8_demo1.png" /></p>
+
+<p>So the DB server is definitely there:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>i-4e7cb59a:fed1/db1: Launched!</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the information is there:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;filetype&quot;</span><span class="p">:</span> <span class="s2">&quot;nodepresence&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;deployment&quot;</span><span class="p">:</span> <span class="s2">&quot;fed1&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;initgitrepo&quot;</span><span class="p">:</span> <span class="s2">&quot;repo2_petulant-cyril&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;instance-id&quot;</span><span class="p">:</span> <span class="s2">&quot;i-4e7cb59a&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;nodepart&quot;</span><span class="p">:</span> <span class="s2">&quot;db1&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;stacktype&quot;</span><span class="p">:</span> <span class="s2">&quot;lad1&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;done&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;statelog&quot;</span><span class="p">:</span> <span class="s2">&quot;setup:20151008-174646;initdone:20151008-174830;&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;statetss&quot;</span><span class="p">:</span> <span class="s2">&quot;20151008-174830&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So the only issue is for nodes to &#8216;find their partners&#8217;</p>
+
+<h3>Finding the partners</h3>
+
+<p>By the HipChat there are only three nodes alive, so problem one is finding live nodes vs. dead nodes.  There are
+two levels to that:</p>
+
+<ul>
+<li> Finding plausibly live nodes</li>
+<li> Finding truly awake nodes</li>
+</ul>
+
+
+<p>The simplest approach to the first is to make sure there is some kind of heartbeat within &#8216;statetss&#8217;.  Every-minute
+is clearly possible, but a bit noisy if done in the main part of repo4.  It would be nice to not to see the heartbeat
+block out the actual state change information that is already there. An interesting alternative is to &#8216;flatten time&#8217;
+and have an alternative branch that stores information as &#8216;it/presence/flattime/timestamp&#8217;.  Or given we are storing
+the information differently, we could use the main branch and just change the comment to mention &#8216;flattime&#8217;.
+Yes, the information in the files would not change very often.  But Git stores files separate from paths,
+so there is very little overhead to adding new paths to identical files.</p>
+
+<h3>Time flattened</h3>
+
+<p>repo4 has folder under &#8216;presence&#8217; called &#8216;flattime&#8217; which contains the presence information where every checkin is a new path.
+To keep things manageable the timestamp is complete &#8216;YYYYMMDDHHMM&#8217;, but year/month/day/hour/ is used to organize it.
+Seconds are not used because we want everything to be together and there is no guarantee the seconds would match
+between machines.</p>
+
+<p>Looking at a few minutes of time, we get something like this:</p>
+
+<p><img src="/images/add-9/add9_flattime1.png" /></p>
+
+<p>The files change a bit because the machines are switching states and at the &#8216;capture&#8217; moment could be in almost any state
+of their &#8216;state machine&#8217;.</p>
+
+<h3>How precise?</h3>
+
+<p>So this is quite precise in time and you could certainly slow it down.  Sometimes providers get annoyed if you use
+git this way, but the software itself is thoroughly comfortable with it.  You can get some impressive merge graphs
+as the machine count goes up.</p>
+
+<p><img src="/images/add-9/add9_merge1.png" /></p>
+
+<p>So making things less often and more jittered will help alleviate some stress.  Since
+this is only the first stage of presence (what exists and is plausibly alive), we will deal with stale data in the
+second stage.</p>
 </div>
 
 
