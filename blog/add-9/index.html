@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Rails - Polyglot</title>
+  <title>Advanced Development and Delivery (ADD) [Part-9] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="Category: Rails">
+  <meta name="description" content="This is the ninth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.comblog/categories/rails/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-9/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,50 +63,112 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Rails</h1>
+    
+      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-9]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-08T02:00:00-07:00" pubdate data-updated="true">Oct 8<span>th</span>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>This is the ninth installment of describing a radically more productive development and delivery environment.</p>
 
-  
-  <h2>2008</h2>
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, and configuring nodes.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-ruby-part-7/">A Taste of Ruby (Part 7)</a></h1>
-<time datetime="2008-09-03T02:28:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>03</span> <span class='year'>2008</span></time>
+<h2>Using Presence for configuration</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a></span>
-</footer>
+<p>So far, presence has been just information that &#8216;humans&#8217; consume.  It shows up on dashboards, in chat rooms, and so on,
+but nothing has acted upon it.  Until now!</p>
 
+<p>We have &#8216;app&#8217; and &#8216;db&#8217; nodes.  Clearly the &#8216;app&#8217; nodes need to find the &#8216;db&#8217; nodes or the app is not going to be
+able to persist much.  The &#8216;db&#8217; here happens to be &#8216;Maria&#8217; but it could be anything from a single DB node to a
+cluster of Riak nodes.  At the moment, I just want to get the information that a &#8216;db&#8217; node knows (&#8220;I exist!&#8221;, &#8220;My IP is this!&#8221;)
+over to the &#8216;app&#8217; nodes so they can process it.</p>
 
-</article>
+<h3>It is already there?</h3>
 
+<p>But wait?  All nodes have &#8216;repo4&#8217; for writing?  Don&#8217;t they already have everything in &#8216;repo4&#8217; for reading as well?</p>
 
+<p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-ruby-part-6/">A Taste of Ruby (Part 6)</a></h1>
-<time datetime="2008-09-03T02:18:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>03</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
+<p><img src="/images/add-9/add9_all.png" /></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-08T02:00:00-07:00" pubdate data-updated="true">Oct 8<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-9/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-9/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/add-8/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-8]">&laquo; Advanced Development and Delivery (ADD) [Part-8]</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -204,7 +266,10 @@
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-9/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/add-9/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

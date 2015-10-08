@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:45:10-07:00</updated>
+  <updated>2015-10-08T13:36:49-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-9]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-9/"/>
+    <updated>2015-10-08T02:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-9</id>
+    <content type="html"><![CDATA[<p>This is the ninth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, and configuring nodes.</p>
+
+<h2>Using Presence for configuration</h2>
+
+<p>So far, presence has been just information that 'humans' consume.  It shows up on dashboards, in chat rooms, and so on,
+but nothing has acted upon it.  Until now!</p>
+
+<p>We have 'app' and 'db' nodes.  Clearly the 'app' nodes need to find the 'db' nodes or the app is not going to be
+able to persist much.  The 'db' here happens to be 'Maria' but it could be anything from a single DB node to a
+cluster of Riak nodes.  At the moment, I just want to get the information that a 'db' node knows ("I exist!", "My IP is this!")
+over to the 'app' nodes so they can process it.</p>
+
+<h3>It is already there?</h3>
+
+<p>But wait?  All nodes have 'repo4' for writing?  Don't they already have everything in 'repo4' for reading as well?</p>
+
+<p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-9/add9_all.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-8]]]></title>
@@ -511,290 +541,6 @@ echo "Done the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh -c gree
 that action.  Finally we can have human augmentation like "@Team New version is up on the development server"
 to transform something technical to something more meaningful.  With proper use of colors, the state
 of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-4]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-4/"/>
-    <updated>2015-10-01T03:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-4</id>
-    <content type="html"><![CDATA[<p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
-
-<h2>Node initialization</h2>
-
-<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages 'host' virtual
-disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
-In both cases the very last thing the node does in the bootstrap is:</p>
-
-<p><code>bash
-cd /root/gitrepo/`cat /root/nodeinfo/initgitrepo.txt`
-include () { if [[ -f \"$1\" ]]; then source \"$1\"; else echo \"Skipped missing: $1\"; fi }
-include it/nodeinit/common/init.sh
-</code></p>
-
-<!-- more -->
-
-
-<p>It is an 'include/source' to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
-logging, so continual sourcing is preferred.  In other cases, the 'source' enables sub-scripts to set values for subsequent
-scripts where subshells are more isolated.</p>
-
-<h3>init.sh</h3>
-
-<p>The init script first figures out where it is and sets up some important paths.</p>
-
-<p>```bash</p>
-
-<h1>!/bin/bash</h1>
-
-<h1>===================================================</h1>
-
-<h1>=== Want DIR to be root of the 'nodeinit' directory</h1>
-
-<h1>===================================================</h1>
-
-<p>export DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )/../"
-export RESOURCE=${DIR}/resource
-export COMMON=${DIR}/common
-```</p>
-
-<h3>cron_1m.sh</h3>
-
-<p>It then gets some AWS resources, sets up a shared 'cron', and so on.  I like a single 'cron' job running every minute
-so it is easy to understand what is going on.  This is the 'heartbeat' of the server configuration infrastructure: a
-server can want to change any 'minute'.  They look every minute for something that makes them want to change and
-then they launch an activity.  The look need to be fast: take about a second or two per 'look' and not cause much load.
-But the 'change' does not have to be fast: it could take minutes to reconfigure based on the change.  So while
-changing, the 'looking' is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
-for new WARs when deploying a WAR.  Then starts looking again when it is back online.</p>
-
-<p>At scale (say 100 servers) with servers all on NTP this one-minute rhythm can cause resource rushing.  To
-counter that we need to 'jitter' the servers so they work on a different
-second of the minute, or even as much as minutes later at super-scale (1000 servers).
-That is done within the cron_1m.sh script after the look has established something needs to be done.</p>
-
-<p>```bash
-mkdir -p /root/bin
-cp ${RESOURCE}/cron_1m.sh /root/bin/cron_1m.sh
-chmod +x /root/bin/cron_1m.sh</p>
-
-<p>cat &lt;<EOS > /var/spool/cron/root
-MAILTO=""</p>
-
-<ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li>/root/bin/cron_1m.sh
-EOS
-```</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>More specific initialization</h3>
-
-<p>The above activities are done for any node.  They all need to have heartbeats and some other common resources.
-But beyond that, it depends on the type of node and the type of stack what should be put on a particular node.
-This is done by simple 'includes' with the 'nodeinfo' that came from the configuration.</p>
-
-<p>```bash</p>
-
-<p>include ${DIR}part/<code>cat /root/nodeinfo/nodepart.txt</code>/init.sh
-include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/init.sh
-include ${DIR}stacktype/<code>cat /root/nodeinfo/stacktype.txt</code>/part/<code>cat /root/nodeinfo/nodepart.txt</code>/init.sh</p>
-
-<p>```</p>
-
-<p>You can see the layout in the directory picture.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
-
-<p>As of that picture, no 'part' or 'stacktype' exists.  So a machine that is brought up is simply a heart-beating server,
-but a heart-beating server that can mutate on command every minute.</p>
-
-<h2>What are nodes doing every minute?</h2>
-
-<p>The next cool feature of ADD is that nodes do work based on the state of git repositories.  For any given repository, they
-look for a 'work.sh' file within a 'nodework' directory for either all types of nodes (i.e. common again), or the specific
-type of node they are.  So just like the other 'include' we get:</p>
-
-<p>```bash</p>
-
-<pre><code>        bash_ifexist bin/nodework/common/work.sh
-        bash_ifexist bin/nodework/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
-        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/work.sh
-        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
-</code></pre>
-
-<p>```</p>
-
-<p>where the only change is these are not 'sourced' but executed within a sub-shell since they could do weird things to each other, and
-also this enables them not to block each other (if desired).</p>
-
-<p>All of these 'work' scripts should quickly determine if anything has changed and then release themselves.  While 'work' is going on,
- the main cron script is locked out.</p>
-
-<p>```bash</p>
-
-<pre><code>     if [[ -e ${CURRENT_ACTION_FILE} ]]; then
-         : #Don't do anything until the current action completes
-</code></pre>
-
-<p>```</p>
-
-<h3>work.sh</h3>
-
-<p>The main purpose of 'work.sh' is to detect changes.  Any actual work will be in 'work_ActualWork.sh'.  In reverse, the ActualWork is
-simply:</p>
-
-<p><code>bash
-echo "Doing the work for ${GIT_VERSION}"
-</code></p>
-
-<p>So a one-liner appears in the log for the cron job just to prove the 'ActualWork' was done.</p>
-
-<p>But 'work.sh' has to do a few things (very quickly) to detect if there are changes of relevance.  It stores files in the 'repo/.temp/add'
-directory that keeps track of state.  The example 'work.sh' will detect changes to the repository based on a watched 'path'.  This
-allows multiple things to use the same git repository but be looking at different parts.  By default they look at the root, but it
-can be changed.  No matter what 'path' is watched, the version of the 'work' is always the version of the git repository... not the path itself.
-In total, there are four 'outer' states possible:</p>
-
-<ul>
-<li>The version of the work previously done is identical to the version of git now</li>
-<li>The version of the work previously done is different from the version of git now, but the version of the watched path is the same</li>
-<li>The version of the work previously done is different from the version of git now, and the watched path has changed</li>
-<li>There is no work previously done (the first run of the work)</li>
-</ul>
-
-
-<p>Of the above, only the last two should trigger work.  You can branch differently based on the first run or subsequent runs, but
-generally it is best to be 'idempotent' with the work: you change the state of the server to a new state without caring
-what the previous state is/was.</p>
-
-<p>The 'inner' state issue is the server could already be doing 'ActualWork', so you have to wait until that is done.</p>
-
-<p>The core of the work.sh script is</p>
-
-<p>```bash
-export WORK_VERSION=$ADD_TEMP/work.sh_VERSION
-export WORK_DOING_VERSION=$ADD_TEMP/work.sh_DOING_VERSION
-export WORK_WATCH_PATH=$ADD_TEMP/work.sh_WATCH_PATH.txt</p>
-
-<p>export WORK_WATCH_VALUE=<code>cat $WORK_WATCH_PATH</code>
-export PREV_WORK_VERSION=<code>cat $WORK_VERSION</code></p>
-
-<h1>====================================================</h1>
-
-<h1>=== Now do comparison</h1>
-
-<h1>====================================================</h1>
-
-<p>export GIT_VERSION=<code>git rev-parse HEAD</code></p>
-
-<p>export DETECT_GIT_CHANGE=<code>git log --pretty=oneline ${PREV_WORK_VERSION}..  -- ${WORK_WATCH_VALUE} | awk '{print $1}'</code></p>
-
-<p>echo "Compared ${PREV_WORK_VERSION} to ${GIT_VERSION} for ${WORK_WATCH_VALUE} and got ${DETECT_GIT_CHANGE}"</p>
-
-<p>mkdir -p ${ADD_TEMP}</p>
-
-<p>if [[ -n "${DETECT_GIT_CHANGE}" ]] ;
-then</p>
-
-<pre><code>echo "Detected Change in Git Version!";
-
-if [[ -e ${WORK_DOING_VERSION} ]] ;
-then
-   echo "Already doing `cat ${WORK_DOING_VERSION}`"
-else
-   echo $GIT_VERSION &gt; ${WORK_DOING_VERSION}
-   source ${COMMON}/work_ActualWork.sh
-
-   #Update the state.  This also does a clean startup on first run
-
-   echo $GIT_VERSION &gt; ${WORK_VERSION}
-   echo $WORK_WATCH_VALUE &gt; ${WORK_WATCH_PATH}
-
-   rm -fr ${WORK_DOING_VERSION}
-fi
-</code></pre>
-
-<p>else</p>
-
-<pre><code>echo "No change, move along";
-</code></pre>
-
-<p>fi</p>
-
-<p>```</p>
-
-<h3>Speed!</h3>
-
-<p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the 'git pull'.  With a
-'small' server and a small change, this a single second and basically no load:</p>
-
-<h4>Difference detected: start the work</h4>
-
-<p>```bash
-cron_1m.sh: Start  20151002-013401
-~/gitrepo/repo2_petulant-cyril ~</p>
-
-<p>==> /root/log/cron_1m.sh_error.txt &lt;==
-From github.com:shaklee/repo2_petulant-cyril
-   57f20ff..6f85e76  master     -> origin/master</p>
-
-<p>==> /root/log/cron_1m.sh_log.txt &lt;==
-Updating 57f20ff..6f85e76
-Fast-forward
- bin/nodework/common/work.sh | 2 ++
- 1 file changed, 2 insertions(+)
-Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 6f85e76a507ce599f42762ad7bf4ae639884ae12 for  and got 6f85e76a507ce599f42762ad7bf4ae639884ae12
-Detected Change in Git Version!
-Starting ActualWork at 20151002-013402
-Doing the work for 6f85e76a507ce599f42762ad7bf4ae639884ae12
-```</p>
-
-<h4>Difference detected (but already doing something)</h4>
-
-<p><code>bash
-cron_1m.sh: Start  20151002-012301
-~/gitrepo/repo2_petulant-cyril ~
-Already up-to-date.
-Compared 7916053bb9f8bc3d952588a87a48da96dda7abe6 to 57f20ff734c8836fa34f938bcc540a89bad9215c for  and got 57f20ff734c8836fa34f938bcc540a89bad9215c
-Detected Change in Git Version!
-Already doing 57f20ff734c8836fa34f938bcc540a89bad9215c
-Skipped missing: bin/nodework/part/controlnode/work.sh
-Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
-Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
-~
-cron_1m.sh: Finish 20151002-012302
-</code></p>
-
-<h4>No Difference</h4>
-
-<p><code>bash
-cron_1m.sh: Start  20151002-012801
-~/gitrepo/repo2_petulant-cyril ~
-Already up-to-date.
-Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 57f20ff734c8836fa34f938bcc540a89bad9215c for  and got
-No change, move along
-Skipped missing: bin/nodework/part/controlnode/work.sh
-Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
-Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
-~
-cron_1m.sh: Finish 20151002-012802
-</code></p>
 ]]></content>
   </entry>
   
