@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the eight installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="This is the eighth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
   </header>
 
 
-  <div class="entry-content"><p>This is the eight installment of describing a radically more productive development and delivery environment.</p>
+  <div class="entry-content"><p>This is the eighth installment of describing a radically more productive development and delivery environment.</p>
 
 <p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
 node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
@@ -106,141 +106,12 @@ It is not a critical part of anything, so you can fiddle with it and just throw 
 start configuring a database node.  You launch and login to a ControlNode and then try to install a database
 (for example Maria).</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat &gt; /etc/yum.repos.d/mariadb10.repo <span class="s">&lt;&lt;EOS</span>
-</span><span class='line'><span class="s"># MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</span>
-</span><span class='line'><span class="s"># http://mariadb.org/mariadb/repositories/</span>
-</span><span class='line'><span class="s">[mariadb]</span>
-</span><span class='line'><span class="s">name = MariaDB</span>
-</span><span class='line'><span class="s">baseurl = http://yum.mariadb.org/10.0/centos7-amd64</span>
-</span><span class='line'><span class="s">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span>
-</span><span class='line'><span class="s">gpgcheck=1</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'>yum install MariaDB-server MariaDB-client
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Assuming you changed to root for the instance:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo bash
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works!  After confirming some things along the way&#8230;</p>
-
-<p>OK, so now we want to have our database servers install MariaDB.  We first need an &#8216;installMaria&#8217; script with the above
-in it.  Say</p>
-
-<h3>installMaria10.sh</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'><span class="c">#=== Java</span>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'>
-</span><span class='line'>cat &gt; /etc/yum.repos.d/mariadb10.repo <span class="s">&lt;&lt;EOS</span>
-</span><span class='line'><span class="s"># MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</span>
-</span><span class='line'><span class="s"># http://mariadb.org/mariadb/repositories/</span>
-</span><span class='line'><span class="s">[mariadb]</span>
-</span><span class='line'><span class="s">name = MariaDB</span>
-</span><span class='line'><span class="s">baseurl = http://yum.mariadb.org/10.0/centos7-amd64</span>
-</span><span class='line'><span class="s">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span>
-</span><span class='line'><span class="s">gpgcheck=1</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'>yum install MariaDB-server MariaDB-client
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>adding init</h3>
-
-<p>And unless you want every node to install Maria, you need to add an &#8216;init&#8217; for the type of node we are dealing with.
-In our case, the StackType is &#8216;lad1&#8217; (Load,App,Db,1) and the node type / part is &#8216;db1&#8217;.</p>
-
-<p>So we get this hierarchy:</p>
-
-<p><img src="/images/add-8/add8_hierarchy1.png" /></p>
-
-<p>And the content of the &#8216;init.sh&#8217; file is simply:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'><span class="c">#=== fed1/db1</span>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'>
-</span><span class='line'>bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/installMaria10.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CloudFormation</h3>
-
-<p>We have a new CloudFormation named &#8216;awscf4_Fed1Db1&#8217; with the simple change of the nodepart being &#8216;db1&#8217;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;TemplateConstant&quot;</span> <span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;stacktype&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;lad1&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;initgitrepo&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo2_petulant-cyril&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;nodepart&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;db1&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;state&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;presetup&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;statetss&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;statelog&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;deployment&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;fed1&quot;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="err">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Demo or Die!</h3>
-
-<p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
-more information than before.  After launcher two &#8216;app&#8217; and one &#8216;db&#8217; stack we get this:</p>
-
-<p><img src="/images/add-8/add8_demo1.png" /></p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-8/">Read on &rarr;</a>
+    </footer>
   
 
 
