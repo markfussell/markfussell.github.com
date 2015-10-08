@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:23:58-07:00</updated>
+  <updated>2015-10-08T12:29:28-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -214,6 +214,35 @@ a command that has default answers.</p>
 are testing something and get a question, check if it has a flag like &#8216;-y&#8217;</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_yes.png" /></p>
+
+<h3>Has the user launch as a login shel? &#8216;yes&#8217;</h3>
+
+<p>Since getting on a machine without &#8216;logging in&#8217; is quite a bit more painful than &#8216;ssh&#8217; into the machine, just make sure
+any &#8216;init&#8217; and &#8216;work&#8217; script has read the files a login shell would automatically read.</p>
+
+<p>A simple &#8216;source /root/.bashrc&#8217; fixes the problem immediately</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#========================================</span>
+</span><span class='line'><span class="c">#=== Do the work for this repository</span>
+</span><span class='line'><span class="c">#========================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">source</span> /root/.bashrc
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Node Work</h2>
+
+<p>Just like the &#8216;init&#8217; hierarchy, the &#8216;db1&#8217; nodes can have their own work items to do regularly by simply adding the &#8216;work.sh&#8217;
+into the hierarchy:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy2.png" /></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:23:58-07:00</updated>
+  <updated>2015-10-08T12:29:28-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -183,6 +183,32 @@ yes | yum -y install MariaDB-server MariaDB-client
 are testing something and get a question, check if it has a flag like '-y'</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_yes.png" /></p>
+
+<h3>Has the user launch as a login shel? 'yes'</h3>
+
+<p>Since getting on a machine without 'logging in' is quite a bit more painful than 'ssh' into the machine, just make sure
+any 'init' and 'work' script has read the files a login shell would automatically read.</p>
+
+<p>A simple 'source /root/.bashrc' fixes the problem immediately</p>
+
+<p>```bash</p>
+
+<h1>========================================</h1>
+
+<h1>=== Do the work for this repository</h1>
+
+<h1>========================================</h1>
+
+<p>source /root/.bashrc
+...
+```</p>
+
+<h2>Node Work</h2>
+
+<p>Just like the 'init' hierarchy, the 'db1' nodes can have their own work items to do regularly by simply adding the 'work.sh'
+into the hierarchy:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy2.png" /></p>
 ]]></content>
   </entry>
   
