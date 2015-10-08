@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-05T10:18:22-07:00</updated>
+  <updated>2015-10-08T12:09:41-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-8]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-8/"/>
+    <updated>2015-10-08T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-8</id>
+    <content type="html"><![CDATA[<p>This is the eight installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
+
+<h2>Configuring Node Parts and even fuller Presence and visibility</h2>
+
+<p>So far our node was a generic 'ControlNode'.  A ControlNode is a node that is in your data center
+(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
+It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
+start configuring a database node.  You launch and login to a ControlNode and then try to install a database
+(for example Maria).</p>
+
+<p>```bash
+cat > /etc/yum.repos.d/mariadb10.repo &lt;&lt;EOS</p>
+
+<h1>MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</h1>
+
+<h1>http://mariadb.org/mariadb/repositories/</h1>
+
+<p>[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOS</p>
+
+<p>yum install MariaDB-server MariaDB-client
+```</p>
+
+<p>Assuming you changed to root for the instance:</p>
+
+<p><code>bash
+sudo bash
+</code></p>
+
+<p>This works!  After confirming some things along the way...</p>
+
+<p>OK, so now we want to have our database servers install MariaDB.  We first need an 'installMaria' script with the above
+in it.  Say</p>
+
+<h3>installMaria10.sh</h3>
+
+<p>```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>================================================</h1>
+
+<h1>=== Java</h1>
+
+<h1>================================================</h1>
+
+<p>cat > /etc/yum.repos.d/mariadb10.repo &lt;&lt;EOS</p>
+
+<h1>MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</h1>
+
+<h1>http://mariadb.org/mariadb/repositories/</h1>
+
+<p>[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+EOS</p>
+
+<p>yum install MariaDB-server MariaDB-client
+```</p>
+
+<h3>adding init</h3>
+
+<p>And unless you want every node to install Maria, you need to add an 'init' for the type of node we are dealing with.
+In our case, the StackType is 'lad1' (Load,App,Db,1) and the node type / part is 'db1'.</p>
+
+<p>So we get this hierarchy:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy1.png" /></p>
+
+<p>And the content of the 'init.sh' file is simply:
+```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>====================================================</h1>
+
+<h1>=== fed1/db1</h1>
+
+<h1>====================================================</h1>
+
+<p>bash ${COMMON}/installMaria10.sh</p>
+
+<p>```</p>
+
+<h3>CloudFormation</h3>
+
+<p>We have a new CloudFormation named 'awscf4_Fed1Db1' with the simple change of the nodepart being 'db1'</p>
+
+<p>```json</p>
+
+<pre><code>"TemplateConstant" : {
+  "stacktype" : { "value" : "lad1" },
+  "initgitrepo" : { "value" : "repo2_petulant-cyril" },
+  "nodepart" : { "value" : "db1" },
+  "state" : { "value" : "presetup" },
+  "statetss" : { "value" : "" },
+  "statelog" : { "value" : "" },
+  "deployment" : { "value" : "fed1" }
+},
+</code></pre>
+
+<p>```</p>
+
+<h3>Demo or Die!</h3>
+
+<p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
+more information than before.  After launcher two 'app' and one 'db' stack we get this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-7]]]></title>
@@ -595,140 +721,6 @@ Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
 ~
 cron_1m.sh: Finish 20151002-012802
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-3]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-3/"/>
-    <updated>2015-10-01T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-3</id>
-    <content type="html"><![CDATA[<p>This is the third installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the
-first part of the Vagrant bootstrap.</p>
-
-<h2>EC2</h2>
-
-<p>The Vagrant bootstrap occurred through 'bash' files that shaped (put shape information into files) and
-the 'init' itself to get access to the repo (repo2) that contains the true configuration.  For EC2
-the same thing happens within a CloudFormation template.  The code of the 'init' is almost identical, but because
-it is in a JSON file there is a lot of noise as the string gets concatenated together.</p>
-
-<!-- more -->
-
-
-<h3>Shaping</h3>
-
-<p>```json</p>
-
-<pre><code>"TemplateConstant" : {
-  "stacktype" : { "value" : "ControlServer1" },
-  "initgitrepo" : { "value" : "repo2_petulant-cyril" },
-  "nodepart" : { "value" : "controlnode" }
-},
-</code></pre>
-
-<p>```</p>
-
-<p>```json</p>
-
-<pre><code>        "files" : {
-          "/root/nodeinfo/stacktype.txt" : {
-            "content" : { "Fn::Join" : ["", [
-              { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] },
-              ""
-            ]]},
-            "mode"  : "000700",
-            "owner" : "root",
-            "group" : "root"
-          },
-          "/root/nodeinfo/initgitrepo.txt" : {
-            "content" : { "Fn::Join" : ["", [
-              { "Fn::FindInMap" : [ "TemplateConstant", "initgitrepo", "value" ] },
-              ""
-            ]]},
-            "mode"  : "000700",
-            "owner" : "root",
-            "group" : "root"
-          },
-</code></pre>
-
-<p>```</p>
-
-<h3>Init</h3>
-
-<p>```json</p>
-
-<pre><code>    "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
-      "#!/bin/bash -v\n",
-      "yum update -y aws-cfn-bootstrap\n",
-
-      "# Helper function\n",
-      "function error_exit\n",
-      "{\n",
-      "  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
-      "  exit 1\n",
-      "}\n",
-
-      "# Install LAMP packages\n",
-      "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r PrimaryLaunchConfig ",
-      "    --access-key ",  { "Ref" : "HostKeys" },
-      "    --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},
-      "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
-
-      "yum -y install git \n",
-
-      "echo 'Fetch s3cmd to get credentials' \n",
-      "mkdir /root/download/ \n",
-      "pushd /root/download/ \n",
-      "git clone git://github.com/s3tools/s3cmd.git \n",
-</code></pre>
-
-<p>```</p>
-
-<h3>Launching and Clusters</h3>
-
-<p>A CloudFormation can provision a single server, but it is used more for clusters.  Instead of creating a server, we create
-a server definition and then say how many servers we want.  The 'PrimaryServerGroup' defines this:</p>
-
-<p>```json</p>
-
-<pre><code>"PrimaryServerGroup" : {
-  "Type" : "AWS::AutoScaling::AutoScalingGroup",
-  "Properties" : {
-    "Tags": [
-      { "Key": "add:stacktype", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] }, "PropagateAtLaunch" : "true" },
-      { "Key": "add:nodepart", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, "PropagateAtLaunch" : "true" }
-    ],
-    "AvailabilityZones" : { "Fn::GetAZs" : "" },
-    "LaunchConfigurationName" : { "Ref" : "PrimaryLaunchConfig" },
-    "MinSize" : "1",
-    "MaxSize" : "1",
-    "DesiredCapacity" : "1"
-  }
-},
-</code></pre>
-
-<p>```</p>
-
-<p>Note that it ends with '1', '1', '1' meaning this is just a single server.  But those numbers can be changed at any time.</p>
-
-<p>Given the DesiredCapacity is '1', if you ever kill a server, a new one will be spun up.</p>
-
-<h3>EC2 Keypairs</h3>
-
-<p>Another difference of the EC2 model is that EC2 holds onto the keypair that is used for logging into it.  So that information
-doesn't need to be exposed.  And further, the EC2 version creates a special 'IAM' agent for the machine.</p>
-
-<h3>EC2 Dashboard</h3>
-
-<p>The dashboard shows some standard EC2 properties along with the add:stacktype and add:nodepart.  The nodepart shows the
-kind of node it is (say a load-balancer vs. a game server) and is used within the bootstrap to put the right software
-onto the machine.  The 'nodepart' and the 'stacktype' are the core DNA switches of a server.  Later we will add in
-'federation' which primarily configures the size of the node (e.g. no 'small' in production)</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-3/add3_ec2_cv1.png" /></p>
 ]]></content>
   </entry>
   

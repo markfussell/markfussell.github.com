@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the seventh installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="This is the eight installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,187 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-8/">Advanced Development and Delivery (ADD) [Part-8]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-08T01:00:00-07:00" pubdate data-updated="true">Oct 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the eight installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
+
+<h2>Configuring Node Parts and even fuller Presence and visibility</h2>
+
+<p>So far our node was a generic &#8216;ControlNode&#8217;.  A ControlNode is a node that is in your data center
+(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
+It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
+start configuring a database node.  You launch and login to a ControlNode and then try to install a database
+(for example Maria).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat &gt; /etc/yum.repos.d/mariadb10.repo <span class="s">&lt;&lt;EOS</span>
+</span><span class='line'><span class="s"># MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</span>
+</span><span class='line'><span class="s"># http://mariadb.org/mariadb/repositories/</span>
+</span><span class='line'><span class="s">[mariadb]</span>
+</span><span class='line'><span class="s">name = MariaDB</span>
+</span><span class='line'><span class="s">baseurl = http://yum.mariadb.org/10.0/centos7-amd64</span>
+</span><span class='line'><span class="s">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span>
+</span><span class='line'><span class="s">gpgcheck=1</span>
+</span><span class='line'><span class="s">EOS</span>
+</span><span class='line'>
+</span><span class='line'>yum install MariaDB-server MariaDB-client
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Assuming you changed to root for the instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo bash
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works!  After confirming some things along the way&#8230;</p>
+
+<p>OK, so now we want to have our database servers install MariaDB.  We first need an &#8216;installMaria&#8217; script with the above
+in it.  Say</p>
+
+<h3>installMaria10.sh</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'><span class="c">#=== Java</span>
+</span><span class='line'><span class="c">#================================================</span>
+</span><span class='line'>
+</span><span class='line'>cat &gt; /etc/yum.repos.d/mariadb10.repo <span class="s">&lt;&lt;EOS</span>
+</span><span class='line'><span class="s"># MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</span>
+</span><span class='line'><span class="s"># http://mariadb.org/mariadb/repositories/</span>
+</span><span class='line'><span class="s">[mariadb]</span>
+</span><span class='line'><span class="s">name = MariaDB</span>
+</span><span class='line'><span class="s">baseurl = http://yum.mariadb.org/10.0/centos7-amd64</span>
+</span><span class='line'><span class="s">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span>
+</span><span class='line'><span class="s">gpgcheck=1</span>
+</span><span class='line'><span class="s">EOS</span>
+</span><span class='line'>
+</span><span class='line'>yum install MariaDB-server MariaDB-client
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>adding init</h3>
+
+<p>And unless you want every node to install Maria, you need to add an &#8216;init&#8217; for the type of node we are dealing with.
+In our case, the StackType is &#8216;lad1&#8217; (Load,App,Db,1) and the node type / part is &#8216;db1&#8217;.</p>
+
+<p>So we get this hierarchy:</p>
+
+<p><img src="/images/add-8/add8_hierarchy1.png" /></p>
+
+<p>And the content of the &#8216;init.sh&#8217; file is simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== fed1/db1</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'>bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/installMaria10.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>CloudFormation</h3>
+
+<p>We have a new CloudFormation named &#8216;awscf4_Fed1Db1&#8217; with the simple change of the nodepart being &#8216;db1&#8217;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;TemplateConstant&quot;</span> <span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;stacktype&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;lad1&quot;</span> <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;initgitrepo&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo2_petulant-cyril&quot;</span> <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;nodepart&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;db1&quot;</span> <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;state&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;presetup&quot;</span> <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;statetss&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;statelog&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;deployment&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;fed1&quot;</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="err">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Demo or Die!</h3>
+
+<p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
+more information than before.  After launcher two &#8216;app&#8217; and one &#8216;db&#8217; stack we get this:</p>
+
+<p><img src="/images/add-8/add8_demo1.png" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -625,64 +806,6 @@ are more likely to be SPOFs (Single points of failures) or bottlenecks, and are 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-it/">Being a Git About Everything (IT)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-13T18:16:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the third in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Leveraging git to help with IT tasks</h2>
-
-<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
-Git can help out with a lot of this, with several big benefits.  Some examples:</p>
-
-<ul>
-<li> IT changes should always be version controlled in case of mistake.  Git and a couple patterns/tools makes that easy</li>
-<li> Installing software can frequently be done with &#8216;yum&#8217; and similar commands, but some software needs a package, and some times you want more direct &#8216;this version&#8217; control.  An annexed git repository helps with that</li>
-<li> Doing backups or other kinds of off-lining with an annexed repo is very simple and flexible</li>
-<li> Git enables a PushMePullYou model that is very flexible and capable of driving hundreds of machines to do either (or both) very light and very heavy-weight operation</li>
-</ul>
-
-
-<p>Some of these things can be done with other tools, but I have found an annexed git repository to make doing these things easier and better</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-it/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -708,6 +831,10 @@ Git can help out with a lot of this, with several big benefits.  Some examples:<
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/add-8/">Advanced Development and Delivery (ADD) [Part-8]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a>
       </li>
     
@@ -723,15 +850,11 @@ Git can help out with a lot of this, with several big benefits.  Some examples:<
         <a href="/blog/add-4/">Advanced Development and Delivery (ADD) [Part-4]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-3/">Advanced Development and Delivery (ADD) [Part-3]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 124.70588235294117%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 131.76470588235293%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 135.29411764705884%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 142.35294117647058%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 135.29411764705884%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 128.23529411764707%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 135.29411764705884%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 138.8235294117647%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 145.88235294117646%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 138.8235294117647%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>
