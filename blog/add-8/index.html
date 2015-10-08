@@ -238,17 +238,18 @@ In our case, the StackType is &#8216;lad1&#8217; (Load,App,Db,1) and the node ty
 <h3>Demo or Die!</h3>
 
 <p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
-more information than before.  After launcher two &#8216;app&#8217; and one &#8216;db&#8217; stack we get this:</p>
+more information than before.  After launching two &#8216;app&#8217; stack and one &#8216;db&#8217; stack we get this:</p>
 
 <p><img src="/images/add-8/add8_demo1.png" /></p>
 
-<p>So clearly our nodes know how they are, what deployment they are in, and what the &#8216;part&#8217; in that deployment is.
-But are they what they say they are?</p>
+<p>So clearly our nodes know who they are, what deployment they are in, what the &#8216;part&#8217; in that deployment is, and how to
+&#8220;do work&#8221;. But are they actually what they say they are?</p>
 
 <h2>Being the &#8216;user&#8217;, fixing the &#8216;user&#8217;</h2>
 
-<p>If you use the script above, it will not work.  Because I said: &#8220;This works!  After confirming some things along the way&#8230;&#8221;
-During &#8216;boot&#8217; there is no user to confirm anything.  So the &#8216;yum&#8217; fails although the yum repository is there (the user is &#8216;root&#8217; so it has permission).
+<p>If you use the installMaria script above, it will not work.  Because I said: &#8220;This works!  After confirming some things along the way&#8230;&#8221;
+During &#8216;boot&#8217; there is no user to confirm anything.  So the &#8216;yum&#8217; part fails although the yum repository is there
+(the user is &#8216;root&#8217; so it has permission).  It ran the script but it didn&#8217;t work under &#8216;automation&#8217;.
 The three annoying issues in automation:</p>
 
 <ul>

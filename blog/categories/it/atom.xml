@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:40:46-07:00</updated>
+  <updated>2015-10-08T12:45:10-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -136,17 +136,18 @@ In our case, the StackType is 'lad1' (Load,App,Db,1) and the node type / part is
 <h3>Demo or Die!</h3>
 
 <p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
-more information than before.  After launcher two 'app' and one 'db' stack we get this:</p>
+more information than before.  After launching two 'app' stack and one 'db' stack we get this:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
 
-<p>So clearly our nodes know how they are, what deployment they are in, and what the 'part' in that deployment is.
-But are they what they say they are?</p>
+<p>So clearly our nodes know who they are, what deployment they are in, what the 'part' in that deployment is, and how to
+"do work". But are they actually what they say they are?</p>
 
 <h2>Being the 'user', fixing the 'user'</h2>
 
-<p>If you use the script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
-During 'boot' there is no user to confirm anything.  So the 'yum' fails although the yum repository is there (the user is 'root' so it has permission).
+<p>If you use the installMaria script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
+During 'boot' there is no user to confirm anything.  So the 'yum' part fails although the yum repository is there
+(the user is 'root' so it has permission).  It ran the script but it didn't work under 'automation'.
 The three annoying issues in automation:</p>
 
 <ul>
