@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:10:23-07:00</updated>
+  <updated>2015-10-08T12:23:58-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -139,6 +139,50 @@ In our case, the StackType is 'lad1' (Load,App,Db,1) and the node type / part is
 more information than before.  After launcher two 'app' and one 'db' stack we get this:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
+
+<p>So clearly our nodes know how they are, what deployment they are in, and what the 'part' in that deployment is.
+But are they what they say they are?</p>
+
+<h2>Being the 'user', fixing the 'user'</h2>
+
+<p>If you use the script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
+During 'boot' there is no user to confirm anything.  So you the 'yum' fails although the repository is there.
+The three annoying issues in automation:</p>
+
+<ul>
+<li> The user could be different from the user you think it is (say 'ec2' vs. 'root')</li>
+<li> The user is not interactive</li>
+<li> The user did not "launch a login shell" and so some launch things that happen for you did not happen to them.</li>
+</ul>
+
+
+<p>There are trivial and super-effective solutions to all of these, but until you get them right, you can bang your head
+quite a bit.</p>
+
+<h3>Who is the user?  'root'</h3>
+
+<p>The user provisioning a machine should always be 'root'.  Yes, 'root' is dangerous.  Because 'root' is powerful.  And
+given (a) if you mess up you simply kill the machine, and (b) everything is from version-controlled source files...
+you can handle that power.  So don't add silly hoops to jump through.  On a ControlNode, immediately 'sudo bash'.
+And if for some reason the default user isn't 'root' in a launch or cron script, 'su root' or 'sudo bash' to fix that.</p>
+
+<h3>Is the user interactive? 'no'</h3>
+
+<p>We are doing production automation that is designed to scale into thousands of machines.  No one is going to answer
+questions for thousands of machines.  That is not 'scalable' or at all valuable.  You should always know all the
+answers when a machine launches.  So script any UI that really requires some value put in, or use the variant of
+a command that has default answers.</p>
+
+<p>The true script for 'installMaria' has this line.</p>
+
+<p><code>bash
+yes | yum -y install MariaDB-server MariaDB-client
+</code></p>
+
+<p>The 'yum -y' <em>should</em> never ask any questions.  But just in case it does, I give it a 'y' for every answer.  If you
+are testing something and get a question, check if it has a flag like '-y'</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_yes.png" /></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T12:10:23-07:00</updated>
+  <updated>2015-10-08T12:23:58-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -169,6 +169,51 @@ In our case, the StackType is &#8216;lad1&#8217; (Load,App,Db,1) and the node ty
 more information than before.  After launcher two &#8216;app&#8217; and one &#8216;db&#8217; stack we get this:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
+
+<p>So clearly our nodes know how they are, what deployment they are in, and what the &#8216;part&#8217; in that deployment is.
+But are they what they say they are?</p>
+
+<h2>Being the &#8216;user&#8217;, fixing the &#8216;user&#8217;</h2>
+
+<p>If you use the script above, it will not work.  Because I said: &#8220;This works!  After confirming some things along the way&#8230;&#8221;
+During &#8216;boot&#8217; there is no user to confirm anything.  So you the &#8216;yum&#8217; fails although the repository is there.
+The three annoying issues in automation:</p>
+
+<ul>
+<li> The user could be different from the user you think it is (say &#8216;ec2&#8217; vs. &#8216;root&#8217;)</li>
+<li> The user is not interactive</li>
+<li> The user did not &#8220;launch a login shell&#8221; and so some launch things that happen for you did not happen to them.</li>
+</ul>
+
+
+<p>There are trivial and super-effective solutions to all of these, but until you get them right, you can bang your head
+quite a bit.</p>
+
+<h3>Who is the user?  &#8216;root&#8217;</h3>
+
+<p>The user provisioning a machine should always be &#8216;root&#8217;.  Yes, &#8216;root&#8217; is dangerous.  Because &#8216;root&#8217; is powerful.  And
+given (a) if you mess up you simply kill the machine, and (b) everything is from version-controlled source files&#8230;
+you can handle that power.  So don&#8217;t add silly hoops to jump through.  On a ControlNode, immediately &#8216;sudo bash&#8217;.
+And if for some reason the default user isn&#8217;t &#8216;root&#8217; in a launch or cron script, &#8216;su root&#8217; or &#8216;sudo bash&#8217; to fix that.</p>
+
+<h3>Is the user interactive? &#8216;no&#8217;</h3>
+
+<p>We are doing production automation that is designed to scale into thousands of machines.  No one is going to answer
+questions for thousands of machines.  That is not &#8216;scalable&#8217; or at all valuable.  You should always know all the
+answers when a machine launches.  So script any UI that really requires some value put in, or use the variant of
+a command that has default answers.</p>
+
+<p>The true script for &#8216;installMaria&#8217; has this line.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>yes | yum -y install MariaDB-server MariaDB-client
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The &#8216;yum -y&#8217; <em>should</em> never ask any questions.  But just in case it does, I give it a &#8216;y&#8217; for every answer.  If you
+are testing something and get a question, check if it has a flag like &#8216;-y&#8217;</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-8/add8_yes.png" /></p>
 ]]></content>
   </entry>
   
