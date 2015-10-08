@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T14:24:26-07:00</updated>
+  <updated>2015-10-08T14:26:19-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -126,6 +126,16 @@ second stage.</p>
 <p>So we have a directory of JSON files and we want to find certain kinds of partners.  It is simplest to just
 run through all the files and see what is inside them.  The files can be loaded one-by-one or concatenated together
 into a working temporary file.</p>
+
+<p>A basic python script could look like this:</p>
+
+<p>```python</p>
+
+<p>```</p>
+
+<p>We get a list of plausible nodes and then we filter out the ones that don't respond to our 'awake' check.  That leaves
+us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
+just one (e.g. ZooKeeper).</p>
 ]]></content>
   </entry>
   
