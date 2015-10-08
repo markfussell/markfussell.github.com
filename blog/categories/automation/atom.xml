@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T14:22:17-07:00</updated>
+  <updated>2015-10-08T14:24:26-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -95,7 +95,7 @@ the information differently, we could use the main branch and just change the co
 Yes, the information in the files would not change very often.  But Git stores files separate from paths,
 so there is very little overhead to adding new paths to identical files.</p>
 
-<h3>Time flattened</h3>
+<h4>Time flattened</h4>
 
 <p>repo4 has folder under 'presence' called 'flattime' which contains the presence information where every checkin is a new path.
 To keep things manageable the timestamp is complete 'YYYYMMDDHHMM', but year/month/day/hour/ is used to organize it.
@@ -109,7 +109,7 @@ between machines.</p>
 <p>The files change a bit because the machines are switching states and at the 'capture' moment could be in almost any state
 of their 'state machine'.</p>
 
-<h3>How precise?</h3>
+<h4>How precise?</h4>
 
 <p>So this is quite precise in time and you could certainly slow it down.  Sometimes providers get annoyed if you use
 git this way, but the software itself is thoroughly comfortable with it.  You can get some impressive merge graphs
@@ -120,6 +120,12 @@ as the machine count goes up.</p>
 <p>So making things less often and more jittered will help alleviate some stress.  Since
 this is only the first stage of presence (what exists and is plausibly alive), we will deal with stale data in the
 second stage.</p>
+
+<h3>Who is what?</h3>
+
+<p>So we have a directory of JSON files and we want to find certain kinds of partners.  It is simplest to just
+run through all the files and see what is inside them.  The files can be loaded one-by-one or concatenated together
+into a working temporary file.</p>
 ]]></content>
   </entry>
   
