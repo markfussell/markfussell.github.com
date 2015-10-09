@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T14:37:50-07:00</updated>
+  <updated>2015-10-09T16:47:10-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -132,11 +132,103 @@ into a working temporary file.</p>
 
 <p>A basic python script could look like this:</p>
 
+<h4>buildLiveServerJson.py</h4>
+
 <p>```python</p>
+
+<h1>!/usr/bin/env python</h1>
+
+<h1>========================================================</h1>
+
+<h1>=== buildLiveServerJson.py</h1>
+
+<h1>=== This builds a JSON structure of server presence data</h1>
+
+<h1>=== from a directory of presence data</h1>
+
+<h1>=========================================================</h1>
+
+<p>import json
+import string
+import os
+import sys
+from optparse import OptionParser
+from datetime import datetime,timedelta</p>
+
+<p>now = datetime.utcnow()
+tss = now.strftime("%Y%m%d%H%M%S")</p>
+
+<p>backminute = timedelta(minutes=-1)
+before = now + backminute</p>
+
+<p>tsm = before.strftime("%Y%m%d%H%M")
+datepath = before.strftime("%Y/%m/%d/%H")</p>
+
+<p>USAGE_STRING = "usage: %prog [options]"</p>
+
+<p>parser = OptionParser(usage=USAGE_STRING)
+parser.set_defaults(verbose=True)
+parser.add_option("--source", action="store", type="string", dest="source", help="The source directories of the presence files.  Use a comma to separate multiple source directories.")
+parser.add_option("--adddatepath", action="store_true", default=False, dest="adddatepath", help="Whether to add the current datetime path to the source")
+parser.add_option("--suffix", action="store", type="string", dest="suffix", help="A suffix to add at the end of the source")
+(options, args) = parser.parse_args()</p>
+
+<p>source = options.source.strip()
+adddatepath = options.adddatepath
+suffix = options.suffix</p>
+
+<p>if not source:</p>
+
+<pre><code>parser.print_help()
+exit()
+</code></pre>
+
+<p>full_source = source</p>
+
+<p>if adddatepath:
+   full_source = full_source + datepath + '/' + tsm</p>
+
+<p>if suffix:
+   full_source = full_source + suffix</p>
+
+<h1>=========================================================</h1>
+
+<h1>=========================================================</h1>
+
+<h1>=========================================================</h1>
+
+<p>sys.stdout.write('{"source":"'+source+'","suffix":"'+suffix+'","full_source":"'+full_source+'","tss":"'+tss+'","tsm":"'+tsm+'","datepath":"'+datepath+'","nodes":[')</p>
+
+<p>isfirst = True
+for f in os.listdir(full_source):
+  f_json = json.load(open(full_source+f))</p>
+
+<p>  if isfirst:</p>
+
+<pre><code> isfirst = False
+</code></pre>
+
+<p>  else:</p>
+
+<pre><code> sys.stdout.write(",")
+</code></pre>
+
+<p>  sys.stdout.write(json.dumps(f_json))
+sys.stdout.write("]}")</p>
+
+<p>sys.stdout.flush()</p>
 
 <p>```</p>
 
-<p>We get a list of plausible nodes and then we filter out the ones that don't respond to our 'awake' check.  That leaves
+<p>Our first stage is to get a list of plausible nodes and store that:</p>
+
+<p><code>bash
+python buildLiveServerJson.py --source=/root/gitrepo/repo4_sagacious-adventure/it/presence/flattime/ --adddatepath --suffix /all/ | python -mjson.tool &gt; /root/nodeinfo/liveserver.json
+</code></p>
+
+<p><img src="http://markfussell.emenar.com/images/add-9/add9_json1.png" /></p>
+
+<p>Next we can filter out the ones that don't respond to our 'awake' check.  That leaves
 us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
 just one (e.g. ZooKeeper).</p>
 ]]></content>

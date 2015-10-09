@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-08T14:37:50-07:00</updated>
+  <updated>2015-10-09T16:47:10-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -144,11 +144,163 @@ into a working temporary file.</p>
 
 <p>A basic python script could look like this:</p>
 
-<p>&#8220;`python</p>
+<h4>buildLiveServerJson.py</h4>
 
-<p>&#8220;`</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#========================================================</span>
+</span><span class='line'><span class="c">#=== buildLiveServerJson.py</span>
+</span><span class='line'><span class="c">#=== This builds a JSON structure of server presence data</span>
+</span><span class='line'><span class="c">#=== from a directory of presence data</span>
+</span><span class='line'><span class="c">#=========================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">json</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">string</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">optparse</span> <span class="kn">import</span> <span class="n">OptionParser</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span><span class="n">timedelta</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
+</span><span class='line'><span class="n">tss</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y%m</span><span class="si">%d</span><span class="s">%H%M%S&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">backminute</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">before</span> <span class="o">=</span> <span class="n">now</span> <span class="o">+</span> <span class="n">backminute</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">tsm</span> <span class="o">=</span> <span class="n">before</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y%m</span><span class="si">%d</span><span class="s">%H%M&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">datepath</span> <span class="o">=</span> <span class="n">before</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y/%m/</span><span class="si">%d</span><span class="s">/%H&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="n">USAGE_STRING</span> <span class="o">=</span> <span class="s">&quot;usage: %prog [options]&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">(</span><span class="n">usage</span><span class="o">=</span><span class="n">USAGE_STRING</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--source&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;string&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;source&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;The source directories of the presence files.  Use a comma to separate multiple source directories.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--adddatepath&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;adddatepath&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Whether to add the current datetime path to the source&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--suffix&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;string&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;suffix&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;A suffix to add at the end of the source&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">source</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span class='line'><span class="n">adddatepath</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">adddatepath</span>
+</span><span class='line'><span class="n">suffix</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">suffix</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="ow">not</span> <span class="n">source</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+</span><span class='line'>    <span class="nb">exit</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">full_source</span> <span class="o">=</span> <span class="n">source</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">adddatepath</span><span class="p">:</span>
+</span><span class='line'>   <span class="n">full_source</span> <span class="o">=</span> <span class="n">full_source</span> <span class="o">+</span> <span class="n">datepath</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">tsm</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">suffix</span><span class="p">:</span>
+</span><span class='line'>   <span class="n">full_source</span> <span class="o">=</span> <span class="n">full_source</span> <span class="o">+</span> <span class="n">suffix</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#=========================================================</span>
+</span><span class='line'><span class="c">#=========================================================</span>
+</span><span class='line'><span class="c">#=========================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;{&quot;source&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">source</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;suffix&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;full_source&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">full_source</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;tss&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">tss</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;tsm&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">tsm</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;datepath&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">datepath</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;nodes&quot;:[&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">isfirst</span> <span class="o">=</span> <span class="bp">True</span>
+</span><span class='line'><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">full_source</span><span class="p">):</span>
+</span><span class='line'>  <span class="n">f_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">full_source</span><span class="o">+</span><span class="n">f</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">isfirst</span><span class="p">:</span>
+</span><span class='line'>     <span class="n">isfirst</span> <span class="o">=</span> <span class="bp">False</span>
+</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">f_json</span><span class="p">))</span>
+</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;]}&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>We get a list of plausible nodes and then we filter out the ones that don&#8217;t respond to our &#8216;awake&#8217; check.  That leaves
+
+<p>Our first stage is to get a list of plausible nodes and store that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>python buildLiveServerJson.py --source<span class="o">=</span>/root/gitrepo/repo4_sagacious-adventure/it/presence/flattime/ --adddatepath --suffix /all/ | python -mjson.tool &gt; /root/nodeinfo/liveserver.json
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://markfussell.emenar.com/images/add-9/add9_json1.png" /></p>
+
+<p>Next we can filter out the ones that don&#8217;t respond to our &#8216;awake&#8217; check.  That leaves
 us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
 just one (e.g. ZooKeeper).</p>
 ]]></content>
