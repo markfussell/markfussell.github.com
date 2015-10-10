@@ -108,17 +108,18 @@ We have a new CloudFormation named 'awscf4_Fed1Db1' with the simple change of th
 ### Demo or Die!
 
 Since the previous presence description, the presence system has upped itself and now nodes check-in with
-more information than before.  After launcher two 'app' and one 'db' stack we get this:
+more information than before.  After launching two 'app' stack and one 'db' stack we get this:
 
 <img src="/images/add-8/add8_demo1.png" />
 
-So clearly our nodes know how they are, what deployment they are in, and what the 'part' in that deployment is.
-But are they what they say they are?
+So clearly our nodes know who they are, what deployment they are in, what the 'part' in that deployment is, and how to
+"do work". But are they actually what they say they are?
 
 ## Being the 'user', fixing the 'user'
 
-If you use the script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
-During 'boot' there is no user to confirm anything.  So the 'yum' fails although the yum repository is there (the user is 'root' so it has permission).
+If you use the installMaria script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
+During 'boot' there is no user to confirm anything.  So the 'yum' part fails although the yum repository is there
+(the user is 'root' so it has permission).  It ran the script but it didn't work under 'automation'.
 The three annoying issues in automation:
 
    * The user could be different from the user you think it is (say 'ec2' vs. 'root')

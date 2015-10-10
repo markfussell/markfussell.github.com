@@ -1,0 +1,214 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) [Part-9]"
+date: 2015-10-08 2:00
+comments: true
+categories: IT Automation Cloud Git ADD
+---
+
+This is the ninth installment of describing a radically more productive development and delivery environment.
+
+The first part is here: [Intro](/blog/add-1/).  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, and configuring nodes.
+
+## Using Presence for configuration
+
+So far, presence has been just information that 'humans' consume.  It shows up on dashboards, in chat rooms, and so on,
+but nothing has acted upon it.  Until now!
+
+We have 'app' and 'db' nodes.  Clearly the 'app' nodes need to find the 'db' nodes or the app is not going to be
+able to persist much.  The 'db' here happens to be 'Maria' but it could be anything from a single DB node to a
+cluster of Riak nodes.  At the moment, I just want to get the information that a 'db' node knows ("I exist!", "My IP is this!")
+over to the 'app' nodes so they can process it.
+
+### It is already there?
+
+But wait?  All nodes have 'repo4' for writing?  Don't they already have everything in 'repo4' for reading as well?
+
+And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.
+
+<!-- more -->
+
+As of this writing, repo4 looks like this:
+
+<img src="/images/add-9/add9_all.png" />
+
+And the live hipchat still looks like this:
+
+<img src="/images/add-8/add8_demo1.png" />
+
+So the DB server is definitely there:
+
+```
+i-4e7cb59a:fed1/db1: Launched!
+```
+
+And the information is there:
+```json
+{
+    "filetype": "nodepresence",
+    "value": {
+        "a": "a",
+        "deployment": "fed1",
+        "initgitrepo": "repo2_petulant-cyril",
+        "instance-id": "i-4e7cb59a",
+        "nodepart": "db1",
+        "stacktype": "lad1",
+        "state": "done",
+        "statelog": "setup:20151008-174646;initdone:20151008-174830;",
+        "statetss": "20151008-174830"
+    }
+}
+```
+
+So the only issue is for nodes to 'find their partners'
+
+### Finding the partners
+
+By the HipChat there are only three nodes alive, so problem one is finding live nodes vs. dead nodes.  There are
+two levels to that:
+
+   * Finding plausibly live nodes
+   * Finding truly awake nodes
+
+The simplest approach to the first is to make sure there is some kind of heartbeat within 'statetss'.  Every-minute
+is clearly possible, but a bit noisy if done in the main part of repo4.  It would be nice to not to see the heartbeat
+block out the actual state change information that is already there. An interesting alternative is to 'flatten time'
+and have an alternative branch that stores information as 'it/presence/flattime/timestamp'.  Or given we are storing
+the information differently, we could use the main branch and just change the comment to mention 'flattime'.
+Yes, the information in the files would not change very often.  But Git stores files separate from paths,
+so there is very little overhead to adding new paths to identical files.
+
+#### Time flattened
+
+repo4 has folder under 'presence' called 'flattime' which contains the presence information where every checkin is a new path.
+To keep things manageable the timestamp is complete 'YYYYMMDDHHMM', but year/month/day/hour/ is used to organize it.
+Seconds are not used because we want everything to be together and there is no guarantee the seconds would match
+between machines.
+
+Looking at a few minutes of time, we get something like this:
+
+<img src="/images/add-9/add9_flattime1.png" />
+
+The files change a bit because the machines are switching states and at the 'capture' moment could be in almost any state
+of their 'state machine'.
+
+#### How precise?
+
+So this is quite precise in time and you could certainly slow it down.  Sometimes providers get annoyed if you use
+git this way, but the software itself is thoroughly comfortable with it.  You can get some impressive merge graphs
+as the machine count goes up.
+
+<img src="/images/add-9/add9_merge1.png" />
+
+
+So making things less often and more jittered will help alleviate some stress.  Since
+this is only the first stage of presence (what exists and is plausibly alive), we will deal with stale data in the
+second stage.
+
+
+### Who is what?
+
+So we have a directory of JSON files and we want to find certain kinds of partners.  It is simplest to just
+run through all the files and see what is inside them.  The files can be loaded one-by-one or concatenated together
+into a working temporary file.
+
+A basic python script could look like this:
+
+#### buildLiveServerJson.py
+```python
+#!/usr/bin/env python
+
+#========================================================
+#=== buildLiveServerJson.py
+#=== This builds a JSON structure of server presence data
+#=== from a directory of presence data
+#=========================================================
+
+import json
+import string
+import os
+import sys
+from optparse import OptionParser
+from datetime import datetime,timedelta
+
+
+now = datetime.utcnow()
+tss = now.strftime("%Y%m%d%H%M%S")
+
+
+backminute = timedelta(minutes=-1)
+before = now + backminute
+
+tsm = before.strftime("%Y%m%d%H%M")
+datepath = before.strftime("%Y/%m/%d/%H")
+
+
+USAGE_STRING = "usage: %prog [options]"
+
+parser = OptionParser(usage=USAGE_STRING)
+parser.set_defaults(verbose=True)
+parser.add_option("--source", action="store", type="string", dest="source", help="The source directories of the presence files.  Use a comma to separate multiple source directories.")
+parser.add_option("--adddatepath", action="store_true", default=False, dest="adddatepath", help="Whether to add the current datetime path to the source")
+parser.add_option("--suffix", action="store", type="string", dest="suffix", help="A suffix to add at the end of the source")
+(options, args) = parser.parse_args()
+
+source = options.source.strip()
+adddatepath = options.adddatepath
+suffix = options.suffix
+
+if not source:
+    parser.print_help()
+    exit()
+
+full_source = source
+
+if adddatepath:
+   full_source = full_source + datepath + '/' + tsm
+
+if suffix:
+   full_source = full_source + suffix
+
+#=========================================================
+#=========================================================
+#=========================================================
+
+sys.stdout.write('{"source":"'+source+'","suffix":"'+suffix+'","full_source":"'+full_source+'","tss":"'+tss+'","tsm":"'+tsm+'","datepath":"'+datepath+'","nodes":[')
+
+isfirst = True
+for f in os.listdir(full_source):
+  f_json = json.load(open(full_source+f))
+
+  if isfirst:
+     isfirst = False
+  else:
+     sys.stdout.write(",")
+
+  sys.stdout.write(json.dumps(f_json))
+sys.stdout.write("]}")
+
+sys.stdout.flush()
+
+
+```
+
+Our first stage is to get a list of plausible nodes and store that:
+
+```bash
+python buildLiveServerJson.py --source=/root/gitrepo/repo4_sagacious-adventure/it/presence/flattime/ --adddatepath --suffix /all/ | python -mjson.tool > /root/nodeinfo/liveserver.json
+```
+
+<img src="/images/add-9/add9_json1.png" />
+
+
+
+Next we can filter out the ones that don't respond to our 'awake' check.  That leaves
+us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
+just one (e.g. ZooKeeper).
+
+
+
+
+
+
+
