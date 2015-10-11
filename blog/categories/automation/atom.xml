@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-10T18:29:05-07:00</updated>
+  <updated>2015-10-11T12:52:38-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -91,6 +91,74 @@ very mature and has good minds in the drivers seat.  It gets simpler and more po
 does something right, Grails simply uses it.  If not, Grails augments it.  Very rational.  Very powerful.</p>
 
 <h2>The first application</h2>
+
+<p>The first application will simply be the default applications with a grails 'create-app'.  To get the application we
+need to get grails on the 'app1' nodes, create the application, and then run it.</p>
+
+<p>Grails needs Java, but ec2 instances automatically have that.  In other environments we would use something like:</p>
+
+<h3>installJava.sh</h3>
+
+<p>```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>================================================</h1>
+
+<h1>=== Java</h1>
+
+<h1>================================================</h1>
+
+<p>export JAVA_VERSION=7u79
+export JAVA_FULL_VERSION=jdk-${JAVA_VERSION}-linux-x64</p>
+
+<p>mkdir -p .temp
+cp it/resource/${JAVA_FULL_VERSION}.rpm .temp/</p>
+
+<p>./bin/inflatePaths.sh .temp/${JAVA_FULL_VERSION}.rpm</p>
+
+<p>rpm -i .temp/${JAVA_FULL_VERSION}.rpm</p>
+
+<p>```</p>
+
+<p>The advantage of storing the RPM within our own system is speed of access and reliability.  EC2 to S3 communication
+is very fast.  And S3 has never been down (AFAIK) at all, let alone when EC2 is running.  We also lock down on the
+version we want vs. using 'yum' without an explicit version.</p>
+
+<h2>installGrails3_x.sh</h2>
+
+<p>For grails we will get the latest version</p>
+
+<p>```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>==========================================================</h1>
+
+<h1>=== Install Grails 3.x</h1>
+
+<h1>==========================================================</h1>
+
+<p>curl -s get.sdkman.io | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+yes | sdk install grails</p>
+
+<p>source ~/.bashrc
+grails -version</p>
+
+<p>```</p>
+
+<p>We need to source '~/.bashrc' so we get the additions to our path.</p>
+
+<p>At this point we have grails on the machine and can simply
+```bash
+mkdir -p /root/app/
+cd /root/app</p>
+
+<p>grails create-app test
+cd test
+grails run-app
+```</p>
 ]]></content>
   </entry>
   
