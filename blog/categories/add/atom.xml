@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-11T12:52:38-07:00</updated>
+  <updated>2015-10-11T12:53:03-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -125,7 +125,7 @@ cp it/resource/${JAVA_FULL_VERSION}.rpm .temp/</p>
 is very fast.  And S3 has never been down (AFAIK) at all, let alone when EC2 is running.  We also lock down on the
 version we want vs. using 'yum' without an explicit version.</p>
 
-<h2>installGrails3_x.sh</h2>
+<h3>installGrails3_x.sh</h3>
 
 <p>For grails we will get the latest version</p>
 
@@ -149,6 +149,8 @@ grails -version</p>
 <p>```</p>
 
 <p>We need to source '~/.bashrc' so we get the additions to our path.</p>
+
+<h3>Create 'test' application</h3>
 
 <p>At this point we have grails on the machine and can simply
 ```bash
