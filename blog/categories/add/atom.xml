@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-11T16:19:28-07:00</updated>
+  <updated>2015-10-11T16:22:18-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -237,6 +237,9 @@ cd grails-petclinic
 <p>And you get:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-10/add10_grails2.png" /></p>
+
+<p>But an important difference between the two: the second is now <em>wired</em> into the git repository and can 'pull' or 'push' to it as needed.
+We now have a live server with both alive 'IT' and alive 'APP'!  It can bend to our will and needs.</p>
 ]]></content>
   </entry>
   

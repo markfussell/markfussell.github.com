@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-11T16:19:28-07:00</updated>
+  <updated>2015-10-11T16:22:18-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -290,6 +290,9 @@ version we want vs. using &#8216;yum&#8217; without an explicit version.</p>
 <p>And you get:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-10/add10_grails2.png" /></p>
+
+<p>But an important difference between the two: the second is now <em>wired</em> into the git repository and can &#8216;pull&#8217; or &#8216;push&#8217; to it as needed.
+We now have a live server with both alive &#8216;IT&#8217; and alive &#8216;APP&#8217;!  It can bend to our will and needs.</p>
 ]]></content>
   </entry>
   
