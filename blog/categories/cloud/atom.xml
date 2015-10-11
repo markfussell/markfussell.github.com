@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-11T12:53:03-07:00</updated>
+  <updated>2015-10-11T13:47:17-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -160,6 +160,44 @@ cd /root/app</p>
 <p>grails create-app test
 cd test
 grails run-app
+```</p>
+
+<p>The application will come up at 'localhost:8080' and if you wget/curl it, it returns the generated 'index.html' file:</p>
+
+<p>```html
+&lt;!doctype html>
+<html lang="en" class="no-js"></p>
+
+<pre><code>&lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+    &lt;title&gt;Welcome to Grails&lt;/title&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+</code></pre>
+
+<p>...</p>
+
+<pre><code>    &lt;div id="page-body" role="main"&gt;
+        &lt;h1&gt;Welcome to Grails&lt;/h1&gt;
+        &lt;p&gt;Congratulations, you have successfully started your first Grails application! At the moment
+           this is the default page, feel free to modify it to either redirect to a controller or display whatever
+           content you may choose. Below is a list of controllers that are currently deployed in this application,
+           click on each to execute its default action:&lt;/p&gt;
+
+        &lt;div id="controller-list" role="navigation"&gt;
+            &lt;h2&gt;Available Controllers:&lt;/h2&gt;
+            &lt;ul&gt;
+
+            &lt;/ul&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="footer" role="contentinfo"&gt;&lt;/div&gt;
+    &lt;div id="spinner" class="spinner" style="display:none;"&gt;Loading&amp;hellip;&lt;/div&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p></html>
 ```</p>
 ]]></content>
   </entry>
