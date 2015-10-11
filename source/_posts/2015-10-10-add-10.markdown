@@ -208,7 +208,7 @@ And you get:
 
 
 But an important difference between the two: the second is now _wired_ into the git repository and can 'pull' or 'push' to it as needed.
-We now have a live server with both alive 'IT' and alive 'APP'!  It can bend to our will and needs.
+We now have a live server with both alive 'IT' and alive 'APP'!  It will happily and automatically bend to our will and needs.
 
 
 
