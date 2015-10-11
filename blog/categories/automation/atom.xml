@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-09T16:47:10-07:00</updated>
+  <updated>2015-10-10T17:43:44-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-10]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-10/"/>
+    <updated>2015-10-10T02:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-10</id>
+    <content type="html"><![CDATA[<p>This is the tenth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, and inter-machine presence.</p>
+
+<h2>A good, working, opinionated, framework</h2>
+
+<p>Back in 1972, Smalltalk became the first Object-Oriented Programming Language (Simula was Object-Based but there is a difference).
+For decades this kind of language was 'esoteric'.  It was like LISP or Prolog or APL: somehow exotic and inaccessible.
+I was lucky: I had access to Smalltalk at Caltech.  I had access to lots of crazy expensive things at Caltech and that
+made the exotic (e.g. making your own chips) into the mundane (e.g. made lots of chips, they were commonly broken,
+had to be re-fabricated, and I eventually got bored with all that and moved a level up).</p>
+
+<p>But back to the language of Smalltalk.  The problem with Smalltalk is that it appears to be a language when it is
+actually a computer. 'C' was a language.  It made programs. 'Pascal', 'Lisp' (sans Machine), 'Fortan', and so on...
+they were all languages.  Smalltalk <em>contains</em> a language.  It is named Smalltalk (darn).  But Smalltalk-80 was not
+<em>just</em> a language, it was an <em>entire running operating system with applications and full source</em>  It could boot on
+most any machine that you made the 'bootstrap' code work on.  To make a new Smalltalk-80 machine, you cloned either
+the primordial Smalltalk-80 'image' from PARC, or you cloned your own modified 'image'.  And by 'image' this is
+basically the same concept as cloning a disk... bit by bit identical copy that happens to be on a different disk / computer.</p>
+
+<p>Eventually OOP became mainstream with Java, C++, Objective-C, Ruby, Python, and the like.  So people thought they
+were getting the "Smalltalk" (or LISP Machine) benefits.  But they left out the 'computer' that went with the language.</p>
+
+<h3>Why opinionated?</h3>
+
+<p>The Smalltalk computer was quite functional and thoroughly opinionated.  It <em>already did</em> a bunch of things and showed
+you how it did them.  It wasn't opinionated like a human usually uses the term: "You should build that house out of bricks, not straw".
+It was opinionated like the planet is: "I have already created lots of flora and fauna... please use them wisely".  Even
+how humans on the planet are: "We have already created plenty of roads... please use them instead of driving through yards"</p>
+
+<p>Opinionated is basically a synonym for "Working".  Smalltalk computers "worked" so don't break it.  They work, so you
+should probably copy them for anything similar.  And they work, so you might want to study how they work even if you
+are going to be creative later.</p>
+
+<h3>Modern 'working' frameworks</h3>
+
+<p>Early frameworks (say for Java) 'kind-of-worked'.  They didn't fully work, but you could 'configure' them to work.
+That is like getting all 'IKEA' furniture for your house.  You could easily build it wrong.  It could not work
+together.  Yes, you get to 'tweak' it, but if someone simply offered "a furnished house" you would save a lot of
+time and leverage their full sense of design.  Or you could go to a different furnished house that more closely matched your tastes.</p>
+
+<p>The later fully-working / opinionated frameworks (like Ruby/Rails) truly worked out of the box.  They would come up with a UI, Business/Domain
+layer, and a Database layer.  You could add things to the UI and it would go down the whole stack.  Add things to the database
+or Domain, and it would bubble up/down.  For the framework to do these things it had to have a model for what software (in its full form)
+looks like.  These frameworks had patterns/templates/rules for building things at command.  This isn't quite as good as Smalltalk ("it already exists")
+but it is getting close, especially with sample applications available.
+It also gets rid of the one problem / hurdle with Smalltalk full-computers: you had to strip them
+of things you didn't want customers to see / use / clone.</p>
+
+<h3>Languages</h3>
+
+<p>There are many modern languages.  They are mostly quite similar and boring in the language themselves.  The community around the
+language makes much more of a difference, and the libraries / frameworks that exist based on that community's interest.</p>
+
+<p>I mentioned that I switched to Java pretty early on, which cost me productivity.  But I wanted the community and their
+libraries.  Java was popular enough that it had multiple communities associated with it.  Some were crazy stupid and
+created things (even tried to mandate use of things) that were completely stupid.  But other communities continued
+to plug along and evolve libraries and frameworks that are better than you can get in other languages.  On the whole,
+I believe the Java ecosystem is by far the best 'hub' to build most custom development and to pair
+with other tools/components in other languages.  And by Java, I mean Java, Groovy, and potentially other JVM-targeting
+languages.  The less Java-like the language, the less likely I would consider it acceptably an 'other'.</p>
+
+<h3>Framework</h3>
+
+<p>I believe the best (general) application framework in Java is Grails, which lives on top of the Spring stack.  It is
+very mature and has good minds in the drivers seat.  It gets simpler and more powerful every generation.  If Spring
+does something right, Grails simply uses it.  If not, Grails augments it.  Very rational.  Very powerful.</p>
+
+<h2>The first application</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-9]]]></title>
@@ -689,49 +767,6 @@ broadcast a 'HeartBeat' in either the presence repository or another repository.
 check if the machine is actually responsive (e.g. HAProxy will interact with the machine to make sure it
 is actually alive) vs. being present.  This final interaction is pretty critical (no Zombies in my data center),
 so that is the best way to figure out who is alive and alert vs. just being present.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-5]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-5/"/>
-    <updated>2015-10-02T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-5</id>
-    <content type="html"><![CDATA[<p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, and the one minute configuration HeartBeat.</p>
-
-<h2>HipChat</h2>
-
-<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
-to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
-system (kind of like a command line) but that isn't very important since it would just make changes in GitHub
-which can be made in lots of different ways.</p>
-
-<p>The demo of this is very simple:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-5/add5_hipchat_cv1.png" /></p>
-
-<!-- more -->
-
-
-<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
-to the working script:</p>
-
-<p><code>bash
-echo "Doing the work for ${GIT_VERSION}"
-echo "Doing the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh
-sleep 121
-echo "Done the work for ${GIT_VERSION}"
-echo "Done the work for ${GIT_VERSION}" | bash ${COMMON}/send_hipchat.sh -c green
-</code></p>
-
-<p>So now we have 'Action in GitHub' and visibility to all the activities of the machines that reacted to
-that action.  Finally we can have human augmentation like "@Team New version is up on the development server"
-to transform something technical to something more meaningful.  With proper use of colors, the state
-of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
 ]]></content>
   </entry>
   
