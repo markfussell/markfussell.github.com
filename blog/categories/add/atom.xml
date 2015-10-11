@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-10T17:43:44-07:00</updated>
+  <updated>2015-10-10T17:44:06-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -30,6 +30,9 @@ For decades this kind of language was 'esoteric'.  It was like LISP or Prolog or
 I was lucky: I had access to Smalltalk at Caltech.  I had access to lots of crazy expensive things at Caltech and that
 made the exotic (e.g. making your own chips) into the mundane (e.g. made lots of chips, they were commonly broken,
 had to be re-fabricated, and I eventually got bored with all that and moved a level up).</p>
+
+<!-- more -->
+
 
 <p>But back to the language of Smalltalk.  The problem with Smalltalk is that it appears to be a language when it is
 actually a computer. 'C' was a language.  It made programs. 'Pascal', 'Lisp' (sans Machine), 'Fortan', and so on...
