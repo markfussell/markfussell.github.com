@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-10T17:44:06-07:00</updated>
+  <updated>2015-10-10T18:23:02-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -23,7 +23,7 @@
 <p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
 node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, and inter-machine presence.</p>
 
-<h2>A good, working, opinionated, framework</h2>
+<h2>A good, opinionated, framework</h2>
 
 <p>Back in 1972, Smalltalk became the first Object-Oriented Programming Language (Simula was Object-Based but there is a difference).
 For decades this kind of language was 'esoteric'.  It was like LISP or Prolog or APL: somehow exotic and inaccessible.
