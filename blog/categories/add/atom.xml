@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T08:36:25-07:00</updated>
+  <updated>2015-10-14T08:58:14-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -286,14 +286,38 @@ one fatal flaw:</p>
 
 <p>We can have stability so long as we accept that everyone is trying to cache the DNS to IP address for as long as
 possible.  This can be minutes or even longer <em>in spite</em> of our DNS records saying otherwise.  This is actually
- one of the reason load balancers are so important.  Load balancing is a very simple concept.  You load balancers
- should be simple to 'keep running' and be rarely flipped.  So their IP addresses will be stable: like the person
+ one of the reason load balancers are so important.  Load balancing is a very simple concept.  Your load balancers
+ should be simple enough to 'keep running' and be rarely flipped.  So their IP addresses will be stable: like the person
  who is always hanging out on their front porch.  You can always find them there and ask them to ask someone else
  a question.  They will take care of the rest.</p>
 
 <p>So ultimately we don't want the application server obtaining a domain-name, we want it to register with a load
 balancer.  But for the moment (and for some useful internal capabilities) we will have each application server
 take-a-name.</p>
+
+<h3>How to take a name?</h3>
+
+<p>Before the cloud, the common ways to take a name were:</p>
+
+<ul>
+<li>To assign a name via the console of the domain name server</li>
+<li>To dynamically attach an IP address to a name via various protocols</li>
+</ul>
+
+
+<p>Pre-cloud, these work fairly well.  If you DN server is smart enough, it can take failed servers out of rotation
+with a health check.  And even early versions of cloud computing used a similar model where servers took
+possession of a pre-allocated IP address that the DN server knew about.  But these models don't scale as
+well as a much simpler model.  Route-53.</p>
+
+<p>Route-53 takes the 'dynamically' to a whole new level.  You can dynamically add / change / delete most anything
+and the common latency for the change to take affect is very short.  The rest of the world <em>still caches</em> but
+at least you know the DN servers are up to date.  In the following, you can see the 'gaps2c' project I created
+a while ago as a demonstration of this ability.  The main domain registry for 'gaps2c.com' is elsewhere, but
+the subdomain of 'aws.gaps2c.com' is managed by route53.  The last entry works and says &lt;google.aws.gaps2c.com>
+knows where the google servers are.</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_1.png" /></p>
 ]]></content>
   </entry>
   
