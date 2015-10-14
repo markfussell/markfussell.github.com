@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T14:34:26-07:00</updated>
+  <updated>2015-10-14T14:38:10-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -77,21 +77,24 @@ except for the details.  &#8220;Complete! What nonsense!  Where are your automat
 What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
 to use with this ADD?!!&#8221;</p>
 
-<p>Ah&#8230; yes.  Over my <em>thirty five years</em> of developing software, I have encountered all these things.  I do have opinions
+<p>Ah&#8230; yes.  Over my <em>thirty five years</em> and estimated <em>thirty five thousand hours</em> of developing software,
+I have encountered all these things.  I do have opinions
 on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.</p>
 
 <p>How little?  Maybe&#8230; maybe&#8230; 2x.  I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
 a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
 Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
-most of it from scratch&#8230; because there are no libraries).  I bet I lost 4x in productivity.  4x is a lot.  2x is a little.
+most of it from scratch&#8230; because there are no libraries).  I bet I lost 4x in productivity.  And then another 2x
+when people started mucking with my code.  4x is a lot.  2x is a little.
 And if you try to get the &#8216;2x&#8217; but lose the &#8216;4x&#8217; you just did a win-LOSE bad tradeoff.</p>
 
 <h3>Lies</h3>
 
 <p>There are a lot of lies or confusions in the software industry.  During the nineties we tried to get rid of a lot of them
-through &#8220;A mythical man-month&#8221; (Fred Brooks) and &#8220;The Agile Manifesto&#8221; (Kent, Ken, Ward, &#8230;).  The <em>truth</em> of software
+through actual research-based observations (e.g. &#8220;The Mythical Man-Month&#8221; by Fred Brooks) and experience-based
+ observations (e.g. &#8220;The Agile Manifesto&#8221; by Kent, Ken, Ward, etc.).  The <em>truth</em> of software
 is available&#8230; but the lies hide it.  And people can&#8217;t tell the difference.  And don&#8217;t believe the science.  Or are
-too scared of losing their jobs (or having a more boring job) if they tell the truth vs. the lie.</p>
+too scared of losing their jobs (or having a more boring job) if they believe and speak the truth vs. the lie.</p>
 
 <h4>Truth: One Brain</h4>
 
