@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T10:34:18-07:00</updated>
+  <updated>2015-10-14T10:43:40-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -346,6 +346,32 @@ The benefit of 'b' is we can investigate the node later.  But either is operatio
 
 <p>ps aux | grep java | grep -v grep
 ps aux | grep java | grep -v grep | awk '{print $2}' | xargs kill
+```</p>
+
+<h4>Are we alive?</h4>
+
+<p>Finally, we should at least reasonably check whether we are alive with the new version.  The load balancer is
+checking our URL, so it knows.  But the load balancer can't tell the world (HipChat) whether the deploy was
+successful.</p>
+
+<p>A simple 'curl' to our local port can though.</p>
+
+<p><code>``
+curl localhost:8080 &gt; $ADD_TEMP/curl_test.html
+export CURL_TEST=</code>cat  $ADD_TEMP/curl_test.html`</p>
+
+<p>if [[ -z "$CURL_TEST" ]] ;
+then</p>
+
+<pre><code>echo 'Deployment failed!';
+</code></pre>
+
+<p>else</p>
+
+<pre><code>echo 'Success!';
+</code></pre>
+
+<p>fi
 ```</p>
 
 <h2>DNS Stability</h2>

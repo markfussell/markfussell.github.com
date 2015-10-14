@@ -478,6 +478,35 @@ The benefit of &#8216;b&#8217; is we can investigate the node later.  But either
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h4>Are we alive?</h4>
+
+<p>Finally, we should at least reasonably check whether we are alive with the new version.  The load balancer is
+checking our URL, so it knows.  But the load balancer can&#8217;t tell the world (HipChat) whether the deploy was
+successful.</p>
+
+<p>A simple &#8216;curl&#8217; to our local port can though.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl localhost:8080 &gt; <span class="nv">$ADD_TEMP</span>/curl_test.html
+</span><span class='line'><span class="nb">export </span><span class="nv">CURL_TEST</span><span class="o">=</span><span class="sb">`</span>cat  <span class="nv">$ADD_TEMP</span>/curl_test.html<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&quot;$CURL_TEST&quot;</span> <span class="o">]]</span> ;
+</span><span class='line'><span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s1">&#39;Deployment failed!&#39;</span>;
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s1">&#39;Success!&#39;</span>;
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>DNS Stability</h2>
 
 <p>The DNS stability is a trivial thing on EC2 and basically any modern DNS system.  Trivial as long as we understand
