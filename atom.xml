@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T14:38:10-07:00</updated>
+  <updated>2015-10-14T14:48:53-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -81,7 +81,12 @@ to use with this ADD?!!&#8221;</p>
 I have encountered all these things.  I do have opinions
 on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.</p>
 
-<p>How little?  Maybe&#8230; maybe&#8230; 2x.  I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
+<p>How little?  Maybe&#8230; maybe&#8230; 2x.</p>
+
+<!--more-->
+
+
+<p>I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
 a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
 Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
 most of it from scratch&#8230; because there are no libraries).  I bet I lost 4x in productivity.  And then another 2x
@@ -131,14 +136,17 @@ for building an application.  I don&#8217;t mean 5000 hours <em>of work</em> I m
 2x the amount of hours of <em>studying surgery</em>  So 10,000 hours of studying how to build software applications and 5,000
 hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
 spend half of it actually on either of those tasks&#8230; it would take you about 15 years to be &#8216;an Engineer&#8217;.  Ten years
-of reading and five years of writing : concurrently where reading dominates early and writing dominates later.</p>
+of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.</p>
 
-<p>So instead they say: &#8220;If a bunch of us get together we can reproduce that surgeon with each of our individual skills.&#8221;
-Or &#8220;Nine club tennis players can beat Roger Federer if we tag-team&#8221;.  Or &#8220;Nine people who are good in the
+<p>But again, developers don&#8217;t like this truth and instead they say: &#8220;If a bunch of us get together we can reproduce that
+surgeon with each of our individual skills.&#8221;</p>
+
+<p>But this is saying: &#8220;Nine people who can dissect frogs can perform brain surgery&#8221;, or
+&#8220;Nine club tennis players can beat Roger Federer if they tag-team&#8221;.  Or &#8220;Nine people who are good in the
 kitchen can together produce a better meal than Gordon Ramsey in a throw down&#8221;.  Or&#8230;</p>
 
 <p>Hopefully by shifting the context you can see the impossibility of it.  It makes absolutely no sense, yet the lie is
-propagated so much as to be systemic.  Even the smallest XP version of the lie &#8220;You need two people to write better software&#8221; is
+propagated so much as to be systemically the status quo.  Even the smallest XP version of the lie &#8220;You need two people to write better software&#8221; is
 ludicrous.  Better to have <em>two surgeons</em> perform <em>two different operations</em> at the same time&#8230; and save <em>two</em> lives.
 There is nothing wrong with having an apprentice watch / help.  But that is <em>training</em> (somewhat to both parties) not
 <em>doing</em></p>
@@ -148,8 +156,8 @@ There is nothing wrong with having an apprentice watch / help.  But that is <em>
 <p>The second truth is that the <em>customer</em> rules.  If the customer is happy&#8230; WIN!  If they are not happy&#8230; :-(</p>
 
 <p>Given this is <em>sort of</em> in the Agile Manifesto you would think it would be well known now that everyone is &#8216;Going Agile&#8217;.
-But reviewing the <a href="http://www.agilemanifesto.org">Agile Manifesto</a>, I see that it &#8220;backed off&#8221; saying what it should say.  The lines that it should have
-is:</p>
+But reviewing the <a href="http://www.agilemanifesto.org">Agile Manifesto</a>, I see that it &#8220;backed off&#8221; saying what it should say.
+The lines that it should have within it are:</p>
 
 <ul>
 <li>Working software over &#8230;everything&#8230;</li>
@@ -157,8 +165,8 @@ is:</p>
 </ul>
 
 
-<p>But because software developers think they are special&#8230; unusually talented in a way that is beyond the customer&#8230; like &#8216;artists&#8217;.
-They think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say &#8216;Food&#8217;:</p>
+<p>But because software developers think they are special&#8230; unusually talented in a way that is beyond the customer&#8230; like &#8216;artists&#8217;&#8230;
+they think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say &#8216;Food&#8217;:</p>
 
 <ul>
 <li> Working food (e.g. good produce, a cooked meal, etc.) over ???</li>
@@ -167,7 +175,8 @@ They think these two lines do not apply to them.  Again, the insanity of it is e
 
 
 <p>Pretty sure if you nail the second bullet, you nailed the first one (and maybe some more).  And not nailing both these
-bullets is a path to failure.  So the actual pyramid is this:</p>
+bullets is a path to failure.  The question marks
+are replaceable with &#8216;everything not mentioned&#8217;.  So the actual pyramid is this:</p>
 
 <ul>
 <li>Happy Customer (100%)
@@ -191,7 +200,7 @@ bullets is a path to failure.  So the actual pyramid is this:</p>
 
 
 <p>You can have less than totally happy customers.  You should try to fix that or you can just be content with the
-&#8216;Quality&#8217; of your product.</p>
+&#8216;Quality&#8217; of your product being sub-par.</p>
 
 <p>You can hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
 bad your job is (but google &#8220;Worst Jobs&#8221; to see you don&#8217;t have it so bad).  But you can&#8217;t say that <em>your customer</em>
@@ -200,11 +209,12 @@ shouldn&#8217;t be 100% happy&#8230; or as happy as you can make them.</p>
 <h4>Lie: Automated Testing and Quality Verification</h4>
 
 <p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
-tests and our QA verification servers happy.  We are going to make them happy <em>more</em> than our customer and <em>before</em>
-our customer.</p>
+tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and <em>before</em>
+we make our customer happy.</p>
 
-<p>This actually pops up as a lie in education too.  We try to make the tests happy as opposed to the students.  But
-in most an <em>normal</em> industry, making a &#8216;test&#8217; happy instead of a customer is a crazy and effective way to
+<p>This actually pops up as a &#8216;truth&#8217; in education too.  We try to make the tests happy as opposed to the students,
+except in exceptional schools that Think Different.  But
+in most any <em>normal</em> industry, making a &#8216;test&#8217; happy instead of a customer is a crazy and effective way to
 go out of business.  Say we inspected and tested <em>every</em> hamburger before it went out the door.  Fast food would
 take on a whole new meaning as it took minutes per-person to do the inspection.  And things like &#8216;salad&#8217; would
 be unservable.  Salad almost always has something weird in it, and finding it takes about the same amount of time
