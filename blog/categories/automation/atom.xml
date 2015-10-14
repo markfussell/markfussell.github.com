@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T11:08:44-07:00</updated>
+  <updated>2015-10-14T11:12:21-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -553,8 +553,10 @@ on what you are testing.</p>
 
 <h3>Autodeploying IT and Application</h3>
 
-<p>We now have a completed automated upgrade system for our servers and
-for the application whenever we touch the code base:</p>
+<p>We now have a completely automated upgrade system for both our IT (servers) and
+for the applications those servers are running.  Whenever we touch the code base
+and 'push' the changes so the servers can see/pull them (PushMePullYou), they automatically
+decommission, deploy and confirm the deploy was successful.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
 ]]></content>
