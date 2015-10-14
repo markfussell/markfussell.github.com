@@ -399,6 +399,85 @@ something more specific.</p>
 a problem because we will first &#8216;shutdown&#8217; and let the load balancer pull us out of rotation before we actually
 upgrade versions.</p>
 
+<h4>Launching</h4>
+
+<p>Making something into a daemon is a common approach, but an even simpler approach is just redirect stdout and stderr
+on a detached process.  Trying this from a terminal appears to not work, because everything is a child
+of the terminal login process.  But to get out of that problem, you can just use &#8216;screen&#8217; and
+create a non-terminal-connected screen.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>screen
+</span><span class='line'>./gradlew run &amp;
+</span><span class='line'><span class="c">#Control-D</span>
+</span><span class='line'>ps aux | grep java
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is just for testing with a manual launch.  Our cron job doesn&#8217;t have this issue and can start and restart
+things without the extra effort.</p>
+
+<h4>Logging</h4>
+
+<p>The heartbeat cron job has its own logs, so everything would appear there by default.  We can change the destination to
+something more informative / isolated by redirecting stdout and stderr.  Ultimately we would use a logging
+framework and infrastructure (e.g. Graylog) to get everything off the machine and into a central logger.</p>
+
+<h4>Killing</h4>
+
+<p>Again, because we will ultimate decommission ourselves, we can be quite brutal to the running application.  Whenever
+we are going offline, we mark ourselves as decommissioned and drain out all &#8216;clients&#8217;.  For a web server this is
+very quick.  For other servers (like a game server with shared game state), this can take a while.  So the states are:</p>
+
+<ul>
+<li>Running
+
+<ul>
+<li>Add Users</li>
+<li>Keep Steady</li>
+<li>Drain Users</li>
+</ul>
+</li>
+<li>Decommissioning
+
+<ul>
+<li>Drain Users</li>
+<li>Drained</li>
+</ul>
+</li>
+<li>Decommission
+
+<ul>
+<li>Graceful shutdown</li>
+<li>Kill application</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The last one is the critical one.  Although &#8216;tomcat&#8217; and others have a graceful shutdown, <em>it does not always work</em>.
+We must be able to decommission properly, or we have to kill the application.  If we can&#8217;t decommission a node
+successfully, we can not bring it back to &#8216;running&#8217; and so our instance pool has shrunk.  Ideally our infrastructure
+recognizes this and either (a) kills the node or (b) marks the node as permanently unavailable and bumps the count
+of expected nodes in the array (say from 4 to 5 to include one being permanently unavailable).
+The benefit of &#8216;b&#8217; is we can investigate the node later.  But either is operationally reasonable.</p>
+
+<p>So for the moment, lets just do the last one to decommission:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Log what we are killing... could also test whether &#39;kill&#39; is needed</span>
+</span><span class='line'>
+</span><span class='line'>ps aux | grep java | grep -v grep
+</span><span class='line'>ps aux | grep java | grep -v grep | awk <span class="s1">&#39;{print $2}&#39;</span> | xargs <span class="nb">kill</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>DNS Stability</h2>
 
 <p>The DNS stability is a trivial thing on EC2 and basically any modern DNS system.  Trivial as long as we understand
@@ -451,7 +530,7 @@ knows where the google servers are.</p>
 <ul>
 <li> Via the console</li>
 <li> Via an XML-based payload update</li>
-<li> Via settings in a CloudFormation</li>
+<li> Via adding some elements to a CloudFormation</li>
 </ul>
 
 

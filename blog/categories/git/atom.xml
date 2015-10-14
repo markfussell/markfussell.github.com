@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T10:01:05-07:00</updated>
+  <updated>2015-10-14T10:34:18-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -274,6 +274,80 @@ popd
 a problem because we will first 'shutdown' and let the load balancer pull us out of rotation before we actually
 upgrade versions.</p>
 
+<h4>Launching</h4>
+
+<p>Making something into a daemon is a common approach, but an even simpler approach is just redirect stdout and stderr
+on a detached process.  Trying this from a terminal appears to not work, because everything is a child
+of the terminal login process.  But to get out of that problem, you can just use 'screen' and
+create a non-terminal-connected screen.</p>
+
+<p>```bash
+screen
+./gradlew run &amp;</p>
+
+<h1>Control-D</h1>
+
+<p>ps aux | grep java
+```</p>
+
+<p>This is just for testing with a manual launch.  Our cron job doesn't have this issue and can start and restart
+things without the extra effort.</p>
+
+<h4>Logging</h4>
+
+<p>The heartbeat cron job has its own logs, so everything would appear there by default.  We can change the destination to
+something more informative / isolated by redirecting stdout and stderr.  Ultimately we would use a logging
+framework and infrastructure (e.g. Graylog) to get everything off the machine and into a central logger.</p>
+
+<h4>Killing</h4>
+
+<p>Again, because we will ultimate decommission ourselves, we can be quite brutal to the running application.  Whenever
+we are going offline, we mark ourselves as decommissioned and drain out all 'clients'.  For a web server this is
+very quick.  For other servers (like a game server with shared game state), this can take a while.  So the states are:</p>
+
+<ul>
+<li>Running
+
+<ul>
+<li>Add Users</li>
+<li>Keep Steady</li>
+<li>Drain Users</li>
+</ul>
+</li>
+<li>Decommissioning
+
+<ul>
+<li>Drain Users</li>
+<li>Drained</li>
+</ul>
+</li>
+<li>Decommission
+
+<ul>
+<li>Graceful shutdown</li>
+<li>Kill application</li>
+</ul>
+</li>
+</ul>
+
+
+<p>The last one is the critical one.  Although 'tomcat' and others have a graceful shutdown, <em>it does not always work</em>.
+We must be able to decommission properly, or we have to kill the application.  If we can't decommission a node
+successfully, we can not bring it back to 'running' and so our instance pool has shrunk.  Ideally our infrastructure
+recognizes this and either (a) kills the node or (b) marks the node as permanently unavailable and bumps the count
+of expected nodes in the array (say from 4 to 5 to include one being permanently unavailable).
+The benefit of 'b' is we can investigate the node later.  But either is operationally reasonable.</p>
+
+<p>So for the moment, lets just do the last one to decommission:</p>
+
+<p>```bash</p>
+
+<h1>Log what we are killing... could also test whether 'kill' is needed</h1>
+
+<p>ps aux | grep java | grep -v grep
+ps aux | grep java | grep -v grep | awk '{print $2}' | xargs kill
+```</p>
+
 <h2>DNS Stability</h2>
 
 <p>The DNS stability is a trivial thing on EC2 and basically any modern DNS system.  Trivial as long as we understand
@@ -326,7 +400,7 @@ knows where the google servers are.</p>
 <ul>
 <li> Via the console</li>
 <li> Via an XML-based payload update</li>
-<li> Via settings in a CloudFormation</li>
+<li> Via adding some elements to a CloudFormation</li>
 </ul>
 
 
