@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Advanced Development and Delivery (ADD) [Part-5] - Polyglot</title>
+  <title>Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the fifth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="There is also a PDF version here which might be easier to read
+because it has a bit more formatting. <div style='mso-element:para-border-div;border: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-5/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/page/5/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,12 +63,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-5]</h1>
+      <h1 class="entry-title"><a href="/blog/smalljava/">SmallJava: Smalltalk to Java&#8230; Using Language Transformation to Show Language Differences</a></h1>
     
     
       <p class="meta">
@@ -83,115 +87,56 @@
   
 
 
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
+<time datetime="1997-05-07T18:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 1997</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
+  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
+because it has a bit more formatting.</p>
 
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, and the one minute configuration HeartBeat.</p>
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
 
-<h2>HipChat</h2>
+<h1><a name="_Toc387781516">Overview and Introduction</a></h1>
 
-<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
-to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
-system (kind of like a command line) but that isn&#8217;t very important since it would just make changes in GitHub
-which can be made in lots of different ways.</p>
-
-<p>The demo of this is very simple:</p>
-
-<p><img src="/images/add-5/add5_hipchat_cv1.png" /></p>
-
-<!-- more -->
-
-
-<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
-to the working script:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh
-</span><span class='line'>sleep 121
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh -c green
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So now we have &#8216;Action in GitHub&#8217; and visibility to all the activities of the machines that reacted to
-that action.  Finally we can have human augmentation like &#8220;@Team New version is up on the development server&#8221;
-to transform something technical to something more meaningful.  With proper use of colors, the state
-of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
 </div>
 
 
-  <footer>
-    <p class="meta">
-      
+
+
+<p class=MsoNormal>In this document I will compare and contrast Smalltalk and
+Java using a somewhat unusual approach: I will transform one language
+(Smalltalk) into the other (Java) by a series of small steps in an intermediary
+language (SmallJava).<span style="mso-spacerun: yes">&nbsp; </span>With each
+step I will discuss how the new properties of the intermediate language compare
+and contrast to the properties of the previous version of the language.<span
+style="mso-spacerun: yes">&nbsp; </span></p>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/smalljava/">Read on &rarr;</a>
+    </footer>
   
 
-<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
 
-      
-
-
-
-
-
-
-
-
+    </article>
   
-
-
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-5/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-5/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/add-4/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-4]">&laquo; Advanced Development and Delivery (ADD) [Part-4]</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/add-6/" title="Next Post: Advanced Development and Delivery (ADD) [Part-6]">Advanced Development and Delivery (ADD) [Part-6] &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/blog/page/4/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -237,7 +182,7 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/markfussell">@markfussell</a> on GitHub
@@ -271,7 +216,6 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -286,10 +230,7 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
       var disqus_shortname = 'markfussell';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-5/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/add-5/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

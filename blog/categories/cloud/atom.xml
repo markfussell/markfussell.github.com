@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-11T16:29:35-07:00</updated>
+  <updated>2015-10-14T08:02:41-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-11]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-11/"/>
+    <updated>2015-10-14T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-11</id>
+    <content type="html"><![CDATA[<p>This is the elevent installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, inter-machine presence,
+and configuring an application server and its' stack.</p>
+
+<h2>It's Alive!</h2>
+
+<p>We are close to having a viable semi-production environment running the latest version of our code, and with an incredible
+capability of configuring, controlling, and being informed of that environment.  With the simple line:</p>
+
+<p>```bash
+mkdir -p /root/app/
+cd /root/app</p>
+
+<p>git clone git@github.com:grails-samples/grails-petclinic.git
+cd grails-petclinic
+./gradlew run
+```</p>
+
+<p>We got:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-10/add10_grails2.png" /></p>
+
+<!-- more -->
+
+
+<p>Which is almost what we want... except.</p>
+
+<ul>
+<li> We need that IP address to be a stable domain name</li>
+<li> We need the 'clone' to be augmented with subsequent 'git pull' in case there are subsequent updates</li>
+</ul>
+
+
+<p>In reverse order</p>
+
+<h3>Pulling the Application</h3>
+
+<p>Going back to the one-minute heartbeat, we had this 'cron' job:</p>
+
+<p>```bash
+mkdir -p /root/bin
+cp ${RESOURCE}/cron_1m.sh /root/bin/cron_1m.sh
+chmod +x /root/bin/cron_1m.sh</p>
+
+<p>cat &lt;<EOS > /var/spool/cron/root
+MAILTO=""</p>
+
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>/root/bin/cron_1m.sh
+EOS
+```</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Where part of the cron was described as:</p>
+
+<p>```bash</p>
+
+<pre><code>        bash_ifexist bin/nodework/common/work.sh
+        bash_ifexist bin/nodework/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
+        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/work.sh
+        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
+</code></pre>
+
+<p>```</p>
+
+<p>That is both too much code and too little to understand what is going on.  It is too much because we don't need to put anything but
+the first line in the 'cron_1b.sh'.  It is "fine" to do so, but if we add some new concept we have to rebuild machines (or
+dynamically copy in new 'cron_1m.sh') vs. the simpler option of just having the first 'work' cal the rest of the 'work'.</p>
+
+<p>The part that is too little is the part where a bunch of git repositories are getting updated.  The full 'cron_1m.sh' looks
+like this:</p>
+
+<h4>cron_1m.sh</h4>
+
+<p>```bash</p>
+
+<h1>! /bin/bash</h1>
+
+<h1>================================</h1>
+
+<h1>=== Simple worker example</h1>
+
+<h1>================================</h1>
+
+<p>export ME=<code>basename $0</code>
+export LOG=/root/log/${ME}<em>log.txt
+export ERROR=/root/log/${ME}</em>error.txt
+export START_TSS="<code>date +%Y%m%d-%H%M%S</code>"</p>
+
+<p>export CURRENT_ACTION_FILE=./.temp/nodeinfo/currentaction.txt</p>
+
+<p>bash_ifexist () { if [[ -f "$1" ]]; then bash "$1"; else echo "Skipped missing: $1"; fi }</p>
+
+<p>mkdir -p /root/log/</p>
+
+<p>exec 1>> ${LOG}
+exec 2>> ${ERROR}</p>
+
+<p>echo "${ME}: Start  ${START_TSS}" >> ${LOG}</p>
+
+<p>export REPOS=<code>find /root/gitrepo/ -maxdepth 1 -mindepth 1</code>
+for REPO in ${REPOS}; do</p>
+
+<pre><code>pushd ${REPO}
+    git pull
+popd
+</code></pre>
+
+<p>done</p>
+
+<p>for REPO in ${REPOS}; do</p>
+
+<pre><code>pushd ${REPO}
+    if [[ -e ${CURRENT_ACTION_FILE} ]]; then
+        : #Don't do anything until the current action completes
+    else
+        bash_ifexist bin/nodework/common/work.sh
+    fi
+popd
+</code></pre>
+
+<p>done</p>
+
+<p>export FINISH_TSS="<code>date +%Y%m%d-%H%M%S</code>"
+echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}
+```</p>
+
+<p>The reason for the double loop is to make sure inter-repository interactions are all "at the same time".  After the set
+of 'pulls', everything is stable.  We could even slow down the tempo of the system by simply pulling less often and
+could jitter before the set of 'pulls' which would jitter the whole system.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-10]]]></title>
@@ -760,165 +913,6 @@ of concepts are intentionally alphabetically 'sorted' so they appear in the corr
 <h4>Working viewed within Presence / SourceTree</h4>
 
 <p><img src="http://markfussell.emenar.com/images/add-7/add7_presence_cv1.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-6]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-6/"/>
-    <updated>2015-10-02T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-6</id>
-    <content type="html"><![CDATA[<p>This is the sixth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, and HipChat integration.</p>
-
-<h2>'Part' Provisioning</h2>
-
-<p>Each node plays a singular 'Part'.  A 'part' is a unique combination of roles (in the chef sense) that identifies
-exactly how the node should be provisioned, usually globally, but at least for each stacktype.  A standard array
-of parts would be the LAMP stack:</p>
-
-<ul>
-<li> Load Balancer (lb)</li>
-<li> Application Server (app)</li>
-<li> Database Server  (db)</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>The most interesting thing about parts is hooking them together.  Load balancers need to know about application servers.
-Application servers need to know where the databases are.  This feature I call 'presence'.  There are a lot
-of fancy ways to solve 'presence'.  There could be 'presence' servers that servers register with.  Or 'presence' servers
-that poll AWS registries.  Certain products keep their 'CI' (Configuration Item) information in databases: both SQL and
-other kinds.</p>
-
-<p>All of this is stupidly complex and treats the nodes as if they are idiots.  Pretty sure these nodes can be made about
-as smart as a young student (say elementary school or even younger).  A young person is perfectly capable of putting
-their name on a list.  And then listing some other interesting things about them.  A node can do the same.  So all
-we need is a list.  The classic list for a computer?  A folder.  A folder containing files.  A file named after a node's
-unique name.  And a file containing information about the node.  Voila.  No SPOF (can have two folders stored differently),
-and no additional nodes doing something stupidly simple.</p>
-
-<h2>Demo or Die!</h2>
-
-<p>So we already have a 'HeartBeat' server, all we need are for it to write somewhere what it's state is.  That is
-quite simple:</p>
-
-<h3>updatePresence.sh</h3>
-
-<p>This simply writes information in ~/nodeinfo into a JSON file.  To make that JSON file a little nicer we python
-format it.  What gets written into the JSON file?  Basically anything we want!  When?  Every minute!  Ta Da...
-the trick is done.</p>
-
-<p>```bash</p>
-
-<h1>!/bin/bash</h1>
-
-<p>...</p>
-
-<h1>====================================================</h1>
-
-<h1>=== Generate file</h1>
-
-<h1>====================================================</h1>
-
-<p>export INSTANCE_ID="<code>cat /root/nodeinfo/instance-id.txt</code>"
-echo $INSTANCE_ID</p>
-
-<p>cat &lt;<EOS >>$PRESENCE_TEMP
-{
-"filetype":"nodepresence",
-"value": {</p>
-
-<pre><code>"a":"a"
-</code></pre>
-
-<p>EOS</p>
-
-<p>FILES=( "initgitrepo" "instance-id" "nodepart" "stacktype" )</p>
-
-<p>for i in "${FILES[@]}"
-do</p>
-
-<pre><code>cat &lt;&lt;EOS &gt;&gt;$PRESENCE_TEMP
-,
-"$i":"`cat /root/nodeinfo/${i}.txt`"
-</code></pre>
-
-<p>EOS
-done</p>
-
-<p>cat &lt;<EOS >>$PRESENCE_TEMP
-}
-}
-EOS</p>
-
-<p>cat $PRESENCE_TEMP | python -mjson.tool > $PRESENCE_TEMP2
-cat $PRESENCE_TEMP2</p>
-
-<h1>| bash ${COMMON}/send_hipchat.sh -c green</h1>
-
-<h1>====================================================</h1>
-
-<h1>=== Switch to the presence repository and copy file</h1>
-
-<h1>====================================================</h1>
-
-<p>pushd $REPO_ROOT</p>
-
-<p>if [ ! -d "$PRESENCE_REPO" ]; then
-  echo "git clone git@github.com:shaklee/${PRESENCE_REPO}.git"
-  git clone git@github.com:shaklee/${PRESENCE_REPO}.git
-fi</p>
-
-<p>if [ -d "$PRESENCE_REPO" ]; then
-  cd $PRESENCE_REPO
-  git pull</p>
-
-<p>  #Now splat it out to all the proper places
-  TARGETS=( "it/presence/all" )
-  for i in "${TARGETS[@]}"
-  do</p>
-
-<pre><code>mkdir -p $i
-cp -f $PRESENCE_TEMP2 $i/${INSTANCE_ID}.json
-</code></pre>
-
-<p>  done</p>
-
-<p>  git add .
-  git commit -m "Updated by $INSTANCE_ID"; git push
-  #Now need to see if this works... but the following is an easy trick in the small
-  git pull; git push; git pull; git push</p>
-
-<p>  #Repeat until push succeeds
-else
-  echo "Not working!"
-fi</p>
-
-<p>popd</p>
-
-<p>```</p>
-
-<p>And with the above script we get this simple and beautiful view:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-6/add6_sourceTree_cv1.png" /></p>
-
-<h2>Collisions</h2>
-
-<p>OK, updating a GitHub repository every minute is not the smartest thing to do at scale... but: if the file
-is the same, Git won't do anything.  And if we want, we can always turn down the noise.</p>
-
-<h2>Death</h2>
-
-<p>A machine can die or be killed, so presence information could be out of date.  The solution is just to
-broadcast a 'HeartBeat' in either the presence repository or another repository.  Or to make sure to
-check if the machine is actually responsive (e.g. HAProxy will interact with the machine to make sure it
-is actually alive) vs. being present.  This final interaction is pretty critical (no Zombies in my data center),
-so that is the best way to figure out who is alive and alert vs. just being present.</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Advanced Development and Delivery (ADD) [Part-11] - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="This is the elevent installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-11/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Build Valuable Systems, Better and Faster</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.emenar.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-11]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-14T01:00:00-07:00" pubdate data-updated="true">Oct 14<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is the elevent installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, inter-machine presence,
+and configuring an application server and its&#8217; stack.</p>
+
+<h2>It&#8217;s Alive!</h2>
+
+<p>We are close to having a viable semi-production environment running the latest version of our code, and with an incredible
+capability of configuring, controlling, and being informed of that environment.  With the simple line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/app/
+</span><span class='line'><span class="nb">cd</span> /root/app
+</span><span class='line'>
+</span><span class='line'>git clone git@github.com:grails-samples/grails-petclinic.git
+</span><span class='line'><span class="nb">cd </span>grails-petclinic
+</span><span class='line'>./gradlew run
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We got:</p>
+
+<p><img src="/images/add-10/add10_grails2.png" /></p>
+
+<!-- more -->
+
+
+<p>Which is almost what we want&#8230; except.</p>
+
+<ul>
+<li> We need that IP address to be a stable domain name</li>
+<li> We need the &#8216;clone&#8217; to be augmented with subsequent &#8216;git pull&#8217; in case there are subsequent updates</li>
+</ul>
+
+
+<p>In reverse order</p>
+
+<h3>Pulling the Application</h3>
+
+<p>Going back to the one-minute heartbeat, we had this &#8216;cron&#8217; job:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/bin
+</span><span class='line'>cp <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/cron_1m.sh /root/bin/cron_1m.sh
+</span><span class='line'>chmod +x /root/bin/cron_1m.sh
+</span><span class='line'>
+</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt; /var/spool/cron/root</span>
+</span><span class='line'><span class="s">MAILTO=&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">* * * * *  /root/bin/cron_1m.sh</span>
+</span><span class='line'><span class="s">EOS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Where part of the cron was described as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>        bash_ifexist bin/nodework/common/work.sh
+</span><span class='line'>        bash_ifexist bin/nodework/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/work.sh
+</span><span class='line'>        bash_ifexist bin/nodework/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/work.sh
+</span><span class='line'>        bash_ifexist bin/nodework/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/work.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That is both too much code and too little to understand what is going on.  It is too much because we don&#8217;t need to put anything but
+the first line in the &#8216;cron_1b.sh&#8217;.  It is &#8220;fine&#8221; to do so, but if we add some new concept we have to rebuild machines (or
+dynamically copy in new &#8216;cron_1m.sh&#8217;) vs. the simpler option of just having the first &#8216;work&#8217; cal the rest of the &#8216;work&#8217;.</p>
+
+<p>The part that is too little is the part where a bunch of git repositories are getting updated.  The full &#8216;cron_1m.sh&#8217; looks
+like this:</p>
+
+<h4>cron_1m.sh</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/bash</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'><span class="c">#=== Simple worker example</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">ME</span><span class="o">=</span><span class="sb">`</span>basename <span class="nv">$0</span><span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LOG</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_log.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">ERROR</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_error.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">START_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">CURRENT_ACTION_FILE</span><span class="o">=</span>./.temp/nodeinfo/currentaction.txt
+</span><span class='line'>
+</span><span class='line'>bash_ifexist <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="s2">&quot;$1&quot;</span> <span class="o">]]</span>; <span class="k">then </span>bash <span class="s2">&quot;$1&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="s2">&quot;Skipped missing: $1&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p /root/log/
+</span><span class='line'>
+</span><span class='line'><span class="nb">exec </span>1&gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'><span class="nb">exec </span>2&gt;&gt; <span class="k">${</span><span class="nv">ERROR</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Start  ${START_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">REPOS</span><span class="o">=</span><span class="sb">`</span>find /root/gitrepo/ -maxdepth 1 -mindepth 1 <span class="sb">`</span>
+</span><span class='line'><span class="k">for </span>REPO in <span class="k">${</span><span class="nv">REPOS</span><span class="k">}</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">pushd</span> <span class="k">${</span><span class="nv">REPO</span><span class="k">}</span>
+</span><span class='line'>        git pull
+</span><span class='line'>    <span class="nb">popd</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>REPO in <span class="k">${</span><span class="nv">REPOS</span><span class="k">}</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">pushd</span> <span class="k">${</span><span class="nv">REPO</span><span class="k">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">CURRENT_ACTION_FILE</span><span class="k">}</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'>            : <span class="c">#Don&#39;t do anything until the current action completes</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'><span class="k">            </span>bash_ifexist bin/nodework/common/work.sh
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    </span><span class="nb">popd</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">FINISH_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Finish ${FINISH_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The reason for the double loop is to make sure inter-repository interactions are all &#8220;at the same time&#8221;.  After the set
+of &#8216;pulls&#8217;, everything is stable.  We could even slow down the tempo of the system by simply pulling less often and
+could jitter before the set of &#8216;pulls&#8217; which would jitter the whole system.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-14T01:00:00-07:00" pubdate data-updated="true">Oct 14<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-11/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-11/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/add-10/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-10]">&laquo; Advanced Development and Delivery (ADD) [Part-10]</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/add-11/">Advanced Development and Delivery (ADD) [Part-11]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-10/">Advanced Development and Delivery (ADD) [Part-10]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-9/">Advanced Development and Delivery (ADD) [Part-9]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-8/">Advanced Development and Delivery (ADD) [Part-8]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+    <h1>Categories</h1>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 138.8235294117647%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 145.88235294117646%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 149.41176470588235%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 156.47058823529412%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 149.41176470588235%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-11/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/add-11/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

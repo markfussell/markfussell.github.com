@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-11T16:29:35-07:00</updated>
+  <updated>2015-10-14T08:02:41-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,192 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-11]]]></title>
+    <link href="http://markfussell.emenar.com/blog/add-11/"/>
+    <updated>2015-10-14T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add-11</id>
+    <content type="html"><![CDATA[<p>This is the elevent installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, inter-machine presence,
+and configuring an application server and its&#8217; stack.</p>
+
+<h2>It&#8217;s Alive!</h2>
+
+<p>We are close to having a viable semi-production environment running the latest version of our code, and with an incredible
+capability of configuring, controlling, and being informed of that environment.  With the simple line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/app/
+</span><span class='line'><span class="nb">cd</span> /root/app
+</span><span class='line'>
+</span><span class='line'>git clone git@github.com:grails-samples/grails-petclinic.git
+</span><span class='line'><span class="nb">cd </span>grails-petclinic
+</span><span class='line'>./gradlew run
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We got:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-10/add10_grails2.png" /></p>
+
+<!-- more -->
+
+
+<p>Which is almost what we want&#8230; except.</p>
+
+<ul>
+<li> We need that IP address to be a stable domain name</li>
+<li> We need the &#8216;clone&#8217; to be augmented with subsequent &#8216;git pull&#8217; in case there are subsequent updates</li>
+</ul>
+
+
+<p>In reverse order</p>
+
+<h3>Pulling the Application</h3>
+
+<p>Going back to the one-minute heartbeat, we had this &#8216;cron&#8217; job:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/bin
+</span><span class='line'>cp <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/cron_1m.sh /root/bin/cron_1m.sh
+</span><span class='line'>chmod +x /root/bin/cron_1m.sh
+</span><span class='line'>
+</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt; /var/spool/cron/root</span>
+</span><span class='line'><span class="s">MAILTO=&quot;&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s">* * * * *  /root/bin/cron_1m.sh</span>
+</span><span class='line'><span class="s">EOS</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Where part of the cron was described as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>        bash_ifexist bin/nodework/common/work.sh
+</span><span class='line'>        bash_ifexist bin/nodework/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/work.sh
+</span><span class='line'>        bash_ifexist bin/nodework/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/work.sh
+</span><span class='line'>        bash_ifexist bin/nodework/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/work.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That is both too much code and too little to understand what is going on.  It is too much because we don&#8217;t need to put anything but
+the first line in the &#8216;cron_1b.sh&#8217;.  It is &#8220;fine&#8221; to do so, but if we add some new concept we have to rebuild machines (or
+dynamically copy in new &#8216;cron_1m.sh&#8217;) vs. the simpler option of just having the first &#8216;work&#8217; cal the rest of the &#8216;work&#8217;.</p>
+
+<p>The part that is too little is the part where a bunch of git repositories are getting updated.  The full &#8216;cron_1m.sh&#8217; looks
+like this:</p>
+
+<h4>cron_1m.sh</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/bash</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'><span class="c">#=== Simple worker example</span>
+</span><span class='line'><span class="c">#================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">ME</span><span class="o">=</span><span class="sb">`</span>basename <span class="nv">$0</span><span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">LOG</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_log.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">ERROR</span><span class="o">=</span>/root/log/<span class="k">${</span><span class="nv">ME</span><span class="k">}</span>_error.txt
+</span><span class='line'><span class="nb">export </span><span class="nv">START_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">CURRENT_ACTION_FILE</span><span class="o">=</span>./.temp/nodeinfo/currentaction.txt
+</span><span class='line'>
+</span><span class='line'>bash_ifexist <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="s2">&quot;$1&quot;</span> <span class="o">]]</span>; <span class="k">then </span>bash <span class="s2">&quot;$1&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="s2">&quot;Skipped missing: $1&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p /root/log/
+</span><span class='line'>
+</span><span class='line'><span class="nb">exec </span>1&gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'><span class="nb">exec </span>2&gt;&gt; <span class="k">${</span><span class="nv">ERROR</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Start  ${START_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">REPOS</span><span class="o">=</span><span class="sb">`</span>find /root/gitrepo/ -maxdepth 1 -mindepth 1 <span class="sb">`</span>
+</span><span class='line'><span class="k">for </span>REPO in <span class="k">${</span><span class="nv">REPOS</span><span class="k">}</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">pushd</span> <span class="k">${</span><span class="nv">REPO</span><span class="k">}</span>
+</span><span class='line'>        git pull
+</span><span class='line'>    <span class="nb">popd</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>REPO in <span class="k">${</span><span class="nv">REPOS</span><span class="k">}</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">pushd</span> <span class="k">${</span><span class="nv">REPO</span><span class="k">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">CURRENT_ACTION_FILE</span><span class="k">}</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'>            : <span class="c">#Don&#39;t do anything until the current action completes</span>
+</span><span class='line'>        <span class="k">else</span>
+</span><span class='line'><span class="k">            </span>bash_ifexist bin/nodework/common/work.sh
+</span><span class='line'>        <span class="k">fi</span>
+</span><span class='line'><span class="k">    </span><span class="nb">popd</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">FINISH_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;${ME}: Finish ${FINISH_TSS}&quot;</span> &gt;&gt; <span class="k">${</span><span class="nv">LOG</span><span class="k">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The reason for the double loop is to make sure inter-repository interactions are all &#8220;at the same time&#8221;.  After the set
+of &#8216;pulls&#8217;, everything is stable.  We could even slow down the tempo of the system by simply pulling less often and
+could jitter before the set of &#8216;pulls&#8217; which would jitter the whole system.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-10]]]></title>
@@ -5048,242 +5234,6 @@ Then
 <h2>Summary: Ruby has it wrong &#8211; We need CamelWords or hyphen-words</h2>
 
 <p>So I believe Ruby has it wrong and am very unhappy a modern language started 20 years after Smalltalk and several years after Dylan would get this kind of thing wrong.  And I recommend moving the Ruby standard to the CamelWord_UnderPhrase standard, or allowing the hyphen and use the hyphen-word_under-phrase standard.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Ruby (Part 7)]]></title>
-    <link href="http://markfussell.emenar.com/blog/a-taste-of-ruby-part-7/"/>
-    <updated>2008-09-03T02:28:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/a-taste-of-ruby-part-7</id>
-    <content type="html"><![CDATA[<p>This is a multi-part series.  The first in the series is <a href="http://markfussell.emenar.com/blog/a-taste-of-ruby">here</a>.</p>
-
-<h2>Tower of Hanoi &mdash; Rules on Rails</h2>
-
-<p>In part 6 we changed the algorithm of Tower Of Hanoi to work without requiring the stack &#8211; it instead &#8220;more naturally&#8221; put sufficient state and logic into the model that the model could start and stop and continue as needed.  I believe with Ruby 1.8.x, this is required to have Rails be able to work with the Tower of Hanoi.  So we should try it out and see how well it works :-)</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;hanoi_7&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">HanoiController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span>
-</span><span class='line'>    <span class="vi">@hanoi</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:hanoi</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="vi">@hanoi</span> <span class="o">==</span> <span class="kp">nil</span><span class="p">)</span> <span class="k">then</span>
-</span><span class='line'>      <span class="vi">@hanoi</span> <span class="o">=</span> <span class="n">createHanoi</span>
-</span><span class='line'>      <span class="n">session</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="n">session</span><span class="o">[</span><span class="ss">:consoleLog</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="vi">@hanoi</span><span class="o">.</span><span class="n">initApp</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@isDone</span> <span class="o">=</span> <span class="vi">@hanoi</span><span class="o">.</span><span class="n">doNextMove_IsDone</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">#clear the app because otherwise it will be part of the attempted serialization</span>
-</span><span class='line'>    <span class="c1">#could also override the marshaling code, but this is simpler</span>
-</span><span class='line'>    <span class="vi">@hanoi</span><span class="o">.</span><span class="n">initApp</span><span class="p">(</span><span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">#clear out the session variable, but @hanoi is still valid through</span>
-</span><span class='line'>    <span class="c1">#the rest of this interaction</span>
-</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:hanoi</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@isDone</span> <span class="p">?</span> <span class="kp">nil</span> <span class="p">:</span> <span class="vi">@hanoi</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="vi">@count</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span> <span class="o">||=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="vi">@count</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@count</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="vi">@isDone</span><span class="p">)</span> <span class="k">then</span>
-</span><span class='line'>      <span class="n">render</span><span class="p">(</span><span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s1">&#39;say_done&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">appendLog</span><span class="p">(</span><span class="n">outString</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Append to Log: &quot;</span><span class="o">+</span><span class="n">outString</span><span class="p">)</span>
-</span><span class='line'>    <span class="vi">@consoleLog</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:consoleLog</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>    <span class="vi">@consoleLog</span> <span class="o">=</span> <span class="vi">@consoleLog</span> <span class="o">+</span> <span class="n">outString</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:consoleLog</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@consoleLog</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">noteChange</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">createHanoi</span>
-</span><span class='line'>    <span class="n">hanoi</span> <span class="o">=</span> <span class="no">RulesTowerOfHanoi</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="n">hanoi</span><span class="o">.</span><span class="n">initHeight</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">hanoi</span><span class="o">.</span><span class="n">setup_disks</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">hanoi</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">getAsciiTowers</span>
-</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-</span><span class='line'>    <span class="n">lines</span> <span class="o">=</span> <span class="nb">Array</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>    <span class="vi">@hanoi</span><span class="o">.</span><span class="n">stacks</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span> <span class="n">eachStack</span><span class="p">,</span> <span class="n">i</span> <span class="o">|</span>
-</span><span class='line'>      <span class="mi">0</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span> <span class="n">j</span> <span class="o">|</span>
-</span><span class='line'>        <span class="n">eachDisk</span> <span class="o">=</span> <span class="n">eachStack</span><span class="o">[</span><span class="n">j</span><span class="o">]</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">eachDisk</span> <span class="o">==</span> <span class="kp">nil</span><span class="p">)</span> <span class="k">then</span>
-</span><span class='line'>          <span class="n">newLine</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">12</span>
-</span><span class='line'>        <span class="k">else</span>
-</span><span class='line'>          <span class="n">newLine</span> <span class="o">=</span> <span class="n">eachDisk</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'>        <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">newLine</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; &quot;</span><span class="o">*</span><span class="p">(</span><span class="mi">12</span> <span class="o">-</span> <span class="n">newLine</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="n">currentLine</span> <span class="o">=</span> <span class="n">lines</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;&quot;</span>
-</span><span class='line'>        <span class="n">lines</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">currentLine</span><span class="o">+</span><span class="s2">&quot; &quot;</span><span class="o">+</span><span class="n">newLine</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">lines</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="n">result</span> <span class="o">+=</span> <span class="n">line</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;</span>
-</span><span class='line'><span class="cp">        &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;html</span> <span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/1999/xhtml&quot;</span> <span class="na">xml:lang=</span><span class="s">&quot;en&quot;</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'><span class="nt">&lt;head&gt;</span>
-</span><span class='line'><span class="nt">&lt;title&gt;</span>Foo <span class="err">&lt;</span>%= @page_title %&gt;<span class="nt">&lt;/title&gt;</span>
-</span><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span> <span class="nt">/&gt;</span>
-</span><span class='line'><span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;refresh&quot;</span> <span class="na">content=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'><span class="err">&lt;</span>%= javascript_include_tag :defaults %&gt;
-</span><span class='line'><span class="nt">&lt;/head&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;body</span><span class="err">&lt;%</span> <span class="na">if</span> <span class="err">@</span><span class="na">page_class</span> <span class="err">%</span><span class="nt">&gt;</span> class=&quot;<span class="err">&lt;</span>%= @page_class %&gt;&quot;<span class="err">&lt;</span>% end %&gt;&gt;
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;h1&gt;</span>Tower of Hanoi (Move <span class="err">&lt;</span>%= @count %&gt;) <span class="nt">&lt;/h1&gt;</span>
-</span><span class='line'>
-</span><span class='line'>It&#39;s <span class="err">&lt;</span>%= Time.now %&gt;.
-</span><span class='line'><span class="nt">&lt;br/&gt;</span>
-</span><span class='line'>Done = <span class="err">&lt;</span>%= @isDone %&gt;
-</span><span class='line'><span class="nt">&lt;br/&gt;</span>
-</span><span class='line'>Render =
-</span><span class='line'><span class="nt">&lt;pre&gt;</span>
-</span><span class='line'><span class="err">&lt;</span>%= controller.getAsciiTowers %&gt;
-</span><span class='line'><span class="nt">&lt;/pre&gt;</span>
-</span><span class='line'>Log =
-</span><span class='line'><span class="nt">&lt;pre&gt;</span>
-</span><span class='line'><span class="err">&lt;</span>%= @consoleLog %&gt;
-</span><span class='line'><span class="nt">&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;/body&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
