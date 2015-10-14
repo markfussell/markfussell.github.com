@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T09:01:27-07:00</updated>
+  <updated>2015-10-14T09:40:00-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -367,7 +367,7 @@ well as a much simpler model.  Route-53.</p>
 and the common latency for the change to take affect is very short.  The rest of the world <em>still caches</em> but
 at least you know the DN servers are up to date.  In the following, you can see the &#8216;gaps2c&#8217; project I created
 a while ago as a demonstration of this ability.  The main domain registry for &#8216;gaps2c.com&#8217; is elsewhere, but
-the subdomain of &#8216;aws.gaps2c.com&#8217; is managed by route53.  The last entry works and says &lt;google.aws.gaps2c.com>
+the subdomain of &#8216;aws.gaps2c.com&#8217; is managed by route53.  The last entry works and says <a href="google.aws.gaps2c.com">google.aws.gaps2c.com</a>
 knows where the google servers are.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_1.png" /></p>
