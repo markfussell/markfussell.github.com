@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T09:40:00-07:00</updated>
+  <updated>2015-10-14T10:01:05-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -389,6 +389,146 @@ third is trivial and scalable.</p>
 <p>So lets start with the third</p>
 
 <h4>Registering via a CloudFormation template</h4>
+
+<p>The good news is it is simple in a CloudFormation.  The bad news is it requires a bit more infrastructure to appear, so
+it isn&#8217;t a one-liner.  The issue with CloudFormations is that they must be <em>complete</em>.  They can only auto-wire things
+they know about.  So they are relatively monolithic.  It is possible to compose them somewhat, but that is really
+just embedding one formation into another vs. wiring two independent formations up.  Ultimately to wire up independent
+formations, you need to &#8216;know what you said&#8217; and tell two or more formations enough information that they can find
+each other.  That is not hard but it isn&#8217;t free.</p>
+
+<p>But for free, we can add three things to our application stack and get a DNS registration for our application tier.</p>
+
+<ul>
+<li> A HostedZone entry – Pointing into the Route 53 database</li>
+<li> An ElasticLoadBalancer – Which enables the CloudFormation to know about IP addresses</li>
+<li> A PrimaryDnsZone – Which defines the FQDN of the application tier</li>
+</ul>
+
+
+<p>And we need to augment our AutoScalingGroup to know about the ELB.  Adding all this gives:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;HostedZone&quot;</span> <span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;Type&quot;</span> <span class="p">:</span> <span class="s2">&quot;String&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;Default&quot;</span> <span class="p">:</span> <span class="s2">&quot;aws.gaps2c.com&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;Description&quot;</span> <span class="p">:</span> <span class="s2">&quot;The DNS name of an existing Amazon Route 53 hosted zone&quot;</span>
+</span><span class='line'><span class="p">}</span><span class="err">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;PrimaryElb&quot;</span> <span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;Type&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::ElasticLoadBalancing::LoadBalancer&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;Metadata&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;Comment&quot;</span> <span class="p">:</span> <span class="s2">&quot;Configure the Load Balancer with a simple health check and cookie-based stickiness&quot;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nt">&quot;Properties&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;AvailabilityZones&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::GetAZs&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
+</span><span class='line'>    <span class="nt">&quot;LBCookieStickinessPolicy&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nt">&quot;PolicyName&quot;</span> <span class="p">:</span> <span class="s2">&quot;CookieBasedPolicy&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nt">&quot;CookieExpirationPeriod&quot;</span> <span class="p">:</span> <span class="s2">&quot;30&quot;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="p">],</span>
+</span><span class='line'>    <span class="nt">&quot;Listeners&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nt">&quot;LoadBalancerPort&quot;</span> <span class="p">:</span> <span class="s2">&quot;8080&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nt">&quot;InstancePort&quot;</span> <span class="p">:</span> <span class="s2">&quot;8080&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nt">&quot;Protocol&quot;</span> <span class="p">:</span> <span class="s2">&quot;HTTP&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nt">&quot;PolicyNames&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;CookieBasedPolicy&quot;</span> <span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span> <span class="p">]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="err">,</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&quot;PrimaryDnsZone&quot;</span> <span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;Type&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::Route53::RecordSet&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;Properties&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;HostedZoneName&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;HostedZone&quot;</span><span class="p">},</span> <span class="s2">&quot;.&quot;</span> <span class="p">]]},</span>
+</span><span class='line'>    <span class="nt">&quot;Comment&quot;</span> <span class="p">:</span> <span class="s2">&quot;CNAME redirect to aws.amazon.com.&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;Name&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;deployment&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;nodepart&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="p">{</span><span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;HostedZone&quot;</span><span class="p">},</span> <span class="s2">&quot;.&quot;</span><span class="p">]]},</span>
+</span><span class='line'>    <span class="nt">&quot;Type&quot;</span> <span class="p">:</span> <span class="s2">&quot;CNAME&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;TTL&quot;</span> <span class="p">:</span> <span class="s2">&quot;900&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;ResourceRecords&quot;</span> <span class="p">:</span> <span class="p">[{</span> <span class="nt">&quot;Fn::GetAtt&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;PrimaryElb&quot;</span><span class="p">,</span><span class="s2">&quot;CanonicalHostedZoneName&quot;</span><span class="p">]</span> <span class="p">}]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="err">,</span>
+</span><span class='line'>
+</span><span class='line'><span class="s2">&quot;PrimaryServerGroup&quot;</span> <span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;Type&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::AutoScaling::AutoScalingGroup&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;Properties&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;Tags&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:deployment&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;deployment&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:nodepart&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;nodepart&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:stacktype&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;stacktype&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:statelog&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;statelog&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:state&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:statetss&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;statetss&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">],</span>
+</span><span class='line'>    <span class="nt">&quot;AvailabilityZones&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::GetAZs&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
+</span><span class='line'>    <span class="nt">&quot;LaunchConfigurationName&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;PrimaryLaunchConfig&quot;</span> <span class="p">},</span>
+</span><span class='line'>    <span class="nt">&quot;MinSize&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;MaxSize&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;DesiredCapacity&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;LoadBalancerNames&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;PrimaryElb&quot;</span> <span class="p">}</span> <span class="p">]</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span><span class="err">,</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   

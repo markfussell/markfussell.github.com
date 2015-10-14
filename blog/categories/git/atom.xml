@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T09:40:00-07:00</updated>
+  <updated>2015-10-14T10:01:05-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -336,6 +336,92 @@ third is trivial and scalable.</p>
 <p>So lets start with the third</p>
 
 <h4>Registering via a CloudFormation template</h4>
+
+<p>The good news is it is simple in a CloudFormation.  The bad news is it requires a bit more infrastructure to appear, so
+it isn't a one-liner.  The issue with CloudFormations is that they must be <em>complete</em>.  They can only auto-wire things
+they know about.  So they are relatively monolithic.  It is possible to compose them somewhat, but that is really
+just embedding one formation into another vs. wiring two independent formations up.  Ultimately to wire up independent
+formations, you need to 'know what you said' and tell two or more formations enough information that they can find
+each other.  That is not hard but it isn't free.</p>
+
+<p>But for free, we can add three things to our application stack and get a DNS registration for our application tier.</p>
+
+<ul>
+<li> A HostedZone entry – Pointing into the Route 53 database</li>
+<li> An ElasticLoadBalancer – Which enables the CloudFormation to know about IP addresses</li>
+<li> A PrimaryDnsZone – Which defines the FQDN of the application tier</li>
+</ul>
+
+
+<p>And we need to augment our AutoScalingGroup to know about the ELB.  Adding all this gives:</p>
+
+<p>```json</p>
+
+<pre><code>"HostedZone" : {
+  "Type" : "String",
+  "Default" : "aws.gaps2c.com",
+  "Description" : "The DNS name of an existing Amazon Route 53 hosted zone"
+},
+</code></pre>
+
+<p>```</p>
+
+<p>```json</p>
+
+<pre><code>"PrimaryElb" : {
+  "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
+  "Metadata" : {
+    "Comment" : "Configure the Load Balancer with a simple health check and cookie-based stickiness"
+  },
+  "Properties" : {
+    "AvailabilityZones" : { "Fn::GetAZs" : "" },
+    "LBCookieStickinessPolicy" : [ {
+      "PolicyName" : "CookieBasedPolicy",
+      "CookieExpirationPeriod" : "30"
+    } ],
+    "Listeners" : [ {
+      "LoadBalancerPort" : "8080",
+      "InstancePort" : "8080",
+      "Protocol" : "HTTP",
+      "PolicyNames" : [ "CookieBasedPolicy" ]
+    } ]
+  }
+},
+
+"PrimaryDnsZone" : {
+  "Type" : "AWS::Route53::RecordSet",
+  "Properties" : {
+    "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
+    "Comment" : "CNAME redirect to aws.amazon.com.",
+    "Name" : { "Fn::Join" : [ "", [{ "Fn::FindInMap" : [ "TemplateConstant", "deployment", "value" ] }, "-", { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, ".", {"Ref" : "HostedZone"}, "."]]},
+    "Type" : "CNAME",
+    "TTL" : "900",
+    "ResourceRecords" : [{ "Fn::GetAtt" : ["PrimaryElb","CanonicalHostedZoneName"] }]
+  }
+},
+
+"PrimaryServerGroup" : {
+  "Type" : "AWS::AutoScaling::AutoScalingGroup",
+  "Properties" : {
+    "Tags": [
+      { "Key": "add:deployment", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "deployment", "value" ] }, "PropagateAtLaunch" : "true" },
+      { "Key": "add:nodepart", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, "PropagateAtLaunch" : "true" },
+      { "Key": "add:stacktype", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] }, "PropagateAtLaunch" : "true" },
+      { "Key": "add:statelog", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "statelog", "value" ] }, "PropagateAtLaunch" : "true" },
+      { "Key": "add:state", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "state", "value" ] }, "PropagateAtLaunch" : "true" },
+      { "Key": "add:statetss", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "statetss", "value" ] }, "PropagateAtLaunch" : "true" }
+    ],
+    "AvailabilityZones" : { "Fn::GetAZs" : "" },
+    "LaunchConfigurationName" : { "Ref" : "PrimaryLaunchConfig" },
+    "MinSize" : "1",
+    "MaxSize" : "1",
+    "DesiredCapacity" : "1",
+    "LoadBalancerNames" : [ { "Ref" : "PrimaryElb" } ]
+  }
+},
+</code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   
