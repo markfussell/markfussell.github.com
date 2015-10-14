@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T14:50:28-07:00</updated>
+  <updated>2015-10-14T15:01:49-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -199,12 +199,13 @@ are replaceable with 'everything not mentioned'.  So the actual pyramid is this:
 </ul>
 
 
-<p>You can have less than totally happy customers.  You should try to fix that or you can just be content with the
-'Quality' of your product being sub-par.</p>
+<p>You are allowed to have less than totally happy customers.  But you should try to fix that.  You should care.
+Otherwise you are resigning yourself to  being content with the quality of your product being sub-par.  And likely
+headed downward.</p>
 
-<p>You can hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
-bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you can't say that <em>your customer</em>
-shouldn't be 100% happy... or as happy as you can make them.</p>
+<p>You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
+bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that <em>your customer</em>
+shouldn't be 100% happy... or at least as happy as you can make them.</p>
 
 <h4>Lie: Automated Testing and Quality Verification</h4>
 
@@ -221,7 +222,7 @@ be unservable.  Salad almost always has something weird in it, and finding it ta
 as eating it.  And it would basically destroy / consume the salad as you checked each leaf, fruit, and nut.</p>
 
 <p>Again, automated testing is <em>useful</em>.  But it is not <em>necessary</em>.  And it doesn't trump releasing to a customer
-so they can see 'Delivered good product'.</p>
+so they can see the 'Delivered good product'.</p>
 
 <h3>Conclusion : Customer's One Powerful Right and Responsibility</h3>
 
@@ -229,11 +230,11 @@ so they can see 'Delivered good product'.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
 
-<p>That is a delivered good product (if you want to track pets).  What the application is beneath that, and
+<p>That is a delivered good product (if you want to run a Pet Clinic).  What the application is beneath that, and
 what processes were used to develop it, are all "of little importance".  There are many ways to develop
 an identical web site.  The stack and method I will describe is just one of them.  It is a reference
-that I consider "Best Practice" among alternative "Best Practice" possibilities.  And all of these alternatives
-get measured on only one criteria: "Customer Satisfaction".  For example:</p>
+that I consider a "Best Practice" among alternative "Best Practice" possibilities.  And all of these alternatives
+get measured by exactly one macro criteria: "Customer Satisfaction".  For example:</p>
 
 <ul>
 <li>Buggy in production, customer is less happy.</li>
@@ -243,17 +244,20 @@ get measured on only one criteria: "Customer Satisfaction".  For example:</p>
 
 <p>Neither of the above trumps the other.  The ratio between them 'depends'.  And that ratio is totally under
 the customer's control.  They may not know the ratio before the fact, but while 'driving' the system they
-<em>have every right and even responsibility</em> to complain.  The development team can make an 'Educated Guess',
+<em>have every right and even responsibility</em> to complain.  The development team can make an 'Educated Guess'
+at the start of the project
 but if the customer complains, they need to address that complaint and <em>change</em> the process, tools, people,
 or office space <em>as much as possible and reasonable</em> to make the customer more happy.  Maybe just a little
 change to become a little more happy: we aren't prescient and you don't know if the change will cause havoc
-(everyone quits) or even address the issue.</p>
+(everyone quits) or even address the issue.  But you address the complaint with an another 'Educated Guess'.
+Over and over.</p>
 
 <p>What should your development process be?  It depends... on your customer and your product and your team and
-...</p>
+... The reason you need an Engineer is they make great 'Educated Guesses'.  And can iterate incredibly
+quickly to fine tune the process and tools to what will work for the customer and the development team.</p>
 
-<p>But the following is a good start.  It is my best recommendation in 2015 for a modern, JVM-based, web-delivered,
-set of development methods, tools, frameworks, and other components.</p>
+<p>But the following parts of this series will be a good start.  It is my best recommendation in 2015 for a modern,
+JVM-based, web-delivered, set of development methods, tools, frameworks, and other components.</p>
 ]]></content>
   </entry>
   
