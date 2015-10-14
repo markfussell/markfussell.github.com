@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T11:12:21-07:00</updated>
+  <updated>2015-10-14T11:22:27-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -559,6 +559,33 @@ and 'push' the changes so the servers can see/pull them (PushMePullYou), they au
 decommission, deploy and confirm the deploy was successful.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
+
+<h3>What Next?</h3>
+
+<p>Basically nothing is left for the core of the ADD.  This series has described how the four ingredients
+are cooked/hooked together and shown what that looks like on EC2.  Other topics are just filling in details
+that are really just nuances and flavors of the ADD. For example:</p>
+
+<ul>
+<li>What is the Grails application stack like?</li>
+<li>How does Vagrant handle the one minute crons and other more advanced features?</li>
+<li>Should you <em>develop in Vagrant</em> or on the host operating system?
+
+<ul>
+<li>Answer: Either depending on what you are doing and how productive you are, but the closer you are to production, the more likely you are to catch issues</li>
+</ul>
+</li>
+<li>How does HAProxy and the database configuration using presence work?</li>
+<li>What about NewRelic and other monitoring tools</li>
+<li>Where is Angular in all this?</li>
+</ul>
+
+
+<p>The first and last topic I will cover in the next multi-part series called the 'AddStack'.  The others are more specific topics that I may get to eventually, but
+are not critical to understanding and using the ADD.</p>
+
+<p>Please feel free to <a href="http://linkedin.com/in/markfussell">Contact Me</a> if you want either
+a more thorough walkthrough of the ADD or to cover more esoteric topics.</p>
 ]]></content>
   </entry>
   
