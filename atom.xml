@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T11:25:59-07:00</updated>
+  <updated>2015-10-14T14:34:26-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,237 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-1]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-1/"/>
+    <updated>2015-10-14T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-1</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.</p>
+
+<h2>Review of the first series</h2>
+
+<p>The first series start here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a> and ends here: <a href="http://markfussell.emenar.com/blog/add-11/">Voilà!</a>.  The bulk of the
+series was describing how to combine four ingredients:</p>
+
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
+
+
+<p>in a way that gives individuals and teams 4x or more productivity.  These resulting environment solves problems for
+all three roles in a development team:</p>
+
+<ul>
+<li>Changer</li>
+<li>Watcher</li>
+<li>Machines</li>
+</ul>
+
+
+<p>And can be envisioned as so:</p>
+
+<p><img width="432" height="414" src="http://markfussell.emenar.com/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" /></p>
+
+<p>Along the way, the ingredients combined to make:</p>
+
+<ul>
+<li>Machines automatically launch and configure themselves, including hooking them up to each other (auto-wire)</li>
+<li>Changes to IT roll out automatically to all the running machines.</li>
+<li>Changes to the application roll out automatically to all the running machines.</li>
+<li>Creating new environments to be as easy as tweak a simple parameter to a CloudFormation</li>
+<li>The whole thing working on EC2 or inside a Vagrant container&#8230; or even on bare metal / VMWare (but not shown)</li>
+<li>Incredible visibility into everything that happens within HipChat&#8230; for the whole team.</li>
+</ul>
+
+
+<p>By the end, we had machines tell us when they launched, when they were operational, when they were deploying new
+version, and whether that new version deployed successfully.</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
+
+<p>and finally, we had a running application at a human-usable URL:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
+
+<p>That could be scaled to any number of servers as load demands.</p>
+
+<h2>Second series</h2>
+
+<p>The above is the core of the ADD and making team productivity shoot through the roof.  It is actually basically &#8216;complete&#8217;
+except for the details.  &#8220;Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
+What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
+to use with this ADD?!!&#8221;</p>
+
+<p>Ah&#8230; yes.  Over my <em>thirty five years</em> of developing software, I have encountered all these things.  I do have opinions
+on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.</p>
+
+<p>How little?  Maybe&#8230; maybe&#8230; 2x.  I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
+a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
+Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
+most of it from scratch&#8230; because there are no libraries).  I bet I lost 4x in productivity.  4x is a lot.  2x is a little.
+And if you try to get the &#8216;2x&#8217; but lose the &#8216;4x&#8217; you just did a win-LOSE bad tradeoff.</p>
+
+<h3>Lies</h3>
+
+<p>There are a lot of lies or confusions in the software industry.  During the nineties we tried to get rid of a lot of them
+through &#8220;A mythical man-month&#8221; (Fred Brooks) and &#8220;The Agile Manifesto&#8221; (Kent, Ken, Ward, &#8230;).  The <em>truth</em> of software
+is available&#8230; but the lies hide it.  And people can&#8217;t tell the difference.  And don&#8217;t believe the science.  Or are
+too scared of losing their jobs (or having a more boring job) if they tell the truth vs. the lie.</p>
+
+<h4>Truth: One Brain</h4>
+
+<p>I will first start with among the best researched truth there is:</p>
+
+<ul>
+<li>The best software is created by one primary, talented, and skilled &#8216;brain&#8217;
+
+<ul>
+<li>Potentially accompanied by some number of &#8216;assistants&#8217;</li>
+</ul>
+</li>
+</ul>
+
+
+<p>This is the &#8216;surgical team&#8217; model.  You want one primary, talented, and skilled &#8216;Surgeon&#8217;.  A &#8216;Surgeon&#8217; with many thousands
+if not many tens-of-thousands of hours of experience.  Nurses can help.  Support doctors can help.  Even other surgeons can
+help.  If the operation is long enough, you might need multiple primary surgeons who pass the baton along to each other.
+But if someone is opening your body&#8230; you want that person to be fully responsible, fully accountable, insanely competent,
+and insanely skilled.  An insanely great surgeon.  He will charge you a lot, and you will get a lot in return.</p>
+
+<p>Software is the same.  The best software is create by one primary, talented, and skilled &#8216;Engineer&#8217;. An &#8216;Engineer&#8217; with
+many thousands if not many tens-of-thousands of hours of experience.  QA can help.  Support programmers can help.  Software is
+ never needed so quickly as to require a baton, but that can happen if the &#8216;Engineer&#8217; moves on to other things.</p>
+
+<p>If someone is writing an application that you want to be valuable to you&#8230; you want that person to be fully responsible,
+fully accountable, insanely competent, and insanely skilled.  An insanely great engineer.
+He will charge you a lot, and you will get a lot in return.</p>
+
+<h4>Lie: All together now!</h4>
+
+<p>But software developers don&#8217;t like this truth.  They think they (after less than 5000 hours) can be the point person
+for building an application.  I don&#8217;t mean 5000 hours <em>of work</em> I mean 5000 hours <em>in surgery</em> and that is after say
+2x the amount of hours of <em>studying surgery</em>  So 10,000 hours of studying how to build software applications and 5,000
+hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
+spend half of it actually on either of those tasks&#8230; it would take you about 15 years to be &#8216;an Engineer&#8217;.  Ten years
+of reading and five years of writing : concurrently where reading dominates early and writing dominates later.</p>
+
+<p>So instead they say: &#8220;If a bunch of us get together we can reproduce that surgeon with each of our individual skills.&#8221;
+Or &#8220;Nine club tennis players can beat Roger Federer if we tag-team&#8221;.  Or &#8220;Nine people who are good in the
+kitchen can together produce a better meal than Gordon Ramsey in a throw down&#8221;.  Or&#8230;</p>
+
+<p>Hopefully by shifting the context you can see the impossibility of it.  It makes absolutely no sense, yet the lie is
+propagated so much as to be systemic.  Even the smallest XP version of the lie &#8220;You need two people to write better software&#8221; is
+ludicrous.  Better to have <em>two surgeons</em> perform <em>two different operations</em> at the same time&#8230; and save <em>two</em> lives.
+There is nothing wrong with having an apprentice watch / help.  But that is <em>training</em> (somewhat to both parties) not
+<em>doing</em></p>
+
+<h4>Truth: Customer Rules</h4>
+
+<p>The second truth is that the <em>customer</em> rules.  If the customer is happy&#8230; WIN!  If they are not happy&#8230; :-(</p>
+
+<p>Given this is <em>sort of</em> in the Agile Manifesto you would think it would be well known now that everyone is &#8216;Going Agile&#8217;.
+But reviewing the <a href="http://www.agilemanifesto.org">Agile Manifesto</a>, I see that it &#8220;backed off&#8221; saying what it should say.  The lines that it should have
+is:</p>
+
+<ul>
+<li>Working software over &#8230;everything&#8230;</li>
+<li>Customer happiness over &#8230;everything&#8230;</li>
+</ul>
+
+
+<p>But because software developers think they are special&#8230; unusually talented in a way that is beyond the customer&#8230; like &#8216;artists&#8217;.
+They think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say &#8216;Food&#8217;:</p>
+
+<ul>
+<li> Working food (e.g. good produce, a cooked meal, etc.) over ???</li>
+<li> Customer happiness over ???</li>
+</ul>
+
+
+<p>Pretty sure if you nail the second bullet, you nailed the first one (and maybe some more).  And not nailing both these
+bullets is a path to failure.  So the actual pyramid is this:</p>
+
+<ul>
+<li>Happy Customer (100%)
+
+<ul>
+<li>Delivered good product (80%)
+
+<ul>
+<li>All the stuff needed to do the above</li>
+</ul>
+</li>
+<li>Other aspects of delivering (20%) –  E.g. customer interaction, appearance of product or delivery person, etc.
+
+<ul>
+<li>All the stuff needed to do the above</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You can have less than totally happy customers.  You should try to fix that or you can just be content with the
+&#8216;Quality&#8217; of your product.</p>
+
+<p>You can hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
+bad your job is (but google &#8220;Worst Jobs&#8221; to see you don&#8217;t have it so bad).  But you can&#8217;t say that <em>your customer</em>
+shouldn&#8217;t be 100% happy&#8230; or as happy as you can make them.</p>
+
+<h4>Lie: Automated Testing and Quality Verification</h4>
+
+<p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
+tests and our QA verification servers happy.  We are going to make them happy <em>more</em> than our customer and <em>before</em>
+our customer.</p>
+
+<p>This actually pops up as a lie in education too.  We try to make the tests happy as opposed to the students.  But
+in most an <em>normal</em> industry, making a &#8216;test&#8217; happy instead of a customer is a crazy and effective way to
+go out of business.  Say we inspected and tested <em>every</em> hamburger before it went out the door.  Fast food would
+take on a whole new meaning as it took minutes per-person to do the inspection.  And things like &#8216;salad&#8217; would
+be unservable.  Salad almost always has something weird in it, and finding it takes about the same amount of time
+as eating it.  And it would basically destroy / consume the salad as you checked each leaf, fruit, and nut.</p>
+
+<p>Again, automated testing is <em>useful</em>.  But it is not <em>necessary</em>.  And it doesn&#8217;t trump releasing to a customer
+so they can see &#8216;Delivered good product&#8217;.</p>
+
+<h3>Conclusion : Customer&#8217;s One Powerful Right and Responsibility</h3>
+
+<p>The ADD described so far, efficiently, effectively, and production-worthy scalably enabled one simple thing:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
+
+<p>That is a delivered good product (if you want to track pets).  What the application is beneath that, and
+what processes were used to develop it, are all &#8220;of little importance&#8221;.  There are many ways to develop
+an identical web site.  The stack and method I will describe is just one of them.  It is a reference
+that I consider &#8220;Best Practice&#8221; among alternative &#8220;Best Practice&#8221; possibilities.  And all of these alternatives
+get measured on only one criteria: &#8220;Customer Satisfaction&#8221;.  For example:</p>
+
+<ul>
+<li>Buggy in production, customer is less happy.</li>
+<li>Take longer to build, customer is less happy.</li>
+</ul>
+
+
+<p>Neither of the above trumps the other.  The ratio between them &#8216;depends&#8217;.  And that ratio is totally under
+the customer&#8217;s control.  They may not know the ratio before the fact, but while &#8216;driving&#8217; the system they
+<em>have every right and even responsibility</em> to complain.  The development team can make an &#8216;Educated Guess&#8217;,
+but if the customer complains, they need to address that complaint and <em>change</em> the process, tools, people,
+or office space <em>as much as possible and reasonable</em> to make the customer more happy.  Maybe just a little
+change to become a little more happy: we aren&#8217;t prescient and you don&#8217;t know if the change will cause havoc
+(everyone quits) or even address the issue.</p>
+
+<p>What should your development process be?  It depends&#8230; on your customer and your product and your team and
+&#8230;</p>
+
+<p>But the following is a good start.  It is my best recommendation in 2015 for a modern, JVM-based, web-delivered,
+set of development methods, tools, frameworks, and other components.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-11]]]></title>
@@ -5591,149 +5822,6 @@ Then
 <p>The nastiest aspect to Scratch was its inability to dynamically reference the pole lists.  And a missing feature to Scratch are simple procedures (for example, the &#8216;glide&#8217; code is repeated twice).  The missing recursion is clearly another missing feature, but in this case getting rid of that recursion made the algorithm somewhat nicer.</p>
 
 <p>On the whole, Scratch is a very inspiring visual language and development environment, and it did a good job with this &#8216;offbeat&#8217; test.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Naming Convention Failure]]></title>
-    <link href="http://markfussell.emenar.com/blog/ruby-naming-convention-failure/"/>
-    <updated>2008-09-04T01:20:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/ruby-naming-convention-failure</id>
-    <content type="html"><![CDATA[<p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
-
-<!-- more -->
-
-
-<p>In case people care, in isolation of other issues, I would pick this order as being the most natural:</p>
-
-<ol>
-<li><p>Mark-Fussell (or mark-fussell)</p></li>
-<li><p>MarkFussell</p></li>
-<li><p>Mark_Fussell (or mark_fussell)</p></li>
-</ol>
-
-
-<p>where the underscore goes third mostly because it can be hard to see [URLs and other things put underlines <em>on top</em> of that underline like thus <em>Mark_Fussell</em>], is harder to type, and it over spaces things visually.  So I (and lots of people actually) believe programming languages <em>should</em> use hyphens, but because a bunch of programming languages want &#8216;a-b&#8217; to be interpreted as &#8216;a - b&#8217;, they cop out and prevent the hyphen from being part of a name.  Ruby has that same cop out, so we can&#8217;t use hyphens in Ruby :-(</p>
-
-<h2>Missing Phrase Delimiter</h2>
-
-<p>So I said my opinion is fairly irrelevant, but I also want to say that people have missed an important aspect to this argument.  I may have a small preference for CamelCase over underlines as a single word delimiter, but I have a <em>huge</em> preference to having both a &#8216;word&#8217; and a &#8216;phrase&#8217; delimiter.  And by insisting on just one delimiter in this naming standard, Ruby has significantly interfered with expressiveness.  Maybe I am unusual, but I have long-time argued that we should have both words and phrases in methods and frequently even in classes.  Back in the 1990s, I documented this as part of my <a href="http://markfussell.emenar.com/blog/java-development-standards">JavaStandards</a> and this was based on Smalltalk naturally having both of these pieces.  It was clearly more readable and you were much less likely to produce bad method names.</p>
-
-<p>For method naming, the quick summary is:</p>
-
-<ul>
-<li><p>When naming a method</p></li>
-<li><p>Start with a verb phrase (what you are asking the object to do)</p></li>
-<li><p>Put an underscore where a parameter is expected (up to the first two at least)</p></li>
-<li><p>Describe what that parameter is for right before the underscore, if it is not obvious from the verb</p></li>
-</ul>
-
-
-<p>this way, the reader of the code can immediately know how the parameters (in the parentheses) map onto their role in the method itself.  And the whole method name becomes a readable phrase&#8230; not just a weird long word strung together (by whatever convention you want).</p>
-
-<h3>Array::insert</h3>
-
-<p>So an example is:</p>
-
-<pre><code>Array::insert(index, obj)
-</code></pre>
-
-<p>This is a method name that is ambiguous in usage:</p>
-
-<pre><code>anArray.insert(3,2)
-</code></pre>
-
-<p>It is not clear what the code is going to do and I would actually intuitively expect it to be the other way around (except I know about getting burned so would then have to look it up).</p>
-
-<p>A better name would be:</p>
-
-<pre><code>Array::insert_at(obj,index)
-</code></pre>
-
-<p>so reading:</p>
-
-<pre><code>anArray.insert_at(3,2)
-</code></pre>
-
-<p>is clearly inserting the &#8216;3&#8217; not inserting the &#8216;2&#8217;.</p>
-
-<p>Or if people like the order the other way:</p>
-
-<pre><code>   Array::insertAt_value(index,obj)
-
-   anArray.insertAt_value(2,3)
-</code></pre>
-
-<p>And in the Ruby case where any number of values could follow, we should have:</p>
-
-<pre><code>   Array::insertAt_values(index,obj...)
-
-   anArray.insertAt_values(2,3)
-   anArray.insertAt_values(2,5,3)
-</code></pre>
-
-<p>and everything reads naturally something like this &#8220;anArray insertAt: 2 values: 5 and 3&#8221;.</p>
-
-<h3>forPolesOtherThan_do(disk)</h3>
-
-<p>Related to a recent post on the Tower of Hanoi, I believe the resulting choice of:</p>
-
-<pre><code>forPolesOtherThan_do(disk) [block]
-</code></pre>
-
-<p>is much clearer in both communicating what the passed in &#8216;disk&#8217; is for and that it requires a block as a second (semi-hidden) argument than if you have only a word delimiter and have any of:</p>
-
-<pre><code>   for_poles_other_than
-   for_poles_other_than_do
-   forPolesOtherThan
-   forPolesOtherThanDo
-</code></pre>
-
-<h2>What to do?</h2>
-
-<p>Given Ruby wants to use underscore to separate words&#8230; I can&#8217;t separate the phrases at all.  I tried to wrestle my mind around using something different, but Ruby surprisingly (for a modern and internationally-created) language does not have any other punctuation that is allowed and could plausibly work.  So maybe use two underscores for the phrase point?  That seems seriously ugly and also two underscores don&#8217;t really look different from one underscore:</p>
-
-<pre><code>   insert_at__values
-   for_poles_other_than__do
-</code></pre>
-
-<p>Using capitals for this purpose just comes off weird (plausible but weird):</p>
-
-<pre><code>   insert_at_Values
-   for_poles_other_than_Do
-</code></pre>
-
-<p>It is also exactly the opposite of Smalltalk, and I try to be able to work across languages without having to flip upside down all the time.  Same regarding Java and Flex (two other languages I actively work in).  For reference, the Smalltalk version of these examples are:</p>
-
-<pre><code>   insertAt: values:
-   forPolesOtherThan: do:
-</code></pre>
-
-<h3>Arguments about non-English speakers</h3>
-
-<p>One argument I (so far) find specious is that using capitals prevents non-native speakers from understanding the code.  I could maybe believe this is true in rare cases &#8211; but (1) nobody has a study referenced that shows that, and (2) if that were true, someone simply has to learn the language better.  You can&#8217;t argue that some people&#8217;s inability to use a language is a reason to not use a feature of that language.  That would argue that almost all syntax in languages should be stripped, and few languages (and especially computer languages) can survive that.  Actually only Lisp survives that (give me just a pair of delimiters, and I can rule the world :-) )</p>
-
-<p>Also given Ruby uses CamelCase for classes, you already have a requirement to understand this kind of syntax aspect.  So Ruby is presupposing the reader can read the syntax it is arguing the reader can&#8217;t read.</p>
-
-<h3>The standard, in different languages</h3>
-
-<p>A more interesting question is whether the &#8220;word and phrase standard&#8221; survives human-language change.  Obviously the standard does not work &#8220;as written&#8221; if the language used is not a capital-capable language.  And an obviously important language for that test is written Chinese (traditional or simplified).  But actually the &#8216;underscores for phrases and parameters&#8217; degrades with Chinese better than &#8216;underscores for words&#8217;.  Chinese doesn&#8217;t require spaces for words to be apparent, and does not use spaces at all for that purpose (normally) &#8211; it is obvious where each word starts and ends without spacing because a word is only a couple characters long.  So given words are apparent, the only thing left is to have phrases.  Although unnatural to use underscores for phrases and parameters, it at least seems plausibly useful.</p>
-
-<p>Admittedly I have not tried in depth to program in Chinese (Smalltalk/Agents by QKS had the ability way back but I only played with it a little) and have not found a study on it&#8230;  so I can&#8217;t say for sure whether the underscore for parameters would make sense.  But it is at least plausible it would make sense and it would make much more sense than underscore to separate (already separated) words.</p>
-
-<p>Another plausible language to test against would be Hindi, but (I believe) most writers of Hindi in the computer field are also excellent English writers, so that is harder to argue for.</p>
-
-<h3>Could be hyphens</h3>
-
-<p>Note that the convention is totally happy with using &#8216;hyphens&#8217; as word separators if the environment supports it.</p>
-
-<pre><code>   insert-at_values
-   for-poles-other-than_do
-</code></pre>
-
-<h2>Summary: Ruby has it wrong &#8211; We need CamelWords or hyphen-words</h2>
-
-<p>So I believe Ruby has it wrong and am very unhappy a modern language started 20 years after Smalltalk and several years after Dylan would get this kind of thing wrong.  And I recommend moving the Ruby standard to the CamelWord_UnderPhrase standard, or allowing the hyphen and use the hyphen-word_under-phrase standard.</p>
 ]]></content>
   </entry>
   

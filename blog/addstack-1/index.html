@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Polyglot</title>
+  <title>ADD Stack [Part-1] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-1/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,15 +62,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/addstack-1/">ADD Stack [Part-1]</a></h1>
+      <h1 class="entry-title">ADD Stack [Part-1]</h1>
     
     
       <p class="meta">
@@ -93,7 +90,7 @@
   </header>
 
 
-  <div class="entry-content"><p>This is the second series describing a radically more productive development and delivery environment.</p>
+<div class="entry-content"><p>This is the second series describing a radically more productive development and delivery environment.</p>
 
 <h2>Review of the first series</h2>
 
@@ -317,22 +314,16 @@ change to become a little more happy: we aren&#8217;t prescient and you don&#821
 <p>But the following is a good start.  It is my best recommendation in 2015 for a modern, JVM-based, web-delivered,
 set of development methods, tools, frameworks, and other components.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-11/">Advanced Development and Delivery (ADD) [Part-11]</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
 
 
 
@@ -345,510 +336,43 @@ set of development methods, tools, frameworks, and other components.</p>
 
 
 <time datetime="2015-10-14T01:00:00-07:00" pubdate data-updated="true">Oct 14<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the elevent installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, inter-machine presence,
-and configuring an application server and its&#8217; stack.</p>
-
-<h2>It&#8217;s Alive!</h2>
-
-<p>We are close to having a viable semi-production environment running the latest version of our code, and with an incredible
-capability of configuring, controlling, and being informed of that environment.  With the simple line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/app/
-</span><span class='line'><span class="nb">cd</span> /root/app
-</span><span class='line'>
-</span><span class='line'>git clone git@github.com:grails-samples/grails-petclinic.git
-</span><span class='line'><span class="nb">cd </span>grails-petclinic
-</span><span class='line'>./gradlew run
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We got:</p>
-
-<p><img src="/images/add-10/add10_grails2.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-11/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-10/">Advanced Development and Delivery (ADD) [Part-10]</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
+  
+</span>
 
 
-<time datetime="2015-10-10T02:00:00-07:00" pubdate data-updated="true">Oct 10<span>th</span>, 2015</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>This is the tenth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, and inter-machine presence.</p>
-
-<h2>A good, opinionated, framework</h2>
-
-<p>Back in 1972, Smalltalk became the first Object-Oriented Programming Language (Simula was Object-Based but there is a difference).
-For decades this kind of language was &#8216;esoteric&#8217;.  It was like LISP or Prolog or APL: somehow exotic and inaccessible.
-I was lucky: I had access to Smalltalk at Caltech.  I had access to lots of crazy expensive things at Caltech and that
-made the exotic (e.g. making your own chips) into the mundane (e.g. made lots of chips, they were commonly broken,
-had to be re-fabricated, and I eventually got bored with all that and moved a level up).</p>
-
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-1/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-10/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-9/">Advanced Development and Delivery (ADD) [Part-9]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-08T02:00:00-07:00" pubdate data-updated="true">Oct 8<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the ninth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, and configuring nodes.</p>
-
-<h2>Using Presence for configuration</h2>
-
-<p>So far, presence has been just information that &#8216;humans&#8217; consume.  It shows up on dashboards, in chat rooms, and so on,
-but nothing has acted upon it.  Until now!</p>
-
-<p>We have &#8216;app&#8217; and &#8216;db&#8217; nodes.  Clearly the &#8216;app&#8217; nodes need to find the &#8216;db&#8217; nodes or the app is not going to be
-able to persist much.  The &#8216;db&#8217; here happens to be &#8216;Maria&#8217; but it could be anything from a single DB node to a
-cluster of Riak nodes.  At the moment, I just want to get the information that a &#8216;db&#8217; node knows (&#8220;I exist!&#8221;, &#8220;My IP is this!&#8221;)
-over to the &#8216;app&#8217; nodes so they can process it.</p>
-
-<h3>It is already there?</h3>
-
-<p>But wait?  All nodes have &#8216;repo4&#8217; for writing?  Don&#8217;t they already have everything in &#8216;repo4&#8217; for reading as well?</p>
-
-<p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-9/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/add-11/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-11]">&laquo; Advanced Development and Delivery (ADD) [Part-11]</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-8/">Advanced Development and Delivery (ADD) [Part-8]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-08T01:00:00-07:00" pubdate data-updated="true">Oct 8<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the eighth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
-
-<h2>Configuring Node Parts and even fuller Presence and visibility</h2>
-
-<p>So far our node was a generic &#8216;ControlNode&#8217;.  A ControlNode is a node that is in your data center
-(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
-It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
-start configuring a database node.  You launch and login to a ControlNode and then try to install a database
-(for example Maria).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-8/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-04T01:00:00-07:00" pubdate data-updated="true">Oct 4<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
-
-<h2>Fuller Presence and EC2 Integration</h2>
-
-<p>In the previous part, I went through a very simple but powerful model of &#8216;presence&#8217; using simply GitHub repositories.
-The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
-The second level of presence is to update the state of the node as it changes.  For example, a node goes through
-a few bootstrap steps:</p>
-
-<ul>
-<li> presetup – The node before any updates are possible (no ability to change status)</li>
-<li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
-<li> initdone – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
-</ul>
-
-
-<p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
-our federation!</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-7/">Read on &rarr;</a>
-    </footer>
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-6/">Advanced Development and Delivery (ADD) [Part-6]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the sixth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, and HipChat integration.</p>
-
-<h2>&#8216;Part&#8217; Provisioning</h2>
-
-<p>Each node plays a singular &#8216;Part&#8217;.  A &#8216;part&#8217; is a unique combination of roles (in the chef sense) that identifies
-exactly how the node should be provisioned, usually globally, but at least for each stacktype.  A standard array
-of parts would be the LAMP stack:</p>
-
-<ul>
-<li> Load Balancer (lb)</li>
-<li> Application Server (app)</li>
-<li> Database Server  (db)</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-6/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-5/">Advanced Development and Delivery (ADD) [Part-5]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, and the one minute configuration HeartBeat.</p>
-
-<h2>HipChat</h2>
-
-<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
-to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
-system (kind of like a command line) but that isn&#8217;t very important since it would just make changes in GitHub
-which can be made in lots of different ways.</p>
-
-<p>The demo of this is very simple:</p>
-
-<p><img src="/images/add-5/add5_hipchat_cv1.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-5/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-4/">Advanced Development and Delivery (ADD) [Part-4]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-01T03:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
-
-<h2>Node initialization</h2>
-
-<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages &#8216;host&#8217; virtual
-disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
-In both cases the very last thing the node does in the bootstrap is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
-</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
-</span><span class='line'>include it/nodeinit/common/init.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-4/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-3/">Advanced Development and Delivery (ADD) [Part-3]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-01T02:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the third installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the
-first part of the Vagrant bootstrap.</p>
-
-<h2>EC2</h2>
-
-<p>The Vagrant bootstrap occurred through &#8216;bash&#8217; files that shaped (put shape information into files) and
-the &#8216;init&#8217; itself to get access to the repo (repo2) that contains the true configuration.  For EC2
-the same thing happens within a CloudFormation template.  The code of the &#8216;init&#8217; is almost identical, but because
-it is in a JSON file there is a lot of noise as the string gets concatenated together.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-3/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -894,7 +418,7 @@ it is in a JSON file there is a lot of noise as the string gets concatenated tog
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/markfussell">@markfussell</a> on GitHub
@@ -928,6 +452,7 @@ it is in a JSON file there is a lot of noise as the string gets concatenated tog
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -942,7 +467,10 @@ it is in a JSON file there is a lot of noise as the string gets concatenated tog
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-1/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-1/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

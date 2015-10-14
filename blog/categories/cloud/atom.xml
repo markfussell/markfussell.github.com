@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T11:25:59-07:00</updated>
+  <updated>2015-10-14T14:34:26-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,237 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-1]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-1/"/>
+    <updated>2015-10-14T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-1</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.</p>
+
+<h2>Review of the first series</h2>
+
+<p>The first series start here: <a href="/blog/add-1/">Intro</a> and ends here: <a href="/blog/add-11/">Voilà!</a>.  The bulk of the
+series was describing how to combine four ingredients:</p>
+
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
+
+
+<p>in a way that gives individuals and teams 4x or more productivity.  These resulting environment solves problems for
+all three roles in a development team:</p>
+
+<ul>
+<li>Changer</li>
+<li>Watcher</li>
+<li>Machines</li>
+</ul>
+
+
+<p>And can be envisioned as so:</p>
+
+<p><img width="432" height="414" src="http://markfussell.emenar.com/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" /></p>
+
+<p>Along the way, the ingredients combined to make:</p>
+
+<ul>
+<li>Machines automatically launch and configure themselves, including hooking them up to each other (auto-wire)</li>
+<li>Changes to IT roll out automatically to all the running machines.</li>
+<li>Changes to the application roll out automatically to all the running machines.</li>
+<li>Creating new environments to be as easy as tweak a simple parameter to a CloudFormation</li>
+<li>The whole thing working on EC2 or inside a Vagrant container... or even on bare metal / VMWare (but not shown)</li>
+<li>Incredible visibility into everything that happens within HipChat... for the whole team.</li>
+</ul>
+
+
+<p>By the end, we had machines tell us when they launched, when they were operational, when they were deploying new
+version, and whether that new version deployed successfully.</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
+
+<p>and finally, we had a running application at a human-usable URL:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
+
+<p>That could be scaled to any number of servers as load demands.</p>
+
+<h2>Second series</h2>
+
+<p>The above is the core of the ADD and making team productivity shoot through the roof.  It is actually basically 'complete'
+except for the details.  "Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
+What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
+to use with this ADD?!!"</p>
+
+<p>Ah... yes.  Over my <em>thirty five years</em> of developing software, I have encountered all these things.  I do have opinions
+on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.</p>
+
+<p>How little?  Maybe... maybe... 2x.  I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
+a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
+Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
+most of it from scratch... because there are no libraries).  I bet I lost 4x in productivity.  4x is a lot.  2x is a little.
+And if you try to get the '2x' but lose the '4x' you just did a win-LOSE bad tradeoff.</p>
+
+<h3>Lies</h3>
+
+<p>There are a lot of lies or confusions in the software industry.  During the nineties we tried to get rid of a lot of them
+through "A mythical man-month" (Fred Brooks) and "The Agile Manifesto" (Kent, Ken, Ward, ...).  The <em>truth</em> of software
+is available... but the lies hide it.  And people can't tell the difference.  And don't believe the science.  Or are
+too scared of losing their jobs (or having a more boring job) if they tell the truth vs. the lie.</p>
+
+<h4>Truth: One Brain</h4>
+
+<p>I will first start with among the best researched truth there is:</p>
+
+<ul>
+<li>The best software is created by one primary, talented, and skilled 'brain'
+
+<ul>
+<li>Potentially accompanied by some number of 'assistants'</li>
+</ul>
+</li>
+</ul>
+
+
+<p>This is the 'surgical team' model.  You want one primary, talented, and skilled 'Surgeon'.  A 'Surgeon' with many thousands
+if not many tens-of-thousands of hours of experience.  Nurses can help.  Support doctors can help.  Even other surgeons can
+help.  If the operation is long enough, you might need multiple primary surgeons who pass the baton along to each other.
+But if someone is opening your body... you want that person to be fully responsible, fully accountable, insanely competent,
+and insanely skilled.  An insanely great surgeon.  He will charge you a lot, and you will get a lot in return.</p>
+
+<p>Software is the same.  The best software is create by one primary, talented, and skilled 'Engineer'. An 'Engineer' with
+many thousands if not many tens-of-thousands of hours of experience.  QA can help.  Support programmers can help.  Software is
+ never needed so quickly as to require a baton, but that can happen if the 'Engineer' moves on to other things.</p>
+
+<p>If someone is writing an application that you want to be valuable to you... you want that person to be fully responsible,
+fully accountable, insanely competent, and insanely skilled.  An insanely great engineer.
+He will charge you a lot, and you will get a lot in return.</p>
+
+<h4>Lie: All together now!</h4>
+
+<p>But software developers don't like this truth.  They think they (after less than 5000 hours) can be the point person
+for building an application.  I don't mean 5000 hours <em>of work</em> I mean 5000 hours <em>in surgery</em> and that is after say
+2x the amount of hours of <em>studying surgery</em>  So 10,000 hours of studying how to build software applications and 5,000
+hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
+spend half of it actually on either of those tasks... it would take you about 15 years to be 'an Engineer'.  Ten years
+of reading and five years of writing : concurrently where reading dominates early and writing dominates later.</p>
+
+<p>So instead they say: "If a bunch of us get together we can reproduce that surgeon with each of our individual skills."
+Or "Nine club tennis players can beat Roger Federer if we tag-team".  Or "Nine people who are good in the
+kitchen can together produce a better meal than Gordon Ramsey in a throw down".  Or...</p>
+
+<p>Hopefully by shifting the context you can see the impossibility of it.  It makes absolutely no sense, yet the lie is
+propagated so much as to be systemic.  Even the smallest XP version of the lie "You need two people to write better software" is
+ludicrous.  Better to have <em>two surgeons</em> perform <em>two different operations</em> at the same time... and save <em>two</em> lives.
+There is nothing wrong with having an apprentice watch / help.  But that is <em>training</em> (somewhat to both parties) not
+<em>doing</em></p>
+
+<h4>Truth: Customer Rules</h4>
+
+<p>The second truth is that the <em>customer</em> rules.  If the customer is happy... WIN!  If they are not happy... :-(</p>
+
+<p>Given this is <em>sort of</em> in the Agile Manifesto you would think it would be well known now that everyone is 'Going Agile'.
+But reviewing the <a href="http://www.agilemanifesto.org">Agile Manifesto</a>, I see that it "backed off" saying what it should say.  The lines that it should have
+is:</p>
+
+<ul>
+<li>Working software over ...everything...</li>
+<li>Customer happiness over ...everything...</li>
+</ul>
+
+
+<p>But because software developers think they are special... unusually talented in a way that is beyond the customer... like 'artists'.
+They think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say 'Food':</p>
+
+<ul>
+<li> Working food (e.g. good produce, a cooked meal, etc.) over ???</li>
+<li> Customer happiness over ???</li>
+</ul>
+
+
+<p>Pretty sure if you nail the second bullet, you nailed the first one (and maybe some more).  And not nailing both these
+bullets is a path to failure.  So the actual pyramid is this:</p>
+
+<ul>
+<li>Happy Customer (100%)
+
+<ul>
+<li>Delivered good product (80%)
+
+<ul>
+<li>All the stuff needed to do the above</li>
+</ul>
+</li>
+<li>Other aspects of delivering (20%) –  E.g. customer interaction, appearance of product or delivery person, etc.
+
+<ul>
+<li>All the stuff needed to do the above</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You can have less than totally happy customers.  You should try to fix that or you can just be content with the
+'Quality' of your product.</p>
+
+<p>You can hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
+bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you can't say that <em>your customer</em>
+shouldn't be 100% happy... or as happy as you can make them.</p>
+
+<h4>Lie: Automated Testing and Quality Verification</h4>
+
+<p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
+tests and our QA verification servers happy.  We are going to make them happy <em>more</em> than our customer and <em>before</em>
+our customer.</p>
+
+<p>This actually pops up as a lie in education too.  We try to make the tests happy as opposed to the students.  But
+in most an <em>normal</em> industry, making a 'test' happy instead of a customer is a crazy and effective way to
+go out of business.  Say we inspected and tested <em>every</em> hamburger before it went out the door.  Fast food would
+take on a whole new meaning as it took minutes per-person to do the inspection.  And things like 'salad' would
+be unservable.  Salad almost always has something weird in it, and finding it takes about the same amount of time
+as eating it.  And it would basically destroy / consume the salad as you checked each leaf, fruit, and nut.</p>
+
+<p>Again, automated testing is <em>useful</em>.  But it is not <em>necessary</em>.  And it doesn't trump releasing to a customer
+so they can see 'Delivered good product'.</p>
+
+<h3>Conclusion : Customer's One Powerful Right and Responsibility</h3>
+
+<p>The ADD described so far, efficiently, effectively, and production-worthy scalably enabled one simple thing:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
+
+<p>That is a delivered good product (if you want to track pets).  What the application is beneath that, and
+what processes were used to develop it, are all "of little importance".  There are many ways to develop
+an identical web site.  The stack and method I will describe is just one of them.  It is a reference
+that I consider "Best Practice" among alternative "Best Practice" possibilities.  And all of these alternatives
+get measured on only one criteria: "Customer Satisfaction".  For example:</p>
+
+<ul>
+<li>Buggy in production, customer is less happy.</li>
+<li>Take longer to build, customer is less happy.</li>
+</ul>
+
+
+<p>Neither of the above trumps the other.  The ratio between them 'depends'.  And that ratio is totally under
+the customer's control.  They may not know the ratio before the fact, but while 'driving' the system they
+<em>have every right and even responsibility</em> to complain.  The development team can make an 'Educated Guess',
+but if the customer complains, they need to address that complaint and <em>change</em> the process, tools, people,
+or office space <em>as much as possible and reasonable</em> to make the customer more happy.  Maybe just a little
+change to become a little more happy: we aren't prescient and you don't know if the change will cause havoc
+(everyone quits) or even address the issue.</p>
+
+<p>What should your development process be?  It depends... on your customer and your product and your team and
+...</p>
+
+<p>But the following is a good start.  It is my best recommendation in 2015 for a modern, JVM-based, web-delivered,
+set of development methods, tools, frameworks, and other components.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-11]]]></title>
@@ -1234,105 +1465,6 @@ any 'init' and 'work' script has read the files a login shell would automaticall
 into the hierarchy:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy2.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-7]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-7/"/>
-    <updated>2015-10-04T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-7</id>
-    <content type="html"><![CDATA[<p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
-
-<h2>Fuller Presence and EC2 Integration</h2>
-
-<p>In the previous part, I went through a very simple but powerful model of 'presence' using simply GitHub repositories.
-The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
-The second level of presence is to update the state of the node as it changes.  For example, a node goes through
-a few bootstrap steps:</p>
-
-<ul>
-<li> presetup – The node before any updates are possible (no ability to change status)</li>
-<li> setup – The beginning of the 'setup' phase where the node is alive enough to change it's status</li>
-<li> initdone – The time a node is done are initialization and can start doing 'work' as the 'nodepart' it is</li>
-</ul>
-
-
-<p>A node getting to 'setup' is pretty important: before that it may be a zombie!  And we don't want zombie's in
-our federation!</p>
-
-<!-- more -->
-
-
-<p>So far for the ADD we now have four resources within which track node states:</p>
-
-<ul>
-<li> On the node (say '/root/log' or '/root/nodeinfo/state.txt)</li>
-<li> Within the presence system</li>
-<li> Within HipChat</li>
-<li> On EC2 itself</li>
-</ul>
-
-
-<p>I recommend using <em>all</em> of them.</p>
-
-<h3>On node</h3>
-
-<p> On the node is very helpful in that it is isolated from any other failures.  You
- can 'tail' the logs or 'cat' the state file.  This tangibility helps understand things and debug if there is failure.</p>
-
-<h3>Within Presence</h3>
-
-<p> Within the presence system is the most powerful and flexible.  It is easy to see history and all the activity of your
- nodegrid.  And the nodegrid can use the presence system to figure out what nodes are present and in full 'working'
- mode.</p>
-
-<h3>HipChat</h3>
-
-<p> Within HipChat lets everyone see and talk about the changes.  It can get noisy though, so you need
- to separate the 'chatty' state changes from the 'critical' ones.  An example of 'critical' is when a machine realizes
- it is broken.  It is running the cron job, but something is wrong and it can tell that the 'work' is not completable.
- I call this being 'wedged'.  If a machine is 'wedged', it should tell people and then we can work on improving its
- DNA so it can unwedge itself in the future.  And then kill the machine.</p>
-
-<h3>EC2</h3>
-
-<p> By using EC2 tags you can leverage the EC2 dashboard.  I view 'tags' as read-only because the ADD should not get
- attached (be dependent) on EC2, but it is helpful for visibility.</p>
-
-<h3>Examples</h3>
-
-<p>The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
-killing the existing two instances: the AutoScalingGroup automatically replaced them.</p>
-
-<h4>Launching viewed within EC2 Dashboard</h4>
-
-<p>Nicely the 'add:' prefix makes all the properties that are most important appear on the left.  Some of the names
-of concepts are intentionally alphabetically 'sorted' so they appear in the correct column.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-7/add7_ec2_cv1b.png" /></p>
-
-<p>Click here: <a target="add7_ec2_cv1b" href="http://markfussell.emenar.com/images/add-7/add7_ec2_cv1b.png" >add7_ec2_cv1b</a> to expand.</p>
-
-<p>The ‘stacktype’ of ‘lad1’ in the capture is short for a stack of</p>
-
-<ul>
-<li>Load Balancer</li>
-<li>Application</li>
-<li>Database</li>
-</ul>
-
-
-<h4>Working viewed within HipChat</h4>
-
-<p><img src="http://markfussell.emenar.com/images/add-7/add7_hipchat_cv1.png" /></p>
-
-<h4>Working viewed within Presence / SourceTree</h4>
-
-<p><img src="http://markfussell.emenar.com/images/add-7/add7_presence_cv1.png" /></p>
 ]]></content>
   </entry>
   

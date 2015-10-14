@@ -9,8 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="I have been paid to develop and deliver software since about 1980. That is 35 years of professional experience.
-When I started in 1980 there were a &hellip;">
+  <meta name="description" content="This is the second installment of describing a radically more productive development and delivery environment. The first part is here: Intro, but to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,81 @@ When I started in 1980 there were a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-2/">Advanced Development and Delivery (ADD) [Part-2]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-01T01:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
+to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
+by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
+and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
+It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
+people&#8217;s masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
+
+<h2>ADD: How Better?</h2>
+
+<p>As described before, ADD has four ingredients:</p>
+
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
+
+
+<p>And these are hooked together to enable &#8216;Changers&#8217;, &#8216;Watchders&#8217;, and &#8216;Machines&#8217; to be super-productive.  How
+is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
+of the clone model:</p>
+
+<ul>
+<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
+<li>How do we reduce the amount of information we have to clone?</li>
+<li>How do we reduce the time it takes to transport the clone?</li>
+<li>How do we know what version of the clone is on any machine?</li>
+<li>How do we create thousands of clones?</li>
+<li>How do we know what is different about the different clones?</li>
+<li>&#8230;</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-2/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -562,47 +636,6 @@ when trying to document a program, and it is even harder to reference sections o
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/ruby-naming-convention-failure/">Ruby Naming Convention Failure</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-04T01:20:00-07:00" pubdate data-updated="true">Sep 4<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/ruby-naming-convention-failure/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -630,6 +663,10 @@ when trying to document a program, and it is even harder to reference sections o
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-1/">ADD Stack [Part-1]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/add-11/">Advanced Development and Delivery (ADD) [Part-11]</a>
       </li>
     
@@ -645,15 +682,11 @@ when trying to document a program, and it is even harder to reference sections o
         <a href="/blog/add-8/">Advanced Development and Delivery (ADD) [Part-8]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 138.8235294117647%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 145.88235294117646%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 149.41176470588235%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 156.47058823529412%'>Git</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 149.41176470588235%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 142.35294117647058%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.52941176470588%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 149.41176470588235%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 152.94117647058823%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 107.05882352941177%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.52941176470588%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 124.70588235294117%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.52941176470588%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 124.70588235294117%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 103.52941176470588%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 103.52941176470588%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 152.94117647058823%'>IT</a> <a href='/blog/categories/java' style='font-size: 117.64705882352942%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.52941176470588%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.52941176470588%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 107.05882352941177%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 107.05882352941177%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 152.94117647058823%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 114.11764705882354%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.58823529411765%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 160.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 103.52941176470588%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 103.52941176470588%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>
