@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T10:56:11-07:00</updated>
+  <updated>2015-10-14T11:08:44-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -539,13 +539,24 @@ each other.  That is not hard but it isn't free.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_5.png" /></p>
 
-<h3>Viola</h3>
+<h2>Viola!</h2>
+
+<h3>Domain-Based, Auto-Scaling, IT and Application Stack</h3>
 
 <p>We now have a stable domain name for our stack: 'fed1-app1.aws.gapcom.com'</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
 
-<p>And an automated deployment to that domain whenever we touch the code base</p>
+<p>which can scale up and down machines automatically.  Ideally there are at least four in production to make sure
+all the availability zones under 'US East' are covered.  But for anything else, one or two is sufficient depending
+on what you are testing.</p>
+
+<h3>Autodeploying IT and Application</h3>
+
+<p>We now have a completed automated upgrade system for our servers and
+for the application whenever we touch the code base:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
 ]]></content>
   </entry>
   
