@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T10:43:40-07:00</updated>
+  <updated>2015-10-14T10:56:11-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -522,6 +522,30 @@ each other.  That is not hard but it isn't free.</p>
 </code></pre>
 
 <p>```</p>
+
+<p>After adding all that, we get a new Route53 entry</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_2.png" /></p>
+
+<p>And can also look at our load balancer:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_3.png" /></p>
+
+<p>And the instance associated with it:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_4.png" /></p>
+
+<p>And the rule we use to figure out whether the instance is alive</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_5.png" /></p>
+
+<h3>Viola</h3>
+
+<p>We now have a stable domain name for our stack: 'fed1-app1.aws.gapcom.com'</p>
+
+<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
+
+<p>And an automated deployment to that domain whenever we touch the code base</p>
 ]]></content>
   </entry>
   
