@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T08:26:38-07:00</updated>
+  <updated>2015-10-14T08:32:55-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -55,7 +55,7 @@ cd grails-petclinic
 
 <p>In reverse order</p>
 
-<h3>Pulling the Application</h3>
+<h2>Pulling the Application</h2>
 
 <p>Going back to the one-minute heartbeat, we had this 'cron' job:</p>
 
@@ -273,6 +273,27 @@ popd
 <p>Solving these is pretty trivial if we are allowed to be 'brutal' and accept downtime.  Ultimately this won't be
 a problem because we will first 'shutdown' and let the load balancer pull us out of rotation before we actually
 upgrade versions.</p>
+
+<h2>DNS Stability</h2>
+
+<p>The DNS stability is a trivial thing on EC2 and basically any modern DNS system.  Trivial as long as we understand
+one fatal flaw:</p>
+
+<ul>
+<li>Everyone caches</li>
+</ul>
+
+
+<p>We can have stability so long as we accept that everyone is trying to cache the DNS to IP address for as long as
+possible.  This can be minutes or even longer <em>in spite</em> of our DNS records saying otherwise.  This is actually
+ one of the reason load balancers are so important.  Load balancing is a very simple concept.  You load balancers
+ should be simple to 'keep running' and be rarely flipped.  So their IP addresses will be stable: like the person
+ who is always hanging out on their front porch.  You can always find them there and ask them to ask someone else
+ a question.  They will take care of the rest.</p>
+
+<p>So ultimately we don't want the application server obtaining a domain-name, we want it to register with a load
+balancer.  But for the moment (and for some useful internal capabilities) we will have each application server
+take-a-name.</p>
 ]]></content>
   </entry>
   
