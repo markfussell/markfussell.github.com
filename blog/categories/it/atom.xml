@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T08:02:41-07:00</updated>
+  <updated>2015-10-14T08:26:38-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -163,6 +163,116 @@ echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}
 <p>The reason for the double loop is to make sure inter-repository interactions are all "at the same time".  After the set
 of 'pulls', everything is stable.  We could even slow down the tempo of the system by simply pulling less often and
 could jitter before the set of 'pulls' which would jitter the whole system.</p>
+
+<h3>Where to work?</h3>
+
+<p>So if we have our 'IT' repo as 'repo2_petulant-cyril' and our application repo as 'repo3_miniature-ironman', where should
+we do our 'work.sh'?  The answer is unfortunatly simple: "where ever you want".  The more you do work in 'repo2' the
+more 'functional' your system.  Like classic functional / imperative programming.  The more you do work in 'repo3' the
+more 'object-oriented' your system.  The more 'repo3' is alive vs. being acted-upon.  On the other hand, the more you
+do work in 'repo2', the more you can leverage similarities in the work (like knowing directory structures, git versions,
+etc.) and the less 'repo3' is complicated by these things.  Ultimately it would be ideal to be 'aspect-oriented' and
+add a 'trait' to 'repo3'.  But for the moment, I will keep things simple and do all the work in 'repo2' where depending
+on the kind of node you are, you <em>know about</em> 'repo3' vs. 'repo3' knowing it could be alive.</p>
+
+<h3>'repo3:miniature-ironman'</h3>
+
+<p>Why does 'repo3' have two names?  The first is a simple identifier: it is a 'repo' and it is the third of its kind.
+This simplicity makes sure things like 'find' produce a simple in-order answer.  If we have a lot of repositories, we
+might start with '101' to make sure sorting works for a few hundred repositories.  The second part is a human-memorable
+name, and to help associate the repository with its purpose.  You shouldn't name a repository <em>after</em> its purpose, because
+it's purpose could change.  Outright change or simply grow.  Or another repo could have the same purpose and now we
+can't figure out which is right.  It would be like naming a kid 'toddler'.  At first it might
+not even be a toddler yet, but more importantly, eventually it will clearly no longer be a toddler.  And we would have
+  a lot of 'toddler's so we can't figure out which is what.</p>
+
+<p>So instead, each repo just has a unique name.  We have to look at it and interact with it to figure out what it is.  Or
+each has a README that we can try to keep current.</p>
+
+<h3>app1/work.sh</h3>
+
+<p>We can fetch 'repo3' from 'repo2' within the work of an application server:</p>
+
+<p>```bash</p>
+
+<h1>====================================================</h1>
+
+<h1>=== lad1/app1</h1>
+
+<h1>====================================================</h1>
+
+<p>echo "Doing App1 work"</p>
+
+<h1>====================================================</h1>
+
+<h1>=== checkout the application repository</h1>
+
+<h1>=== if it doesn't exist</h1>
+
+<h1>====================================================</h1>
+
+<p>export APP_REPO=repo3_miniature-ironman
+export APP_NAME=app2
+export APP_PATH=$REPO_ROOT/$APP_NAME</p>
+
+<p>if [ ! -d "$APP_PATH" ]; then
+  echo "git clone git@github.com:shaklee/${APP_REPO}.git $APP_PATH"
+  git clone git@github.com:shaklee/${APP_REPO}.git $APP_PATH
+fi</p>
+
+<p>```</p>
+
+<p>The rest of the script looks identical to our main 'work.sh' except our directory has switched from 'common' to
+something more specific.</p>
+
+<p>```bash</p>
+
+<h1>====================================================</h1>
+
+<h1>=== Temporary files location</h1>
+
+<h1>=== Override the 'TEMP' directory to be for this part</h1>
+
+<h1>====================================================</h1>
+
+<p>export ADD_TEMP=${GIT_ROOT}/.temp/add/lad1_app1b/
+export MY_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</p>
+
+<p>```</p>
+
+<p>And we have to push/pop to get in the right directory for the 'GIT' commands to work.</p>
+
+<p>```bash</p>
+
+<pre><code>pushd $APP_PATH
+export GIT_VERSION=`git rev-parse HEAD`
+export DETECT_GIT_CHANGE=`git log --pretty=oneline ${PREV_WORK_VERSION}..  -- ${WORK_WATCH_VALUE} | awk '{print $1}'`
+popd
+</code></pre>
+
+<p>```</p>
+
+<h3>Start / restart</h3>
+
+<p>Ultimately we will run from a Tomcat or similar container, but currently we just have to:</p>
+
+<p><code>bash
+pushd $APP_PATH
+./gradlew run &amp;
+popd
+</code></p>
+
+<p>Except for a couple issues</p>
+
+<ul>
+<li>We would like the error and standard output to go somewhere in case something goes wrong</li>
+<li>We need to not collide with an previous 'run' because they hold onto the same port</li>
+</ul>
+
+
+<p>Solving these is pretty trivial if we are allowed to be 'brutal' and accept downtime.  Ultimately this won't be
+a problem because we will first 'shutdown' and let the load balancer pull us out of rotation before we actually
+upgrade versions.</p>
 ]]></content>
   </entry>
   

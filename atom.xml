@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T08:02:41-07:00</updated>
+  <updated>2015-10-14T08:26:38-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -196,6 +196,136 @@ like this:</p>
 <p>The reason for the double loop is to make sure inter-repository interactions are all &#8220;at the same time&#8221;.  After the set
 of &#8216;pulls&#8217;, everything is stable.  We could even slow down the tempo of the system by simply pulling less often and
 could jitter before the set of &#8216;pulls&#8217; which would jitter the whole system.</p>
+
+<h3>Where to work?</h3>
+
+<p>So if we have our &#8216;IT&#8217; repo as &#8216;repo2_petulant-cyril&#8217; and our application repo as &#8216;repo3_miniature-ironman&#8217;, where should
+we do our &#8216;work.sh&#8217;?  The answer is unfortunatly simple: &#8220;where ever you want&#8221;.  The more you do work in &#8216;repo2&#8217; the
+more &#8216;functional&#8217; your system.  Like classic functional / imperative programming.  The more you do work in &#8216;repo3&#8217; the
+more &#8216;object-oriented&#8217; your system.  The more &#8216;repo3&#8217; is alive vs. being acted-upon.  On the other hand, the more you
+do work in &#8216;repo2&#8217;, the more you can leverage similarities in the work (like knowing directory structures, git versions,
+etc.) and the less &#8216;repo3&#8217; is complicated by these things.  Ultimately it would be ideal to be &#8216;aspect-oriented&#8217; and
+add a &#8216;trait&#8217; to &#8216;repo3&#8217;.  But for the moment, I will keep things simple and do all the work in &#8216;repo2&#8217; where depending
+on the kind of node you are, you <em>know about</em> &#8216;repo3&#8217; vs. &#8216;repo3&#8217; knowing it could be alive.</p>
+
+<h3>&#8216;repo3:miniature-ironman&#8217;</h3>
+
+<p>Why does &#8216;repo3&#8217; have two names?  The first is a simple identifier: it is a &#8216;repo&#8217; and it is the third of its kind.
+This simplicity makes sure things like &#8216;find&#8217; produce a simple in-order answer.  If we have a lot of repositories, we
+might start with &#8216;101&#8217; to make sure sorting works for a few hundred repositories.  The second part is a human-memorable
+name, and to help associate the repository with its purpose.  You shouldn&#8217;t name a repository <em>after</em> its purpose, because
+it&#8217;s purpose could change.  Outright change or simply grow.  Or another repo could have the same purpose and now we
+can&#8217;t figure out which is right.  It would be like naming a kid &#8216;toddler&#8217;.  At first it might
+not even be a toddler yet, but more importantly, eventually it will clearly no longer be a toddler.  And we would have
+  a lot of &#8216;toddler&#8217;s so we can&#8217;t figure out which is what.</p>
+
+<p>So instead, each repo just has a unique name.  We have to look at it and interact with it to figure out what it is.  Or
+each has a README that we can try to keep current.</p>
+
+<h3>app1/work.sh</h3>
+
+<p>We can fetch &#8216;repo3&#8217; from &#8216;repo2&#8217; within the work of an application server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== lad1/app1</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing App1 work&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== checkout the application repository</span>
+</span><span class='line'><span class="c">#=== if it doesn&#39;t exist</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_REPO</span><span class="o">=</span>repo3_miniature-ironman
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_NAME</span><span class="o">=</span>app2
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_PATH</span><span class="o">=</span><span class="nv">$REPO_ROOT</span>/<span class="nv">$APP_NAME</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> ! -d <span class="s2">&quot;$APP_PATH&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;git clone git@github.com:shaklee/${APP_REPO}.git $APP_PATH&quot;</span>
+</span><span class='line'>  git clone git@github.com:shaklee/<span class="k">${</span><span class="nv">APP_REPO</span><span class="k">}</span>.git <span class="nv">$APP_PATH</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The rest of the script looks identical to our main &#8216;work.sh&#8217; except our directory has switched from &#8216;common&#8217; to
+something more specific.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== Temporary files location</span>
+</span><span class='line'><span class="c">#=== Override the &#39;TEMP&#39; directory to be for this part</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">ADD_TEMP</span><span class="o">=</span><span class="k">${</span><span class="nv">GIT_ROOT</span><span class="k">}</span>/.temp/add/lad1_app1b/
+</span><span class='line'><span class="nb">export </span><span class="nv">MY_DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${BASH_SOURCE[0]}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And we have to push/pop to get in the right directory for the &#8216;GIT&#8217; commands to work.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> <span class="nv">$APP_PATH</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">GIT_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">DETECT_GIT_CHANGE</span><span class="o">=</span><span class="sb">`</span>git log --pretty<span class="o">=</span>oneline <span class="k">${</span><span class="nv">PREV_WORK_VERSION</span><span class="k">}</span>..  -- <span class="k">${</span><span class="nv">WORK_WATCH_VALUE</span><span class="k">}</span> | awk <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span>
+</span><span class='line'><span class="nb">popd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Start / restart</h3>
+
+<p>Ultimately we will run from a Tomcat or similar container, but currently we just have to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> <span class="nv">$APP_PATH</span>
+</span><span class='line'>./gradlew run &amp;
+</span><span class='line'><span class="nb">popd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Except for a couple issues</p>
+
+<ul>
+<li>We would like the error and standard output to go somewhere in case something goes wrong</li>
+<li>We need to not collide with an previous &#8216;run&#8217; because they hold onto the same port</li>
+</ul>
+
+
+<p>Solving these is pretty trivial if we are allowed to be &#8216;brutal&#8217; and accept downtime.  Ultimately this won&#8217;t be
+a problem because we will first &#8216;shutdown&#8217; and let the load balancer pull us out of rotation before we actually
+upgrade versions.</p>
 ]]></content>
   </entry>
   
