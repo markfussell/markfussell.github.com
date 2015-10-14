@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T08:58:14-07:00</updated>
+  <updated>2015-10-14T09:01:27-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -371,6 +371,24 @@ the subdomain of &#8216;aws.gaps2c.com&#8217; is managed by route53.  The last e
 knows where the google servers are.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_1.png" /></p>
+
+<h3>Registering with Route-53</h3>
+
+<p>There are a lot of ways to register with Route-53:</p>
+
+<ul>
+<li> Via the console</li>
+<li> Via an XML-based payload update</li>
+<li> Via settings in a CloudFormation</li>
+</ul>
+
+
+<p>The first is easy, but not scalable.  The second is not hard, but a bit &#8216;peculiar&#8217; in how the payload works.  The
+third is trivial and scalable.</p>
+
+<p>So lets start with the third</p>
+
+<h4>Registering via a CloudFormation template</h4>
 ]]></content>
   </entry>
   
