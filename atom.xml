@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T15:06:09-07:00</updated>
+  <updated>2015-10-14T15:49:37-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -53,13 +53,13 @@ all three roles in a development team:</p>
 <li>Machines automatically launch and configure themselves, including hooking them up to each other (auto-wire)</li>
 <li>Changes to IT roll out automatically to all the running machines.</li>
 <li>Changes to the application roll out automatically to all the running machines.</li>
-<li>Creating new environments to be as easy as tweak a simple parameter to a CloudFormation</li>
-<li>The whole thing working on EC2 or inside a Vagrant container&#8230; or even on bare metal / VMWare (but not shown)</li>
+<li>Creating new environments to be as easy providing a simple parameter (e.g. &#8220;fed2&#8221;) to a CloudFormation</li>
+<li>The whole thing working on EC2 or inside a Vagrant container&#8230; or even on bare metal (but that was not shown)</li>
 <li>Incredible visibility into everything that happens within HipChat&#8230; for the whole team.</li>
 </ul>
 
 
-<p>By the end, we had machines tell us when they launched, when they were operational, when they were deploying new
+<p>By the end, we had machines tell us when they launched, when they were operational, when they were deploying a new
 version, and whether that new version deployed successfully.</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
@@ -72,10 +72,13 @@ version, and whether that new version deployed successfully.</p>
 
 <h2>Second series</h2>
 
-<p>The above is the core of the ADD and making team productivity shoot through the roof.  It is actually basically &#8216;complete&#8217;
-except for the details.  &#8220;Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
+<p>The above is the core of the ADD and enabling team productivity and customer visibility (even happiness)
+to shoot through the roof.  It by itself is basically &#8216;complete&#8217;.  It is missing some details, nuances,
+augmentation, and such.  But it alone is the core of a 4x productivity.</p>
+
+<blockquote><p>&#8220;Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
 What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
-to use with this ADD?!!&#8221;</p>
+to use with this ADD?!!&#8221;</p></blockquote>
 
 <p>Ah&#8230; yes.  Over my <em>thirty five years</em> and estimated <em>thirty five thousand hours</em> of developing software,
 I have encountered all these things.  I do have opinions
