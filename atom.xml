@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T09:20:49-07:00</updated>
+  <updated>2015-10-15T11:50:59-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-3]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-3/"/>
+    <updated>2015-10-15T02:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-3</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.</p>
+
+<h2>Grails, Groovy, and Java</h2>
+
+<p>The primary stack I believe is a &#8220;Best Practice&#8221; is Grails.  It is in it&#8217;s third full generation, and with
+each generation it gets better, easier, more powerful, and more &#8216;aligned&#8217;.  This last part is not that
+common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
+code.  The Grails team has been great at &#8216;pruning&#8217; and &#8216;aligning&#8217; with Spring.</p>
+
+<p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don&#8217;t
+know why.  Either they don&#8217;t read the tutorials&#8230; or they get confused and a deadline is approaching&#8230; or they
+are cowboys (and cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
+I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
+functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
+wrong with Spring but it is harder to use properly than Grails.</p>
+
+<p>Grails is &#8216;opinionated&#8217; and has plenty of examples to show you these opinions.  We can see it in the &#8216;petclinic&#8217;
+example.</p>
+
+<h3>Build with Gradle</h3>
+
+<p>Grails uses Gradle to build the project.  It used to have it&#8217;s own system, but it pruned that away when Gradle
+became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails1.png" /></p>
+
+<h3>Align with Spring-Boot</h3>
+
+<p>Spring-Boot is a relatively recent effort to &#8216;default&#8217; a lot of the flexibility within Spring.  So Grails
+is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a &#8216;small&#8217; step up
+conceptually so it should be easier for people to &#8216;level up&#8217; and also &#8216;wander down&#8217; depending on the needs
+of the project.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails2.png" /></p>
+
+<h3>Align with Hibernate, but allow others (include NoSQL)</h3>
+
+<p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
+through GORM to other systems.  Some capabilities go away but basic schema control is there.</p>
+
+<h3>Use modern testing frameworks</h3>
+
+<p>As mentioned before: &#8216;geb&#8217; and &#8216;spock&#8217; are the default testing frameworks included, along with the default
+phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
+could be used instead or in addition, but there would have to be a compelling reason for it.</p>
+
+<h3>Modern asset pipeline</h3>
+
+<p>Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
+of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
+pipeline system that leverages the well-defined layout of a Grails project.</p>
+
+<h3>Good IDE integration</h3>
+
+<p>Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
+for Java development.</p>
+
+<h3>Plugins!</h3>
+
+<p>Grails has a very simple plugin system that adds lots of great capabilities.  With the move to 3.x some
+plugins may not yet be ready, but every month several should be migrated.</p>
+
+<h3>Standard Layout: assets, controllers, services, views, &#8230;</h3>
+
+<p>Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
+the same over all three generations.  The &#8216;src&#8217; directory is for things outside the Grails world.  And
+the &#8216;grails-app&#8217; directory is for things inside the Grails world.  The grails layout is very intuitive
+for a modern web application:</p>
+
+<ul>
+<li>assets – Assets to go through the pipeline</li>
+<li>conf - Configuration of the application</li>
+<li>controllers – The UI (or web-api) interaction layer of the application</li>
+<li>domain – The business model layer of the application, and the persistent state model</li>
+<li>i18n – Internationalization</li>
+<li>init – Things to do at startup</li>
+<li>services – One or more &#8216;services&#8217; layers to pull logic from controllers and domain into</li>
+<li>views – GSP to be used by controllers for rendering (if desired)</li>
+</ul>
+
+
+<p>For the petclinic this layout looks like this when expanded:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails3.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-2]]]></title>
@@ -5171,691 +5265,6 @@ current location of the repository is <a href="https://github.com/markfussell/sc
 <p>I will release source in some format in the next release &#8211; things are pretty clean and somewhat commented, but I think I should get a little further and make sure I am not going to rename or repackage anything.  And I will need to strip out the few &#8216;Flex&#8217; references from within the core Scratch model so a smaller SWF download is possible.</p>
 
 <p>If anyone is interested in working on this &#8211; doing Blocks and verifying that functionality is working, please let me know.  If people are interested then I will put source into a public RCS like Subversion or Git sooner than later.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Scratch Textual Language]]></title>
-    <link href="http://markfussell.emenar.com/blog/scratch-textual-language/"/>
-    <updated>2008-09-17T20:28:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/scratch-textual-language</id>
-    <content type="html"><![CDATA[<p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.
-Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
-<a href="http://markfussell.emenar.com/blog/a-taste-of-scratch">these diagrams</a>
-when trying to document a program, and it is even harder to reference sections of the diagram.</p>
-
-<!-- more -->
-
-
-<p>This activity came out of producing a Scratch Player in Flash, and I wanted to see whether the parse of the file produced the correct program.  A textual dump of the parse was an obvious solution, but then this &#8216;dump&#8217; might as well be the same as a complete program declaration so it was clearly &#8216;complete&#8217; and I wasn&#8217;t missing anything.</p>
-
-<h2>Scratch Textual</h2>
-
-<p>The core concepts in this proposed textual language for Scratch are:</p>
-
-<ul>
-<li><p>It should match Scratch as closely as possible</p></li>
-<li><p>It should be a readable and easily writeable textual language (vs. XML as an interchange format)</p></li>
-<li><p>It should be translatable to other human languages for the blocks (as Scratch is)</p></li>
-<li><p>It should be really simple to produce and parse</p></li>
-<li><p>Given Scratch is graphical, visual indentation is reasonable</p></li>
-<li><p>It is not a complete &#8216;dump&#8217; of the Scratch project &#8211; no media resources are included.</p></li>
-</ul>
-
-
-<p>The above concepts produced the following initial choices:</p>
-
-<ul>
-<li><p>Different sections start with simple keywords: &#8220;stage:&#8221; and &#8220;sprite:&#8221; for the main objects, &#8220;vars:&#8221; and &#8216;listVars:&#8221; for declaring variables, &#8220;comment:&#8221; for a comment section, and &#8220;script:&#8221; for declaring a sequence of blocks.</p></li>
-<li><p>Variables simply define their name and an initial value (if desired&#8230; otherwise it would be &#8216;0&#8217;)</p></li>
-<li><p>Each block is written out textually with its &#8216;spec&#8217; &#8211; a human readable description of the block and its parameters</p></li>
-<li><p>The parameters to a block (if any) come immediately after, and are preferably indented [say 4 spaces] from the block they are parameters too.  Note that the indentation is not necessary because you can tell the number of parameters from the block &#8216;spec&#8217;, but indenting makes it more readable.</p></li>
-<li><p>If a block can contain other blocks, contained blocks <em>must be</em> indented [say 4 spaces] so you can tell they are inside the block vs. after the block.  This is in a fashion similar to Python.</p></li>
-<li><p>There should be no blank line within a &#8216;script:&#8217; section.  The end of a script: section is the first blank (non-comment) line.</p></li>
-<li><p>Comments within the textual blocks use &#8216;#&#8217; to match with Python.  Multi-line comments do not exist.  Note that Textual Comments are not parsed at all (and do not round-trip), so they should be minimal and merely augment parsing the textual source &#8211; use &#8216;comment:&#8217; for real documentation.</p></li>
-<li><p>&#8216;script:&#8217; and &#8216;comment:&#8217; could have position information after them using the &#8216;loc&#8217; property (e.g. &#8220;loc = 500@250&#8221;) but this is not likely to be useful since any edits would cause positions to be wrong</p></li>
-</ul>
-
-
-<h3>An Example</h3>
-
-<p>The following is a complete &#8220;normal expanded format&#8221; version.  See further below for a possible optimization to make things more vertically compressed.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-<span class='line-number'>201</span>
-<span class='line-number'>202</span>
-<span class='line-number'>203</span>
-<span class='line-number'>204</span>
-<span class='line-number'>205</span>
-<span class='line-number'>206</span>
-<span class='line-number'>207</span>
-<span class='line-number'>208</span>
-<span class='line-number'>209</span>
-<span class='line-number'>210</span>
-<span class='line-number'>211</span>
-<span class='line-number'>212</span>
-<span class='line-number'>213</span>
-<span class='line-number'>214</span>
-<span class='line-number'>215</span>
-<span class='line-number'>216</span>
-<span class='line-number'>217</span>
-<span class='line-number'>218</span>
-<span class='line-number'>219</span>
-<span class='line-number'>220</span>
-<span class='line-number'>221</span>
-<span class='line-number'>222</span>
-<span class='line-number'>223</span>
-<span class='line-number'>224</span>
-<span class='line-number'>225</span>
-<span class='line-number'>226</span>
-<span class='line-number'>227</span>
-<span class='line-number'>228</span>
-<span class='line-number'>229</span>
-<span class='line-number'>230</span>
-<span class='line-number'>231</span>
-<span class='line-number'>232</span>
-<span class='line-number'>233</span>
-<span class='line-number'>234</span>
-<span class='line-number'>235</span>
-<span class='line-number'>236</span>
-<span class='line-number'>237</span>
-<span class='line-number'>238</span>
-<span class='line-number'>239</span>
-<span class='line-number'>240</span>
-<span class='line-number'>241</span>
-<span class='line-number'>242</span>
-<span class='line-number'>243</span>
-<span class='line-number'>244</span>
-<span class='line-number'>245</span>
-<span class='line-number'>246</span>
-<span class='line-number'>247</span>
-<span class='line-number'>248</span>
-<span class='line-number'>249</span>
-<span class='line-number'>250</span>
-<span class='line-number'>251</span>
-<span class='line-number'>252</span>
-<span class='line-number'>253</span>
-<span class='line-number'>254</span>
-<span class='line-number'>255</span>
-<span class='line-number'>256</span>
-<span class='line-number'>257</span>
-<span class='line-number'>258</span>
-<span class='line-number'>259</span>
-<span class='line-number'>260</span>
-<span class='line-number'>261</span>
-<span class='line-number'>262</span>
-<span class='line-number'>263</span>
-<span class='line-number'>264</span>
-<span class='line-number'>265</span>
-<span class='line-number'>266</span>
-<span class='line-number'>267</span>
-<span class='line-number'>268</span>
-<span class='line-number'>269</span>
-<span class='line-number'>270</span>
-<span class='line-number'>271</span>
-<span class='line-number'>272</span>
-<span class='line-number'>273</span>
-<span class='line-number'>274</span>
-<span class='line-number'>275</span>
-<span class='line-number'>276</span>
-<span class='line-number'>277</span>
-<span class='line-number'>278</span>
-<span class='line-number'>279</span>
-<span class='line-number'>280</span>
-<span class='line-number'>281</span>
-<span class='line-number'>282</span>
-<span class='line-number'>283</span>
-<span class='line-number'>284</span>
-<span class='line-number'>285</span>
-<span class='line-number'>286</span>
-<span class='line-number'>287</span>
-<span class='line-number'>288</span>
-<span class='line-number'>289</span>
-<span class='line-number'>290</span>
-<span class='line-number'>291</span>
-<span class='line-number'>292</span>
-<span class='line-number'>293</span>
-<span class='line-number'>294</span>
-<span class='line-number'>295</span>
-<span class='line-number'>296</span>
-<span class='line-number'>297</span>
-<span class='line-number'>298</span>
-<span class='line-number'>299</span>
-<span class='line-number'>300</span>
-<span class='line-number'>301</span>
-<span class='line-number'>302</span>
-<span class='line-number'>303</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#===========================</span>
-</span><span class='line'><span class="c">#=== Morph: Stage </span>
-</span><span class='line'><span class="c">#===========================</span>
-</span><span class='line'><span class="n">stage</span><span class="p">:</span> <span class="n">Stage</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Vars </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">vars</span><span class="p">:</span>
-</span><span class='line'><span class="n">talest</span><span class="o">-</span><span class="n">pole</span><span class="o">-</span><span class="n">height</span> <span class="o">=</span> <span class="mi">6</span>
-</span><span class='line'><span class="n">previous</span><span class="o">-</span><span class="n">moved</span><span class="o">-</span><span class="n">disk</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="n">potential</span><span class="o">-</span><span class="n">disk</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">num</span><span class="o">-</span><span class="n">disks</span> <span class="o">=</span> <span class="mi">5</span>
-</span><span class='line'><span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="n">base</span><span class="o">-</span><span class="n">disk</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">listVars</span><span class="p">:</span>
-</span><span class='line'><span class="n">pole</span><span class="o">-</span><span class="mi">1</span> <span class="o">=</span> <span class="n">undefined</span>
-</span><span class='line'><span class="n">pole</span><span class="o">-</span><span class="mi">2</span> <span class="o">=</span> <span class="n">undefined</span>
-</span><span class='line'><span class="n">moveable</span><span class="o">-</span><span class="n">disks</span> <span class="o">=</span> <span class="n">undefined</span>
-</span><span class='line'><span class="n">pole</span><span class="o">-</span><span class="mi">3</span> <span class="o">=</span> <span class="n">undefined</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Script </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="n">script</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">when</span> <span class="s">&#39;find-next-disk&#39;</span>
-</span><span class='line'><span class="nb">set</span> <span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="n">broadcast</span> <span class="o">%</span><span class="n">e</span> <span class="ow">and</span> <span class="n">wait</span>
-</span><span class='line'>    <span class="n">propose</span><span class="o">-</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'><span class="n">repeat</span> <span class="n">until</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">&gt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>        <span class="mi">0</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">potential</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">potential</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>                <span class="n">previous</span><span class="o">-</span><span class="n">moved</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">potential</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'><span class="n">broadcast</span> <span class="o">%</span><span class="n">e</span> <span class="ow">and</span> <span class="n">wait</span>
-</span><span class='line'>    <span class="n">move</span><span class="o">-</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Script </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="n">script</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">when</span> <span class="s">&#39;Scratch-StartClicked&#39;</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">num</span><span class="o">-</span><span class="n">disks</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">5</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">base</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">+</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">num</span><span class="o">-</span><span class="n">disks</span>
-</span><span class='line'>        <span class="mi">1</span>
-</span><span class='line'><span class="nb">set</span> <span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="n">num</span><span class="o">-</span><span class="n">disks</span>
-</span><span class='line'><span class="n">repeat</span> <span class="n">until</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>        <span class="mi">1</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">-</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>            <span class="mi">1</span>
-</span><span class='line'><span class="n">broadcast</span> <span class="o">%</span><span class="n">e</span> <span class="ow">and</span> <span class="n">wait</span>
-</span><span class='line'>    <span class="n">initialize</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">previous</span><span class="o">-</span><span class="n">moved</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">talest</span><span class="o">-</span><span class="n">pole</span><span class="o">-</span><span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="n">repeat</span> <span class="n">until</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">&gt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">talest</span><span class="o">-</span><span class="n">pole</span><span class="o">-</span><span class="n">height</span>
-</span><span class='line'>        <span class="n">num</span><span class="o">-</span><span class="n">disks</span>
-</span><span class='line'>    <span class="n">broadcast</span> <span class="o">%</span><span class="n">e</span> <span class="ow">and</span> <span class="n">wait</span>
-</span><span class='line'>        <span class="n">find</span><span class="o">-</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">talest</span><span class="o">-</span><span class="n">pole</span><span class="o">-</span><span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">&gt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">talest</span><span class="o">-</span><span class="n">pole</span><span class="o">-</span><span class="n">height</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">talest</span><span class="o">-</span><span class="n">pole</span><span class="o">-</span><span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c">#===========================</span>
-</span><span class='line'><span class="c">#=== Morph: Sprite1 </span>
-</span><span class='line'><span class="c">#===========================</span>
-</span><span class='line'><span class="n">sprite</span><span class="p">:</span> <span class="n">Sprite1</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Vars </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">vars</span><span class="p">:</span>
-</span><span class='line'><span class="n">can</span><span class="o">-</span><span class="n">move</span> <span class="o">=</span> <span class="mi">3</span>
-</span><span class='line'><span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">disk</span><span class="o">-</span><span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">pole</span> <span class="o">=</span> <span class="mi">3</span>
-</span><span class='line'><span class="n">height</span> <span class="o">=</span> <span class="mi">6</span>
-</span><span class='line'><span class="n">previous</span><span class="o">-</span><span class="n">pole</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'><span class="n">pole</span><span class="o">-</span><span class="n">at</span><span class="o">-</span><span class="n">start</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Script </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="n">script</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">when</span> <span class="s">&#39;move-next-disk&#39;</span>
-</span><span class='line'><span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">next</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">previous</span><span class="o">-</span><span class="n">moved</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">pole</span><span class="o">-</span><span class="n">at</span><span class="o">-</span><span class="n">start</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">pole</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                <span class="o">%</span><span class="n">b</span> <span class="ow">or</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">1</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">1</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">pole</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="mi">1</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                <span class="o">%</span><span class="n">b</span> <span class="ow">or</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">2</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">2</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">pole</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="mi">2</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                <span class="o">%</span><span class="n">b</span> <span class="ow">or</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">3</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">3</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">pole</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="mi">3</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">previous</span><span class="o">-</span><span class="n">pole</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">pole</span><span class="o">-</span><span class="n">at</span><span class="o">-</span><span class="n">start</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>            <span class="mi">1</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>            <span class="mi">2</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>            <span class="mi">3</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">pole</span>
-</span><span class='line'>            <span class="mi">1</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">pole</span>
-</span><span class='line'>            <span class="mi">2</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">pole</span>
-</span><span class='line'>            <span class="mi">3</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Script </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="n">script</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">when</span> <span class="s">&#39;propose-next-disk&#39;</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">can</span><span class="o">-</span><span class="n">move</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">pole</span>
-</span><span class='line'>            <span class="mi">1</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="mi">1</span>
-</span><span class='line'><span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">pole</span>
-</span><span class='line'>            <span class="mi">2</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="mi">1</span>
-</span><span class='line'><span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">pole</span>
-</span><span class='line'>            <span class="mi">3</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="mi">1</span>
-</span><span class='line'><span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">&gt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span>
-</span><span class='line'>        <span class="mi">0</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                <span class="o">%</span><span class="n">b</span> <span class="ow">or</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">1</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">1</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">can</span><span class="o">-</span><span class="n">move</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="mi">1</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                <span class="o">%</span><span class="n">b</span> <span class="ow">or</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">2</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">2</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">can</span><span class="o">-</span><span class="n">move</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="mi">2</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">b</span> <span class="ow">and</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>            <span class="ow">not</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                <span class="o">%</span><span class="n">b</span> <span class="ow">or</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">previous</span><span class="o">-</span><span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">3</span>
-</span><span class='line'>                    <span class="o">%</span><span class="n">n</span> <span class="o">=</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                        <span class="n">pole</span>
-</span><span class='line'>                        <span class="mi">3</span>
-</span><span class='line'>            <span class="o">%</span><span class="n">n</span> <span class="o">&lt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>                <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="n">can</span><span class="o">-</span><span class="n">move</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="mi">3</span>
-</span><span class='line'>    <span class="k">if</span> <span class="o">%</span><span class="n">b</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">&gt;</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">can</span><span class="o">-</span><span class="n">move</span>
-</span><span class='line'>            <span class="mi">0</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="c">#=== Script </span>
-</span><span class='line'><span class="c">#============</span>
-</span><span class='line'><span class="n">script</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">when</span> <span class="s">&#39;initialize&#39;</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">disk</span><span class="o">-</span><span class="nb">id</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">1</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">pole</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">1</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">previous</span><span class="o">-</span><span class="n">pole</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">can</span><span class="o">-</span><span class="n">move</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">am</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">top</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="mi">0</span>
-</span><span class='line'><span class="nb">set</span> <span class="n">height</span> <span class="n">to</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>    <span class="o">%</span><span class="n">n</span> <span class="o">+</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>        <span class="o">%</span><span class="n">n</span> <span class="o">-</span> <span class="o">%</span><span class="n">n</span>
-</span><span class='line'>            <span class="n">base</span><span class="o">-</span><span class="n">disk</span>
-</span><span class='line'>            <span class="n">disk</span><span class="o">-</span><span class="nb">id</span>
-</span><span class='line'>        <span class="mi">1</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Vertical Compression</h3>
-
-<p>The format above has every block on its own line.  This is readable and informative (you can see the argument types) but is vertically expansive.  Assuming parentheses or some other paired delimiter are not used for anything else in names, we could replace the argument placeholders with parentheses like below.  This gives a more lisp-like feel, at least for the inner evaluations.  If you leave one or more placeholders off, they would come from the next lines in &#8216;missing&#8217; order, kind of like a macro.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">script</span><span class="p">:</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">when</span> <span class="s">&#39;find-next-disk&#39;</span>
-</span><span class='line'><span class="nb">set</span> <span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="n">broadcast</span> <span class="p">(</span><span class="n">propose</span><span class="o">-</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span><span class="p">)</span> <span class="ow">and</span> <span class="n">wait</span>
-</span><span class='line'><span class="n">repeat</span> <span class="n">until</span> <span class="p">((</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-</span><span class='line'>    <span class="nb">set</span> <span class="n">potential</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="p">(</span> <span class="p">(</span><span class="n">potential</span><span class="o">-</span><span class="n">disk</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">previous</span><span class="o">-</span><span class="n">moved</span><span class="o">-</span><span class="n">disk</span><span class="p">))</span> <span class="p">)</span>
-</span><span class='line'>        <span class="nb">set</span> <span class="nb">next</span><span class="o">-</span><span class="n">disk</span> <span class="n">to</span> <span class="p">(</span><span class="n">potential</span><span class="o">-</span><span class="n">disk</span><span class="p">)</span>
-</span><span class='line'><span class="n">broadcast</span> <span class="p">(</span><span class="n">move</span><span class="o">-</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span><span class="p">)</span> <span class="ow">and</span> <span class="n">wait</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

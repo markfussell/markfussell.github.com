@@ -71,6 +71,127 @@ first article is here: Intro and described &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/addstack-3/">ADD Stack [Part-3]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-15T02:00:00-07:00" pubdate data-updated="true">Oct 15<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.</p>
+
+<h2>Grails, Groovy, and Java</h2>
+
+<p>The primary stack I believe is a &#8220;Best Practice&#8221; is Grails.  It is in it&#8217;s third full generation, and with
+each generation it gets better, easier, more powerful, and more &#8216;aligned&#8217;.  This last part is not that
+common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
+code.  The Grails team has been great at &#8216;pruning&#8217; and &#8216;aligning&#8217; with Spring.</p>
+
+<p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don&#8217;t
+know why.  Either they don&#8217;t read the tutorials&#8230; or they get confused and a deadline is approaching&#8230; or they
+are cowboys (and cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
+I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
+functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
+wrong with Spring but it is harder to use properly than Grails.</p>
+
+<p>Grails is &#8216;opinionated&#8217; and has plenty of examples to show you these opinions.  We can see it in the &#8216;petclinic&#8217;
+example.</p>
+
+<h3>Build with Gradle</h3>
+
+<p>Grails uses Gradle to build the project.  It used to have it&#8217;s own system, but it pruned that away when Gradle
+became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.</p>
+
+<p><img src="/images/addstack-3/addstack3_grails1.png" /></p>
+
+<h3>Align with Spring-Boot</h3>
+
+<p>Spring-Boot is a relatively recent effort to &#8216;default&#8217; a lot of the flexibility within Spring.  So Grails
+is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a &#8216;small&#8217; step up
+conceptually so it should be easier for people to &#8216;level up&#8217; and also &#8216;wander down&#8217; depending on the needs
+of the project.</p>
+
+<p><img src="/images/addstack-3/addstack3_grails2.png" /></p>
+
+<h3>Align with Hibernate, but allow others (include NoSQL)</h3>
+
+<p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
+through GORM to other systems.  Some capabilities go away but basic schema control is there.</p>
+
+<h3>Use modern testing frameworks</h3>
+
+<p>As mentioned before: &#8216;geb&#8217; and &#8216;spock&#8217; are the default testing frameworks included, along with the default
+phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
+could be used instead or in addition, but there would have to be a compelling reason for it.</p>
+
+<h3>Modern asset pipeline</h3>
+
+<p>Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
+of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
+pipeline system that leverages the well-defined layout of a Grails project.</p>
+
+<h3>Good IDE integration</h3>
+
+<p>Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
+for Java development.</p>
+
+<h3>Plugins!</h3>
+
+<p>Grails has a very simple plugin system that adds lots of great capabilities.  With the move to 3.x some
+plugins may not yet be ready, but every month several should be migrated.</p>
+
+<h3>Standard Layout: assets, controllers, services, views, &#8230;</h3>
+
+<p>Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
+the same over all three generations.  The &#8216;src&#8217; directory is for things outside the Grails world.  And
+the &#8216;grails-app&#8217; directory is for things inside the Grails world.  The grails layout is very intuitive
+for a modern web application:</p>
+
+<ul>
+<li>assets – Assets to go through the pipeline</li>
+<li>conf - Configuration of the application</li>
+<li>controllers – The UI (or web-api) interaction layer of the application</li>
+<li>domain – The business model layer of the application, and the persistent state model</li>
+<li>i18n – Internationalization</li>
+<li>init – Things to do at startup</li>
+<li>services – One or more &#8216;services&#8217; layers to pull logic from controllers and domain into</li>
+<li>views – GSP to be used by controllers for rendering (if desired)</li>
+</ul>
+
+
+<p>For the petclinic this layout looks like this when expanded:</p>
+
+<p><img src="/images/addstack-3/addstack3_grails3.png" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/addstack-2/">ADD Stack [Part-2]</a></h1>
     
     
@@ -639,66 +760,6 @@ which can be made in lots of different ways.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-4/">Advanced Development and Delivery (ADD) [Part-4]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-01T03:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
-
-<h2>Node initialization</h2>
-
-<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages &#8216;host&#8217; virtual
-disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
-In both cases the very last thing the node does in the bootstrap is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
-</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
-</span><span class='line'>include it/nodeinit/common/init.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-4/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -724,6 +785,10 @@ In both cases the very last thing the node does in the bootstrap is:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-3/">ADD Stack [Part-3]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/addstack-2/">ADD Stack [Part-2]</a>
       </li>
     
@@ -739,15 +804,11 @@ In both cases the very last thing the node does in the bootstrap is:</p>
         <a href="/blog/add-10/">Advanced Development and Delivery (ADD) [Part-10]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-9/">Advanced Development and Delivery (ADD) [Part-9]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 143.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.33333333333333%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 150.0%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 153.33333333333334%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 106.66666666666667%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.33333333333333%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 123.33333333333333%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.33333333333333%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 123.33333333333333%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 106.66666666666667%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 103.33333333333333%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 153.33333333333334%'>IT</a> <a href='/blog/categories/java' style='font-size: 116.66666666666667%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.33333333333333%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.33333333333333%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 106.66666666666667%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 106.66666666666667%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 150.0%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 113.33333333333333%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.0%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 156.66666666666666%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 106.66666666666667%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 103.33333333333333%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 144.21052631578948%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.15789473684211%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 150.5263157894737%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 153.68421052631578%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 106.3157894736842%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.15789473684211%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 122.10526315789474%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.15789473684211%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 122.10526315789474%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 109.47368421052632%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 103.15789473684211%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 153.68421052631578%'>IT</a> <a href='/blog/categories/java' style='font-size: 115.78947368421052%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.15789473684211%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.15789473684211%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 106.3157894736842%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 106.3157894736842%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 147.3684210526316%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 112.63157894736842%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 109.47368421052632%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 153.68421052631578%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 109.47368421052632%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 103.15789473684211%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

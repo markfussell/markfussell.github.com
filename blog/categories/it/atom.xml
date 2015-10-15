@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T09:20:49-07:00</updated>
+  <updated>2015-10-15T11:50:59-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-3]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-3/"/>
+    <updated>2015-10-15T02:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-3</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.</p>
+
+<h2>Grails, Groovy, and Java</h2>
+
+<p>The primary stack I believe is a "Best Practice" is Grails.  It is in it's third full generation, and with
+each generation it gets better, easier, more powerful, and more 'aligned'.  This last part is not that
+common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
+code.  The Grails team has been great at 'pruning' and 'aligning' with Spring.</p>
+
+<p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don't
+know why.  Either they don't read the tutorials... or they get confused and a deadline is approaching... or they
+are cowboys (and cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
+I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
+functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
+wrong with Spring but it is harder to use properly than Grails.</p>
+
+<p>Grails is 'opinionated' and has plenty of examples to show you these opinions.  We can see it in the 'petclinic'
+example.</p>
+
+<h3>Build with Gradle</h3>
+
+<p>Grails uses Gradle to build the project.  It used to have it's own system, but it pruned that away when Gradle
+became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails1.png" /></p>
+
+<h3>Align with Spring-Boot</h3>
+
+<p>Spring-Boot is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
+is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a 'small' step up
+conceptually so it should be easier for people to 'level up' and also 'wander down' depending on the needs
+of the project.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails2.png" /></p>
+
+<h3>Align with Hibernate, but allow others (include NoSQL)</h3>
+
+<p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
+through GORM to other systems.  Some capabilities go away but basic schema control is there.</p>
+
+<h3>Use modern testing frameworks</h3>
+
+<p>As mentioned before: 'geb' and 'spock' are the default testing frameworks included, along with the default
+phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
+could be used instead or in addition, but there would have to be a compelling reason for it.</p>
+
+<h3>Modern asset pipeline</h3>
+
+<p>Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
+of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
+pipeline system that leverages the well-defined layout of a Grails project.</p>
+
+<h3>Good IDE integration</h3>
+
+<p>Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
+for Java development.</p>
+
+<h3>Plugins!</h3>
+
+<p>Grails has a very simple plugin system that adds lots of great capabilities.  With the move to 3.x some
+plugins may not yet be ready, but every month several should be migrated.</p>
+
+<h3>Standard Layout: assets, controllers, services, views, ...</h3>
+
+<p>Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
+the same over all three generations.  The 'src' directory is for things outside the Grails world.  And
+the 'grails-app' directory is for things inside the Grails world.  The grails layout is very intuitive
+for a modern web application:</p>
+
+<ul>
+<li>assets – Assets to go through the pipeline</li>
+<li>conf - Configuration of the application</li>
+<li>controllers – The UI (or web-api) interaction layer of the application</li>
+<li>domain – The business model layer of the application, and the persistent state model</li>
+<li>i18n – Internationalization</li>
+<li>init – Things to do at startup</li>
+<li>services – One or more 'services' layers to pull logic from controllers and domain into</li>
+<li>views – GSP to be used by controllers for rendering (if desired)</li>
+</ul>
+
+
+<p>For the petclinic this layout looks like this when expanded:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails3.png" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-2]]]></title>
@@ -1218,227 +1312,6 @@ cd grails-petclinic
 
 <p>But an important difference between the two: the second is now <em>wired</em> into the git repository and can 'pull' or 'push' to it as needed.
 We now have a live server with both alive 'IT' and alive 'APP'!  It will happily and automatically bend to our will and needs.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-9]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-9/"/>
-    <updated>2015-10-08T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-9</id>
-    <content type="html"><![CDATA[<p>This is the ninth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, and configuring nodes.</p>
-
-<h2>Using Presence for configuration</h2>
-
-<p>So far, presence has been just information that 'humans' consume.  It shows up on dashboards, in chat rooms, and so on,
-but nothing has acted upon it.  Until now!</p>
-
-<p>We have 'app' and 'db' nodes.  Clearly the 'app' nodes need to find the 'db' nodes or the app is not going to be
-able to persist much.  The 'db' here happens to be 'Maria' but it could be anything from a single DB node to a
-cluster of Riak nodes.  At the moment, I just want to get the information that a 'db' node knows ("I exist!", "My IP is this!")
-over to the 'app' nodes so they can process it.</p>
-
-<h3>It is already there?</h3>
-
-<p>But wait?  All nodes have 'repo4' for writing?  Don't they already have everything in 'repo4' for reading as well?</p>
-
-<p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
-
-<!-- more -->
-
-
-<p>As of this writing, repo4 looks like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_all.png" /></p>
-
-<p>And the live hipchat still looks like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
-
-<p>So the DB server is definitely there:</p>
-
-<p><code>
-i-4e7cb59a:fed1/db1: Launched!
-</code></p>
-
-<p>And the information is there:
-```json
-{</p>
-
-<pre><code>"filetype": "nodepresence",
-"value": {
-    "a": "a",
-    "deployment": "fed1",
-    "initgitrepo": "repo2_petulant-cyril",
-    "instance-id": "i-4e7cb59a",
-    "nodepart": "db1",
-    "stacktype": "lad1",
-    "state": "done",
-    "statelog": "setup:20151008-174646;initdone:20151008-174830;",
-    "statetss": "20151008-174830"
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>So the only issue is for nodes to 'find their partners'</p>
-
-<h3>Finding the partners</h3>
-
-<p>By the HipChat there are only three nodes alive, so problem one is finding live nodes vs. dead nodes.  There are
-two levels to that:</p>
-
-<ul>
-<li> Finding plausibly live nodes</li>
-<li> Finding truly awake nodes</li>
-</ul>
-
-
-<p>The simplest approach to the first is to make sure there is some kind of heartbeat within 'statetss'.  Every-minute
-is clearly possible, but a bit noisy if done in the main part of repo4.  It would be nice to not to see the heartbeat
-block out the actual state change information that is already there. An interesting alternative is to 'flatten time'
-and have an alternative branch that stores information as 'it/presence/flattime/timestamp'.  Or given we are storing
-the information differently, we could use the main branch and just change the comment to mention 'flattime'.
-Yes, the information in the files would not change very often.  But Git stores files separate from paths,
-so there is very little overhead to adding new paths to identical files.</p>
-
-<h4>Time flattened</h4>
-
-<p>repo4 has folder under 'presence' called 'flattime' which contains the presence information where every checkin is a new path.
-To keep things manageable the timestamp is complete 'YYYYMMDDHHMM', but year/month/day/hour/ is used to organize it.
-Seconds are not used because we want everything to be together and there is no guarantee the seconds would match
-between machines.</p>
-
-<p>Looking at a few minutes of time, we get something like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_flattime1.png" /></p>
-
-<p>The files change a bit because the machines are switching states and at the 'capture' moment could be in almost any state
-of their 'state machine'.</p>
-
-<h4>How precise?</h4>
-
-<p>So this is quite precise in time and you could certainly slow it down.  Sometimes providers get annoyed if you use
-git this way, but the software itself is thoroughly comfortable with it.  You can get some impressive merge graphs
-as the machine count goes up.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_merge1.png" /></p>
-
-<p>So making things less often and more jittered will help alleviate some stress.  Since
-this is only the first stage of presence (what exists and is plausibly alive), we will deal with stale data in the
-second stage.</p>
-
-<h3>Who is what?</h3>
-
-<p>So we have a directory of JSON files and we want to find certain kinds of partners.  It is simplest to just
-run through all the files and see what is inside them.  The files can be loaded one-by-one or concatenated together
-into a working temporary file.</p>
-
-<p>A basic python script could look like this:</p>
-
-<h4>buildLiveServerJson.py</h4>
-
-<p>```python</p>
-
-<h1>!/usr/bin/env python</h1>
-
-<h1>========================================================</h1>
-
-<h1>=== buildLiveServerJson.py</h1>
-
-<h1>=== This builds a JSON structure of server presence data</h1>
-
-<h1>=== from a directory of presence data</h1>
-
-<h1>=========================================================</h1>
-
-<p>import json
-import string
-import os
-import sys
-from optparse import OptionParser
-from datetime import datetime,timedelta</p>
-
-<p>now = datetime.utcnow()
-tss = now.strftime("%Y%m%d%H%M%S")</p>
-
-<p>backminute = timedelta(minutes=-1)
-before = now + backminute</p>
-
-<p>tsm = before.strftime("%Y%m%d%H%M")
-datepath = before.strftime("%Y/%m/%d/%H")</p>
-
-<p>USAGE_STRING = "usage: %prog [options]"</p>
-
-<p>parser = OptionParser(usage=USAGE_STRING)
-parser.set_defaults(verbose=True)
-parser.add_option("--source", action="store", type="string", dest="source", help="The source directories of the presence files.  Use a comma to separate multiple source directories.")
-parser.add_option("--adddatepath", action="store_true", default=False, dest="adddatepath", help="Whether to add the current datetime path to the source")
-parser.add_option("--suffix", action="store", type="string", dest="suffix", help="A suffix to add at the end of the source")
-(options, args) = parser.parse_args()</p>
-
-<p>source = options.source.strip()
-adddatepath = options.adddatepath
-suffix = options.suffix</p>
-
-<p>if not source:</p>
-
-<pre><code>parser.print_help()
-exit()
-</code></pre>
-
-<p>full_source = source</p>
-
-<p>if adddatepath:
-   full_source = full_source + datepath + '/' + tsm</p>
-
-<p>if suffix:
-   full_source = full_source + suffix</p>
-
-<h1>=========================================================</h1>
-
-<h1>=========================================================</h1>
-
-<h1>=========================================================</h1>
-
-<p>sys.stdout.write('{"source":"'+source+'","suffix":"'+suffix+'","full_source":"'+full_source+'","tss":"'+tss+'","tsm":"'+tsm+'","datepath":"'+datepath+'","nodes":[')</p>
-
-<p>isfirst = True
-for f in os.listdir(full_source):
-  f_json = json.load(open(full_source+f))</p>
-
-<p>  if isfirst:</p>
-
-<pre><code> isfirst = False
-</code></pre>
-
-<p>  else:</p>
-
-<pre><code> sys.stdout.write(",")
-</code></pre>
-
-<p>  sys.stdout.write(json.dumps(f_json))
-sys.stdout.write("]}")</p>
-
-<p>sys.stdout.flush()</p>
-
-<p>```</p>
-
-<p>Our first stage is to get a list of plausible nodes and store that:</p>
-
-<p><code>bash
-python buildLiveServerJson.py --source=/root/gitrepo/repo4_sagacious-adventure/it/presence/flattime/ --adddatepath --suffix /all/ | python -mjson.tool &gt; /root/nodeinfo/liveserver.json
-</code></p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_json1.png" /></p>
-
-<p>Next we can filter out the ones that don't respond to our 'awake' check.  That leaves
-us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
-just one (e.g. ZooKeeper).</p>
 ]]></content>
   </entry>
   
