@@ -1,0 +1,141 @@
+---
+layout: post
+title: "ADD Stack [Part-2]"
+date: 2015-10-15 1:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
+Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
+and techniques, the 'language', 'framework', 'stack', and 'methodology' does not matter very much.
+And how it matters has a lot to do with the development team and the customer.
+Customer happiness is the ultimate goal, so if you are not making your customer happy, you should make incremental
+adjustments (Educated Guesses) to do so.  And if you can not "continuously" deliver valuable products to the
+customer, you need to figure out what is the bottleneck and get rid of it (e.g. google Throughput Accounting).
+
+## Testing
+
+> "Hey... you said testing wasn't important"
+
+No, I said automated testing was not _necessary_.  At times it is not even _valuable_, but at other times it is.
+
+There is no way to avoid 'Testing' unless no one is going to use your product.  'Using' is 'Testing', so everything
+useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
+So you can't avoid testing you software.  You can only augment/change _who_ or _what_ tests your software.  There
+ are a number of options:
+
+<!--more-->
+
+  * Users – Guaranteed unless you have none
+  * Developers – Should, unless they are crazy.  Not 'testing' your software is equivalent to not reading (and editing) what you wrote.
+  * Product Management – Should, unless they are crazy or really confident in the development team.  Product management is the Customer and represents the Users.  They are supposed to know what the users want and need to verify the product is doing the right thing
+  * Quality Assurance – Useful if they are really good at being a 'Black Hat'.  This is a different skill from 'Developing' and some people are very good at it
+    * QA should report to Product Management in spite of having technical skills similar to software developers
+
+You could have a few more kinds of people that are stake holders, but the above is the core sources.  These are
+people who could know what the software is supposed to do, and then test whether it is doing it.  They have
+different talents, different tolerance for failure, and different price-points (or time restrictions).  So choosing
+the right balance is again a 'Make Customer Happy' (given a particular budget) ratio of utilization.
+
+### Automation
+
+The above lists people.  This is because people have to do the hard work of figuring out 'What should it do?' and
+'How do I tell it is doing it?'.  It is true there are some automated test generators... but they are a rare
+and limited breed that do a little bit more than a 'static typed' language would do.  The benefits for most project
+are minimal.
+
+So 'automated testing' is rarely about generation, but more about repetition.  Doing a manual test over and over
+by a human is much more expensive, time consuming, and failure prone to getting a computer to run a similar test
+against software.  The problem is someone has to 'spend time' writing the test.  And time is both money and delay.
+
+But maybe the tests are (magically) free.  Are they worth it?  Are they valuable?  Possibly "No!".
+Testing does not make software better.
+Testing just proves software does something that passes the test.  Just like in academics a student could
+prep for the SAT but be bad at math, software can pass the test and be horrible.  Fragile.  Complex.  Incoherent.
+And the tests themselves could be Fragile.  Complex.  Incoherent.  And Obsolete.
+
+Automated tests are neither good nor bad.  Only good tests are good and bad tests are bad.  I have had products with
+tens of thousands of great tests.  And very successful products with basically no tests.  And been on teams with
+hundreds of horrible tests that made them go slower and produce a worse product than if they just threw all the
+tests away.
+
+### Automation with Frameworks
+
+Because testing can be useful, your frameworks should support it.  And should support it as _easily_ as possible.
+They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And as much as possible be "from the outside".
+
+Strangely this last truth has been replaced by a lie:
+
+> "You should test each unit, each module, each integration, etc."
+
+It is a variant of the XP 'test first' mentality.  And it is completely idiotic.  Because it makes you focus on
+the 'how' instead of the 'what'.  Your customer does not care you wrote something in Java or C.  With Spring
+or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
+And they want it to taste good.  Everything about making that food _you_ can care about, but _you can't be_ continuously
+testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
+might investigate why it broke and do a periodic check in the future.  But you _do_ by _doing_, and not with a
+fear of failing on each step of the way.  You are paid to _do_ not to _be afraid_.  _Do_, _Fail_, _Learn_, _Do_
+
+I am not saying you can't test a few things on the inside.  Sometimes I do that as I bring a system up so it is
+obvious (a) whether it is working, and (b) how it is supposed to be working.  A little 'extra documentation' beyond
+the code itself.  But these are a limited set that covers a slice of the system, not the whole thing.
+
+### Automation with Grails
+
+The team behind Grails leverages other technologies as much as possible when they work.  Among the best technologies
+for automated testing in Spring / Java are:
+
+   * Spock – https://code.google.com/p/spock/
+   * Geb – https://github.com/geb/geb
+
+So Grails leverages these and has testing built-in to the framework.  It can automatically generate test stubs for
+Controllers (the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration
+and unit tests. I prefer integration tests as they are the most "from the outside", but all the different tests
+are useful in different amounts (some are faster to run).
+
+For our 'petclinic', it has a number of tests of two different kinds:
+
+<img src="/images/addstack-2/addstack2_grails1.png" />
+
+#### Spock / Unit-ty tests
+
+<img src="/images/addstack-2/addstack2_grails2.png" />
+
+#### Grub / Integration tests
+
+<img src="/images/addstack-2/addstack2_grails3.png" />
+
+<img src="/images/addstack-2/addstack2_grails4.png" />
+
+<img src="/images/addstack-2/addstack2_grails5.png" />
+
+The separation of Unit and Integration is somewhat more complex than this because Spock especially has
+the ability to be lots of different kinds of tests.  But the basic idea is above.
+
+#### When to run?
+
+So we have some tests in a nice testing framework.  Now the critical questions:
+
+  * When should we run them?  As much as possible without wasting people's time.
+  * Should they be run before deploying a new version?  If they are fast enough, sure.  If not, then something should 'go live' _before_ the tests.
+     * I don't mean 'go live' to end users, but go live to a server where others can see it.  Just like the 'fed1_app1' deployment.
+     * And you can have another server that is 'post-test' so it is gated by tests being successful.  It is more stable but slightly behind in time and version.  Say 'fed2'.
+  * Should developers run tests before checking in?  If they want to and are nervous, sure.  Especially tests in the area they are touching.  But breaking 'fed1' is not a big deal unless you walk away afterwards.  Break it.  Fix it.  Carry on.
+
+The tests for the 'petclinic' are quite fast, so we might as well run them before deploying and let people know the status.  Returning to our deployment script:
+
+```bash
+pushd $APP_PATH
+./gradlew test
+
+### if success then continue with 'run', otherwise leave the current version running.
+
+popd
+```
+
+
+
+
+

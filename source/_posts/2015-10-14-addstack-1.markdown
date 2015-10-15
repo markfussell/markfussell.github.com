@@ -10,7 +10,7 @@ This is the second series describing a radically more productive development and
 
 ## Review of the first series
 
-The first series start here: [Intro](/blog/add-1/) and ends here: [Voilà!](/blog/add-11/).  The bulk of the
+The first series starts here: [Intro](/blog/add-1/) and ends here: [Voilà!](/blog/add-11/).  The bulk of the
 series was describing how to combine four ingredients:
 
   * Amazon EC2 <http://aws.amazon.com/>
@@ -109,7 +109,7 @@ She will charge you a lot, and you will get a lot in return.
 
 But software developers don't like this truth.  They think they (after less than 5000 hours) can be the point person
 for building an application.  I don't mean 5000 hours _of work_ I mean 5000 hours _in surgery_ and that is after say
-2x the amount of hours of _studying surgery_  So 10,000 hours of studying how to build software applications and 5,000
+2x the amount of hours of _studying surgery_.  So 10,000 hours of studying how to build software applications and 5,000
 hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
 spend half of it actually on either of those tasks... it would take you about 15 years to be 'an Engineer'.  Ten years
 of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.
@@ -159,14 +159,14 @@ Otherwise you are resigning yourself to  being content with the quality of your 
 headed downward.
 
 You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
-bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that _your customer_
-shouldn't be 100% happy... or at least as happy as you can make them.
+bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that
+_your customer_ shouldn't be 100% happy... or at least as happy as you can make them.
 
 #### Lie: Automated Testing and Quality Verification
 
 The second lie is that _instead of_ trying to make the customer 100% happy, we are going to make our automated
-tests and our QA verification servers happy.  We are going to make them _more_ happy than our customer and _before_
-we make our customer happy.
+tests and our QA verification servers happy.  We are going to make them _more_ happy than our customer and
+_before_ we make our customer happy.
 
 This actually pops up as a 'truth' in education too.  We try to make the tests happy as opposed to the students,
 except in exceptional schools that Think Different.  But
