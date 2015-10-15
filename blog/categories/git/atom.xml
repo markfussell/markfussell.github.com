@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T15:49:37-07:00</updated>
+  <updated>2015-10-15T09:11:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-2]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-2/"/>
+    <updated>2015-10-15T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-2</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
+and techniques, the 'language', 'framework', 'stack', and 'methodology' does not matter very much.
+And how it matters has a lot to do with the development team and the customer.
+Customer happiness is the ultimate goal, so if you are not making your customer happy, you should make incremental
+adjustments (Educated Guesses) to do so.  And if you can not "continuously" deliver valuable products to the
+customer, you need to figure out what is the bottleneck and get rid of it (e.g. google Throughput Accounting).</p>
+
+<h2>Testing</h2>
+
+<blockquote><p>"Hey... you said testing wasn't important"</p></blockquote>
+
+<p>No, I said automated testing was not <em>necessary</em>.  At times it is not even <em>valuable</em>, but at other times it is.</p>
+
+<p>There is no way to avoid 'Testing' unless no one is going to use your product.  'Using' is 'Testing', so everything
+useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
+So you can't avoid testing you software.  You can only augment/change <em>who</em> or <em>what</em> tests your software.  There
+ are a number of options:</p>
+
+<ul>
+<li>Users – Guaranteed unless you have none</li>
+<li>Developers – Should, unless they are crazy.  Not 'testing' your software is equivalent to not reading (and editing) what you wrote.</li>
+<li>Product Management – Should, unless they are crazy or really confident in the development team.  Product management is the Customer and represents the Users.  They are supposed to know what the users want and need to verify the product is doing the right thing</li>
+<li>Quality Assurance – Useful if they are really good at being a 'Black Hat'.  This is a different skill from 'Developing' and some people are very good at it
+
+<ul>
+<li>QA should report to Product Management in spite of having technical skills similar to software developers</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You could have a few more kinds of people that are stake holders, but the above is the core sources.  These are
+people who could know what the software is supposed to do, and then test whether it is doing it.  They have
+different talents, different tolerance for failure, and different price-points (or time restrictions).  So choosing
+the right balance is again a 'Make Customer Happy' (given a particular budget) ratio of utilization.</p>
+
+<h3>Automation</h3>
+
+<p>The above lists people.  This is because people have to do the hard work of figuring out 'What should it do?' and
+'How do I tell it is doing it?'.  It is true there are some automated test generators... but they are a rare
+and limited breed that do a little bit more than a 'static typed' language would do.  The benefits for most project
+are minimal.</p>
+
+<p>So 'automated testing' is rarely about generation, but more about repetition.  Doing a manual test over and over
+by a human is much more expensive, time consuming, and failure prone to getting a computer to run a similar test
+against software.  The problem is someone has to 'spend time' writing the test.  And time is both money and delay.</p>
+
+<p>But maybe the tests are (magically) free.  Are they worth it?  Are they valuable?  Possibly "No!".
+Testing does not make software better.
+Testing just proves software does something that passes the test.  Just like in academics a student could
+prep for the SAT but be bad at math, software can pass the test and be horrible.  Fragile.  Complex.  Incoherent.
+And the tests themselves could be Fragile.  Complex.  Incoherent.  And Obsolete.</p>
+
+<p>Automated tests are neither good nor bad.  Only good tests are good and bad tests are bad.  I have had products with
+tens of thousands of great tests.  And very successful products with basically no tests.  And been on teams with
+hundreds of horrible tests that made them go slower and produce a worse product than if they just threw all the
+tests away.</p>
+
+<h3>Automation with Frameworks</h3>
+
+<p>Because testing can be useful, your frameworks should support it.  And should support it as <em>easily</em> as possible.
+They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And as much as possible be "from the outside".</p>
+
+<p>Strangely this last truth has been replaced by a lie:</p>
+
+<blockquote><p>"You should test each unit, each module, each integration, etc."</p></blockquote>
+
+<p>It is a variant of the XP 'test first' mentality.  And it is completely idiotic.  Because it makes you focus on
+the 'how' instead of the 'what'.  Your customer does not care you wrote something in Java or C.  With Spring
+or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
+And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you</em> can't be continuously
+testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
+might investigate why it broke and do a periodic check in the future.  But you <em>do</em> by <em>doing</em>, and not with a
+fear of failing on each step of the way.  You are paid to <em>do</em> not to <em>be afraid</em>.  <em>Do</em>, <em>Fail</em>, <em>Learn</em>, <em>Do</em></p>
+
+<p>I am not saying you can't test a few things on the inside.  Sometimes I do that as I bring a system up so it is
+obvious (a) whether it is working, and (b) how it is supposed to be working.  A little 'extra documentation' beyond
+the code itself.  But these are a limited set that covers a slice of the system, not the whole thing.</p>
+
+<h3>Automation with Grails</h3>
+
+<p>The team behind Grails leverages other technologies as much as possible when they work.  Among the best technologies
+for automated testing in Spring / Java are:</p>
+
+<ul>
+<li> Grub</li>
+<li> Spock</li>
+</ul>
+
+
+<p>So Grails leverages these and has testing built-in to the framework.  It automatically generates test stubs for Controllers
+(the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration and unit tests.
+I prefer integration tests as they are the most "from the outside", but all the different tests are useful in
+different amounts (some are faster to run).</p>
+
+<p>For our 'petclinic', it has a number of tests of two different kinds:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails1.png" /></p>
+
+<h4>Spock / Unit-ty tests</h4>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails2.png" /></p>
+
+<h4>Grub / Integration tests</h4>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails3.png" /></p>
+
+<p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
+the ability to be doing different kinds of tests.  But this basic idea is the above.</p>
+
+<h4>When to run?</h4>
+
+<p>So we have some tests in a nice testing framework.  Now the critical questions:</p>
+
+<ul>
+<li>When should we run them?  As much as possible without wasting people's time.</li>
+<li>Should they be run before deploying a new version?  If they are fast enough, sure.  If not, then something should 'go live' <em>before</em> the tests.
+
+<ul>
+<li>I don't mean 'go live' to end users, but go live to a server where others can see it.  Just like the 'fed1_app1' deployment.</li>
+<li>And you can have another server that is 'post-test' so it is gated by tests being successful.  It is more stable but slightly behind in time and version.  Say 'fed2'.</li>
+</ul>
+</li>
+<li>Should developers run tests before checking in?  If they want to and are nervous, sure.  Especially tests in the area they are touching.  But breaking 'fed1' is not a big deal unless you walk away afterwards.  Break it.  Fix it.  Carry on.</li>
+</ul>
+
+
+<p>The tests for the 'petclinic' are quite fast, so we might as well run them before deploying and let people know the status.  Returning to our deployment script:</p>
+
+<p>```bash
+pushd $APP_PATH
+./gradlew test</p>
+
+<h3>if success then continue with 'run', otherwise leave the current version running.</h3>
+
+<p>popd
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-1]]]></title>
@@ -22,7 +169,7 @@
 
 <h2>Review of the first series</h2>
 
-<p>The first series start here: <a href="/blog/add-1/">Intro</a> and ends here: <a href="/blog/add-11/">Voilà!</a>.  The bulk of the
+<p>The first series starts here: <a href="/blog/add-1/">Intro</a> and ends here: <a href="/blog/add-11/">Voilà!</a>.  The bulk of the
 series was describing how to combine four ingredients:</p>
 
 <ul>
@@ -136,7 +283,7 @@ She will charge you a lot, and you will get a lot in return.</p>
 
 <p>But software developers don't like this truth.  They think they (after less than 5000 hours) can be the point person
 for building an application.  I don't mean 5000 hours <em>of work</em> I mean 5000 hours <em>in surgery</em> and that is after say
-2x the amount of hours of <em>studying surgery</em>  So 10,000 hours of studying how to build software applications and 5,000
+2x the amount of hours of <em>studying surgery</em>.  So 10,000 hours of studying how to build software applications and 5,000
 hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
 spend half of it actually on either of those tasks... it would take you about 15 years to be 'an Engineer'.  Ten years
 of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.</p>
@@ -207,14 +354,14 @@ Otherwise you are resigning yourself to  being content with the quality of your 
 headed downward.</p>
 
 <p>You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
-bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that <em>your customer</em>
-shouldn't be 100% happy... or at least as happy as you can make them.</p>
+bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that
+<em>your customer</em> shouldn't be 100% happy... or at least as happy as you can make them.</p>
 
 <h4>Lie: Automated Testing and Quality Verification</h4>
 
 <p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
-tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and <em>before</em>
-we make our customer happy.</p>
+tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and
+<em>before</em> we make our customer happy.</p>
 
 <p>This actually pops up as a 'truth' in education too.  We try to make the tests happy as opposed to the students,
 except in exceptional schools that Think Different.  But
@@ -1285,206 +1432,6 @@ python buildLiveServerJson.py --source=/root/gitrepo/repo4_sagacious-adventure/i
 <p>Next we can filter out the ones that don't respond to our 'awake' check.  That leaves
 us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
 just one (e.g. ZooKeeper).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-8]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-8/"/>
-    <updated>2015-10-08T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-8</id>
-    <content type="html"><![CDATA[<p>This is the eighth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
-
-<h2>Configuring Node Parts and even fuller Presence and visibility</h2>
-
-<p>So far our node was a generic 'ControlNode'.  A ControlNode is a node that is in your data center
-(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
-It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
-start configuring a database node.  You launch and login to a ControlNode and then try to install a database
-(for example Maria).</p>
-
-<!-- more -->
-
-
-<p>```bash
-cat > /etc/yum.repos.d/mariadb10.repo &lt;&lt;EOS</p>
-
-<h1>MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</h1>
-
-<h1>http://mariadb.org/mariadb/repositories/</h1>
-
-<p>[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-EOS</p>
-
-<p>yum install MariaDB-server MariaDB-client
-```</p>
-
-<p>Assuming you changed to root for the instance:</p>
-
-<p><code>bash
-sudo bash
-</code></p>
-
-<p>This works!  After confirming some things along the way...</p>
-
-<p>OK, so now we want to have our database servers install MariaDB.  We first need an 'installMaria' script with the above
-in it.  Say</p>
-
-<h3>installMaria10.sh</h3>
-
-<p>```bash</p>
-
-<h1>!/bin/bash</h1>
-
-<h1>================================================</h1>
-
-<h1>=== Java</h1>
-
-<h1>================================================</h1>
-
-<p>cat > /etc/yum.repos.d/mariadb10.repo &lt;&lt;EOS</p>
-
-<h1>MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</h1>
-
-<h1>http://mariadb.org/mariadb/repositories/</h1>
-
-<p>[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-EOS</p>
-
-<p>yum install MariaDB-server MariaDB-client
-```</p>
-
-<h3>adding init</h3>
-
-<p>And unless you want every node to install Maria, you need to add an 'init' for the type of node we are dealing with.
-In our case, the StackType is 'lad1' (Load,App,Db,1) and the node type / part is 'db1'.</p>
-
-<p>So we get this hierarchy:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy1.png" /></p>
-
-<p>And the content of the 'init.sh' file is simply:
-```bash</p>
-
-<h1>!/bin/bash</h1>
-
-<h1>====================================================</h1>
-
-<h1>=== fed1/db1</h1>
-
-<h1>====================================================</h1>
-
-<p>bash ${COMMON}/installMaria10.sh</p>
-
-<p>```</p>
-
-<h3>CloudFormation</h3>
-
-<p>We have a new CloudFormation named 'awscf4_Fed1Db1' with the simple change of the nodepart being 'db1'</p>
-
-<p>```json</p>
-
-<pre><code>"TemplateConstant" : {
-  "stacktype" : { "value" : "lad1" },
-  "initgitrepo" : { "value" : "repo2_petulant-cyril" },
-  "nodepart" : { "value" : "db1" },
-  "state" : { "value" : "presetup" },
-  "statetss" : { "value" : "" },
-  "statelog" : { "value" : "" },
-  "deployment" : { "value" : "fed1" }
-},
-</code></pre>
-
-<p>```</p>
-
-<h3>Demo or Die!</h3>
-
-<p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
-more information than before.  After launching two 'app' stack and one 'db' stack we get this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
-
-<p>So clearly our nodes know who they are, what deployment they are in, what the 'part' in that deployment is, and how to
-"do work". But are they actually what they say they are?</p>
-
-<h2>Being the 'user', fixing the 'user'</h2>
-
-<p>If you use the installMaria script above, it will not work.  Because I said: "This works!  After confirming some things along the way..."
-During 'boot' there is no user to confirm anything.  So the 'yum' part fails although the yum repository is there
-(the user is 'root' so it has permission).  It ran the script but it didn't work under 'automation'.
-The three annoying issues in automation:</p>
-
-<ul>
-<li> The user could be different from the user you think it is (say 'ec2' vs. 'root')</li>
-<li> The user is not interactive</li>
-<li> The user did not "launch a login shell" and so some launch things that happen for you did not happen for them.</li>
-</ul>
-
-
-<p>There are trivial and super-effective solutions to all of these, but until you get them right, you can bang your head
-quite a bit.</p>
-
-<h3>Who is the user?  'root'</h3>
-
-<p>The user provisioning a machine should always be 'root'.  Yes, 'root' is dangerous.  Because 'root' is powerful.  And
-given (a) if you mess up you simply kill the machine, and (b) everything is from version-controlled source files...
-you can handle that power.  So don't add silly hoops to jump through.  On a ControlNode, immediately 'sudo bash'.
-And if for some reason the default user isn't 'root' in a launch or cron script, 'su root' or 'sudo bash' to fix that.</p>
-
-<h3>Is the user interactive? 'no'</h3>
-
-<p>We are doing production automation that is designed to scale into thousands of machines.  No one is going to answer
-questions for thousands of machines.  That is not 'scalable' or at all valuable.  You should always know all the
-answers when a machine launches.  So script any UI that really requires some value put in, or use the variant of
-a command that has default answers.</p>
-
-<p>The true script for 'installMaria' has this line.</p>
-
-<p><code>bash
-yes | yum -y install MariaDB-server MariaDB-client
-</code></p>
-
-<p>The 'yum -y' <em>should</em> never ask any questions.  But just in case it does, I give it a 'y' for every answer.  If you
-are testing something and get a question, check if it has a flag like '-y'</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_yes.png" /></p>
-
-<h3>Has the user launch as a login shel? 'yes'</h3>
-
-<p>Since getting on a machine without 'logging in' is quite a bit more painful than 'ssh' into the machine, just make sure
-any 'init' and 'work' script has read the files a login shell would automatically read.</p>
-
-<p>A simple 'source /root/.bashrc' fixes the problem immediately</p>
-
-<p>```bash</p>
-
-<h1>========================================</h1>
-
-<h1>=== Do the work for this repository</h1>
-
-<h1>========================================</h1>
-
-<p>source /root/.bashrc
-...
-```</p>
-
-<h2>Node Work</h2>
-
-<p>Just like the 'init' hierarchy, the 'db1' nodes can have their own work items to do regularly by simply adding the 'work.sh'
-into the hierarchy:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy2.png" /></p>
 ]]></content>
   </entry>
   

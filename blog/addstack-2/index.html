@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ADD Stack [Part-2] - Polyglot</title>
+  <meta name="author" content="Mark Fussell">
+
+  
+  <meta name="description" content="This is the second series describing a radically more productive development and delivery environment. The
+first article is here: Intro and described &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Polyglot" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Polyglot</a></h1>
+  
+    <h2>Build Valuable Systems, Better and Faster</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:markfussell.emenar.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ADD Stack [Part-2]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-15T01:00:00-07:00" pubdate data-updated="true">Oct 15<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
+and techniques, the &#8216;language&#8217;, &#8216;framework&#8217;, &#8216;stack&#8217;, and &#8216;methodology&#8217; does not matter very much.
+And how it matters has a lot to do with the development team and the customer.
+Customer happiness is the ultimate goal, so if you are not making your customer happy, you should make incremental
+adjustments (Educated Guesses) to do so.  And if you can not &#8220;continuously&#8221; deliver valuable products to the
+customer, you need to figure out what is the bottleneck and get rid of it (e.g. google Throughput Accounting).</p>
+
+<h2>Testing</h2>
+
+<blockquote><p>&#8220;Hey&#8230; you said testing wasn&#8217;t important&#8221;</p></blockquote>
+
+<p>No, I said automated testing was not <em>necessary</em>.  At times it is not even <em>valuable</em>, but at other times it is.</p>
+
+<p>There is no way to avoid &#8216;Testing&#8217; unless no one is going to use your product.  &#8216;Using&#8217; is &#8216;Testing&#8217;, so everything
+useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
+So you can&#8217;t avoid testing you software.  You can only augment/change <em>who</em> or <em>what</em> tests your software.  There
+ are a number of options:</p>
+
+<ul>
+<li>Users – Guaranteed unless you have none</li>
+<li>Developers – Should, unless they are crazy.  Not &#8216;testing&#8217; your software is equivalent to not reading (and editing) what you wrote.</li>
+<li>Product Management – Should, unless they are crazy or really confident in the development team.  Product management is the Customer and represents the Users.  They are supposed to know what the users want and need to verify the product is doing the right thing</li>
+<li>Quality Assurance – Useful if they are really good at being a &#8216;Black Hat&#8217;.  This is a different skill from &#8216;Developing&#8217; and some people are very good at it
+
+<ul>
+<li>QA should report to Product Management in spite of having technical skills similar to software developers</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You could have a few more kinds of people that are stake holders, but the above is the core sources.  These are
+people who could know what the software is supposed to do, and then test whether it is doing it.  They have
+different talents, different tolerance for failure, and different price-points (or time restrictions).  So choosing
+the right balance is again a &#8216;Make Customer Happy&#8217; (given a particular budget) ratio of utilization.</p>
+
+<h3>Automation</h3>
+
+<p>The above lists people.  This is because people have to do the hard work of figuring out &#8216;What should it do?&#8217; and
+&#8216;How do I tell it is doing it?&#8217;.  It is true there are some automated test generators&#8230; but they are a rare
+and limited breed that do a little bit more than a &#8216;static typed&#8217; language would do.  The benefits for most project
+are minimal.</p>
+
+<p>So &#8216;automated testing&#8217; is rarely about generation, but more about repetition.  Doing a manual test over and over
+by a human is much more expensive, time consuming, and failure prone to getting a computer to run a similar test
+against software.  The problem is someone has to &#8216;spend time&#8217; writing the test.  And time is both money and delay.</p>
+
+<p>But maybe the tests are (magically) free.  Are they worth it?  Are they valuable?  Possibly &#8220;No!&#8221;.
+Testing does not make software better.
+Testing just proves software does something that passes the test.  Just like in academics a student could
+prep for the SAT but be bad at math, software can pass the test and be horrible.  Fragile.  Complex.  Incoherent.
+And the tests themselves could be Fragile.  Complex.  Incoherent.  And Obsolete.</p>
+
+<p>Automated tests are neither good nor bad.  Only good tests are good and bad tests are bad.  I have had products with
+tens of thousands of great tests.  And very successful products with basically no tests.  And been on teams with
+hundreds of horrible tests that made them go slower and produce a worse product than if they just threw all the
+tests away.</p>
+
+<h3>Automation with Frameworks</h3>
+
+<p>Because testing can be useful, your frameworks should support it.  And should support it as <em>easily</em> as possible.
+They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And as much as possible be &#8220;from the outside&#8221;.</p>
+
+<p>Strangely this last truth has been replaced by a lie:</p>
+
+<blockquote><p>&#8220;You should test each unit, each module, each integration, etc.&#8221;</p></blockquote>
+
+<p>It is a variant of the XP &#8216;test first&#8217; mentality.  And it is completely idiotic.  Because it makes you focus on
+the &#8216;how&#8217; instead of the &#8216;what&#8217;.  Your customer does not care you wrote something in Java or C.  With Spring
+or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
+And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you</em> can&#8217;t be continuously
+testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
+might investigate why it broke and do a periodic check in the future.  But you <em>do</em> by <em>doing</em>, and not with a
+fear of failing on each step of the way.  You are paid to <em>do</em> not to <em>be afraid</em>.  <em>Do</em>, <em>Fail</em>, <em>Learn</em>, <em>Do</em></p>
+
+<p>I am not saying you can&#8217;t test a few things on the inside.  Sometimes I do that as I bring a system up so it is
+obvious (a) whether it is working, and (b) how it is supposed to be working.  A little &#8216;extra documentation&#8217; beyond
+the code itself.  But these are a limited set that covers a slice of the system, not the whole thing.</p>
+
+<h3>Automation with Grails</h3>
+
+<p>The team behind Grails leverages other technologies as much as possible when they work.  Among the best technologies
+for automated testing in Spring / Java are:</p>
+
+<ul>
+<li> Grub</li>
+<li> Spock</li>
+</ul>
+
+
+<p>So Grails leverages these and has testing built-in to the framework.  It automatically generates test stubs for Controllers
+(the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration and unit tests.
+I prefer integration tests as they are the most &#8220;from the outside&#8221;, but all the different tests are useful in
+different amounts (some are faster to run).</p>
+
+<p>For our &#8216;petclinic&#8217;, it has a number of tests of two different kinds:</p>
+
+<p><img src="/images/addstack-2/addstack2_grails1.png" /></p>
+
+<h4>Spock / Unit-ty tests</h4>
+
+<p><img src="/images/addstack-2/addstack2_grails2.png" /></p>
+
+<h4>Grub / Integration tests</h4>
+
+<p><img src="/images/addstack-2/addstack2_grails3.png" /></p>
+
+<p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
+the ability to be doing different kinds of tests.  But this basic idea is the above.</p>
+
+<h4>When to run?</h4>
+
+<p>So we have some tests in a nice testing framework.  Now the critical questions:</p>
+
+<ul>
+<li>When should we run them?  As much as possible without wasting people&#8217;s time.</li>
+<li>Should they be run before deploying a new version?  If they are fast enough, sure.  If not, then something should &#8216;go live&#8217; <em>before</em> the tests.
+
+<ul>
+<li>I don&#8217;t mean &#8216;go live&#8217; to end users, but go live to a server where others can see it.  Just like the &#8216;fed1_app1&#8217; deployment.</li>
+<li>And you can have another server that is &#8216;post-test&#8217; so it is gated by tests being successful.  It is more stable but slightly behind in time and version.  Say &#8216;fed2&#8217;.</li>
+</ul>
+</li>
+<li>Should developers run tests before checking in?  If they want to and are nervous, sure.  Especially tests in the area they are touching.  But breaking &#8216;fed1&#8217; is not a big deal unless you walk away afterwards.  Break it.  Fix it.  Carry on.</li>
+</ul>
+
+
+<p>The tests for the &#8216;petclinic&#8217; are quite fast, so we might as well run them before deploying and let people know the status.  Returning to our deployment script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> <span class="nv">$APP_PATH</span>
+</span><span class='line'>./gradlew <span class="nb">test</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">### if success then continue with &#39;run&#39;, otherwise leave the current version running.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">popd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-15T01:00:00-07:00" pubdate data-updated="true">Oct 15<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-2/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/addstack-1/" title="Previous Post: ADD Stack [Part-1]">&laquo; ADD Stack [Part-1]</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+      <a href="http://www.linkedin.com/in/markfussell/">Linked In</a>
+      &bull;
+      <a href="http://github.com/markfussell/">Github</a>
+      &bull;
+      <a href="http://palobots.org/">PaloBots</a>
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/addstack-2/">ADD Stack [Part-2]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/addstack-1/">ADD Stack [Part-1]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-11/">Advanced Development and Delivery (ADD) [Part-11]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-10/">Advanced Development and Delivery (ADD) [Part-10]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/add-9/">Advanced Development and Delivery (ADD) [Part-9]</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+    <h1>Categories</h1>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 143.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.33333333333333%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 150.0%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 153.33333333333334%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 106.66666666666667%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.33333333333333%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 123.33333333333333%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.33333333333333%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 123.33333333333333%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 106.66666666666667%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 103.33333333333333%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 153.33333333333334%'>IT</a> <a href='/blog/categories/java' style='font-size: 116.66666666666667%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.33333333333333%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.33333333333333%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 106.66666666666667%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 106.66666666666667%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 150.0%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 113.33333333333333%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 110.0%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 156.66666666666666%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 106.66666666666667%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 103.33333333333333%'>Virtualization</a> </span>
+</section>
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/markfussell">@markfussell</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'markfussell',
+            count: 6,
+            skip_forks: false,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Mark Fussell -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'markfussell';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-2/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

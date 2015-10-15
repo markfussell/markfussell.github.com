@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-14T15:49:37-07:00</updated>
+  <updated>2015-10-15T09:11:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,161 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-2]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-2/"/>
+    <updated>2015-10-15T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-2</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
+and techniques, the &#8216;language&#8217;, &#8216;framework&#8217;, &#8216;stack&#8217;, and &#8216;methodology&#8217; does not matter very much.
+And how it matters has a lot to do with the development team and the customer.
+Customer happiness is the ultimate goal, so if you are not making your customer happy, you should make incremental
+adjustments (Educated Guesses) to do so.  And if you can not &#8220;continuously&#8221; deliver valuable products to the
+customer, you need to figure out what is the bottleneck and get rid of it (e.g. google Throughput Accounting).</p>
+
+<h2>Testing</h2>
+
+<blockquote><p>&#8220;Hey&#8230; you said testing wasn&#8217;t important&#8221;</p></blockquote>
+
+<p>No, I said automated testing was not <em>necessary</em>.  At times it is not even <em>valuable</em>, but at other times it is.</p>
+
+<p>There is no way to avoid &#8216;Testing&#8217; unless no one is going to use your product.  &#8216;Using&#8217; is &#8216;Testing&#8217;, so everything
+useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
+So you can&#8217;t avoid testing you software.  You can only augment/change <em>who</em> or <em>what</em> tests your software.  There
+ are a number of options:</p>
+
+<ul>
+<li>Users – Guaranteed unless you have none</li>
+<li>Developers – Should, unless they are crazy.  Not &#8216;testing&#8217; your software is equivalent to not reading (and editing) what you wrote.</li>
+<li>Product Management – Should, unless they are crazy or really confident in the development team.  Product management is the Customer and represents the Users.  They are supposed to know what the users want and need to verify the product is doing the right thing</li>
+<li>Quality Assurance – Useful if they are really good at being a &#8216;Black Hat&#8217;.  This is a different skill from &#8216;Developing&#8217; and some people are very good at it
+
+<ul>
+<li>QA should report to Product Management in spite of having technical skills similar to software developers</li>
+</ul>
+</li>
+</ul>
+
+
+<p>You could have a few more kinds of people that are stake holders, but the above is the core sources.  These are
+people who could know what the software is supposed to do, and then test whether it is doing it.  They have
+different talents, different tolerance for failure, and different price-points (or time restrictions).  So choosing
+the right balance is again a &#8216;Make Customer Happy&#8217; (given a particular budget) ratio of utilization.</p>
+
+<h3>Automation</h3>
+
+<p>The above lists people.  This is because people have to do the hard work of figuring out &#8216;What should it do?&#8217; and
+&#8216;How do I tell it is doing it?&#8217;.  It is true there are some automated test generators&#8230; but they are a rare
+and limited breed that do a little bit more than a &#8216;static typed&#8217; language would do.  The benefits for most project
+are minimal.</p>
+
+<p>So &#8216;automated testing&#8217; is rarely about generation, but more about repetition.  Doing a manual test over and over
+by a human is much more expensive, time consuming, and failure prone to getting a computer to run a similar test
+against software.  The problem is someone has to &#8216;spend time&#8217; writing the test.  And time is both money and delay.</p>
+
+<p>But maybe the tests are (magically) free.  Are they worth it?  Are they valuable?  Possibly &#8220;No!&#8221;.
+Testing does not make software better.
+Testing just proves software does something that passes the test.  Just like in academics a student could
+prep for the SAT but be bad at math, software can pass the test and be horrible.  Fragile.  Complex.  Incoherent.
+And the tests themselves could be Fragile.  Complex.  Incoherent.  And Obsolete.</p>
+
+<p>Automated tests are neither good nor bad.  Only good tests are good and bad tests are bad.  I have had products with
+tens of thousands of great tests.  And very successful products with basically no tests.  And been on teams with
+hundreds of horrible tests that made them go slower and produce a worse product than if they just threw all the
+tests away.</p>
+
+<h3>Automation with Frameworks</h3>
+
+<p>Because testing can be useful, your frameworks should support it.  And should support it as <em>easily</em> as possible.
+They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And as much as possible be &#8220;from the outside&#8221;.</p>
+
+<p>Strangely this last truth has been replaced by a lie:</p>
+
+<blockquote><p>&#8220;You should test each unit, each module, each integration, etc.&#8221;</p></blockquote>
+
+<p>It is a variant of the XP &#8216;test first&#8217; mentality.  And it is completely idiotic.  Because it makes you focus on
+the &#8216;how&#8217; instead of the &#8216;what&#8217;.  Your customer does not care you wrote something in Java or C.  With Spring
+or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
+And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you</em> can&#8217;t be continuously
+testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
+might investigate why it broke and do a periodic check in the future.  But you <em>do</em> by <em>doing</em>, and not with a
+fear of failing on each step of the way.  You are paid to <em>do</em> not to <em>be afraid</em>.  <em>Do</em>, <em>Fail</em>, <em>Learn</em>, <em>Do</em></p>
+
+<p>I am not saying you can&#8217;t test a few things on the inside.  Sometimes I do that as I bring a system up so it is
+obvious (a) whether it is working, and (b) how it is supposed to be working.  A little &#8216;extra documentation&#8217; beyond
+the code itself.  But these are a limited set that covers a slice of the system, not the whole thing.</p>
+
+<h3>Automation with Grails</h3>
+
+<p>The team behind Grails leverages other technologies as much as possible when they work.  Among the best technologies
+for automated testing in Spring / Java are:</p>
+
+<ul>
+<li> Grub</li>
+<li> Spock</li>
+</ul>
+
+
+<p>So Grails leverages these and has testing built-in to the framework.  It automatically generates test stubs for Controllers
+(the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration and unit tests.
+I prefer integration tests as they are the most &#8220;from the outside&#8221;, but all the different tests are useful in
+different amounts (some are faster to run).</p>
+
+<p>For our &#8216;petclinic&#8217;, it has a number of tests of two different kinds:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails1.png" /></p>
+
+<h4>Spock / Unit-ty tests</h4>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails2.png" /></p>
+
+<h4>Grub / Integration tests</h4>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails3.png" /></p>
+
+<p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
+the ability to be doing different kinds of tests.  But this basic idea is the above.</p>
+
+<h4>When to run?</h4>
+
+<p>So we have some tests in a nice testing framework.  Now the critical questions:</p>
+
+<ul>
+<li>When should we run them?  As much as possible without wasting people&#8217;s time.</li>
+<li>Should they be run before deploying a new version?  If they are fast enough, sure.  If not, then something should &#8216;go live&#8217; <em>before</em> the tests.
+
+<ul>
+<li>I don&#8217;t mean &#8216;go live&#8217; to end users, but go live to a server where others can see it.  Just like the &#8216;fed1_app1&#8217; deployment.</li>
+<li>And you can have another server that is &#8216;post-test&#8217; so it is gated by tests being successful.  It is more stable but slightly behind in time and version.  Say &#8216;fed2&#8217;.</li>
+</ul>
+</li>
+<li>Should developers run tests before checking in?  If they want to and are nervous, sure.  Especially tests in the area they are touching.  But breaking &#8216;fed1&#8217; is not a big deal unless you walk away afterwards.  Break it.  Fix it.  Carry on.</li>
+</ul>
+
+
+<p>The tests for the &#8216;petclinic&#8217; are quite fast, so we might as well run them before deploying and let people know the status.  Returning to our deployment script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> <span class="nv">$APP_PATH</span>
+</span><span class='line'>./gradlew <span class="nb">test</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">### if success then continue with &#39;run&#39;, otherwise leave the current version running.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">popd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-1]]]></title>
@@ -22,7 +177,7 @@
 
 <h2>Review of the first series</h2>
 
-<p>The first series start here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a> and ends here: <a href="http://markfussell.emenar.com/blog/add-11/">Voilà!</a>.  The bulk of the
+<p>The first series starts here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a> and ends here: <a href="http://markfussell.emenar.com/blog/add-11/">Voilà!</a>.  The bulk of the
 series was describing how to combine four ingredients:</p>
 
 <ul>
@@ -136,7 +291,7 @@ She will charge you a lot, and you will get a lot in return.</p>
 
 <p>But software developers don&#8217;t like this truth.  They think they (after less than 5000 hours) can be the point person
 for building an application.  I don&#8217;t mean 5000 hours <em>of work</em> I mean 5000 hours <em>in surgery</em> and that is after say
-2x the amount of hours of <em>studying surgery</em>  So 10,000 hours of studying how to build software applications and 5,000
+2x the amount of hours of <em>studying surgery</em>.  So 10,000 hours of studying how to build software applications and 5,000
 hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
 spend half of it actually on either of those tasks&#8230; it would take you about 15 years to be &#8216;an Engineer&#8217;.  Ten years
 of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.</p>
@@ -207,14 +362,14 @@ Otherwise you are resigning yourself to  being content with the quality of your 
 headed downward.</p>
 
 <p>You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
-bad your job is (but google &#8220;Worst Jobs&#8221; to see you don&#8217;t have it so bad).  But you are not allowed to say that <em>your customer</em>
-shouldn&#8217;t be 100% happy&#8230; or at least as happy as you can make them.</p>
+bad your job is (but google &#8220;Worst Jobs&#8221; to see you don&#8217;t have it so bad).  But you are not allowed to say that
+<em>your customer</em> shouldn&#8217;t be 100% happy&#8230; or at least as happy as you can make them.</p>
 
 <h4>Lie: Automated Testing and Quality Verification</h4>
 
 <p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
-tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and <em>before</em>
-we make our customer happy.</p>
+tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and
+<em>before</em> we make our customer happy.</p>
 
 <p>This actually pops up as a &#8216;truth&#8217; in education too.  We try to make the tests happy as opposed to the students,
 except in exceptional schools that Think Different.  But
@@ -5694,154 +5849,6 @@ when trying to document a program, and it is even harder to reference sections o
 </span><span class='line'><span class="n">broadcast</span> <span class="p">(</span><span class="n">move</span><span class="o">-</span><span class="nb">next</span><span class="o">-</span><span class="n">disk</span><span class="p">)</span> <span class="ow">and</span> <span class="n">wait</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Taste of Scratch]]></title>
-    <link href="http://markfussell.emenar.com/blog/a-taste-of-scratch/"/>
-    <updated>2008-09-08T04:15:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/a-taste-of-scratch</id>
-    <content type="html"><![CDATA[<p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
-
-<!-- more -->
-
-
-<p>You can find the original book here:</p>
-
-<ul>
-<li><p><a href="http://www.iam.unibe.ch/~ducasse/FreeBooks/Taste/">A Taste of Smalltalk</a></p></li>
-<li><p><a href="http://stephane.ducasse.free.fr/FreeBooks.html">Free Smalltalk Books</a></p></li>
-</ul>
-
-
-<p>Given the original book is available online, I will not repeat it.</p>
-
-<p>You can both see the example in Scratch and get tools and background on the Scratch project at:
-<a href="http://scratch.mit.edu/projects/parseroo/260752">Tower of Hanoi</a>.  The scratch tools and the community web site are free.</p>
-
-<h2>Tower of Hanoi &#8211; Object-Oriented (V4) &#8211; Scratch</h2>
-
-<p>The standard pattern for this series is to translate as closely as possible each of the chapters in &#8220;A Taste of Smalltalk&#8221; to the new target language.  This worked reasonably well for Ruby and Flex &#8211; the Smalltalk was translated and interesting features of the language came out with each translation.  But this approach utterly fails for Scratch because the first two &#8216;models&#8217; of the Hanoi algorithm are completely dependent on recursion, which Scratch does not have.  Even the third, stack-less version of Hanoi requires inter-object calls that Scratch can not handle.  So <em>none</em> of the algorithms within &#8220;A Taste of Smalltalk&#8221; can be directly translated to Scratch.</p>
-
-<p>This might appear to be a limitation of the language (and in some ways it certainly is), but somewhat impressively, I believe thinking about this problem, with the restrictions of Scratch, actually leads to a better design solution than any of the ones in the book.  It is certainly a very object-oriented solution, where the &#8216;Hanoi Disks&#8217; have a lot of intelligence and are made as responsible as possible for figuring out what to do next.  This version of the algorithm, I will call &#8216;V4&#8217;.</p>
-
-<h3>The V4 Algorithm</h3>
-
-<p>The V4 Algorithm works as follows:</p>
-
-<ol>
-<li><p>Ask each of the disks whether they have a legal move</p></li>
-<li><p>Decide which of the disks with a legal move should move</p></li>
-<li><p>Tell that disk to move</p></li>
-</ol>
-
-
-<p>The interesting parts of this algorithm are that:</p>
-
-<ul>
-<li><p>Step 1 can be completely parallel.  You can ask 1 to 1000000 disks at the same moment whether they have a legal move.</p></li>
-<li><p>Step 2 is really trivial: just don&#8217;t move the same disk you did last time</p></li>
-</ul>
-
-
-<p>Compared to the V3 version, the V4 version puts more intelligence in the disks (and less in the tower), couples them less, and supports mass parallel-execution.  The parallel-execution is not useful in Hanoi, but the concepts behind it are definitely very interesting &#8211; and Scratch&#8217;s restrictions forces this kind of &#8216;sophisticated&#8217; approach [or at least it forced me down this path to maintain code-sanity and maintainability].</p>
-
-<h3>The main Scratch Player view</h3>
-
-<p>Scratch is designed to be an easy-to-learn language and environment.  Its heritage is along the lines of the spirit of Logo: there is a Stage drawing area and a default Sprite (a Cat) that you interact with for animation and drawing.  But this Stage can also show the variables involved with the program.  So it produces a nice overview of the whole Hanoi program:</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d3.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d3.png" alt="" /></a></p>
-
-<p>Not all application variables are shown, but those shown are the most important ones.  The details of the variables will be gone over later, but some are self-evident:</p>
-
-<ul>
-<li><p>num-disks: The number of disks (the height) of the Tower of Hanoi</p></li>
-<li><p>pole-#: A List (treated as a Stack) of Disk identifiers, where &#8216;6&#8217; = a base (immovable) disk</p></li>
-<li><p>movable-disks: A List of disks that can be moved.  This is transitory for each iteration of the algorithm.</p></li>
-</ul>
-
-
-<p>If you click the &#8216;Green Flag&#8217;, the program executes and on pretty much every step the display is updated, so you can see disks being proposed and moved (in both animation and variables).  Independently of Scratch having a graphical programming language, it has a very nice graphical development and run environment.</p>
-
-<h3>Application Variables</h3>
-
-<p>The application variables are shown below.  All of these are &#8216;Globals&#8217; and can be accessed by any object.  Those variables colored in red are lists and those colored in orange are numbers/strings/etc.  All the variables that have check-marks next to them are being displayed on top of the Stage above.</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d1.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d1.png" alt="" /></a></p>
-
-<p>There is no such thing as a &#8216;local&#8217; variable (private to a block of code), so it might be useful to use a naming prefix to differentiate between &#8216;local&#8217; variables (like &#8216;potential-disk&#8217;) from instance variables and even &#8216;parameter&#8217; variables that go with a broadcast (&#8216;next-disk&#8217;).  But in-the-small, that is not particularly important.</p>
-
-<h3>Application Initialization</h3>
-
-<p>Now that we have an overview of the application and its global state variables, we can start working through the algorithm itself.  The main &#8216;Object&#8217; in Scratch is the Stage, and I made this own the outer-most aspects of the Hanoi application and algorithm.  The first activity is &#8216;Initialization&#8217;, which is triggered by the &#8216;Green Flag&#8217; [my particular choice].</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d2.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d2.png" alt="" /></a></p>
-
-<p>Because this is the first example of Scratch, I will walk through the sections of the code and what they do with a few visual marker numbers (see the right column of blue).</p>
-
-<p>When the Stage gets the Green Flag event:</p>
-
-<ol>
-<li><p>It sets the number of disks to &#8216;5&#8217;.  This is hard-coded because Scratch is currently unable to clone Sprites (objects) on the fly, so we have to precreate all the needed sprites.  In any case, this is simple enough to change if someone wants.  The additional variable &#8216;base-disk&#8217; is defined so it can be used below.  &#8216;base-disk&#8217; is just a local variable and is never used again. After this, we just clear the lists so they are &#8216;clean&#8217;</p></li>
-<li><p>Next we add the &#8216;base-disk&#8217; to the bottom of each pole.  The base-disks are invisible and immovable (no matching Sprite/Object), so this is a very clean way of making the algorithm simpler later on.</p></li>
-<li><p>Next we add the disks to &#8216;pole-1&#8217; using what should be another local variable.  Later I reuse this variable [something I don&#8217;t like doing] just because we otherwise have a clutter of variables.</p></li>
-<li><p>Next we send out a broadcast to <em>all objects</em> telling them to initialize themselves.  There is no direct message send to an object, so it is up to the other objects to know what to respond to and what to ignore.  The broadcast waits until all object&#8217;s acknowledge they are finished.</p></li>
-<li><p>Finally, we go into the main loop.  Until all the disks have moved to a new pole, we will execute &#8216;find-next-disk&#8217; which both finds and moves the next disk.  When we are done, we make a noise :-)</p></li>
-</ol>
-
-
-<h3>Find and Move Next Disk</h3>
-
-<p>The main part of the algorithm has some nice aspects and some nastier aspects.  The nice side: We simply send out a broadcast of &#8216;propose-next-disk&#8217;, which all Disks should respond to by adding themselves to &#8216;movable-disks&#8217; if they have a desire to move.  This will only ever be one or two movable disks at any given time.  One of those disks may have been moved immediately previously, so we skip over it.  The selected disk is put into &#8216;next-disk&#8217; and another broadcast goes out &#8220;move-next-disk&#8221;.  The second broadcast is not really a broadcast.  It is a message send to &#8216;next-disk&#8217;, but it is only by the disks themselves ignoring a broadcast that isn&#8217;t to them that it becomes a message send.  So that is slightly nasty.</p>
-
-<p>In any case, the code is pretty clean and concise, and this ends the code on the Stage itself.  The rest of the algorithm is on the Disks.</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d4.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d4.png" alt="" /></a></p>
-
-<h3>Disks Variables</h3>
-
-<p>The Disks have access to all the Stage global variables.  In addition, each Sprite can have its own instance-private variables, which are either true instance variables (&#8216;disk-id&#8217;, &#8216;pole&#8217;, &#8216;previous-pole&#8217;) or would be local variables if Scratch supported them (&#8216;can-move&#8217;, &#8216;am-on-top&#8217;, etc.)</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d5.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d5.png" alt="" /></a></p>
-
-<p>Instance variables can be displayed on the Stage also, but this becomes overwhelming if all instances are turned on.</p>
-
-<h3>Disk Initialization</h3>
-
-<p>Upon receiving the &#8216;initialize&#8217; broadcast, all Disks set their &#8216;disk-id&#8217; (which must be different for each disk), and then set themselves up properly in size, color, and move onto the correct pole.</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d6.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d6.png" alt="" /></a></p>
-
-<h3>Propose Next Disk</h3>
-
-<p>Scratch has certain deficiencies that rear their heads badly in the Hanoi code.  The concept of Propose Next Disk is as simple as:</p>
-
-<pre><code>If 
-   * I am on-top of a pole 
-   * And I can move to a new pole (with a bigger disk on its top) 
-   * And that new pole isn't the pole I just came from
-Then
-   * Add myself to the movable-disks list
-</code></pre>
-
-<p>But because Scratch (or my knowledge of Scratch) is deficient in dynamic referencing of variables, the &#8216;propose-next-disk&#8217; code needs to expand all the potential pole values from 1 through 3.  Fortunately this is only a three-valued expansion, but the code looks quite nasty for being as simple as the above.</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d7.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d7.png" alt="" /></a></p>
-
-<h3>Move Next Disk</h3>
-
-<p>The Move Next Disk code has (1) the filter on the broadcast (in this case by &#8216;disk-id&#8217;) to make it only go to a single object and (2) a ton of noise due to &#8216;pole&#8217; expansion mentioned above.  But the code gets the job done and it looks fairly colorful :-)</p>
-
-<p><a href="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d8.png"><img src="http://chimu.files.wordpress.com/2008/09/atasteofscratch_d8.png" alt="" /></a></p>
-
-<h2>Conclusions</h2>
-
-<p>I was impressed that Scratch was able to get Tower of Hanoi to run properly.  Scratch has actively avoided certain features that the Scratch team finds are difficult to understand.  But the toolbox of event processing, broadcasts, lists, and Sprites (objects with Stage presence :-) ) are rich enough that a pre-sized Hanoi can be created and will run correctly.  A dynamic Hanoi would require Sprite cloning, which is not in Scratch 1.3.</p>
-
-<p>The nastiest aspect to Scratch was its inability to dynamically reference the pole lists.  And a missing feature to Scratch are simple procedures (for example, the &#8216;glide&#8217; code is repeated twice).  The missing recursion is clearly another missing feature, but in this case getting rid of that recursion made the algorithm somewhat nicer.</p>
-
-<p>On the whole, Scratch is a very inspiring visual language and development environment, and it did a good job with this &#8216;offbeat&#8217; test.</p>
 ]]></content>
   </entry>
   
