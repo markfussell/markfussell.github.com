@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T14:16:49-07:00</updated>
+  <updated>2015-10-15T14:33:43-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -236,7 +236,9 @@ class UrlMappings {</p>
 <p>}
 ```</p>
 
-<p>Amusingly, the front-end is now effectively a complete static web site:</p>
+<p>Interestingly, the front-end is now a mostly-static web site.  The content isn't static because it depends on JSON,
+but most everything else is locked down.  So this is in some ways <em>less</em> flexible than the server side rendering.
+Fewer things can change without sending out a whole new page.</p>
 
 <p>```html
 &lt;!doctype html>
@@ -314,6 +316,55 @@ class UrlMappings {</p>
 <p></body>
 </html>
 ```</p>
+
+<h4>Hybrid</h4>
+
+<p>OK, so I simplified above to get through the main concepts.  Both server-side and separate-client can be
+transformed into the most powerful approach known to man... the 'anything goes' or 'hybrid' approach.</p>
+
+<p>Render client, render server, send JSON, receive JSON, send POST, receive POST, open up a direct socket,
+send data or HTML both directions, hook into the device's capabilities. take over the camera and capture
+ photos of the user, post to twitter, etc.</p>
+
+<p>The problems with Hybrid approaches are:</p>
+
+<ul>
+<li>To quantify "What is allowed" and "What is not"</li>
+<li>To have a coherent model</li>
+<li>To have people understand the model</li>
+</ul>
+
+
+<p>Winster had a very good hybrid model by the time I left (product development had basically ended and Jerry was working solely on Marketing)</p>
+
+<ul>
+<li>You hit a Java server</li>
+<li>It sends you a Flex application</li>
+<li>Most communication is based on JSON calls to the server</li>
+<li>But updates come through an open socket</li>
+</ul>
+
+
+<p>The reason for the socket is that you needed to be told of <em>other people's</em> actions.  Some technology (e.g. comet or the socket)
+had to be used for this.  Early on, a previous architect picked sockets, and although the protocol through the socket
+improved / evolved, the actual use-of-socket was not swapped out.</p>
+
+<p>Rumble had an extreme hybrid model involving mostly open sockets to game servers,
+but also ejabberd (XMPP), JSON, and a slew of different technologies solving different problems.
+The drawback of using third-party technologies is that they bring in different approaches to client-server
+communication.</p>
+
+<h3>Conclusion</h3>
+
+<p>The goal of the UI is to present a good, cost-effective, consistent, and sufficiently capable 'face' to your
+ users and prospects.  There are a number of different approaches that have different benefits.</p>
+
+<p> I recommend
+ starting from the position of server-side rendering because that gives a lot of power with almost no cost.  It makes people
+ work with the entire application and reduces chances of 'schisms' within the development team.  On the
+ other hand, 'separate client' technologies are quite good and by thinking 'separate client' you may produce
+ a somewhat better API.  But a 'schism' is more likely, testing is harder, and the separate client is
+ less flexible in how it can integrate with the server (at least for 'free').</p>
 ]]></content>
   </entry>
   
