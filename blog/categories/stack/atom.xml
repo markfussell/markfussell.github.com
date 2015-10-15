@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stack | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/stack/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:20:06-07:00</updated>
+  <updated>2015-10-15T12:20:36-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -112,7 +112,7 @@ for a modern web application:</p>
 
 <h3>Modern logging with 'logback'</h3>
 
-<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback'
+<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback' <a href="http://logback.qos.ch">http://logback.qos.ch</a>
 framework.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
