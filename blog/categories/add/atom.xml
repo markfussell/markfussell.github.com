@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T09:20:01-07:00</updated>
+  <updated>2015-10-15T09:20:49-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -135,7 +135,7 @@ are useful in different amounts (some are faster to run).</p>
 <p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails5.png" /></p>
 
 <p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
-the ability to be doing different kinds of tests.  But this basic idea is the above.</p>
+the ability to be lots of different kinds of tests.  But the basic idea is above.</p>
 
 <h4>When to run?</h4>
 
