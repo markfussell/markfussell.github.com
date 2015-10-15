@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stack | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/stack/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T14:33:43-07:00</updated>
+  <updated>2015-10-15T14:47:03-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -18,7 +18,7 @@
     <link href="http://markfussell.emenar.com/blog/addstack-4/"/>
     <updated>2015-10-15T03:00:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/addstack-4</id>
-    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
 first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
 The second article dealt with 'Testing'.  The third with the application stack (Grails and other technologies).</p>
 
@@ -373,7 +373,7 @@ communication.</p>
     <link href="http://markfussell.emenar.com/blog/addstack-3/"/>
     <updated>2015-10-15T02:00:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/addstack-3</id>
-    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
 first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
 The second article dealt with 'Testing'.</p>
 
@@ -674,7 +674,7 @@ a requirement to getting a good picture of the system.</p>
     <link href="http://markfussell.emenar.com/blog/addstack-2/"/>
     <updated>2015-10-15T01:00:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/addstack-2</id>
-    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
 first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
 Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
 and techniques, the 'language', 'framework', 'stack', and 'methodology' does not matter very much.
@@ -828,7 +828,7 @@ pushd $APP_PATH
     <link href="http://markfussell.emenar.com/blog/addstack-1/"/>
     <updated>2015-10-14T01:00:00-07:00</updated>
     <id>http://markfussell.emenar.com/blog/addstack-1</id>
-    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.</p>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.</p>
 
 <h2>Review of the first series</h2>
 
