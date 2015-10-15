@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T11:50:59-07:00</updated>
+  <updated>2015-10-15T11:52:38-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -46,9 +46,12 @@ became stable and capable.  Gradle won a war against other build systems so Grai
 
 <p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails1.png" /></p>
 
-<h3>Align with Spring-Boot</h3>
+<h3>Align with Spring Boot</h3>
 
-<p>Spring-Boot is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
+<!--more-->
+
+
+<p>Spring Boot (<a href="http://projects.spring.io/spring-boot/">http://projects.spring.io/spring-boot/</a>)is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
 is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a 'small' step up
 conceptually so it should be easier for people to 'level up' and also 'wander down' depending on the needs
 of the project.</p>
