@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T13:37:53-07:00</updated>
+  <updated>2015-10-15T13:45:16-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -84,6 +84,19 @@ and his right hand were the primary 'Customers' but we also had a graphic artist
 eye for these things.  Working among the Rumble and Viget teams, we got what you see above.  It is
   implemented in Expression Engine (a PHP engine), but <em>the design</em> and <em>the capabilities</em> are the
   driving factor behind it's cost not the implementation technology (although EE is overkill).</p>
+
+<p>Using a firm like Viget is one approach, but another is to simply figure out what you want to look like.
+Jerry Kaplan founded 'Winster' to be an online gambling company.  That was originally illegal, so he
+pivoted a bit, but if you look at the site... it looks like Vegas or Reno:</p>
+
+<ul>
+<li>http://www.winster.com/</li>
+</ul>
+
+
+<p><img src="http://markfussell.emenar.com/images/addstack-4/addstack4_ui3.png" /></p>
+
+<p>Turns out this web site is somewhat expensive because it was initially built in Flash and Flex.  So</p>
 ]]></content>
   </entry>
   
