@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T13:31:53-07:00</updated>
+  <updated>2015-10-15T13:37:53-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -75,6 +75,15 @@ is trivial to maintain and costs nothing to run (static hosting by GitHub).
 The Rumble web site cost nearly a million dollars and costs, is made from a very sophisticated PHP package
 which costs thousands of dollars to do significant changes to, and it costs thousands of dollars to run.
 That is just the web site of the company, not the games themselves.</p>
+
+<h3>What face do you want?</h3>
+
+<p>The million-dollar Rumble site was primarily done by a company called Viget who came into Rumble and
+showed us a bunch of different web sites based on certain aspects we told them we wanted.  The CEO
+and his right hand were the primary 'Customers' but we also had a graphic artist that has a great
+eye for these things.  Working among the Rumble and Viget teams, we got what you see above.  It is
+  implemented in Expression Engine (a PHP engine), but <em>the design</em> and <em>the capabilities</em> are the
+  driving factor behind it's cost not the implementation technology (although EE is overkill).</p>
 ]]></content>
   </entry>
   
