@@ -1,0 +1,291 @@
+---
+layout: post
+title: "ADD Stack [Part-3]"
+date: 2015-10-15 2:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
+The second article dealt with 'Testing'.
+
+## Grails, Groovy, and Java
+
+The primary stack I believe is a "Best Practice" is Grails.  It is in it's third full generation, and with
+each generation it gets better, easier, more powerful, and more 'aligned'.  This last part is not that
+common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
+code.  The Grails team has been great at 'pruning' and 'aligning' with Spring and other frameworks.
+
+Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don't
+know why.  Either they don't read the tutorials... or they get confused and a deadline is approaching... or they
+are cowboys (or cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
+I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
+functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
+wrong with Spring but it is harder to use properly than Grails.  Spring Boot is trying to help with that.  Grails
+is just better.
+
+Grails is 'opinionated' and 'functional' and has plenty of examples to show you these opinions and capabilities.
+We can see a lot of it in the 'petclinic' example.
+
+### Build with Gradle
+
+Grails uses Gradle to build the project.  It used to have it's own system, but it pruned that away when Gradle
+became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.
+
+<img src="/images/addstack-3/addstack3_grails1.png" />
+
+
+### Align with Spring Boot
+
+<!--more-->
+
+Spring Boot ([http://projects.spring.io/spring-boot/](http://projects.spring.io/spring-boot/))
+is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
+is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a 'small' step up
+conceptually so it should be easier for people to 'level up' and also 'wander down' depending on the needs
+of the project.
+
+<img src="/images/addstack-3/addstack3_grails2.png" />
+
+
+### Align with Hibernate, but allow others (include NoSQL)
+
+Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
+through GORM to other systems.  Some capabilities go away but basic schema and query capability (CRUD)
+is always there.  And depending on the product, some higher level query capabilities may also be present.
+
+### Use modern testing frameworks
+
+As mentioned before: 'geb' and 'spock' are the default testing frameworks included, along with the default
+phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
+could be used instead or in addition, but there would have to be a compelling reason for it.
+
+### Modern asset pipeline
+
+Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
+of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
+pipeline system that leverages the well-defined layout of a Grails project.
+
+### Good IDE integration
+
+Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
+for Java development.
+
+### Plugins!
+
+Grails has a very simple and powerful plugin system that adds lots of great capabilities.
+With the move to 3.x some plugins may not yet be ready, but every month several more should be migrated.
+
+### Standard Layout: assets, controllers, services, views, ...
+
+Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
+the same over all three generations.  The 'src' directory is for things outside the Grails world.  And
+the 'grails-app' directory is for things inside the Grails world.  The grails layout is very intuitive
+for a modern web application:
+
+  * assets – Assets to go through the pipeline
+  * conf - Configuration of the application
+  * controllers – The UI (or web-api) interaction layer of the application
+  * domain – The business model layer of the application, and the persistent state model
+  * i18n – Internationalization
+  * init – Things to do at startup
+  * services – One or more 'services' layers to pull logic from controllers and domain into
+  * views – GSP to be used by controllers for rendering (if desired)
+
+For the petclinic this layout looks like this when expanded:
+
+<img src="/images/addstack-3/addstack3_grails3.png" />
+
+### Modern logging with 'logback'
+
+Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback'
+[http://logback.qos.ch](http://logback.qos.ch) framework.
+
+<img src="/images/addstack-3/addstack3_grails4.png" />
+
+### Incredibly terse
+
+One of the horrors of moving from Smalltalk to Java was about 4-8x the number of words were required to
+accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.
+
+With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
+Or at least LISP without a really powerful set of macros.
+
+As an example, the 'PetController' is the main UI functionality of the 'petclinic'.  But it has only 53 lines,
+a third of them are blank.  And a total of 150 'words'.
+
+
+```groovy
+package org.grails.samples
+
+class PetController {
+
+	def petclinicService
+
+	def add() {
+		if (request.method == 'GET') {
+			return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
+		}
+
+		def pet = petclinicService.createPet(params.pet_name, params.pet?.birthDate,
+			(params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
+
+		if (pet.hasErrors()) {
+			return [pet: pet, types: PetType.list()]
+		}
+
+		redirect controller: 'owner', action: 'show', id: pet.owner.id
+	}
+
+	def edit() {
+		if (request.method == 'GET') {
+			render view: 'add', model: [pet: Pet.get(params.id), types: PetType.list()]
+			return
+		}
+
+		def pet = Pet.get(params.id)
+
+		petclinicService.updatePet(pet, params.pet_name, params.pet?.birthDate,
+			(params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
+
+		if (pet.hasErrors()) {
+			render view: 'add', model: [pet: pet, types: PetType.list()]
+		}
+		else {
+			redirect controller: 'owner', action: 'show', id: pet.owner.id
+		}
+	}
+
+	def addVisit() {
+		if (request.method == 'GET') {
+			return [visit: new Visit(pet: Pet.get(params.id))]
+		}
+
+		def visit = petclinicService.createVisit((params.visit?.pet?.id ?: 0) as Long, params.visit?.description, params.visit?.date)
+		if (visit.hasErrors()) {
+			return [visit: visit]
+		}
+
+		redirect controller: 'owner', action: 'show', id: visit.pet.owner.id
+	}
+}
+```
+
+It's functionality is not amazing.  But most things people need to do on the web _are not amazing_.  They are
+basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
+and 99%+ of the web is just doing CRUD.  90%+ is just Read.
+
+#### Automatic Wiring
+
+A lot of things are happening with this controller.  The simple statement
+
+```groovy
+def petclinicService
+```
+
+gets automatically wired to PetclinicService in the services folder.
+
+#### Automatic Rendering
+
+The line
+
+```groovy
+			return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
+```
+
+causes the view 'pet/add.gsp' to render with that 'pet' and 'types' property set.  So the HTML can also be
+quite terse:
+
+```html
+<html>
+	<head>
+		<meta name="layout" content="main">
+		<title>${ pet.id ? 'Update' : 'Add'} Pet</title>
+	</head>
+
+	<body id="add">
+		<h2><g:if test="${!pet.id}">New </g:if>Pet</h2>
+
+		<b>Owner:</b> ${pet.owner?.firstName} ${pet.owner?.lastName}
+		<br/>
+
+```
+
+#### Powerful redirect and delegation
+
+Grails can control the client with redirects or delegate to other controllers behind the scenes.
+
+```groovy
+		redirect controller: 'owner', action: 'show', id: pet.owner.id
+```
+
+#### Very flexibly Services
+
+The PetclinicService is transactional so it can save objects within an automatic transaction.  But this
+is optional and can be controlled.
+
+```groovy
+class PetclinicService {
+
+	// PetController
+
+	Pet createPet(String name, Date birthDate, long petTypeId, long ownerId) {
+		def pet = new Pet(name: name, birthDate: birthDate, type: PetType.load(petTypeId), owner: Owner.load(ownerId))
+		pet.save()
+		pet
+	}
+```
+
+#### Super-clean domain classes
+
+A modern tendency is to have domain classes mostly represent the data side of the Domain object and pull the
+higher level logic out into other classes.  Although I dislike this (why have two classes), it does work
+better with automatic schema generation and migration.  You are less likely to have to restart the container
+and make the system check for data migration issues.
+
+Grails supports a very simple, rich, mapping system called GORM.  And with it, the Domain class is very terse
+but also very powerful.  And GORM works on multiple database _kinds_ let alone products.
+
+```groovy
+package org.grails.samples
+
+/**
+ * Simple domain object representing a pet.
+ *
+ * @author Graeme Rocher
+ */
+class Pet {
+
+	String name
+	Date birthDate
+	PetType type
+	Owner owner
+
+	static hasMany = [visits: Visit]
+
+	static constraints = {
+		name blank: false, validator: { name, pet ->
+			if (!pet.id && pet.owner?.pets?.find { it.name == name })  {
+				return 'pet.duplicate'
+			}
+		}
+	}
+}
+```
+
+Apparently Graeme doesn't want people to have duplicate pet names :-/
+
+## Summary
+
+There is much more functionality to Grails than described above, but that is a good, quick, walk-through.  There
+are also certain conventions I believe are best practices on top of the Grails framework (e.g. 'RepoService' classes
+for Domain objects so functionality is easily and consistently located), but again that is an augmentation vs. being
+a requirement to getting a good picture of the system.
+
+Next I will go into the UI portion and options for that.
+
+
+
+
+
