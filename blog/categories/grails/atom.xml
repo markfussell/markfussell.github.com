@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:30:34-07:00</updated>
+  <updated>2015-10-15T13:29:40-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,356 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-4]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-4/"/>
+    <updated>2015-10-15T03:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-4</id>
+    <content type="html"><![CDATA[<p>This is the second series describing a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third with the application stack (Grails and other technologies).</p>
+
+<h2>User Interface</h2>
+
+<p>Of all the technologies that change, the User Interface is by far the most diverse and most evolved.  Modern
+databases are actually pretty old technology.  Modern languages are not significantly different from ancestors
+in the 1970s.  Computers have the same main components.  Programmers interact with them with keyboards and screens.
+If you picked well, you are programming better (tens of thousands of hours help) but are sadly
+on pretty much the same core concepts you learned in your first five thousand hours.  Sigh.</p>
+
+<p>Except.  Except the User Interface.  The implementation of user interfaces has grown since the 70s (the
+first bit-mapped and mouse-based UIs were built way back then) through Smalltalk, Objective-C, Flash, Flex,
+Angular, and other paths.  But even the devices have changed.  An iPhone is not a computer.  An Apple Watch
+is not an iPhone.  Times they are a changing... at least for 'devices'.</p>
+
+<h3>It's your face</h3>
+
+<p>The User Interface is also the 'face' of a company.  It sells the company.  Whether to new customers, existing
+customers, employees, stock holders, or potential investors.  A web site like Rumble's:</p>
+
+<ul>
+<li>http://rumblegames.com/</li>
+</ul>
+
+
+<p><img src="http://markfussell.emenar.com/images/addstack-4/addstack4_ui1.png" /></p>
+
+<p>And Rumble's actual games are trying to appeal to a particular audience (middle aged men) and give
+them something they want (to feel powerful and sophisticated).</p>
+
+<p>A web site like PortaPlanter:</p>
+
+<ul>
+<li>http://PortaPlanter.com/</li>
+</ul>
+
+
+<p><img src="http://markfussell.emenar.com/images/addstack-4/addstack4_ui2.png" /></p>
+
+<p>is targeting a different audience (very broad, green-conscious, etc.) and give them something they want
+(to help the planet) where hopefully the product speaks mostly for itself so there are no "frills" on
+the page.  The PortaPlanter may be a bit under-skinned, but even sophisticated product sites tend to
+mostly <em>show the product</em> in isolation and in use.</p>
+
+<p>The expense of the UI should never be under-estimated.  It is <em>by far</em> the most variable expense a company
+can control about their software products.  Like marketing.  Build every <em>perfectly</em> and the UI will be
+the only thing that can change the cost.  Well, next to 'rapid feature changes' but that is more controllable
+because you can turn it on and off.  The PortaPlanter web site cost a few thousand (mostly the pictures) and
+is trivial to maintain and costs nothing to run (static hosting by GitHub).
+The Rumble web site cost nearly a million dollars and costs, is made from a very sophisticated PHP package
+which costs thousands of dollars to do significant changes to, and it costs thousands of dollars to run.
+That is just the web site of the company, not the games themselves.</p>
+
+<p>The primary stack I believe is a "Best Practice" is Grails.  It is in it's third full generation, and with
+each generation it gets better, easier, more powerful, and more 'aligned'.  This last part is not that
+common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
+code.  The Grails team has been great at 'pruning' and 'aligning' with Spring and other frameworks.</p>
+
+<p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don't
+know why.  Either they don't read the tutorials... or they get confused and a deadline is approaching... or they
+are cowboys (or cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
+I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
+functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
+wrong with Spring but it is harder to use properly than Grails.  Spring Boot is trying to help with that.  Grails
+is just better.</p>
+
+<p>Grails is 'opinionated' and 'functional' and has plenty of examples to show you these opinions and capabilities.
+We can see a lot of it in the 'petclinic' example.</p>
+
+<h3>Build with Gradle</h3>
+
+<p>Grails uses Gradle to build the project.  It used to have it's own system, but it pruned that away when Gradle
+became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails1.png" /></p>
+
+<h3>Align with Spring Boot</h3>
+
+<!--more-->
+
+
+<p>Spring Boot (<a href="http://projects.spring.io/spring-boot/">http://projects.spring.io/spring-boot/</a>)
+is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
+is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a 'small' step up
+conceptually so it should be easier for people to 'level up' and also 'wander down' depending on the needs
+of the project.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails2.png" /></p>
+
+<h3>Align with Hibernate, but allow others (include NoSQL)</h3>
+
+<p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
+through GORM to other systems.  Some capabilities go away but basic schema and query capability (CRUD)
+is always there.  And depending on the product, some higher level query capabilities may also be present.</p>
+
+<h3>Use modern testing frameworks</h3>
+
+<p>As mentioned before: 'geb' and 'spock' are the default testing frameworks included, along with the default
+phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
+could be used instead or in addition, but there would have to be a compelling reason for it.</p>
+
+<h3>Modern asset pipeline</h3>
+
+<p>Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
+of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
+pipeline system that leverages the well-defined layout of a Grails project.</p>
+
+<h3>Good IDE integration</h3>
+
+<p>Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
+for Java development.</p>
+
+<h3>Plugins!</h3>
+
+<p>Grails has a very simple and powerful plugin system that adds lots of great capabilities.
+With the move to 3.x some plugins may not yet be ready, but every month several more should be migrated.</p>
+
+<h3>Standard Layout: assets, controllers, services, views, ...</h3>
+
+<p>Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
+the same over all three generations.  The 'src' directory is for things outside the Grails world.  And
+the 'grails-app' directory is for things inside the Grails world.  The grails layout is very intuitive
+for a modern web application:</p>
+
+<ul>
+<li>assets – Assets to go through the pipeline</li>
+<li>conf - Configuration of the application</li>
+<li>controllers – The UI (or web-api) interaction layer of the application</li>
+<li>domain – The business model layer of the application, and the persistent state model</li>
+<li>i18n – Internationalization</li>
+<li>init – Things to do at startup</li>
+<li>services – One or more 'services' layers to pull logic from controllers and domain into</li>
+<li>views – GSP to be used by controllers for rendering (if desired)</li>
+</ul>
+
+
+<p>For the petclinic this layout looks like this when expanded:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails3.png" /></p>
+
+<h3>Modern logging with 'logback'</h3>
+
+<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback'
+<a href="http://logback.qos.ch">http://logback.qos.ch</a> framework.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
+
+<h3>Incredibly terse</h3>
+
+<p>One of the horrors of moving from Smalltalk to Java was about 4-8x the number of words were required to
+accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.</p>
+
+<p>With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
+Or at least LISP without a really powerful set of macros.</p>
+
+<p>As an example, the 'PetController' is the main UI functionality of the 'petclinic'.  But it has only 53 lines,
+a third of them are blank.  And a total of 150 'words'.</p>
+
+<p>```groovy
+package org.grails.samples</p>
+
+<p>class PetController {</p>
+
+<pre><code>def petclinicService
+
+def add() {
+    if (request.method == 'GET') {
+        return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
+    }
+
+    def pet = petclinicService.createPet(params.pet_name, params.pet?.birthDate,
+        (params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
+
+    if (pet.hasErrors()) {
+        return [pet: pet, types: PetType.list()]
+    }
+
+    redirect controller: 'owner', action: 'show', id: pet.owner.id
+}
+
+def edit() {
+    if (request.method == 'GET') {
+        render view: 'add', model: [pet: Pet.get(params.id), types: PetType.list()]
+        return
+    }
+
+    def pet = Pet.get(params.id)
+
+    petclinicService.updatePet(pet, params.pet_name, params.pet?.birthDate,
+        (params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
+
+    if (pet.hasErrors()) {
+        render view: 'add', model: [pet: pet, types: PetType.list()]
+    }
+    else {
+        redirect controller: 'owner', action: 'show', id: pet.owner.id
+    }
+}
+
+def addVisit() {
+    if (request.method == 'GET') {
+        return [visit: new Visit(pet: Pet.get(params.id))]
+    }
+
+    def visit = petclinicService.createVisit((params.visit?.pet?.id ?: 0) as Long, params.visit?.description, params.visit?.date)
+    if (visit.hasErrors()) {
+        return [visit: visit]
+    }
+
+    redirect controller: 'owner', action: 'show', id: visit.pet.owner.id
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>It's functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
+basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
+and 99%+ of the web is just doing CRUD.  90%+ is just Read.</p>
+
+<h4>Automatic Wiring</h4>
+
+<p>A lot of things are happening with this controller.  The simple statement</p>
+
+<p><code>groovy
+def petclinicService
+</code></p>
+
+<p>gets automatically wired to PetclinicService in the services folder.</p>
+
+<h4>Automatic Rendering</h4>
+
+<p>The line</p>
+
+<p>```groovy</p>
+
+<pre><code>        return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
+</code></pre>
+
+<p>```</p>
+
+<p>causes the view 'pet/add.gsp' to render with that 'pet' and 'types' property set.  So the HTML can also be
+quite terse:</p>
+
+<p>```html
+<html></p>
+
+<pre><code>&lt;head&gt;
+    &lt;meta name="layout" content="main"&gt;
+    &lt;title&gt;${ pet.id ? 'Update' : 'Add'} Pet&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body id="add"&gt;
+    &lt;h2&gt;&lt;g:if test="${!pet.id}"&gt;New &lt;/g:if&gt;Pet&lt;/h2&gt;
+
+    &lt;b&gt;Owner:&lt;/b&gt; ${pet.owner?.firstName} ${pet.owner?.lastName}
+    &lt;br/&gt;
+</code></pre>
+
+<p>```</p>
+
+<h4>Powerful redirect and delegation</h4>
+
+<p>Grails can control the client with redirects or delegate to other controllers behind the scenes.</p>
+
+<p>```groovy</p>
+
+<pre><code>    redirect controller: 'owner', action: 'show', id: pet.owner.id
+</code></pre>
+
+<p>```</p>
+
+<h4>Very flexibly Services</h4>
+
+<p>The PetclinicService is transactional so it can save objects within an automatic transaction.  But this
+is optional and can be controlled.</p>
+
+<p>```groovy
+class PetclinicService {</p>
+
+<pre><code>// PetController
+
+Pet createPet(String name, Date birthDate, long petTypeId, long ownerId) {
+    def pet = new Pet(name: name, birthDate: birthDate, type: PetType.load(petTypeId), owner: Owner.load(ownerId))
+    pet.save()
+    pet
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>Super-clean domain classes</h4>
+
+<p>A modern tendency is to have domain classes mostly represent the data side of the Domain object and pull the
+higher level logic out into other classes.  Although I dislike this (why have two classes), it does work
+better with automatic schema generation and migration.  You are less likely to have to restart the container
+and make the system check for data migration issues.</p>
+
+<p>Grails supports a very simple, rich, mapping system called GORM.  And with it, the Domain class is very terse
+but also very powerful.  And GORM works on multiple database <em>kinds</em> let alone products.</p>
+
+<p>```groovy
+package org.grails.samples</p>
+
+<p>/<em>*
+ * Simple domain object representing a pet.
+ *
+ * @author Graeme Rocher
+ </em>/
+class Pet {</p>
+
+<pre><code>String name
+Date birthDate
+PetType type
+Owner owner
+
+static hasMany = [visits: Visit]
+
+static constraints = {
+    name blank: false, validator: { name, pet -&gt;
+        if (!pet.id &amp;&amp; pet.owner?.pets?.find { it.name == name })  {
+            return 'pet.duplicate'
+        }
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Apparently Graeme doesn't want people to have duplicate pet names :-/</p>
+
+<h2>Summary</h2>
+
+<p>There is much more functionality to Grails than described above, but that is a good, quick, walk-through.  There
+are also certain conventions I believe are best practices on top of the Grails framework (e.g. 'RepoService' classes
+for Domain objects so functionality is easily and consistently located), but again that is an augmentation vs. being
+a requirement to getting a good picture of the system.</p>
+
+<p>Next I will go into the UI portion and options for that.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-3]]]></title>
