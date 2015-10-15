@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:24:24-07:00</updated>
+  <updated>2015-10-15T12:27:58-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -384,6 +384,8 @@ but also very powerful.  And GORM works on multiple database <em>kinds</em> let 
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>Apparently Graeme doesn&#8217;t want people to have duplicate pet names :-/</p>
 
 <h2>Summary</h2>
 
