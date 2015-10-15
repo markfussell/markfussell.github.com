@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:22:44-07:00</updated>
+  <updated>2015-10-15T12:24:24-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -128,8 +128,7 @@ Or at least LISP without a really powerful set of macros.</p>
 <p>As an example, the 'PetController' is the main UI functionality of the 'petclinic'.  But it has only 53 lines,
 a third of them are blank.  And a total of 150 'words'.</p>
 
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails5.png" />
-```groovy
+<p>```groovy
 package org.grails.samples</p>
 
 <p>class PetController {</p>

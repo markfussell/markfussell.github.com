@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:22:44-07:00</updated>
+  <updated>2015-10-15T12:24:24-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -127,8 +127,6 @@ Or at least LISP without a really powerful set of macros.</p>
 
 <p>As an example, the &#8216;PetController&#8217; is the main UI functionality of the &#8216;petclinic&#8217;.  But it has only 53 lines,
 a third of them are blank.  And a total of 150 &#8216;words&#8217;.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails5.png" /></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
