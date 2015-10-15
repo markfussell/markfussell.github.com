@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stack | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/stack/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T14:54:17-07:00</updated>
+  <updated>2015-10-15T15:00:39-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -152,9 +152,10 @@ are very nice if they fill your needs.</p>
 <p>The interesting part about server-side rendering is it says <em>nothing</em> about the sophistication of the page.  Or the number
 of pages (could be one... could be 1000).  I actually believe that server-side rendering must be considered the default
 and then you can decide how much to branch off from there.  PeerCase was mostly a one-page-application (in Sencha) and
-most of the client-server interaction was JSON.  But there were different version of the one-page-application depending
-on what kind of client hit the server.  The server bundled up the appropriate resources together and down-they went.
-Desktop clients got a lot a 'asset' requests because they can handle and cache them.  Mobile devices got a manifest.</p>
+most of the client-server interaction was JSON.  But there were different versions of the one-page-application depending
+on what kind of client hit the server.  The server bundled up the appropriate resources together and down-they-went.
+Desktop clients made a lot a 'asset' requests because they can handle them concurrently and cache them.
+Mobile devices got a manifest and did an update in the background.</p>
 
 <p>Grails is great at server-side rendering and can easily use Angular or any framework within each page.</p>
 
@@ -192,7 +193,8 @@ Desktop clients got a lot a 'asset' requests because they can handle and cache t
 
 <h4>Client-side</h4>
 
-<p>Client-side rendering is really more like 'separate client from server'.  It is making building the client a thing
+<p>Client-side rendering is really more like 'separate client from server' development.
+It is making "building the client" into somthing
 that makes sense independent of the server.  Picking this over server-side rendering is making a few statements:</p>
 
 <ul>
@@ -210,8 +212,8 @@ that makes sense independent of the server.  Picking this over server-side rende
 </ul>
 
 
-<p>And although you 'hit the backend' to get your first web page, the actual page (for most things) comes from
-the frontend build system and the 'api' is purely REST.</p>
+<p>And although you 'hit the backend' to get your first web page, that actual page comes from
+the frontend build system.  And in this case the 'api' is pure REST.</p>
 
 <p>```groovy
 class UrlMappings {</p>
@@ -238,7 +240,7 @@ class UrlMappings {</p>
 
 <p>Interestingly, the front-end is now a mostly-static web site.  The content isn't static because it depends on JSON,
 but most everything else is locked down.  So this is in some ways <em>less</em> flexible than the server side rendering.
-Fewer things can change without sending out a whole new page.</p>
+Fewer things can change without building another page and sending it out (deploying and referencing it).</p>
 
 <p>```html
 &lt;!doctype html>
@@ -341,12 +343,12 @@ send data or HTML both directions, hook into the device's capabilities. take ove
 <li>You hit a Java server</li>
 <li>It sends you a Flex application</li>
 <li>Most communication is based on JSON calls to the server</li>
-<li>But updates come through an open socket</li>
+<li>But updates to games, chats, and presence come through an open socket</li>
 </ul>
 
 
 <p>The reason for the socket is that you needed to be told of <em>other people's</em> actions.  Some technology (e.g. comet or the socket)
-had to be used for this.  Early on, a previous architect picked sockets, and although the protocol through the socket
+that can "push" updates to the client had to be used for this.  Early on, a previous architect picked sockets, and although the protocol through the socket
 improved / evolved, the actual use-of-socket was not swapped out.</p>
 
 <p>Rumble had an extreme hybrid model involving mostly open sockets to game servers,
@@ -360,7 +362,7 @@ communication.</p>
  users and prospects.  There are a number of different approaches that have different benefits.</p>
 
 <p> I recommend
- starting from the position of server-side rendering because that gives a lot of power with almost no cost.  It makes people
+ starting from the position of server-side rendering because that gives a lot of power with almost no extra cost.  It makes people
  work with the entire application and reduces chances of 'schisms' within the development team.  On the
  other hand, 'separate client' technologies are quite good and by thinking 'separate client' you may produce
  a somewhat better API.  But a 'schism' is more likely, testing is harder, and the separate client is
