@@ -175,6 +175,315 @@ pivoted a bit, but if you look at the site&#8230; it looks like Vegas or Reno:</
 <p>Turns out this web site is somewhat expensive because it was initially built in Flash and Flex (and
 when &#8216;converted&#8217; Jerry wanted to keep the feel).  So it needs to be quirkier than most web sites
  in spite of its graphic and content simplicity.</p>
+
+<p>For all of my most recent startups, the Face was a huge part:</p>
+
+<ul>
+<li>Rumble – Powerful games for powerful people</li>
+<li>PeerCase – Modern (iPad caliber), graphically elegant, but intuitive and medical (especially appealing to doctors)</li>
+<li>Vive – Must make exercise seem like fun</li>
+<li>FooMojo – Make sure virtual pets look as fun as real pets</li>
+<li>Winster – Vegas or bust!</li>
+</ul>
+
+
+<p>and each one had a different front-end technology <em>in spite of</em> being written mostly by me and having fairly similar
+ back-end technologies (Java, Rails, and Grails).  This isn&#8217;t because I like swapping out the front-end.  I offered
+ to use Flex for all of them.  But Flex isn&#8217;t mobile.  And the mobile space was of concern to everyone but &#8216;Winster&#8217;.</p>
+
+<h3>How do you implement?</h3>
+
+<p>By now you may be groaning:</p>
+
+<blockquote><p>OK. OK. I need to decide what &#8216;face&#8217; I want.  I will&#8230; I promise&#8230;
+But what are the choices for implementation?
+What is &#8216;plausibly&#8217; in the picture as a best implementation approach for the UI.</p></blockquote>
+
+<p>This is pretty easy.  There are simply three productive and effective choices&#8230; with some variants within them.</p>
+
+<ul>
+<li>Static web site.  By far the most productive and effective if it fills your needs.  You don&#8217;t write HTML, but the site gets generated from a technology like Markdown.  This site is made that way.</li>
+<li>Server-side rendering.  The next most productive and very effective if it fills your needs.  You don&#8217;t write HTML, you write something like GSPs which are templates that get expanded for each server hit.  The &#8216;petclinic&#8217; example is this kind of site.
+
+<ul>
+<li>Note this does not mean the client is doing nothing.  It may be doing a lot.  But the server is frequently interacted with to generate pages are partial-pages.</li>
+</ul>
+</li>
+<li>Client-side rendering.  The most sophisticated and if this can&#8217;t fill your need, you can always use either of the above.</li>
+</ul>
+
+
+<p>The final approach is &#8216;Native Application&#8217; or a &#8216;Native-enhanced web-app&#8217; but those need only be considered for very
+particular needs.</p>
+
+<p>Among these choices, only &#8216;Server&#8217; vs. &#8216;Client&#8217; lead down interesting paths.  There are lots of &#8216;static&#8217; tools so
+that is more an experience and &#8216;taste&#8217; issue.  Markdown is great, but it isn&#8217;t for everyone.  And SAAS like SquareSpace
+are very nice if they fill your needs.</p>
+
+<h4>Server-side</h4>
+
+<p>The interesting part about server-side rendering is it says <em>nothing</em> about the sophistication of the page.  Or the number
+of pages (could be one&#8230; could be 1000).  I actually believe that server-side rendering must be considered the default
+and then you can decide how much to branch off from there.  PeerCase was mostly a one-page-application (in Sencha) and
+most of the client-server interaction was JSON.  But there were different version of the one-page-application depending
+on what kind of client hit the server.  The server bundled up the appropriate resources together and down-they went.
+Desktop clients got a lot a &#8216;asset&#8217; requests because they can handle and cache them.  Mobile devices got a manifest.</p>
+
+<p>Grails is great at server-side rendering and can easily use Angular or any framework within each page.</p>
+
+<p>An example of this is the &#8216;angular-grails3&#8217; project.  This is just a grails application that includes angular like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=edge,chrome=1&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;title&gt;&lt;g:layoutTitle</span> <span class="na">default=</span><span class="s">&quot;Grails&quot;</span><span class="nt">/&gt;&lt;/title&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nt">&lt;asset:stylesheet</span> <span class="na">src=</span><span class="s">&quot;application.css&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;asset:script</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            angular.module(&#39;myApp.core.constants&#39;)
+</span><span class='line'>                .constant(&#39;rootUrl&#39;, &#39;${grailsApplication.config.angular.rootUrl}&#39;)
+</span><span class='line'>                .constant(&#39;pageSize&#39;, &#39;${grailsApplication.config.angular.pageSize}&#39;)
+</span><span class='line'>                .constant(&#39;dateFormat&#39;, &#39;${grailsApplication.config.angular.dateFormat}&#39;);
+</span><span class='line'>        <span class="nt">&lt;/asset:script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;asset:javascript</span> <span class="na">src=</span><span class="s">&quot;application.js&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;asset:deferredScripts</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;g:layoutHead/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body</span> <span class="na">id=</span><span class="s">&quot;ng-app&quot;</span> <span class="na">ng-app=</span><span class="s">&quot;${pageProperty(name: &#39;body.ng-app&#39;) ?: &#39;myApp&#39;}&quot;</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and voilà, we have Angular running in a page that can access Grails configuration and application capabilities.</p>
+
+<h4>Client-side</h4>
+
+<p>Client-side rendering is really more like &#8216;separate client from server&#8217;.  It is making building the client a thing
+that makes sense independent of the server.  Picking this over server-side rendering is making a few statements:</p>
+
+<ul>
+<li>We want to leverage &#8216;separate-client&#8217; technology</li>
+<li>We may have people who are comfortable with &#8216;separate-client&#8217; technology and not with the server technology</li>
+<li>We want to increase the chance that we don&#8217;t do something stupid that prevents us from swapping server or client</li>
+</ul>
+
+
+<p>An example of this approach is the &#8216;grails3-angular-duo&#8217; project which has a:</p>
+
+<ul>
+<li>backend – In grails</li>
+<li>frontend – In Angular + Gulp, Bower, Karma, etc.</li>
+</ul>
+
+
+<p>And although you &#8216;hit the backend&#8217; to get your first web page, the actual page (for most things) comes from
+the frontend build system and the &#8216;api&#8217; is purely REST.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kd">class</span> <span class="nc">UrlMappings</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">static</span> <span class="n">mappings</span> <span class="o">=</span> <span class="o">{</span>
+</span><span class='line'>        <span class="s2">&quot;/$controller/$action?/$id?(.$format)?&quot;</span><span class="o">{</span>
+</span><span class='line'>            <span class="n">constraints</span> <span class="o">{</span>
+</span><span class='line'>                <span class="c1">// apply constraints here</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="s2">&quot;/&quot;</span><span class="o">(</span><span class="nl">redirect:</span><span class="s2">&quot;/frontend/index.html&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="s2">&quot;500&quot;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/error&#39;</span><span class="o">)</span>
+</span><span class='line'>        <span class="s2">&quot;404&quot;</span><span class="o">(</span><span class="nl">view:</span><span class="s1">&#39;/notFound&#39;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="s2">&quot;/api/books&quot;</span><span class="o">(</span><span class="nl">resources:</span><span class="s2">&quot;book&quot;</span><span class="o">)</span>
+</span><span class='line'>        <span class="s2">&quot;/api/authors&quot;</span><span class="o">(</span><span class="nl">resources:</span><span class="s2">&quot;author&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Amusingly, the front-end is now effectively a complete static web site:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!doctype html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=edge&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;description&quot;</span> <span class="na">content=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;shortcut icon&quot;</span> <span class="na">href=</span><span class="s">&quot;favicon.ico&quot;</span> <span class="na">type=</span><span class="s">&quot;image/x-icon&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- build:css styles/vendor.css --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- bower:css --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- endbower --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;bower_components/bootstrap/dist/css/bootstrap.css&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- endbuild --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- build:css({.tmp,app}) styles/main.css --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;styles/main.css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- endbuild --&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body</span> <span class="na">ng-app=</span><span class="s">&quot;duo&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!--[if lt IE 7]&gt;</span>
+</span><span class='line'><span class="c">      &lt;p class=&quot;browsehappy&quot;&gt;You are using an &lt;strong&gt;outdated&lt;/strong&gt; browser. Please &lt;a href=&quot;http://browsehappy.com/&quot;&gt;upgrade your browser&lt;/a&gt; to improve your experience.&lt;/p&gt;</span>
+</span><span class='line'><span class="c">    &lt;![endif]--&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;header&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav nav-pills pull-right&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;active&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">ng-href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">ng-href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">ng-href=</span><span class="s">&quot;#&quot;</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h3</span> <span class="na">class=</span><span class="s">&quot;text-muted&quot;</span><span class="nt">&gt;</span>DUO<span class="nt">&lt;/h3&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;jumbotron&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h1&gt;</span>Grails Angular Duo Sample<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&lt;!-- Add your site or application content here --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span> <span class="na">ng-view=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;footer&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>Using : AngularJS, ngRoute, Restangular<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&lt;!-- build:js scripts/vendor.js --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- bower:js --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/jquery/dist/jquery.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular/angular.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-animate/angular-animate.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-aria/angular-aria.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-cookies/angular-cookies.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-messages/angular-messages.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-route/angular-route.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-sanitize/angular-sanitize.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/angular-touch/angular-touch.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/bootstrap/dist/js/bootstrap.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/lodash/lodash.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;bower_components/restangular/dist/restangular.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- endbower --&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- endbuild --&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c">&lt;!-- build:js({.tmp,app}) scripts/scripts.js --&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;scripts/app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;scripts/controllers/list-author.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;scripts/controllers/create-author.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;scripts/controllers/edit-author.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- endbuild --&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 

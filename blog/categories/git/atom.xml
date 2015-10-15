@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T13:47:16-07:00</updated>
+  <updated>2015-10-15T14:16:49-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -102,6 +102,218 @@ pivoted a bit, but if you look at the site... it looks like Vegas or Reno:</p>
 <p>Turns out this web site is somewhat expensive because it was initially built in Flash and Flex (and
 when 'converted' Jerry wanted to keep the feel).  So it needs to be quirkier than most web sites
  in spite of its graphic and content simplicity.</p>
+
+<p>For all of my most recent startups, the Face was a huge part:</p>
+
+<ul>
+<li>Rumble – Powerful games for powerful people</li>
+<li>PeerCase – Modern (iPad caliber), graphically elegant, but intuitive and medical (especially appealing to doctors)</li>
+<li>Vive – Must make exercise seem like fun</li>
+<li>FooMojo – Make sure virtual pets look as fun as real pets</li>
+<li>Winster – Vegas or bust!</li>
+</ul>
+
+
+<p>and each one had a different front-end technology <em>in spite of</em> being written mostly by me and having fairly similar
+ back-end technologies (Java, Rails, and Grails).  This isn't because I like swapping out the front-end.  I offered
+ to use Flex for all of them.  But Flex isn't mobile.  And the mobile space was of concern to everyone but 'Winster'.</p>
+
+<h3>How do you implement?</h3>
+
+<p>By now you may be groaning:</p>
+
+<blockquote><p>OK. OK. I need to decide what 'face' I want.  I will... I promise...
+But what are the choices for implementation?
+What is 'plausibly' in the picture as a best implementation approach for the UI.</p></blockquote>
+
+<p>This is pretty easy.  There are simply three productive and effective choices... with some variants within them.</p>
+
+<ul>
+<li>Static web site.  By far the most productive and effective if it fills your needs.  You don't write HTML, but the site gets generated from a technology like Markdown.  This site is made that way.</li>
+<li>Server-side rendering.  The next most productive and very effective if it fills your needs.  You don't write HTML, you write something like GSPs which are templates that get expanded for each server hit.  The 'petclinic' example is this kind of site.
+
+<ul>
+<li>Note this does not mean the client is doing nothing.  It may be doing a lot.  But the server is frequently interacted with to generate pages are partial-pages.</li>
+</ul>
+</li>
+<li>Client-side rendering.  The most sophisticated and if this can't fill your need, you can always use either of the above.</li>
+</ul>
+
+
+<p>The final approach is 'Native Application' or a 'Native-enhanced web-app' but those need only be considered for very
+particular needs.</p>
+
+<p>Among these choices, only 'Server' vs. 'Client' lead down interesting paths.  There are lots of 'static' tools so
+that is more an experience and 'taste' issue.  Markdown is great, but it isn't for everyone.  And SAAS like SquareSpace
+are very nice if they fill your needs.</p>
+
+<h4>Server-side</h4>
+
+<p>The interesting part about server-side rendering is it says <em>nothing</em> about the sophistication of the page.  Or the number
+of pages (could be one... could be 1000).  I actually believe that server-side rendering must be considered the default
+and then you can decide how much to branch off from there.  PeerCase was mostly a one-page-application (in Sencha) and
+most of the client-server interaction was JSON.  But there were different version of the one-page-application depending
+on what kind of client hit the server.  The server bundled up the appropriate resources together and down-they went.
+Desktop clients got a lot a 'asset' requests because they can handle and cache them.  Mobile devices got a manifest.</p>
+
+<p>Grails is great at server-side rendering and can easily use Angular or any framework within each page.</p>
+
+<p>An example of this is the 'angular-grails3' project.  This is just a grails application that includes angular like this:</p>
+
+<p>```html
+&lt;!DOCTYPE html>
+<html lang="en"></p>
+
+<pre><code>&lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"&gt;
+    &lt;title&gt;&lt;g:layoutTitle default="Grails"/&gt;&lt;/title&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+    &lt;asset:stylesheet src="application.css"/&gt;
+
+    &lt;asset:script type="text/javascript"&gt;
+        angular.module('myApp.core.constants')
+            .constant('rootUrl', '${grailsApplication.config.angular.rootUrl}')
+            .constant('pageSize', '${grailsApplication.config.angular.pageSize}')
+            .constant('dateFormat', '${grailsApplication.config.angular.dateFormat}');
+    &lt;/asset:script&gt;
+
+    &lt;asset:javascript src="application.js"/&gt;
+    &lt;asset:deferredScripts /&gt;
+    &lt;g:layoutHead/&gt;
+&lt;/head&gt;
+&lt;body id="ng-app" ng-app="${pageProperty(name: 'body.ng-app') ?: 'myApp'}"&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>and voilà, we have Angular running in a page that can access Grails configuration and application capabilities.</p>
+
+<h4>Client-side</h4>
+
+<p>Client-side rendering is really more like 'separate client from server'.  It is making building the client a thing
+that makes sense independent of the server.  Picking this over server-side rendering is making a few statements:</p>
+
+<ul>
+<li>We want to leverage 'separate-client' technology</li>
+<li>We may have people who are comfortable with 'separate-client' technology and not with the server technology</li>
+<li>We want to increase the chance that we don't do something stupid that prevents us from swapping server or client</li>
+</ul>
+
+
+<p>An example of this approach is the 'grails3-angular-duo' project which has a:</p>
+
+<ul>
+<li>backend – In grails</li>
+<li>frontend – In Angular + Gulp, Bower, Karma, etc.</li>
+</ul>
+
+
+<p>And although you 'hit the backend' to get your first web page, the actual page (for most things) comes from
+the frontend build system and the 'api' is purely REST.</p>
+
+<p>```groovy
+class UrlMappings {</p>
+
+<pre><code>static mappings = {
+    "/$controller/$action?/$id?(.$format)?"{
+        constraints {
+            // apply constraints here
+        }
+    }
+
+    "/"(redirect:"/frontend/index.html")
+    "500"(view:'/error')
+    "404"(view:'/notFound')
+
+    "/api/books"(resources:"book")
+    "/api/authors"(resources:"author")
+
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Amusingly, the front-end is now effectively a complete static web site:</p>
+
+<p>```html
+&lt;!doctype html>
+  <head></p>
+
+<pre><code>&lt;meta charset="utf-8"&gt;
+&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;meta name="description" content=""&gt;
+&lt;meta name="viewport" content="width=device-width"&gt;
+&lt;link rel="shortcut icon" href="favicon.ico" type="image/x-icon"&gt;
+&lt;!-- build:css styles/vendor.css --&gt;
+&lt;!-- bower:css --&gt;
+&lt;!-- endbower --&gt;
+&lt;link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" /&gt;
+&lt;!-- endbuild --&gt;
+&lt;!-- build:css({.tmp,app}) styles/main.css --&gt;
+&lt;link rel="stylesheet" href="styles/main.css"&gt;
+&lt;!-- endbuild --&gt;
+</code></pre>
+
+<p>  </head>
+  <body ng-app="duo"></p>
+
+<pre><code>&lt;!--[if lt IE 7]&gt;
+  &lt;p class="browsehappy"&gt;You are using an &lt;strong&gt;outdated&lt;/strong&gt; browser. Please &lt;a href="http://browsehappy.com/"&gt;upgrade your browser&lt;/a&gt; to improve your experience.&lt;/p&gt;
+&lt;![endif]--&gt;
+
+&lt;div class="header"&gt;
+  &lt;ul class="nav nav-pills pull-right"&gt;
+    &lt;li class="active"&gt;&lt;a ng-href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a ng-href="#"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a ng-href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;h3 class="text-muted"&gt;DUO&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;div class="jumbotron"&gt;
+  &lt;h1&gt;Grails Angular Duo Sample&lt;/h1&gt;
+
+&lt;!-- Add your site or application content here --&gt;
+&lt;div class="container" ng-view=""&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class="footer"&gt;
+  &lt;p&gt;Using : AngularJS, ngRoute, Restangular&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- build:js scripts/vendor.js --&gt;
+&lt;!-- bower:js --&gt;
+&lt;script src="bower_components/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular/angular.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-animate/angular-animate.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-aria/angular-aria.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-cookies/angular-cookies.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-messages/angular-messages.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-route/angular-route.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-sanitize/angular-sanitize.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/angular-touch/angular-touch.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/bootstrap/dist/js/bootstrap.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/lodash/lodash.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/restangular/dist/restangular.js"&gt;&lt;/script&gt;
+&lt;!-- endbower --&gt;
+&lt;!-- endbuild --&gt;
+
+&lt;!-- build:js({.tmp,app}) scripts/scripts.js --&gt;
+&lt;script src="scripts/app.js"&gt;&lt;/script&gt;
+&lt;script src="scripts/controllers/list-author.js"&gt;&lt;/script&gt;
+&lt;script src="scripts/controllers/create-author.js"&gt;&lt;/script&gt;
+&lt;script src="scripts/controllers/edit-author.js"&gt;&lt;/script&gt;
+&lt;!-- endbuild --&gt;
+</code></pre>
+
+<p></body>
+</html>
+```</p>
 ]]></content>
   </entry>
   
