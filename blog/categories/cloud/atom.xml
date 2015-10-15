@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T09:11:50-07:00</updated>
+  <updated>2015-10-15T09:14:40-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -37,6 +37,9 @@ customer, you need to figure out what is the bottleneck and get rid of it (e.g. 
 useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
 So you can't avoid testing you software.  You can only augment/change <em>who</em> or <em>what</em> tests your software.  There
  are a number of options:</p>
+
+<!--more-->
+
 
 <ul>
 <li>Users – Guaranteed unless you have none</li>
