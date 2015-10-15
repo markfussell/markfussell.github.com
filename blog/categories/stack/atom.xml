@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stack | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/stack/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:20:36-07:00</updated>
+  <updated>2015-10-15T12:22:44-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -112,8 +112,8 @@ for a modern web application:</p>
 
 <h3>Modern logging with 'logback'</h3>
 
-<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback' <a href="http://logback.qos.ch">http://logback.qos.ch</a>
-framework.</p>
+<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback'
+<a href="http://logback.qos.ch">http://logback.qos.ch</a> framework.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
 
@@ -123,12 +123,69 @@ framework.</p>
 accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.</p>
 
 <p>With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
-Or at least LISP without a really powerful macros.</p>
+Or at least LISP without a really powerful set of macros.</p>
 
 <p>As an example, the 'PetController' is the main UI functionality of the 'petclinic'.  But it has only 53 lines,
 a third of them are blank.  And a total of 150 'words'.</p>
 
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails5.png" /></p>
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails5.png" />
+```groovy
+package org.grails.samples</p>
+
+<p>class PetController {</p>
+
+<pre><code>def petclinicService
+
+def add() {
+    if (request.method == 'GET') {
+        return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
+    }
+
+    def pet = petclinicService.createPet(params.pet_name, params.pet?.birthDate,
+        (params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
+
+    if (pet.hasErrors()) {
+        return [pet: pet, types: PetType.list()]
+    }
+
+    redirect controller: 'owner', action: 'show', id: pet.owner.id
+}
+
+def edit() {
+    if (request.method == 'GET') {
+        render view: 'add', model: [pet: Pet.get(params.id), types: PetType.list()]
+        return
+    }
+
+    def pet = Pet.get(params.id)
+
+    petclinicService.updatePet(pet, params.pet_name, params.pet?.birthDate,
+        (params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
+
+    if (pet.hasErrors()) {
+        render view: 'add', model: [pet: pet, types: PetType.list()]
+    }
+    else {
+        redirect controller: 'owner', action: 'show', id: pet.owner.id
+    }
+}
+
+def addVisit() {
+    if (request.method == 'GET') {
+        return [visit: new Visit(pet: Pet.get(params.id))]
+    }
+
+    def visit = petclinicService.createVisit((params.visit?.pet?.id ?: 0) as Long, params.visit?.description, params.visit?.date)
+    if (visit.hasErrors()) {
+        return [visit: visit]
+    }
+
+    redirect controller: 'owner', action: 'show', id: visit.pet.owner.id
+}
+</code></pre>
+
+<p>}
+```</p>
 
 <p>It's functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
 basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)

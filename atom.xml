@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:20:36-07:00</updated>
+  <updated>2015-10-15T12:22:44-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -112,8 +112,8 @@ for a modern web application:</p>
 
 <h3>Modern logging with &#8216;logback&#8217;</h3>
 
-<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern &#8216;logback&#8217; <a href="http://logback.qos.ch">http://logback.qos.ch</a>
-framework.</p>
+<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern &#8216;logback&#8217;
+<a href="http://logback.qos.ch">http://logback.qos.ch</a> framework.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
 
@@ -123,12 +123,121 @@ framework.</p>
 accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.</p>
 
 <p>With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
-Or at least LISP without a really powerful macros.</p>
+Or at least LISP without a really powerful set of macros.</p>
 
 <p>As an example, the &#8216;PetController&#8217; is the main UI functionality of the &#8216;petclinic&#8217;.  But it has only 53 lines,
 a third of them are blank.  And a total of 150 &#8216;words&#8217;.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails5.png" /></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">grails</span><span class="o">.</span><span class="na">samples</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">class</span> <span class="nc">PetController</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">petclinicService</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="nf">add</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">pet:</span> <span class="k">new</span> <span class="n">Pet</span><span class="o">(</span><span class="nl">owner:</span> <span class="n">Owner</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">owner</span><span class="o">?.</span><span class="na">id</span><span class="o">)),</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kt">def</span> <span class="n">pet</span> <span class="o">=</span> <span class="n">petclinicService</span><span class="o">.</span><span class="na">createPet</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet_name</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">birthDate</span><span class="o">,</span>
+</span><span class='line'>          <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">type</span><span class="o">?.</span><span class="na">id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">,</span> <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet_owner_id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">pet</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">pet:</span> <span class="n">pet</span><span class="o">,</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="nf">edit</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">render</span> <span class="nl">view:</span> <span class="s1">&#39;add&#39;</span><span class="o">,</span> <span class="nl">model:</span> <span class="o">[</span><span class="nl">pet:</span> <span class="n">Pet</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">id</span><span class="o">),</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
+</span><span class='line'>          <span class="k">return</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kt">def</span> <span class="n">pet</span> <span class="o">=</span> <span class="n">Pet</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">id</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">petclinicService</span><span class="o">.</span><span class="na">updatePet</span><span class="o">(</span><span class="n">pet</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">pet_name</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">birthDate</span><span class="o">,</span>
+</span><span class='line'>          <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">type</span><span class="o">?.</span><span class="na">id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">,</span> <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet_owner_id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">pet</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">render</span> <span class="nl">view:</span> <span class="s1">&#39;add&#39;</span><span class="o">,</span> <span class="nl">model:</span> <span class="o">[</span><span class="nl">pet:</span> <span class="n">pet</span><span class="o">,</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>      <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>          <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="nf">addVisit</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">visit:</span> <span class="k">new</span> <span class="n">Visit</span><span class="o">(</span><span class="nl">pet:</span> <span class="n">Pet</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">id</span><span class="o">))]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kt">def</span> <span class="n">visit</span> <span class="o">=</span> <span class="n">petclinicService</span><span class="o">.</span><span class="na">createVisit</span><span class="o">((</span><span class="n">params</span><span class="o">.</span><span class="na">visit</span><span class="o">?.</span><span class="na">pet</span><span class="o">?.</span><span class="na">id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">visit</span><span class="o">?.</span><span class="na">description</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">visit</span><span class="o">?.</span><span class="na">date</span><span class="o">)</span>
+</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">visit</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">visit:</span> <span class="n">visit</span><span class="o">]</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">visit</span><span class="o">.</span><span class="na">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>It&#8217;s functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
 basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
