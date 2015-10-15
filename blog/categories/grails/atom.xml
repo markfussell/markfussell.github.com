@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T09:14:40-07:00</updated>
+  <updated>2015-10-15T09:20:01-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -93,7 +93,7 @@ They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And 
 <p>It is a variant of the XP 'test first' mentality.  And it is completely idiotic.  Because it makes you focus on
 the 'how' instead of the 'what'.  Your customer does not care you wrote something in Java or C.  With Spring
 or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
-And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you</em> can't be continuously
+And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you can't be</em> continuously
 testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
 might investigate why it broke and do a periodic check in the future.  But you <em>do</em> by <em>doing</em>, and not with a
 fear of failing on each step of the way.  You are paid to <em>do</em> not to <em>be afraid</em>.  <em>Do</em>, <em>Fail</em>, <em>Learn</em>, <em>Do</em></p>
@@ -108,15 +108,15 @@ the code itself.  But these are a limited set that covers a slice of the system,
 for automated testing in Spring / Java are:</p>
 
 <ul>
-<li> Grub</li>
-<li> Spock</li>
+<li> Spock – https://code.google.com/p/spock/</li>
+<li> Geb – https://github.com/geb/geb</li>
 </ul>
 
 
-<p>So Grails leverages these and has testing built-in to the framework.  It automatically generates test stubs for Controllers
-(the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration and unit tests.
-I prefer integration tests as they are the most "from the outside", but all the different tests are useful in
-different amounts (some are faster to run).</p>
+<p>So Grails leverages these and has testing built-in to the framework.  It can automatically generate test stubs for
+Controllers (the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration
+and unit tests. I prefer integration tests as they are the most "from the outside", but all the different tests
+are useful in different amounts (some are faster to run).</p>
 
 <p>For our 'petclinic', it has a number of tests of two different kinds:</p>
 
@@ -129,6 +129,10 @@ different amounts (some are faster to run).</p>
 <h4>Grub / Integration tests</h4>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails3.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails4.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails5.png" /></p>
 
 <p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
 the ability to be doing different kinds of tests.  But this basic idea is the above.</p>
