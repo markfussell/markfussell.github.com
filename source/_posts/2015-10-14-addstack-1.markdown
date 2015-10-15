@@ -1,0 +1,213 @@
+---
+layout: post
+title: "ADD Stack [Part-1]"
+date: 2015-10-14 1:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing a radically more productive development and delivery environment.
+
+## Review of the first series
+
+The first series start here: [Intro](/blog/add-1/) and ends here: [Voilà!](/blog/add-11/).  The bulk of the
+series was describing how to combine four ingredients:
+
+  * Amazon EC2 <http://aws.amazon.com/>
+  * Amazon S3  <http://aws.amazon.com/>
+  * GitHub.com <http://github.com/>
+  * HipChat    <http://HipChat.com/>
+
+in a way that gives individuals and teams 4x or more productivity.  These resulting environment solves problems for
+all three roles in a development team:
+
+  * Changers
+  * Watchers
+  * Machines
+
+And can be envisioned as so:
+
+<img width="432" height="414" src="/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" />
+
+Along the way, the ingredients combined to make:
+
+  * Machines automatically launch and configure themselves, including hooking them up to each other (auto-wire)
+  * Changes to IT roll out automatically to all the running machines.
+  * Changes to the application roll out automatically to all the running machines.
+  * Creating new environments to be as easy providing a simple parameter (e.g. "fed2") to a CloudFormation
+  * The whole thing working on EC2 or inside a Vagrant container... or even on bare metal (but that was not shown)
+  * Incredible visibility into everything that happens within HipChat... for the whole team.
+
+By the end, we had machines tell us when they launched, when they were operational, when they were deploying a new
+version, and whether that new version deployed successfully.
+
+
+<img src="/images/add-11/add11_autodeploy1.png" />
+
+and finally, we had a running application at a human-usable URL:
+
+<img src="/images/add-11/add11_dns1.png" />
+
+That could be scaled to any number of servers as load demands.
+
+## Second series
+
+The above is the core of the ADD and enabling team productivity and customer visibility (even happiness)
+to shoot through the roof.  It by itself is basically 'complete'.  It is missing some details, nuances,
+augmentation, and such.  But it alone is the core of a 4x productivity.
+
+
+> "Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
+> What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
+> to use with this ADD?!!"
+
+Ah... yes.  Over my _thirty five years_ and estimated _thirty five thousand hours_ of developing software,
+I have encountered all these things.  I do have opinions
+on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.
+
+How little?  Maybe... maybe... 2x.
+
+<!--more-->
+
+I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
+a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
+Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
+most of it from scratch... because there are no libraries).  I bet I lost 4x in productivity.  And then another 2x
+when people started mucking with my code.  4x is a lot.  2x is a little.
+And if you try to get the '2x' but lose the '4x' you just did a win-LOSE bad tradeoff.
+
+### Lies
+
+There are a lot of lies or confusions in the software industry.  During the nineties we tried to get rid of a lot of them
+through actual research-based observations (e.g. "The Mythical Man-Month" by Fred Brooks) and experience-based
+ observations (e.g. "The Agile Manifesto" by Kent, Ken, Ward, etc.).  The _truth_ of software
+is available... but the lies hide it.  And people can't tell the difference.  And don't believe the science.  Or are
+too scared of losing their jobs (or having a more boring job) if they believe and speak the truth vs. the lie.
+
+#### Truth: One Brain
+
+I will first start with among the best researched truth there is:
+
+  * The best software is created by one primary, talented, and skilled 'brain'
+    * Potentially accompanied by some number of 'assistants'
+
+This is the 'surgical team' model.  You want one primary, talented, and skilled 'Surgeon'.  A 'Surgeon' with many thousands
+if not many tens-of-thousands of hours of experience.  Nurses can help.  Support doctors can help.  Even other surgeons can
+help.  If the operation is long enough, you might need multiple primary surgeons who pass the baton along to each other.
+But if someone is opening your body... you want that person to be fully responsible, fully accountable, insanely competent,
+and insanely skilled.  An insanely great surgeon.  She will charge you a lot, and you will get a lot in return.
+
+Software is the same.  The best software is create by one primary, talented, and skilled 'Engineer'. An 'Engineer' with
+many thousands if not many tens-of-thousands of hours of experience.  QA can help.  Support programmers can help.  Software is
+ never needed so quickly as to require a hourly baton, but that can happen if the 'Engineer' moves on to other things.
+
+If someone is writing an application that you want to be valuable to you... you want that person to be fully responsible,
+fully accountable, insanely competent, and insanely skilled.  An insanely great engineer.
+She will charge you a lot, and you will get a lot in return.
+
+#### Lie: All together now!
+
+But software developers don't like this truth.  They think they (after less than 5000 hours) can be the point person
+for building an application.  I don't mean 5000 hours _of work_ I mean 5000 hours _in surgery_ and that is after say
+2x the amount of hours of _studying surgery_  So 10,000 hours of studying how to build software applications and 5,000
+hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
+spend half of it actually on either of those tasks... it would take you about 15 years to be 'an Engineer'.  Ten years
+of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.
+
+But again, developers don't like this truth and instead they say: "If a bunch of us get together we can reproduce that
+surgeon with each of our individual skills."
+
+But this is saying: "Nine people who can dissect frogs can perform brain surgery", or
+"Nine club tennis players can beat Roger Federer if they tag-team".  Or "Nine people who are good in the
+kitchen can together produce a better meal than Gordon Ramsey in a throw down".  Or...
+
+Hopefully by shifting the context you can see the impossibility of it.  It makes absolutely no sense, yet the lie is
+propagated so much as to be systemically the status quo.  Even the smallest XP version of the lie "You need two people to write better software" is
+ludicrous.  Better to have _two surgeons_ perform _two different operations_ at the same time... and save _two_ lives.
+There is nothing wrong with having an apprentice watch / help.  But that is _training_ (somewhat to both parties) not
+_doing_
+
+#### Truth: Customer Rules
+
+The second truth is that the _customer_ rules.  If the customer is happy... WIN!  If they are not happy... :-(
+
+Given this is _sort of_ in the Agile Manifesto you would think it would be well known now that everyone is 'Going Agile'.
+But reviewing the [Agile Manifesto](http://www.agilemanifesto.org), I see that it "backed off" saying what it should say.
+The lines that it should have within it are:
+
+  * Working software over ...everything...
+  * Customer happiness over ...everything...
+
+But because software developers think they are special... unusually talented in a way that is beyond the customer... like 'artists'...
+they think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say 'Food':
+
+   * Working food (e.g. good produce, a cooked meal, etc.) over ???
+   * Customer happiness over ???
+
+Pretty sure if you nail the second bullet, you nailed the first one (and maybe some more).  And not nailing both these
+bullets is a path to failure.  The question marks
+are replaceable with 'everything not mentioned'.  So the actual pyramid is this:
+
+  * Happy Customer (100%)
+    * Delivered good product (80%)
+      * All the stuff needed to do the above
+    * Other aspects of delivering (20%) –  E.g. customer interaction, appearance of product or delivery person, etc.
+      * All the stuff needed to do the above
+
+You are allowed to have less than totally happy customers.  But you should try to fix that.  You should care.
+Otherwise you are resigning yourself to  being content with the quality of your product being sub-par.  And likely
+headed downward.
+
+You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
+bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that _your customer_
+shouldn't be 100% happy... or at least as happy as you can make them.
+
+#### Lie: Automated Testing and Quality Verification
+
+The second lie is that _instead of_ trying to make the customer 100% happy, we are going to make our automated
+tests and our QA verification servers happy.  We are going to make them _more_ happy than our customer and _before_
+we make our customer happy.
+
+This actually pops up as a 'truth' in education too.  We try to make the tests happy as opposed to the students,
+except in exceptional schools that Think Different.  But
+in most any _normal_ industry, making a 'test' happy instead of a customer is a crazy and effective way to
+go out of business.  Say we inspected and tested _every_ hamburger before it went out the door.  Fast food would
+take on a whole new meaning as it took minutes per-person to do the inspection.  And things like 'salad' would
+be unservable.  Salad almost always has something weird in it, and finding it takes about the same amount of time
+as eating it.  And it would basically destroy / consume the salad as you checked each leaf, fruit, and nut.
+
+Again, automated testing is _useful_.  But it is not _necessary_.  And it doesn't trump releasing to a customer
+so they can see the 'Delivered good product'.
+
+### Conclusion : Customer's One Powerful Right and Responsibility
+
+The ADD described so far, efficiently, effectively, and production-worthy scalably enabled one simple thing:
+
+<img src="/images/add-11/add11_dns1.png" />
+
+That is a delivered good product (if you want to run a Pet Clinic).  What the application is beneath that, and
+what processes were used to develop it, are all "of little importance".  There are many ways to develop
+an identical web site.  The stack and method I will describe is just one of them.  It is a reference
+that I consider a "Best Practice" among alternative "Best Practice" possibilities.  And all of these alternatives
+get measured by exactly one macro criteria: "Customer Satisfaction".  For example:
+
+  * Buggy in production, customer is less happy.
+  * Take longer to build, customer is less happy.
+
+Neither of the above trumps the other.  The ratio between them 'depends'.  And that ratio is totally under
+the customer's control.  They may not know the ratio before the fact, but while 'driving' the system they
+_have every right and even responsibility_ to complain.  The development team can make an 'Educated Guess'
+at the start of the project
+but if the customer complains, they need to address that complaint and _change_ the process, tools, people,
+or office space _as much as possible and reasonable_ to make the customer more happy.  Maybe just a little
+change to become a little more happy: we aren't prescient and you don't know if the change will cause havoc
+(everyone quits) or even address the issue.  But you address the complaint with an another 'Educated Guess'.
+Over and over.
+
+What should your development process be?  It depends... on your customer and your product and your team and
+... The reason you need an Engineer is they make great 'Educated Guesses'.  And can iterate incredibly
+quickly to fine tune the process and tools to what will work for the customer and the development team.
+
+But the following parts of this series will be a good start.  It is my best recommendation in 2015 for a modern,
+JVM-based, web-delivered, set of development methods, tools, frameworks, and other components.
+
