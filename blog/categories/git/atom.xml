@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:17:23-07:00</updated>
+  <updated>2015-10-15T12:19:30-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -62,7 +62,8 @@ of the project.</p>
 <h3>Align with Hibernate, but allow others (include NoSQL)</h3>
 
 <p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
-through GORM to other systems.  Some capabilities go away but basic schema control is there.</p>
+through GORM to other systems.  Some capabilities go away but basic schema and query capability (CRUD)
+is always there.  And depending on the product, some higher level query capabilities may also be present.</p>
 
 <h3>Use modern testing frameworks</h3>
 
@@ -249,6 +250,8 @@ static constraints = {
 are also certain conventions I believe are best practices on top of the Grails framework (e.g. 'RepoService' classes
 for Domain objects so functionality is easily and consistently located), but again that is an augmentation vs. being
 a requirement to getting a good picture of the system.</p>
+
+<p>Next I will go into the UI portion and options for that.</p>
 ]]></content>
   </entry>
   
