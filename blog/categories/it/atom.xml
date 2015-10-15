@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:27:58-07:00</updated>
+  <updated>2015-10-15T12:30:34-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -27,17 +27,18 @@ The second article dealt with 'Testing'.</p>
 <p>The primary stack I believe is a "Best Practice" is Grails.  It is in it's third full generation, and with
 each generation it gets better, easier, more powerful, and more 'aligned'.  This last part is not that
 common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
-code.  The Grails team has been great at 'pruning' and 'aligning' with Spring.</p>
+code.  The Grails team has been great at 'pruning' and 'aligning' with Spring and other frameworks.</p>
 
 <p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don't
 know why.  Either they don't read the tutorials... or they get confused and a deadline is approaching... or they
-are cowboys (and cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
+are cowboys (or cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
 I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
 functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
-wrong with Spring but it is harder to use properly than Grails.</p>
+wrong with Spring but it is harder to use properly than Grails.  Spring Boot is trying to help with that.  Grails
+is just better.</p>
 
-<p>Grails is 'opinionated' and has plenty of examples to show you these opinions.  We can see it in the 'petclinic'
-example.</p>
+<p>Grails is 'opinionated' and 'functional' and has plenty of examples to show you these opinions and capabilities.
+We can see a lot of it in the 'petclinic' example.</p>
 
 <h3>Build with Gradle</h3>
 
