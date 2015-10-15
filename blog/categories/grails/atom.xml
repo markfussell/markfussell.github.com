@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T12:04:49-07:00</updated>
+  <updated>2015-10-15T12:17:23-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -132,6 +132,123 @@ a third of them are blank.  And a total of 150 'words'.</p>
 <p>It's functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
 basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
 and 99%+ of the web is just doing CRUD.  90%+ is just Read.</p>
+
+<h4>Automatic Wiring</h4>
+
+<p>A lot of things are happening with this controller.  The simple statement</p>
+
+<p><code>groovy
+def petclinicService
+</code></p>
+
+<p>gets automatically wired to PetclinicService in the services folder.</p>
+
+<h4>Automatic Rendering</h4>
+
+<p>The line</p>
+
+<p>```groovy</p>
+
+<pre><code>        return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
+</code></pre>
+
+<p>```</p>
+
+<p>causes the view 'pet/add.gsp' to render with that 'pet' and 'types' property set.  So the HTML can also be
+quite terse:</p>
+
+<p>```html
+<html></p>
+
+<pre><code>&lt;head&gt;
+    &lt;meta name="layout" content="main"&gt;
+    &lt;title&gt;${ pet.id ? 'Update' : 'Add'} Pet&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body id="add"&gt;
+    &lt;h2&gt;&lt;g:if test="${!pet.id}"&gt;New &lt;/g:if&gt;Pet&lt;/h2&gt;
+
+    &lt;b&gt;Owner:&lt;/b&gt; ${pet.owner?.firstName} ${pet.owner?.lastName}
+    &lt;br/&gt;
+</code></pre>
+
+<p>```</p>
+
+<h4>Powerful redirect and delegation</h4>
+
+<p>Grails can control the client with redirects or delegate to other controllers behind the scenes.</p>
+
+<p>```groovy</p>
+
+<pre><code>    redirect controller: 'owner', action: 'show', id: pet.owner.id
+</code></pre>
+
+<p>```</p>
+
+<h4>Very flexibly Services</h4>
+
+<p>The PetclinicService is transactional so it can save objects within an automatic transaction.  But this
+is optional and can be controlled.</p>
+
+<p>```groovy
+class PetclinicService {</p>
+
+<pre><code>// PetController
+
+Pet createPet(String name, Date birthDate, long petTypeId, long ownerId) {
+    def pet = new Pet(name: name, birthDate: birthDate, type: PetType.load(petTypeId), owner: Owner.load(ownerId))
+    pet.save()
+    pet
+}
+</code></pre>
+
+<p>```</p>
+
+<h4>Super-clean domain classes</h4>
+
+<p>A modern tendency is to have domain classes mostly represent the data side of the Domain object and pull the
+higher level logic out into other classes.  Although I dislike this (why have two classes), it does work
+better with automatic schema generation and migration.  You are less likely to have to restart the container
+and make the system check for data migration issues.</p>
+
+<p>Grails supports a very simple, rich, mapping system called GORM.  And with it, the Domain class is very terse
+but also very powerful.  And GORM works on multiple database <em>kinds</em> let alone products.</p>
+
+<p>```groovy
+package org.grails.samples</p>
+
+<p>/<em>*
+ * Simple domain object representing a pet.
+ *
+ * @author Graeme Rocher
+ </em>/
+class Pet {</p>
+
+<pre><code>String name
+Date birthDate
+PetType type
+Owner owner
+
+static hasMany = [visits: Visit]
+
+static constraints = {
+    name blank: false, validator: { name, pet -&gt;
+        if (!pet.id &amp;&amp; pet.owner?.pets?.find { it.name == name })  {
+            return 'pet.duplicate'
+        }
+    }
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>Summary</h2>
+
+<p>There is much more functionality to Grails than described above, but that is a good, quick, walk-through.  There
+are also certain conventions I believe are best practices on top of the Grails framework (e.g. 'RepoService' classes
+for Domain objects so functionality is easily and consistently located), but again that is an augmentation vs. being
+a requirement to getting a good picture of the system.</p>
 ]]></content>
   </entry>
   
