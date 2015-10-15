@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T11:52:38-07:00</updated>
+  <updated>2015-10-15T12:04:49-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -51,7 +51,8 @@ became stable and capable.  Gradle won a war against other build systems so Grai
 <!--more-->
 
 
-<p>Spring Boot (<a href="http://projects.spring.io/spring-boot/">http://projects.spring.io/spring-boot/</a>)is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
+<p>Spring Boot (<a href="http://projects.spring.io/spring-boot/">http://projects.spring.io/spring-boot/</a>)
+is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
 is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a 'small' step up
 conceptually so it should be easier for people to 'level up' and also 'wander down' depending on the needs
 of the project.</p>
@@ -107,6 +108,30 @@ for a modern web application:</p>
 <p>For the petclinic this layout looks like this when expanded:</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails3.png" /></p>
+
+<h3>Modern logging with 'logback'</h3>
+
+<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback'
+framework.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
+
+<h3>Incredibly terse</h3>
+
+<p>One of the horrors of moving from Smalltalk to Java was about 4-8x the number of words were required to
+accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.</p>
+
+<p>With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
+Or at least LISP without a really powerful macros.</p>
+
+<p>As an example, the 'PetController' is the main UI functionality of the 'petclinic'.  But it has only 53 lines,
+a third of them are blank.  And a total of 150 'words'.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails5.png" /></p>
+
+<p>It's functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
+basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
+and 99%+ of the web is just doing CRUD.  90%+ is just Read.</p>
 ]]></content>
   </entry>
   
