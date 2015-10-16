@@ -120,42 +120,12 @@ There are a number of template systems out there:</p>
 </ul>
 
 
-<p>Deciding amongst them depends on who is going to be writing the template and &#8216;where&#8217; it is
-going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
-and (c) making writing HTML templates a lot like writing HTML (and not something weird even if &#8220;more
-powerful&#8221;).  I have seen a lot of developers argue that you should write HTML in some YAML like language.
-That is like saying you should write Java in some LISP-like language.  It makes no sense to change
-syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
-because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
-There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
-&#8216;fragments&#8217; of HTML better because the fragment has so much redundant information.</p>
-
-<p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
-Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
-
-<p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
-a user to generate any page they want&#8230; either for themselves or for other people.</p>
-
-<h3>Scary!</h3>
-
-<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
-including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack a user?  Get
-their password?  Stuff like that?</p>
-
-<p>If you do it wrong&#8230; yes&#8230; yes they can.  Fortunately we have Facebook, MySpace and other companies that
-show how to do it wrong and then fix the problem.  The general solution is:</p>
-
-<ul>
-<li>Users never authenticate with &#8216;The Third Party&#8217;.  They only authenticate with you.</li>
-<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
-<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
-</ul>
-
-
-<p>This model makes sure the third party is not doing anything dangerous to your site&#8230;
-or at least not successfully doing anything.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/addstack-5/">Read on &rarr;</a>
+    </footer>
   
 
 

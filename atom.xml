@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-16T10:10:37-07:00</updated>
+  <updated>2015-10-16T10:10:59-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -42,6 +42,9 @@ There are a number of template systems out there:</p>
 <li> Jade</li>
 <li> Dust</li>
 </ul>
+
+
+<!--more-->
 
 
 <p>Deciding amongst them depends on who is going to be writing the template and &#8216;where&#8217; it is
