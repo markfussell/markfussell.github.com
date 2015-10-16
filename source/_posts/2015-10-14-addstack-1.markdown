@@ -6,7 +6,7 @@ comments: true
 categories: IT Automation Cloud Git ADD Grails Stack
 ---
 
-This is the second series describing a radically more productive development and delivery environment.
+This is the second series describing the ADD: a radically more productive development and delivery environment.
 
 ## Review of the first series
 

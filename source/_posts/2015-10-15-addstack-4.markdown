@@ -1,0 +1,317 @@
+---
+layout: post
+title: "ADD Stack [Part-4]"
+date: 2015-10-15 3:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third with the application stack (Grails and other technologies).
+
+## User Interface
+
+Of all the technologies that change, the User Interface is by far the most diverse and most evolved.  Modern
+databases are actually pretty old technology.  Modern languages are not significantly different from ancestors
+in the 1970s.  Computers have the same main components.  Programmers interact with them with keyboards and screens.
+If you picked well, you are programming better (tens of thousands of hours help) but are sadly
+on pretty much the same core concepts you learned in your first five thousand hours.  Sigh.
+
+Except.  Except the User Interface.  The implementation of user interfaces has grown since the 70s (the
+first bit-mapped and mouse-based UIs were built way back then) through Smalltalk, Objective-C, Flash, Flex,
+Angular, and other paths.  But even the devices have changed.  An iPhone is not a computer.  An Apple Watch
+is not an iPhone.  Times they are a changing... at least for 'devices'.
+
+### It's your face
+
+The User Interface is also the 'face' of a company.  It sells the company.  Whether to new customers, existing
+customers, employees, stock holders, or potential investors.  A web site like Rumble's:
+
+  * <http://rumblegames.com/>
+
+<img src="/images/addstack-4/addstack4_ui1.png" />
+
+
+And Rumble's actual games are trying to appeal to a particular audience (middle aged men) and give
+them something they want (to feel powerful and sophisticated).
+
+A web site like PortaPlanter:
+
+  * <http://PortaPlanter.com/>
+
+<img src="/images/addstack-4/addstack4_ui2.png" />
+
+<!--more-->
+
+is targeting a different audience (very broad, green-conscious, etc.) and trying to give them something they want
+(to help the planet) where hopefully the product speaks mostly for itself so there are no "frills" on
+the page.  The PortaPlanter site is currently a bit under-skinned, but even sophisticated product sites tend to
+mostly _show the product_ in isolation and in use.
+
+The expense of the UI should never be under-estimated.  It is _by far_ the most variable expense/investment a company
+can control about their software products.  Like marketing.  Build everything _perfectly_ and the UI will be
+the only thing that can change the cost.  Well, next to 'rapid feature changes' but that is more controllable
+because you can turn it on and off.  The PortaPlanter web site cost a few thousand (mostly the pictures),
+is trivial to maintain, and costs nothing to run (static hosting by GitHub).
+The Rumble web site cost nearly a million dollars, is made from a very sophisticated PHP package
+which costs thousands of dollars to do significant changes to, and hosting it costs thousands of dollars.
+That is just the web site of the company, not the games themselves.
+
+### What face do you want?
+
+The million-dollar Rumble site was primarily done by a company called Viget who came into Rumble and
+showed us a bunch of different web sites based on certain aspects we told them we wanted.  The CEO
+and his right hand were the primary 'Customers' but we also had a graphic artist that has a great
+eye for these things.  Working among the Rumble and Viget teams, we got what you see above.  It is
+  implemented in Expression Engine (a PHP engine), but _the design_ and _the capabilities_ are the
+  driving factor behind it's cost not the implementation technology (although EE is overkill).
+
+Using a firm like Viget is one approach, but another is to simply figure out what you want to look like.
+Jerry Kaplan founded 'Winster' to be an online gambling company.  That was originally illegal, so he
+pivoted a bit, but if you look at the site... it looks like Vegas or Reno:
+
+  * <http://www.winster.com/>
+
+<img src="/images/addstack-4/addstack4_ui3.png" />
+
+This is exactly what Jerry wanted.  He (the CEO) was the designer and the rest of us just implemented
+ his vision (or face his wrath...)
+
+Turns out this web site is somewhat expensive because it was initially built in Flash and Flex (and
+when 'converted' Jerry wanted to keep the feel).  So it needs to be quirkier than most web sites
+ in spite of its graphic and content simplicity.
+
+For all of my most recent startups, the Face was a huge part:
+
+  * Rumble – Powerful games for powerful people
+  * PeerCase – Modern (iPad caliber), graphically elegant, but intuitive and medical (especially appealing to doctors)
+  * Vive – Must make exercise seem like fun
+  * FooMojo – Make sure virtual pets look as fun as real pets
+  * Winster – Vegas or bust!
+
+and each one had a different front-end technology _in spite of_ being written mostly by me and having fairly similar
+ back-end technologies (Java, Rails, and Grails).  This isn't because I like swapping out the front-end.  I offered
+ to use Flex for all of them.  But Flex isn't mobile.  And the mobile space was of concern to everyone but 'Winster'.
+
+### How do you implement?
+
+By now you may be groaning:
+
+> OK. OK. I need to decide what 'face' I want.  I will... I promise...
+> But what are the choices for implementation?
+> What is 'plausibly' in the picture as a best implementation approach for the UI.
+
+This is pretty easy.  There are simply three productive and effective choices... with some variants within them.
+
+  * Static web site.  By far the most productive and effective if it fills your needs.  You don't write HTML, but the site gets generated from a technology like Markdown.  This site is made that way.
+  * Server-side rendering.  The next most productive and very effective if it fills your needs.  You don't write HTML, you write something like GSPs which are templates that get expanded for each server hit.  The 'petclinic' example is this kind of site.
+    * Note this does not mean the client is doing nothing.  It may be doing a lot.  But the server is frequently interacted with to generate pages or partial-pages.
+  * Client-side rendering.  The most sophisticated (sort of) and if this can't fill your need, you can always use either of the above.
+
+Some other approaches are 'Native Application' or a 'Native-enhanced web-app' but those need only be considered for very
+particular needs.
+
+Among the three main choices, only 'Server' vs. 'Client' lead down interesting paths.  There are lots of 'static' tools so
+that is more an experience and 'taste' issue.  Markdown is great, but it isn't for everyone.  And SAAS like SquareSpace
+are very nice if they fill your needs.
+
+#### Server-side
+
+The interesting part about server-side rendering is it says _nothing_ about the sophistication of the page.  Or the number
+of pages (could be one... could be 1000).  I actually believe that server-side rendering must be considered the default
+and then you can decide how much to branch off from there.  PeerCase was mostly a one-page-application (in Sencha) and
+most of the client-server interaction was JSON.  But there were different versions of the one-page-application depending
+on what kind of client hit the server.  The server bundled up the appropriate resources together and down-they-went.
+Desktop clients made a lot a 'asset' requests because they can handle them concurrently and cache them.
+Mobile devices got a manifest and did an update in the background.
+
+Grails is great at server-side rendering and can easily use Angular or any framework within each page.
+
+An example of this is the 'angular-grails3' project.  This is just a grails application that includes angular like this:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title><g:layoutTitle default="Grails"/></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  		<asset:stylesheet src="application.css"/>
+
+        <asset:script type="text/javascript">
+            angular.module('myApp.core.constants')
+                .constant('rootUrl', '${grailsApplication.config.angular.rootUrl}')
+                .constant('pageSize', '${grailsApplication.config.angular.pageSize}')
+                .constant('dateFormat', '${grailsApplication.config.angular.dateFormat}');
+        </asset:script>
+
+        <asset:javascript src="application.js"/>
+        <asset:deferredScripts />
+		<g:layoutHead/>
+	</head>
+	<body id="ng-app" ng-app="${pageProperty(name: 'body.ng-app') ?: 'myApp'}">
+```
+
+and voilà, we have Angular running in a page that can access Grails configuration and application capabilities.
+
+
+#### Client-side
+
+Client-side rendering is really more like 'separate client from server' development.
+It is making "building the client" into somthing
+that makes sense independent of the server.  Picking this over server-side rendering is making a few statements:
+
+  * We want to leverage 'separate-client' technology
+  * We may have people who are comfortable with 'separate-client' technology and not with the server technology
+  * We want to increase the chance that we don't do something stupid that prevents us from swapping server or client
+
+An example of this approach is the 'grails3-angular-duo' project which has a:
+
+  * backend – In grails
+  * frontend – In Angular + Gulp, Bower, Karma, etc.
+
+And although you 'hit the backend' to get your first web page, that actual page comes from
+the frontend build system.  And in this case the 'api' is pure REST.
+
+```groovy
+class UrlMappings {
+
+    static mappings = {
+        "/$controller/$action?/$id?(.$format)?"{
+            constraints {
+                // apply constraints here
+            }
+        }
+
+        "/"(redirect:"/frontend/index.html")
+        "500"(view:'/error')
+        "404"(view:'/notFound')
+
+        "/api/books"(resources:"book")
+        "/api/authors"(resources:"author")
+
+    }
+}
+```
+
+Interestingly, the front-end is now a mostly-static web site.  The content isn't static because it depends on JSON,
+but most everything else is locked down.  So this is in some ways _less_ flexible than the server side rendering.
+Fewer things can change without building another page and sending it out (deploying and referencing it).
+
+```html
+<!doctype html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="duo">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li class="active"><a ng-href="#">Home</a></li>
+        <li><a ng-href="#">About</a></li>
+        <li><a ng-href="#">Contact</a></li>
+      </ul>
+      <h3 class="text-muted">DUO</h3>
+    </div>
+
+    <div class="jumbotron">
+      <h1>Grails Angular Duo Sample</h1>
+
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view=""></div>
+
+    </div>
+
+    <div class="footer">
+      <p>Using : AngularJS, ngRoute, Restangular</p>
+    </div>
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/restangular/dist/restangular.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/list-author.js"></script>
+    <script src="scripts/controllers/create-author.js"></script>
+    <script src="scripts/controllers/edit-author.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
+```
+
+#### Hybrid
+
+OK, so I simplified above to get through the main concepts.  Both server-side and separate-client can be
+transformed into the most powerful approach known to man... the 'anything goes' or 'hybrid' approach.
+
+Render client, render server, send JSON, receive JSON, send POST, receive POST, open up a direct socket,
+send data or HTML both directions, hook into the device's capabilities. take over the camera and capture
+ photos of the user, post to twitter, etc.
+
+The problems with Hybrid approaches are:
+
+  * To quantify "What is allowed" and "What is not"
+  * To have a coherent model
+  * To have people understand the model
+
+Winster had a very good hybrid model by the time I left (product development had basically ended and Jerry was working solely on Marketing)
+
+  * You hit a Java server
+  * It sends you a Flex application
+  * Most communication is based on JSON calls to the server
+  * But updates to games, chats, and presence come through an open socket
+
+The reason for the socket is that you needed to be told of _other people's_ actions.  Some technology (e.g. comet or the socket)
+that can "push" updates to the client had to be used for this.  Early on, a previous architect picked sockets, and although the protocol through the socket
+improved / evolved, the actual use-of-socket was not swapped out.
+
+Rumble had an extreme hybrid model involving mostly open sockets to game servers,
+but also ejabberd (XMPP), JSON, and a slew of different technologies solving different problems.
+The drawback of using third-party technologies is that they bring in different approaches to client-server
+communication.
+
+### Conclusion
+
+The goal of the UI is to present a good, cost-effective, consistent, and sufficiently capable 'face' to your
+ users and prospects.  There are a number of different approaches that have different benefits.
+
+ I recommend
+ starting from the position of server-side rendering because that gives a lot of power with almost no extra cost.  It makes people
+ work with the entire application and reduces chances of 'schisms' within the development team.  On the
+ other hand, 'separate client' technologies are quite good and by thinking 'separate client' you may produce
+ a somewhat better API.  But a 'schism' is more likely, testing is harder, and the separate client is
+ less flexible in how it can integrate with the server (at least for 'free').
+

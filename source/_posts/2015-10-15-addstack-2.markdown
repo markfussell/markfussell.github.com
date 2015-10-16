@@ -6,7 +6,7 @@ comments: true
 categories: IT Automation Cloud Git ADD Grails Stack
 ---
 
-This is the second series describing a radically more productive development and delivery environment.  The
+This is the second series describing the ADD: a radically more productive development and delivery environment.  The
 first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
 Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
 and techniques, the 'language', 'framework', 'stack', and 'methodology' does not matter very much.
