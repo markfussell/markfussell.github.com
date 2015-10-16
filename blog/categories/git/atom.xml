@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T15:00:39-07:00</updated>
+  <updated>2015-10-16T10:10:37-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-5]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-5/"/>
+    <updated>2015-10-16T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-5</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.</p>
+
+<h2>Data Flexibility and Template Systems</h2>
+
+<p>One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a 'meta'
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+<em>the client</em> can pull down the information without taxing your server network at all.</p>
+
+<p>Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:</p>
+
+<ul>
+<li> Mustache</li>
+<li> Jade</li>
+<li> Dust</li>
+</ul>
+
+
+<p>Deciding amongst them depends on who is going to be writing the template and 'where' it is
+going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
+and (c) making writing HTML templates a lot like writing HTML (and not something weird even if "more
+powerful").  I have seen a lot of developers argue that you should write HTML in some YAML like language.
+That is like saying you should write Java in some LISP-like language.  It makes no sense to change
+syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
+because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
+There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
+'fragments' of HTML better because the fragment has so much redundant information.</p>
+
+<p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+
+<p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
+a user to generate any page they want... either for themselves or for other people.</p>
+
+<h3>Scary!</h3>
+
+<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn't that mean they could do <em>anything</em> including hijack a user?  Get
+their password?  Stuff like that?</p>
+
+<p>If you do it wrong... yes... yes they can.  Fortunately we have Facebook, MySpace and other companies that
+show how to do it wrong and then fix the problem.  The general solution is:</p>
+
+<ul>
+<li>Users never authenticate with 'The Third Party'.  They only authenticate with you.</li>
+<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+</ul>
+
+
+<p>This model makes sure the third party is not doing anything dangerous to your site...
+or at least not successfully doing anything.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-4]]]></title>
@@ -1073,579 +1141,6 @@ quickly to fine tune the process and tools to what will work for the customer an
 
 <p>But the following parts of this series will be a good start.  It is my best recommendation in 2015 for a modern,
 JVM-based, web-delivered, set of development methods, tools, frameworks, and other components.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-11]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-11/"/>
-    <updated>2015-10-14T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-11</id>
-    <content type="html"><![CDATA[<p>This is the elevent installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, inter-machine presence,
-and configuring an application server and its' stack.</p>
-
-<h2>It's Alive!</h2>
-
-<p>We are close to having a viable semi-production environment running the latest version of our code, and with an incredible
-capability of configuring, controlling, and being informed of that environment.  With the simple line:</p>
-
-<p>```bash
-mkdir -p /root/app/
-cd /root/app</p>
-
-<p>git clone git@github.com:grails-samples/grails-petclinic.git
-cd grails-petclinic
-./gradlew run
-```</p>
-
-<p>We got:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-10/add10_grails2.png" /></p>
-
-<!-- more -->
-
-
-<p>Which is almost what we want... except.</p>
-
-<ul>
-<li> We need that IP address to be a stable domain name</li>
-<li> We need the 'clone' to be augmented with subsequent 'git pull' in case there are subsequent updates</li>
-</ul>
-
-
-<p>In reverse order</p>
-
-<h2>Pulling the Application</h2>
-
-<p>Going back to the one-minute heartbeat, we had this 'cron' job:</p>
-
-<p>```bash
-mkdir -p /root/bin
-cp ${RESOURCE}/cron_1m.sh /root/bin/cron_1m.sh
-chmod +x /root/bin/cron_1m.sh</p>
-
-<p>cat &lt;<EOS > /var/spool/cron/root
-MAILTO=""</p>
-
-<ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li><ul>
-<li>/root/bin/cron_1m.sh
-EOS
-```</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Where part of the cron was described as:</p>
-
-<p>```bash</p>
-
-<pre><code>        bash_ifexist bin/nodework/common/work.sh
-        bash_ifexist bin/nodework/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
-        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/work.sh
-        bash_ifexist bin/nodework/stacktype/`cat /root/nodeinfo/stacktype.txt`/part/`cat /root/nodeinfo/nodepart.txt`/work.sh
-</code></pre>
-
-<p>```</p>
-
-<p>That is both too much code and too little to understand what is going on.  It is too much because we don't need to put anything but
-the first line in the 'cron_1b.sh'.  It is "fine" to do so, but if we add some new concept we have to rebuild machines (or
-dynamically copy in new 'cron_1m.sh') vs. the simpler option of just having the first 'work' cal the rest of the 'work'.</p>
-
-<p>The part that is too little is the part where a bunch of git repositories are getting updated.  The full 'cron_1m.sh' looks
-like this:</p>
-
-<h4>cron_1m.sh</h4>
-
-<p>```bash</p>
-
-<h1>! /bin/bash</h1>
-
-<h1>================================</h1>
-
-<h1>=== Simple worker example</h1>
-
-<h1>================================</h1>
-
-<p>export ME=<code>basename $0</code>
-export LOG=/root/log/${ME}<em>log.txt
-export ERROR=/root/log/${ME}</em>error.txt
-export START_TSS="<code>date +%Y%m%d-%H%M%S</code>"</p>
-
-<p>export CURRENT_ACTION_FILE=./.temp/nodeinfo/currentaction.txt</p>
-
-<p>bash_ifexist () { if [[ -f "$1" ]]; then bash "$1"; else echo "Skipped missing: $1"; fi }</p>
-
-<p>mkdir -p /root/log/</p>
-
-<p>exec 1>> ${LOG}
-exec 2>> ${ERROR}</p>
-
-<p>echo "${ME}: Start  ${START_TSS}" >> ${LOG}</p>
-
-<p>export REPOS=<code>find /root/gitrepo/ -maxdepth 1 -mindepth 1</code>
-for REPO in ${REPOS}; do</p>
-
-<pre><code>pushd ${REPO}
-    git pull
-popd
-</code></pre>
-
-<p>done</p>
-
-<p>for REPO in ${REPOS}; do</p>
-
-<pre><code>pushd ${REPO}
-    if [[ -e ${CURRENT_ACTION_FILE} ]]; then
-        : #Don't do anything until the current action completes
-    else
-        bash_ifexist bin/nodework/common/work.sh
-    fi
-popd
-</code></pre>
-
-<p>done</p>
-
-<p>export FINISH_TSS="<code>date +%Y%m%d-%H%M%S</code>"
-echo "${ME}: Finish ${FINISH_TSS}" >> ${LOG}
-```</p>
-
-<p>The reason for the double loop is to make sure inter-repository interactions are all "at the same time".  After the set
-of 'pulls', everything is stable.  We could even slow down the tempo of the system by simply pulling less often and
-could jitter before the set of 'pulls' which would jitter the whole system.</p>
-
-<h3>Where to work?</h3>
-
-<p>So if we have our 'IT' repo as 'repo2_petulant-cyril' and our application repo as 'repo3_miniature-ironman', where should
-we do our 'work.sh'?  The answer is unfortunatly simple: "where ever you want".  The more you do work in 'repo2' the
-more 'functional' your system.  Like classic functional / imperative programming.  The more you do work in 'repo3' the
-more 'object-oriented' your system.  The more 'repo3' is alive vs. being acted-upon.  On the other hand, the more you
-do work in 'repo2', the more you can leverage similarities in the work (like knowing directory structures, git versions,
-etc.) and the less 'repo3' is complicated by these things.  Ultimately it would be ideal to be 'aspect-oriented' and
-add a 'trait' to 'repo3'.  But for the moment, I will keep things simple and do all the work in 'repo2' where depending
-on the kind of node you are, you <em>know about</em> 'repo3' vs. 'repo3' knowing it could be alive.</p>
-
-<h3>'repo3:miniature-ironman'</h3>
-
-<p>Why does 'repo3' have two names?  The first is a simple identifier: it is a 'repo' and it is the third of its kind.
-This simplicity makes sure things like 'find' produce a simple in-order answer.  If we have a lot of repositories, we
-might start with '101' to make sure sorting works for a few hundred repositories.  The second part is a human-memorable
-name, and to help associate the repository with its purpose.  You shouldn't name a repository <em>after</em> its purpose, because
-it's purpose could change.  Outright change or simply grow.  Or another repo could have the same purpose and now we
-can't figure out which is right.  It would be like naming a kid 'toddler'.  At first it might
-not even be a toddler yet, but more importantly, eventually it will clearly no longer be a toddler.  And we would have
-  a lot of 'toddler's so we can't figure out which is what.</p>
-
-<p>So instead, each repo just has a unique name.  We have to look at it and interact with it to figure out what it is.  Or
-each has a README that we can try to keep current.</p>
-
-<h3>app1/work.sh</h3>
-
-<p>We can fetch 'repo3' from 'repo2' within the work of an application server:</p>
-
-<p>```bash</p>
-
-<h1>====================================================</h1>
-
-<h1>=== lad1/app1</h1>
-
-<h1>====================================================</h1>
-
-<p>echo "Doing App1 work"</p>
-
-<h1>====================================================</h1>
-
-<h1>=== checkout the application repository</h1>
-
-<h1>=== if it doesn't exist</h1>
-
-<h1>====================================================</h1>
-
-<p>export APP_REPO=repo3_miniature-ironman
-export APP_NAME=app2
-export APP_PATH=$REPO_ROOT/$APP_NAME</p>
-
-<p>if [ ! -d "$APP_PATH" ]; then
-  echo "git clone git@github.com:shaklee/${APP_REPO}.git $APP_PATH"
-  git clone git@github.com:shaklee/${APP_REPO}.git $APP_PATH
-fi</p>
-
-<p>```</p>
-
-<p>The rest of the script looks identical to our main 'work.sh' except our directory has switched from 'common' to
-something more specific.</p>
-
-<p>```bash</p>
-
-<h1>====================================================</h1>
-
-<h1>=== Temporary files location</h1>
-
-<h1>=== Override the 'TEMP' directory to be for this part</h1>
-
-<h1>====================================================</h1>
-
-<p>export ADD_TEMP=${GIT_ROOT}/.temp/add/lad1_app1b/
-export MY_DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</p>
-
-<p>```</p>
-
-<p>And we have to push/pop to get in the right directory for the 'GIT' commands to work.</p>
-
-<p>```bash</p>
-
-<pre><code>pushd $APP_PATH
-export GIT_VERSION=`git rev-parse HEAD`
-export DETECT_GIT_CHANGE=`git log --pretty=oneline ${PREV_WORK_VERSION}..  -- ${WORK_WATCH_VALUE} | awk '{print $1}'`
-popd
-</code></pre>
-
-<p>```</p>
-
-<h3>Start / restart</h3>
-
-<p>Ultimately we will run from a Tomcat or similar container, but currently we just have to:</p>
-
-<p><code>bash
-pushd $APP_PATH
-./gradlew run &amp;
-popd
-</code></p>
-
-<p>Except for a couple issues</p>
-
-<ul>
-<li>We would like the error and standard output to go somewhere in case something goes wrong</li>
-<li>We need to not collide with an previous 'run' because they hold onto the same port</li>
-</ul>
-
-
-<p>Solving these is pretty trivial if we are allowed to be 'brutal' and accept downtime.  Ultimately this won't be
-a problem because we will first 'shutdown' and let the load balancer pull us out of rotation before we actually
-upgrade versions.</p>
-
-<h4>Launching</h4>
-
-<p>Making something into a daemon is a common approach, but an even simpler approach is just redirect stdout and stderr
-on a detached process.  Trying this from a terminal appears to not work, because everything is a child
-of the terminal login process.  But to get out of that problem, you can just use 'screen' and
-create a non-terminal-connected screen.</p>
-
-<p>```bash
-screen
-./gradlew run &amp;</p>
-
-<h1>Control-D</h1>
-
-<p>ps aux | grep java
-```</p>
-
-<p>This is just for testing with a manual launch.  Our cron job doesn't have this issue and can start and restart
-things without the extra effort.</p>
-
-<h4>Logging</h4>
-
-<p>The heartbeat cron job has its own logs, so everything would appear there by default.  We can change the destination to
-something more informative / isolated by redirecting stdout and stderr.  Ultimately we would use a logging
-framework and infrastructure (e.g. Graylog) to get everything off the machine and into a central logger.</p>
-
-<h4>Killing</h4>
-
-<p>Again, because we will ultimate decommission ourselves, we can be quite brutal to the running application.  Whenever
-we are going offline, we mark ourselves as decommissioned and drain out all 'clients'.  For a web server this is
-very quick.  For other servers (like a game server with shared game state), this can take a while.  So the states are:</p>
-
-<ul>
-<li>Running
-
-<ul>
-<li>Add Users</li>
-<li>Keep Steady</li>
-<li>Drain Users</li>
-</ul>
-</li>
-<li>Decommissioning
-
-<ul>
-<li>Drain Users</li>
-<li>Drained</li>
-</ul>
-</li>
-<li>Decommission
-
-<ul>
-<li>Graceful shutdown</li>
-<li>Kill application</li>
-</ul>
-</li>
-</ul>
-
-
-<p>The last one is the critical one.  Although 'tomcat' and others have a graceful shutdown, <em>it does not always work</em>.
-We must be able to decommission properly, or we have to kill the application.  If we can't decommission a node
-successfully, we can not bring it back to 'running' and so our instance pool has shrunk.  Ideally our infrastructure
-recognizes this and either (a) kills the node or (b) marks the node as permanently unavailable and bumps the count
-of expected nodes in the array (say from 4 to 5 to include one being permanently unavailable).
-The benefit of 'b' is we can investigate the node later.  But either is operationally reasonable.</p>
-
-<p>So for the moment, lets just do the last one to decommission:</p>
-
-<p>```bash</p>
-
-<h1>Log what we are killing... could also test whether 'kill' is needed</h1>
-
-<p>ps aux | grep java | grep -v grep
-ps aux | grep java | grep -v grep | awk '{print $2}' | xargs kill
-```</p>
-
-<h4>Are we alive?</h4>
-
-<p>Finally, we should at least reasonably check whether we are alive with the new version.  The load balancer is
-checking our URL, so it knows.  But the load balancer can't tell the world (HipChat) whether the deploy was
-successful.</p>
-
-<p>A simple 'curl' to our local port can though.</p>
-
-<p><code>``
-curl localhost:8080 &gt; $ADD_TEMP/curl_test.html
-export CURL_TEST=</code>cat  $ADD_TEMP/curl_test.html`</p>
-
-<p>if [[ -z "$CURL_TEST" ]] ;
-then</p>
-
-<pre><code>echo 'Deployment failed!';
-</code></pre>
-
-<p>else</p>
-
-<pre><code>echo 'Success!';
-</code></pre>
-
-<p>fi
-```</p>
-
-<h2>DNS Stability</h2>
-
-<p>The DNS stability is a trivial thing on EC2 and basically any modern DNS system.  Trivial as long as we understand
-one fatal flaw:</p>
-
-<ul>
-<li>Everyone caches</li>
-</ul>
-
-
-<p>We can have stability so long as we accept that everyone is trying to cache the DNS to IP address for as long as
-possible.  This can be minutes or even longer <em>in spite</em> of our DNS records saying otherwise.  This is actually
- one of the reason load balancers are so important.  Load balancing is a very simple concept.  Your load balancers
- should be simple enough to 'keep running' and be rarely flipped.  So their IP addresses will be stable: like the person
- who is always hanging out on their front porch.  You can always find them there and ask them to ask someone else
- a question.  They will take care of the rest.</p>
-
-<p>So ultimately we don't want the application server obtaining a domain-name, we want it to register with a load
-balancer.  But for the moment (and for some useful internal capabilities) we will have each application server
-take-a-name.</p>
-
-<h3>How to take a name?</h3>
-
-<p>Before the cloud, the common ways to take a name were:</p>
-
-<ul>
-<li>To assign a name via the console of the domain name server</li>
-<li>To dynamically attach an IP address to a name via various protocols</li>
-</ul>
-
-
-<p>Pre-cloud, these work fairly well.  If you DN server is smart enough, it can take failed servers out of rotation
-with a health check.  And even early versions of cloud computing used a similar model where servers took
-possession of a pre-allocated IP address that the DN server knew about.  But these models don't scale as
-well as a much simpler model.  Route-53.</p>
-
-<p>Route-53 takes the 'dynamically' to a whole new level.  You can dynamically add / change / delete most anything
-and the common latency for the change to take affect is very short.  The rest of the world <em>still caches</em> but
-at least you know the DN servers are up to date.  In the following, you can see the 'gaps2c' project I created
-a while ago as a demonstration of this ability.  The main domain registry for 'gaps2c.com' is elsewhere, but
-the subdomain of 'aws.gaps2c.com' is managed by route53.  The last entry works and says <a href="google.aws.gaps2c.com">google.aws.gaps2c.com</a>
-knows where the google servers are.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_1.png" /></p>
-
-<h3>Registering with Route-53</h3>
-
-<p>There are a lot of ways to register with Route-53:</p>
-
-<ul>
-<li> Via the console</li>
-<li> Via an XML-based payload update</li>
-<li> Via adding some elements to a CloudFormation</li>
-</ul>
-
-
-<p>The first is easy, but not scalable.  The second is not hard, but a bit 'peculiar' in how the payload works.  The
-third is trivial and scalable.</p>
-
-<p>So lets start with the third</p>
-
-<h4>Registering via a CloudFormation template</h4>
-
-<p>The good news is it is simple in a CloudFormation.  The bad news is it requires a bit more infrastructure to appear, so
-it isn't a one-liner.  The issue with CloudFormations is that they must be <em>complete</em>.  They can only auto-wire things
-they know about.  So they are relatively monolithic.  It is possible to compose them somewhat, but that is really
-just embedding one formation into another vs. wiring two independent formations up.  Ultimately to wire up independent
-formations, you need to 'know what you said' and tell two or more formations enough information that they can find
-each other.  That is not hard but it isn't free.</p>
-
-<p>But for free, we can add three things to our application stack and get a DNS registration for our application tier.</p>
-
-<ul>
-<li> A HostedZone entry – Pointing into the Route 53 database</li>
-<li> An ElasticLoadBalancer – Which enables the CloudFormation to know about IP addresses</li>
-<li> A PrimaryDnsZone – Which defines the FQDN of the application tier</li>
-</ul>
-
-
-<p>And we need to augment our AutoScalingGroup to know about the ELB.  Adding all this gives:</p>
-
-<p>```json</p>
-
-<pre><code>"HostedZone" : {
-  "Type" : "String",
-  "Default" : "aws.gaps2c.com",
-  "Description" : "The DNS name of an existing Amazon Route 53 hosted zone"
-},
-</code></pre>
-
-<p>```</p>
-
-<p>```json</p>
-
-<pre><code>"PrimaryElb" : {
-  "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
-  "Metadata" : {
-    "Comment" : "Configure the Load Balancer with a simple health check and cookie-based stickiness"
-  },
-  "Properties" : {
-    "AvailabilityZones" : { "Fn::GetAZs" : "" },
-    "LBCookieStickinessPolicy" : [ {
-      "PolicyName" : "CookieBasedPolicy",
-      "CookieExpirationPeriod" : "30"
-    } ],
-    "Listeners" : [ {
-      "LoadBalancerPort" : "8080",
-      "InstancePort" : "8080",
-      "Protocol" : "HTTP",
-      "PolicyNames" : [ "CookieBasedPolicy" ]
-    } ]
-  }
-},
-
-"PrimaryDnsZone" : {
-  "Type" : "AWS::Route53::RecordSet",
-  "Properties" : {
-    "HostedZoneName" : { "Fn::Join" : [ "", [{"Ref" : "HostedZone"}, "." ]]},
-    "Comment" : "CNAME redirect to aws.amazon.com.",
-    "Name" : { "Fn::Join" : [ "", [{ "Fn::FindInMap" : [ "TemplateConstant", "deployment", "value" ] }, "-", { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, ".", {"Ref" : "HostedZone"}, "."]]},
-    "Type" : "CNAME",
-    "TTL" : "900",
-    "ResourceRecords" : [{ "Fn::GetAtt" : ["PrimaryElb","CanonicalHostedZoneName"] }]
-  }
-},
-
-"PrimaryServerGroup" : {
-  "Type" : "AWS::AutoScaling::AutoScalingGroup",
-  "Properties" : {
-    "Tags": [
-      { "Key": "add:deployment", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "deployment", "value" ] }, "PropagateAtLaunch" : "true" },
-      { "Key": "add:nodepart", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "nodepart", "value" ] }, "PropagateAtLaunch" : "true" },
-      { "Key": "add:stacktype", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "stacktype", "value" ] }, "PropagateAtLaunch" : "true" },
-      { "Key": "add:statelog", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "statelog", "value" ] }, "PropagateAtLaunch" : "true" },
-      { "Key": "add:state", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "state", "value" ] }, "PropagateAtLaunch" : "true" },
-      { "Key": "add:statetss", "Value": { "Fn::FindInMap" : [ "TemplateConstant", "statetss", "value" ] }, "PropagateAtLaunch" : "true" }
-    ],
-    "AvailabilityZones" : { "Fn::GetAZs" : "" },
-    "LaunchConfigurationName" : { "Ref" : "PrimaryLaunchConfig" },
-    "MinSize" : "1",
-    "MaxSize" : "1",
-    "DesiredCapacity" : "1",
-    "LoadBalancerNames" : [ { "Ref" : "PrimaryElb" } ]
-  }
-},
-</code></pre>
-
-<p>```</p>
-
-<p>After adding all that, we get a new Route53 entry</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_2.png" /></p>
-
-<p>And can also look at our load balancer:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_3.png" /></p>
-
-<p>And the instance associated with it:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_4.png" /></p>
-
-<p>And the rule we use to figure out whether the instance is alive</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_route53_5.png" /></p>
-
-<h2>Voilà!</h2>
-
-<h3>Domain-Based, Auto-Scaling, IT and Application Stack</h3>
-
-<p>We now have a stable domain name for our stack: 'fed1-app1.aws.gapcom.com'</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
-
-<p>which can scale up and down machines automatically.  Ideally there are at least four in production to make sure
-all the availability zones under 'US East' are covered.  But for anything else, one or two is sufficient depending
-on what you are testing.</p>
-
-<h3>Autodeploying IT and Application</h3>
-
-<p>We now have a completely automated upgrade system for both our IT (servers) and
-for the applications those servers are running.  Whenever we touch the code base
-and 'push' the changes so the servers can see/pull them (PushMePullYou), they automatically
-decommission, deploy and confirm the deploy was successful.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
-
-<h3>What Next?</h3>
-
-<p>Basically nothing is left for the core of the ADD.  This series has described how the four ingredients
-are cooked/hooked together and shown what that looks like on EC2.  Other topics are just filling in details
-that are really just nuances and flavors of the ADD. For example:</p>
-
-<ul>
-<li>What is the Grails application stack like?</li>
-<li>How does Vagrant handle the one minute crons and other more advanced features?</li>
-<li>Should you <em>develop in Vagrant</em> or on the host operating system?
-
-<ul>
-<li>Answer: Either depending on what you are doing and how productive you are, but the closer you are to production, the more likely you are to catch issues</li>
-</ul>
-</li>
-<li>How does HAProxy and the database configuration using presence work?</li>
-<li>What about NewRelic and other monitoring tools</li>
-<li>Where is Angular in all this?</li>
-</ul>
-
-
-<p>The first and last topic I will cover in the next multi-part series called the 'AddStack'.  The others are more specific topics that I may get to eventually, but
-are not critical to understanding and using the ADD.</p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T15:00:39-07:00</updated>
+  <updated>2015-10-16T10:10:37-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-5]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-5/"/>
+    <updated>2015-10-16T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-5</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.</p>
+
+<h2>Data Flexibility and Template Systems</h2>
+
+<p>One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a &#8216;meta&#8217;
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+<em>the client</em> can pull down the information without taxing your server network at all.</p>
+
+<p>Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:</p>
+
+<ul>
+<li> Mustache</li>
+<li> Jade</li>
+<li> Dust</li>
+</ul>
+
+
+<p>Deciding amongst them depends on who is going to be writing the template and &#8216;where&#8217; it is
+going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
+and (c) making writing HTML templates a lot like writing HTML (and not something weird even if &#8220;more
+powerful&#8221;).  I have seen a lot of developers argue that you should write HTML in some YAML like language.
+That is like saying you should write Java in some LISP-like language.  It makes no sense to change
+syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
+because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
+There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
+&#8216;fragments&#8217; of HTML better because the fragment has so much redundant information.</p>
+
+<p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+
+<p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
+a user to generate any page they want&#8230; either for themselves or for other people.</p>
+
+<h3>Scary!</h3>
+
+<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack a user?  Get
+their password?  Stuff like that?</p>
+
+<p>If you do it wrong&#8230; yes&#8230; yes they can.  Fortunately we have Facebook, MySpace and other companies that
+show how to do it wrong and then fix the problem.  The general solution is:</p>
+
+<ul>
+<li>Users never authenticate with &#8216;The Third Party&#8217;.  They only authenticate with you.</li>
+<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+</ul>
+
+
+<p>This model makes sure the third party is not doing anything dangerous to your site&#8230;
+or at least not successfully doing anything.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-4]]]></title>
@@ -5855,111 +5923,6 @@ projects:</p>
 <h3>Next</h3>
 
 <p>Our next problem will be <a href="http://markfussell.emenar.com/blog/git-about-everything-it/">IT</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (Intro)]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-intro/"/>
-    <updated>2013-01-11T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-intro</id>
-    <content type="html"><![CDATA[<p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
-
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
-
-<!-- more -->
-
-
-<p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
-Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
-but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
-in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
-and company&#8230; but that is a different topic.</p>
-
-<h2>Git Syntax / Overview</h2>
-
-<p>You can learn more about git somewhere like github:</p>
-
-<ul>
-<li> <a href="http://learn.github.com/p/intro.html">http://learn.github.com/p/intro.html</a></li>
-</ul>
-
-
-<p>Git has a lot of commands, but around seven are core to standard git flows:</p>
-
-<ul>
-<li> clone &mdash; copy a repository from a remote location</li>
-<li> fetch &mdash; get updates from a remote repository</li>
-<li> merge &mdash; merge changes from one branch into the current branch</li>
-<li> pull &mdash; &#8216;fetch&#8217; and then &#8216;merge&#8217;</li>
-<li> add &mdash; add changes to the commit stage of the current branch</li>
-<li> commit &mdash; commit the changes into the current branch</li>
-<li> push &mdash; try to make a remote branch look like the current branch</li>
-</ul>
-
-
-<p>Actually of those seven &#8216;pull&#8217; basically replaces/combines two of them, so you get
-down to about five with a core loop like this:</p>
-
-<ul>
-<li> clone
-
-<ul>
-<li>pull</li>
-<li>make changes (if needed)
-
-<ul>
-<li>add</li>
-<li>commit</li>
-<li>push</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Of these commands only &#8216;push&#8217; can fail due to timing.  &#8216;push&#8217; is transactional
-and you can be contending with other people or machines that pushed to the same branch
-as you between when you pulled and you pushed.  Merging can fail, but that
-represents some actual file-level conflict vs. a timing issue (someone beat you to the &#8216;push&#8217;).
-A proper &#8216;commit&#8217; can&#8217;t fail because it is local.</p>
-
-<h3>Repositories and branches</h3>
-
-<p>At least to begin, all these solutions will use a standard centralized repository approach
-and generally not use branches.  So you don&#8217;t have to worry about git&#8217;s ability to
-deal with many remotes and which branch a given git repository is using.  By default
-at any current moment there is only</p>
-
-<ul>
-<li> local: &#8216;master&#8217; <-> remote: origin/master</li>
-</ul>
-
-
-<p>where things get interesting because there could be 100 different machines each with their own &#8216;local&#8217;.</p>
-
-<h3>Problems with git / DVCS</h3>
-
-<p>The biggest issue with git and similar DVCSs is that their model doesn&#8217;t work well for large amounts of
-binary assets.  Large amounts of binary assets could occur either because there are a large number of
-assets available at any time but only a subset are needed (so with Perforce or SVN many people would not
-check out those directories) or more commonly, a modest number of binary assets are frequently
-changing.  Because a git repository contains all assets throughout time and to work with a git repository
-you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
-
-<p>What is a large amount?  That depends on the circumstances, but generally passing 100MB can start to
-become painful depending on the purpose git is being used for.  Having 1GB of textual files in
-a single git repository (even over time) is an unusual thing.  GBs of images is common.</p>
-
-<p>So our first problems and solution is going to have to deal with this critical issue.</p>
-
-<p>Enter the annex: <a href="http://markfussell.emenar.com/blog/git-about-everything-annex/">Annex</a></p>
 ]]></content>
   </entry>
   

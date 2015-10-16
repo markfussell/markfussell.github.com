@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: OOPSLA - Polyglot</title>
+  <title>ADD Stack [Part-5] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="Category: OOPSLA">
+  <meta name="description" content="This is the second series describing the ADD: a radically more productive development and delivery environment. The
+first article is here: Intro and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.comblog/categories/oopsla/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-5/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,36 +64,150 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: OOPSLA</h1>
+    
+      <h1 class="entry-title">ADD Stack [Part-5]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-16T01:00:00-07:00" pubdate data-updated="true">Oct 16<span>th</span>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.</p>
 
-  
-  <h2>2000</h2>
+<h2>Data Flexibility and Template Systems</h2>
 
-<article>
-  
-<h1><a href="/blog/viking/">The Viking: A Direct Marketing System for OOPSLA DesignFest</a></h1>
-<time datetime="2000-05-10T18:00:00-07:00" pubdate><span class='month'>May</span> <span class='day'>10</span> <span class='year'>2000</span></time>
+<p>One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a &#8216;meta&#8217;
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+<em>the client</em> can pull down the information without taxing your server network at all.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ooad/'>OOAD</a>, <a class='category' href='/blog/categories/oopsla/'>OOPSLA</a></span>
-</footer>
+<p>Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:</p>
+
+<ul>
+<li> Mustache</li>
+<li> Jade</li>
+<li> Dust</li>
+</ul>
 
 
-</article>
+<p>Deciding amongst them depends on who is going to be writing the template and &#8216;where&#8217; it is
+going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
+and (c) making writing HTML templates a lot like writing HTML (and not something weird even if &#8220;more
+powerful&#8221;).  I have seen a lot of developers argue that you should write HTML in some YAML like language.
+That is like saying you should write Java in some LISP-like language.  It makes no sense to change
+syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
+because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
+There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
+&#8216;fragments&#8217; of HTML better because the fragment has so much redundant information.</p>
 
+<p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+
+<p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
+a user to generate any page they want&#8230; either for themselves or for other people.</p>
+
+<h3>Scary!</h3>
+
+<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack a user?  Get
+their password?  Stuff like that?</p>
+
+<p>If you do it wrong&#8230; yes&#8230; yes they can.  Fortunately we have Facebook, MySpace and other companies that
+show how to do it wrong and then fix the problem.  The general solution is:</p>
+
+<ul>
+<li>Users never authenticate with &#8216;The Third Party&#8217;.  They only authenticate with you.</li>
+<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+</ul>
+
+
+<p>This model makes sure the third party is not doing anything dangerous to your site&#8230;
+or at least not successfully doing anything.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-16T01:00:00-07:00" pubdate data-updated="true">Oct 16<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-5/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-5/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/addstack-4/" title="Previous Post: ADD Stack [Part-4]">&laquo; ADD Stack [Part-4]</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -190,7 +305,10 @@
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-5/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-5/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

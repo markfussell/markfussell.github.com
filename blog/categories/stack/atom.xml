@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stack | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/stack/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-15T15:00:39-07:00</updated>
+  <updated>2015-10-16T10:10:37-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-5]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-5/"/>
+    <updated>2015-10-16T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-5</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.</p>
+
+<h2>Data Flexibility and Template Systems</h2>
+
+<p>One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a 'meta'
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+<em>the client</em> can pull down the information without taxing your server network at all.</p>
+
+<p>Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:</p>
+
+<ul>
+<li> Mustache</li>
+<li> Jade</li>
+<li> Dust</li>
+</ul>
+
+
+<p>Deciding amongst them depends on who is going to be writing the template and 'where' it is
+going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
+and (c) making writing HTML templates a lot like writing HTML (and not something weird even if "more
+powerful").  I have seen a lot of developers argue that you should write HTML in some YAML like language.
+That is like saying you should write Java in some LISP-like language.  It makes no sense to change
+syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
+because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
+There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
+'fragments' of HTML better because the fragment has so much redundant information.</p>
+
+<p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+
+<p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
+a user to generate any page they want... either for themselves or for other people.</p>
+
+<h3>Scary!</h3>
+
+<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn't that mean they could do <em>anything</em> including hijack a user?  Get
+their password?  Stuff like that?</p>
+
+<p>If you do it wrong... yes... yes they can.  Fortunately we have Facebook, MySpace and other companies that
+show how to do it wrong and then fix the problem.  The general solution is:</p>
+
+<ul>
+<li>Users never authenticate with 'The Third Party'.  They only authenticate with you.</li>
+<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+</ul>
+
+
+<p>This model makes sure the third party is not doing anything dangerous to your site...
+or at least not successfully doing anything.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-4]]]></title>

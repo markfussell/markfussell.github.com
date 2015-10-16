@@ -71,6 +71,101 @@ first article is here: Intro and &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/addstack-5/">ADD Stack [Part-5]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-16T01:00:00-07:00" pubdate data-updated="true">Oct 16<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.</p>
+
+<h2>Data Flexibility and Template Systems</h2>
+
+<p>One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a &#8216;meta&#8217;
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+<em>the client</em> can pull down the information without taxing your server network at all.</p>
+
+<p>Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:</p>
+
+<ul>
+<li> Mustache</li>
+<li> Jade</li>
+<li> Dust</li>
+</ul>
+
+
+<p>Deciding amongst them depends on who is going to be writing the template and &#8216;where&#8217; it is
+going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
+and (c) making writing HTML templates a lot like writing HTML (and not something weird even if &#8220;more
+powerful&#8221;).  I have seen a lot of developers argue that you should write HTML in some YAML like language.
+That is like saying you should write Java in some LISP-like language.  It makes no sense to change
+syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
+because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
+There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
+&#8216;fragments&#8217; of HTML better because the fragment has so much redundant information.</p>
+
+<p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+
+<p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
+a user to generate any page they want&#8230; either for themselves or for other people.</p>
+
+<h3>Scary!</h3>
+
+<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack a user?  Get
+their password?  Stuff like that?</p>
+
+<p>If you do it wrong&#8230; yes&#8230; yes they can.  Fortunately we have Facebook, MySpace and other companies that
+show how to do it wrong and then fix the problem.  The general solution is:</p>
+
+<ul>
+<li>Users never authenticate with &#8216;The Third Party&#8217;.  They only authenticate with you.</li>
+<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+</ul>
+
+
+<p>This model makes sure the third party is not doing anything dangerous to your site&#8230;
+or at least not successfully doing anything.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/addstack-4/">ADD Stack [Part-4]</a></h1>
     
     
@@ -676,63 +771,6 @@ our federation!</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-6/">Advanced Development and Delivery (ADD) [Part-6]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the sixth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, and HipChat integration.</p>
-
-<h2>&#8216;Part&#8217; Provisioning</h2>
-
-<p>Each node plays a singular &#8216;Part&#8217;.  A &#8216;part&#8217; is a unique combination of roles (in the chef sense) that identifies
-exactly how the node should be provisioned, usually globally, but at least for each stacktype.  A standard array
-of parts would be the LAMP stack:</p>
-
-<ul>
-<li> Load Balancer (lb)</li>
-<li> Application Server (app)</li>
-<li> Database Server  (db)</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-6/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -758,6 +796,10 @@ of parts would be the LAMP stack:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-5/">ADD Stack [Part-5]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/addstack-4/">ADD Stack [Part-4]</a>
       </li>
     
@@ -773,15 +815,11 @@ of parts would be the LAMP stack:</p>
         <a href="/blog/addstack-1/">ADD Stack [Part-1]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add-11/">Advanced Development and Delivery (ADD) [Part-11]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 145.0%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 103.0%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 151.0%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.0%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 106.0%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 103.0%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 121.0%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 103.0%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 121.0%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 112.0%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 103.0%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.0%'>IT</a> <a href='/blog/categories/java' style='font-size: 115.0%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 103.0%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 103.0%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 106.0%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 106.0%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 145.0%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 112.0%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 109.0%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 151.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 112.0%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 103.0%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 145.71428571428572%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.85714285714286%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 151.42857142857144%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.28571428571428%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.71428571428571%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.85714285714286%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 120.0%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.85714285714286%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 120.0%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 114.28571428571429%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.85714285714286%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.28571428571428%'>IT</a> <a href='/blog/categories/java' style='font-size: 114.28571428571429%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.85714285714286%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.85714285714286%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.71428571428571%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.71428571428571%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 142.85714285714286%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 111.42857142857143%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 108.57142857142857%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 148.57142857142856%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 114.28571428571429%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.85714285714286%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>
