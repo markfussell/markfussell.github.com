@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T12:48:14-07:00</updated>
+  <updated>2015-10-20T12:55:22-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -98,7 +98,7 @@ you are likely over-engineering your solution.  Try to start weaning yourself of
 <ul>
 <li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
 <li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
-<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a></li>
+<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org">http://curator.apache.org</a></li>
 <li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
 <li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
 <li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
@@ -121,186 +121,10 @@ and incredibly expensive.  Yes, it is powerful.  No, your users do not care to p
 
 <p><img src="http://markfussell.emenar.com/images/addstack-8/addstack8_wikimedia1.png" /></p>
 
-<p>Returning to a bit more of an 'IT' issue, how do we handle logging, monitoring, and analytics on our collection of
-machines?  There are a number of choices:</p>
-
-<ol>
-<li>Run our own infrastructure</li>
-<li>Go with an inexpensive provider</li>
-<li>Go with a more capable provider</li>
-<li>Don't</li>
-</ol>
-
-
-<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading
-from #3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</p>
-
-<!--more-->
-
-
-<h3>Logging: SumoLogic</h3>
-
-<p>The longest standing, very successful, and SaaS capable company is Splunk (<a href="http://splunk.com/">http://splunk.com/</a>) .  But their prices are crazy.  Have no
-idea how they can charge that much.  So instead I will demo SumoLogic (<a href="http://SumoLogic.com/">http://SumoLogic.com/</a>) as the '3B' tier.</p>
-
-<p>Installing SumoLogic is incredibly easy:</p>
-
-<p><code>bash
-wget "https://collectors.us2.sumologic.com/rest/download/linux/64" -O SumoCollector.sh &amp;&amp; chmod +x SumoCollector.sh &amp;&amp; ./SumoCollector.sh -q -VskipDefaultSources=true -Vsumo.token_and_url={token}
-</code></p>
-
-<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
-all have files in '/root/log' which it would be nice to have aggregated.</p>
-
-<p>The results are visible here:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo1.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo2.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
-
-<h4>Logging Alternative: Graylog</h4>
-
-<p>For Rumble, we had a Graylog (<a href="http://graylog.com/">http://graylog.com/</a>) cluster that dealt with a tremendous amount of data (half a
-terabyte a day if memory serves, due to over-enthusiastic logging) and was relatively stable under that load.
-Elasticsearch had issues if a node failed (just due to the stress of moving data to another backup), but this
-is under pretty extreme load levels.  So if you wanted to roll your own, the Graylog path would be a very
-inexpensive and powerful path.</p>
-
-<h3>Analytics and Monitoring: NewRelic</h3>
-
-<p>NewRelic (<a href="http://newrelic.com/">http://newrelic.com/</a>) started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
-(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
-operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
-came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
-Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn't need it, but ultimately
-by putting the metrics outside the application everyone's life was simpler.</p>
-
-<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
-
-<p>```bash</p>
-
-<h1>====================================================</h1>
-
-<h1>=== Install NewRelic</h1>
-
-<h1>====================================================</h1>
-
-<h1>===================================</h1>
-
-<h1>=== Server</h1>
-
-<h1>===================================</h1>
-
-<p>rpm -Uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
-yes | yum -y install newrelic-sysmond
-nrsysmond-config --set license_key=key</p>
-
-<p>/etc/init.d/newrelic-sysmond start</p>
-
-<h1>===================================</h1>
-
-<h1>=== Java</h1>
-
-<h1>===================================</h1>
-
-<p>export APP_VERSION=3.21.0
-export APP_FULL_VERSION=newrelic-java-${APP_VERSION}</p>
-
-<p>mkdir -p .temp
-cp it/resource/${APP_FULL_VERSION}.zip .temp/</p>
-
-<p>./bin/inflatePaths.sh .temp/${APP_FULL_VERSION}.zip</p>
-
-<p>mkdir -p /opt
-cp -fr .temp/newrelic /opt/</p>
-
-<p>cp -fr ${RESOURCE}/newrelic.yml /opt/newrelic/newrelic.yml</p>
-
-<p>```</p>
-
-<p>The first section puts on the system-monitoring agent for newrelic.
-The second section has two parts.  The first part puts the general NewRelic agent onto the machine, and the second part
-enables us to override (overlay) the default configuration with our own.  The most important part is to replace the
-license, but there are many things that can be configured within the NewRelic agent.</p>
-
-<p>Finally, we need to launch with the agent configuration into the java / 'gradew' launcher:</p>
-
-<p>```bash</p>
-
-<h1>Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</h1>
-
-<p>DEFAULT_JVM_OPTS="-javaagent:/opt/newrelic/newrelic.jar"
-```</p>
-
-<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic4.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic5.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic6.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" /></p>
-
-<h3>Operational Monitoring: Nagios and Icinga</h3>
-
-<p>The above monitoring is not 'alert' oriented.  It lets you drill into the details of what is happening
-in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
-to go down a different path.  The most mature open source path is the Nagios / Icinga double path (<a href="http://nagios.org/">http://nagios.org/</a>,
- <a href="http://icinga.org/">http://icinga.org/</a>).</p>
-
-<p>An important aspect of monitoring is to have <em>multiple</em> monitors on your network.  And, in general, for the monitors
-to be outside the data center.  Agents within the data center can relay information out, but if your monitors fail
-inside the data center, you are (unknowingly) blind.</p>
-
-<p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
-within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
-anywhere that you can pull out a git repository.</p>
-
-<p>Examples of Nagios views are:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios1.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios2.png" /></p>
-
-<p>Where the lists of hosts to monitor and what to monitor comes from text configuration files.</p>
-
-<p><code>
-define host {
-   host_name   {host_name}
-   use         {node_type}
-   alias       {node_id}
-   address     {node_public_address}
-   register    {registration_order}
-}
-</code></p>
-
-<p>And these files can trivially be generated from the presence information, and updated if
-anything changes.  An important aspect is to make sure to turn off the monitoring system
-when a node is going down <em>intentionally</em>.  So the 'node_state' status and 'node_app_state'
-status are critical to have come through the presence information for monitoring to
-not be 'noisy'.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
-
-<p>Although Nagios and Icinga have dashboards, everything should go into HipChat so everyone
-can see the history and stability/instability of the system.  You can even publish the status
-  publicly so your users will know there is a production problem. If you enable public chat
-  in either HipChat or elsewhere, the users can both see the status and ask for predictions
-  of when issues are resolved.  A much higher-touch relationship with users can make them
-  longer users (this retention aspect was very true of Winster where the CEO was <em>online</em>
-  and could be chatted with a good portion of the evening.  Kind of like walking the floors
-  of the casino or Tim Cook being in the University Apple Store.).</p>
-
 <h2>Conclusion</h2>
 
-<p>Although it is more operational than "application stack", the ability to monitor and analyze your
-application's performance and behavior is critical to any production deployment of it.  So you
-should think about it early and not as an afterthought.  All logging should go into the logging pipeline
-(no System.println or equivalent) and be searchable through that pipeline at one or more aggregators.
-Start out with a metrics system like NewRelic to get a bunch  of valuable things for free
-and you can later add in new application-specific metrics.
-And get the basics of operational monitoring up early and you will know if the application and the
-IT is reliable long before it gets into the production data center.</p>
+<p>It is good to understand what kinds of system components are out there and be aware that you don't have to
+reinvent / recode them when you need them</p>
 ]]></content>
   </entry>
   
