@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T12:55:22-07:00</updated>
+  <updated>2015-10-20T13:00:22-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -98,13 +98,13 @@ you are likely over-engineering your solution.  Try to start weaning yourself of
 <ul>
 <li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
 <li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
-<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org">http://curator.apache.org</a></li>
+<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org/curator-recipes/index.html">http://curator.apache.org/curator-recipes/index.html</a></li>
 <li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
 <li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
 <li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
 <li>Map-Reduce – Spark <a href="https://spark.apache.org">https://spark.apache.org</a>,  Hadoop <a href="https://hadoop.apache.org">https://hadoop.apache.org</a></li>
 <li>Forum –  phpBB <a href="https://www.phpbb.com">https://www.phpbb.com</a></li>
-<li>Customer Support – parature <a href="http://www.parature.com">http://www.parature.com</a></li>
+<li>Customer Support – Parature <a href="http://www.parature.com">http://www.parature.com</a></li>
 <li>SMS / Email / Contact – SendGrid <a href="https://sendgrid.com">https://sendgrid.com</a> , Silverpop <a href="http://www-03.ibm.com/software/products/en/silverpop-engage">http://www-03.ibm.com/software/products/en/silverpop-engage</a> , SurveyMonkey <a href="https://www.surveymonkey.com">https://www.surveymonkey.com</a> , etc.</li>
 <li>Web Site –  Expression Engine <a href="https://ellislab.com/expressionengine">https://ellislab.com/expressionengine</a> , Squarespace <a href="http://www.squarespace.com">http://www.squarespace.com</a></li>
 <li>Web Content Creator – How about the original 'wiki' <a href="http://wiki.org">http://wiki.org</a> or a more modern one like Foswiki <a href="http://foswiki.org">http://foswiki.org</a></li>
@@ -124,7 +124,12 @@ and incredibly expensive.  Yes, it is powerful.  No, your users do not care to p
 <h2>Conclusion</h2>
 
 <p>It is good to understand what kinds of system components are out there and be aware that you don't have to
-reinvent / recode them when you need them</p>
+reinvent / recode them when you need them.  Each of the above are good products.  They do what they should
+to fill a particular need.  And almost all of them are
+fault-tolerant and scalable, so they can join the rest of the <em>very tolerant</em> ADD stack.
+Or they are a service and you get what you pay for.  If you really need
+one of them, certainly bring it aboard.  It is better than creating a monolith.
+But if you can do without it, your application and you IT will be easier to understand and maintain.</p>
 ]]></content>
   </entry>
   
