@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Stack | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/stack/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T10:23:27-07:00</updated>
+  <updated>2015-10-20T10:25:32-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -142,9 +142,7 @@ license, but there are many things that can be configured within the NewRelic ag
 
 <p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
 
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic1.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic3.png" />
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
 <img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic4.png" />
 <img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic5.png" />
 <img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic6.png" />
