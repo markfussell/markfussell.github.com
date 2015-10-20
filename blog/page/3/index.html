@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the third in a series of using git as part of interesting solutions to problems. The first is here: Intro Leveraging git to help with IT &hellip;">
+  <meta name="description" content="This is the fourth in a series of using git as part of interesting solutions to problems. The first is here: Intro Leveraging git to help enable &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,78 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/git-about-everything-it-automation/">Being a Git About Everything (IT Automation)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-16T18:16:00-08:00" pubdate data-updated="true">Feb 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the fourth in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
+
+<h2>Leveraging git to help enable automated IT</h2>
+
+<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
+The ultimate IT is one that <em>&#8216;simply works&#8217;</em> and involves almost no human interaction
+even in failure situations.  Ideally IT should be equivalent to
+a macro-level program that does everything that does not require touching
+a physical machine.</p>
+
+<p>This IT-as-program has become easier and easier over the last many years with
+better and more standardized operating systems, free software that does not
+require annoying human interaction during installation, and virtualization on top of physical
+hardware that makes provisioning and reprovisioning easier.  With cloud computing,
+IT-as-program becomes almost a necessity as hundreds of virtual computers are created, updated, failed,
+migrated, and decommissioned.</p>
+
+<p>Git alone doesn&#8217;t enable IT-as-program but it can be a core component in many areas.  Among these are:</p>
+
+<ul>
+<li> Easy &#8216;Live IT&#8217; servers</li>
+<li> A Push-Me-Pull-You model for continual deployment</li>
+<li> Server presence</li>
+</ul>
+
+
+<p>Having git as a core piece of IT infrastructure enables thousands of machines to very rapidly react (within a minute or two)
+without needing a heavy infrastructure.  You simply need one or two (for redundancy) git servers, of which one can be GitHub
+or a similar free or inexpensive service.  Other technologies in this space have significantly more complicated servers,
+are more likely to be SPOFs (Single points of failures) or bottlenecks, and are much more expensive as a service.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/git-about-everything-it-automation/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -492,51 +564,6 @@ when trying to document a program, and it is even harder to reference sections o
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/a-taste-of-flex-part-6/">A Taste of Flex (Part 6)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-02T16:46:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="/blog/a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi &mdash; With Rule Disks (and no stack)</h2>
-
-<p>The first passes at the Tower of Hanoi algorithm were all done with the algorithm being a recursive call on the stack.  This is &#8216;true&#8217; as an algorithm, but comes off as a bit unnatural for humans.  But it also has a problem in that the algorithm can not be &#8216;suspended&#8217; in mid activity unless the language allows a feature (called a continuation) that can suspend the stack itself.  For a multi-threaded language, this inability to suspend may not be a problem because you could create one thread for the algorithm and another thread to listen for whenever a new (interesting) change in state occurs.  This is how the RubyShoes version works: the algorithm is in a new thread separate from the GUI thread (otherwise things behave badly).  Similarly, the Smalltalk-80 GUI is being drawn in a different thread than the main execution thread.  But in many circumstances even this multi-thread version would not work: say you have a client-server version (e.g. Rails) or want to pause/suspend the execution of the 100-tall tower of hanoi.  And finally, if you only have a single-threaded language like Flex, things just don&#8217;t work at all for intermediate renderings unless you can make the algorithm not be dependent on the call stack.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/a-taste-of-flex-part-6/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -564,6 +591,10 @@ when trying to document a program, and it is even harder to reference sections o
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-8/">ADD Stack [Part-8]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/addstack-7/">ADD Stack [Part-7]</a>
       </li>
     
@@ -579,15 +610,11 @@ when trying to document a program, and it is even harder to reference sections o
         <a href="/blog/addstack-4/">ADD Stack [Part-4]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/addstack-3/">ADD Stack [Part-3]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 146.95652173913044%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.6086956521739%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 152.17391304347825%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.7826086956522%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.6086956521739%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 118.26086956521739%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.6086956521739%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 118.26086956521739%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 118.26086956521739%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.6086956521739%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.7826086956522%'>IT</a> <a href='/blog/categories/java' style='font-size: 113.04347826086956%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.6086956521739%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.6086956521739%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.21739130434783%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.21739130434783%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 139.1304347826087%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 110.43478260869566%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 107.82608695652173%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 144.34782608695653%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 118.26086956521739%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.6086956521739%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 147.5%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.5%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 152.5%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.0%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.0%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.5%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 117.5%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.5%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 117.5%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 120.0%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.5%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 155.0%'>IT</a> <a href='/blog/categories/java' style='font-size: 112.5%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.5%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.5%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.0%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.0%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 137.5%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 110.0%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 107.5%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 142.5%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 120.0%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.5%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

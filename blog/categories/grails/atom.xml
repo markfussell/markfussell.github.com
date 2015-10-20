@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T11:22:16-07:00</updated>
+  <updated>2015-10-20T12:48:14-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,297 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-8]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-8/"/>
+    <updated>2015-10-20T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-8</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.</p>
+
+<h2>Federation Application Infrastructure</h2>
+
+<p>The application stack we have so far:</p>
+
+<ul>
+<li> UI (both client and server)</li>
+<li> Application Server (Grails, Java, potentially scripting engine)</li>
+<li> Database (Maria or similar)</li>
+</ul>
+
+
+<p>Is very capable.  Using it combined with the ADD ingredients:</p>
+
+<ul>
+<li> GitHub – With resource, presence, application, and configuration information repositories</li>
+<li> EC2 Instances – Running continuously or based on load, and running their 'part' plus any dynamic configuration</li>
+<li> S3 – For resources</li>
+<li> HipChat – To let everyone know</li>
+</ul>
+
+
+<p>Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
+The nodes and their application can keep certain data in-memory (cached).  The nodes can
+ launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
+ can do pretty much anything.</p>
+
+<h3>Standard Federation Components</h3>
+
+<p>Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
+are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
+And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.</p>
+
+<!--more-->
+
+
+<p>So instead of having the one super-capable application server, we can start breaking out some of the responsibilities
+of the application server into other system components, and then decide whether we need them or not.  If we need
+them, we will be using a very main-stream approach that is redundant, scalable, and easily managed.  It needs to 'fit'
+with our application, but it doesn't have to be similar to the application (e.g. works with Java, written in Erlang,
+runs on Linux).</p>
+
+<p>The list of standard system components isn't that long, but it is <em>longer than you need</em>.  If you are using all of these,
+you are likely over-engineering your solution.  Try to start weaning yourself off some of this technology.</p>
+
+<p>A partial list of federation components</p>
+
+<ul>
+<li>Cache – For rapidly retrieving information that changes slowly or needs to be shared broadly</li>
+<li>Queue – For getting information from producers (requests) to consumers (workers)</li>
+<li>Distributed State – For precise and consistent decision-making among several different entities</li>
+<li>Semistructured Database – For persistently storing data in a faster or more flexible format than the main database</li>
+<li>SSO (Single Sign-on) – To enable users to get access to various resources without the resources having to authenticate</li>
+<li>"Chat" – Real-time presence and data communication enabling 'chat' and various other capabilities</li>
+<li>Map-Reduce – Taking large amounts of data and processing it to get answers to questions.  Can be real-time or not</li>
+<li>Forum – Supporting forum capabilities for customers to talk with each other</li>
+<li>Customer Support – Supporting customer-facing capabilities, including defect and product request tracking</li>
+<li>SMS / Email / Contact – Ability to send out emails, SMS, surveys, and other customer contact</li>
+<li>Web Site – A separate web site from the main application</li>
+<li>Web Content Creator – An ability to enable users to create content within your site (vs. doing it via templating)</li>
+<li>Payment Processing – Handling the record of credit cards and payment processing</li>
+<li>Freetext Search – The ability to search documents and similar free text</li>
+<li>Workers – Special nodes that do work and either go idle or disappear when no work is needed</li>
+</ul>
+
+
+<p>There are some more (e.g. the BI pipeline), but that is a pretty good list.  Especially the 'Workers' is a category basically as broad as
+'Application'.</p>
+
+<p>Working through the list, here are some examples:</p>
+
+<ul>
+<li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
+<li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
+<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a></li>
+<li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
+<li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
+<li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
+<li>Map-Reduce – Spark <a href="https://spark.apache.org">https://spark.apache.org</a>,  Hadoop <a href="https://hadoop.apache.org">https://hadoop.apache.org</a></li>
+<li>Forum –  phpBB <a href="https://www.phpbb.com">https://www.phpbb.com</a></li>
+<li>Customer Support – parature <a href="http://www.parature.com">http://www.parature.com</a></li>
+<li>SMS / Email / Contact – SendGrid <a href="https://sendgrid.com">https://sendgrid.com</a> , Silverpop <a href="http://www-03.ibm.com/software/products/en/silverpop-engage">http://www-03.ibm.com/software/products/en/silverpop-engage</a> , SurveyMonkey <a href="https://www.surveymonkey.com">https://www.surveymonkey.com</a> , etc.</li>
+<li>Web Site –  Expression Engine <a href="https://ellislab.com/expressionengine">https://ellislab.com/expressionengine</a> , Squarespace <a href="http://www.squarespace.com">http://www.squarespace.com</a></li>
+<li>Web Content Creator – How about the original 'wiki' <a href="http://wiki.org">http://wiki.org</a> or a more modern one like Foswiki <a href="http://foswiki.org">http://foswiki.org</a></li>
+<li>Payment Processing – PayPal <a href="http://paypal.com">http://paypal.com</a> or even Facebook <a href="http://facebook.com">http://facebook.com</a> and Google <a href="http://google.com">http://google.com</a></li>
+<li>Freetext Search – Solr <a href="http://lucene.apache.org/solr/">http://lucene.apache.org/solr/</a></li>
+<li>Workers – All kinds of workers and frameworks for doing it, including AWS beanstalks <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html">http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html</a></li>
+</ul>
+
+
+<p>Sadly, Rumble did use almost all of the above (and more) in some way or another, but that is seriously off-the-chart
+and incredibly expensive.  Yes, it is powerful.  No, your users do not care to pay you for that much power.</p>
+
+<p>A company like Wikipedia/Wikimedia looks more like this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-8/addstack8_wikimedia1.png" /></p>
+
+<p>Returning to a bit more of an 'IT' issue, how do we handle logging, monitoring, and analytics on our collection of
+machines?  There are a number of choices:</p>
+
+<ol>
+<li>Run our own infrastructure</li>
+<li>Go with an inexpensive provider</li>
+<li>Go with a more capable provider</li>
+<li>Don't</li>
+</ol>
+
+
+<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading
+from #3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</p>
+
+<!--more-->
+
+
+<h3>Logging: SumoLogic</h3>
+
+<p>The longest standing, very successful, and SaaS capable company is Splunk (<a href="http://splunk.com/">http://splunk.com/</a>) .  But their prices are crazy.  Have no
+idea how they can charge that much.  So instead I will demo SumoLogic (<a href="http://SumoLogic.com/">http://SumoLogic.com/</a>) as the '3B' tier.</p>
+
+<p>Installing SumoLogic is incredibly easy:</p>
+
+<p><code>bash
+wget "https://collectors.us2.sumologic.com/rest/download/linux/64" -O SumoCollector.sh &amp;&amp; chmod +x SumoCollector.sh &amp;&amp; ./SumoCollector.sh -q -VskipDefaultSources=true -Vsumo.token_and_url={token}
+</code></p>
+
+<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
+all have files in '/root/log' which it would be nice to have aggregated.</p>
+
+<p>The results are visible here:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo2.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
+
+<h4>Logging Alternative: Graylog</h4>
+
+<p>For Rumble, we had a Graylog (<a href="http://graylog.com/">http://graylog.com/</a>) cluster that dealt with a tremendous amount of data (half a
+terabyte a day if memory serves, due to over-enthusiastic logging) and was relatively stable under that load.
+Elasticsearch had issues if a node failed (just due to the stress of moving data to another backup), but this
+is under pretty extreme load levels.  So if you wanted to roll your own, the Graylog path would be a very
+inexpensive and powerful path.</p>
+
+<h3>Analytics and Monitoring: NewRelic</h3>
+
+<p>NewRelic (<a href="http://newrelic.com/">http://newrelic.com/</a>) started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
+(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
+operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
+came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
+Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn't need it, but ultimately
+by putting the metrics outside the application everyone's life was simpler.</p>
+
+<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
+
+<p>```bash</p>
+
+<h1>====================================================</h1>
+
+<h1>=== Install NewRelic</h1>
+
+<h1>====================================================</h1>
+
+<h1>===================================</h1>
+
+<h1>=== Server</h1>
+
+<h1>===================================</h1>
+
+<p>rpm -Uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
+yes | yum -y install newrelic-sysmond
+nrsysmond-config --set license_key=key</p>
+
+<p>/etc/init.d/newrelic-sysmond start</p>
+
+<h1>===================================</h1>
+
+<h1>=== Java</h1>
+
+<h1>===================================</h1>
+
+<p>export APP_VERSION=3.21.0
+export APP_FULL_VERSION=newrelic-java-${APP_VERSION}</p>
+
+<p>mkdir -p .temp
+cp it/resource/${APP_FULL_VERSION}.zip .temp/</p>
+
+<p>./bin/inflatePaths.sh .temp/${APP_FULL_VERSION}.zip</p>
+
+<p>mkdir -p /opt
+cp -fr .temp/newrelic /opt/</p>
+
+<p>cp -fr ${RESOURCE}/newrelic.yml /opt/newrelic/newrelic.yml</p>
+
+<p>```</p>
+
+<p>The first section puts on the system-monitoring agent for newrelic.
+The second section has two parts.  The first part puts the general NewRelic agent onto the machine, and the second part
+enables us to override (overlay) the default configuration with our own.  The most important part is to replace the
+license, but there are many things that can be configured within the NewRelic agent.</p>
+
+<p>Finally, we need to launch with the agent configuration into the java / 'gradew' launcher:</p>
+
+<p>```bash</p>
+
+<h1>Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</h1>
+
+<p>DEFAULT_JVM_OPTS="-javaagent:/opt/newrelic/newrelic.jar"
+```</p>
+
+<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic4.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic5.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic6.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" /></p>
+
+<h3>Operational Monitoring: Nagios and Icinga</h3>
+
+<p>The above monitoring is not 'alert' oriented.  It lets you drill into the details of what is happening
+in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
+to go down a different path.  The most mature open source path is the Nagios / Icinga double path (<a href="http://nagios.org/">http://nagios.org/</a>,
+ <a href="http://icinga.org/">http://icinga.org/</a>).</p>
+
+<p>An important aspect of monitoring is to have <em>multiple</em> monitors on your network.  And, in general, for the monitors
+to be outside the data center.  Agents within the data center can relay information out, but if your monitors fail
+inside the data center, you are (unknowingly) blind.</p>
+
+<p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
+within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
+anywhere that you can pull out a git repository.</p>
+
+<p>Examples of Nagios views are:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios2.png" /></p>
+
+<p>Where the lists of hosts to monitor and what to monitor comes from text configuration files.</p>
+
+<p><code>
+define host {
+   host_name   {host_name}
+   use         {node_type}
+   alias       {node_id}
+   address     {node_public_address}
+   register    {registration_order}
+}
+</code></p>
+
+<p>And these files can trivially be generated from the presence information, and updated if
+anything changes.  An important aspect is to make sure to turn off the monitoring system
+when a node is going down <em>intentionally</em>.  So the 'node_state' status and 'node_app_state'
+status are critical to have come through the presence information for monitoring to
+not be 'noisy'.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
+
+<p>Although Nagios and Icinga have dashboards, everything should go into HipChat so everyone
+can see the history and stability/instability of the system.  You can even publish the status
+  publicly so your users will know there is a production problem. If you enable public chat
+  in either HipChat or elsewhere, the users can both see the status and ask for predictions
+  of when issues are resolved.  A much higher-touch relationship with users can make them
+  longer users (this retention aspect was very true of Winster where the CEO was <em>online</em>
+  and could be chatted with a good portion of the evening.  Kind of like walking the floors
+  of the casino or Tim Cook being in the University Apple Store.).</p>
+
+<h2>Conclusion</h2>
+
+<p>Although it is more operational than "application stack", the ability to monitor and analyze your
+application's performance and behavior is critical to any production deployment of it.  So you
+should think about it early and not as an afterthought.  All logging should go into the logging pipeline
+(no System.println or equivalent) and be searchable through that pipeline at one or more aggregators.
+Start out with a metrics system like NewRelic to get a bunch  of valuable things for free
+and you can later add in new application-specific metrics.
+And get the basics of operational monitoring up early and you will know if the application and the
+IT is reliable long before it gets into the production data center.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-7]]]></title>
@@ -765,307 +1056,6 @@ communication.</p>
  other hand, 'separate client' technologies are quite good and by thinking 'separate client' you may produce
  a somewhat better API.  But a 'schism' is more likely, testing is harder, and the separate client is
  less flexible in how it can integrate with the server (at least for 'free').</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-3]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-3/"/>
-    <updated>2015-10-15T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-3</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.</p>
-
-<h2>Grails, Groovy, and Java</h2>
-
-<p>The primary stack I believe is a "Best Practice" is Grails.  It is in it's third full generation, and with
-each generation it gets better, easier, more powerful, and more 'aligned'.  This last part is not that
-common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
-code.  The Grails team has been great at 'pruning' and 'aligning' with Spring and other frameworks.</p>
-
-<p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don't
-know why.  Either they don't read the tutorials... or they get confused and a deadline is approaching... or they
-are cowboys (or cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
-I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
-functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
-wrong with Spring but it is harder to use properly than Grails.  Spring Boot is trying to help with that.  Grails
-is just better.</p>
-
-<p>Grails is 'opinionated' and 'functional' and has plenty of examples to show you these opinions and capabilities.
-We can see a lot of it in the 'petclinic' example.</p>
-
-<h3>Build with Gradle</h3>
-
-<p>Grails uses Gradle to build the project.  It used to have it's own system, but it pruned that away when Gradle
-became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails1.png" /></p>
-
-<h3>Align with Spring Boot</h3>
-
-<!--more-->
-
-
-<p>Spring Boot (<a href="http://projects.spring.io/spring-boot/">http://projects.spring.io/spring-boot/</a>)
-is a relatively recent effort to 'default' a lot of the flexibility within Spring.  So Grails
-is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a 'small' step up
-conceptually so it should be easier for people to 'level up' and also 'wander down' depending on the needs
-of the project.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails2.png" /></p>
-
-<h3>Align with Hibernate, but allow others (include NoSQL)</h3>
-
-<p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
-through GORM to other systems.  Some capabilities go away but basic schema and query capability (CRUD)
-is always there.  And depending on the product, some higher level query capabilities may also be present.</p>
-
-<h3>Use modern testing frameworks</h3>
-
-<p>As mentioned before: 'geb' and 'spock' are the default testing frameworks included, along with the default
-phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
-could be used instead or in addition, but there would have to be a compelling reason for it.</p>
-
-<h3>Modern asset pipeline</h3>
-
-<p>Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
-of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
-pipeline system that leverages the well-defined layout of a Grails project.</p>
-
-<h3>Good IDE integration</h3>
-
-<p>Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
-for Java development.</p>
-
-<h3>Plugins!</h3>
-
-<p>Grails has a very simple and powerful plugin system that adds lots of great capabilities.
-With the move to 3.x some plugins may not yet be ready, but every month several more should be migrated.</p>
-
-<h3>Standard Layout: assets, controllers, services, views, ...</h3>
-
-<p>Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
-the same over all three generations.  The 'src' directory is for things outside the Grails world.  And
-the 'grails-app' directory is for things inside the Grails world.  The grails layout is very intuitive
-for a modern web application:</p>
-
-<ul>
-<li>assets – Assets to go through the pipeline</li>
-<li>conf - Configuration of the application</li>
-<li>controllers – The UI (or web-api) interaction layer of the application</li>
-<li>domain – The business model layer of the application, and the persistent state model</li>
-<li>i18n – Internationalization</li>
-<li>init – Things to do at startup</li>
-<li>services – One or more 'services' layers to pull logic from controllers and domain into</li>
-<li>views – GSP to be used by controllers for rendering (if desired)</li>
-</ul>
-
-
-<p>For the petclinic this layout looks like this when expanded:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails3.png" /></p>
-
-<h3>Modern logging with 'logback'</h3>
-
-<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern 'logback'
-<a href="http://logback.qos.ch">http://logback.qos.ch</a> framework.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
-
-<h3>Incredibly terse</h3>
-
-<p>One of the horrors of moving from Smalltalk to Java was about 4-8x the number of words were required to
-accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.</p>
-
-<p>With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
-Or at least LISP without a really powerful set of macros.</p>
-
-<p>As an example, the 'PetController' is the main UI functionality of the 'petclinic'.  But it has only 53 lines,
-a third of them are blank.  And a total of 150 'words'.</p>
-
-<p>```groovy
-package org.grails.samples</p>
-
-<p>class PetController {</p>
-
-<pre><code>def petclinicService
-
-def add() {
-    if (request.method == 'GET') {
-        return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
-    }
-
-    def pet = petclinicService.createPet(params.pet_name, params.pet?.birthDate,
-        (params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
-
-    if (pet.hasErrors()) {
-        return [pet: pet, types: PetType.list()]
-    }
-
-    redirect controller: 'owner', action: 'show', id: pet.owner.id
-}
-
-def edit() {
-    if (request.method == 'GET') {
-        render view: 'add', model: [pet: Pet.get(params.id), types: PetType.list()]
-        return
-    }
-
-    def pet = Pet.get(params.id)
-
-    petclinicService.updatePet(pet, params.pet_name, params.pet?.birthDate,
-        (params.pet?.type?.id ?: 0) as Long, (params.pet_owner_id ?: 0) as Long)
-
-    if (pet.hasErrors()) {
-        render view: 'add', model: [pet: pet, types: PetType.list()]
-    }
-    else {
-        redirect controller: 'owner', action: 'show', id: pet.owner.id
-    }
-}
-
-def addVisit() {
-    if (request.method == 'GET') {
-        return [visit: new Visit(pet: Pet.get(params.id))]
-    }
-
-    def visit = petclinicService.createVisit((params.visit?.pet?.id ?: 0) as Long, params.visit?.description, params.visit?.date)
-    if (visit.hasErrors()) {
-        return [visit: visit]
-    }
-
-    redirect controller: 'owner', action: 'show', id: visit.pet.owner.id
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>It's functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
-basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
-and 99%+ of the web is just doing CRUD.  90%+ is just Read.</p>
-
-<h4>Automatic Wiring</h4>
-
-<p>A lot of things are happening with this controller.  The simple statement</p>
-
-<p><code>groovy
-def petclinicService
-</code></p>
-
-<p>gets automatically wired to PetclinicService in the services folder.</p>
-
-<h4>Automatic Rendering</h4>
-
-<p>The line</p>
-
-<p>```groovy</p>
-
-<pre><code>        return [pet: new Pet(owner: Owner.get(params.owner?.id)), types: PetType.list()]
-</code></pre>
-
-<p>```</p>
-
-<p>causes the view 'pet/add.gsp' to render with that 'pet' and 'types' property set.  So the HTML can also be
-quite terse:</p>
-
-<p>```html
-<html></p>
-
-<pre><code>&lt;head&gt;
-    &lt;meta name="layout" content="main"&gt;
-    &lt;title&gt;${ pet.id ? 'Update' : 'Add'} Pet&lt;/title&gt;
-&lt;/head&gt;
-
-&lt;body id="add"&gt;
-    &lt;h2&gt;&lt;g:if test="${!pet.id}"&gt;New &lt;/g:if&gt;Pet&lt;/h2&gt;
-
-    &lt;b&gt;Owner:&lt;/b&gt; ${pet.owner?.firstName} ${pet.owner?.lastName}
-    &lt;br/&gt;
-</code></pre>
-
-<p>```</p>
-
-<h4>Powerful redirect and delegation</h4>
-
-<p>Grails can control the client with redirects or delegate to other controllers behind the scenes.</p>
-
-<p>```groovy</p>
-
-<pre><code>    redirect controller: 'owner', action: 'show', id: pet.owner.id
-</code></pre>
-
-<p>```</p>
-
-<h4>Very flexibly Services</h4>
-
-<p>The PetclinicService is transactional so it can save objects within an automatic transaction.  But this
-is optional and can be controlled.</p>
-
-<p>```groovy
-class PetclinicService {</p>
-
-<pre><code>// PetController
-
-Pet createPet(String name, Date birthDate, long petTypeId, long ownerId) {
-    def pet = new Pet(name: name, birthDate: birthDate, type: PetType.load(petTypeId), owner: Owner.load(ownerId))
-    pet.save()
-    pet
-}
-</code></pre>
-
-<p>```</p>
-
-<h4>Super-clean domain classes</h4>
-
-<p>A modern tendency is to have domain classes mostly represent the data side of the Domain object and pull the
-higher level logic out into other classes.  Although I dislike this (why have two classes), it does work
-better with automatic schema generation and migration.  You are less likely to have to restart the container
-and make the system check for data migration issues.</p>
-
-<p>Grails supports a very simple, rich, mapping system called GORM.  And with it, the Domain class is very terse
-but also very powerful.  And GORM works on multiple database <em>kinds</em> let alone products.</p>
-
-<p>```groovy
-package org.grails.samples</p>
-
-<p>/<em>*
- * Simple domain object representing a pet.
- *
- * @author Graeme Rocher
- </em>/
-class Pet {</p>
-
-<pre><code>String name
-Date birthDate
-PetType type
-Owner owner
-
-static hasMany = [visits: Visit]
-
-static constraints = {
-    name blank: false, validator: { name, pet -&gt;
-        if (!pet.id &amp;&amp; pet.owner?.pets?.find { it.name == name })  {
-            return 'pet.duplicate'
-        }
-    }
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Apparently Graeme doesn't want people to have duplicate pet names :-/</p>
-
-<h2>Summary</h2>
-
-<p>There is much more functionality to Grails than described above, but that is a good, quick, walk-through.  There
-are also certain conventions I believe are best practices on top of the Grails framework (e.g. 'RepoService' classes
-for Domain objects so functionality is easily and consistently located), but again that is an augmentation vs. being
-a requirement to getting a good picture of the system.</p>
-
-<p>Next I will go into the UI portion and options for that.</p>
 ]]></content>
   </entry>
   
