@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T08:12:24-07:00</updated>
+  <updated>2015-10-20T09:35:41-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -46,8 +46,8 @@ from #3 to #2 is fine <em>after</em> you have learned the capabilities you are g
 
 <h3>Logging: SumoLogic</h3>
 
-<p>The longest standing, very successful, and SaaS capable company is Splunk.  But their prices are crazy.  Have no
-idea how they can charge that much.  So instead I will demo SumoLogic as the '3B' tier.</p>
+<p>The longest standing, very successful, and SaaS capable company is Splunk (<a href="http://splunk.com/">http://splunk.com/</a>) .  But their prices are crazy.  Have no
+idea how they can charge that much.  So instead I will demo SumoLogic (<a href="http://SumoLogic.com/">http://SumoLogic.com/</a>) as the '3B' tier.</p>
 
 <p>Installing SumoLogic is incredibly easy:</p>
 
@@ -66,9 +66,17 @@ all have files in '/root/log' which it would be nice to have aggregated.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
 
-<h3>Monitoring: NewRelic</h3>
+<h4>Logging Alternative: Graylog</h4>
 
-<p>NewRelic started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
+<p>For Rumble, we had a Graylog (<a href="http://graylog.com/">http://graylog.com/</a>) cluster that dealt with a tremendous amount of data (half a
+terabyte a day if memory serves, due to over-enthusiastic logging) and was relatively stable under that load.
+Elasticsearch had issues if a node failed (just due to the stress of moving data to another backup), but this
+is under pretty extreme load levels.  So if you wanted to roll your own, the Graylog path would be a very
+inexpensive and powerful path.</p>
+
+<h3>Analytics and Monitoring: NewRelic</h3>
+
+<p>NewRelic (<a href="http://newrelic.com/">http://newrelic.com/</a>) started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
 (a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
 operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
 came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
@@ -85,6 +93,24 @@ by putting the metrics outside the application everyone's life was simpler.</p>
 
 <h1>====================================================</h1>
 
+<h1>===================================</h1>
+
+<h1>=== Server</h1>
+
+<h1>===================================</h1>
+
+<p>rpm -Uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
+yes | yum -y install newrelic-sysmond
+nrsysmond-config --set license_key=key</p>
+
+<p>/etc/init.d/newrelic-sysmond start</p>
+
+<h1>===================================</h1>
+
+<h1>=== Java</h1>
+
+<h1>===================================</h1>
+
 <p>export APP_VERSION=3.21.0
 export APP_FULL_VERSION=newrelic-java-${APP_VERSION}</p>
 
@@ -100,11 +126,12 @@ cp -fr .temp/newrelic /opt/</p>
 
 <p>```</p>
 
-<p>The first part puts the general NewRelic agent onto the machine, and the last part enables us to override
-the default configuration with our own.  The most important part is to replace the license, but there
-are many things that can be configured within the NewRelic agent.</p>
+<p>The first section puts on the system-monitoring agent for newrelic.
+The second section has two parts.  The first part puts the general NewRelic agent onto the machine, and the second part
+enables us to override (overlay) the default configuration with our own.  The most important part is to replace the
+license, but there are many things that can be configured within the NewRelic agent.</p>
 
-<p>Finally, we need to launch with the agent configuration into the 'gradew' launcher:</p>
+<p>Finally, we need to launch with the agent configuration into the java / 'gradew' launcher:</p>
 
 <p>```bash</p>
 
@@ -114,6 +141,30 @@ are many things that can be configured within the NewRelic agent.</p>
 ```</p>
 
 <p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic1.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic3.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic4.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic5.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic6.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" /></p>
+
+<h3>Operational Monitoring: Icinga</h3>
+
+<p>The above monitoring is not 'alert' oriented.  It lets you drill into the details of what is happening
+in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
+to go down a different path.  The most mature open source path is the Nagios / Icinga double path (<a href="http://nagios.org/">http://nagios.org/</a>,
+ <a href="http://icinga.org/">http://icinga.org/</a>).</p>
+
+<p>An important aspect of monitoring is to have <em>multiple</em> monitors on your network.  And, in general, for the monitors
+to be outside the data center.  Agents within the data center can relay information out, but if your monitors fail
+inside the data center, you are (unknowingly) blind.</p>
+
+<p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
+within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
+anywhere that you can pull out a git repository.</p>
 ]]></content>
   </entry>
   
