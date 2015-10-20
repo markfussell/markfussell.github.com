@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T10:28:05-07:00</updated>
+  <updated>2015-10-20T11:06:12-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -187,6 +187,26 @@ anything changes.  An important aspect is to make sure to turn off the monitorin
 when a node is going down <em>intentionally</em>.  So the 'node_state' status and 'node_app_state'
 status are critical to have come through the presence information for monitoring to
 not be 'noisy'.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
+
+<p>Although Nagios and Icinga have dashboards, everything should go into HipChat so everyone
+can see the history and stability/instability of the system.  You can even publish the status
+  publicly so your users will know there is a production problem. If you enable public chat
+  in either HipChat or elsewhere, the users can both see the status and ask for predictions
+  of when issues are resolved.  A much higher-touch relationship with users can make them
+  longer users (this retention aspect was very true of Winster where the CEO was <em>online</em>
+  and could be chatted with a good portion of the evening.  Kind of like walking the floors
+  of the casino or Tim Cook being in the University Apple Store.).</p>
+
+<h2>Conclusion</h2>
+
+<p>Although it is more operational than "application stack", the ability to monitor and analyze your
+application's performance and behavior is critical to any production deployment of it.  So you
+should think about it early and not as an afterthought.  All logging should go into the logging pipeline
+(no System.println or equivalent) and be searchable through that pipeline at one or more aggregators.
+Start out with a metrics system like NewRelic to get a bunch  of valuable things for free
+and you can later add in new application-specific metrics.
+And get the basics of operational monitoring up early and you will know if the application and the
+IT is reliable long before it gets into the production data center.</p>
 ]]></content>
   </entry>
   
