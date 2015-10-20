@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T09:56:38-07:00</updated>
+  <updated>2015-10-20T10:20:41-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -151,7 +151,7 @@ license, but there are many things that can be configured within the NewRelic ag
 <img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" />
 <img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" /></p>
 
-<h3>Operational Monitoring: Icinga</h3>
+<h3>Operational Monitoring: Nagios and Icinga</h3>
 
 <p>The above monitoring is not 'alert' oriented.  It lets you drill into the details of what is happening
 in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
@@ -165,6 +165,30 @@ inside the data center, you are (unknowingly) blind.</p>
 <p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
 within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
 anywhere that you can pull out a git repository.</p>
+
+<p>Examples of Nagios views are:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios2.png" /></p>
+
+<p>Where the lists of hosts to monitor and what to monitor comes from text configuration files.</p>
+
+<p><code>
+define host {
+   host_name   {host_name}
+   use         {node_type}
+   alias       {node_id}
+   address     {node_public_address}
+   register    {registration_order}
+}
+</code></p>
+
+<p>And these files can trivially be generated from the presence information, and updated if
+anything changes.  An important aspect is to make sure to turn off the monitoring system
+when a node is going down <em>intentionally</em>.  So the 'node_state' status and 'node_app_state'
+status are critical to have come through the presence information for monitoring to
+not be 'noisy'.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
 ]]></content>
   </entry>
   

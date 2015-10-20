@@ -247,7 +247,7 @@ license, but there are many things that can be configured within the NewRelic ag
 <img src="/images/addstack-7/addstack7_newrelic7.png" />
 <img src="/images/addstack-7/addstack7_newrelic7.png" /></p>
 
-<h3>Operational Monitoring: Icinga</h3>
+<h3>Operational Monitoring: Nagios and Icinga</h3>
 
 <p>The above monitoring is not &#8216;alert&#8217; oriented.  It lets you drill into the details of what is happening
 in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
@@ -261,6 +261,37 @@ inside the data center, you are (unknowingly) blind.</p>
 <p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
 within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
 anywhere that you can pull out a git repository.</p>
+
+<p>Examples of Nagios views are:</p>
+
+<p><img src="/images/addstack-7/addstack7_nagios1.png" /></p>
+
+<p><img src="/images/addstack-7/addstack7_nagios2.png" /></p>
+
+<p>Where the lists of hosts to monitor and what to monitor comes from text configuration files.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>define host <span class="o">{</span>
+</span><span class='line'>   host_name   <span class="o">{</span>host_name<span class="o">}</span>
+</span><span class='line'>   use         <span class="o">{</span>node_type<span class="o">}</span>
+</span><span class='line'>   <span class="nb">alias</span>       <span class="o">{</span>node_id<span class="o">}</span>
+</span><span class='line'>   address     <span class="o">{</span>node_public_address<span class="o">}</span>
+</span><span class='line'>   register    <span class="o">{</span>registration_order<span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And these files can trivially be generated from the presence information, and updated if
+anything changes.  An important aspect is to make sure to turn off the monitoring system
+when a node is going down <em>intentionally</em>.  So the &#8216;node_state&#8217; status and &#8216;node_app_state&#8217;
+status are critical to have come through the presence information for monitoring to
+not be &#8216;noisy&#8217;.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
 </div>
 
 
