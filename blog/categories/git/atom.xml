@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T11:09:44-07:00</updated>
+  <updated>2015-10-20T11:17:13-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -223,11 +223,11 @@ and Dual or Isomorphic scripting.</p>
 
 <h2>Which UI framework?</h2>
 
-<p>The fourth article discussed UI alternatives, but they were mostly 'architectural' alternatives and did not
-specify a particular framework to use.  I believe that is correct in that <em>how you use</em> the framework can be more
-important than the framework itself.  People can correctly and badly use all kinds of different technology.
-Use a hammer correctly and you might have a slight penalty (rubber vs. metal) if it is a bit weaker of a tool, but
-use it wrong (have thumb be accessible) and you can be seriously hurt.</p>
+<p>The <a href="/blog/addstack-4/">fourth article</a> discussed UI alternatives, but it was mostly about 'architectural' alternatives
+ and did not recommend a particular framework to use.  I believe that is the correct order: <em>how you use</em> the framework
+ can be more important than the framework itself.  People can correctly and badly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
+use it wrong (your thumb is targetable) and you can be seriously hurt.</p>
 
 <p>There are a number of popular frameworks:</p>
 
@@ -240,7 +240,8 @@ use it wrong (have thumb be accessible) and you can be seriously hurt.</p>
 </ul>
 
 
-<p>And deciding between them may seem like "which has the best features?" but unless something has a killer feature
+<p>And deciding between them may seem like it should be done as "which has the best features?" but unless
+one of them has a killer feature
 (Sencha can run the same code on the desktop and mobile) that you care about, and is worth its penalties (Sencha
 is proprietary and very 'different') then 'best features' is basically meaningless.  A better question is "Which
 one do I understand the best?" and "Which one can other people learn and share-code the best?".</p>
@@ -274,7 +275,7 @@ in ways I think the Angular team would be shocked by.  Sencha is confusing but i
 and powerfully-fragile (do something wrong and you get a terribly visible break) that you can't really use it wrong.
 Ember appears to have the advantages of Rails and Grails... as the framework innately 'works' you can't
 really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
-decide early whether you want complete alignment</p>
+decide early whether you want complete alignment.</p>
 ]]></content>
   </entry>
   
