@@ -1,0 +1,60 @@
+---
+layout: post
+title: "ADD Stack [Part-6]"
+date: 2015-10-17 1:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting.
+
+## Which UI framework?
+
+The [fourth article](/blog/addstack-4/) discussed UI alternatives, but it was mostly about 'architectural' alternatives
+ and did not recommend a particular framework to use.  I believe that is the correct order: _how you use_ the framework
+ is usually more important than the framework itself.  People can correctly and improperly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
+use it wrong (your thumb is targetable) and you can be seriously hurt.
+
+There are a number of popular frameworks:
+
+  * Angular
+  * Ember
+  * Backbone
+  * Sencha
+  * etc.
+
+And deciding between them may seem like it should be done as "which has the best features?" but unless
+one of them has a killer feature  that you care about
+(Sencha can run the same code with both a desktop and mobile UI), and is worth its penalties (Sencha
+is proprietary and very 'different') then 'best features' is basically meaningless.  A better question is "Which
+one do I understand the best?" and "Which one can other people on the team learn and share-code the best?".
+
+<!--more-->
+
+Taking out 'Sencha' from the above and you get a few different viewpoints on the web:
+
+  * <http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/>
+  * <https://www.airpair.com/js/javascript-framework-comparison>
+  * <https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks>
+
+And dropping Backbone, the distinction is really:
+
+  * Angular – Powerful, dry, and scale-limited framework
+  * Ember – Less dry, more opinionated, and more scalable
+
+With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
+have to be more explicit, but the convention and the explicitness should make the code more readable and
+maintainable.
+
+Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
+in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
+and powerfully-fragile (do something wrong and you get a terribly visible break) that you can't really use it wrong.
+Ember appears to have the advantages of Rails and Grails... as the framework innately 'works' you can't
+really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
+decide early whether you want complete alignment.
+

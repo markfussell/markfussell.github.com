@@ -1,0 +1,116 @@
+---
+layout: post
+title: "ADD Stack [Part-5]"
+date: 2015-10-16 1:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.
+
+This article is about some fairly advanced capabilities, but capabilities that many projects find useful,
+and so should be considered within the context of the overall context.  They are:
+
+   * Data Flexibility and Templating
+   * Server Side Scripting
+
+
+## Data Flexibility and Template Systems
+
+One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a 'meta'
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+_the client_ can pull down the information without taxing your server network at all.
+
+Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:
+
+   * Mustache
+   * Jade
+   * Dust
+
+<!--more-->
+
+Deciding amongst them depends on who is going to be writing the template and 'where' it is
+going to execute.  But I recommend (a) making it language agnostic, (b) making it output agnostic,
+and (c) making writing HTML templates a lot like writing HTML (and not something weird even if "more
+powerful").  I have seen a lot of developers argue that you should write HTML in some YAML like language.
+That is like saying you should write Java in some LISP-like language.  It makes no sense to change
+syntax that dramatically even if every language is computationally equivalent.  HTML is verbose
+because people like that lack of ambiguity (The original SGML was much more ambiguous and powerful).
+There are plenty of auto-complete tools out there that help with HTML.  And everyone can follow
+'fragments' of HTML better because the fragment has so much redundant information.
+
+Among the above, it seems that Dust <http://dustjs.com/> is a well supported successor to Mustache / Handlebars.
+Besides having LinkedIn support, it appears the company <http://cloudcms.com/> is using it as well.  There is
+a comparison of frameworks at [Templating Throwdown](https://engineering.linkedin.com/frontend/client-side-templating-throwdown-mustache-handlebars-dustjs-and-more)
+
+By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
+a user to generate any page they want... either for themselves or for other people.
+
+### Scary!
+
+OK, the above should seem both epic and _scary_.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn't that mean they could do _anything_ including hijack another user?  Get
+their password?  Stuff like that?
+
+If you do it wrong... yes... yes they can.  Fortunately we have Facebook, MySpace and other companies that
+show how to do it wrong and then fix the problem.  The general solution is:
+
+  * Users never authenticate with 'The Page'.  They only authenticate with you.
+  * You give the page a valid one-time token for that third party to contact you on behalf of a user
+  * You make sure to verify the token before doing anything for the user, and only allow the page / third party to do things you (or the user) approve
+
+This model makes sure the third party is not doing anything dangerous to your site...
+or at least not successfully doing anything.
+
+## Server-Side Scripting
+
+Along with the data flexibility combined with templating described above, there is an even scarier and more powerful
+option to enable within-server scripting.  This ability to have code be mutable at run-time enables some easy upgrades
+and 'forks' (customers doing their own thing) in exchange for much less surety that the code is running, some performance
+trades, a more complex system model (flowing back and forth between JavaScript and Java), and potential for security
+holes.  I have seen a number of systems have scripting and the most successful variations have been:
+
+  * Limited scripting to support customizing very controlled situations (e.g. Templating, Workflow, etc.)
+  * Hog-wild scripting that enables customers to 'fork' the code base, where that code base is being run on un-shared servers
+
+If you want to have a customizable product, the second approach is definitely very powerful.  Otherwise, the first is probably
+safer and simpler.  An example of the benefits to server-side (and ultimately hybrid or 'isomorphic') is described well here:
+
+   * <https://www.youtube.com/watch?v=pgvlHGi9VXM>
+   * <http://isomorphic.net>
+
+
+### What scripting language?
+
+The obvious modern scripting language to use is JavaScript.  Because of its' pervasiveness in the browser, it is among
+the better understood languages out there.  It also has a ridiculously simple and powerful language model (JS is a
+(maybe accidental?) descendant of Self, which was an amazingly simple and powerful language too).  And although it does
+not have a lot of libraries, running JavaScript via Nashorn enables you to call into the Java world.  A tutorial on
+Nashorn is here:
+
+  * <http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/>
+
+## Summary
+
+This article described augmenting both the server and the client by putting in three stack
+'ingredients' that enable a lot of power (either broadly or in limited situations):
+
+  * Flexible/Semi-structured Data – JSON – On both the client and the server (and the database)
+  * Templating – Dust – On both the client and the server (by the next one)
+  * Scripting: Dual and Isomorphic – JavaScript / Nashorn – Both client and server can then have leverage the same scripting technologies, and potentially chose whether to run something on the server or on the client (or both to enhance SEO)
+
+These ingredients make for a much more powerful and flexible application.  These may be overkill for some projects, but
+ they are definitely _generally useful_ and whether 'utilized' they should be considered 'available' when needed.
+
+
+
+
