@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T08:09:15-07:00</updated>
+  <updated>2015-10-20T08:11:06-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -38,9 +38,8 @@ machines?  There are a number of choices:</p>
 </ol>
 
 
-<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading from</p>
-
-<h1>3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</h1>
+<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading
+from #3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</p>
 
 <!--more-->
 
