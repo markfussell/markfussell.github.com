@@ -9,8 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics &hellip;">
+  <meta name="description" content="This is the third in a series of using git as part of interesting solutions to problems. The first is here: Intro Leveraging git to help with IT &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,115 @@ existing technology, but certain characteristics &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/git-about-everything-it/">Being a Git About Everything (IT)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-13T18:16:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the third in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
+
+<h2>Leveraging git to help with IT tasks</h2>
+
+<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
+Git can help out with a lot of this, with several big benefits.  Some examples:</p>
+
+<ul>
+<li> IT changes should always be version controlled in case of mistake.  Git and a couple patterns/tools makes that easy</li>
+<li> Installing software can frequently be done with &#8216;yum&#8217; and similar commands, but some software needs a package, and some times you want more direct &#8216;this version&#8217; control.  An annexed git repository helps with that</li>
+<li> Doing backups or other kinds of off-lining with an annexed repo is very simple and flexible</li>
+<li> Git enables a PushMePullYou model that is very flexible and capable of driving hundreds of machines to do either (or both) very light and very heavy-weight operation</li>
+</ul>
+
+
+<p>Some of these things can be done with other tools, but I have found an annexed git repository to make doing these things easier and better</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/git-about-everything-it/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/git-about-everything-annex/">Being a Git About Everything (Annexing)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T18:16:00-08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second in a series of using git as part of interesting solutions to problems.</p>
+
+<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
+
+<h2>Dealing with Binary Files</h2>
+
+<p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
+versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
+
+<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
+&#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/git-about-everything-annex/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -429,96 +537,6 @@ when trying to document a program, and it is even harder to reference sections o
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/a-taste-of-flex-part-5/">A Taste of Flex (Part 5)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-02T07:44:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="/blog/a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi — With Graphics</h2>
-
-<p>To follow the flow of code progress within &#8220;A Taste of Smalltalk&#8221;, we next need to include a graphical representation of the disks and their movement between the poles.  Flex lives inside a Flash player (or app), so it is inherently capable of doing sophisticated graphics.  Actually it is hard to &#8216;contain&#8217; yourself to just doing the simplest possible thing when animating sprites around the screen is very easy.  But to try to compare Flex to Ruby and Smalltalk, we want to keep things in about the same ballpark &#8211; and again study how different languages work with the same problem.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/a-taste-of-flex-part-5/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/a-taste-of-flex-part-4/">A Taste of Flex (Part 4)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-02T07:13:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="/blog/a-taste-of-flex">here</a>.</p>
-
-<h2>Tower of Hanoi &mdash; With Model Objects</h2>
-
-<p>The book &#8220;A Taste of Smalltalk&#8221; jumps from showing a single &#8216;TowerOfHanoi&#8217; object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Even though Flex has no issue with graphics, I want to separate these two changes both to match Ruby and because the changes are logically somewhat separate.  So first we can put in Disk objects and study that change.  After that, we can go into the GUI code.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/a-taste-of-flex-part-4/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -546,6 +564,14 @@ when trying to document a program, and it is even harder to reference sections o
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-7/">ADD Stack [Part-6]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/addstack-6/">ADD Stack [Part-6]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/addstack-5/">ADD Stack [Part-5]</a>
       </li>
     
@@ -557,19 +583,11 @@ when trying to document a program, and it is even harder to reference sections o
         <a href="/blog/addstack-3/">ADD Stack [Part-3]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/addstack-2/">ADD Stack [Part-2]</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/addstack-1/">ADD Stack [Part-1]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 145.71428571428572%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.85714285714286%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 151.42857142857144%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.28571428571428%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.71428571428571%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.85714285714286%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 120.0%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.85714285714286%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 120.0%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 114.28571428571429%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.85714285714286%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.28571428571428%'>IT</a> <a href='/blog/categories/java' style='font-size: 114.28571428571429%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.85714285714286%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.85714285714286%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.71428571428571%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.71428571428571%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 142.85714285714286%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 111.42857142857143%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 108.57142857142857%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 148.57142857142856%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 114.28571428571429%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.85714285714286%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 146.95652173913044%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.6086956521739%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 152.17391304347825%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.7826086956522%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.6086956521739%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 118.26086956521739%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.6086956521739%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 118.26086956521739%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 118.26086956521739%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.6086956521739%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.7826086956522%'>IT</a> <a href='/blog/categories/java' style='font-size: 113.04347826086956%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.6086956521739%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.6086956521739%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.21739130434783%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.21739130434783%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 139.1304347826087%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 110.43478260869566%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 107.82608695652173%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 144.34782608695653%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 118.26086956521739%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.6086956521739%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

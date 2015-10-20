@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the sixth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="This is the eighth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,119 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-8/">Advanced Development and Delivery (ADD) [Part-8]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-08T01:00:00-07:00" pubdate data-updated="true">Oct 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the eighth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
+
+<h2>Configuring Node Parts and even fuller Presence and visibility</h2>
+
+<p>So far our node was a generic &#8216;ControlNode&#8217;.  A ControlNode is a node that is in your data center
+(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
+It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
+start configuring a database node.  You launch and login to a ControlNode and then try to install a database
+(for example Maria).</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-8/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-04T01:00:00-07:00" pubdate data-updated="true">Oct 4<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
+node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
+
+<h2>Fuller Presence and EC2 Integration</h2>
+
+<p>In the previous part, I went through a very simple but powerful model of &#8216;presence&#8217; using simply GitHub repositories.
+The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
+The second level of presence is to update the state of the node as it changes.  For example, a node goes through
+a few bootstrap steps:</p>
+
+<ul>
+<li> presetup – The node before any updates are possible (no ability to change status)</li>
+<li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
+<li> initdone – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
+</ul>
+
+
+<p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
+our federation!</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-7/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -564,115 +677,6 @@ are more likely to be SPOFs (Single points of failures) or bottlenecks, and are 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-it/">Being a Git About Everything (IT)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-13T18:16:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the third in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Leveraging git to help with IT tasks</h2>
-
-<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
-Git can help out with a lot of this, with several big benefits.  Some examples:</p>
-
-<ul>
-<li> IT changes should always be version controlled in case of mistake.  Git and a couple patterns/tools makes that easy</li>
-<li> Installing software can frequently be done with &#8216;yum&#8217; and similar commands, but some software needs a package, and some times you want more direct &#8216;this version&#8217; control.  An annexed git repository helps with that</li>
-<li> Doing backups or other kinds of off-lining with an annexed repo is very simple and flexible</li>
-<li> Git enables a PushMePullYou model that is very flexible and capable of driving hundreds of machines to do either (or both) very light and very heavy-weight operation</li>
-</ul>
-
-
-<p>Some of these things can be done with other tools, but I have found an annexed git repository to make doing these things easier and better</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-it/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/git-about-everything-annex/">Being a Git About Everything (Annexing)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-13T18:16:00-08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Dealing with Binary Files</h2>
-
-<p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
-versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
-
-<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
-&#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/git-about-everything-annex/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -700,6 +704,14 @@ versions of 10MB files will produce gigabytes worth of data that must be cloned 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-7/">ADD Stack [Part-6]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/addstack-6/">ADD Stack [Part-6]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/addstack-5/">ADD Stack [Part-5]</a>
       </li>
     
@@ -711,19 +723,11 @@ versions of 10MB files will produce gigabytes worth of data that must be cloned 
         <a href="/blog/addstack-3/">ADD Stack [Part-3]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/addstack-2/">ADD Stack [Part-2]</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/addstack-1/">ADD Stack [Part-1]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 145.71428571428572%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.85714285714286%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 151.42857142857144%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.28571428571428%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.71428571428571%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.85714285714286%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 120.0%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.85714285714286%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 120.0%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 114.28571428571429%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.85714285714286%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.28571428571428%'>IT</a> <a href='/blog/categories/java' style='font-size: 114.28571428571429%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.85714285714286%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.85714285714286%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.71428571428571%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.71428571428571%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 142.85714285714286%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 111.42857142857143%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 108.57142857142857%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 148.57142857142856%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 114.28571428571429%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.85714285714286%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 146.95652173913044%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.6086956521739%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 152.17391304347825%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.7826086956522%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.6086956521739%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 118.26086956521739%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.6086956521739%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 118.26086956521739%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 118.26086956521739%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.6086956521739%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.7826086956522%'>IT</a> <a href='/blog/categories/java' style='font-size: 113.04347826086956%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.6086956521739%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.6086956521739%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.21739130434783%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.21739130434783%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 139.1304347826087%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 110.43478260869566%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 107.82608695652173%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 144.34782608695653%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 118.26086956521739%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.6086956521739%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

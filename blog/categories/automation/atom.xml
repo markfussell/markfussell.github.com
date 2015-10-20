@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-16T10:10:59-07:00</updated>
+  <updated>2015-10-20T07:48:55-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,179 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-7/"/>
+    <updated>2015-10-19T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-7</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.</p>
+
+<h2>Logging, Analytics, and Monitoring</h2>
+
+<p>Returning to a bit more of an 'IT' issue, how do we handle logging, monitoring, and analytics on our collection of
+machines?  There are a number of choices:</p>
+
+<ol>
+<li>Run our own infrastructure</li>
+<li>Go with an inexpensive provider</li>
+<li>Go with a more capable provider</li>
+<li>Don't</li>
+</ol>
+
+
+<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading from</p>
+
+<h1>3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</h1>
+
+<!--more-->
+
+
+<h3>Logging: SumoLogic</h3>
+
+<p>The longest standing, very successful, and SaaS capable company is Splunk.  But their prices are crazy.  Have no
+idea how they can charge that much.  So instead I will demo SumoLogic as the '3B' tier.</p>
+
+<p>Installing SumoLogic is incredibly easy:</p>
+
+<p><code>bash
+wget "https://collectors.us2.sumologic.com/rest/download/linux/64" -O SumoCollector.sh &amp;&amp; chmod +x SumoCollector.sh &amp;&amp; ./SumoCollector.sh -q -VskipDefaultSources=true -Vsumo.token_and_url={token}
+</code></p>
+
+<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
+all have files in '/root/log' which it would be nice to have aggregated.</p>
+
+<p>The results are visible here:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo2.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
+
+<h3>Monitoring: NewRelic</h3>
+
+<p>NewRelic started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
+(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
+operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
+came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
+Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn't need it, but ultimately
+by putting the metrics outside the application everyone's life was simpler.</p>
+
+<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
+
+<p>```bash</p>
+
+<h1>====================================================</h1>
+
+<h1>=== Install NewRelic</h1>
+
+<h1>====================================================</h1>
+
+<p>export APP_VERSION=3.21.0
+export APP_FULL_VERSION=newrelic-java-${APP_VERSION}</p>
+
+<p>mkdir -p .temp
+cp it/resource/${APP_FULL_VERSION}.zip .temp/</p>
+
+<p>./bin/inflatePaths.sh .temp/${APP_FULL_VERSION}.zip</p>
+
+<p>mkdir -p /opt
+cp -fr .temp/newrelic /opt/</p>
+
+<p>cp -fr ${RESOURCE}/newrelic.yml /opt/newrelic/newrelic.yml</p>
+
+<p>```</p>
+
+<p>The first part puts the general NewRelic agent onto the machine, and the last part enables us to override
+the default configuration with our own.  The most important part is to replace the license, but there
+are many things that can be configured within the NewRelic agent.</p>
+
+<p>Finally, we need to launch with the agent configuration into the 'gradew' launcher:</p>
+
+<p>```bash</p>
+
+<h1>Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</h1>
+
+<p>DEFAULT_JVM_OPTS="-javaagent:/opt/newrelic/newrelic.jar"
+```</p>
+
+<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-6/"/>
+    <updated>2015-10-17T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-6</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting.</p>
+
+<h2>Which UI framework?</h2>
+
+<p>The fourth article discussed UI alternatives, but they were mostly 'architectural' alternatives and did not
+specify a particular framework to use.  I believe that is correct in that <em>how you use</em> the framework can be more
+important than the framework itself.  People can correctly and badly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal) if it is a bit weaker of a tool, but
+use it wrong (have thumb be accessible) and you can be seriously hurt.</p>
+
+<p>There are a number of popular frameworks:</p>
+
+<ul>
+<li>Angular</li>
+<li>Ember</li>
+<li>Backbone</li>
+<li>Sencha</li>
+<li>etc.</li>
+</ul>
+
+
+<p>And deciding between them may seem like "which has the best features?" but unless something has a killer feature
+(Sencha can run the same code on the desktop and mobile) that you care about, and is worth its penalties (Sencha
+is proprietary and very 'different') then 'best features' is basically meaningless.  A better question is "Which
+one do I understand the best?" and "Which one can other people learn and share-code the best?".</p>
+
+<!--more-->
+
+
+<p>Taking out 'Sencha' from the above and you get a few different viewpoints on the web:</p>
+
+<ul>
+<li>&lt;http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/ ></li>
+<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
+<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
+</ul>
+
+
+<p>And dropping Backbone, the distinction is really:</p>
+
+<ul>
+<li>Angular – Powerful, dry, and scale-limited framework</li>
+<li>Ember – Less dry, more opinionated, and more scalable</li>
+</ul>
+
+
+<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
+have to be more explicit, but the convention and the explicitness should make the code more readable and
+maintainable.</p>
+
+<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
+in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
+and powerfully-fragile (do something wrong and you get a terribly visible break) that you can't really use it wrong.
+Ember appears to have the advantages of Rails and Grails... as the framework innately 'works' you can't
+really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
+decide early whether you want complete alignment</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-5]]]></title>
@@ -22,6 +195,15 @@
 first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
 The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
 The fourth discussed UI alternatives.</p>
+
+<p>This article is about some fairly advanced capabilities, but capabilities that many projects find useful,
+and so should be considered within the context of the overall context.  They are:</p>
+
+<ul>
+<li> Data Flexibility and Templating</li>
+<li> Server Side Scripting</li>
+</ul>
+
 
 <h2>Data Flexibility and Template Systems</h2>
 
@@ -58,29 +240,81 @@ There are plenty of auto-complete tools out there that help with HTML.  And ever
 'fragments' of HTML better because the fragment has so much redundant information.</p>
 
 <p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
-Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.  There is
+a comparison of frameworks at <a href="https://engineering.linkedin.com/frontend/client-side-templating-throwdown-mustache-handlebars-dustjs-and-more">Templating Throwdown</a></p>
 
 <p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
 a user to generate any page they want... either for themselves or for other people.</p>
 
 <h3>Scary!</h3>
 
-<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
-including JavaScript?  Doesn't that mean they could do <em>anything</em> including hijack a user?  Get
+<p>OK, the above should seem both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn't that mean they could do <em>anything</em> including hijack another user?  Get
 their password?  Stuff like that?</p>
 
 <p>If you do it wrong... yes... yes they can.  Fortunately we have Facebook, MySpace and other companies that
 show how to do it wrong and then fix the problem.  The general solution is:</p>
 
 <ul>
-<li>Users never authenticate with 'The Third Party'.  They only authenticate with you.</li>
-<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
-<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+<li>Users never authenticate with 'The Page'.  They only authenticate with you.</li>
+<li>You give the page a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the page / third party to do things you (or the user) approve</li>
 </ul>
 
 
 <p>This model makes sure the third party is not doing anything dangerous to your site...
 or at least not successfully doing anything.</p>
+
+<h2>Server-Side Scripting</h2>
+
+<p>Along with the data flexibility combined with templating described above, there is an even scarier and more powerful
+option to enable within-server scripting.  This ability to have code be mutable at run-time enables some easy upgrades
+and 'forks' (customers doing their own thing) in exchange for much less surety that the code is running, some performance
+trades, a more complex system model (flowing back and forth between JavaScript and Java), and potential for security
+holes.  I have seen a number of systems have scripting and the most successful variations have been:</p>
+
+<ul>
+<li>Limited scripting to support customizing very controlled situations (e.g. Templating, Workflow, etc.)</li>
+<li>Hog-wild scripting that enables customers to 'fork' the code base, where that code base is being run on un-shared servers</li>
+</ul>
+
+
+<p>If you want to have a customizable product, the second approach is definitely very powerful.  Otherwise, the first is probably
+safer and simpler.  An example of the benefits to server-side (and ultimately hybrid or 'isomorphic') is described well here:</p>
+
+<ul>
+<li> <a href="https://www.youtube.com/watch?v=pgvlHGi9VXM">https://www.youtube.com/watch?v=pgvlHGi9VXM</a></li>
+<li> <a href="http://isomorphic.net">http://isomorphic.net</a></li>
+</ul>
+
+
+<h3>What scripting language?</h3>
+
+<p>The obvious modern scripting language to use is JavaScript.  Because of its' pervasiveness in the browser, it is among
+the better understood languages out there.  It also has a ridiculously simple and powerful language model (JS is a
+(maybe accidental?) descendant of Self, which was an amazingly simple and powerful language too).  And although it does
+not have a lot of libraries, running JavaScript via Nashorn enables you to call into the Java world.  A tutorial on
+Nashorn is here:</p>
+
+<ul>
+<li><a href="http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/">http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/</a></li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<p>This article described augmenting both the server and the client by putting in three stack
+'ingredients' that enable a lot of power (either broadly or in limited situations):</p>
+
+<ul>
+<li>Flexible/Semi-structured Data – JSON – On both the client and the server (and the database)</li>
+<li>Templating – Dust – On both the client and the server (by the next one)</li>
+<li>Scripting: Dual and Isomorphic – JavaScript / Nashorn – Both client and server can then have leverage the same scripting technologies, and potentially chose whether to run something on the server or on the client (or both to enhance SEO)</li>
+</ul>
+
+
+<p>These ingredients make for a much more powerful and flexible application.  These may be overkill for some projects, but
+ they are definitely <em>generally useful</em> and whether 'utilized' they should be considered 'available' when needed.</p>
 ]]></content>
   </entry>
   
@@ -739,411 +973,6 @@ for Domain objects so functionality is easily and consistently located), but aga
 a requirement to getting a good picture of the system.</p>
 
 <p>Next I will go into the UI portion and options for that.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-2]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-2/"/>
-    <updated>2015-10-15T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-2</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
-and techniques, the 'language', 'framework', 'stack', and 'methodology' does not matter very much.
-And how it matters has a lot to do with the development team and the customer.
-Customer happiness is the ultimate goal, so if you are not making your customer happy, you should make incremental
-adjustments (Educated Guesses) to do so.  And if you can not "continuously" deliver valuable products to the
-customer, you need to figure out what is the bottleneck and get rid of it (e.g. google Throughput Accounting).</p>
-
-<h2>Testing</h2>
-
-<blockquote><p>"Hey... you said testing wasn't important"</p></blockquote>
-
-<p>No, I said automated testing was not <em>necessary</em>.  At times it is not even <em>valuable</em>, but at other times it is.</p>
-
-<p>There is no way to avoid 'Testing' unless no one is going to use your product.  'Using' is 'Testing', so everything
-useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
-So you can't avoid testing you software.  You can only augment/change <em>who</em> or <em>what</em> tests your software.  There
- are a number of options:</p>
-
-<!--more-->
-
-
-<ul>
-<li>Users – Guaranteed unless you have none</li>
-<li>Developers – Should, unless they are crazy.  Not 'testing' your software is equivalent to not reading (and editing) what you wrote.</li>
-<li>Product Management – Should, unless they are crazy or really confident in the development team.  Product management is the Customer and represents the Users.  They are supposed to know what the users want and need to verify the product is doing the right thing</li>
-<li>Quality Assurance – Useful if they are really good at being a 'Black Hat'.  This is a different skill from 'Developing' and some people are very good at it
-
-<ul>
-<li>QA should report to Product Management in spite of having technical skills similar to software developers</li>
-</ul>
-</li>
-</ul>
-
-
-<p>You could have a few more kinds of people that are stake holders, but the above is the core sources.  These are
-people who could know what the software is supposed to do, and then test whether it is doing it.  They have
-different talents, different tolerance for failure, and different price-points (or time restrictions).  So choosing
-the right balance is again a 'Make Customer Happy' (given a particular budget) ratio of utilization.</p>
-
-<h3>Automation</h3>
-
-<p>The above lists people.  This is because people have to do the hard work of figuring out 'What should it do?' and
-'How do I tell it is doing it?'.  It is true there are some automated test generators... but they are a rare
-and limited breed that do a little bit more than a 'static typed' language would do.  The benefits for most project
-are minimal.</p>
-
-<p>So 'automated testing' is rarely about generation, but more about repetition.  Doing a manual test over and over
-by a human is much more expensive, time consuming, and failure prone to getting a computer to run a similar test
-against software.  The problem is someone has to 'spend time' writing the test.  And time is both money and delay.</p>
-
-<p>But maybe the tests are (magically) free.  Are they worth it?  Are they valuable?  Possibly "No!".
-Testing does not make software better.
-Testing just proves software does something that passes the test.  Just like in academics a student could
-prep for the SAT but be bad at math, software can pass the test and be horrible.  Fragile.  Complex.  Incoherent.
-And the tests themselves could be Fragile.  Complex.  Incoherent.  And Obsolete.</p>
-
-<p>Automated tests are neither good nor bad.  Only good tests are good and bad tests are bad.  I have had products with
-tens of thousands of great tests.  And very successful products with basically no tests.  And been on teams with
-hundreds of horrible tests that made them go slower and produce a worse product than if they just threw all the
-tests away.</p>
-
-<h3>Automation with Frameworks</h3>
-
-<p>Because testing can be useful, your frameworks should support it.  And should support it as <em>easily</em> as possible.
-They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And as much as possible be "from the outside".</p>
-
-<p>Strangely this last truth has been replaced by a lie:</p>
-
-<blockquote><p>"You should test each unit, each module, each integration, etc."</p></blockquote>
-
-<p>It is a variant of the XP 'test first' mentality.  And it is completely idiotic.  Because it makes you focus on
-the 'how' instead of the 'what'.  Your customer does not care you wrote something in Java or C.  With Spring
-or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
-And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you can't be</em> continuously
-testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
-might investigate why it broke and do a periodic check in the future.  But you <em>do</em> by <em>doing</em>, and not with a
-fear of failing on each step of the way.  You are paid to <em>do</em> not to <em>be afraid</em>.  <em>Do</em>, <em>Fail</em>, <em>Learn</em>, <em>Do</em></p>
-
-<p>I am not saying you can't test a few things on the inside.  Sometimes I do that as I bring a system up so it is
-obvious (a) whether it is working, and (b) how it is supposed to be working.  A little 'extra documentation' beyond
-the code itself.  But these are a limited set that covers a slice of the system, not the whole thing.</p>
-
-<h3>Automation with Grails</h3>
-
-<p>The team behind Grails leverages other technologies as much as possible when they work.  Among the best technologies
-for automated testing in Spring / Java are:</p>
-
-<ul>
-<li> Spock – https://code.google.com/p/spock/</li>
-<li> Geb – https://github.com/geb/geb</li>
-</ul>
-
-
-<p>So Grails leverages these and has testing built-in to the framework.  It can automatically generate test stubs for
-Controllers (the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration
-and unit tests. I prefer integration tests as they are the most "from the outside", but all the different tests
-are useful in different amounts (some are faster to run).</p>
-
-<p>For our 'petclinic', it has a number of tests of two different kinds:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails1.png" /></p>
-
-<h4>Spock / Unit-ty tests</h4>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails2.png" /></p>
-
-<h4>Grub / Integration tests</h4>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails3.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails4.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails5.png" /></p>
-
-<p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
-the ability to be lots of different kinds of tests.  But the basic idea is above.</p>
-
-<h4>When to run?</h4>
-
-<p>So we have some tests in a nice testing framework.  Now the critical questions:</p>
-
-<ul>
-<li>When should we run them?  As much as possible without wasting people's time.</li>
-<li>Should they be run before deploying a new version?  If they are fast enough, sure.  If not, then something should 'go live' <em>before</em> the tests.
-
-<ul>
-<li>I don't mean 'go live' to end users, but go live to a server where others can see it.  Just like the 'fed1_app1' deployment.</li>
-<li>And you can have another server that is 'post-test' so it is gated by tests being successful.  It is more stable but slightly behind in time and version.  Say 'fed2'.</li>
-</ul>
-</li>
-<li>Should developers run tests before checking in?  If they want to and are nervous, sure.  Especially tests in the area they are touching.  But breaking 'fed1' is not a big deal unless you walk away afterwards.  Break it.  Fix it.  Carry on.</li>
-</ul>
-
-
-<p>The tests for the 'petclinic' are quite fast, so we might as well run them before deploying and let people know the status.  Returning to our deployment script:</p>
-
-<p>```bash
-pushd $APP_PATH
-./gradlew test</p>
-
-<h3>if success then continue with 'run', otherwise leave the current version running.</h3>
-
-<p>popd
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-1]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-1/"/>
-    <updated>2015-10-14T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-1</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.</p>
-
-<h2>Review of the first series</h2>
-
-<p>The first series starts here: <a href="/blog/add-1/">Intro</a> and ends here: <a href="/blog/add-11/">Voilà!</a>.  The bulk of the
-series was describing how to combine four ingredients:</p>
-
-<ul>
-<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-</ul>
-
-
-<p>in a way that gives individuals and teams 4x or more productivity.  These resulting environment solves problems for
-all three roles in a development team:</p>
-
-<ul>
-<li>Changers</li>
-<li>Watchers</li>
-<li>Machines</li>
-</ul>
-
-
-<p>And can be envisioned as so:</p>
-
-<p><img width="432" height="414" src="http://markfussell.emenar.com/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" /></p>
-
-<p>Along the way, the ingredients combined to make:</p>
-
-<ul>
-<li>Machines automatically launch and configure themselves, including hooking them up to each other (auto-wire)</li>
-<li>Changes to IT roll out automatically to all the running machines.</li>
-<li>Changes to the application roll out automatically to all the running machines.</li>
-<li>Creating new environments to be as easy providing a simple parameter (e.g. "fed2") to a CloudFormation</li>
-<li>The whole thing working on EC2 or inside a Vagrant container... or even on bare metal (but that was not shown)</li>
-<li>Incredible visibility into everything that happens within HipChat... for the whole team.</li>
-</ul>
-
-
-<p>By the end, we had machines tell us when they launched, when they were operational, when they were deploying a new
-version, and whether that new version deployed successfully.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
-
-<p>and finally, we had a running application at a human-usable URL:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
-
-<p>That could be scaled to any number of servers as load demands.</p>
-
-<h2>Second series</h2>
-
-<p>The above is the core of the ADD and enabling team productivity and customer visibility (even happiness)
-to shoot through the roof.  It by itself is basically 'complete'.  It is missing some details, nuances,
-augmentation, and such.  But it alone is the core of a 4x productivity.</p>
-
-<blockquote><p>"Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
-What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
-to use with this ADD?!!"</p></blockquote>
-
-<p>Ah... yes.  Over my <em>thirty five years</em> and estimated <em>thirty five thousand hours</em> of developing software,
-I have encountered all these things.  I do have opinions
-on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.</p>
-
-<p>How little?  Maybe... maybe... 2x.</p>
-
-<!--more-->
-
-
-<p>I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
-a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
-Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
-most of it from scratch... because there are no libraries).  I bet I lost 4x in productivity.  And then another 2x
-when people started mucking with my code.  4x is a lot.  2x is a little.
-And if you try to get the '2x' but lose the '4x' you just did a win-LOSE bad tradeoff.</p>
-
-<h3>Lies</h3>
-
-<p>There are a lot of lies or confusions in the software industry.  During the nineties we tried to get rid of a lot of them
-through actual research-based observations (e.g. "The Mythical Man-Month" by Fred Brooks) and experience-based
- observations (e.g. "The Agile Manifesto" by Kent, Ken, Ward, etc.).  The <em>truth</em> of software
-is available... but the lies hide it.  And people can't tell the difference.  And don't believe the science.  Or are
-too scared of losing their jobs (or having a more boring job) if they believe and speak the truth vs. the lie.</p>
-
-<h4>Truth: One Brain</h4>
-
-<p>I will first start with among the best researched truth there is:</p>
-
-<ul>
-<li>The best software is created by one primary, talented, and skilled 'brain'
-
-<ul>
-<li>Potentially accompanied by some number of 'assistants'</li>
-</ul>
-</li>
-</ul>
-
-
-<p>This is the 'surgical team' model.  You want one primary, talented, and skilled 'Surgeon'.  A 'Surgeon' with many thousands
-if not many tens-of-thousands of hours of experience.  Nurses can help.  Support doctors can help.  Even other surgeons can
-help.  If the operation is long enough, you might need multiple primary surgeons who pass the baton along to each other.
-But if someone is opening your body... you want that person to be fully responsible, fully accountable, insanely competent,
-and insanely skilled.  An insanely great surgeon.  She will charge you a lot, and you will get a lot in return.</p>
-
-<p>Software is the same.  The best software is create by one primary, talented, and skilled 'Engineer'. An 'Engineer' with
-many thousands if not many tens-of-thousands of hours of experience.  QA can help.  Support programmers can help.  Software is
- never needed so quickly as to require a hourly baton, but that can happen if the 'Engineer' moves on to other things.</p>
-
-<p>If someone is writing an application that you want to be valuable to you... you want that person to be fully responsible,
-fully accountable, insanely competent, and insanely skilled.  An insanely great engineer.
-She will charge you a lot, and you will get a lot in return.</p>
-
-<h4>Lie: All together now!</h4>
-
-<p>But software developers don't like this truth.  They think they (after less than 5000 hours) can be the point person
-for building an application.  I don't mean 5000 hours <em>of work</em> I mean 5000 hours <em>in surgery</em> and that is after say
-2x the amount of hours of <em>studying surgery</em>.  So 10,000 hours of studying how to build software applications and 5,000
-hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
-spend half of it actually on either of those tasks... it would take you about 15 years to be 'an Engineer'.  Ten years
-of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.</p>
-
-<p>But again, developers don't like this truth and instead they say: "If a bunch of us get together we can reproduce that
-surgeon with each of our individual skills."</p>
-
-<p>But this is saying: "Nine people who can dissect frogs can perform brain surgery", or
-"Nine club tennis players can beat Roger Federer if they tag-team".  Or "Nine people who are good in the
-kitchen can together produce a better meal than Gordon Ramsey in a throw down".  Or...</p>
-
-<p>Hopefully by shifting the context you can see the impossibility of it.  It makes absolutely no sense, yet the lie is
-propagated so much as to be systemically the status quo.  Even the smallest XP version of the lie "You need two people to write better software" is
-ludicrous.  Better to have <em>two surgeons</em> perform <em>two different operations</em> at the same time... and save <em>two</em> lives.
-There is nothing wrong with having an apprentice watch / help.  But that is <em>training</em> (somewhat to both parties) not
-<em>doing</em></p>
-
-<h4>Truth: Customer Rules</h4>
-
-<p>The second truth is that the <em>customer</em> rules.  If the customer is happy... WIN!  If they are not happy... :-(</p>
-
-<p>Given this is <em>sort of</em> in the Agile Manifesto you would think it would be well known now that everyone is 'Going Agile'.
-But reviewing the <a href="http://www.agilemanifesto.org">Agile Manifesto</a>, I see that it "backed off" saying what it should say.
-The lines that it should have within it are:</p>
-
-<ul>
-<li>Working software over ...everything...</li>
-<li>Customer happiness over ...everything...</li>
-</ul>
-
-
-<p>But because software developers think they are special... unusually talented in a way that is beyond the customer... like 'artists'...
-they think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say 'Food':</p>
-
-<ul>
-<li> Working food (e.g. good produce, a cooked meal, etc.) over ???</li>
-<li> Customer happiness over ???</li>
-</ul>
-
-
-<p>Pretty sure if you nail the second bullet, you nailed the first one (and maybe some more).  And not nailing both these
-bullets is a path to failure.  The question marks
-are replaceable with 'everything not mentioned'.  So the actual pyramid is this:</p>
-
-<ul>
-<li>Happy Customer (100%)
-
-<ul>
-<li>Delivered good product (80%)
-
-<ul>
-<li>All the stuff needed to do the above</li>
-</ul>
-</li>
-<li>Other aspects of delivering (20%) –  E.g. customer interaction, appearance of product or delivery person, etc.
-
-<ul>
-<li>All the stuff needed to do the above</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>You are allowed to have less than totally happy customers.  But you should try to fix that.  You should care.
-Otherwise you are resigning yourself to  being content with the quality of your product being sub-par.  And likely
-headed downward.</p>
-
-<p>You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
-bad your job is (but google "Worst Jobs" to see you don't have it so bad).  But you are not allowed to say that
-<em>your customer</em> shouldn't be 100% happy... or at least as happy as you can make them.</p>
-
-<h4>Lie: Automated Testing and Quality Verification</h4>
-
-<p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
-tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and
-<em>before</em> we make our customer happy.</p>
-
-<p>This actually pops up as a 'truth' in education too.  We try to make the tests happy as opposed to the students,
-except in exceptional schools that Think Different.  But
-in most any <em>normal</em> industry, making a 'test' happy instead of a customer is a crazy and effective way to
-go out of business.  Say we inspected and tested <em>every</em> hamburger before it went out the door.  Fast food would
-take on a whole new meaning as it took minutes per-person to do the inspection.  And things like 'salad' would
-be unservable.  Salad almost always has something weird in it, and finding it takes about the same amount of time
-as eating it.  And it would basically destroy / consume the salad as you checked each leaf, fruit, and nut.</p>
-
-<p>Again, automated testing is <em>useful</em>.  But it is not <em>necessary</em>.  And it doesn't trump releasing to a customer
-so they can see the 'Delivered good product'.</p>
-
-<h3>Conclusion : Customer's One Powerful Right and Responsibility</h3>
-
-<p>The ADD described so far, efficiently, effectively, and production-worthy scalably enabled one simple thing:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
-
-<p>That is a delivered good product (if you want to run a Pet Clinic).  What the application is beneath that, and
-what processes were used to develop it, are all "of little importance".  There are many ways to develop
-an identical web site.  The stack and method I will describe is just one of them.  It is a reference
-that I consider a "Best Practice" among alternative "Best Practice" possibilities.  And all of these alternatives
-get measured by exactly one macro criteria: "Customer Satisfaction".  For example:</p>
-
-<ul>
-<li>Buggy in production, customer is less happy.</li>
-<li>Take longer to build, customer is less happy.</li>
-</ul>
-
-
-<p>Neither of the above trumps the other.  The ratio between them 'depends'.  And that ratio is totally under
-the customer's control.  They may not know the ratio before the fact, but while 'driving' the system they
-<em>have every right and even responsibility</em> to complain.  The development team can make an 'Educated Guess'
-at the start of the project
-but if the customer complains, they need to address that complaint and <em>change</em> the process, tools, people,
-or office space <em>as much as possible and reasonable</em> to make the customer more happy.  Maybe just a little
-change to become a little more happy: we aren't prescient and you don't know if the change will cause havoc
-(everyone quits) or even address the issue.  But you address the complaint with an another 'Educated Guess'.
-Over and over.</p>
-
-<p>What should your development process be?  It depends... on your customer and your product and your team and
-... The reason you need an Engineer is they make great 'Educated Guesses'.  And can iterate incredibly
-quickly to fine tune the process and tools to what will work for the customer and the development team.</p>
-
-<p>But the following parts of this series will be a good start.  It is my best recommendation in 2015 for a modern,
-JVM-based, web-delivered, set of development methods, tools, frameworks, and other components.</p>
 ]]></content>
   </entry>
   

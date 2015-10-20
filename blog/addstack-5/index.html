@@ -96,6 +96,15 @@ first article is here: <a href="/blog/addstack-1/">Intro</a> and described the t
 The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
 The fourth discussed UI alternatives.</p>
 
+<p>This article is about some fairly advanced capabilities, but capabilities that many projects find useful,
+and so should be considered within the context of the overall context.  They are:</p>
+
+<ul>
+<li> Data Flexibility and Templating</li>
+<li> Server Side Scripting</li>
+</ul>
+
+
 <h2>Data Flexibility and Template Systems</h2>
 
 <p>One of the more interesting capability of an application is when users can control the content and presentation
@@ -131,29 +140,81 @@ There are plenty of auto-complete tools out there that help with HTML.  And ever
 &#8216;fragments&#8217; of HTML better because the fragment has so much redundant information.</p>
 
 <p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
-Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.  There is
+a comparison of frameworks at <a href="https://engineering.linkedin.com/frontend/client-side-templating-throwdown-mustache-handlebars-dustjs-and-more">Templating Throwdown</a></p>
 
 <p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
 a user to generate any page they want&#8230; either for themselves or for other people.</p>
 
 <h3>Scary!</h3>
 
-<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
-including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack a user?  Get
+<p>OK, the above should seem both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack another user?  Get
 their password?  Stuff like that?</p>
 
 <p>If you do it wrong&#8230; yes&#8230; yes they can.  Fortunately we have Facebook, MySpace and other companies that
 show how to do it wrong and then fix the problem.  The general solution is:</p>
 
 <ul>
-<li>Users never authenticate with &#8216;The Third Party&#8217;.  They only authenticate with you.</li>
-<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
-<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+<li>Users never authenticate with &#8216;The Page&#8217;.  They only authenticate with you.</li>
+<li>You give the page a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the page / third party to do things you (or the user) approve</li>
 </ul>
 
 
 <p>This model makes sure the third party is not doing anything dangerous to your site&#8230;
 or at least not successfully doing anything.</p>
+
+<h2>Server-Side Scripting</h2>
+
+<p>Along with the data flexibility combined with templating described above, there is an even scarier and more powerful
+option to enable within-server scripting.  This ability to have code be mutable at run-time enables some easy upgrades
+and &#8216;forks&#8217; (customers doing their own thing) in exchange for much less surety that the code is running, some performance
+trades, a more complex system model (flowing back and forth between JavaScript and Java), and potential for security
+holes.  I have seen a number of systems have scripting and the most successful variations have been:</p>
+
+<ul>
+<li>Limited scripting to support customizing very controlled situations (e.g. Templating, Workflow, etc.)</li>
+<li>Hog-wild scripting that enables customers to &#8216;fork&#8217; the code base, where that code base is being run on un-shared servers</li>
+</ul>
+
+
+<p>If you want to have a customizable product, the second approach is definitely very powerful.  Otherwise, the first is probably
+safer and simpler.  An example of the benefits to server-side (and ultimately hybrid or &#8216;isomorphic&#8217;) is described well here:</p>
+
+<ul>
+<li> <a href="https://www.youtube.com/watch?v=pgvlHGi9VXM">https://www.youtube.com/watch?v=pgvlHGi9VXM</a></li>
+<li> <a href="http://isomorphic.net">http://isomorphic.net</a></li>
+</ul>
+
+
+<h3>What scripting language?</h3>
+
+<p>The obvious modern scripting language to use is JavaScript.  Because of its&#8217; pervasiveness in the browser, it is among
+the better understood languages out there.  It also has a ridiculously simple and powerful language model (JS is a
+(maybe accidental?) descendant of Self, which was an amazingly simple and powerful language too).  And although it does
+not have a lot of libraries, running JavaScript via Nashorn enables you to call into the Java world.  A tutorial on
+Nashorn is here:</p>
+
+<ul>
+<li><a href="http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/">http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/</a></li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<p>This article described augmenting both the server and the client by putting in three stack
+&#8216;ingredients&#8217; that enable a lot of power (either broadly or in limited situations):</p>
+
+<ul>
+<li>Flexible/Semi-structured Data – JSON – On both the client and the server (and the database)</li>
+<li>Templating – Dust – On both the client and the server (by the next one)</li>
+<li>Scripting: Dual and Isomorphic – JavaScript / Nashorn – Both client and server can then have leverage the same scripting technologies, and potentially chose whether to run something on the server or on the client (or both to enhance SEO)</li>
+</ul>
+
+
+<p>These ingredients make for a much more powerful and flexible application.  These may be overkill for some projects, but
+ they are definitely <em>generally useful</em> and whether &#8216;utilized&#8217; they should be considered &#8216;available&#8217; when needed.</p>
 </div>
 
 
@@ -202,6 +263,8 @@ or at least not successfully doing anything.</p>
         <a class="basic-alignment left" href="/blog/addstack-4/" title="Previous Post: ADD Stack [Part-4]">&laquo; ADD Stack [Part-4]</a>
       
       
+        <a class="basic-alignment right" href="/blog/addstack-6/" title="Next Post: ADD Stack [Part-6]">ADD Stack [Part-6] &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -231,6 +294,14 @@ or at least not successfully doing anything.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/addstack-7/">ADD Stack [Part-6]</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/addstack-6/">ADD Stack [Part-6]</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/addstack-5/">ADD Stack [Part-5]</a>
       </li>
     
@@ -242,19 +313,11 @@ or at least not successfully doing anything.</p>
         <a href="/blog/addstack-3/">ADD Stack [Part-3]</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/addstack-2/">ADD Stack [Part-2]</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/addstack-1/">ADD Stack [Part-1]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 145.71428571428572%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.85714285714286%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 151.42857142857144%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.28571428571428%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.71428571428571%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.85714285714286%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 120.0%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.85714285714286%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 120.0%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 114.28571428571429%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.85714285714286%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.28571428571428%'>IT</a> <a href='/blog/categories/java' style='font-size: 114.28571428571429%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.85714285714286%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.85714285714286%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.71428571428571%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.71428571428571%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 142.85714285714286%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 111.42857142857143%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 108.57142857142857%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 148.57142857142856%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 114.28571428571429%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.85714285714286%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 146.95652173913044%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 102.6086956521739%'>Agile</a> <a href='/blog/categories/automation' style='font-size: 152.17391304347825%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 154.7826086956522%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 105.21739130434783%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.6086956521739%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 118.26086956521739%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.6086956521739%'>Ephemeral</a> <a href='/blog/categories/flex' style='font-size: 118.26086956521739%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 118.26086956521739%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.6086956521739%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 154.7826086956522%'>IT</a> <a href='/blog/categories/java' style='font-size: 113.04347826086956%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.6086956521739%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.6086956521739%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 105.21739130434783%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 105.21739130434783%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 139.1304347826087%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 110.43478260869566%'>RubyShoes</a> <a href='/blog/categories/scratch' style='font-size: 107.82608695652173%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 144.34782608695653%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 118.26086956521739%'>Stack</a> <a href='/blog/categories/virtualization' style='font-size: 102.6086956521739%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

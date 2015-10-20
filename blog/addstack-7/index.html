@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Advanced Development and Delivery (ADD) [Part-5] - Polyglot</title>
+  <title>ADD Stack [Part-6] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the fifth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="This is the second series describing the ADD: a radically more productive development and delivery environment. The
+first article is here: Intro and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-5/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-7/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -67,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-5]</h1>
+      <h1 class="entry-title">ADD Stack [Part-6]</h1>
     
     
       <p class="meta">
@@ -83,53 +84,123 @@
   
 
 
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
+<time datetime="2015-10-19T01:00:00-07:00" pubdate data-updated="true">Oct 19<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
+<div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.</p>
 
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, and the one minute configuration HeartBeat.</p>
+<h2>Logging, Analytics, and Monitoring</h2>
 
-<h2>HipChat</h2>
+<p>Returning to a bit more of an &#8216;IT&#8217; issue, how do we handle logging, monitoring, and analytics on our collection of
+machines?  There are a number of choices:</p>
 
-<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
-to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
-system (kind of like a command line) but that isn&#8217;t very important since it would just make changes in GitHub
-which can be made in lots of different ways.</p>
-
-<p>The demo of this is very simple:</p>
-
-<p><img src="/images/add-5/add5_hipchat_cv1.png" /></p>
-
-<!-- more -->
+<ol>
+<li>Run our own infrastructure</li>
+<li>Go with an inexpensive provider</li>
+<li>Go with a more capable provider</li>
+<li>Don&#8217;t</li>
+</ol>
 
 
-<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
-to the working script:</p>
+<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading from</p>
+
+<h1>3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</h1>
+
+<!--more-->
+
+
+<h3>Logging: SumoLogic</h3>
+
+<p>The longest standing, very successful, and SaaS capable company is Splunk.  But their prices are crazy.  Have no
+idea how they can charge that much.  So instead I will demo SumoLogic as the &#8216;3B&#8217; tier.</p>
+
+<p>Installing SumoLogic is incredibly easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget <span class="s2">&quot;https://collectors.us2.sumologic.com/rest/download/linux/64&quot;</span> -O SumoCollector.sh <span class="o">&amp;&amp;</span> chmod +x SumoCollector.sh <span class="o">&amp;&amp;</span> ./SumoCollector.sh -q -VskipDefaultSources<span class="o">=</span><span class="nb">true</span> -Vsumo.token_and_url<span class="o">={</span>token<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
+all have files in &#8216;/root/log&#8217; which it would be nice to have aggregated.</p>
+
+<p>The results are visible here:</p>
+
+<p><img src="/images/addstack-7/addstack7_sumo1.png" /></p>
+
+<p><img src="/images/addstack-7/addstack7_sumo2.png" /></p>
+
+<p><img src="/images/addstack-7/addstack7_sumo3.png" /></p>
+
+<h3>Monitoring: NewRelic</h3>
+
+<p>NewRelic started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
+(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
+operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
+came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
+Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn&#8217;t need it, but ultimately
+by putting the metrics outside the application everyone&#8217;s life was simpler.</p>
+
+<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh
-</span><span class='line'>sleep 121
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh -c green
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== Install NewRelic</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_VERSION</span><span class="o">=</span>3.21.0
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_FULL_VERSION</span><span class="o">=</span>newrelic-java-<span class="k">${</span><span class="nv">APP_VERSION</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p .temp
+</span><span class='line'>cp it/resource/<span class="k">${</span><span class="nv">APP_FULL_VERSION</span><span class="k">}</span>.zip .temp/
+</span><span class='line'>
+</span><span class='line'>./bin/inflatePaths.sh .temp/<span class="k">${</span><span class="nv">APP_FULL_VERSION</span><span class="k">}</span>.zip
+</span><span class='line'>
+</span><span class='line'>mkdir -p /opt
+</span><span class='line'>cp -fr .temp/newrelic /opt/
+</span><span class='line'>
+</span><span class='line'>cp -fr <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/newrelic.yml /opt/newrelic/newrelic.yml
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>So now we have &#8216;Action in GitHub&#8217; and visibility to all the activities of the machines that reacted to
-that action.  Finally we can have human augmentation like &#8220;@Team New version is up on the development server&#8221;
-to transform something technical to something more meaningful.  With proper use of colors, the state
-of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
+<p>The first part puts the general NewRelic agent onto the machine, and the last part enables us to override
+the default configuration with our own.  The most important part is to replace the license, but there
+are many things that can be configured within the NewRelic agent.</p>
+
+<p>Finally, we need to launch with the agent configuration into the &#8216;gradew&#8217; launcher:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</span>
+</span><span class='line'><span class="nv">DEFAULT_JVM_OPTS</span><span class="o">=</span><span class="s2">&quot;-javaagent:/opt/newrelic/newrelic.jar&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
 </div>
 
 
@@ -152,12 +223,12 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
   
 
 
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
+<time datetime="2015-10-19T01:00:00-07:00" pubdate data-updated="true">Oct 19<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
   
 </span>
 
@@ -166,7 +237,7 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-5/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-5/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-7/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-7/" >Tweet</a>
   
   
   
@@ -175,10 +246,8 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/add-4/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-4]">&laquo; Advanced Development and Delivery (ADD) [Part-4]</a>
+        <a class="basic-alignment left" href="/blog/addstack-6/" title="Previous Post: ADD Stack [Part-6]">&laquo; ADD Stack [Part-6]</a>
       
-      
-        <a class="basic-alignment right" href="/blog/add-6/" title="Next Post: Advanced Development and Delivery (ADD) [Part-6]">Advanced Development and Delivery (ADD) [Part-6] &raquo;</a>
       
     </p>
   </footer>
@@ -287,8 +356,8 @@ of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-5/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/add-5/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-7/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-7/';
         var disqus_script = 'embed.js';
       
     (function () {

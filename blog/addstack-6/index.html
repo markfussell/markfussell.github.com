@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Flex - Polyglot</title>
+  <title>ADD Stack [Part-6] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="Category: Flex">
+  <meta name="description" content="This is the second series describing the ADD: a radically more productive development and delivery environment. The
+first article is here: Intro and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.comblog/categories/flex/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-6/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,120 +64,152 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Flex</h1>
+    
+      <h1 class="entry-title">ADD Stack [Part-6]</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-17T01:00:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting.</p>
 
-  
-  <h2>2008</h2>
+<h2>Which UI framework?</h2>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-ruby-part-6/">A Taste of Ruby (Part 6)</a></h1>
-<time datetime="2008-09-03T02:18:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>03</span> <span class='year'>2008</span></time>
+<p>The fourth article discussed UI alternatives, but they were mostly &#8216;architectural&#8217; alternatives and did not
+specify a particular framework to use.  I believe that is correct in that <em>how you use</em> the framework can be more
+important than the framework itself.  People can correctly and badly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal) if it is a bit weaker of a tool, but
+use it wrong (have thumb be accessible) and you can be seriously hurt.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<p>There are a number of popular frameworks:</p>
 
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-6/">A Taste of Flex (Part 6)</a></h1>
-<time datetime="2008-09-02T16:46:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<ul>
+<li>Angular</li>
+<li>Ember</li>
+<li>Backbone</li>
+<li>Sencha</li>
+<li>etc.</li>
+</ul>
 
 
-</article>
+<p>And deciding between them may seem like &#8220;which has the best features?&#8221; but unless something has a killer feature
+(Sencha can run the same code on the desktop and mobile) that you care about, and is worth its penalties (Sencha
+is proprietary and very &#8216;different&#8217;) then &#8216;best features&#8217; is basically meaningless.  A better question is &#8220;Which
+one do I understand the best?&#8221; and &#8220;Which one can other people learn and share-code the best?&#8221;.</p>
+
+<!--more-->
 
 
+<p>Taking out &#8216;Sencha&#8217; from the above and you get a few different viewpoints on the web:</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-5/">A Taste of Flex (Part 5)</a></h1>
-<time datetime="2008-09-02T07:44:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<ul>
+<li>&lt;http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/ ></li>
+<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
+<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
+</ul>
 
 
-</article>
+<p>And dropping Backbone, the distinction is really:</p>
+
+<ul>
+<li>Angular – Powerful, dry, and scale-limited framework</li>
+<li>Ember – Less dry, more opinionated, and more scalable</li>
+</ul>
 
 
+<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
+have to be more explicit, but the convention and the explicitness should make the code more readable and
+maintainable.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-4/">A Taste of Flex (Part 4)</a></h1>
-<time datetime="2008-09-02T07:13:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-3/">A Taste of Flex (Part 3)</a></h1>
-<time datetime="2008-09-02T05:11:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-2/">A Taste of Flex (Part 2)</a></h1>
-<time datetime="2008-09-02T04:12:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex/">A Taste of Flex</a></h1>
-<time datetime="2008-09-02T00:29:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
+<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
+in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
+and powerfully-fragile (do something wrong and you get a terribly visible break) that you can&#8217;t really use it wrong.
+Ember appears to have the advantages of Rails and Grails&#8230; as the framework innately &#8216;works&#8217; you can&#8217;t
+really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
+decide early whether you want complete alignment</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-17T01:00:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-6/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-6/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/addstack-5/" title="Previous Post: ADD Stack [Part-5]">&laquo; ADD Stack [Part-5]</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/addstack-7/" title="Next Post: ADD Stack [Part-6]">ADD Stack [Part-6] &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -274,7 +307,10 @@
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-6/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-6/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

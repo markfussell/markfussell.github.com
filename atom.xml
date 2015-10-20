@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-16T10:10:59-07:00</updated>
+  <updated>2015-10-20T07:48:55-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,192 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-7/"/>
+    <updated>2015-10-19T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-7</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.</p>
+
+<h2>Logging, Analytics, and Monitoring</h2>
+
+<p>Returning to a bit more of an &#8216;IT&#8217; issue, how do we handle logging, monitoring, and analytics on our collection of
+machines?  There are a number of choices:</p>
+
+<ol>
+<li>Run our own infrastructure</li>
+<li>Go with an inexpensive provider</li>
+<li>Go with a more capable provider</li>
+<li>Don&#8217;t</li>
+</ol>
+
+
+<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading from</p>
+
+<h1>3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</h1>
+
+<!--more-->
+
+
+<h3>Logging: SumoLogic</h3>
+
+<p>The longest standing, very successful, and SaaS capable company is Splunk.  But their prices are crazy.  Have no
+idea how they can charge that much.  So instead I will demo SumoLogic as the &#8216;3B&#8217; tier.</p>
+
+<p>Installing SumoLogic is incredibly easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wget <span class="s2">&quot;https://collectors.us2.sumologic.com/rest/download/linux/64&quot;</span> -O SumoCollector.sh <span class="o">&amp;&amp;</span> chmod +x SumoCollector.sh <span class="o">&amp;&amp;</span> ./SumoCollector.sh -q -VskipDefaultSources<span class="o">=</span><span class="nb">true</span> -Vsumo.token_and_url<span class="o">={</span>token<span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
+all have files in &#8216;/root/log&#8217; which it would be nice to have aggregated.</p>
+
+<p>The results are visible here:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo2.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
+
+<h3>Monitoring: NewRelic</h3>
+
+<p>NewRelic started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
+(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
+operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
+came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
+Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn&#8217;t need it, but ultimately
+by putting the metrics outside the application everyone&#8217;s life was simpler.</p>
+
+<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'><span class="c">#=== Install NewRelic</span>
+</span><span class='line'><span class="c">#====================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_VERSION</span><span class="o">=</span>3.21.0
+</span><span class='line'><span class="nb">export </span><span class="nv">APP_FULL_VERSION</span><span class="o">=</span>newrelic-java-<span class="k">${</span><span class="nv">APP_VERSION</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p .temp
+</span><span class='line'>cp it/resource/<span class="k">${</span><span class="nv">APP_FULL_VERSION</span><span class="k">}</span>.zip .temp/
+</span><span class='line'>
+</span><span class='line'>./bin/inflatePaths.sh .temp/<span class="k">${</span><span class="nv">APP_FULL_VERSION</span><span class="k">}</span>.zip
+</span><span class='line'>
+</span><span class='line'>mkdir -p /opt
+</span><span class='line'>cp -fr .temp/newrelic /opt/
+</span><span class='line'>
+</span><span class='line'>cp -fr <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/newrelic.yml /opt/newrelic/newrelic.yml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The first part puts the general NewRelic agent onto the machine, and the last part enables us to override
+the default configuration with our own.  The most important part is to replace the license, but there
+are many things that can be configured within the NewRelic agent.</p>
+
+<p>Finally, we need to launch with the agent configuration into the &#8216;gradew&#8217; launcher:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</span>
+</span><span class='line'><span class="nv">DEFAULT_JVM_OPTS</span><span class="o">=</span><span class="s2">&quot;-javaagent:/opt/newrelic/newrelic.jar&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-6/"/>
+    <updated>2015-10-17T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-6</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting.</p>
+
+<h2>Which UI framework?</h2>
+
+<p>The fourth article discussed UI alternatives, but they were mostly &#8216;architectural&#8217; alternatives and did not
+specify a particular framework to use.  I believe that is correct in that <em>how you use</em> the framework can be more
+important than the framework itself.  People can correctly and badly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal) if it is a bit weaker of a tool, but
+use it wrong (have thumb be accessible) and you can be seriously hurt.</p>
+
+<p>There are a number of popular frameworks:</p>
+
+<ul>
+<li>Angular</li>
+<li>Ember</li>
+<li>Backbone</li>
+<li>Sencha</li>
+<li>etc.</li>
+</ul>
+
+
+<p>And deciding between them may seem like &#8220;which has the best features?&#8221; but unless something has a killer feature
+(Sencha can run the same code on the desktop and mobile) that you care about, and is worth its penalties (Sencha
+is proprietary and very &#8216;different&#8217;) then &#8216;best features&#8217; is basically meaningless.  A better question is &#8220;Which
+one do I understand the best?&#8221; and &#8220;Which one can other people learn and share-code the best?&#8221;.</p>
+
+<!--more-->
+
+
+<p>Taking out &#8216;Sencha&#8217; from the above and you get a few different viewpoints on the web:</p>
+
+<ul>
+<li>&lt;http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/ ></li>
+<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
+<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
+</ul>
+
+
+<p>And dropping Backbone, the distinction is really:</p>
+
+<ul>
+<li>Angular – Powerful, dry, and scale-limited framework</li>
+<li>Ember – Less dry, more opinionated, and more scalable</li>
+</ul>
+
+
+<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
+have to be more explicit, but the convention and the explicitness should make the code more readable and
+maintainable.</p>
+
+<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
+in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
+and powerfully-fragile (do something wrong and you get a terribly visible break) that you can&#8217;t really use it wrong.
+Ember appears to have the advantages of Rails and Grails&#8230; as the framework innately &#8216;works&#8217; you can&#8217;t
+really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
+decide early whether you want complete alignment</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-5]]]></title>
@@ -22,6 +208,15 @@
 first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
 The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
 The fourth discussed UI alternatives.</p>
+
+<p>This article is about some fairly advanced capabilities, but capabilities that many projects find useful,
+and so should be considered within the context of the overall context.  They are:</p>
+
+<ul>
+<li> Data Flexibility and Templating</li>
+<li> Server Side Scripting</li>
+</ul>
+
 
 <h2>Data Flexibility and Template Systems</h2>
 
@@ -58,29 +253,81 @@ There are plenty of auto-complete tools out there that help with HTML.  And ever
 &#8216;fragments&#8217; of HTML better because the fragment has so much redundant information.</p>
 
 <p>Among the above, it seems that Dust <a href="http://dustjs.com/">http://dustjs.com/</a> is a well supported successor to Mustache / Handlebars.
-Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.</p>
+Besides having LinkedIn support, it appears the company <a href="http://cloudcms.com/">http://cloudcms.com/</a> is using it as well.  There is
+a comparison of frameworks at <a href="https://engineering.linkedin.com/frontend/client-side-templating-throwdown-mustache-handlebars-dustjs-and-more">Templating Throwdown</a></p>
 
 <p>By combining an ability to retrieve arbitrary information with arbitrary templates, we can enable
 a user to generate any page they want&#8230; either for themselves or for other people.</p>
 
 <h3>Scary!</h3>
 
-<p>OK, the above should have seemed both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
-including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack a user?  Get
+<p>OK, the above should seem both epic and <em>scary</em>.  A user can generate arbitrary HTML pages
+including JavaScript?  Doesn&#8217;t that mean they could do <em>anything</em> including hijack another user?  Get
 their password?  Stuff like that?</p>
 
 <p>If you do it wrong&#8230; yes&#8230; yes they can.  Fortunately we have Facebook, MySpace and other companies that
 show how to do it wrong and then fix the problem.  The general solution is:</p>
 
 <ul>
-<li>Users never authenticate with &#8216;The Third Party&#8217;.  They only authenticate with you.</li>
-<li>You give the third party a valid one-time token for that third party to contact you on behalf of a user</li>
-<li>You make sure to verify the token before doing anything for the user, and only allow the third part to do things you (or the user) approve</li>
+<li>Users never authenticate with &#8216;The Page&#8217;.  They only authenticate with you.</li>
+<li>You give the page a valid one-time token for that third party to contact you on behalf of a user</li>
+<li>You make sure to verify the token before doing anything for the user, and only allow the page / third party to do things you (or the user) approve</li>
 </ul>
 
 
 <p>This model makes sure the third party is not doing anything dangerous to your site&#8230;
 or at least not successfully doing anything.</p>
+
+<h2>Server-Side Scripting</h2>
+
+<p>Along with the data flexibility combined with templating described above, there is an even scarier and more powerful
+option to enable within-server scripting.  This ability to have code be mutable at run-time enables some easy upgrades
+and &#8216;forks&#8217; (customers doing their own thing) in exchange for much less surety that the code is running, some performance
+trades, a more complex system model (flowing back and forth between JavaScript and Java), and potential for security
+holes.  I have seen a number of systems have scripting and the most successful variations have been:</p>
+
+<ul>
+<li>Limited scripting to support customizing very controlled situations (e.g. Templating, Workflow, etc.)</li>
+<li>Hog-wild scripting that enables customers to &#8216;fork&#8217; the code base, where that code base is being run on un-shared servers</li>
+</ul>
+
+
+<p>If you want to have a customizable product, the second approach is definitely very powerful.  Otherwise, the first is probably
+safer and simpler.  An example of the benefits to server-side (and ultimately hybrid or &#8216;isomorphic&#8217;) is described well here:</p>
+
+<ul>
+<li> <a href="https://www.youtube.com/watch?v=pgvlHGi9VXM">https://www.youtube.com/watch?v=pgvlHGi9VXM</a></li>
+<li> <a href="http://isomorphic.net">http://isomorphic.net</a></li>
+</ul>
+
+
+<h3>What scripting language?</h3>
+
+<p>The obvious modern scripting language to use is JavaScript.  Because of its&#8217; pervasiveness in the browser, it is among
+the better understood languages out there.  It also has a ridiculously simple and powerful language model (JS is a
+(maybe accidental?) descendant of Self, which was an amazingly simple and powerful language too).  And although it does
+not have a lot of libraries, running JavaScript via Nashorn enables you to call into the Java world.  A tutorial on
+Nashorn is here:</p>
+
+<ul>
+<li><a href="http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/">http://winterbe.com/posts/2014/04/05/java8-nashorn-tutorial/</a></li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<p>This article described augmenting both the server and the client by putting in three stack
+&#8216;ingredients&#8217; that enable a lot of power (either broadly or in limited situations):</p>
+
+<ul>
+<li>Flexible/Semi-structured Data – JSON – On both the client and the server (and the database)</li>
+<li>Templating – Dust – On both the client and the server (by the next one)</li>
+<li>Scripting: Dual and Isomorphic – JavaScript / Nashorn – Both client and server can then have leverage the same scripting technologies, and potentially chose whether to run something on the server or on the client (or both to enhance SEO)</li>
+</ul>
+
+
+<p>These ingredients make for a much more powerful and flexible application.  These may be overkill for some projects, but
+ they are definitely <em>generally useful</em> and whether &#8216;utilized&#8217; they should be considered &#8216;available&#8217; when needed.</p>
 ]]></content>
   </entry>
   
@@ -5092,840 +5339,6 @@ being so simple.</p>
 <h2>Next</h2>
 
 <p>Our next problem will be <a href="http://markfussell.emenar.com/blog/git-about-everything-it-automation-2/">Mass IT Automation</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (IT)]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-it/"/>
-    <updated>2013-02-13T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-it</id>
-    <content type="html"><![CDATA[<p>This is the third in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Leveraging git to help with IT tasks</h2>
-
-<p>Doing IT for computers involves installing software, configuring things, doing backups, updates, etc.
-Git can help out with a lot of this, with several big benefits.  Some examples:</p>
-
-<ul>
-<li> IT changes should always be version controlled in case of mistake.  Git and a couple patterns/tools makes that easy</li>
-<li> Installing software can frequently be done with &#8216;yum&#8217; and similar commands, but some software needs a package, and some times you want more direct &#8216;this version&#8217; control.  An annexed git repository helps with that</li>
-<li> Doing backups or other kinds of off-lining with an annexed repo is very simple and flexible</li>
-<li> Git enables a PushMePullYou model that is very flexible and capable of driving hundreds of machines to do either (or both) very light and very heavy-weight operation</li>
-</ul>
-
-
-<p>Some of these things can be done with other tools, but I have found an annexed git repository to make doing these things easier and better</p>
-
-<!-- more -->
-
-
-<h2>IT Changes</h2>
-
-<p>Any time you have a running computer you should be careful about making changes to it that you can&#8217;t
-easily revert.  The classic <code>rm -fr /</code> is amongst the most painful, but even a few simple tweaks of a
-configuration file could cause you minutes or hours of pain if you do them wrong and can&#8217;t just
-start over.</p>
-
-<p>There are many solutions to this problem:</p>
-
-<ul>
-<li> Create a &#8216;.bak&#8217; file</li>
-<li> Create a &#8216;.datestamp&#8217; file of the file before you touch it</li>
-<li> Copy the file into a backup folder</li>
-<li> Rsync the directory somewhere else</li>
-<li> Version control the whole directory structure</li>
-<li> Have frequent backups of the whole machine</li>
-</ul>
-
-
-<p>Git can help with a number of different approaches, but
-I will start with one approach that I find to be among the simplest, most-general, and most-beneficial.</p>
-
-<h3>Copy &#8216;changing&#8217; files into an IT repo</h3>
-
-<p>To get a huge step up on the problem, we are going to allocate an annexed git repository to &#8216;being for IT&#8217;.
-And further we will have every computer out there have its own directory within the repository.  A computer&#8217;s
-directory is simply it&#8217;s name (e.g. <code>hostname</code> in unix systems).  This give us a structure like this:</p>
-
-<ul>
-<li> IT-Repository (e.g. giteveryrepo2)
-
-<ul>
-<li>it/comp/
-
-<ul>
-<li>{computer1}
-
-<ul>
-<li>Any files you want with their full path as if under &#8216;/&#8217;</li>
-</ul>
-</li>
-<li>{computer2}</li>
-<li>{computer3}</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>As long as computers have unique names, we can freely work with any computer&#8217;s files without collision
-with another computer.  And because Git is distributed, we can work on files <em>on</em> any computer and
-merging is very unlikely to be an issue.</p>
-
-<p>An example of an IT repository is at:</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo2">https://github.com/markfussell/giteveryrepo2</a></li>
-</ul>
-
-
-<p>and more specifically, the directory for computers is at:</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo2/tree/master/it/comp">https://github.com/markfussell/giteveryrepo2/tree/master/it/comp</a></li>
-</ul>
-
-
-<p>As of this writing, there are two computers listed.  Both are EC2 machines, so they have the standard
-patterns for AWS machine naming.</p>
-
-<ul>
-<li> domu-12-31-39-0e-e2-53</li>
-<li> ip-10-28-81-39</li>
-</ul>
-
-
-<p>On each machine, I ran a script to copy from system files to the repository.  The scripts are in repo2/bin/copy
-so a sequence looks like this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/copy/copyFromSystemFile.sh /var/www/html/index.html
-</span><span class='line'>git pull; git add it; git commit -m <span class="s2">&quot;Server2&quot;</span>; git push
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Again, because the machines have their own directories, merging should be automatic no matter what order
-or how much time-overlap occurs.  Two notes:</p>
-
-<ul>
-<li> The machine names are lower-cased to avoid confusing behavior.  I strongly recommend keeping directories all lowercase</li>
-<li> If you have any binary files you are copying from the machine, you need to remember to &#8216;deflateAll&#8217; the repository before the git line.</li>
-</ul>
-
-
-<h4>Flattening Computers next to each other</h4>
-
-<p>An advantage of flattening out computers next to each other is you can compare them:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>diff -r it/comp/*
-</span><span class='line'>diff -r it/comp/domu-12-31-39-0e-e2-53/var/www/html/index.html it/comp/ip-10-28-81-39/var/www/html/index.html
-</span><span class='line'>1c1
-</span><span class='line'>&lt; domU-12-31-39-0E-E2-53
-</span><span class='line'>---
-</span><span class='line'>&gt; ip-10-28-81-39
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In this case it should be apparent that the files have the <code>hostname</code> inside them, so that is what is changing.</p>
-
-<p>So you can compare the history of a particular computer by looking through git history, and you can compare two
-different computers to each other by comparing the different directories that each computer owns.</p>
-
-<h3>Copy files from the IT repo</h3>
-
-<p>There is also a script to copy from the IT repo to a particular system location.  This is a little more
-risky, but can be useful at times.  Effectively this would roll back your local change if you didn&#8217;t touch
-the repo from anywhere else, and it can be used to document a proposed change before applying it.  This
-leads to more of &#8216;git for IT automation&#8217; though, which I will cover later.</p>
-
-<h2>Software installation</h2>
-
-<p>Software installation is the major part of machine provisioning.  Unless you have a fully-baked AMI or
-really are happy with the factory install, you need to add more software to make your computer useful.
-Installing software can frequently be done with &#8216;yum&#8217; and similar commands, but some software needs a
-package install (e.g. with &#8216;rpm&#8217;) and some times you want more direct control of the version installed.</p>
-
-<p>Fetching RPMs from the web at install time is a major source of automation failure and annoyance.  Sites
-go down and if you are fetching from many different sites, you could have a computer with 9 out of 10
-things installed on it.  Generally I try to make machine provisioning <em>all or nothing</em> : Either everything
-gets installed properly or I just wipe the machine and try again.  Primordial scripted installs are
-easy to write (no human interaction), but trying to recover from a partial install is
-a way to become very unproductive (potentially very angry too).  Additionally, some sites can be slow
-and you don&#8217;t want to be penalized by that for every computer you provision.</p>
-
-<p>A solution is to store RPMs and the like in an Annexed Git repository.  S3 is both very fast and very reliable,
-with an SLA that &#8216;guarantees&#8217; four nines (99.99%) of uptime a year, which is &lt; 1-hour of downtime.  If
-all install packages are stored in S3, provisioning would be almost solely dependent on S3, so it would
-always be an <em>all (99.99%) or nothing (00.01%)</em> provisioning model.</p>
-
-<h3>Example and idioms</h3>
-
-<p>You could put RPMs and the like anywhere you want since the annexing is orthogonal to file location,
-but I conventionally put things in &#8216;it/resource&#8217;</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo2/tree/master/it/resource">https://github.com/markfussell/giteveryrepo2/tree/master/it/resource</a></li>
-</ul>
-
-
-<p>An annexed repo will also tend to have a &#8216;.temp&#8217; directory in the &#8216;.gitignore&#8217;, so that is a handy place
-to do temporary work without risk of colliding with changes to the repository itself.  When you inflate a file,
-it is &#8216;dirty&#8217; / changed so it could conflict with a subsequent merge and you would have to either deflate
-or &#8216;git checkout&#8217; the file/s to clean up.  Worse would be an archive that expanded into a directory structure,
-so it is generally nice to work in &#8216;.temp&#8217; where these aspects don&#8217;t cause issues.</p>
-
-<p>In giteveryrepo2 there is a Java-7 rpm, which can be installed as follows:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> /root/gitrepo/giteveryrepo2
-</span><span class='line'>git pull
-</span><span class='line'>mkdir -p .temp
-</span><span class='line'>cp it/resource/jdk-7u13-linux-x64.rpm .temp
-</span><span class='line'>./bin/inflatePaths.sh .temp/
-</span><span class='line'>rpm -i .temp/jdk-7u13-linux-x64.rpm
-</span><span class='line'>/usr/java/default/bin/java -version
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Similarly for installing Apache Tomcat:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> /root/gitrepo/giteveryrepo2
-</span><span class='line'>git pull
-</span><span class='line'>mkdir -p .temp
-</span><span class='line'>
-</span><span class='line'>cp it/resource/apache-tomcat-7.0.35.tar.gz .temp
-</span><span class='line'>./bin/inflatePaths.sh .temp/
-</span><span class='line'>
-</span><span class='line'><span class="nb">pushd</span> .temp
-</span><span class='line'>tar -xvf apache-tomcat-7.0.35.tar.gz
-</span><span class='line'>mv apache-tomcat-7.0.35 /usr/share
-</span><span class='line'>ln -s /usr/share/apache-tomcat-7.0.35 /usr/share/tomcat7
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="nb">popd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And just to show the install actually works.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat &gt; /etc/httpd/conf.d/proxy_ajp.conf <span class="s">&lt;&lt;EOS</span>
-</span><span class='line'><span class="s">ProxyPass /tomcat/ ajp://localhost:8009/</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'>service httpd restart
-</span><span class='line'>
-</span><span class='line'>/usr/share/tomcat7/bin/startup.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>should bring up a standard Tomcat welcome screen.</p>
-
-<p><img width="743" height="352" src="http://markfussell.emenar.com/images/git-about-everything-it/TomcatScreenshot1.png" /></p>
-
-<h2>Backups</h2>
-
-<p>Backing up database dumps, logs, etc. is as easy as copying them into an appropriate folder within the repo and deflating.
-This is similar to IT changes: you just put things in a reasonable location on the machine and then</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/copy/copyFromSystemFile.sh <span class="o">{</span>reasonable-location<span class="o">}</span>
-</span><span class='line'>./deflateAll.sh
-</span><span class='line'>git pull; git add it; git commit -m <span class="s2">&quot;Backup of `hostname` as of `date`&quot;</span>; git push
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This bascially works fine, with two minor issues:</p>
-
-<ul>
-<li> You probably want the backup repo to be different from the IT repo even though their layout would be similar.  You wouldn&#8217;t want a bunch of &#8216;backup&#8217; activity happening on something you are using for IT maintenance or even machine provisioning.  The rhythm and types of commits would be inconsistent.</li>
-<li> At some point, you are going to have <em>too many backups</em> and you need to get rid of some noise.  This is &#8216;cleaning the annex&#8217;</li>
-</ul>
-
-
-<h3>Cleaning the Annex</h3>
-
-<p>By default the Annex has a copy of every &#8216;big&#8217; file you have ever annexed in the history of the repository.  Given S3 doesn&#8217;t
-cost very much, this may never be an issue for you.  But if it is an issue, you need to throw out the garbage.  There
-are fancier versions of this process but the simplest involves:</p>
-
-<ul>
-<li> Removing any files you no longer want to keep around from the current HEAD of git.  So if you have 1000 backups in the filesystem and want less than that, delete and commit the ones to get rid of.  Ideally this is completely automated as part of normal activities (e.g. new backups cause some older backups to be deleted)</li>
-<li> Inflating the whole repository from the current Annex (Annex2a)</li>
-<li> Changing the current Annex to point to a new empty Annex (Annex2b)</li>
-<li> Deflating the whole repository to the new Annex (Annex2b)</li>
-<li> Committing the change of Annex into git</li>
-</ul>
-
-
-<p>Note that at this point you have the option to delete the old annex or not.  If you leave it around you have a &#8216;shiny new&#8217;
-cleaner Annex2b which can make some things go faster, but if you ever want to go back to an old version it will work too.
-Because the annex information is in the version, checking out an old version will automatically switch the annex to use
-with it too.</p>
-
-<p>The &#8216;moveToNewAnnex.sh&#8217; script looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>die <span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>    <span class="nb">echo</span> &gt;&amp;2 <span class="s2">&quot;$@&quot;</span>
-</span><span class='line'>    <span class="nb">exit </span>1
-</span><span class='line'><span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">[</span> <span class="s2">&quot;$#&quot;</span> -eq 1 <span class="o">]</span> <span class="o">||</span> die <span class="s2">&quot;1 argument required, $# provided&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="nv">$1</span> | grep -E -q <span class="s1">&#39;^s3://&#39;</span> <span class="o">||</span> die <span class="s2">&quot;S3 bucket URL required, $1 provided&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">NEW_ANNEX</span><span class="o">=</span><span class="s2">&quot;$1&quot;</span>
-</span><span class='line'>
-</span><span class='line'>./bin/inflatePaths.sh .
-</span><span class='line'>
-</span><span class='line'><span class="nb">echo</span> <span class="nv">$NEW_ANNEX</span> &gt; s3info/s3annex_config.txt
-</span><span class='line'>
-</span><span class='line'>./deflateAll.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>An example using the contents of &#8216;giteveryrepo2&#8217;:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#Remove the temp directory since we don&#39;t want to annex it</span>
-</span><span class='line'>rm -fr .temp
-</span><span class='line'>
-</span><span class='line'>./bin/moveToNewAnnex.sh s3://emenar.com/gitevery/giteveryrepo2v2/
-</span><span class='line'>git status
-</span><span class='line'>git diff s3info/s3annex_config.txt
-</span><span class='line'>
-</span><span class='line'><span class="c">#Go back to previous annex again</span>
-</span><span class='line'>
-</span><span class='line'>git checkout -- s3info/s3annex_config.txt
-</span><span class='line'>git status
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It would be &#8216;more optimal&#8217; to go directly from S3 -> S3, but the above works well enough if you have decent bandwidth
-and especially if you are within EC2.</p>
-
-<h2>Summary</h2>
-
-<p>Annexed git repositories can make certain IT activities much easier, more reliable, or more powerful (diff two machines&#8217; configurations).
-The above wasn&#8217;t showing IT automation, but it shows a valuable tool for IT automation as well as more manual interactions.</p>
-
-<h2>Next</h2>
-
-<p>Our next problem will be <a href="http://markfussell.emenar.com/blog/git-about-everything-it-automation/">IT Automation</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (Annexing)]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-annex/"/>
-    <updated>2013-01-13T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-annex</id>
-    <content type="html"><![CDATA[<p>This is the second in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-intro/">Intro</a></p>
-
-<h2>Dealing with Binary Files</h2>
-
-<p>As mentioned in the first posting, git and similar DVCS have issues with binary files.  Adding 100s of 10MB files, or 100s of
-versions of 10MB files will produce gigabytes worth of data that must be cloned by everyone using the repository.  How do we avoid this?</p>
-
-<p>There are a number of solutions in this space out there with differing characteristics, but the core approach is usually similar:
-&#8220;Don&#8217;t store it in git&#8221;.  Instead we want to record enough information to retrieve the binary files from somewhere else.</p>
-
-<!-- more -->
-
-
-<h2>Record Enough of the Binary File</h2>
-
-<p>What is
-enough information?  How about 160 bits!  Using SHA1 or any similar hash, we can identify the contents of any file.  To add
-a bit of consistency and readability, we will make this hex-based, so we get 40 characters.  And to make it a little clearer what
-hash was used and what this string is, we add &#8216;sha1_&#8217; to the front and &#8216;.blob&#8217; to the end.  Now our 10MB file has become 50 to 52 bytes depending on
-human-entered white spaces.  For example:</p>
-
-<ul>
-<li> sha1_8ac02ee34b94461fed19320d789f251e6a2a6796.blob</li>
-<li> SHA1-Hash = 8ac02ee34b94461fed19320d789f251e6a2a6796</li>
-<li> Google test: <a href="http://www.google.com/search?q=8ac02ee34b94461fed19320d789f251e6a2a6796">http://www.google.com/search?q=8ac02ee34b94461fed19320d789f251e6a2a6796</a></li>
-</ul>
-
-
-<p>And we have confirmed that the hash is enough to identify that file&#8217;s content (and the file itself if it has a unique name).</p>
-
-<p>Storing tens of thousands of 50Byte files is still under a few megabytes, so that part is good.</p>
-
-<h2>Put the content into the Cloud (or similar)</h2>
-
-<p>Where should we store the actual content?  Pretty much anywhere we want if things are simple (only a few files at a time to store and retrieve, need
-only local access), but
-if we want to store and retrieve thousands of files from anywhere rapidly things get nastier.  For example, there are projects that try to
-hide the process of file-contents being moved elsewhere using git smudge/clean filters.  Unfortunately this make the process all of: sequential, heavy, and
-perpetual.  We would have similar major issues if we moved the content via some other sequential approach that was not super-fast.  And
-git is meant to be highly distributed, so our approach needs to work for all the &#8216;clones&#8217; of a repository.  And finally, we don&#8217;t
-want to break our bank over this.</p>
-
-<p>The solution?  Amazon S3 or similar.  Amazon S3 is:</p>
-
-<ul>
-<li> Relatively inexpensive for what it does (about a dime a month for 1GB)</li>
-<li> Highly distributed</li>
-<li> Reasonably fast in network transfers</li>
-<li> Incredibly fast as you throw more workers at the network transfers</li>
-<li> Blazingly fast if you throw many workers from EC2 at it</li>
-</ul>
-
-
-<p>So if we want to move files from our Git repository into S3, how do we do that?  This isn&#8217;t really a git issue at all if we do
-it before &#8216;add&#8217; and after &#8216;pull&#8217;.  It becomes
-a simple filesystem-to-S3 issue and s3cmd <a href="http://s3tools.org/s3cmd">http://s3tools.org/s3cmd</a> is a very well trusted tool for this.
-Add in the parallel patch <a href="https://github.com/pcorliss/s3cmd-modification">https://github.com/pcorliss/s3cmd-modification</a> and
-you can have any numbers of workers running.  We want to be a &#8216;git&#8217; about everything, but we can solve this issue independently
-of git and combine the two.  The only large remaining issues are the actual processes of:</p>
-
-<ul>
-<li> &#8216;deflating&#8217;: moving the content of a file somewhere and leaving a content-hash in its place.</li>
-<li> &#8216;inflating&#8217;: replacing a content-hash with the actual content</li>
-</ul>
-
-
-<p>A highly annex-augmented version of s3cmd is here <a href="https://github.com/markfussell/s3annex">https://github.com/markfussell/s3annex</a>
-and was done while working at <a href="http://www.rumblegames.com">Rumble</a> where we needed to move gigabytes of high-quality art assets around
-as part of the build-deploy pipeline.</p>
-
-<p>The architectural design looks a bit like this:</p>
-
-<p><img width="743" height="352" src="http://markfussell.emenar.com/images/git-about-everything-annex/annex_architecture.png" /></p>
-
-<p>where the GH/BB repository in the upper left is just symbolizing pushing to some central repo.  It isn&#8217;t required for the
-annex concept, but is standard Git behavior.</p>
-
-<h2>Working with S3 Annexed Git Repositories</h2>
-
-<p>The three things you need for an S3-Annexed repository are:</p>
-
-<ul>
-<li> A git repository</li>
-<li> An S3 bucket to put content into</li>
-<li> The augmented s3cmd from here <a href="https://github.com/markfussell/s3annex">https://github.com/markfussell/s3annex</a></li>
-</ul>
-
-
-<p>A repository that is paired with an S3 bucket is located here:</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo1">https://github.com/markfussell/giteveryrepo1</a></li>
-</ul>
-
-
-<p>You can clone that repository and get a working annexed-repository and some example content (without write permission).  The repository is tiny but
-grants access to several megabytes worth of images.</p>
-
-<h3>Configuration</h3>
-
-<p>The configuration of the Annex is located in &#8216;s3info&#8217;:</p>
-
-<ul>
-<li> blob_includes.txt &mdash; The file extensions you want annexed</li>
-<li> s3annex_config.txt &mdash; The location of the annex</li>
-<li> s3cmd_config.txt &mdash; Some s3cmd configuration, but most importantly the access/secret</li>
-<li> s3worker_config.txt &mdash; The number of workers used for annexing</li>
-</ul>
-
-
-<h4>blob_includes</h4>
-
-<p>The blob_includes should be updated with any new file types you want annexed.  To make things fast and simple, annexing is
-based on file extensions not size or other properties.  It would be nice if this was more automatic, but being explicit
-was simple and very visible.</p>
-
-<h4>s3annex_config</h4>
-
-<p>This is simply the location of the annex.  This can change over time as a quick way to do &#8216;garbage collection&#8217;
-but normally it stays the same.  Because of the content-based approach, you can share annexes across many
-repositories.</p>
-
-<h4>s3cmd_config</h4>
-
-<p>The s3cmd configuration including access credentials.  If you don&#8217;t want access credentials in the repository itself, you could take out the s3cmd_config file and it should use your defaults (you may need to tweak a couple scripts).</p>
-
-<h4>s3worker_config</h4>
-
-<p>The number of s3workers to run at a time.  More workers will make the S3 combined throughput faster: this should be 100 or more on an EC2 instance.</p>
-
-<h3>Working commands</h3>
-
-<p>All the commands expect to be run from the root of the git repository.  The main working commands are:</p>
-
-<ul>
-<li> bin/deflatePaths.sh &mdash; Move the contents of files into the Annex and replace them with a hash stub/reference</li>
-<li> bin/inflatePaths.sh &mdash; Put the proper contents of the files into the filesystem based on their hash stub/reference</li>
-</ul>
-
-
-<p>Because annexed repositories should always be fully deflated before committing, there is a command in the root of the directory to
-remind people of this:</p>
-
-<ul>
-<li> deflateAll.sh &mdash; Visible reminder and simple equivalent to &#8216;bin/deflatePaths.sh .&#8217;</li>
-</ul>
-
-
-<p>These commands are all you need for annexing proper.  To make it easier to see the Annex itself, there is also an &#8216;lsAnnex.sh&#8217;
-script which is used below.</p>
-
-<h3>Annex (S3) Layout</h3>
-
-<p>The layout of the Annex within the S3 bucket is either:</p>
-
-<ul>
-<li> Flat in a single bucket plus path prefix</li>
-<li> Hierarchical based on some amount of leading hash digits</li>
-</ul>
-
-
-<p>The completely flat version is the simpler and truer representation.
-The hierarchy simply allows multiple threads to get listings of the annex files in parallel, which
-matters for performance when you have thousands of files within the annex.</p>
-
-<h4>Annex listing</h4>
-
-<p>You can see the contents of the annex with:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/lsAnnex.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For the example repository, this gives:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>2013-01-22 00:04   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob
-</span><span class='line'>2013-01-22 00:11   4742594   s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob__.jpg
-</span><span class='line'>2013-01-22 00:10   2679517   s3://emenar.com/gitevery/giteveryrepo1/sha1_2abd18dfa4510e1dfc72f643bff3639b42f2aa32.blob
-</span><span class='line'>2013-01-22 00:15   2679517   s3://emenar.com/gitevery/giteveryrepo1/sha1_2abd18dfa4510e1dfc72f643bff3639b42f2aa32.blob__.jpg
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see, in the annex are files that start with &#8216;sha1_&#8217; and end in &#8216;.blob&#8217; or &#8216;.blob__.xxx&#8217; where &#8216;.xxx&#8217; is a proper MIME extension.
-The reason for the MIME extension is just that it can be useful to see or directly retrieve the content
-with proper interpretation.  The normal Annex behavior only uses the &#8216;.blob&#8217; version.</p>
-
-<p>The names of the files in the Annex match the &#8216;sha1&#8217; hash of the contents of the file.  So &#8216;sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg&#8217;
-has a sha1 hash of &#8216;55b15eb3ac72351249125a3de7a81aee2bda6a2a&#8217;.  It is impossible for files to collide unless they are exactly the same
-content, so a completely flat representation is correct and simple.</p>
-
-<h3>Example Walk-through</h3>
-
-<p>If you cloned the example repository:</p>
-
-<ul>
-<li> <a href="https://github.com/markfussell/giteveryrepo1">https://github.com/markfussell/giteveryrepo1</a></li>
-</ul>
-
-
-<p>you should have something less than a megabyte, but it represents more than 100MB of image files (30 images of 3MB each).  But all the image
-files are stubbed out with just the content hash inside.</p>
-
-<p>To see example details of these stubbed/annexed files, look inside any of the jpg files in <code>image/album</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> -n <span class="s2">&quot;content: &quot;</span>; cat image/album/GitEverythingAlbum_01.jpg ; <span class="nb">echo</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This returns the blob identifier:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>content: sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Inflating a file</h4>
-
-<p>To inflate a file, run <code>./bin/inflatePaths.sh</code> with the specific file path:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/inflatePaths.sh image/album/GitEverythingAlbum_01.jpg
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And you will get some feedback:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>INFO: Compiling list of <span class="nb">local </span>files <span class="k">for</span> <span class="s1">&#39;file://image/album/GitEverythingAlbum_01.jpg&#39;</span>, <span class="s1">&#39;GitEverythingAlbum_01.jpg&#39;</span>, <span class="s1">&#39;image/album/GitEverythingAlbum_01.jpg&#39;</span>
-</span><span class='line'>INFO: Applying --exclude/--include
-</span><span class='line'>INFO: Retrieving list of remote files <span class="k">for </span>s3://emenar.com/gitevery/giteveryrepo1/ ...
-</span><span class='line'>INFO: Summary: 1 <span class="nb">local </span>files to fetch, 60 remote files present
-</span><span class='line'>INFO: Inflating<span class="o">[</span>1<span class="o">]</span> from S3 <span class="o">(</span>1<span class="o">)</span> <span class="o">(</span>sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob<span class="o">)</span>: image/album/GitEverythingAlbum_01.jpg &lt;- s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
-</span><span class='line'>s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob -&gt; image/album/GitEverythingAlbum_01.jpg  <span class="o">[</span>1 of 1<span class="o">]</span>
-</span><span class='line'> 4960530 of 4960530   100% in    7s   633.43 kB/s  <span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you should have a normal file and can view a picture of Nob Hill.</p>
-
-<p>Note that <code>git status</code> will now show a change.  The approach here is not to hide or conflate annexing within git (e.g. being part of smudge),
-but to create something that when combined with normal git makes git even more useful.</p>
-
-<h4>Deflating a file</h4>
-
-<p>Since we are in a git repository, we could simply do a reset to get the file back to it&#8217;s original content
-(it is already annexed) but it is much safer to always
-&#8216;deflate&#8217; in case the contents changed vs. being the same as the original commit.</p>
-
-<p>To deflate a single file you run <code>./bin/deflatePaths.shs</code> with the specific file path:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/deflatePaths.sh image/album/GitEverythingAlbum_01.jpg
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Because the contents are the same, you should see this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>INFO: Compiling list of <span class="nb">local </span>files <span class="k">for</span> <span class="s1">&#39;file://image/album/GitEverythingAlbum_01.jpg&#39;</span>, <span class="s1">&#39;GitEverythingAlbum_01.jpg&#39;</span>, <span class="s1">&#39;image/album/GitEverythingAlbum_01.jpg&#39;</span>
-</span><span class='line'>INFO: Applying --exclude/--include
-</span><span class='line'>INFO: Retrieving list of remote files <span class="k">for </span>s3://emenar.com/gitevery/giteveryrepo1/ ...
-</span><span class='line'>INFO: Summary: 1 <span class="nb">local </span>files to upload, 60 remote files already present
-</span><span class='line'>INFO: Skipped    <span class="o">(</span>1<span class="o">)</span> <span class="o">(</span>sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob<span class="o">)</span>: image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
-</span><span class='line'>INFO: Skipped    <span class="o">(</span>1<span class="o">)</span> <span class="o">(</span>sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg<span class="o">)</span>: image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob__.jpg
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The original annexing of the file did upload two files, and looked like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>INFO: Upload     <span class="o">(</span>1<span class="o">)</span>: ./image/album/GitEverythingAlbum_01.jpg -&gt; s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
-</span><span class='line'>File <span class="s1">&#39;./image/album/GitEverythingAlbum_01.jpg&#39;</span> started <span class="o">[</span>1 of 30<span class="o">]</span>
-</span><span class='line'>...
-</span><span class='line'>File <span class="s1">&#39;./image/album/GitEverythingAlbum_01.jpg&#39;</span> stored as <span class="s1">&#39;s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob&#39;</span> <span class="o">(</span>4960530 bytes ...<span class="o">)</span> <span class="o">[</span>1 of 30<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Inflating Many Files</h4>
-
-<p>The <code>inflate</code> and <code>deflate</code> scripts accept paths so you can inflate the whole album with:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/inflatePaths.sh image/album
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>or even inflate the whole repository:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>./bin/inflatePaths.sh .
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the default settings, this will launch 10 workers doing 10 files at a time in total.  How long
-the whole 100MB download takes will almost likely depend on your maximum bandwidth, but if not,
-just change the number of workers to a larger number.  S3 is very supportive of many requests by
-different workers.</p>
-
-<h3>EC2 Walkthrough</h3>
-
-<p>On EC2 the performance numbers are pretty amazing, so I created a simple CloudFormation so people
-can test it out.  The CloudFormation is here:</p>
-
-<ul>
-<li> <a href="https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template">https://s3.amazonaws.com/emenar.com/gitevery/aws/cloudformation/GitEverythingServer1.template</a></li>
-</ul>
-
-
-<p>and it can be run by going to AWS CloudFormation and just giving it one of your keypairs:</p>
-
-<ul>
-<li> <a href="https://console.aws.amazon.com/cloudformation/">https://console.aws.amazon.com/cloudformation/</a></li>
-</ul>
-
-
-<h4>EC2 Performance</h4>
-
-<p>After the instance launches, SSH in, &#8216;sudo su -&#8216;, and change to the repository:</p>
-
-<ul>
-<li> /root/gitrepo/giteveryrepo1</li>
-</ul>
-
-
-<p>run <code>inflatePaths</code> with the standard 10 workers</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">time</span> ./bin/inflatePaths.sh image
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>INFO: Compiling list of <span class="nb">local </span>files <span class="k">for</span> <span class="s1">&#39;file://image&#39;</span>, <span class="s1">&#39;image&#39;</span>, <span class="s1">&#39;image&#39;</span>
-</span><span class='line'>INFO: Applying --exclude/--include
-</span><span class='line'>INFO: Retrieving list of remote files <span class="k">for </span>s3://emenar.com/gitevery/giteveryrepo1/ ...
-</span><span class='line'>INFO: Summary: 30 <span class="nb">local </span>files to fetch, 60 remote files present
-</span><span class='line'>INFO: Inflating<span class="o">[</span>1<span class="o">]</span> from S3 <span class="o">(</span>1<span class="o">)</span> <span class="o">(</span>sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob<span class="o">)</span>: image/album/GitEverythingAlbum_01.jpg &lt;- s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_55b15eb3ac72351249125a3de7a81aee2bda6a2a.blob started <span class="o">[</span>1 of 30<span class="o">]</span>
-</span><span class='line'>INFO: Receiving file <span class="s1">&#39;image/album/GitEverythingAlbum_01.jpg&#39;</span>, please
-</span><span class='line'>...
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_801a329248a9cbe48b512f2a75179437382dba02.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_21.jpg&#39;</span> <span class="o">(</span>4194668 bytes in 3.1 seconds, 1330.45 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_7d5d055068a9b7e268e21279770f03a5e8c6c9d3.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_22.jpg&#39;</span> <span class="o">(</span>4576223 bytes in 3.0 seconds, 1477.96 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_02bf4b647b623dac68e1913b8d3494856041047c.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_25.jpg&#39;</span> <span class="o">(</span>4742594 bytes in 2.6 seconds, 1777.42 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_856984959467b2427c2a4e9ade642a3d3c26b0fd.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_20.jpg&#39;</span> <span class="o">(</span>4208680 bytes in 4.2 seconds, 971.63 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_7cb2e0318459e276dc4b65987bbe8bd6021357df.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_28.jpg&#39;</span> <span class="o">(</span>3559585 bytes in 2.2 seconds, 1559.41 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_b855966214caa10638f76a3aba6b6df7b0caffca.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_29.jpg&#39;</span> <span class="o">(</span>3820335 bytes in 2.2 seconds, 1718.09 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_2abd18dfa4510e1dfc72f643bff3639b42f2aa32.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_30.jpg&#39;</span> <span class="o">(</span>2679517 bytes in 2.1 seconds, 1229.88 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_fc322e938362e0c40ccf5e09789a1cb6b6995882.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_26.jpg&#39;</span> <span class="o">(</span>3909187 bytes in 3.0 seconds, 1285.67 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_fd63032739c810743521ad1de0546d67b13b4357.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_27.jpg&#39;</span> <span class="o">(</span>3465440 bytes in 2.9 seconds, 1157.55 kB/s<span class="o">)</span>
-</span><span class='line'>File s3://emenar.com/gitevery/giteveryrepo1/sha1_798788e370f243a2a38f91bf8979fd46070a4ae2.blob saved as <span class="s1">&#39;image/album/GitEverythingAlbum_24.jpg&#39;</span> <span class="o">(</span>3461363 bytes in 5.3 seconds, 634.12 kB/s<span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>real  0m10.372s
-</span><span class='line'>user  0m4.311s
-</span><span class='line'>sys   0m2.948s
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So it took 10 seconds to download 100MB.  That is 80Mb/s on an &#8216;m1.small&#8217; which is a pretty nice number to work with.  Changing to 100 workers doesn&#8217;t make much difference (about 9 seconds),
-so this is pretty much the saturation of &#8216;m1.small&#8217; to S3 performance.</p>
-
-<p>Larger instance types can perform even better.  During a particularly grueling annexing, the performance numbers looked like this:</p>
-
-<p><img width="743" height="352" src="http://markfussell.emenar.com/images/git-about-everything-annex/ec2performance2.png" /></p>
-
-<p>That is getting 200MB/s <em>minimum</em> and passing 1GB/s at peaks.</p>
-
-<h2>Summary &#8211; Annexing makes Git good at binary files</h2>
-
-<p>By using S3 as an Annex for binary files, we can make &#8216;git&#8217; be exceptionally good at dealing with large amount of binary content.  Git simply
-manages the history of 50-byte annex-stub text files, and git is very fast and efficient at doing that.  The annex-enhanced s3cmd can run many
-workers to upload/deflate and download/inflate the binary files to and from S3.  Especially on EC2 the performance numbers can be super-fast:</p>
-
-<ul>
-<li> Clone repository &lt; 5 seconds</li>
-<li> Inflate 100MB of files &lt; 10 seconds</li>
-</ul>
-
-
-<p>By combining git with a powerful annex solution, working with lots of version-controlled information
-of any size has become all of: very simple, very fast, very distributable, and very inexpensive.</p>
-
-<h3>Alternatives</h3>
-
-<p>There are some alternative approaches out there, which I should mention.  Some I tried and they didn&#8217;t perform well
-enough.  Others didn&#8217;t match the needs we had at Rumble or my needs outside of Rumble.  But they are interesting
-projects:</p>
-
-<ul>
-<li> <a href="http://git-annex.branchable.com/">http://git-annex.branchable.com/</a></li>
-<li> <a href="https://github.com/schacon/git-media">https://github.com/schacon/git-media</a></li>
-</ul>
-
-
-<h3>Next</h3>
-
-<p>Our next problem will be <a href="http://markfussell.emenar.com/blog/git-about-everything-it/">IT</a></p>
 ]]></content>
   </entry>
   
