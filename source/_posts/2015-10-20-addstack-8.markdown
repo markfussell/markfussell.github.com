@@ -1,0 +1,110 @@
+---
+layout: post
+title: "ADD Stack [Part-8]"
+date: 2015-10-20 1:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: [Intro](/blog/addstack-1/) and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
+
+
+## Federation Application Infrastructure
+
+The application stack we have so far:
+
+   * UI (both client and server)
+   * Application Server (Grails, Java, potentially scripting engine)
+   * Database (Maria or similar)
+
+Is very capable.  Using it combined with the ADD ingredients:
+
+   * GitHub – With resource, presence, application, and configuration information repositories
+   * EC2 Instances – Running continuously or based on load, and running their 'part' plus any dynamic configuration
+   * S3 – For resources
+   * HipChat – To let everyone know
+
+Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
+The nodes and their application can keep certain data in-memory (cached).  The nodes can
+ launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
+ can do pretty much anything.
+
+### Standard Federation Components
+
+Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
+are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
+And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.
+
+<!--more-->
+
+So instead of having the one super-capable application server, we can start breaking out some of the responsibilities
+of the application server into other system components, and then decide whether we need them or not.  If we need
+them, we will be using a very main-stream approach that is redundant, scalable, and easily managed.  It needs to 'fit'
+with our application, but it doesn't have to be similar to the application (e.g. works with Java, written in Erlang,
+runs on Linux).
+
+The list of standard system components isn't that long, but it is _longer than you need_.  If you are using all of these,
+you are likely over-engineering your solution.  Try to start weaning yourself off some of this technology.
+
+A partial list of federation components
+
+  * Cache – For rapidly retrieving information that changes slowly or needs to be shared broadly
+  * Queue – For getting information from producers (requests) to consumers (workers)
+  * Distributed State – For precise and consistent decision-making among several different entities
+  * Semistructured Database – For persistently storing data in a faster or more flexible format than the main database
+  * SSO (Single Sign-on) – To enable users to get access to various resources without the resources having to authenticate
+  * "Chat" – Real-time presence and data communication enabling 'chat' and various other capabilities
+  * Map-Reduce – Taking large amounts of data and processing it to get answers to questions.  Can be real-time or not
+  * Forum – Supporting forum capabilities for customers to talk with each other
+  * Customer Support – Supporting customer-facing capabilities, including defect and product request tracking
+  * SMS / Email / Contact – Ability to send out emails, SMS, surveys, and other customer contact
+  * Web Site – A separate web site from the main application
+  * Web Content Creator – An ability to enable users to create content within your site (vs. doing it via templating)
+  * Payment Processing – Handling the record of credit cards and payment processing
+  * Freetext Search – The ability to search documents and similar free text
+  * Workers – Special nodes that do work and either go idle or disappear when no work is needed
+
+There are some more (e.g. the BI pipeline), but that is a pretty good list.  Especially the 'Workers' is a category basically as broad as
+'Application'.
+
+Working through the list, here are some examples:
+
+  * Cache – Redis <http://redis.io>
+  * Queue – Kafka <http://kafka.apache.org>
+  * Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <http://zookeeper.apache.org> and Curator <http://curator.apache.org/curator-recipes/index.html>
+  * Semistructured Database – Riak  <http://basho.com/products/>
+  * SSO – Shibboleth <http://shibboleth.net>
+  * Chat – Ejabberd <https://www.ejabberd.im>
+  * Map-Reduce – Spark <https://spark.apache.org>,  Hadoop <https://hadoop.apache.org>
+  * Forum –  phpBB <https://www.phpbb.com>
+  * Customer Support – Parature <http://www.parature.com>
+  * SMS / Email / Contact – SendGrid <https://sendgrid.com> , Silverpop <http://www-03.ibm.com/software/products/en/silverpop-engage> , SurveyMonkey <https://www.surveymonkey.com> , etc.
+  * Web Site –  Expression Engine <https://ellislab.com/expressionengine> , Squarespace <http://www.squarespace.com>
+  * Web Content Creator – How about the original 'wiki' <http://wiki.org> or a more modern one like Foswiki <http://foswiki.org>
+  * Payment Processing – PayPal <http://paypal.com> or even Facebook <http://facebook.com> and Google <http://google.com>
+  * Freetext Search – Solr <http://lucene.apache.org/solr/>
+  * Workers – All kinds of workers and frameworks for doing it, including AWS beanstalks <http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html>
+
+Sadly, Rumble did use almost all of the above (and more) in some way or another, but that is seriously off-the-chart
+and incredibly expensive.  Yes, it is powerful.  No, your users do not care to pay you for that much power.
+
+A company like Wikipedia/Wikimedia looks more like this:
+
+<img src="/images/addstack-8/addstack8_wikimedia1.png" />
+
+
+## Conclusion
+
+It is good to understand what kinds of system components are out there and be aware that you don't have to
+reinvent / recode them when you need them.  Each of the above are good products.  They do what they should
+to fill a particular need.  And almost all of them are
+fault-tolerant and scalable, so they can join the rest of the _very tolerant_ ADD stack.
+Or they are a service and you get what you pay for.  If you really need
+one of them, certainly bring it aboard.  It is better than creating a monolith.
+But if you can do without it, your application and you IT will be easier to understand and maintain.
+
