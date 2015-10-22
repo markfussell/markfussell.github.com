@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Advanced Development and Delivery (ADD) [Part-7] - Polyglot</title>
+  <title>Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the seventh installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
+  <meta name="description" content="There is also a PDF version here which might be easier to read
+because it has a bit more formatting. <div style='mso-element:para-border-div;border: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/add-7/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/page/6/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,12 +63,15 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Advanced Development and Delivery (ADD) [Part-7]</h1>
+      <h1 class="entry-title"><a href="/blog/smalljava/">SmallJava: Smalltalk to Java&#8230; Using Language Transformation to Show Language Differences</a></h1>
     
     
       <p class="meta">
@@ -83,166 +87,56 @@
   
 
 
-<time datetime="2015-10-04T01:00:00-07:00" pubdate data-updated="true">Oct 4<span>th</span>, 2015</time>
+<time datetime="1997-05-07T18:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 1997</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
+  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/SmallJava1d_2.pdf">here</a> which might be easier to read
+because it has a bit more formatting.</p>
 
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
+<div style='mso-element:para-border-div;border:none;border-bottom:solid windowtext 1.5pt;
+padding:0in 0in 1.0pt 0in'>
 
-<h2>Fuller Presence and EC2 Integration</h2>
+<h1><a name="_Toc387781516">Overview and Introduction</a></h1>
 
-<p>In the previous part, I went through a very simple but powerful model of &#8216;presence&#8217; using simply GitHub repositories.
-The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
-The second level of presence is to update the state of the node as it changes.  For example, a node goes through
-a few bootstrap steps:</p>
-
-<ul>
-<li> presetup – The node before any updates are possible (no ability to change status)</li>
-<li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
-<li> initdone – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
-</ul>
-
-
-<p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
-our federation!</p>
-
-<!-- more -->
-
-
-<p>So far for the ADD we now have four resources within which track node states:</p>
-
-<ul>
-<li> On the node (say &#8216;/root/log&#8217; or &#8216;/root/nodeinfo/state.txt)</li>
-<li> Within the presence system</li>
-<li> Within HipChat</li>
-<li> On EC2 itself</li>
-</ul>
-
-
-<p>I recommend using <em>all</em> of them.</p>
-
-<h3>On node</h3>
-
-<p> On the node is very helpful in that it is isolated from any other failures.  You
- can &#8216;tail&#8217; the logs or &#8216;cat&#8217; the state file.  This tangibility helps understand things and debug if there is failure.</p>
-
-<h3>Within Presence</h3>
-
-<p> Within the presence system is the most powerful and flexible.  It is easy to see history and all the activity of your
- nodegrid.  And the nodegrid can use the presence system to figure out what nodes are present and in full &#8216;working&#8217;
- mode.</p>
-
-<h3>HipChat</h3>
-
-<p> Within HipChat lets everyone see and talk about the changes.  It can get noisy though, so you need
- to separate the &#8216;chatty&#8217; state changes from the &#8216;critical&#8217; ones.  An example of &#8216;critical&#8217; is when a machine realizes
- it is broken.  It is running the cron job, but something is wrong and it can tell that the &#8216;work&#8217; is not completable.
- I call this being &#8216;wedged&#8217;.  If a machine is &#8216;wedged&#8217;, it should tell people and then we can work on improving its
- DNA so it can unwedge itself in the future.  And then kill the machine.</p>
-
-<h3>EC2</h3>
-
-<p> By using EC2 tags you can leverage the EC2 dashboard.  I view &#8216;tags&#8217; as read-only because the ADD should not get
- attached (be dependent) on EC2, but it is helpful for visibility.</p>
-
-<h3>Examples</h3>
-
-<p>The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
-killing the existing two instances: the AutoScalingGroup automatically replaced them.</p>
-
-<h4>Launching viewed within EC2 Dashboard</h4>
-
-<p>Nicely the &#8216;add:&#8217; prefix makes all the properties that are most important appear on the left.  Some of the names
-of concepts are intentionally alphabetically &#8216;sorted&#8217; so they appear in the correct column.</p>
-
-<p><img src="/images/add-7/add7_ec2_cv1b.png" /></p>
-
-<p>Click here: <a target="add7_ec2_cv1b" href="/images/add-7/add7_ec2_cv1b.png" >add7_ec2_cv1b</a> to expand.</p>
-
-<p>The ‘stacktype’ of ‘lad1’ in the capture is short for a stack of</p>
-
-<ul>
-<li>Load Balancer</li>
-<li>Application</li>
-<li>Database</li>
-</ul>
-
-
-<h4>Working viewed within HipChat</h4>
-
-<p><img src="/images/add-7/add7_hipchat_cv1.png" /></p>
-
-<h4>Working viewed within Presence / SourceTree</h4>
-
-<p><img src="/images/add-7/add7_presence_cv1.png" /></p>
 </div>
 
 
-  <footer>
-    <p class="meta">
-      
+
+
+<p class=MsoNormal>In this document I will compare and contrast Smalltalk and
+Java using a somewhat unusual approach: I will transform one language
+(Smalltalk) into the other (Java) by a series of small steps in an intermediary
+language (SmallJava).<span style="mso-spacerun: yes">&nbsp; </span>With each
+step I will discuss how the new properties of the intermediate language compare
+and contrast to the properties of the previous version of the language.<span
+style="mso-spacerun: yes">&nbsp; </span></p>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/smalljava/">Read on &rarr;</a>
+    </footer>
   
 
-<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
 
-      
-
-
-
-
-
-
-
-
+    </article>
   
-
-
-<time datetime="2015-10-04T01:00:00-07:00" pubdate data-updated="true">Oct 4<span>th</span>, 2015</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/it/'>IT</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add-7/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add-7/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/add-6/" title="Previous Post: Advanced Development and Delivery (ADD) [Part-6]">&laquo; Advanced Development and Delivery (ADD) [Part-6]</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/add-8/" title="Next Post: Advanced Development and Delivery (ADD) [Part-8]">Advanced Development and Delivery (ADD) [Part-8] &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -288,7 +182,7 @@ of concepts are intentionally alphabetically &#8216;sorted&#8217; so they appear
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/markfussell">@markfussell</a> on GitHub
@@ -322,7 +216,6 @@ of concepts are intentionally alphabetically &#8216;sorted&#8217; so they appear
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -337,10 +230,7 @@ of concepts are intentionally alphabetically &#8216;sorted&#8217; so they appear
       var disqus_shortname = 'markfussell';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/add-7/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/add-7/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

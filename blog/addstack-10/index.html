@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>ADD Stack [Part-8] - Polyglot</title>
+  <title>ADD Stack [Part-10] - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
@@ -19,7 +19,7 @@ first article is here: Intro and &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-8/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-10/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +68,7 @@ first article is here: Intro and &hellip;">
   
   <header>
     
-      <h1 class="entry-title">ADD Stack [Part-8]</h1>
+      <h1 class="entry-title">ADD Stack [Part-10]</h1>
     
     
       <p class="meta">
@@ -84,7 +84,7 @@ first article is here: Intro and &hellip;">
   
 
 
-<time datetime="2015-10-20T01:00:00-07:00" pubdate data-updated="true">Oct 20<span>th</span>, 2015</time>
+<time datetime="2015-10-22T01:00:00-07:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2015</time>
         
       </p>
     
@@ -96,113 +96,102 @@ first article is here: <a href="/blog/addstack-1/">Intro</a> and described the t
 The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
 The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
 and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.</p>
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
+The eighth was an overview of Federation Components like caches, queues, payment services, and the like.  The ninth
+was on a highly reliable, scalable, flexibly, and ultimately very simple worker model.</p>
 
-<h2>Federation Application Infrastructure</h2>
+<h2>WAR!</h2>
 
-<p>The application stack we have so far:</p>
+<p>Continuing with the worker model, we currently have a non-production Application Server running Grails:</p>
 
 <ul>
-<li> UI (both client and server)</li>
-<li> Application Server (Grails, Java, potentially scripting engine)</li>
-<li> Database (Maria or similar)</li>
+<li><a href="http://fed1-app1.aws.gaps2c.com:8080">http://fed1-app1.aws.gaps2c.com:8080</a></li>
 </ul>
 
 
-<p>Is very capable.  Using it combined with the ADD ingredients:</p>
+<p>It is running grails &#8216;interactively&#8217; and &#8216;off-source&#8217;.  This is fast for deployment, but it is missing a few
+things that people usually want in production:</p>
 
 <ul>
-<li> GitHub – With resource, presence, application, and configuration information repositories</li>
-<li> EC2 Instances – Running continuously or based on load, and running their &#8216;part&#8217; plus any dynamic configuration</li>
-<li> S3 – For resources</li>
-<li> HipChat – To let everyone know</li>
+<li>Well-defined artifact that has been tested and can&#8217;t &#8220;just change&#8221;</li>
+<li>A container environment that can provide certain resources to the application (e.g. monitoring)</li>
+<li>Removal of having to understand the &#8216;building&#8217; technology from the running technology (JVM)</li>
+<li>That production has as few technologies as possible, and is normally missing &#8216;compilers&#8217; so people can&#8217;t tweak behavior</li>
 </ul>
 
 
-<p>Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
-The nodes and their application can keep certain data in-memory (cached).  The nodes can
- launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
- can do pretty much anything.</p>
+<p>The last item is (IMO) a bit paranoid, and there are better ways to make sure production is stable (tripwires and
+logging).  And the third is probably unrealistic for anything but trivial debugging.<br/>
+But the first two are certainly reasonable wants.  A lot of people are familiar with deploying wars and deploying
+wars on Tomcat and other servers.</p>
 
-<h3>Standard Federation Components</h3>
+<h3>Where&#8217;s the WAR?</h3>
 
-<p>Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
-are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
-And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.</p>
-
-<!--more-->
-
-
-<p>So instead of having the one super-capable application server, we can start breaking out some of the responsibilities
-of the application server into other system components, and then decide whether we need them or not.  If we need
-them, we will be using a very main-stream approach that is redundant, scalable, and easily managed.  It needs to &#8216;fit&#8217;
-with our application, but it doesn&#8217;t have to be similar to the application (e.g. works with Java, written in Erlang,
-runs on Linux).</p>
-
-<p>The list of standard system components isn&#8217;t that long, but it is <em>longer than you need</em>.  If you are using all of these,
-you are likely over-engineering your solution.  Try to start weaning yourself off some of this technology.</p>
-
-<p>A partial list of federation components</p>
+<p>The first issue with changing from source deployment to war-based deployment is &#8220;Where is the WAR?&#8221; and
+&#8220;How do I know it has changed?&#8221;.  As with the other weird primary ingredient approaches, the WAR is going to
+be in an annexed repository.  And you can see that it changed by simply looking at whether the &#8216;git revision&#8217; of
+the war has changed.  This approach gives incredible power and flexibility:</p>
 
 <ul>
-<li>Cache – For rapidly retrieving information that changes slowly or needs to be shared broadly</li>
-<li>Queue – For getting information from producers (requests) to consumers (workers)</li>
-<li>Distributed State – For precise and consistent decision-making among several different entities</li>
-<li>Semistructured Database – For persistently storing data in a faster or more flexible format than the main database</li>
-<li>SSO (Single Sign-on) – To enable users to get access to various resources without the resources having to authenticate</li>
-<li>&#8220;Chat&#8221; – Real-time presence and data communication enabling &#8216;chat&#8217; and various other capabilities</li>
-<li>Map-Reduce – Taking large amounts of data and processing it to get answers to questions.  Can be real-time or not</li>
-<li>Forum – Supporting forum capabilities for customers to talk with each other</li>
-<li>Customer Support – Supporting customer-facing capabilities, including defect and product request tracking</li>
-<li>SMS / Email / Contact – Ability to send out emails, SMS, surveys, and other customer contact</li>
-<li>Web Site – A separate web site from the main application</li>
-<li>Web Content Creator – An ability to enable users to create content within your site (vs. doing it via templating)</li>
-<li>Payment Processing – Handling the record of credit cards and payment processing</li>
-<li>Freetext Search – The ability to search documents and similar free text</li>
-<li>Workers – Special nodes that do work and either go idle or disappear when no work is needed</li>
+<li>You can have as many different versions of the application as you want.  They just each have to have their own &#8216;folder&#8217;</li>
+<li>You can easily see which deployments are using which versions</li>
+<li>Changing a deployment to use a different version involves copying a 50 byte hash vs. an actual WAR file</li>
+<li>Getting the real file is a super-fast call to S3</li>
+<li>Bootstrapping the initial version is the same as any other version, which makes it less likely to diverge and break</li>
 </ul>
 
 
-<p>There are some more (e.g. the BI pipeline), but that is a pretty good list.  Especially the &#8216;Workers&#8217; is a category basically as broad as
-&#8216;Application&#8217;.</p>
+<p>The WARs should be in a different repository from the source for a number of reasons, but the main one being their
+rules and rythms are very different.  But the structure of the repositories can be very similar to make it easy to see
+the created artifacts.  Something like this:</p>
 
-<p>Working through the list, here are some examples:</p>
+<p><img src="/images/addstack-10/addstack10_war1.png" /></p>
+
+<p>Note that the contents of the directory could be anything.  And actually a &#8216;trick&#8217; to making the upload much faster
+is to use an exploded &#8216;war&#8217; vs. a normal &#8216;war&#8217;.  Why?  Because a WAR contains a bunch of jars that are all almost
+ always <em>identical</em> between versions.  So although S3 has basically unlimited space, it is silly to waste it with
+ a file that (although different) is 99% the same between each version.  For example, all the identical jars within this
+ expanded war:</p>
+
+<p><img src="/images/addstack-10/addstack10_war2.png" /></p>
+
+<p>The trade is that you have a lot more files in the other folders.  Finally, you could do a hybrid where everything but
+the lib folder is compressed.  To make the real war, your deployment process would uncompress and the rewar the contents.</p>
+
+<h3>Who deploys what?  The Promotion model.</h3>
+
+<p>The deploying server needs to watch something so it can see a change that is relevant to it.  Production does not care
+that there is a new QA build.  And QA may not care there is a new development build.  QA never creates its own build,
+but it only cares when a development build is &#8220;Good enough to QA&#8221;.  This I call the promotion model.</p>
+
+<p>For any given application:</p>
 
 <ul>
-<li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
-<li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
-<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org/curator-recipes/index.html">http://curator.apache.org/curator-recipes/index.html</a></li>
-<li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
-<li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
-<li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
-<li>Map-Reduce – Spark <a href="https://spark.apache.org">https://spark.apache.org</a>,  Hadoop <a href="https://hadoop.apache.org">https://hadoop.apache.org</a></li>
-<li>Forum –  phpBB <a href="https://www.phpbb.com">https://www.phpbb.com</a></li>
-<li>Customer Support – Parature <a href="http://www.parature.com">http://www.parature.com</a></li>
-<li>SMS / Email / Contact – SendGrid <a href="https://sendgrid.com">https://sendgrid.com</a> , Silverpop <a href="http://www-03.ibm.com/software/products/en/silverpop-engage">http://www-03.ibm.com/software/products/en/silverpop-engage</a> , SurveyMonkey <a href="https://www.surveymonkey.com">https://www.surveymonkey.com</a> , etc.</li>
-<li>Web Site –  Expression Engine <a href="https://ellislab.com/expressionengine">https://ellislab.com/expressionengine</a> , Squarespace <a href="http://www.squarespace.com">http://www.squarespace.com</a></li>
-<li>Web Content Creator – How about the original &#8216;wiki&#8217; <a href="http://wiki.org">http://wiki.org</a> or a more modern one like Foswiki <a href="http://foswiki.org">http://foswiki.org</a></li>
-<li>Payment Processing – PayPal <a href="http://paypal.com">http://paypal.com</a> or even Facebook <a href="http://facebook.com">http://facebook.com</a> and Google <a href="http://google.com">http://google.com</a></li>
-<li>Freetext Search – Solr <a href="http://lucene.apache.org/solr/">http://lucene.apache.org/solr/</a></li>
-<li>Workers – All kinds of workers and frameworks for doing it, including AWS beanstalks <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html">http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html</a></li>
+<li>Automated builds occur <em>all the time</em> (whenever something changes) and each gets a unique identifier (e.g. 201)</li>
+<li>Each build is then promoted through however many levels of inspection you want
+
+<ul>
+<li>If it passes muster</li>
+<li>If it has not been superseded by another build</li>
+<li>If not, it is ignored</li>
+</ul>
+</li>
 </ul>
 
 
-<p>Sadly, Rumble did use almost all of the above (and more) in some way or another, but that is seriously off-the-chart
-and incredibly expensive.  Yes, it is powerful.  No, your users do not care to pay you for that much power.</p>
+<p>With this model, you never <em>go backward</em>, which increases productivity a lot.  And your are continuously trying to
+ <em>go forward</em>, which means you have very current information about where you are.  And this also increases productivity.
+ Yes, in a pinch, you could see if a build <em>between</em> last success and most current can be promoted.  But that is
+ impacting productivity so it should rarely be done.</p>
 
-<p>A company like Wikipedia/Wikimedia looks more like this:</p>
+<p>This also implies there is no branching.  One source.  One set of builds based on that source.  That is not required
+by this approach (branch source, new set of builds), but it is strongly encouraged because it again <em>wastes no energy</em>
+and it is trivial to flip to a different &#8216;set of builds&#8217; when a branch/back-patch is required.  But the process is
+very optimistic while also being very realistic (the world is where it is) and appropriately pessimistic
+(you can&#8217;t promote through QA until you pass the automated tests).  Because machines embody the process, you
+can&#8217;t subvert it without doing it <em>very conspicuously</em></p>
 
-<p><img src="/images/addstack-8/addstack8_wikimedia1.png" /></p>
-
-<h2>Conclusion</h2>
-
-<p>It is good to understand what kinds of system components are out there and be aware that you don&#8217;t have to
-reinvent / recode them when you need them.  Each of the above are good products.  They do what they should
-to fill a particular need.  And almost all of them are
-fault-tolerant and scalable, so they can join the rest of the <em>very tolerant</em> ADD stack.
-Or they are a service and you get what you pay for.  If you really need
-one of them, certainly bring it aboard.  It is better than creating a monolith.
-But if you can do without it, your application and you IT will be easier to understand and maintain.</p>
+<h3></h3>
 </div>
 
 
@@ -225,7 +214,7 @@ But if you can do without it, your application and you IT will be easier to unde
   
 
 
-<time datetime="2015-10-20T01:00:00-07:00" pubdate data-updated="true">Oct 20<span>th</span>, 2015</time>
+<time datetime="2015-10-22T01:00:00-07:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2015</time>
       
 
 <span class="categories">
@@ -239,7 +228,7 @@ But if you can do without it, your application and you IT will be easier to unde
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-8/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-8/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-10/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-10/" >Tweet</a>
   
   
   
@@ -248,10 +237,8 @@ But if you can do without it, your application and you IT will be easier to unde
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/addstack-7/" title="Previous Post: ADD Stack [Part-7]">&laquo; ADD Stack [Part-7]</a>
+        <a class="basic-alignment left" href="/blog/addstack-9/" title="Previous Post: ADD Stack [Part-9]">&laquo; ADD Stack [Part-9]</a>
       
-      
-        <a class="basic-alignment right" href="/blog/addstack-9/" title="Next Post: ADD Stack [Part-9]">ADD Stack [Part-9] &raquo;</a>
       
     </p>
   </footer>
@@ -360,8 +347,8 @@ But if you can do without it, your application and you IT will be easier to unde
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-8/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-8/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-10/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-10/';
         var disqus_script = 'embed.js';
       
     (function () {
