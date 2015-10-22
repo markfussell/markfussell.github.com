@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T12:25:25-07:00</updated>
+  <updated>2015-10-22T12:42:48-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -213,6 +213,43 @@ and results to figure out those details.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore3.png" /></p>
 
+<p>The script to acquire a chore is a little involved because of the possibility of failure, but basically it just</p>
+
+<ul>
+<li>Finds all the 'doit.txt' files</li>
+<li>Picks one at random</li>
+<li>Tries to rename it and push that change
+
+<ul>
+<li>If successful, then we are in.  If not, roll-back</li>
+</ul>
+</li>
+</ul>
+
+
+<p><code>``bash
+export RANDOM_DO_IT=</code>find work -name 'do_it.txt' | while read x; do echo "`expr $RANDOM % 1000`:$x"; done | sort -n | sed 's/[0-9]*://' | head -1`</p>
+
+<h1>...</h1>
+
+<p>git mv $RANDOM_DO_IT "${RANDOM_DO_IT_DIR}/doing_it.txt"</p>
+
+<h1>...</h1>
+
+<p>git push
+PUSH_RETVAL=$?</p>
+
+<p>if [ $PUSH_RETVAL -ne 0 ];
+then</p>
+
+<h1>=================================================</h1>
+
+<h1>=== We failed to acquire, so roll-back</h1>
+
+<h1>=================================================</h1>
+
+<p>```</p>
+
 <h4>Doing the work</h4>
 
 <p>A worker should alway be able to acquire:</p>
@@ -223,8 +260,55 @@ and results to figure out those details.</p>
 </ul>
 
 
-<p>Where the "GIT_ROOT" can have shared scripts in its 'chore/bin' or 'bin' directories, and the chore can have
-individual scripts in it CHORE_ROOT/bin directory.</p>
+<p>Where the "GIT_ROOT" can have shared scripts in its 'work/bin' or 'bin' directories, and the chore can have
+individual scripts in it CHORE_ROOT/bin directory.  We also likely have 'repo2' available,
+so we have access to a lot of resources (common and work specific) to leverage.</p>
+
+<h4>Saving the work</h4>
+
+<p>When the worker is done, it needs to do a final 'write' of all the results.  This could be nothing more than
+logs (a worker is 'anonymous' and ephemeral, so ideally logs go to the chore's directory vs. somewhere
+effectively 'random').  This is just a final pull-push:</p>
+
+<p>```bash</p>
+
+<h1>=================================================</h1>
+
+<h1>=== Done, try to write out the results</h1>
+
+<h1>===</h1>
+
+<h1>=== Make sure everything is annexed</h1>
+
+<h1>=================================================</h1>
+
+<p>./bin/deflatePaths.sh "${RANDOM_DO_IT_DIR}"</p>
+
+<p>git pull</p>
+
+<h1>...</h1>
+
+<h1>=================================================</h1>
+
+<h1>=== Pull successful, start writing</h1>
+
+<h1>=================================================</h1>
+
+<p>git mv "${RANDOM_DO_IT_DIR}/doing_it.txt" "${RANDOM_DO_IT_DIR}/done.txt"</p>
+
+<p>git add -A "${RANDOM_DO_IT_DIR}/../"
+git commit -m "$ME completed chore ${RANDOM_DOIT_DIR}"</p>
+
+<p>git push
+```</p>
+
+<p>and as long as this is successful, the work is done.</p>
+
+<h2>Conclusion</h2>
+
+<p>The above is a very generic worker model that enables all kinds of flexibility in setting up 'chores' and scalably
+having a 'right-size' for the number of workers doing the work.  The next article will be more specific and
+build new 'wars' every time the application changes after passing the built-in tests.</p>
 ]]></content>
   </entry>
   

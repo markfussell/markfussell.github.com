@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T12:25:25-07:00</updated>
+  <updated>2015-10-22T12:42:48-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -230,6 +230,49 @@ and results to figure out those details.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore3.png" /></p>
 
+<p>The script to acquire a chore is a little involved because of the possibility of failure, but basically it just</p>
+
+<ul>
+<li>Finds all the &#8216;doit.txt&#8217; files</li>
+<li>Picks one at random</li>
+<li>Tries to rename it and push that change
+
+<ul>
+<li>If successful, then we are in.  If not, roll-back</li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">RANDOM_DO_IT</span><span class="o">=</span><span class="sb">`</span>find work -name <span class="s1">&#39;do_it.txt&#39;</span> | <span class="k">while </span><span class="nb">read </span>x; <span class="k">do </span><span class="nb">echo</span> <span class="s2">&quot;\`expr $RANDOM % 1000\`:$x&quot;</span>; <span class="k">done</span> | sort -n | sed <span class="s1">&#39;s/[0-9]*://&#39;</span> | head -1<span class="sb">`</span>
+</span><span class='line'><span class="c">#...</span>
+</span><span class='line'>git mv <span class="nv">$RANDOM_DO_IT</span> <span class="s2">&quot;${RANDOM_DO_IT_DIR}/doing_it.txt&quot;</span>
+</span><span class='line'><span class="c">#...</span>
+</span><span class='line'>git push
+</span><span class='line'><span class="nv">PUSH_RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$PUSH_RETVAL</span> -ne 0 <span class="o">]</span>;
+</span><span class='line'><span class="k">then</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'><span class="c">#=== We failed to acquire, so roll-back</span>
+</span><span class='line'><span class="c">#=================================================</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h4>Doing the work</h4>
 
 <p>A worker should alway be able to acquire:</p>
@@ -240,8 +283,68 @@ and results to figure out those details.</p>
 </ul>
 
 
-<p>Where the &#8220;GIT_ROOT&#8221; can have shared scripts in its &#8216;chore/bin&#8217; or &#8216;bin&#8217; directories, and the chore can have
-individual scripts in it CHORE_ROOT/bin directory.</p>
+<p>Where the &#8220;GIT_ROOT&#8221; can have shared scripts in its &#8216;work/bin&#8217; or &#8216;bin&#8217; directories, and the chore can have
+individual scripts in it CHORE_ROOT/bin directory.  We also likely have &#8216;repo2&#8217; available,
+so we have access to a lot of resources (common and work specific) to leverage.</p>
+
+<h4>Saving the work</h4>
+
+<p>When the worker is done, it needs to do a final &#8216;write&#8217; of all the results.  This could be nothing more than
+logs (a worker is &#8216;anonymous&#8217; and ephemeral, so ideally logs go to the chore&#8217;s directory vs. somewhere
+effectively &#8216;random&#8217;).  This is just a final pull-push:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'><span class="c">#=== Done, try to write out the results</span>
+</span><span class='line'><span class="c">#===</span>
+</span><span class='line'><span class="c">#=== Make sure everything is annexed</span>
+</span><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'>
+</span><span class='line'>./bin/deflatePaths.sh <span class="s2">&quot;${RANDOM_DO_IT_DIR}&quot;</span>
+</span><span class='line'>
+</span><span class='line'>git pull
+</span><span class='line'><span class="c">#...</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'><span class="c">#=== Pull successful, start writing</span>
+</span><span class='line'><span class="c">#=================================================</span>
+</span><span class='line'>
+</span><span class='line'>git mv <span class="s2">&quot;${RANDOM_DO_IT_DIR}/doing_it.txt&quot;</span> <span class="s2">&quot;${RANDOM_DO_IT_DIR}/done.txt&quot;</span>
+</span><span class='line'>
+</span><span class='line'>git add -A <span class="s2">&quot;${RANDOM_DO_IT_DIR}/../&quot;</span>
+</span><span class='line'>git commit -m <span class="s2">&quot;$ME completed chore ${RANDOM_DOIT_DIR}&quot;</span>
+</span><span class='line'>
+</span><span class='line'>git push
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and as long as this is successful, the work is done.</p>
+
+<h2>Conclusion</h2>
+
+<p>The above is a very generic worker model that enables all kinds of flexibility in setting up &#8216;chores&#8217; and scalably
+having a &#8216;right-size&#8217; for the number of workers doing the work.  The next article will be more specific and
+build new &#8216;wars&#8217; every time the application changes after passing the built-in tests.</p>
 ]]></content>
   </entry>
   
