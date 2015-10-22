@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T12:56:24-07:00</updated>
+  <updated>2015-10-22T13:00:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -143,7 +143,7 @@ make sure a worker can really handle the chore. Using the 'cron_1m' model of thi
 put things into buckets every minute.  But workers have to look for any not-done chore and pick it up if they can.</p>
 
 <p>An advantage of the one-minute cron is we automatically can have a nice 30-second jitter.  That plus some kind of randomization
-makes it very unlikely that workers will acquire the same chore at the same time.  But if they do, one will win due
+in chore selection makes it very unlikely that workers will acquire the same chore at the same time.  But if they do, one will win due
 to 'git push' timing.</p>
 
 <h5>Identity</h5>

@@ -216,7 +216,7 @@ make sure a worker can really handle the chore. Using the &#8216;cron_1m&#8217; 
 put things into buckets every minute.  But workers have to look for any not-done chore and pick it up if they can.</p>
 
 <p>An advantage of the one-minute cron is we automatically can have a nice 30-second jitter.  That plus some kind of randomization
-makes it very unlikely that workers will acquire the same chore at the same time.  But if they do, one will win due
+in chore selection makes it very unlikely that workers will acquire the same chore at the same time.  But if they do, one will win due
 to &#8216;git push&#8217; timing.</p>
 
 <h5>Identity</h5>
