@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T13:00:22-07:00</updated>
+  <updated>2015-10-21T17:01:08-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-9]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-9/"/>
+    <updated>2015-10-21T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-9</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
+The eighth was an overview of Federation Components like caches, queues, payment services, and the like.</p>
+
+<h2>Workers!</h2>
+
+<p>Among the more interesting federation / deployment component are workers.  Workers are interesting because
+they can do almost anything imaginable and they do it very efficiently.  How efficiently?  Well, the perfect
+worker is at 100% when doing a task and <em>dead</em> when they have no tasks to do.  That is pretty darn efficient
+because it approaches 100% and is only not 100% when we choose to not accept the &#8216;spin up&#8217; latency of getting
+ a new worker.  As the amount of work increases, our pool of workers increase, and the spin-up-latency decreases
+ on a per-chore basis.  That is <em>very cool</em>: as scale goes up, efficiency <em>increases</em>.  There are a lot of places that
+ is not true for computers, so it is nice when it is.</p>
+
+<h3>Work?  Chore?</h3>
+
+<p>So we want to have a worker model where we can add a &#8216;chore&#8217; (a unit of work, using a term not otherwise used in
+IT and CS (job, task, etc. are now ambivalent unfortunately) to a queue / pool of work-to-be-done, and have
+ a worker do that chore.  There are a lot of ways to do this:</p>
+
+<p> <!--more--></p>
+
+<ol>
+<li>Use BeanStalk</li>
+<li>Use Kafka with a bunch of consumers</li>
+<li>Use a database and launch a worker if none is available</li>
+<li>Use Quartz and coordinate amongst the application servers which one is going to do the work</li>
+<li>Use GitHub and launch one or more workers as needed</li>
+</ol>
+
+
+<p>And that is just a minor collection of simple solutions.  The first two are probably &#8216;the best&#8217; in terms of having
+a very clean model.  But they require additional infrastructure and I am trying to keep that at a minimum.  The
+second is using a database as a WorkQueue.  Well, it turns out that this is actually commonly done and almost
+always <em>regretted</em>  Most databases are horrible with the characteristics of Chores and their states.  So it does
+work, but not well.</p>
+
+<p>The fourth is quite functional but not scalable.  You don&#8217;t want your application servers doing <em>a lot</em> of work.
+A little housekeeping is fine.  But the point of the Worker model is to enable many or few workers who each
+always do <em>a lot</em> of work.  And then go away if no longer needed.  That isn&#8217;t the lifecycle and duty of application
+servers.</p>
+
+<p>So if you haven&#8217;t guessed by now, I am going to describe the fifth approach.  Use an annexed Git repository to describe
+chores, their media (if any), and to provide the results (if any).  It turns out to be blazingly fast, scalable,
+and flexible.  A little weird but sometimes weird really works.</p>
+
+<h3>Chores, Parents, and Workers</h3>
+
+<p>A lot of time, the real world can seriously inspire the computer world.  The Worker model I am about to describe
+matches a &#8216;high-speed&#8217;, &#8216;high-efficiency&#8217;, parenting model.  I would guess any parent can see the similarities
+and even the Nirvana of this Worker model.  It has a few major components:</p>
+
+<ul>
+<li>The World creates some Chores in a to-do list</li>
+<li>The World doesn&#8217;t want to do the Chores, because it has other things to do</li>
+<li>So The World creates two or more adults (for redundancy) so they can do the Chores
+
+<ul>
+<li>And then The World gives responsibility to the adults to do the Chores</li>
+</ul>
+</li>
+<li>The adults don&#8217;t want to actually do the Chores themselves, so they produce Workers to do the Chores</li>
+<li>The Workers are so awesome that they automatically <em>all</em> try to do the Chores, as quickly as possible
+
+<ul>
+<li>The adults (Parents) have worked out a system to prevent two Workers from doing the same Chore</li>
+</ul>
+</li>
+<li>If the Chores are not getting done fast enough, the Parents produce more Workers</li>
+<li>If there is no more work to do, the Workers go to sleep
+
+<ul>
+<li>Waking periodically to see if there is more work</li>
+<li>Or if the Chores are not getting done fast enough, the Parents wake one or more Workers</li>
+</ul>
+</li>
+</ul>
+
+
+<p>With this model:</p>
+
+<ul>
+<li>The World is the Application Server or something similar</li>
+<li>The Parents are special Nodes (or processes on Application Server nodes) that can see the &#8216;to-do&#8217; list</li>
+<li>The Workers are special Nodes that are created as the &#8216;to-do&#8217; list backlog gets larger</li>
+</ul>
+
+
+<p>You need at least two Parents at all time to make sure the To-Do list is being watched.  You don&#8217;t need any
+Workers until the To-Do list is sufficiently long or latent.</p>
+
+<p>We will put the &#8216;To-Do&#8217;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-8]]]></title>
@@ -4660,236 +4764,6 @@ of any of these products is also a &#8216;substitution&#8217; and not equivalent
 <p><img width="432" height="414" src="http://markfussell.emenar.com/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" /></p>
 
 <p>For more details or questions, please contact me.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Being a git about everything (IT Automation [2])]]></title>
-    <link href="http://markfussell.emenar.com/blog/git-about-everything-it-automation-2/"/>
-    <updated>2013-02-19T18:16:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/git-about-everything-it-automation-2</id>
-    <content type="html"><![CDATA[<p>This is the fifth in a series of using git as part of interesting solutions to problems.</p>
-
-<p>The first is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-intro/">Intro</a> and the previous
-part of this topic is here: <a href="http://markfussell.emenar.com/blog/git-about-everything-it-automation/">IT Automation</a></p>
-
-<h2>PushMePullYou or Leveraging git to enable mass-automated IT</h2>
-
-<div style="float:right">
-<img width="244" height="191" src="http://markfussell.emenar.com/images/git-about-everything-it-automation/Pushmepullyou_mlf1c.png" />
-</div>
-
-
-<p>The previous post dealt with the groundwork of having Git be a central part of IT automation.  That
-showed the core idea but was a bit too simple to fully express the power of the approach.
-This post will be dealing with all the things that were left off, especially support for:</p>
-
-<ul>
-<li> Many different types of servers with both their own and shared &#8216;recipes&#8217;</li>
-<li> More complicated install/upgrade actions</li>
-<li> More sophisticated install behavior</li>
-<li> Multiple versions of &#8216;recipes&#8217; and an ability to promote whole IT from development to production</li>
-<li> Getting information from other active repositories</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>To just jump-in and not be so incremental, I want to build the following deployment:</p>
-
-<ul>
-<li> A load-balancing layer that registers itself with the outside world and knows how to talk to the application layer</li>
-<li> An application layer that runs an application which may be updated at any time</li>
-<li> A database layer using a cluster of Riak servers</li>
-<li> A presence server that can record what servers are present (so other servers can leverage)</li>
-</ul>
-
-
-<p>Each of these will be a different stack for easier management.  There will also be a Control server
-which makes setting up the deployment easier (for example, it will make sure you have the latest AWS CLI).</p>
-
-<h2>The Control Server</h2>
-
-<p>To get everything up and running check out the repository:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git://github.com/markfussell/giteveryrepo4.git
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And then in the Amazon AWS console launch the control server with the file template at <code>it/aws/cloudformation/GitEvery4ControlServer.template</code>.</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/create_control_stack.png" /></p>
-
-<p>You can then SSH into the server and <code>sudo su -</code> to change to root. And <code>cd gitrepo/giteveryrepo4</code> to get into the root of the repository.</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/control_server_login.png" /></p>
-
-<h2>Handling Different Types of Servers</h2>
-
-<p>A major difference from the previous example is there are now several types of servers, and they
-will have different:</p>
-
-<ul>
-<li> Firewall permissions</li>
-<li> Initial setup of software</li>
-<li> Ongoing configuration changes</li>
-</ul>
-
-
-<p>There are also a number of similarities and ideally the CloudFormation files are as similar and
-simple as possible.</p>
-
-<h3>Firewall Permissions</h3>
-
-<p>One major change is to get rid of stack-generated security groups: these are difficult to manage since
-they have ever-changing and obscure names.  I believe it is better for any real deployment to control
-the security groups independently of the Stacks.  So now we have two kinds of security groups:</p>
-
-<ul>
-<li> One for the <code>deployment</code> as a whole</li>
-<li> One for each <code>part</code> a server node can be</li>
-</ul>
-
-
-<p>The <code>deployment</code> and <code>part</code> are assigned as constants in the Stack template mappings:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'>  <span class="s2">&quot;Mappings&quot;</span> <span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;TemplateConstant&quot;</span> <span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>       <span class="nt">&quot;stacktype&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;GitEvery4LbServer&quot;</span> <span class="p">},</span>
-</span><span class='line'>       <span class="nt">&quot;initgitrepo&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;giteveryrepo4&quot;</span> <span class="p">},</span>
-</span><span class='line'>       <span class="nt">&quot;nodepart&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;applbnode&quot;</span> <span class="p">},</span>
-</span><span class='line'>       <span class="nt">&quot;deployment&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;testdeployment&quot;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">},</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and then later referenced in the security group section:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'>    <span class="s2">&quot;SecurityGroups&quot;</span> <span class="err">:</span> <span class="p">[</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;deployment&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;nodepart&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">}</span> <span class="p">]</span><span class="err">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Before we create the stack, we create the appropriate groups.  For example, the <code>deployment</code> group will enable SSH into
-the nodes and any node within the deployment to talk to any other node:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#===================</span>
-</span><span class='line'><span class="c">#=== testdeployment</span>
-</span><span class='line'><span class="c">#===================</span>
-</span><span class='line'>
-</span><span class='line'>ec2-create-group testdeployment -d  testdeployment
-</span><span class='line'><span class="nb">export </span><span class="nv">OWNER</span><span class="o">=</span><span class="sb">`</span>ec2-describe-group | grep GROUP | head -n 1 | cut -f 3<span class="sb">`</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#Enable SSH In</span>
-</span><span class='line'>ec2-authorize testdeployment -p 22 -s 0.0.0.0/0
-</span><span class='line'>
-</span><span class='line'><span class="c">#Enable deployment to talk to itself</span>
-</span><span class='line'>ec2-authorize testdeployment -o testdeployment -u <span class="k">${</span><span class="nv">OWNER</span><span class="k">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Initial setup of software</h3>
-
-<p>Within the CloudFormation template, we use the same approach as last time: simply checkout a git repository and call into it.  In Bash it would be:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>yum -y install git
-</span><span class='line'>mkdir /root/gitrepo
-</span><span class='line'><span class="nb">cd</span> /root/gitrepo
-</span><span class='line'>git clone git://github.com/markfussell/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>.git
-</span><span class='line'>
-</span><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
-</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="s2">&quot;$1&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="s2">&quot;$1&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="s2">&quot;Skipped missing: $1&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
-</span><span class='line'>include bin/init/common/init.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>which is converted to JSON (string-quoted) within the template.</p>
-
-<p>This entering on a common <code>init.sh</code> entrypoint makes the CloudFormation stacks simpler and more general.  It is much
-easier to update and push to the git repository than to update all the stacks that are using the repository.</p>
-
-<p>The new part is now at the end of the common entrypoint: jumping into more specific initialization depending
-on the properties of the node:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>include bin/init/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
-</span><span class='line'>include bin/init/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/init.sh
-</span><span class='line'>include bin/init/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We so far have three variations:</p>
-
-<ul>
-<li> The <code>part</code></li>
-<li> The <code>stacktype</code></li>
-<li> Combining both of the above.</li>
-</ul>
-
-
-<p>We can be as general or as specific as we want.</p>
-
-<p>A <code>stacktype</code> is simply the name of the template (vs. the name of an instantiated stack which has to be unique).
-The main advantage of <code>stacktype</code> is it allows easy separation of behavior by kind of stack and
-also allows versioning if <code>stacktype</code> includes a version number.</p>
-
-<p>A <code>part</code> is the singular role a node plays within a deployment.  I use <code>part</code> instead of <code>role</code> to avoid
-conflict with Chef where a node can have many roles.  A node has exactly one <code>part</code> it plays in the deployment,
-and each <code>part</code> can have any number of <code>roles</code>.  A <code>part</code> should normally be fairly universal.  In our case
-the five parts are <code>applbnode</code> (The main application load balancer), <code>appnode</code> (The main app), <code>riaknode</code> (The
-riak database node), <code>presencenode</code> (A server presence recording server), and <code>controlnode</code> (The main launching
-control server, which isn&#8217;t really part of the running deployment).</p>
-
-<p>With just the application and load-balancing parts/nodes running along with the controlnode, we have something like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/git-about-everything-it-automation-2/pushmepullyou_lbandappawsarch.png" /></p>
-
-<p>Each <code>part</code> has its own stack template and instance, which creates one or more nodes of that <code>part</code> type.</p>
-
-<p>&#8230;More To Come&#8230;</p>
-
-<h2>References</h2>
-
-<ul>
-<li> <a href="http://bitfieldconsulting.com/scaling-puppet-with-distributed-version-control">http://bitfieldconsulting.com/scaling-puppet-with-distributed-version-control</a></li>
-<li> <a href="http://blog.afistfulofservers.net/post/2012/12/21/promises-lies-and-dryrun-mode/">http://blog.afistfulofservers.net/post/2012/12/21/promises-lies-and-dryrun-mode/</a></li>
-</ul>
-
-
-<h2>Next</h2>
-
-<p>Our next problem will be&#8230;</p>
 ]]></content>
   </entry>
   

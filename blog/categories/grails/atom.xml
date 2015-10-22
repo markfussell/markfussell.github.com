@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-20T13:00:22-07:00</updated>
+  <updated>2015-10-21T17:01:08-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-9]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-9/"/>
+    <updated>2015-10-21T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-9</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
+The eighth was an overview of Federation Components like caches, queues, payment services, and the like.</p>
+
+<h2>Workers!</h2>
+
+<p>Among the more interesting federation / deployment component are workers.  Workers are interesting because
+they can do almost anything imaginable and they do it very efficiently.  How efficiently?  Well, the perfect
+worker is at 100% when doing a task and <em>dead</em> when they have no tasks to do.  That is pretty darn efficient
+because it approaches 100% and is only not 100% when we choose to not accept the 'spin up' latency of getting
+ a new worker.  As the amount of work increases, our pool of workers increase, and the spin-up-latency decreases
+ on a per-chore basis.  That is <em>very cool</em>: as scale goes up, efficiency <em>increases</em>.  There are a lot of places that
+ is not true for computers, so it is nice when it is.</p>
+
+<h3>Work?  Chore?</h3>
+
+<p>So we want to have a worker model where we can add a 'chore' (a unit of work, using a term not otherwise used in
+IT and CS (job, task, etc. are now ambivalent unfortunately) to a queue / pool of work-to-be-done, and have
+ a worker do that chore.  There are a lot of ways to do this:</p>
+
+<p> <!--more--></p>
+
+<ol>
+<li>Use BeanStalk</li>
+<li>Use Kafka with a bunch of consumers</li>
+<li>Use a database and launch a worker if none is available</li>
+<li>Use Quartz and coordinate amongst the application servers which one is going to do the work</li>
+<li>Use GitHub and launch one or more workers as needed</li>
+</ol>
+
+
+<p>And that is just a minor collection of simple solutions.  The first two are probably 'the best' in terms of having
+a very clean model.  But they require additional infrastructure and I am trying to keep that at a minimum.  The
+second is using a database as a WorkQueue.  Well, it turns out that this is actually commonly done and almost
+always <em>regretted</em>  Most databases are horrible with the characteristics of Chores and their states.  So it does
+work, but not well.</p>
+
+<p>The fourth is quite functional but not scalable.  You don't want your application servers doing <em>a lot</em> of work.
+A little housekeeping is fine.  But the point of the Worker model is to enable many or few workers who each
+always do <em>a lot</em> of work.  And then go away if no longer needed.  That isn't the lifecycle and duty of application
+servers.</p>
+
+<p>So if you haven't guessed by now, I am going to describe the fifth approach.  Use an annexed Git repository to describe
+chores, their media (if any), and to provide the results (if any).  It turns out to be blazingly fast, scalable,
+and flexible.  A little weird but sometimes weird really works.</p>
+
+<h3>Chores, Parents, and Workers</h3>
+
+<p>A lot of time, the real world can seriously inspire the computer world.  The Worker model I am about to describe
+matches a 'high-speed', 'high-efficiency', parenting model.  I would guess any parent can see the similarities
+and even the Nirvana of this Worker model.  It has a few major components:</p>
+
+<ul>
+<li>The World creates some Chores in a to-do list</li>
+<li>The World doesn't want to do the Chores, because it has other things to do</li>
+<li>So The World creates two or more adults (for redundancy) so they can do the Chores
+
+<ul>
+<li>And then The World gives responsibility to the adults to do the Chores</li>
+</ul>
+</li>
+<li>The adults don't want to actually do the Chores themselves, so they produce Workers to do the Chores</li>
+<li>The Workers are so awesome that they automatically <em>all</em> try to do the Chores, as quickly as possible
+
+<ul>
+<li>The adults (Parents) have worked out a system to prevent two Workers from doing the same Chore</li>
+</ul>
+</li>
+<li>If the Chores are not getting done fast enough, the Parents produce more Workers</li>
+<li>If there is no more work to do, the Workers go to sleep
+
+<ul>
+<li>Waking periodically to see if there is more work</li>
+<li>Or if the Chores are not getting done fast enough, the Parents wake one or more Workers</li>
+</ul>
+</li>
+</ul>
+
+
+<p>With this model:</p>
+
+<ul>
+<li>The World is the Application Server or something similar</li>
+<li>The Parents are special Nodes (or processes on Application Server nodes) that can see the 'to-do' list</li>
+<li>The Workers are special Nodes that are created as the 'to-do' list backlog gets larger</li>
+</ul>
+
+
+<p>You need at least two Parents at all time to make sure the To-Do list is being watched.  You don't need any
+Workers until the To-Do list is sufficiently long or latent.</p>
+
+<p>We will put the 'To-Do'</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-8]]]></title>
@@ -528,363 +632,6 @@ Nashorn is here:</p>
 
 <p>These ingredients make for a much more powerful and flexible application.  These may be overkill for some projects, but
  they are definitely <em>generally useful</em> and whether 'utilized' they should be considered 'available' when needed.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-4]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-4/"/>
-    <updated>2015-10-15T03:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-4</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third with the application stack (Grails and other technologies).</p>
-
-<h2>User Interface</h2>
-
-<p>Of all the technologies that change, the User Interface is by far the most diverse and most evolved.  Modern
-databases are actually pretty old technology.  Modern languages are not significantly different from ancestors
-in the 1970s.  Computers have the same main components.  Programmers interact with them with keyboards and screens.
-If you picked well, you are programming better (tens of thousands of hours help) but are sadly
-on pretty much the same core concepts you learned in your first five thousand hours.  Sigh.</p>
-
-<p>Except.  Except the User Interface.  The implementation of user interfaces has grown since the 70s (the
-first bit-mapped and mouse-based UIs were built way back then) through Smalltalk, Objective-C, Flash, Flex,
-Angular, and other paths.  But even the devices have changed.  An iPhone is not a computer.  An Apple Watch
-is not an iPhone.  Times they are a changing... at least for 'devices'.</p>
-
-<h3>It's your face</h3>
-
-<p>The User Interface is also the 'face' of a company.  It sells the company.  Whether to new customers, existing
-customers, employees, stock holders, or potential investors.  A web site like Rumble's:</p>
-
-<ul>
-<li><a href="http://rumblegames.com/">http://rumblegames.com/</a></li>
-</ul>
-
-
-<p><img src="http://markfussell.emenar.com/images/addstack-4/addstack4_ui1.png" /></p>
-
-<p>And Rumble's actual games are trying to appeal to a particular audience (middle aged men) and give
-them something they want (to feel powerful and sophisticated).</p>
-
-<p>A web site like PortaPlanter:</p>
-
-<ul>
-<li><a href="http://PortaPlanter.com/">http://PortaPlanter.com/</a></li>
-</ul>
-
-
-<p><img src="http://markfussell.emenar.com/images/addstack-4/addstack4_ui2.png" /></p>
-
-<!--more-->
-
-
-<p>is targeting a different audience (very broad, green-conscious, etc.) and trying to give them something they want
-(to help the planet) where hopefully the product speaks mostly for itself so there are no "frills" on
-the page.  The PortaPlanter site is currently a bit under-skinned, but even sophisticated product sites tend to
-mostly <em>show the product</em> in isolation and in use.</p>
-
-<p>The expense of the UI should never be under-estimated.  It is <em>by far</em> the most variable expense/investment a company
-can control about their software products.  Like marketing.  Build everything <em>perfectly</em> and the UI will be
-the only thing that can change the cost.  Well, next to 'rapid feature changes' but that is more controllable
-because you can turn it on and off.  The PortaPlanter web site cost a few thousand (mostly the pictures),
-is trivial to maintain, and costs nothing to run (static hosting by GitHub).
-The Rumble web site cost nearly a million dollars, is made from a very sophisticated PHP package
-which costs thousands of dollars to do significant changes to, and hosting it costs thousands of dollars.
-That is just the web site of the company, not the games themselves.</p>
-
-<h3>What face do you want?</h3>
-
-<p>The million-dollar Rumble site was primarily done by a company called Viget who came into Rumble and
-showed us a bunch of different web sites based on certain aspects we told them we wanted.  The CEO
-and his right hand were the primary 'Customers' but we also had a graphic artist that has a great
-eye for these things.  Working among the Rumble and Viget teams, we got what you see above.  It is
-  implemented in Expression Engine (a PHP engine), but <em>the design</em> and <em>the capabilities</em> are the
-  driving factor behind it's cost not the implementation technology (although EE is overkill).</p>
-
-<p>Using a firm like Viget is one approach, but another is to simply figure out what you want to look like.
-Jerry Kaplan founded 'Winster' to be an online gambling company.  That was originally illegal, so he
-pivoted a bit, but if you look at the site... it looks like Vegas or Reno:</p>
-
-<ul>
-<li><a href="http://www.winster.com/">http://www.winster.com/</a></li>
-</ul>
-
-
-<p><img src="http://markfussell.emenar.com/images/addstack-4/addstack4_ui3.png" /></p>
-
-<p>This is exactly what Jerry wanted.  He (the CEO) was the designer and the rest of us just implemented
- his vision (or face his wrath...)</p>
-
-<p>Turns out this web site is somewhat expensive because it was initially built in Flash and Flex (and
-when 'converted' Jerry wanted to keep the feel).  So it needs to be quirkier than most web sites
- in spite of its graphic and content simplicity.</p>
-
-<p>For all of my most recent startups, the Face was a huge part:</p>
-
-<ul>
-<li>Rumble – Powerful games for powerful people</li>
-<li>PeerCase – Modern (iPad caliber), graphically elegant, but intuitive and medical (especially appealing to doctors)</li>
-<li>Vive – Must make exercise seem like fun</li>
-<li>FooMojo – Make sure virtual pets look as fun as real pets</li>
-<li>Winster – Vegas or bust!</li>
-</ul>
-
-
-<p>and each one had a different front-end technology <em>in spite of</em> being written mostly by me and having fairly similar
- back-end technologies (Java, Rails, and Grails).  This isn't because I like swapping out the front-end.  I offered
- to use Flex for all of them.  But Flex isn't mobile.  And the mobile space was of concern to everyone but 'Winster'.</p>
-
-<h3>How do you implement?</h3>
-
-<p>By now you may be groaning:</p>
-
-<blockquote><p>OK. OK. I need to decide what 'face' I want.  I will... I promise...
-But what are the choices for implementation?
-What is 'plausibly' in the picture as a best implementation approach for the UI.</p></blockquote>
-
-<p>This is pretty easy.  There are simply three productive and effective choices... with some variants within them.</p>
-
-<ul>
-<li>Static web site.  By far the most productive and effective if it fills your needs.  You don't write HTML, but the site gets generated from a technology like Markdown.  This site is made that way.</li>
-<li>Server-side rendering.  The next most productive and very effective if it fills your needs.  You don't write HTML, you write something like GSPs which are templates that get expanded for each server hit.  The 'petclinic' example is this kind of site.
-
-<ul>
-<li>Note this does not mean the client is doing nothing.  It may be doing a lot.  But the server is frequently interacted with to generate pages or partial-pages.</li>
-</ul>
-</li>
-<li>Client-side rendering.  The most sophisticated (sort of) and if this can't fill your need, you can always use either of the above.</li>
-</ul>
-
-
-<p>Some other approaches are 'Native Application' or a 'Native-enhanced web-app' but those need only be considered for very
-particular needs.</p>
-
-<p>Among the three main choices, only 'Server' vs. 'Client' lead down interesting paths.  There are lots of 'static' tools so
-that is more an experience and 'taste' issue.  Markdown is great, but it isn't for everyone.  And SAAS like SquareSpace
-are very nice if they fill your needs.</p>
-
-<h4>Server-side</h4>
-
-<p>The interesting part about server-side rendering is it says <em>nothing</em> about the sophistication of the page.  Or the number
-of pages (could be one... could be 1000).  I actually believe that server-side rendering must be considered the default
-and then you can decide how much to branch off from there.  PeerCase was mostly a one-page-application (in Sencha) and
-most of the client-server interaction was JSON.  But there were different versions of the one-page-application depending
-on what kind of client hit the server.  The server bundled up the appropriate resources together and down-they-went.
-Desktop clients made a lot a 'asset' requests because they can handle them concurrently and cache them.
-Mobile devices got a manifest and did an update in the background.</p>
-
-<p>Grails is great at server-side rendering and can easily use Angular or any framework within each page.</p>
-
-<p>An example of this is the 'angular-grails3' project.  This is just a grails application that includes angular like this:</p>
-
-<p>```html
-&lt;!DOCTYPE html>
-<html lang="en"></p>
-
-<pre><code>&lt;head&gt;
-    &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
-    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"&gt;
-    &lt;title&gt;&lt;g:layoutTitle default="Grails"/&gt;&lt;/title&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-
-    &lt;asset:stylesheet src="application.css"/&gt;
-
-    &lt;asset:script type="text/javascript"&gt;
-        angular.module('myApp.core.constants')
-            .constant('rootUrl', '${grailsApplication.config.angular.rootUrl}')
-            .constant('pageSize', '${grailsApplication.config.angular.pageSize}')
-            .constant('dateFormat', '${grailsApplication.config.angular.dateFormat}');
-    &lt;/asset:script&gt;
-
-    &lt;asset:javascript src="application.js"/&gt;
-    &lt;asset:deferredScripts /&gt;
-    &lt;g:layoutHead/&gt;
-&lt;/head&gt;
-&lt;body id="ng-app" ng-app="${pageProperty(name: 'body.ng-app') ?: 'myApp'}"&gt;
-</code></pre>
-
-<p>```</p>
-
-<p>and voilà, we have Angular running in a page that can access Grails configuration and application capabilities.</p>
-
-<h4>Client-side</h4>
-
-<p>Client-side rendering is really more like 'separate client from server' development.
-It is making "building the client" into somthing
-that makes sense independent of the server.  Picking this over server-side rendering is making a few statements:</p>
-
-<ul>
-<li>We want to leverage 'separate-client' technology</li>
-<li>We may have people who are comfortable with 'separate-client' technology and not with the server technology</li>
-<li>We want to increase the chance that we don't do something stupid that prevents us from swapping server or client</li>
-</ul>
-
-
-<p>An example of this approach is the 'grails3-angular-duo' project which has a:</p>
-
-<ul>
-<li>backend – In grails</li>
-<li>frontend – In Angular + Gulp, Bower, Karma, etc.</li>
-</ul>
-
-
-<p>And although you 'hit the backend' to get your first web page, that actual page comes from
-the frontend build system.  And in this case the 'api' is pure REST.</p>
-
-<p>```groovy
-class UrlMappings {</p>
-
-<pre><code>static mappings = {
-    "/$controller/$action?/$id?(.$format)?"{
-        constraints {
-            // apply constraints here
-        }
-    }
-
-    "/"(redirect:"/frontend/index.html")
-    "500"(view:'/error')
-    "404"(view:'/notFound')
-
-    "/api/books"(resources:"book")
-    "/api/authors"(resources:"author")
-
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Interestingly, the front-end is now a mostly-static web site.  The content isn't static because it depends on JSON,
-but most everything else is locked down.  So this is in some ways <em>less</em> flexible than the server side rendering.
-Fewer things can change without building another page and sending it out (deploying and referencing it).</p>
-
-<p>```html
-&lt;!doctype html>
-  <head></p>
-
-<pre><code>&lt;meta charset="utf-8"&gt;
-&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
-&lt;title&gt;&lt;/title&gt;
-&lt;meta name="description" content=""&gt;
-&lt;meta name="viewport" content="width=device-width"&gt;
-&lt;link rel="shortcut icon" href="favicon.ico" type="image/x-icon"&gt;
-&lt;!-- build:css styles/vendor.css --&gt;
-&lt;!-- bower:css --&gt;
-&lt;!-- endbower --&gt;
-&lt;link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" /&gt;
-&lt;!-- endbuild --&gt;
-&lt;!-- build:css({.tmp,app}) styles/main.css --&gt;
-&lt;link rel="stylesheet" href="styles/main.css"&gt;
-&lt;!-- endbuild --&gt;
-</code></pre>
-
-<p>  </head>
-  <body ng-app="duo"></p>
-
-<pre><code>&lt;!--[if lt IE 7]&gt;
-  &lt;p class="browsehappy"&gt;You are using an &lt;strong&gt;outdated&lt;/strong&gt; browser. Please &lt;a href="http://browsehappy.com/"&gt;upgrade your browser&lt;/a&gt; to improve your experience.&lt;/p&gt;
-&lt;![endif]--&gt;
-
-&lt;div class="header"&gt;
-  &lt;ul class="nav nav-pills pull-right"&gt;
-    &lt;li class="active"&gt;&lt;a ng-href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a ng-href="#"&gt;About&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a ng-href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-  &lt;h3 class="text-muted"&gt;DUO&lt;/h3&gt;
-&lt;/div&gt;
-
-&lt;div class="jumbotron"&gt;
-  &lt;h1&gt;Grails Angular Duo Sample&lt;/h1&gt;
-
-&lt;!-- Add your site or application content here --&gt;
-&lt;div class="container" ng-view=""&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;div class="footer"&gt;
-  &lt;p&gt;Using : AngularJS, ngRoute, Restangular&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;!-- build:js scripts/vendor.js --&gt;
-&lt;!-- bower:js --&gt;
-&lt;script src="bower_components/jquery/dist/jquery.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular/angular.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-animate/angular-animate.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-aria/angular-aria.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-cookies/angular-cookies.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-messages/angular-messages.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-route/angular-route.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-sanitize/angular-sanitize.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/angular-touch/angular-touch.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/bootstrap/dist/js/bootstrap.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/lodash/lodash.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/restangular/dist/restangular.js"&gt;&lt;/script&gt;
-&lt;!-- endbower --&gt;
-&lt;!-- endbuild --&gt;
-
-&lt;!-- build:js({.tmp,app}) scripts/scripts.js --&gt;
-&lt;script src="scripts/app.js"&gt;&lt;/script&gt;
-&lt;script src="scripts/controllers/list-author.js"&gt;&lt;/script&gt;
-&lt;script src="scripts/controllers/create-author.js"&gt;&lt;/script&gt;
-&lt;script src="scripts/controllers/edit-author.js"&gt;&lt;/script&gt;
-&lt;!-- endbuild --&gt;
-</code></pre>
-
-<p></body>
-</html>
-```</p>
-
-<h4>Hybrid</h4>
-
-<p>OK, so I simplified above to get through the main concepts.  Both server-side and separate-client can be
-transformed into the most powerful approach known to man... the 'anything goes' or 'hybrid' approach.</p>
-
-<p>Render client, render server, send JSON, receive JSON, send POST, receive POST, open up a direct socket,
-send data or HTML both directions, hook into the device's capabilities. take over the camera and capture
- photos of the user, post to twitter, etc.</p>
-
-<p>The problems with Hybrid approaches are:</p>
-
-<ul>
-<li>To quantify "What is allowed" and "What is not"</li>
-<li>To have a coherent model</li>
-<li>To have people understand the model</li>
-</ul>
-
-
-<p>Winster had a very good hybrid model by the time I left (product development had basically ended and Jerry was working solely on Marketing)</p>
-
-<ul>
-<li>You hit a Java server</li>
-<li>It sends you a Flex application</li>
-<li>Most communication is based on JSON calls to the server</li>
-<li>But updates to games, chats, and presence come through an open socket</li>
-</ul>
-
-
-<p>The reason for the socket is that you needed to be told of <em>other people's</em> actions.  Some technology (e.g. comet or the socket)
-that can "push" updates to the client had to be used for this.  Early on, a previous architect picked sockets, and although the protocol through the socket
-improved / evolved, the actual use-of-socket was not swapped out.</p>
-
-<p>Rumble had an extreme hybrid model involving mostly open sockets to game servers,
-but also ejabberd (XMPP), JSON, and a slew of different technologies solving different problems.
-The drawback of using third-party technologies is that they bring in different approaches to client-server
-communication.</p>
-
-<h3>Conclusion</h3>
-
-<p>The goal of the UI is to present a good, cost-effective, consistent, and sufficiently capable 'face' to your
- users and prospects.  There are a number of different approaches that have different benefits.</p>
-
-<p> I recommend
- starting from the position of server-side rendering because that gives a lot of power with almost no extra cost.  It makes people
- work with the entire application and reduces chances of 'schisms' within the development team.  On the
- other hand, 'separate client' technologies are quite good and by thinking 'separate client' you may produce
- a somewhat better API.  But a 'schism' is more likely, testing is harder, and the separate client is
- less flexible in how it can integrate with the server (at least for 'free').</p>
 ]]></content>
   </entry>
   
