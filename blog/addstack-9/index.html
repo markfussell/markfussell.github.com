@@ -186,7 +186,46 @@ and even the Nirvana of this Worker model.  It has a few major components:</p>
 <p>You need at least two Parents at all time to make sure the To-Do list is being watched.  You don&#8217;t need any
 Workers until the To-Do list is sufficiently long or latent.</p>
 
-<p>We will put the &#8216;To-Do&#8217; chores into a specially structured, annexed, Git repository.</p>
+<p>We will put the &#8216;To-Do&#8217; chores into a specially structured, annexed, Git repository.  Because of the annexing,
+resources are automatically &#8216;deduped&#8217; and having each &#8216;chore&#8217; be self-contained is both possible and space
+efficient.  Imagine all the &#8216;jar&#8217;s needed for a java build.  Given most of these are stable between builds,
+they cost nothing at all to include in a &#8216;chore&#8217;.  Where people run fragile artifact servers (fragile because
+(a) they exist as something that could fail and (b) they are rarely run redundantly) that have to handle
+heavy load, the Annex puts all that load on S3&#8230; which is designed from the ground-up for loads well beyond our workers.</p>
+
+<h4>Chore Structure</h4>
+
+<p>The core of a Chore has to include:</p>
+
+<ul>
+<li>The identity of the chore
+
+<ul>
+<li>And an ability to &#8216;take it on&#8217;</li>
+</ul>
+</li>
+<li>What the instructions are for the chore</li>
+<li>What resources you need for the chore</li>
+<li>Where the results of the chore are supposed to go</li>
+</ul>
+
+
+<p>To make the throughput easier to see, we will organize chores by time.  So basically a queue.  We can have &#8216;priority&#8217; within the
+metadata of the chore if we want things to jump the queue.  And we can have different chore types (or IT needs) to
+make sure a worker can really handle the chore. Using the &#8216;cron_1m&#8217; model of things working on the minute, we will
+put things into buckets every minute.  But workers have to look for any not-done chore and pick it up if they can.</p>
+
+<p>An advantage of the one-minute cron is we automatically can have a nice 30-second jitter.  That plus some kind of randomization
+makes it very unlikely that workers will acquire the same chore at the same time.  But if they do, one will win due
+to &#8216;git push&#8217; timing.</p>
+
+<h5>Identity</h5>
+
+<p>Chores are identified by their &#8216;producer&#8217; and a timestamp.  A &#8216;producer&#8217; is a node plus a process id, and the timestamp can
+have any precision necessary for the process to know it can&#8217;t collide with itself.  Two of the banes of any identity system
+is making sure identity is unique and not having a bottleneck for identity generation.  The identity proposed solves these
+two main issues.  The third is keeping identity short / consistent.  A hash of the &#8216;phrase&#8217; is possible if necessary, but
+collisions could be an issue if the phrase is too short.</p>
 </div>
 
 
