@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-21T17:01:08-07:00</updated>
+  <updated>2015-10-21T17:40:03-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -39,8 +39,8 @@ because it approaches 100% and is only not 100% when we choose to not accept the
 <h3>Work?  Chore?</h3>
 
 <p>So we want to have a worker model where we can add a 'chore' (a unit of work, using a term not otherwise used in
-IT and CS (job, task, etc. are now ambivalent unfortunately) to a queue / pool of work-to-be-done, and have
- a worker do that chore.  There are a lot of ways to do this:</p>
+IT and CS... job, task, etc. are now ambivalent) to a queue of work-to-be-done, and have
+ something do that chore.  There are a lot of ways to do this:</p>
 
 <p> <!--more--></p>
 
@@ -56,12 +56,12 @@ IT and CS (job, task, etc. are now ambivalent unfortunately) to a queue / pool o
 <p>And that is just a minor collection of simple solutions.  The first two are probably 'the best' in terms of having
 a very clean model.  But they require additional infrastructure and I am trying to keep that at a minimum.  The
 second is using a database as a WorkQueue.  Well, it turns out that this is actually commonly done and almost
-always <em>regretted</em>  Most databases are horrible with the characteristics of Chores and their states.  So it does
+always <em>regretted</em>.  Most databases are horrible with the characteristics of Chores and their lifecycle.  So it does
 work, but not well.</p>
 
 <p>The fourth is quite functional but not scalable.  You don't want your application servers doing <em>a lot</em> of work.
-A little housekeeping is fine.  But the point of the Worker model is to enable many or few workers who each
-always do <em>a lot</em> of work.  And then go away if no longer needed.  That isn't the lifecycle and duty of application
+A little housekeeping is fine.  But the whole point of the Worker model is to enable as many or as few workers who each
+<em>always</em> do <em>a lot</em> of work.  And then go away if no longer needed.  That isn't the lifecycle and duty of application
 servers.</p>
 
 <p>So if you haven't guessed by now, I am going to describe the fifth approach.  Use an annexed Git repository to describe
@@ -113,7 +113,7 @@ and even the Nirvana of this Worker model.  It has a few major components:</p>
 <p>You need at least two Parents at all time to make sure the To-Do list is being watched.  You don't need any
 Workers until the To-Do list is sufficiently long or latent.</p>
 
-<p>We will put the 'To-Do'</p>
+<p>We will put the 'To-Do' chores into a specially structured, annexed, Git repository.</p>
 ]]></content>
   </entry>
   
