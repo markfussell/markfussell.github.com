@@ -413,6 +413,24 @@ effectively &#8216;random&#8217;).  This is just a final pull-push:</p>
 
 <p>and as long as this is successful, the work is done.</p>
 
+<h4>Jitter</h4>
+
+<p>Although the randomization of chore selection helps with a lot of chores, it does not help when there are very few
+chores left.  On the &#8216;go&#8217; of chore selection, all the workers go after the chore.  So we need to say &#8216;go&#8217; at
+different times.  This brings back the &#8216;jitter&#8217; concept mentioned previously.  To jitter in this case, we just
+create a &#8216;random&#8217; number and then modulo it by whatever jitter interval we want.</p>
+
+<p>For example, using the process id plus the time stamp, and trying for a 0-29 range, we can have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">TSS_SECOND</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
+</span><span class='line'><span class="nv">PSEUDO_RANDOM</span><span class="o">=</span><span class="s2">&quot;`expr ${TSS_SECOND} + $$`&quot;</span>
+</span><span class='line'><span class="nv">SLEEP_LENGTH</span><span class="o">=</span><span class="k">$((${</span><span class="nv">PSEUDO_RANDOM</span><span class="k">}</span> <span class="o">%</span> <span class="m">30</span> <span class="k">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>Conclusion</h2>
 
 <p>The above is a very generic worker model that enables all kinds of flexibility in setting up &#8216;chores&#8217; and scalably
