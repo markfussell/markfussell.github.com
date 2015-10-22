@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T12:17:51-07:00</updated>
+  <updated>2015-10-22T12:25:25-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -205,6 +205,16 @@ the three states are:</p>
 <p>And everyone can quickly tell what the state of a chore is without worrying about the details.  Or dive into the json
 and results to figure out those details.</p>
 
+<p>Visually it would look likte this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore2.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore3.png" /></p>
+
+<h4>Doing the work</h4>
+
 <p>A worker should alway be able to acquire:</p>
 
 <ul>
@@ -215,8 +225,6 @@ and results to figure out those details.</p>
 
 <p>Where the "GIT_ROOT" can have shared scripts in its 'chore/bin' or 'bin' directories, and the chore can have
 individual scripts in it CHORE_ROOT/bin directory.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack-9_chore1.png" /></p>
 ]]></content>
   </entry>
   
