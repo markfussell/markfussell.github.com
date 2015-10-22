@@ -239,6 +239,23 @@ git push
 
 and as long as this is successful, the work is done.
 
+#### Jitter
+
+Although the randomization of chore selection helps with a lot of chores, it does not help when there are very few
+chores left.  On the 'go' of chore selection, all the workers go after the chore.  So we need to say 'go' at
+different times.  This brings back the 'jitter' concept mentioned previously.  To jitter in this case, we just
+create a 'random' number and then modulo it by whatever jitter interval we want.
+
+For example, using the process id plus the time stamp, and trying for a 0-29 range, we can have:
+
+```bash
+TSS_SECOND=`date +%s`
+PSEUDO_RANDOM="`expr ${TSS_SECOND} + $$`"
+SLEEP_LENGTH=$((${PSEUDO_RANDOM} % 30 ))
+```
+
+
+
 ## Conclusion
 
 The above is a very generic worker model that enables all kinds of flexibility in setting up 'chores' and scalably
