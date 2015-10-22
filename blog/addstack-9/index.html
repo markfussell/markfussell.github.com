@@ -224,8 +224,89 @@ to &#8216;git push&#8217; timing.</p>
 <p>Chores are identified by their &#8216;producer&#8217; and a timestamp.  A &#8216;producer&#8217; is a node plus a process id, and the timestamp can
 have any precision necessary for the process to know it can&#8217;t collide with itself.  Two of the banes of any identity system
 is making sure identity is unique and not having a bottleneck for identity generation.  The identity proposed solves these
-two main issues.  The third is keeping identity short / consistent.  A hash of the &#8216;phrase&#8217; is possible if necessary, but
-collisions could be an issue if the phrase is too short.</p>
+two main issues.  A third requirement (sometimes) is keeping identity short / consistent.  A hash of the &#8216;phrase&#8217; is
+possible if necessary, but collisions could be an issue if the phrase is too short.</p>
+
+<h5>Instructions</h5>
+
+<p>So we have something like &#8220;chore_ip-1-2-3-4_ps-349467_20151022-110109-123456&#8221; as a chore.  This is simply a directory with
+a &#8216;chore.json&#8217; within it where that &#8216;chore.json&#8217; looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;chore_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;ip-1-2-3-4_ps-349467_20151022-110109-123456&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;chore_tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;20151022110109&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;producer_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;ip-1-2-3-4_ps-349467&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;runner&quot;</span> <span class="p">:</span> <span class="s2">&quot;bash&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;command&quot;</span> <span class="p">:</span> <span class="s2">&quot;ps -aux&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;result&quot;</span> <span class="p">:</span> <span class="s2">&quot;output.txt&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;error&quot;</span> <span class="p">:</span> <span class="s2">&quot;error.txt&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Another file is in the directory initially called &#8216;do_it.txt&#8217; which can be empty.</p>
+
+<h5>Take on the &#8216;chore&#8217;</h5>
+
+<p>To take this &#8216;chore&#8217; on, a worker adds a &#8216;worker.json&#8217; file to the directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;chore_id&quot;</span> <span class="p">:</span>  <span class="s2">&quot;ip-1-2-3-4_ps-349467_20151022-110109-123456&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;work_id&quot;</span> <span class="p">:</span>  <span class="s2">&quot;ip-4-5-6-7_ps-1000_20151022-110209-123456&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;worker_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;ip-4-5-6-7_ps-1000&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;work_start_tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;20151022110209&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;state&quot;</span> <span class="p">:</span> <span class="s2">&quot;working&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;work_finish_tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and renames the &#8216;do_it.txt&#8217; to &#8216;doing_it.txt&#8217;</p>
+
+<p>When these changes commit and push successfully, this worker now owns the chore.  The worker can update the &#8216;worker.json&#8217;
+through the work if desired, or put files into the directory or elsewhere.  When the chore is complete, the worker
+should change worker.json to a finished state, and rename the &#8216;doing_it.txt&#8217; to &#8216;done.txt&#8217;.  With this,
+the three states are:</p>
+
+<ul>
+<li>do_it.txt</li>
+<li>doing_it.txt</li>
+<li>done.txt</li>
+</ul>
+
+
+<p>And everyone can quickly tell what the state of a chore is without worrying about the details.  Or dive into the json
+and results to figure out those details.</p>
+
+<p>A worker should alway be able to acquire:</p>
+
+<ul>
+<li>The root of the work repository – Say &#8220;${GIT_ROOT}&#8221;</li>
+<li>The root of the chore itself – Say &#8220;${CHORE_ROOT}&#8221;</li>
+</ul>
+
+
+<p>Where the &#8220;GIT_ROOT&#8221; can have shared scripts in its &#8216;chore/bin&#8217; or &#8216;bin&#8217; directories, and the chore can have
+individual scripts in it CHORE_ROOT/bin directory.</p>
+
+<p><img src="/images/addstack-9/addstack-9_chore1.png" /></p>
 </div>
 
 

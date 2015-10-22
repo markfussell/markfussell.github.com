@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-21T18:57:44-07:00</updated>
+  <updated>2015-10-22T12:17:51-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -151,8 +151,72 @@ to 'git push' timing.</p>
 <p>Chores are identified by their 'producer' and a timestamp.  A 'producer' is a node plus a process id, and the timestamp can
 have any precision necessary for the process to know it can't collide with itself.  Two of the banes of any identity system
 is making sure identity is unique and not having a bottleneck for identity generation.  The identity proposed solves these
-two main issues.  The third is keeping identity short / consistent.  A hash of the 'phrase' is possible if necessary, but
-collisions could be an issue if the phrase is too short.</p>
+two main issues.  A third requirement (sometimes) is keeping identity short / consistent.  A hash of the 'phrase' is
+possible if necessary, but collisions could be an issue if the phrase is too short.</p>
+
+<h5>Instructions</h5>
+
+<p>So we have something like "chore_ip-1-2-3-4_ps-349467_20151022-110109-123456" as a chore.  This is simply a directory with
+a 'chore.json' within it where that 'chore.json' looks something like this:</p>
+
+<p><code>json
+{
+  "chore_id" : "ip-1-2-3-4_ps-349467_20151022-110109-123456",
+  "chore_tss" : "20151022110109",
+  "producer_id" : "ip-1-2-3-4_ps-349467",
+  "runner" : "bash",
+  "command" : "ps -aux",
+  "result" : "output.txt",
+  "error" : "error.txt"
+}
+</code></p>
+
+<p>Another file is in the directory initially called 'do_it.txt' which can be empty.</p>
+
+<h5>Take on the 'chore'</h5>
+
+<p>To take this 'chore' on, a worker adds a 'worker.json' file to the directory:</p>
+
+<p><code>json
+{
+  "chore_id" :  "ip-1-2-3-4_ps-349467_20151022-110109-123456",
+  "work_id" :  "ip-4-5-6-7_ps-1000_20151022-110209-123456",
+  "worker_id" : "ip-4-5-6-7_ps-1000",
+  "work_start_tss" : "20151022110209",
+  "state" : "working",
+  "work_finish_tss" : ""
+}
+</code></p>
+
+<p>and renames the 'do_it.txt' to 'doing_it.txt'</p>
+
+<p>When these changes commit and push successfully, this worker now owns the chore.  The worker can update the 'worker.json'
+through the work if desired, or put files into the directory or elsewhere.  When the chore is complete, the worker
+should change worker.json to a finished state, and rename the 'doing_it.txt' to 'done.txt'.  With this,
+the three states are:</p>
+
+<ul>
+<li>do_it.txt</li>
+<li>doing_it.txt</li>
+<li>done.txt</li>
+</ul>
+
+
+<p>And everyone can quickly tell what the state of a chore is without worrying about the details.  Or dive into the json
+and results to figure out those details.</p>
+
+<p>A worker should alway be able to acquire:</p>
+
+<ul>
+<li>The root of the work repository – Say "${GIT_ROOT}"</li>
+<li>The root of the chore itself – Say "${CHORE_ROOT}"</li>
+</ul>
+
+
+<p>Where the "GIT_ROOT" can have shared scripts in its 'chore/bin' or 'bin' directories, and the chore can have
+individual scripts in it CHORE_ROOT/bin directory.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack-9_chore1.png" /></p>
 ]]></content>
   </entry>
   
