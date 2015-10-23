@@ -123,89 +123,12 @@ things that people usually want in production:</p>
 </ul>
 
 
-<p>The last item is (IMO) a bit paranoid, and there are better ways to make sure production is stable (tripwires and
-logging).  And the third is probably unrealistic for anything but trivial debugging.<br/>
-But the first two are certainly reasonable wants.  A lot of people are familiar with deploying wars and deploying
-wars on Tomcat and other servers.</p>
-
-<h3>Where&#8217;s the WAR?</h3>
-
-<p>The first issue with changing from source deployment to war-based deployment is &#8220;Where is the WAR?&#8221; and
-&#8220;How do I know it has changed?&#8221;.  As with the other weird primary ingredient approaches, the WAR is going to
-be in an annexed repository.  And you can see that it changed by simply looking at whether the &#8216;git revision&#8217; of
-the war has changed.  This approach gives incredible power and flexibility:</p>
-
-<ul>
-<li>You can have as many different versions of the application as you want.  They just each have to have their own &#8216;folder&#8217;</li>
-<li>You can easily see which deployments are using which versions</li>
-<li>Changing a deployment to use a different version involves copying a 50 byte hash vs. an actual WAR file</li>
-<li>Getting the real file is a super-fast call to S3</li>
-<li>Bootstrapping the initial version is the same as any other version, which makes it less likely to diverge and break</li>
-</ul>
-
-
-<p>The WARs should be in a different repository from the source for a number of reasons, but the main one being their
-rules and rythms are very different.  But the structure of the repositories can be very similar to make it easy to see
-the created artifacts.  Something like this:</p>
-
-<p><img src="/images/addstack-10/addstack10_war1.png" /></p>
-
-<p>Note that the contents of the directory could be anything.  And actually a &#8216;trick&#8217; to making the upload much faster
-is to use an exploded &#8216;war&#8217; vs. a normal &#8216;war&#8217;.  Why?  Because a WAR contains a bunch of jars that are all almost
- always <em>identical</em> between versions.  So although S3 has basically unlimited space, it is silly to waste it with
- a file that (although different) is 99% the same between each version.  For example, all the identical jars within this
- expanded war:</p>
-
-<p><img src="/images/addstack-10/addstack10_war2.png" /></p>
-
-<p>The trade is that you have a lot more files in the other folders.  Finally, you could do a hybrid where everything but
-the lib folder is compressed.  To make the real war, your deployment process would uncompress and the rewar the contents.</p>
-
-<h3>Who deploys what?  The Promotion model.</h3>
-
-<p>The deploying server needs to watch something so it can see a change that is relevant to it.  Production does not care
-that there is a new QA build.  And QA may not care there is a new development build.  QA never creates its own build,
-but it only cares when a development build is &#8220;Good enough to QA&#8221;.  This I call the promotion model.</p>
-
-<p>For any given application:</p>
-
-<ul>
-<li>Automated builds occur <em>all the time</em> (whenever something changes) and each gets a unique identifier (e.g. 201)</li>
-<li>Each build is then promoted through however many levels of inspection you want
-
-<ul>
-<li>If it passes muster</li>
-<li>If it has not been superseded by another build</li>
-<li>If not, it is ignored</li>
-</ul>
-</li>
-</ul>
-
-
-<p>With this model, you never <em>go backward</em>, which increases productivity a lot.  And your are continuously trying to
- <em>go forward</em>, which means you have very current information about where you are.  And this also increases productivity.
- Yes, in a pinch, you could see if a build <em>between</em> last success and most current can be promoted.  But that is
- impacting productivity so it should rarely be done.</p>
-
-<p>This also implies there is no branching.  One source.  One set of builds based on that source.  That is not required
-by this approach (branch source, new set of builds), but it is strongly encouraged because it again <em>wastes no energy</em>
-and it is trivial to flip to a different &#8216;set of builds&#8217; when a branch/back-patch is required.  But the process is
-very optimistic while also being very realistic (the world is where it is) and appropriately pessimistic
-(you can&#8217;t promote through QA until you pass the automated tests).  Because machines embody the process, you
-can&#8217;t subvert it without doing it <em>very conspicuously</em></p>
-
-<p>To be promoted, you just have to be &#8216;copied&#8217; into the right destination.  Promotions are more an &#8216;it&#8217; than
-a &#8216;development&#8217; activity, so they are structured under the &#8216;it&#8217; folder.  Each federation (and potentially part)
-has it&#8217;s own versions of things.  If you are in &#8216;fed1&#8217; and want the &#8216;grails-petclinic&#8217; application on your
-machine, you know where to look: &#8216;fed/fed1&#8217;.  The use of &#8216;common&#8217; vs. &#8216;stacktype&#8217; is mirroring the flexibility
- shown elsewhere.  You could have most deployment use &#8216;common&#8217; and have some override it.  Or most override it
- but there is a default in common in case they don&#8217;t.</p>
-
-<p><img src="/images/addstack-10/addstack10_promo2.png" /></p>
-
-<h3></h3>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/addstack-10/">Read on &rarr;</a>
+    </footer>
   
 
 

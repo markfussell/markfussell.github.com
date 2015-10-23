@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T17:32:51-07:00</updated>
+  <updated>2015-10-22T17:36:13-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -45,6 +45,9 @@ things that people usually want in production:</p>
 <li>Removal of having to understand the 'building' technology from the running technology (JVM)</li>
 <li>That production has as few technologies as possible, and is normally missing 'compilers' so people can't tweak behavior</li>
 </ul>
+
+
+<!--more-->
 
 
 <p>The last item is (IMO) a bit paranoid, and there are better ways to make sure production is stable (tripwires and
