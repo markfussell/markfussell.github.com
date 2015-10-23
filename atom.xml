@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-23T10:27:06-07:00</updated>
+  <updated>2015-10-23T10:28:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -390,8 +390,8 @@ level language than &#8216;bash&#8217;.  In this case we can go into Python as a
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This implies a super-powerful chore processing script, or that &#8216;modularity&#8217; is dealt with inside the python vs.
-outside.  As long as the script leads the creation of &#8216;chore&#8217; types, we should be fine whether monolythic or modular.</p>
+<p>This implies a powerful chore processing script, or one that modularly calls other scripts.
+As long as the script leads the creation of &#8216;chore&#8217; types, we should be fine whether monolithic or modular.</p>
 ]]></content>
   </entry>
   

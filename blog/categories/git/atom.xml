@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-23T10:27:06-07:00</updated>
+  <updated>2015-10-23T10:28:50-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -329,8 +329,8 @@ level language than 'bash'.  In this case we can go into Python as a decent scri
 python ${COMMON}/doChore.py "$@"
 </code></p>
 
-<p>This implies a super-powerful chore processing script, or that 'modularity' is dealt with inside the python vs.
-outside.  As long as the script leads the creation of 'chore' types, we should be fine whether monolythic or modular.</p>
+<p>This implies a powerful chore processing script, or one that modularly calls other scripts.
+As long as the script leads the creation of 'chore' types, we should be fine whether monolithic or modular.</p>
 ]]></content>
   </entry>
   
