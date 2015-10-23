@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T18:41:11-07:00</updated>
+  <updated>2015-10-23T09:13:59-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -150,11 +150,11 @@ think the increment (monolith) is notably simpler than the second, and this was 
 
 <p>The critical question is actually 'who is going to write the chore'.  We don't want to have a bunch of chores
 created by different workers who all recognized a change was done.  Fortunately, we already have a model for this
- with the 'chore' ownership.  We need to describe a 'trigger' in a way that is related to whatever has changed
- about the world, and then when trying to 'create the chore' a worker first 'creates the trigger'.  Once a trigger
+ with the 'chore' ownership.  We need to describe an 'event' in a way that is related to whatever has changed
+ about the world, and then when trying to 'create the chore' a worker first 'creates the event'.  Once an event
  is created and 'pushed', there is no reason to create it again.</p>
 
-<p>In this case, the trigger is pretty obvious to describe: a git repository went to a new version or specifically:</p>
+<p>In this case, the event is pretty obvious to describe: a git repository went to a new version or specifically:</p>
 
 <ul>
 <li>repo3_miniature-ironman</li>
@@ -162,9 +162,38 @@ created by different workers who all recognized a change was done.  Fortunately,
 </ul>
 
 
-<p>so if a trigger for that exists, don't create another one.  Since this is a simple identification, we don't need
+<p>so if an event for that exists, don't create another one.  Since this is a simple identification, we don't need
 the extra directory structure and can simply write a '.json' file into the appropriate time directory.  Note the
 time should be the time of the 'event', not of when it was noticed.</p>
+
+<p>A given event could trigger multiple chores, but in our case we just want to have the one 'build the war' chore
+created.  Note that the chore could be trivial: it could result in <em>no work</em> being done except seeing if a
+new WAR is needed.  Chores are rarely 'you must do this', but more 'do this if necessary'.  This alows us to
+be fast in the creation of the 'chore' vs. doing a lot of analysis up front.  Since the worker pool can be
+large, we don't want any given worker to block the pipeline too much.</p>
+
+<h4>Event structure</h4>
+
+<p>The structure of the event can be anything.  It is nice to have the JSON be declarative of what it is (an 'event')
+and then have enough information to process the information.  Some human readable information is handy for debugging
+and logging.</p>
+
+<p>```json
+{
+  "type" : "event",
+  "tss" : "20151022120009",
+  "kind" : "repochange",
+  "repochange": {</p>
+
+<pre><code>"repo" : "repo3_miniature-ironman",
+"version" : "551b86342d",
+"comment" : "Just set the javaagent for Java",
+"committer" : "markfussell"
+</code></pre>
+
+<p>  }
+}
+```</p>
 ]]></content>
   </entry>
   

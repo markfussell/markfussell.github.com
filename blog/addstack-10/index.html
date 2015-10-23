@@ -223,11 +223,11 @@ think the increment (monolith) is notably simpler than the second, and this was 
 
 <p>The critical question is actually &#8216;who is going to write the chore&#8217;.  We don&#8217;t want to have a bunch of chores
 created by different workers who all recognized a change was done.  Fortunately, we already have a model for this
- with the &#8216;chore&#8217; ownership.  We need to describe a &#8216;trigger&#8217; in a way that is related to whatever has changed
- about the world, and then when trying to &#8216;create the chore&#8217; a worker first &#8216;creates the trigger&#8217;.  Once a trigger
+ with the &#8216;chore&#8217; ownership.  We need to describe an &#8216;event&#8217; in a way that is related to whatever has changed
+ about the world, and then when trying to &#8216;create the chore&#8217; a worker first &#8216;creates the event&#8217;.  Once an event
  is created and &#8216;pushed&#8217;, there is no reason to create it again.</p>
 
-<p>In this case, the trigger is pretty obvious to describe: a git repository went to a new version or specifically:</p>
+<p>In this case, the event is pretty obvious to describe: a git repository went to a new version or specifically:</p>
 
 <ul>
 <li>repo3_miniature-ironman</li>
@@ -235,9 +235,48 @@ created by different workers who all recognized a change was done.  Fortunately,
 </ul>
 
 
-<p>so if a trigger for that exists, don&#8217;t create another one.  Since this is a simple identification, we don&#8217;t need
+<p>so if an event for that exists, don&#8217;t create another one.  Since this is a simple identification, we don&#8217;t need
 the extra directory structure and can simply write a &#8216;.json&#8217; file into the appropriate time directory.  Note the
 time should be the time of the &#8216;event&#8217;, not of when it was noticed.</p>
+
+<p>A given event could trigger multiple chores, but in our case we just want to have the one &#8216;build the war&#8217; chore
+created.  Note that the chore could be trivial: it could result in <em>no work</em> being done except seeing if a
+new WAR is needed.  Chores are rarely &#8216;you must do this&#8217;, but more &#8216;do this if necessary&#8217;.  This alows us to
+be fast in the creation of the &#8216;chore&#8217; vs. doing a lot of analysis up front.  Since the worker pool can be
+large, we don&#8217;t want any given worker to block the pipeline too much.</p>
+
+<h4>Event structure</h4>
+
+<p>The structure of the event can be anything.  It is nice to have the JSON be declarative of what it is (an &#8216;event&#8217;)
+and then have enough information to process the information.  Some human readable information is handy for debugging
+and logging.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;event&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;20151022120009&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;kind&quot;</span> <span class="p">:</span> <span class="s2">&quot;repochange&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;repochange&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;repo&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo3_miniature-ironman&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;551b86342d&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;comment&quot;</span> <span class="p">:</span> <span class="s2">&quot;Just set the javaagent for Java&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;committer&quot;</span> <span class="p">:</span> <span class="s2">&quot;markfussell&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 
