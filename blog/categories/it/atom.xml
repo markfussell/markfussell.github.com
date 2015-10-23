@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T15:04:02-07:00</updated>
+  <updated>2015-10-22T17:32:51-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -117,6 +117,15 @@ and it is trivial to flip to a different 'set of builds' when a branch/back-patc
 very optimistic while also being very realistic (the world is where it is) and appropriately pessimistic
 (you can't promote through QA until you pass the automated tests).  Because machines embody the process, you
 can't subvert it without doing it <em>very conspicuously</em></p>
+
+<p>To be promoted, you just have to be 'copied' into the right destination.  Promotions are more an 'it' than
+a 'development' activity, so they are structured under the 'it' folder.  Each federation (and potentially part)
+has it's own versions of things.  If you are in 'fed1' and want the 'grails-petclinic' application on your
+machine, you know where to look: 'fed/fed1'.  The use of 'common' vs. 'stacktype' is mirroring the flexibility
+ shown elsewhere.  You could have most deployment use 'common' and have some override it.  Or most override it
+ but there is a default in common in case they don't.</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_promo2.png" /></p>
 
 <h3></h3>
 ]]></content>
