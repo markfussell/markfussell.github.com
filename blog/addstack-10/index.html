@@ -262,9 +262,11 @@ and logging.</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
+<span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;event&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nt">&quot;tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;20151022120009&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;id&quot;</span> <span class="p">:</span>  <span class="s2">&quot;repo3_miniature-ironman_551b86342d&quot;</span>
+</span><span class='line'>  <span class="s2">&quot;tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;20151022120009&quot;</span><span class="p">,</span>
 </span><span class='line'>  <span class="nt">&quot;kind&quot;</span> <span class="p">:</span> <span class="s2">&quot;repochange&quot;</span><span class="p">,</span>
 </span><span class='line'>  <span class="nt">&quot;repochange&quot;</span><span class="p">:</span> <span class="p">{</span>
 </span><span class='line'>    <span class="nt">&quot;repo&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo3_miniature-ironman&quot;</span><span class="p">,</span>
@@ -276,7 +278,193 @@ and logging.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h4>Chore structure</h4>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;chore&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;tss&quot;</span> <span class="p">:</span> <span class="s2">&quot;20151022120009&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nt">&quot;event_id&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo3_miniature-ironman_551b86342d&quot;</span>
+</span><span class='line'>  <span class="s2">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nt">&quot;kind&quot;</span> <span class="p">:</span> <span class="s2">&quot;repochange&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nt">&quot;repochange&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;repo&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo3_miniature-ironman&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;551b86342d&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;comment&quot;</span> <span class="p">:</span> <span class="s2">&quot;Just set the javaagent for Java&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;committer&quot;</span> <span class="p">:</span> <span class="s2">&quot;markfussell&quot;</span>
+</span><span class='line'>     <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Making it happen</h3>
+
+<p>Although I mentioned before that there were &#8216;parents&#8217;, &#8216;workers&#8217;, and that application servers shouldn&#8217;t do any of
+this kind of work, with this very clean pipeline it is clear our single application server could easily do all of
+this itself.  So just to save on IT, that will be the first version.  After that it is easy to see we could separate
+the &#8216;parent/worker&#8217; from the application server.  And although likely not necessary, we could separate the &#8216;parent&#8217;
+from the &#8216;worker&#8217; node too.  The reason the &#8216;parent&#8217; doesn&#8217;t need to be separated is we should always have two
+parents around and a simple CloudFormation can make sure that is true.  And parents don&#8217;t do that much, so there
+is no reason to have them be separate from workers.  With this model, all workers are also potential parents, and
+there are always two workers available.</p>
+
+<h4>Detecting the change to &#8216;Repo3&#8217;</h4>
+
+<p>This is actually the same script as before where we just do something different in the &#8216;ActualWork&#8217; source:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>   <span class="nb">echo</span> <span class="s2">&quot;Detected Change in Git Version!&quot;</span>;
+</span><span class='line'>
+</span><span class='line'>   <span class="nb">export </span><span class="nv">START_TSS</span><span class="o">=</span><span class="s2">&quot;`date +%Y%m%d-%H%M%S`&quot;</span>
+</span><span class='line'>   <span class="nb">echo</span> <span class="s2">&quot;Starting ActualWork at ${START_TSS}&quot;</span>
+</span><span class='line'>   <span class="nb">echo</span> <span class="nv">$GIT_VERSION</span> &gt; <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nb">source</span> <span class="k">${</span><span class="nv">MY_DIR</span><span class="k">}</span>/work_FindEvent_Repo3_ActualWork.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now we know we have to do the work, but we need to see if it was already done by someone else:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">FIND_EVENT</span><span class="o">=</span><span class="sb">`</span>find work/event -name <span class="k">${</span><span class="nv">EVENT_NAME</span><span class="k">}</span> | head -1<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$FIND_EVENT</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;&quot;</span> <span class="o">==</span> <span class="s2">&quot;$FIND_EVENT&quot;</span> <span class="o">]]</span> ;
+</span><span class='line'><span class="k">then</span>
+</span><span class='line'>     <span class="c">#========================================</span>
+</span><span class='line'>     <span class="c">#=== We are the first! Rush to add it</span>
+</span><span class='line'>     <span class="c">#========================================</span>
+</span><span class='line'>
+</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt;&gt;$EVENT_FILE</span>
+</span><span class='line'><span class="s">{</span>
+</span><span class='line'><span class="s">  &quot;type&quot; : &quot;event&quot;,</span>
+</span><span class='line'><span class="s">  &quot;id&quot; :  &quot;${EVENT_ID}&quot;</span>
+</span><span class='line'><span class="s">  &quot;tss&quot; : &quot;${EVENT_TSS}&quot;,</span>
+</span><span class='line'><span class="s">  &quot;kind&quot; : &quot;repochange&quot;,</span>
+</span><span class='line'><span class="s">  &quot;repochange&quot;: {</span>
+</span><span class='line'><span class="s">    &quot;repo&quot; : &quot;${EVENT_REPO}&quot;,</span>
+</span><span class='line'><span class="s">    &quot;version&quot; : &quot;${GIT_VERSION}&quot;</span>
+</span><span class='line'><span class="s">  }</span>
+</span><span class='line'><span class="s">}</span>
+</span><span class='line'><span class="s">EOS</span>
+</span><span class='line'>
+</span><span class='line'>git add <span class="nv">$EVENT_FILE</span>
+</span><span class='line'>git commit -m <span class="s2">&quot;Creating an event for the change ${GIT_VERSION}&quot;</span>;
+</span><span class='line'>git push
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If this push succeeds, we are free and clear.  If not, we can try to merge (maybe some other event or chore was written)
+and push again with a quick &#8216;git pull; git push&#8217;.  We could do that &#8220;forever&#8221; or until we know we have no hope (study the
+actual output of the git pull, push, or other metadata between the two branches).  For the first pass, we can just do
+it once.</p>
+
+<h4>Event poster also chore poster</h4>
+
+<p>Since we know we detected the &#8216;event&#8217; first, we are the owner of the event and
+can now safely write out the &#8216;chores&#8217; associated with the event.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat <span class="s">&lt;&lt;EOS &gt;&gt;$CHORE_FILE</span>
+</span><span class='line'><span class="s">{</span>
+</span><span class='line'><span class="s">  &quot;type&quot; : &quot;chore&quot;,</span>
+</span><span class='line'><span class="s">  &quot;tss&quot; : &quot;${EVENT_TSS}&quot;,</span>
+</span><span class='line'><span class="s">  &quot;event_id&quot; : &quot;${EVENT_ID}&quot;,</span>
+</span><span class='line'><span class="s">  &quot;kind&quot; : &quot;buildwar&quot;,</span>
+</span><span class='line'><span class="s">  &quot;event&quot; : {</span>
+</span><span class='line'><span class="s">      &quot;kind&quot; : &quot;repochange&quot;,</span>
+</span><span class='line'><span class="s">      &quot;repochange&quot;: {</span>
+</span><span class='line'><span class="s">        &quot;repo&quot; : &quot;${EVENT_REPO}&quot;,</span>
+</span><span class='line'><span class="s">        &quot;version&quot; : &quot;${GIT_VERSION}&quot;</span>
+</span><span class='line'><span class="s">     }</span>
+</span><span class='line'><span class="s">  }</span>
+</span><span class='line'><span class="s">}</span>
+</span><span class='line'><span class="s">EOS</span>
+</span><span class='line'>
+</span><span class='line'>git add <span class="nv">$CHORE_FILE</span>
+</span><span class='line'>git commit -m <span class="s2">&quot;Creating a chore for the event ${EVENT_ID}&quot;</span>;
+</span><span class='line'>git push
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Detecting and doing the chore</h4>
+
+<p>We went through detecting the chore before <a href="/blog/addstack-9/">AddStack-9</a>, but now we want to do something with the chore.</p>
+
+<p>Given the chore is describe in JSON and what we do for the chore could be complex, we should switch to a higher
+level language than &#8216;bash&#8217;.  In this case we can go into Python as a decent scripting language:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>python <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/doChore.py <span class="s2">&quot;$@&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This implies a super-powerful chore processing script, or that &#8216;modularity&#8217; is dealt with inside the python vs.
+outside.  As long as the script leads the creation of &#8216;chore&#8217; types, we should be fine whether monolythic or modular.</p>
 </div>
 
 
