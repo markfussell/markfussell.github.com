@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-22T17:36:13-07:00</updated>
+  <updated>2015-10-22T18:41:11-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -86,9 +86,12 @@ is to use an exploded 'war' vs. a normal 'war'.  Why?  Because a WAR contains a 
 <p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_war2.png" /></p>
 
 <p>The trade is that you have a lot more files in the other folders.  Finally, you could do a hybrid where everything but
-the lib folder is compressed.  To make the real war, your deployment process would uncompress and the rewar the contents.</p>
+the lib folder is compressed.  To make the real war, your deployment process would uncompress and then re-WAR the contents.</p>
 
-<h3>Who deploys what?  The Promotion model.</h3>
+<p>The performance difference is dramatically different when working outside the EC2 grid, but is less so within that
+grid.</p>
+
+<h3>Who deploys what?  The Promotion model</h3>
 
 <p>The deploying server needs to watch something so it can see a change that is relevant to it.  Production does not care
 that there is a new QA build.  And QA may not care there is a new development build.  QA never creates its own build,
@@ -125,12 +128,43 @@ can't subvert it without doing it <em>very conspicuously</em></p>
 a 'development' activity, so they are structured under the 'it' folder.  Each federation (and potentially part)
 has it's own versions of things.  If you are in 'fed1' and want the 'grails-petclinic' application on your
 machine, you know where to look: 'fed/fed1'.  The use of 'common' vs. 'stacktype' is mirroring the flexibility
- shown elsewhere.  You could have most deployment use 'common' and have some override it.  Or most override it
- but there is a default in common in case they don't.</p>
+ shown elsewhere.  You could have most deployments use 'common' and have some override it.  Or most deployments override 'common'
+ but there is a default in case they don't.</p>
 
 <p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_promo2.png" /></p>
 
-<h3></h3>
+<h3>Who builds and deploys?  Custom Worker vs. Chores</h3>
+
+<p>OK, so we need to build and deploy every time a particular repository changes.  We could do that monolithicly
+and have no registry of the war being built (it just magically happens), or we could do that in two parts:</p>
+
+<ol>
+<li>Detect change in repository: create chore to build war</li>
+<li>Detect chore and worker do chore</li>
+</ol>
+
+
+<p>The advantage of the second version is we can decompose figuring out what needs to be done from doing it, and we
+also have better visibility and consistency in the process.  Although I like doing things incrementally, I don't
+think the increment (monolith) is notably simpler than the second, and this was meant to build on our Worker topic.</p>
+
+<p>The critical question is actually 'who is going to write the chore'.  We don't want to have a bunch of chores
+created by different workers who all recognized a change was done.  Fortunately, we already have a model for this
+ with the 'chore' ownership.  We need to describe a 'trigger' in a way that is related to whatever has changed
+ about the world, and then when trying to 'create the chore' a worker first 'creates the trigger'.  Once a trigger
+ is created and 'pushed', there is no reason to create it again.</p>
+
+<p>In this case, the trigger is pretty obvious to describe: a git repository went to a new version or specifically:</p>
+
+<ul>
+<li>repo3_miniature-ironman</li>
+<li>551b86e42d...</li>
+</ul>
+
+
+<p>so if a trigger for that exists, don't create another one.  Since this is a simple identification, we don't need
+the extra directory structure and can simply write a '.json' file into the appropriate time directory.  Note the
+time should be the time of the 'event', not of when it was noticed.</p>
 ]]></content>
   </entry>
   

@@ -159,9 +159,12 @@ is to use an exploded &#8216;war&#8217; vs. a normal &#8216;war&#8217;.  Why?  B
 <p><img src="/images/addstack-10/addstack10_war2.png" /></p>
 
 <p>The trade is that you have a lot more files in the other folders.  Finally, you could do a hybrid where everything but
-the lib folder is compressed.  To make the real war, your deployment process would uncompress and the rewar the contents.</p>
+the lib folder is compressed.  To make the real war, your deployment process would uncompress and then re-WAR the contents.</p>
 
-<h3>Who deploys what?  The Promotion model.</h3>
+<p>The performance difference is dramatically different when working outside the EC2 grid, but is less so within that
+grid.</p>
+
+<h3>Who deploys what?  The Promotion model</h3>
 
 <p>The deploying server needs to watch something so it can see a change that is relevant to it.  Production does not care
 that there is a new QA build.  And QA may not care there is a new development build.  QA never creates its own build,
@@ -198,12 +201,43 @@ can&#8217;t subvert it without doing it <em>very conspicuously</em></p>
 a &#8216;development&#8217; activity, so they are structured under the &#8216;it&#8217; folder.  Each federation (and potentially part)
 has it&#8217;s own versions of things.  If you are in &#8216;fed1&#8217; and want the &#8216;grails-petclinic&#8217; application on your
 machine, you know where to look: &#8216;fed/fed1&#8217;.  The use of &#8216;common&#8217; vs. &#8216;stacktype&#8217; is mirroring the flexibility
- shown elsewhere.  You could have most deployment use &#8216;common&#8217; and have some override it.  Or most override it
- but there is a default in common in case they don&#8217;t.</p>
+ shown elsewhere.  You could have most deployments use &#8216;common&#8217; and have some override it.  Or most deployments override &#8216;common&#8217;
+ but there is a default in case they don&#8217;t.</p>
 
 <p><img src="/images/addstack-10/addstack10_promo2.png" /></p>
 
-<h3></h3>
+<h3>Who builds and deploys?  Custom Worker vs. Chores</h3>
+
+<p>OK, so we need to build and deploy every time a particular repository changes.  We could do that monolithicly
+and have no registry of the war being built (it just magically happens), or we could do that in two parts:</p>
+
+<ol>
+<li>Detect change in repository: create chore to build war</li>
+<li>Detect chore and worker do chore</li>
+</ol>
+
+
+<p>The advantage of the second version is we can decompose figuring out what needs to be done from doing it, and we
+also have better visibility and consistency in the process.  Although I like doing things incrementally, I don&#8217;t
+think the increment (monolith) is notably simpler than the second, and this was meant to build on our Worker topic.</p>
+
+<p>The critical question is actually &#8216;who is going to write the chore&#8217;.  We don&#8217;t want to have a bunch of chores
+created by different workers who all recognized a change was done.  Fortunately, we already have a model for this
+ with the &#8216;chore&#8217; ownership.  We need to describe a &#8216;trigger&#8217; in a way that is related to whatever has changed
+ about the world, and then when trying to &#8216;create the chore&#8217; a worker first &#8216;creates the trigger&#8217;.  Once a trigger
+ is created and &#8216;pushed&#8217;, there is no reason to create it again.</p>
+
+<p>In this case, the trigger is pretty obvious to describe: a git repository went to a new version or specifically:</p>
+
+<ul>
+<li>repo3_miniature-ironman</li>
+<li>551b86e42d&#8230;</li>
+</ul>
+
+
+<p>so if a trigger for that exists, don&#8217;t create another one.  Since this is a simple identification, we don&#8217;t need
+the extra directory structure and can simply write a &#8216;.json&#8217; file into the appropriate time directory.  Note the
+time should be the time of the &#8216;event&#8217;, not of when it was noticed.</p>
 </div>
 
 
