@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-23T10:28:50-07:00</updated>
+  <updated>2015-10-23T15:43:10-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -300,6 +300,8 @@ can now safely write out the 'chores' associated with the event.</p>
   "tss" : "${EVENT_TSS}",
   "event_id" : "${EVENT_ID}",
   "kind" : "buildwar",
+  "war_repo" : "${WAR_REPO}",
+  "war_path" : "${WAR_PATH}",
   "event" : {</p>
 
 <pre><code>  "kind" : "repochange",
@@ -326,11 +328,53 @@ git push
 level language than 'bash'.  In this case we can go into Python as a decent scripting language:</p>
 
 <p><code>bash
-python ${COMMON}/doChore.py "$@"
+python ${COMMON}/doChore.py --source ${RANDOM_DOIT_DIR}/chore.json --gitroot ${GIT_ROOT}
 </code></p>
 
-<p>This implies a powerful chore processing script, or one that modularly calls other scripts.
+<p>This implies a powerful chore processing script, or one that can modularly call other scripts.
 As long as the script leads the creation of 'chore' types, we should be fine whether monolithic or modular.</p>
+
+<p>The core of the routine is just to extract the necessary information from the JSON</p>
+
+<p>```python</p>
+
+<p>source_directory = os.path.dirname(source)
+source_json = json.load(open(source))</p>
+
+<p>chore_kind = source_json['kind']</p>
+
+<p>if chore_kind == "buildwar":</p>
+
+<pre><code>build_repo = source_json['event']['repochange']['repo']
+build_version = source_json['event']['repochange']['version']
+war_repo = source_json['war_repo']
+war_path = source_json['war_path']
+
+buildwarfromrepo_version_torepo_path(build_repo, build_version, war_repo, war_path)
+</code></pre>
+
+<p>```</p>
+
+<p>With this information we can then go to the build repository, do a simple 'grails package', and copy it to the
+appropriate repo and path.</p>
+
+<h3>Other 'chores' for this event?</h3>
+
+<p>The event that caused the 'buildwar' chore could also cause other activities.  Each of the
+ application servers could create their own 'chore' to redeploy, which would enable the 'event' and 'chore'
+ repository to reflect system activity on a broader sense.  Because they are doing the chore themselves,
+ it would just be a way to log the activity vs. being a way to pass it out to a bunch of workers.</p>
+
+<h2>Conclusion</h2>
+
+<p>The event, chore, and worker model is a very flexible, reliable, and scalable way to get stuff done.  It is
+especially good at keeping throughput under control even when tasks can get onerous or 'herding' occurs.<br/>
+As the backlog grows, more workers appear to keep it in control.  When the backlog shrinks the workers go
+to sleep or decommission.</p>
+
+<p>The biggest issue with the worker approach is to make sure you know the ramp rate and reliability.  Even with a
+huge cloud like EC2, there can be stutters and you have to more aggressively try to get resources, or accept that
+the user experience may be a bit more lagged.</p>
 ]]></content>
   </entry>
   

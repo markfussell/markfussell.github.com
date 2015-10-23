@@ -429,12 +429,16 @@ can now safely write out the &#8216;chores&#8217; associated with the event.</p>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>cat <span class="s">&lt;&lt;EOS &gt;&gt;$CHORE_FILE</span>
 </span><span class='line'><span class="s">{</span>
 </span><span class='line'><span class="s">  &quot;type&quot; : &quot;chore&quot;,</span>
 </span><span class='line'><span class="s">  &quot;tss&quot; : &quot;${EVENT_TSS}&quot;,</span>
 </span><span class='line'><span class="s">  &quot;event_id&quot; : &quot;${EVENT_ID}&quot;,</span>
 </span><span class='line'><span class="s">  &quot;kind&quot; : &quot;buildwar&quot;,</span>
+</span><span class='line'><span class="s">  &quot;war_repo&quot; : &quot;${WAR_REPO}&quot;,</span>
+</span><span class='line'><span class="s">  &quot;war_path&quot; : &quot;${WAR_PATH}&quot;,</span>
 </span><span class='line'><span class="s">  &quot;event&quot; : {</span>
 </span><span class='line'><span class="s">      &quot;kind&quot; : &quot;repochange&quot;,</span>
 </span><span class='line'><span class="s">      &quot;repochange&quot;: {</span>
@@ -459,12 +463,62 @@ can now safely write out the &#8216;chores&#8217; associated with the event.</p>
 level language than &#8216;bash&#8217;.  In this case we can go into Python as a decent scripting language:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>python <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/doChore.py <span class="s2">&quot;$@&quot;</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>python <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/doChore.py --source <span class="k">${</span><span class="nv">RANDOM_DOIT_DIR</span><span class="k">}</span>/chore.json --gitroot <span class="k">${</span><span class="nv">GIT_ROOT</span><span class="k">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>This implies a powerful chore processing script, or one that modularly calls other scripts.
+<p>This implies a powerful chore processing script, or one that can modularly call other scripts.
 As long as the script leads the creation of &#8216;chore&#8217; types, we should be fine whether monolithic or modular.</p>
+
+<p>The core of the routine is just to extract the necessary information from the JSON</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">source_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</span><span class='line'><span class="n">source_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">source</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">chore_kind</span> <span class="o">=</span> <span class="n">source_json</span><span class="p">[</span><span class="s">&#39;kind&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">chore_kind</span> <span class="o">==</span> <span class="s">&quot;buildwar&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">build_repo</span> <span class="o">=</span> <span class="n">source_json</span><span class="p">[</span><span class="s">&#39;event&#39;</span><span class="p">][</span><span class="s">&#39;repochange&#39;</span><span class="p">][</span><span class="s">&#39;repo&#39;</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">build_version</span> <span class="o">=</span> <span class="n">source_json</span><span class="p">[</span><span class="s">&#39;event&#39;</span><span class="p">][</span><span class="s">&#39;repochange&#39;</span><span class="p">][</span><span class="s">&#39;version&#39;</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">war_repo</span> <span class="o">=</span> <span class="n">source_json</span><span class="p">[</span><span class="s">&#39;war_repo&#39;</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">war_path</span> <span class="o">=</span> <span class="n">source_json</span><span class="p">[</span><span class="s">&#39;war_path&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">buildwarfromrepo_version_torepo_path</span><span class="p">(</span><span class="n">build_repo</span><span class="p">,</span> <span class="n">build_version</span><span class="p">,</span> <span class="n">war_repo</span><span class="p">,</span> <span class="n">war_path</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With this information we can then go to the build repository, do a simple &#8216;grails package&#8217;, and copy it to the
+appropriate repo and path.</p>
+
+<h3>Other &#8216;chores&#8217; for this event?</h3>
+
+<p>The event that caused the &#8216;buildwar&#8217; chore could also cause other activities.  Each of the
+ application servers could create their own &#8216;chore&#8217; to redeploy, which would enable the &#8216;event&#8217; and &#8216;chore&#8217;
+ repository to reflect system activity on a broader sense.  Because they are doing the chore themselves,
+ it would just be a way to log the activity vs. being a way to pass it out to a bunch of workers.</p>
+
+<h2>Conclusion</h2>
+
+<p>The event, chore, and worker model is a very flexible, reliable, and scalable way to get stuff done.  It is
+especially good at keeping throughput under control even when tasks can get onerous or &#8216;herding&#8217; occurs.<br/>
+As the backlog grows, more workers appear to keep it in control.  When the backlog shrinks the workers go
+to sleep or decommission.</p>
+
+<p>The biggest issue with the worker approach is to make sure you know the ramp rate and reliability.  Even with a
+huge cloud like EC2, there can be stutters and you have to more aggressively try to get resources, or accept that
+the user experience may be a bit more lagged.</p>
 </div>
 
 
