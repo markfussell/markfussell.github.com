@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Being a git about everything (Intro) - Polyglot</title>
+  <title>Advanced Development and Delivery (ADD) and the ADD Stack – Summary - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics &hellip;">
+  <meta name="description" content="This is the third series describing the ADD: a radically more productive development and delivery environment. The
+first series starts here: Advanced &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ existing technology, but certain characteristics &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/git-about-everything-intro/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/add2-1/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +68,7 @@ existing technology, but certain characteristics &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Being a Git About Everything (Intro)</h1>
+      <h1 class="entry-title">Advanced Development and Delivery (ADD) and the ADD Stack – Summary</h1>
     
     
       <p class="meta">
@@ -84,110 +84,99 @@ existing technology, but certain characteristics &hellip;">
   
 
 
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2015-10-23T01:00:00-07:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
+<div class="entry-content"><p>This is the third series describing the ADD: a radically more productive development and delivery environment.  The
+first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
+ of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
+ system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
+ components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
+ and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
+ on top of that IT infrastructure.</p>
 
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
+<p>This series assumes you have at least skimmed the other two series, but this one is the summary of the other two.
+It is an incremental growth of the architecture in a fairly macro sense, where the details are in the other series.</p>
 
-<!-- more -->
+<h2>The three ingredients</h2>
 
-
-<p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
-Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
-but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
-in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
-and company&#8230; but that is a different topic.</p>
-
-<h2>Git Syntax / Overview</h2>
-
-<p>You can learn more about git somewhere like github:</p>
+<p>Wait, it was four a moment ago.  The ADD requires four, but advanced project collaboration requires only three.  And
+at the heart of the ADD is advanced project collaboration.  Collaboration has no &#8216;machines&#8217;, just people, so we put aside
+one ingredient.  The remaining three are the <em>nucleus</em> of ADD:</p>
 
 <ul>
-<li> <a href="http://learn.github.com/p/intro.html">http://learn.github.com/p/intro.html</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
 </ul>
 
 
-<p>Git has a lot of commands, but around seven are core to standard git flows:</p>
+<p>These three ingredients can give individuals and teams 4x or more productivity.  And the reason is the same as for
+ ADD.  There are two critical roles in any project:</p>
 
 <ul>
-<li> clone &mdash; copy a repository from a remote location</li>
-<li> fetch &mdash; get updates from a remote repository</li>
-<li> merge &mdash; merge changes from one branch into the current branch</li>
-<li> pull &mdash; &#8216;fetch&#8217; and then &#8216;merge&#8217;</li>
-<li> add &mdash; add changes to the commit stage of the current branch</li>
-<li> commit &mdash; commit the changes into the current branch</li>
-<li> push &mdash; try to make a remote branch look like the current branch</li>
+<li>Changers</li>
+<li>Watchers</li>
 </ul>
 
 
-<p>Actually of those seven &#8216;pull&#8217; basically replaces/combines two of them, so you get
-down to about five with a core loop like this:</p>
+<p>The Changers are gonna change, change, change, change and the Watchers are gonna watch, watch, watch, watch.  And
+all of the people involve need to see what is going on (in the best way for them) and not be blocked in getting things
+by others on the project.  They need perfect transparency.  To ultimately build incredible trust, knowledge, and skill.</p>
 
-<ul>
-<li> clone
+<p>The three ingredients form the core of a three-way Venn diagram, that I will draw in hexagonal rings.</p>
 
-<ul>
-<li>pull</li>
-<li>make changes (if needed)
+<p><img src="/images/add2-1/add2_threeIngredients1.png" /></p>
 
-<ul>
-<li>add</li>
-<li>commit</li>
-<li>push</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<!--more-->
 
 
-<p>Of these commands only &#8216;push&#8217; can fail due to timing.  &#8216;push&#8217; is transactional
-and you can be contending with other people or machines that pushed to the same branch
-as you between when you pulled and you pushed.  Merging can fail, but that
-represents some actual file-level conflict vs. a timing issue (someone beat you to the &#8216;push&#8217;).
-A proper &#8216;commit&#8217; can&#8217;t fail because it is local.</p>
+<p>Clearly the three make sense with project collaboration, and all three are used by Changers and Watchers.  The nucleus
+aspect becomes critical when we add the machines in:</p>
 
-<h3>Repositories and branches</h3>
+<p><img src="/images/add2-1/add2_fourthIngredient1.png" /></p>
 
-<p>At least to begin, all these solutions will use a standard centralized repository approach
-and generally not use branches.  So you don&#8217;t have to worry about git&#8217;s ability to
-deal with many remotes and which branch a given git repository is using.  By default
-at any current moment there is only</p>
+<p>And here we can see that although machines may interact with Changes and Watchers, the EC2 servers themselves are
+not critical for Changers and Watchers to interact with each other.  Except in the sense that a deployed application
+is effectively in the core (for the ADD) or a published book or automobile would be back in the core if that is what
+was being built.</p>
 
-<ul>
-<li> local: &#8216;master&#8217; <-> remote: origin/master</li>
-</ul>
+<p>Note that &#8216;Annexes&#8217; are part of the Nucleus.  You need annexed repositories for GitHub to be a practical collaboration
+tool as resources become large.</p>
 
+<h2>The Rings</h2>
 
-<p>where things get interesting because there could be 100 different machines each with their own &#8216;local&#8217;.</p>
+<p>So the ADD requires this inner nucleus plus &#8216;the machines&#8217;, and in the other series, the tools and system components
+built out layers of rings.  As the rings worked outward, a specific ADD was defined (e.g. one that was Linux and Java
+oriented) or a specific application architecture was defined (e.g. on that had workers and relational databases).  The
+rings are good rings, but could easily (even necessarily) be swapped with other good rings depending on the technology
+the team is familiar with and other considerations</p>
 
-<h3>Problems with git / DVCS</h3>
+<p>The rings I recommend follow.</p>
 
-<p>The biggest issue with git and similar DVCSs is that their model doesn&#8217;t work well for large amounts of
-binary assets.  Large amounts of binary assets could occur either because there are a large number of
-assets available at any time but only a subset are needed (so with Perforce or SVN many people would not
-check out those directories) or more commonly, a modest number of binary assets are frequently
-changing.  Because a git repository contains all assets throughout time and to work with a git repository
-you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
+<h3>Ring-1: EC2, Linux-capable workstations, Web Browsers, Email, Talking</h3>
 
-<p>What is a large amount?  That depends on the circumstances, but generally passing 100MB can start to
-become painful depending on the purpose git is being used for.  Having 1GB of textual files in
-a single git repository (even over time) is an unusual thing.  GBs of images is common.</p>
+<p>In the bottom right for the machines, I recommend using EC2 as by-far the most mature and capable cloud computing
+environment.  Once you are familiar with EC2, you can compare to other clouds (Google, IBM, EMC, etc.) but you
+need to see a &#8216;Real Cloud&#8217; before you can evaluate whether another is good enough.  And again, althoug I recommend
+EC2, very little in the ADD is EC2-specific and it is always in the little details.</p>
 
-<p>So our first problems and solution is going to have to deal with this critical issue.</p>
+<p>Having Linux-capable workstations provides the best Git, automation, and EC2 tools.  You can be on Windows, but
+you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
 
-<p>Enter the annex: <a href="/blog/git-about-everything-annex/">Annex</a></p>
+<p>GitHub works fine for reading with Web Browsers, and you can even do updates with it.  HipChat is the same: it
+  has an application, but it is not required.  And although most collaborative activities should be in HipChat,
+  getting email notifications are quite effective.  Finally, like other Agile methodologies, direct &#8216;talking&#8217;
+  is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
+  (HipChat) and similarly make sure anything <em>private</em> never gets into that collaboration environment.</p>
+
+<h3>Ring-2: Linux-Servers, CloudFormation, Bash, PushMePullYou, HipChat notifications</h3>
+
+<p>Ring-2 is where the ADD starts coming truly alive and</p>
 </div>
 
 
@@ -210,12 +199,12 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
   
 
 
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2015-10-23T01:00:00-07:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/git/'>Git</a>
+    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
   
 </span>
 
@@ -224,7 +213,7 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/git-about-everything-intro/" data-via="" data-counturl="http://markfussell.emenar.com/blog/git-about-everything-intro/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/add2-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/add2-1/" >Tweet</a>
   
   
   
@@ -233,10 +222,8 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/scratchonflash/" title="Previous Post: Scratch on Flash">&laquo; Scratch on Flash</a>
+        <a class="basic-alignment left" href="/blog/addstack-10/" title="Previous Post: ADD Stack [Part-10]">&laquo; ADD Stack [Part-10]</a>
       
-      
-        <a class="basic-alignment right" href="/blog/git-about-everything-annex/" title="Next Post: Being a git about everything (Annexing)">Being a git about everything (Annexing) &raquo;</a>
       
     </p>
   </footer>
@@ -345,8 +332,8 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/git-about-everything-intro/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/git-about-everything-intro/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/add2-1/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/add2-1/';
         var disqus_script = 'embed.js';
       
     (function () {

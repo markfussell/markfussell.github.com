@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-23T15:43:10-07:00</updated>
+  <updated>2015-10-24T10:24:00-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) and the ADD Stack – Summary]]></title>
+    <link href="http://markfussell.emenar.com/blog/add2-1/"/>
+    <updated>2015-10-23T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/add2-1</id>
+    <content type="html"><![CDATA[<p>This is the third series describing the ADD: a radically more productive development and delivery environment.  The
+first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
+ of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
+ system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
+ components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
+ and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
+ on top of that IT infrastructure.</p>
+
+<p>This series assumes you have at least skimmed the other two series, but this one is the summary of the other two.
+It is an incremental growth of the architecture in a fairly macro sense, where the details are in the other series.</p>
+
+<h2>The three ingredients</h2>
+
+<p>Wait, it was four a moment ago.  The ADD requires four, but advanced project collaboration requires only three.  And
+at the heart of the ADD is advanced project collaboration.  Collaboration has no 'machines', just people, so we put aside
+one ingredient.  The remaining three are the <em>nucleus</em> of ADD:</p>
+
+<ul>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+</ul>
+
+
+<p>These three ingredients can give individuals and teams 4x or more productivity.  And the reason is the same as for
+ ADD.  There are two critical roles in any project:</p>
+
+<ul>
+<li>Changers</li>
+<li>Watchers</li>
+</ul>
+
+
+<p>The Changers are gonna change, change, change, change and the Watchers are gonna watch, watch, watch, watch.  And
+all of the people involve need to see what is going on (in the best way for them) and not be blocked in getting things
+by others on the project.  They need perfect transparency.  To ultimately build incredible trust, knowledge, and skill.</p>
+
+<p>The three ingredients form the core of a three-way Venn diagram, that I will draw in hexagonal rings.</p>
+
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_threeIngredients1.png" /></p>
+
+<!--more-->
+
+
+<p>Clearly the three make sense with project collaboration, and all three are used by Changers and Watchers.  The nucleus
+aspect becomes critical when we add the machines in:</p>
+
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_fourthIngredient1.png" /></p>
+
+<p>And here we can see that although machines may interact with Changes and Watchers, the EC2 servers themselves are
+not critical for Changers and Watchers to interact with each other.  Except in the sense that a deployed application
+is effectively in the core (for the ADD) or a published book or automobile would be back in the core if that is what
+was being built.</p>
+
+<p>Note that 'Annexes' are part of the Nucleus.  You need annexed repositories for GitHub to be a practical collaboration
+tool as resources become large.</p>
+
+<h2>The Rings</h2>
+
+<p>So the ADD requires this inner nucleus plus 'the machines', and in the other series, the tools and system components
+built out layers of rings.  As the rings worked outward, a specific ADD was defined (e.g. one that was Linux and Java
+oriented) or a specific application architecture was defined (e.g. on that had workers and relational databases).  The
+rings are good rings, but could easily (even necessarily) be swapped with other good rings depending on the technology
+the team is familiar with and other considerations</p>
+
+<p>The rings I recommend follow.</p>
+
+<h3>Ring-1: EC2, Linux-capable workstations, Web Browsers, Email, Talking</h3>
+
+<p>In the bottom right for the machines, I recommend using EC2 as by-far the most mature and capable cloud computing
+environment.  Once you are familiar with EC2, you can compare to other clouds (Google, IBM, EMC, etc.) but you
+need to see a 'Real Cloud' before you can evaluate whether another is good enough.  And again, althoug I recommend
+EC2, very little in the ADD is EC2-specific and it is always in the little details.</p>
+
+<p>Having Linux-capable workstations provides the best Git, automation, and EC2 tools.  You can be on Windows, but
+you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
+
+<p>GitHub works fine for reading with Web Browsers, and you can even do updates with it.  HipChat is the same: it
+  has an application, but it is not required.  And although most collaborative activities should be in HipChat,
+  getting email notifications are quite effective.  Finally, like other Agile methodologies, direct 'talking'
+  is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
+  (HipChat) and similarly make sure anything <em>private</em> never gets into that collaboration environment.</p>
+
+<h3>Ring-2: Linux-Servers, CloudFormation, Bash, PushMePullYou, HipChat notifications</h3>
+
+<p>Ring-2 is where the ADD starts coming truly alive and</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-10]]]></title>
@@ -1006,75 +1100,6 @@ Start out with a metrics system like NewRelic to get a bunch  of valuable things
 and you can later add in new application-specific metrics.
 And get the basics of operational monitoring up early and you will know if the application and the
 IT is reliable long before it gets into the production data center.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-6/"/>
-    <updated>2015-10-17T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-6</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting.</p>
-
-<h2>Which UI framework?</h2>
-
-<p>The <a href="/blog/addstack-4/">fourth article</a> discussed UI alternatives, but it was mostly about 'architectural' alternatives
- and did not recommend a particular framework to use.  I believe that is the correct order: <em>how you use</em> the framework
- is usually more important than the framework itself.  People can correctly and improperly use all kinds of different technology.
-Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
-use it wrong (your thumb is targetable) and you can be seriously hurt.</p>
-
-<p>There are a number of popular frameworks:</p>
-
-<ul>
-<li>Angular</li>
-<li>Ember</li>
-<li>Backbone</li>
-<li>Sencha</li>
-<li>etc.</li>
-</ul>
-
-
-<p>And deciding between them may seem like it should be done as "which has the best features?" but unless
-one of them has a killer feature  that you care about
-(Sencha can run the same code with both a desktop and mobile UI), and is worth its penalties (Sencha
-is proprietary and very 'different') then 'best features' is basically meaningless.  A better question is "Which
-one do I understand the best?" and "Which one can other people on the team learn and share-code the best?".</p>
-
-<!--more-->
-
-
-<p>Taking out 'Sencha' from the above and you get a few different viewpoints on the web:</p>
-
-<ul>
-<li><a href="http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/">http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/</a></li>
-<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
-<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
-</ul>
-
-
-<p>And dropping Backbone, the distinction is really:</p>
-
-<ul>
-<li>Angular – Powerful, dry, and scale-limited framework</li>
-<li>Ember – Less dry, more opinionated, and more scalable</li>
-</ul>
-
-
-<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
-have to be more explicit, but the convention and the explicitness should make the code more readable and
-maintainable.</p>
-
-<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
-in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
-and powerfully-fragile (do something wrong and you get a terribly visible break) that you can't really use it wrong.
-Ember appears to have the advantages of Rails and Grails... as the framework innately 'works' you can't
-really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
-decide early whether you want complete alignment.</p>
 ]]></content>
   </entry>
   
