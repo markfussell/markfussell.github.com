@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cloud | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-24T17:22:19-07:00</updated>
+  <updated>2015-10-24T18:00:14-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -81,15 +81,19 @@ whatever "<em>factory</em>" created the product.</p>
 
 <h2>The Rings</h2>
 
-<p>So the ADD requires this inner nucleus plus 'the machines', and in the other series, the tools and system components
-built out layers of rings.  As the rings worked outward, a specific ADD was defined (e.g. one that was Linux and Java
-oriented) or a specific application architecture was defined (e.g. on that had workers and relational databases).  The
-rings are good rings, but could easily (even necessarily) be swapped with other good rings depending on the technology
-the team is familiar with and other considerations</p>
+<p>So the ADD works outward from the inner collaboration nucleus plus 'the machines'.  In the other series, the tools and
+system components built out more and more functionality.  They were not described this way at the time, but
+they could be viewed as rings around rings.  As the rings worked outward, a specific ADD was defined
+(e.g. one that was Linux and Java oriented) or a specific application architecture was defined
+(e.g. on that had workers and relational databases).  All the rings are "good rings" in my experience, but
+especially as you get further out each ring could be swapped with an alternative 'implementation' that
+ may be more familiar to the team or somewhat more suited to the domain.</p>
 
-<p>The rings I recommend follow.</p>
+<p>The rings I recommend (and recommended in the series) follow.</p>
 
-<h3>Ring-1: EC2, Linux-capable workstations, Web Browsers, Email, Talking</h3>
+<h3>Ring-1: Interacting with the Nucleus; EC2, Linux-capable workstations, Web Browsers, Email, Talking</h3>
+
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring1.png" /></p>
 
 <p>In the bottom right for the machines, I recommend using EC2 as by-far the most mature and capable cloud computing
 environment.  Once you are familiar with EC2, you can compare to other clouds (Google, IBM, EMC, etc.) but you
@@ -105,9 +109,23 @@ you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
   is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
   (HipChat) and similarly make sure anything <em>private</em> never gets into that collaboration environment.</p>
 
-<h3>Ring-2: Linux-Servers, CloudFormation, Bash, PushMePullYou, HipChat notifications</h3>
+<h3>Ring-2: The machines react and collaborate; Linux-Servers, CloudFormation, Bash, PushMePullYou, HipChat notifications</h3>
 
-<p>Ring-2 is where the ADD starts coming truly alive and</p>
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring2.png" /></p>
+
+<p>Ring-2 is where the ADD starts coming truly alive and the machines 'react' to the ADD infrastructure as well as
+ notify the ADD infrastructure of what is going on.  Generally Linux-Servers (ec2 defaults to a Centos variant)
+ are the most flexible, documented, and capable on the AWS (and most other) cloud infrastructures.  So this
+ is an obvious choice.  Using CloudFormations is not required, but is a very simple to understand model and
+ well supported in AWS.  Defaulting to using 'bash' for scripting basically makes you 'agnostic' beyond the Linux
+ part.  People who don't know bash programming 'bash on bash', but it is a perfectly reasonable scripting language
+ with slightly esoteric notation.</p>
+
+<p> The PushMePullYou model is the core to mass, understandable, and fast automation.  You don't touch machines, you
+ touch Git repositories, push the request (letting everyone know the request), and the machines pull it and react
+ as appropriate.</p>
+
+<p> Finally, Git, machines, and other components should always post into HipChat so people can see what they are doing.</p>
 ]]></content>
   </entry>
   
