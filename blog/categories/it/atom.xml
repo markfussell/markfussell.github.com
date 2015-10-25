@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-24T18:00:14-07:00</updated>
+  <updated>2015-10-25T06:08:55-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -91,7 +91,7 @@ especially as you get further out each ring could be swapped with an alternative
 
 <p>The rings I recommend (and recommended in the series) follow.</p>
 
-<h3>Ring-1: Interacting with the Nucleus; EC2, Linux-capable workstations, Web Browsers, Email, Talking</h3>
+<h3>Ring-1: Interacting with the Nucleus; EC2, Linux-capable workstations, Web Browsers, Email, and Talking</h3>
 
 <p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring1.png" /></p>
 
@@ -109,9 +109,9 @@ you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
   is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
   (HipChat) and similarly make sure anything <em>private</em> never gets into that collaboration environment.</p>
 
-<h3>Ring-2: The machines react and collaborate; Linux-Servers, CloudFormation, Bash, PushMePullYou, HipChat notifications</h3>
+<h3>Ring-2: The machines react and collaborate; Linux-Servers, CloudFormation, Bash, PushMePullYou, Vagrant, and HipChat notifications</h3>
 
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring2.png" /></p>
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring2b.png" /></p>
 
 <p>Ring-2 is where the ADD starts coming truly alive and the machines 'react' to the ADD infrastructure as well as
  notify the ADD infrastructure of what is going on.  Generally Linux-Servers (ec2 defaults to a Centos variant)
@@ -124,6 +124,8 @@ you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
 <p> The PushMePullYou model is the core to mass, understandable, and fast automation.  You don't touch machines, you
  touch Git repositories, push the request (letting everyone know the request), and the machines pull it and react
  as appropriate.</p>
+
+<p> Developers/changers can use Vagrant to run and test everything very much like production is running.</p>
 
 <p> Finally, Git, machines, and other components should always post into HipChat so people can see what they are doing.</p>
 ]]></content>
