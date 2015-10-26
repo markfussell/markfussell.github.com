@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IT | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/it/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-26T09:49:57-07:00</updated>
+  <updated>2015-10-26T09:55:39-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -114,9 +114,9 @@ you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
 <p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring2b.png" /></p>
 
 <p>Ring-2 is where the ADD starts coming truly alive and the machines 'react' to the ADD infrastructure as well as
- notify the ADD infrastructure of what is going on.  Generally Linux-Servers (ec2 defaults to a Centos variant)
+ notify the ADD infrastructure of what is going on.  Linux-based servers (ec2 defaults to a Centos variant)
  are the most flexible, documented, and capable on the AWS (and most other) cloud infrastructures.  So this
- is an obvious choice.  Using CloudFormations is not required, but is a very simple to understand model and
+ is an obvious choice.  Using Amazon CloudFormations is not required, but is a very simple to understand model and
  well supported in AWS.  Defaulting to using 'bash' for scripting basically makes you 'agnostic' beyond the Linux
  part.  People who don't know bash programming 'bash on bash', but it is a perfectly reasonable scripting language
  with slightly esoteric notation.</p>
@@ -144,14 +144,14 @@ you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
 
 <p>Ring-4 finishes off most of our application functionality.  We need to pick a UI framework beyond
  generating web pages / CSS / jQuery (those are all part of Grails) if we want functionality beyond
- the core UI from Grails.  And we can augment our application servers with any of a host of
+ the core UI from Grails / Spring.  And we can augment our application servers with any of a host of
  components / technologies (as few as possible, but better to use them then to build ourselves...
  usually).</p>
 
 <h2>Conclusion</h2>
 
-<p>The ADD can be though of as rings around a core collaboration core.  The core and the first
-two rings really define the ADD approach and it's benefits, where subsequent rings tailor
+<p>The ADD can be thought of as rings around a "collaboration nucleus".  The nucleus and the first
+two rings define the ADD approach and it's benefits, where the subsequent rings tailor
 the ADD to the characteristics of good software development and high-quality
 production deployment.</p>
 ]]></content>
