@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Automation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/automation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-25T06:08:55-07:00</updated>
+  <updated>2015-10-26T09:49:57-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -125,9 +125,35 @@ you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
  touch Git repositories, push the request (letting everyone know the request), and the machines pull it and react
  as appropriate.</p>
 
-<p> Developers/changers can use Vagrant to run and test everything very much like production is running.</p>
+<p> Developers/changers can use Vagrant to run and test everything very much like production is running, including having
+  their local machines come into the PushMePullYou model.</p>
 
 <p> Finally, Git, machines, and other components should always post into HipChat so people can see what they are doing.</p>
+
+<h3>Ring-3: An opinionated Java stack and good monitoring / logging: Grails, Spring, Maria, SumoLogic etc.</h3>
+
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring3.png" /></p>
+
+<p>Ring-3 augments the ADD into a good Java-based stack.  Both in production (a JVM running Tomcat) and
+ for development (IntelliJ with a Grails/Spring stack).  By this ring we can develop software, deploy
+ it, and monitor whether it is functioning properly.</p>
+
+<h3>Ring-4: A good UI framework and any other system components needed: Angular, Redis, etc.</h3>
+
+<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring4.png" /></p>
+
+<p>Ring-4 finishes off most of our application functionality.  We need to pick a UI framework beyond
+ generating web pages / CSS / jQuery (those are all part of Grails) if we want functionality beyond
+ the core UI from Grails.  And we can augment our application servers with any of a host of
+ components / technologies (as few as possible, but better to use them then to build ourselves...
+ usually).</p>
+
+<h2>Conclusion</h2>
+
+<p>The ADD can be though of as rings around a core collaboration core.  The core and the first
+two rings really define the ADD approach and it's benefits, where subsequent rings tailor
+the ADD to the characteristics of good software development and high-quality
+production deployment.</p>
 ]]></content>
   </entry>
   
