@@ -1,0 +1,149 @@
+---
+layout: post
+title: "Advanced Development and Delivery (ADD) and the ADD Stack – Summary"
+date: 2015-10-23 1:00
+comments: true
+categories: IT Automation Cloud Git ADD Grails Stack
+---
+
+This is the third series describing the ADD: a radically more productive development and delivery environment.  The
+first series starts here: [Advanced Development and Delivery](/blog/add-1/) and described the core four ingredients
+ of the ADD.  The second series starts here: [ADD Stack](/blog/addstack-1/) and described the application stack and
+ system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
+ components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
+ and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
+ on top of that IT infrastructure.
+ 
+This series assumes you have at least skimmed the other two series, but this one is the summary of the other two.
+It is an incremental growth of the architecture in a fairly macro sense, where the details are in the other series.
+
+## The three ingredients
+
+Wait, it was four a moment ago.  The ADD requires four, but advanced project collaboration requires only three.  And
+at the heart of the ADD is advanced project collaboration.  Collaboration has no 'machines', just people, so we put aside
+one ingredient.  The remaining three are the _nucleus_ of ADD:
+
+  * GitHub.com <http://github.com/>
+  * HipChat    <http://HipChat.com/>
+  * Amazon S3  <http://aws.amazon.com/>
+
+These three ingredients can give individuals and teams 4x or more productivity.  And the reason is the same as for 
+ ADD.  There are two critical roles in any project:
+
+  * Changers
+  * Watchers
+  
+The Changers are gonna change, change, change, change and the Watchers are gonna watch, watch, watch, watch.  And
+all of the people involve need to see what is going on (in the best way for them) and not be blocked getting things 
+done by others on the project.  They need perfect transparency.  Which will ultimately build incredible trust, 
+knowledge, and skill.
+
+The three ingredients form the core of a three-way Venn diagram, that I will draw in hexagonal rings.
+
+<img src="/images/add2-1/add2_threeIngredients1.png" />
+
+<!--more-->
+
+Clearly the three make sense with project collaboration, and all three are used by Changers and Watchers.  
+Note that 'Annexes' are part of the collaboration nucleus.  You need annexed repositories for GitHub to be a practical collaboration
+tool as resources become large.
+
+### The fourth ingredient and full ADD nucleus
+
+Now adding the machines in, we get:
+
+<img src="/images/add2-1/add2_fourthIngredient1.png" />
+
+And seeing the transformation from the three-ingredient version, we can see the EC2 servers are
+not critical for Changers and Watchers to interact with each other.  Except in the sense that any final product 
+is part of the nucleus that Changers and Watchers want to work on.  For ADD it is a deployed application which 
+might be on an EC2 server, and for other product development (books, cars, etc.) it would be that _product_ vs. 
+whatever "_factory_" created the product.
+
+
+## The Rings
+
+So the ADD works outward from the inner collaboration nucleus plus 'the machines'.  In the other series, the tools and 
+system components built out more and more functionality.  They were not described this way at the time, but 
+they could be viewed as rings around rings.  As the rings worked outward, a specific ADD was defined 
+(e.g. one that was Linux and Java oriented) or a specific application architecture was defined 
+(e.g. on that had workers and relational databases).  All the rings are "good rings" in my experience, but
+especially as you get further out each ring could be swapped with an alternative 'implementation' that 
+ may be more familiar to the team or somewhat more suited to the domain.
+ 
+The rings I recommend (and recommended in the series) follow.
+
+### Ring-1: Interacting with the Nucleus; EC2, Linux-capable workstations, Web Browsers, Email, and Talking
+
+<img src="/images/add2-1/add2_ring1.png" />
+
+In the bottom right for the machines, I recommend using EC2 as by-far the most mature and capable cloud computing 
+environment.  Once you are familiar with EC2, you can compare to other clouds (Google, IBM, EMC, etc.) but you
+need to see a 'Real Cloud' before you can evaluate whether another is good enough.  And again, althoug I recommend
+EC2, very little in the ADD is EC2-specific and it is always in the little details.
+
+Having Linux-capable workstations provides the best Git, automation, and EC2 tools.  You can be on Windows, but
+you will be punished.  Even worse when Ring-2 recommends Linux-Servers.
+  
+GitHub works fine for reading with Web Browsers, and you can even do updates with it.  HipChat is the same: it 
+  has an application, but it is not required.  And although most collaborative activities should be in HipChat,
+  getting email notifications are quite effective.  Finally, like other Agile methodologies, direct 'talking' 
+  is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
+  (HipChat) and similarly make sure anything _private_ never gets into that collaboration environment.
+  
+### Ring-2: The machines react and collaborate; Linux-Servers, CloudFormation, Bash, PushMePullYou, Vagrant, and HipChat notifications
+
+<img src="/images/add2-1/add2_ring2b.png" />
+
+Ring-2 is where the ADD starts coming truly alive and the machines 'react' to the ADD infrastructure as well as
+ notify the ADD infrastructure of what is going on.  Linux-based servers (ec2 defaults to a Centos variant)
+ are the most flexible, documented, and capable on the AWS (and most other) cloud infrastructures.  So this 
+ is an obvious choice.  Using Amazon CloudFormations is not required, but is a very simple to understand model and 
+ well supported in AWS.  Defaulting to using 'bash' for scripting basically makes you 'agnostic' beyond the Linux
+ part.  People who don't know bash programming 'bash on bash', but it is a perfectly reasonable scripting language
+ with slightly esoteric notation.
+ 
+ The PushMePullYou model is the core to mass, understandable, and fast automation.  You don't touch machines, you
+ touch Git repositories, push the request (letting everyone know the request), and the machines pull it and react
+ as appropriate.
+     
+ Developers/changers can use Vagrant to run and test everything very much like production is running, including having
+  their local machines come into the PushMePullYou model.
+ 
+ Finally, Git, machines, and other components should always post into HipChat so people can see what they are doing.
+ 
+### Ring-3: An opinionated Java stack and good monitoring / logging: Grails, Spring, Maria, SumoLogic etc.
+
+<img src="/images/add2-1/add2_ring3.png" />
+
+Ring-3 augments the ADD into a good Java-based stack.  Both in production (a JVM running Tomcat) and
+ for development (IntelliJ with a Grails/Spring stack).  By this ring we can develop software, deploy
+ it, and monitor whether it is functioning properly.
+ 
+### Ring-4: A good UI framework and any other system components needed: Angular, Redis, etc.
+
+<img src="/images/add2-1/add2_ring4.png" />
+
+Ring-4 finishes off most of our application functionality.  We need to pick a UI framework beyond
+ generating web pages / CSS / jQuery (those are all part of Grails) if we want functionality beyond
+ the core UI from Grails / Spring.  And we can augment our application servers with any of a host of 
+ components / technologies (as few as possible, but better to use them then to build ourselves...
+ usually).
+ 
+## Conclusion
+
+The ADD can be thought of as rings around a "collaboration nucleus".  The nucleus and the first 
+two rings define the ADD approach and it's benefits, where the subsequent rings tailor 
+the ADD to the characteristics of good software development and high-quality 
+production deployment.  
+  
+
+     
+ 
+   
+   
+
+
+
+  
+
