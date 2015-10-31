@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-26T09:55:39-07:00</updated>
+  <updated>2015-10-30T18:41:59-07:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ADD: Estimation and COSMIC]]></title>
+    <link href="http://markfussell.emenar.com/blog/cosmic_add-1/"/>
+    <updated>2015-10-23T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/cosmic_add-1</id>
+    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive development and delivery environment.<br/>
+The first series starts here: <a href="http://markfussell.emenar.com/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
+ of the ADD.  The second series starts here: <a href="http://markfussell.emenar.com/blog/addstack-1/">ADD Stack</a> and described the application stack and
+ system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
+components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
+and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
+on top of that IT infrastructure.
+The third series starts here: <a href="http://markfussell.emenar.com/blog/add2-1">Advanced Development and Delivery Summary</a>
+ and gave an executive summary of the ADD.</p>
+
+<p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
+ estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
+ quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
+ to do a project and (b) whether the people you have are not up-to-snuff.  If you <em>know</em> you have to do
+ a project and you <em>have</em> certain people: don&#8217;t worry about the estimate.  It is irrelevant.  Just &#8220;wing it&#8221;.
+ But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
+ figuring out how good your team is after you do a project, then estimations are the core benchmark to
+ give you feedback.</p>
+
+<h2>Estimation is crazy-hard</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Advanced Development and Delivery (ADD) and the ADD Stack – Summary]]></title>
@@ -4964,191 +4992,6 @@ what the previous state is/was.</p>
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-3]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-3/"/>
-    <updated>2015-10-01T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-3</id>
-    <content type="html"><![CDATA[<p>This is the third installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the
-first part of the Vagrant bootstrap.</p>
-
-<h2>EC2</h2>
-
-<p>The Vagrant bootstrap occurred through &#8216;bash&#8217; files that shaped (put shape information into files) and
-the &#8216;init&#8217; itself to get access to the repo (repo2) that contains the true configuration.  For EC2
-the same thing happens within a CloudFormation template.  The code of the &#8216;init&#8217; is almost identical, but because
-it is in a JSON file there is a lot of noise as the string gets concatenated together.</p>
-
-<!-- more -->
-
-
-<h3>Shaping</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;TemplateConstant&quot;</span> <span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;stacktype&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;ControlServer1&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;initgitrepo&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo2_petulant-cyril&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;nodepart&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;controlnode&quot;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="err">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'>        <span class="s2">&quot;files&quot;</span> <span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="nt">&quot;/root/nodeinfo/stacktype.txt&quot;</span> <span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nt">&quot;content&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span class='line'>              <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;stacktype&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span>
-</span><span class='line'>              <span class="s2">&quot;&quot;</span>
-</span><span class='line'>            <span class="p">]]},</span>
-</span><span class='line'>            <span class="nt">&quot;mode&quot;</span>  <span class="p">:</span> <span class="s2">&quot;000700&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="nt">&quot;owner&quot;</span> <span class="p">:</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="nt">&quot;group&quot;</span> <span class="p">:</span> <span class="s2">&quot;root&quot;</span>
-</span><span class='line'>          <span class="p">},</span>
-</span><span class='line'>          <span class="nt">&quot;/root/nodeinfo/initgitrepo.txt&quot;</span> <span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nt">&quot;content&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span class='line'>              <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;initgitrepo&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span>
-</span><span class='line'>              <span class="s2">&quot;&quot;</span>
-</span><span class='line'>            <span class="p">]]},</span>
-</span><span class='line'>            <span class="nt">&quot;mode&quot;</span>  <span class="p">:</span> <span class="s2">&quot;000700&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="nt">&quot;owner&quot;</span> <span class="p">:</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="nt">&quot;group&quot;</span> <span class="p">:</span> <span class="s2">&quot;root&quot;</span>
-</span><span class='line'>          <span class="p">},</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Init</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'>    <span class="s2">&quot;UserData&quot;</span>       <span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Base64&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::Join&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">[</span>
-</span><span class='line'>      <span class="s2">&quot;#!/bin/bash -v\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;yum update -y aws-cfn-bootstrap\n&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;# Helper function\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;function error_exit\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;{\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;  /opt/aws/bin/cfn-signal -e 1 -r \&quot;$1\&quot; &#39;&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;WaitHandle&quot;</span> <span class="p">},</span> <span class="s2">&quot;&#39;\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;  exit 1\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;}\n&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;# Install LAMP packages\n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;/opt/aws/bin/cfn-init -s &quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::StackName&quot;</span> <span class="p">},</span> <span class="s2">&quot; -r PrimaryLaunchConfig &quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;    --access-key &quot;</span><span class="p">,</span>  <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;HostKeys&quot;</span> <span class="p">},</span>
-</span><span class='line'>      <span class="s2">&quot;    --secret-key &quot;</span><span class="p">,</span> <span class="p">{</span><span class="nt">&quot;Fn::GetAtt&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;HostKeys&quot;</span><span class="p">,</span> <span class="s2">&quot;SecretAccessKey&quot;</span><span class="p">]},</span>
-</span><span class='line'>      <span class="s2">&quot;    --region &quot;</span><span class="p">,</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::Region&quot;</span> <span class="p">},</span> <span class="s2">&quot; || error_exit &#39;Failed to run cfn-init&#39;\n&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;yum -y install git \n&quot;</span><span class="p">,</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="s2">&quot;echo &#39;Fetch s3cmd to get credentials&#39; \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;mkdir /root/download/ \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;pushd /root/download/ \n&quot;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s2">&quot;git clone git://github.com/s3tools/s3cmd.git \n&quot;</span><span class="p">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Launching and Clusters</h3>
-
-<p>A CloudFormation can provision a single server, but it is used more for clusters.  Instead of creating a server, we create
-a server definition and then say how many servers we want.  The &#8216;PrimaryServerGroup&#8217; defines this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;PrimaryServerGroup&quot;</span> <span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;Type&quot;</span> <span class="p">:</span> <span class="s2">&quot;AWS::AutoScaling::AutoScalingGroup&quot;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nt">&quot;Properties&quot;</span> <span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;Tags&quot;</span><span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:stacktype&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;stacktype&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">},</span>
-</span><span class='line'>      <span class="p">{</span> <span class="nt">&quot;Key&quot;</span><span class="p">:</span> <span class="s2">&quot;add:nodepart&quot;</span><span class="p">,</span> <span class="nt">&quot;Value&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::FindInMap&quot;</span> <span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;TemplateConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;nodepart&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span> <span class="p">]</span> <span class="p">},</span> <span class="nt">&quot;PropagateAtLaunch&quot;</span> <span class="p">:</span> <span class="s2">&quot;true&quot;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">],</span>
-</span><span class='line'>    <span class="nt">&quot;AvailabilityZones&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Fn::GetAZs&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
-</span><span class='line'>    <span class="nt">&quot;LaunchConfigurationName&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;Ref&quot;</span> <span class="p">:</span> <span class="s2">&quot;PrimaryLaunchConfig&quot;</span> <span class="p">},</span>
-</span><span class='line'>    <span class="nt">&quot;MinSize&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;MaxSize&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;DesiredCapacity&quot;</span> <span class="p">:</span> <span class="s2">&quot;1&quot;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="err">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that it ends with &#8216;1&#8217;, &#8216;1&#8217;, &#8216;1&#8217; meaning this is just a single server.  But those numbers can be changed at any time.</p>
-
-<p>Given the DesiredCapacity is &#8216;1&#8217;, if you ever kill a server, a new one will be spun up.</p>
-
-<h3>EC2 Keypairs</h3>
-
-<p>Another difference of the EC2 model is that EC2 holds onto the keypair that is used for logging into it.  So that information
-doesn&#8217;t need to be exposed.  And further, the EC2 version creates a special &#8216;IAM&#8217; agent for the machine.</p>
-
-<h3>EC2 Dashboard</h3>
-
-<p>The dashboard shows some standard EC2 properties along with the add:stacktype and add:nodepart.  The nodepart shows the
-kind of node it is (say a load-balancer vs. a game server) and is used within the bootstrap to put the right software
-onto the machine.  The &#8216;nodepart&#8217; and the &#8216;stacktype&#8217; are the core DNA switches of a server.  Later we will add in
-&#8216;federation&#8217; which primarily configures the size of the node (e.g. no &#8216;small&#8217; in production)</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-3/add3_ec2_cv1.png" /></p>
 ]]></content>
   </entry>
   
