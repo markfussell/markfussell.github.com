@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-30T18:46:43-07:00</updated>
+  <updated>2015-11-20T09:55:53-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -14,30 +14,113 @@
 
   
   <entry>
-    <title type="html"><![CDATA[ADD: Estimation and COSMIC]]></title>
-    <link href="http://markfussell.emenar.com/blog/cosmic_add-1/"/>
+    <title type="html"><![CDATA[ADD: READ]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-2/"/>
+    <updated>2015-11-20T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/read-2</id>
+    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
+environment.  This series is on estimation, and the first part is here: <a href="http://markfussell.emenar.com/blog/read-1">ADD: Estimation</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD: Estimation]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-1/"/>
     <updated>2015-10-23T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/cosmic_add-1</id>
+    <id>http://markfussell.emenar.com/blog/read-1</id>
     <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
 environment.  The first series starts here: <a href="http://markfussell.emenar.com/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
 of the ADD.  The second series starts here: <a href="http://markfussell.emenar.com/blog/addstack-1/">ADD Stack</a> and described the application stack and
 system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
 components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
 and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
-on top of that IT infrastructure.
-The third series starts here: <a href="http://markfussell.emenar.com/blog/add2-1">Advanced Development and Delivery Summary</a>
+on top of that IT infrastructure. The third series starts here: <a href="http://markfussell.emenar.com/blog/add2-1">Advanced Development and Delivery Summary</a>
 and gave an executive summary of the ADD.</p>
 
 <p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
  estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
  quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
- to do a project and (b) whether the people you have are not up-to-snuff.  If you <em>know</em> you have to do
+ to do a project and (b) whether the people you have are up-to-snuff.  If you <em>know</em> you have to do
  a project and you <em>have</em> certain people: don&#8217;t worry about the estimate.  It is irrelevant.  Just &#8220;wing it&#8221;.
  But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
  figuring out how good your team is after you do a project, then estimations are the core benchmark to
  give you feedback.</p>
 
 <h2>Estimation is crazy-hard</h2>
+
+<p>The problem with estimating is you can&#8217;t be good at it unless you have done something very similar before.  But
+most workers in an industry are relatively new to it: less than ten years.  And if each project takes a couple
+years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
+change roles, or change organization, and your estimates are likely poorly based.</p>
+
+<p>When something is too hard for someone to do, you need to decompose it to make it (a) easier and (b) seperable.</p>
+
+<h2>A Framework: READ</h2>
+
+<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which is I believe the core
+to being a great programmer: read great programmers&#8217; code and you will learn from it.  It may be hard to find
+great code to read, but you can always start with Smalltalk or find some epic system close to the
+kinds of systems you build.</p>
+
+<p>Working through possible acronyms for the bigger software development process, I stumbled upon my favorite word: &#8220;READ&#8221;.
+All software is developed through this simple approach and acronym:</p>
+
+<ul>
+<li>Requirements – What is the problem, and what is your solution to that problem?</li>
+<li>Estimation – What is the estimate of the <em>size</em> of the solution?  Note this is before any technology has been picked.  It is the functional size and not the delivery estimate</li>
+<li>Architecture – What is the architecture and technology you want to use to deliver this solution</li>
+<li>Delivery – Now deliver.  If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
+</ul>
+
+
+<p>And a bonus:</p>
+
+<ul>
+<li>Over – Now either be done or start over (if iterative) until the solution solves the real problem.
+
+<ul>
+<li>This requires &#8220;Delta&#8221; size estimation.  How much is being added to or modified about a system</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Estimation of Solution Size</h3>
+
+<p>The hard part is doing Estimation of Solution Size without getting pulled into the details of architecture and delivery.  We are not
+yet good at this as an industry.  We need a body of knowledge and a system to estimate the size of a solution
+ independent of the architecture chosen and the team that delivers.  If we have this, we can finally <em>measure</em>
+ something useful.  Actually we can measure <em>a lot</em> of useful things.</p>
+
+<ul>
+<li>What is the ROI of the solution?  If the solution is really big, there are very few architectures and delivery teams that are going to dramatically reduce the cost</li>
+<li>How well do certain architectures do against a particular solution?  For a given delivery team, you can see what they are good at or not.  Going across delivery teams, you may be able to identify <em>better</em> architectures vs. <em>more familiar</em> to the team.
+
+<ul>
+<li>What are the differences between the architectures that cause these effects?</li>
+<li>Should we change architectures or train more in an architecture?</li>
+</ul>
+</li>
+<li>How well do the delivery teams deliver?  Especially if the solution is about the same size, and the architecture is the same, you should start seeing better and worse results.
+
+<ul>
+<li>What are the differences between the teams that cause this effect?</li>
+<li>Can we improve the numbers?</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Estimation of solution size has been attempted with Function Points and more recently with COSMIC Function Points. I
+think using the term &#8220;point&#8221; is not quite right, so I am going to recommend being more creative although just a
+simple twist on the word.  I propose &#8216;joint&#8217; to capture complexity.  Things with more joints are usually more
+complex, and it is relatively linear or even somewhat exponential as you increase the joint count.</p>
+
+<h3>Joints</h3>
+
+<p>So what should constitute a &#8216;joint&#8217;?  With very little effort in evaluating it (will be starting soone), I believe COSMIC
+is a valid starting methodology.  So a COSMIC Point is a Joint.  Not much difference, but at least it splits the
+  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?</p>
 ]]></content>
   </entry>
   
@@ -4631,367 +4714,6 @@ to the working script:</p>
 that action.  Finally we can have human augmentation like &#8220;@Team New version is up on the development server&#8221;
 to transform something technical to something more meaningful.  With proper use of colors, the state
 of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-4]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-4/"/>
-    <updated>2015-10-01T03:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-4</id>
-    <content type="html"><![CDATA[<p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
-
-<h2>Node initialization</h2>
-
-<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages &#8216;host&#8217; virtual
-disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
-In both cases the very last thing the node does in the bootstrap is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
-</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
-</span><span class='line'>include it/nodeinit/common/init.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<p>It is an &#8216;include/source&#8217; to make sure it is at the same level as the initial bootstrap script.  For EC2 this affects
-logging, so continual sourcing is preferred.  In other cases, the &#8216;source&#8217; enables sub-scripts to set values for subsequent
-scripts where subshells are more isolated.</p>
-
-<h3>init.sh</h3>
-
-<p>The init script first figures out where it is and sets up some important paths.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#===================================================</span>
-</span><span class='line'><span class="c">#=== Want DIR to be root of the &#39;nodeinit&#39; directory</span>
-</span><span class='line'><span class="c">#===================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;$( cd -P &quot;</span><span class="k">$(</span> dirname <span class="s2">&quot;${BASH_SOURCE[0]}&quot;</span> <span class="k">)</span><span class="s2">&quot; &amp;&amp; pwd )/../&quot;</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">RESOURCE</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/resource
-</span><span class='line'><span class="nb">export </span><span class="nv">COMMON</span><span class="o">=</span><span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>/common
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>cron_1m.sh</h3>
-
-<p>It then gets some AWS resources, sets up a shared &#8216;cron&#8217;, and so on.  I like a single &#8216;cron&#8217; job running every minute
-so it is easy to understand what is going on.  This is the &#8216;heartbeat&#8217; of the server configuration infrastructure: a
-server can want to change any &#8216;minute&#8217;.  They look every minute for something that makes them want to change and
-then they launch an activity.  The look need to be fast: take about a second or two per &#8216;look&#8217; and not cause much load.
-But the &#8216;change&#8217; does not have to be fast: it could take minutes to reconfigure based on the change.  So while
-changing, the &#8216;looking&#8217; is disabled.  For example, deploying a new WAR can take a while.  The server stops looking
-for new WARs when deploying a WAR.  Then starts looking again when it is back online.</p>
-
-<p>At scale (say 100 servers) with servers all on NTP this one-minute rhythm can cause resource rushing.  To
-counter that we need to &#8216;jitter&#8217; the servers so they work on a different
-second of the minute, or even as much as minutes later at super-scale (1000 servers).
-That is done within the cron_1m.sh script after the look has established something needs to be done.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/bin
-</span><span class='line'>cp <span class="k">${</span><span class="nv">RESOURCE</span><span class="k">}</span>/cron_1m.sh /root/bin/cron_1m.sh
-</span><span class='line'>chmod +x /root/bin/cron_1m.sh
-</span><span class='line'>
-</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt; /var/spool/cron/root</span>
-</span><span class='line'><span class="s">MAILTO=&quot;&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="s">* * * * *  /root/bin/cron_1m.sh</span>
-</span><span class='line'><span class="s">EOS</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>More specific initialization</h3>
-
-<p>The above activities are done for any node.  They all need to have heartbeats and some other common resources.
-But beyond that, it depends on the type of node and the type of stack what should be put on a particular node.
-This is done by simple &#8216;includes&#8217; with the &#8216;nodeinfo&#8217; that came from the configuration.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
-</span><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/init.sh
-</span><span class='line'>include <span class="k">${</span><span class="nv">DIR</span><span class="k">}</span>stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/init.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can see the layout in the directory picture.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-2/vag1_20151001b.png" /></p>
-
-<p>As of that picture, no &#8216;part&#8217; or &#8216;stacktype&#8217; exists.  So a machine that is brought up is simply a heart-beating server,
-but a heart-beating server that can mutate on command every minute.</p>
-
-<h2>What are nodes doing every minute?</h2>
-
-<p>The next cool feature of ADD is that nodes do work based on the state of git repositories.  For any given repository, they
-look for a &#8216;work.sh&#8217; file within a &#8216;nodework&#8217; directory for either all types of nodes (i.e. common again), or the specific
-type of node they are.  So just like the other &#8216;include&#8217; we get:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>        bash_ifexist bin/nodework/common/work.sh
-</span><span class='line'>        bash_ifexist bin/nodework/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/work.sh
-</span><span class='line'>        bash_ifexist bin/nodework/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/work.sh
-</span><span class='line'>        bash_ifexist bin/nodework/stacktype/<span class="sb">`</span>cat /root/nodeinfo/stacktype.txt<span class="sb">`</span>/part/<span class="sb">`</span>cat /root/nodeinfo/nodepart.txt<span class="sb">`</span>/work.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>where the only change is these are not &#8216;sourced&#8217; but executed within a sub-shell since they could do weird things to each other, and
-also this enables them not to block each other (if desired).</p>
-
-<p>All of these &#8216;work&#8217; scripts should quickly determine if anything has changed and then release themselves.  While &#8216;work&#8217; is going on,
- the main cron script is locked out.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>     <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">CURRENT_ACTION_FILE</span><span class="k">}</span> <span class="o">]]</span>; <span class="k">then</span>
-</span><span class='line'>         : <span class="c">#Don&#39;t do anything until the current action completes</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>work.sh</h3>
-
-<p>The main purpose of &#8216;work.sh&#8217; is to detect changes.  Any actual work will be in &#8216;work_ActualWork.sh&#8217;.  In reverse, the ActualWork is
-simply:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So a one-liner appears in the log for the cron job just to prove the &#8216;ActualWork&#8217; was done.</p>
-
-<p>But &#8216;work.sh&#8217; has to do a few things (very quickly) to detect if there are changes of relevance.  It stores files in the &#8216;repo/.temp/add&#8217;
-directory that keeps track of state.  The example &#8216;work.sh&#8217; will detect changes to the repository based on a watched &#8216;path&#8217;.  This
-allows multiple things to use the same git repository but be looking at different parts.  By default they look at the root, but it
-can be changed.  No matter what &#8216;path&#8217; is watched, the version of the &#8216;work&#8217; is always the version of the git repository&#8230; not the path itself.
-In total, there are four &#8216;outer&#8217; states possible:</p>
-
-<ul>
-<li>The version of the work previously done is identical to the version of git now</li>
-<li>The version of the work previously done is different from the version of git now, but the version of the watched path is the same</li>
-<li>The version of the work previously done is different from the version of git now, and the watched path has changed</li>
-<li>There is no work previously done (the first run of the work)</li>
-</ul>
-
-
-<p>Of the above, only the last two should trigger work.  You can branch differently based on the first run or subsequent runs, but
-generally it is best to be &#8216;idempotent&#8217; with the work: you change the state of the server to a new state without caring
-what the previous state is/was.</p>
-
-<p>The &#8216;inner&#8217; state issue is the server could already be doing &#8216;ActualWork&#8217;, so you have to wait until that is done.</p>
-
-<p>The core of the work.sh script is</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">WORK_VERSION</span><span class="o">=</span><span class="nv">$ADD_TEMP</span>/work.sh_VERSION
-</span><span class='line'><span class="nb">export </span><span class="nv">WORK_DOING_VERSION</span><span class="o">=</span><span class="nv">$ADD_TEMP</span>/work.sh_DOING_VERSION
-</span><span class='line'><span class="nb">export </span><span class="nv">WORK_WATCH_PATH</span><span class="o">=</span><span class="nv">$ADD_TEMP</span>/work.sh_WATCH_PATH.txt
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">WORK_WATCH_VALUE</span><span class="o">=</span><span class="sb">`</span>cat <span class="nv">$WORK_WATCH_PATH</span><span class="sb">`</span>
-</span><span class='line'><span class="nb">export </span><span class="nv">PREV_WORK_VERSION</span><span class="o">=</span><span class="sb">`</span>cat <span class="nv">$WORK_VERSION</span><span class="sb">`</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'><span class="c">#=== Now do comparison</span>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">GIT_VERSION</span><span class="o">=</span><span class="sb">`</span>git rev-parse HEAD<span class="sb">`</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">DETECT_GIT_CHANGE</span><span class="o">=</span><span class="sb">`</span>git log --pretty<span class="o">=</span>oneline <span class="k">${</span><span class="nv">PREV_WORK_VERSION</span><span class="k">}</span>..  -- <span class="k">${</span><span class="nv">WORK_WATCH_VALUE</span><span class="k">}</span> | awk <span class="s1">&#39;{print $1}&#39;</span><span class="sb">`</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Compared ${PREV_WORK_VERSION} to ${GIT_VERSION} for ${WORK_WATCH_VALUE} and got ${DETECT_GIT_CHANGE}&quot;</span>
-</span><span class='line'>
-</span><span class='line'>mkdir -p <span class="k">${</span><span class="nv">ADD_TEMP</span><span class="k">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;${DETECT_GIT_CHANGE}&quot;</span> <span class="o">]]</span> ;
-</span><span class='line'><span class="k">then</span>
-</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;Detected Change in Git Version!&quot;</span>;
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -e <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span> <span class="o">]]</span> ;
-</span><span class='line'>    <span class="k">then</span>
-</span><span class='line'><span class="k">       </span><span class="nb">echo</span> <span class="s2">&quot;Already doing `cat ${WORK_DOING_VERSION}`&quot;</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'><span class="k">       </span><span class="nb">echo</span> <span class="nv">$GIT_VERSION</span> &gt; <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span>
-</span><span class='line'>       <span class="nb">source</span> <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/work_ActualWork.sh
-</span><span class='line'>
-</span><span class='line'>       <span class="c">#Update the state.  This also does a clean startup on first run</span>
-</span><span class='line'>
-</span><span class='line'>       <span class="nb">echo</span> <span class="nv">$GIT_VERSION</span> &gt; <span class="k">${</span><span class="nv">WORK_VERSION</span><span class="k">}</span>
-</span><span class='line'>       <span class="nb">echo</span> <span class="nv">$WORK_WATCH_VALUE</span> &gt; <span class="k">${</span><span class="nv">WORK_WATCH_PATH</span><span class="k">}</span>
-</span><span class='line'>
-</span><span class='line'>       rm -fr <span class="k">${</span><span class="nv">WORK_DOING_VERSION</span><span class="k">}</span>
-</span><span class='line'>    <span class="k">fi</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;No change, move along&quot;</span>;
-</span><span class='line'><span class="k">fi</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Speed!</h3>
-
-<p>How fast does this detection take? Basically one second for it to figure out which of the variations it is in, plus the time of the &#8216;git pull&#8217;.  With a
-&#8216;small&#8217; server and a small change, this a single second and basically no load:</p>
-
-<h4>Difference detected: start the work</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cron_1m.sh: Start  20151002-013401
-</span><span class='line'>~/gitrepo/repo2_petulant-cyril ~
-</span><span class='line'>
-</span><span class='line'><span class="o">==</span>&gt; /root/log/cron_1m.sh_error.txt &lt;<span class="o">==</span>
-</span><span class='line'>From github.com:shaklee/repo2_petulant-cyril
-</span><span class='line'>   57f20ff..6f85e76  master     -&gt; origin/master
-</span><span class='line'>
-</span><span class='line'><span class="o">==</span>&gt; /root/log/cron_1m.sh_log.txt &lt;<span class="o">==</span>
-</span><span class='line'>Updating 57f20ff..6f85e76
-</span><span class='line'>Fast-forward
-</span><span class='line'> bin/nodework/common/work.sh | 2 ++
-</span><span class='line'> 1 file changed, 2 insertions<span class="o">(</span>+<span class="o">)</span>
-</span><span class='line'>Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 6f85e76a507ce599f42762ad7bf4ae639884ae12 <span class="k">for  </span>and got 6f85e76a507ce599f42762ad7bf4ae639884ae12
-</span><span class='line'>Detected Change in Git Version!
-</span><span class='line'>Starting ActualWork at 20151002-013402
-</span><span class='line'>Doing the work <span class="k">for </span>6f85e76a507ce599f42762ad7bf4ae639884ae12
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Difference detected (but already doing something)</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cron_1m.sh: Start  20151002-012301
-</span><span class='line'>~/gitrepo/repo2_petulant-cyril ~
-</span><span class='line'>Already up-to-date.
-</span><span class='line'>Compared 7916053bb9f8bc3d952588a87a48da96dda7abe6 to 57f20ff734c8836fa34f938bcc540a89bad9215c <span class="k">for  </span>and got 57f20ff734c8836fa34f938bcc540a89bad9215c
-</span><span class='line'>Detected Change in Git Version!
-</span><span class='line'>Already doing 57f20ff734c8836fa34f938bcc540a89bad9215c
-</span><span class='line'>Skipped missing: bin/nodework/part/controlnode/work.sh
-</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
-</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
-</span><span class='line'>~
-</span><span class='line'>cron_1m.sh: Finish 20151002-012302
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>No Difference</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cron_1m.sh: Start  20151002-012801
-</span><span class='line'>~/gitrepo/repo2_petulant-cyril ~
-</span><span class='line'>Already up-to-date.
-</span><span class='line'>Compared 57f20ff734c8836fa34f938bcc540a89bad9215c to 57f20ff734c8836fa34f938bcc540a89bad9215c <span class="k">for  </span>and got
-</span><span class='line'>No change, move along
-</span><span class='line'>Skipped missing: bin/nodework/part/controlnode/work.sh
-</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/work.sh
-</span><span class='line'>Skipped missing: bin/nodework/stacktype/ControlServer1/part/controlnode/work.sh
-</span><span class='line'>~
-</span><span class='line'>cron_1m.sh: Finish 20151002-012802
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   

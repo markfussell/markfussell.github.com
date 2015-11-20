@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-10-30T18:46:43-07:00</updated>
+  <updated>2015-11-20T09:55:53-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -14,30 +14,113 @@
 
   
   <entry>
-    <title type="html"><![CDATA[ADD: Estimation and COSMIC]]></title>
-    <link href="http://markfussell.emenar.com/blog/cosmic_add-1/"/>
+    <title type="html"><![CDATA[ADD: READ]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-2/"/>
+    <updated>2015-11-20T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/read-2</id>
+    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
+environment.  This series is on estimation, and the first part is here: <a href="/blog/read-1">ADD: Estimation</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD: Estimation]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-1/"/>
     <updated>2015-10-23T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/cosmic_add-1</id>
+    <id>http://markfussell.emenar.com/blog/read-1</id>
     <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
 environment.  The first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
 of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
 system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
 components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
 and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
-on top of that IT infrastructure.
-The third series starts here: <a href="/blog/add2-1">Advanced Development and Delivery Summary</a>
+on top of that IT infrastructure. The third series starts here: <a href="/blog/add2-1">Advanced Development and Delivery Summary</a>
 and gave an executive summary of the ADD.</p>
 
 <p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
  estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
  quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
- to do a project and (b) whether the people you have are not up-to-snuff.  If you <em>know</em> you have to do
+ to do a project and (b) whether the people you have are up-to-snuff.  If you <em>know</em> you have to do
  a project and you <em>have</em> certain people: don't worry about the estimate.  It is irrelevant.  Just "wing it".
  But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
  figuring out how good your team is after you do a project, then estimations are the core benchmark to
  give you feedback.</p>
 
 <h2>Estimation is crazy-hard</h2>
+
+<p>The problem with estimating is you can't be good at it unless you have done something very similar before.  But
+most workers in an industry are relatively new to it: less than ten years.  And if each project takes a couple
+years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
+change roles, or change organization, and your estimates are likely poorly based.</p>
+
+<p>When something is too hard for someone to do, you need to decompose it to make it (a) easier and (b) seperable.</p>
+
+<h2>A Framework: READ</h2>
+
+<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which is I believe the core
+to being a great programmer: read great programmers' code and you will learn from it.  It may be hard to find
+great code to read, but you can always start with Smalltalk or find some epic system close to the
+kinds of systems you build.</p>
+
+<p>Working through possible acronyms for the bigger software development process, I stumbled upon my favorite word: "READ".
+All software is developed through this simple approach and acronym:</p>
+
+<ul>
+<li>Requirements – What is the problem, and what is your solution to that problem?</li>
+<li>Estimation – What is the estimate of the <em>size</em> of the solution?  Note this is before any technology has been picked.  It is the functional size and not the delivery estimate</li>
+<li>Architecture – What is the architecture and technology you want to use to deliver this solution</li>
+<li>Delivery – Now deliver.  If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
+</ul>
+
+
+<p>And a bonus:</p>
+
+<ul>
+<li>Over – Now either be done or start over (if iterative) until the solution solves the real problem.
+
+<ul>
+<li>This requires "Delta" size estimation.  How much is being added to or modified about a system</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Estimation of Solution Size</h3>
+
+<p>The hard part is doing Estimation of Solution Size without getting pulled into the details of architecture and delivery.  We are not
+yet good at this as an industry.  We need a body of knowledge and a system to estimate the size of a solution
+ independent of the architecture chosen and the team that delivers.  If we have this, we can finally <em>measure</em>
+ something useful.  Actually we can measure <em>a lot</em> of useful things.</p>
+
+<ul>
+<li>What is the ROI of the solution?  If the solution is really big, there are very few architectures and delivery teams that are going to dramatically reduce the cost</li>
+<li>How well do certain architectures do against a particular solution?  For a given delivery team, you can see what they are good at or not.  Going across delivery teams, you may be able to identify <em>better</em> architectures vs. <em>more familiar</em> to the team.
+
+<ul>
+<li>What are the differences between the architectures that cause these effects?</li>
+<li>Should we change architectures or train more in an architecture?</li>
+</ul>
+</li>
+<li>How well do the delivery teams deliver?  Especially if the solution is about the same size, and the architecture is the same, you should start seeing better and worse results.
+
+<ul>
+<li>What are the differences between the teams that cause this effect?</li>
+<li>Can we improve the numbers?</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Estimation of solution size has been attempted with Function Points and more recently with COSMIC Function Points. I
+think using the term "point" is not quite right, so I am going to recommend being more creative although just a
+simple twist on the word.  I propose 'joint' to capture complexity.  Things with more joints are usually more
+complex, and it is relatively linear or even somewhat exponential as you increase the joint count.</p>
+
+<h3>Joints</h3>
+
+<p>So what should constitute a 'joint'?  With very little effort in evaluating it (will be starting soone), I believe COSMIC
+is a valid starting methodology.  So a COSMIC Point is a Joint.  Not much difference, but at least it splits the
+  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?</p>
 ]]></content>
   </entry>
   
@@ -861,126 +944,6 @@ SLEEP_LENGTH=$((${PSEUDO_RANDOM} % 30 ))
 <p>The above is a very generic worker model that enables all kinds of flexibility in setting up 'chores' and scalably
 having a 'right-size' for the number of workers doing the work.  The next article will be more specific and
 build new 'wars' every time the application changes after passing the built-in tests.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-8]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-8/"/>
-    <updated>2015-10-20T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-8</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.</p>
-
-<h2>Federation Application Infrastructure</h2>
-
-<p>The application stack we have so far:</p>
-
-<ul>
-<li> UI (both client and server)</li>
-<li> Application Server (Grails, Java, potentially scripting engine)</li>
-<li> Database (Maria or similar)</li>
-</ul>
-
-
-<p>Is very capable.  Using it combined with the ADD ingredients:</p>
-
-<ul>
-<li> GitHub – With resource, presence, application, and configuration information repositories</li>
-<li> EC2 Instances – Running continuously or based on load, and running their 'part' plus any dynamic configuration</li>
-<li> S3 – For resources</li>
-<li> HipChat – To let everyone know</li>
-</ul>
-
-
-<p>Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
-The nodes and their application can keep certain data in-memory (cached).  The nodes can
- launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
- can do pretty much anything.</p>
-
-<h3>Standard Federation Components</h3>
-
-<p>Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
-are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
-And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.</p>
-
-<!--more-->
-
-
-<p>So instead of having the one super-capable application server, we can start breaking out some of the responsibilities
-of the application server into other system components, and then decide whether we need them or not.  If we need
-them, we will be using a very main-stream approach that is redundant, scalable, and easily managed.  It needs to 'fit'
-with our application, but it doesn't have to be similar to the application (e.g. works with Java, written in Erlang,
-runs on Linux).</p>
-
-<p>The list of standard system components isn't that long, but it is <em>longer than you need</em>.  If you are using all of these,
-you are likely over-engineering your solution.  Try to start weaning yourself off some of this technology.</p>
-
-<p>A partial list of federation components</p>
-
-<ul>
-<li>Cache – For rapidly retrieving information that changes slowly or needs to be shared broadly</li>
-<li>Queue – For getting information from producers (requests) to consumers (workers)</li>
-<li>Distributed State – For precise and consistent decision-making among several different entities</li>
-<li>Semistructured Database – For persistently storing data in a faster or more flexible format than the main database</li>
-<li>SSO (Single Sign-on) – To enable users to get access to various resources without the resources having to authenticate</li>
-<li>"Chat" – Real-time presence and data communication enabling 'chat' and various other capabilities</li>
-<li>Map-Reduce – Taking large amounts of data and processing it to get answers to questions.  Can be real-time or not</li>
-<li>Forum – Supporting forum capabilities for customers to talk with each other</li>
-<li>Customer Support – Supporting customer-facing capabilities, including defect and product request tracking</li>
-<li>SMS / Email / Contact – Ability to send out emails, SMS, surveys, and other customer contact</li>
-<li>Web Site – A separate web site from the main application</li>
-<li>Web Content Creator – An ability to enable users to create content within your site (vs. doing it via templating)</li>
-<li>Payment Processing – Handling the record of credit cards and payment processing</li>
-<li>Freetext Search – The ability to search documents and similar free text</li>
-<li>Workers – Special nodes that do work and either go idle or disappear when no work is needed</li>
-</ul>
-
-
-<p>There are some more (e.g. the BI pipeline), but that is a pretty good list.  Especially the 'Workers' is a category basically as broad as
-'Application'.</p>
-
-<p>Working through the list, here are some examples:</p>
-
-<ul>
-<li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
-<li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
-<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org/curator-recipes/index.html">http://curator.apache.org/curator-recipes/index.html</a></li>
-<li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
-<li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
-<li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
-<li>Map-Reduce – Spark <a href="https://spark.apache.org">https://spark.apache.org</a>,  Hadoop <a href="https://hadoop.apache.org">https://hadoop.apache.org</a></li>
-<li>Forum –  phpBB <a href="https://www.phpbb.com">https://www.phpbb.com</a></li>
-<li>Customer Support – Parature <a href="http://www.parature.com">http://www.parature.com</a></li>
-<li>SMS / Email / Contact – SendGrid <a href="https://sendgrid.com">https://sendgrid.com</a> , Silverpop <a href="http://www-03.ibm.com/software/products/en/silverpop-engage">http://www-03.ibm.com/software/products/en/silverpop-engage</a> , SurveyMonkey <a href="https://www.surveymonkey.com">https://www.surveymonkey.com</a> , etc.</li>
-<li>Web Site –  Expression Engine <a href="https://ellislab.com/expressionengine">https://ellislab.com/expressionengine</a> , Squarespace <a href="http://www.squarespace.com">http://www.squarespace.com</a></li>
-<li>Web Content Creator – How about the original 'wiki' <a href="http://wiki.org">http://wiki.org</a> or a more modern one like Foswiki <a href="http://foswiki.org">http://foswiki.org</a></li>
-<li>Payment Processing – PayPal <a href="http://paypal.com">http://paypal.com</a> or even Facebook <a href="http://facebook.com">http://facebook.com</a> and Google <a href="http://google.com">http://google.com</a></li>
-<li>Freetext Search – Solr <a href="http://lucene.apache.org/solr/">http://lucene.apache.org/solr/</a></li>
-<li>Workers – All kinds of workers and frameworks for doing it, including AWS beanstalks <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html">http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html</a></li>
-</ul>
-
-
-<p>Sadly, Rumble did use almost all of the above (and more) in some way or another, but that is seriously off-the-chart
-and incredibly expensive.  Yes, it is powerful.  No, your users do not care to pay you for that much power.</p>
-
-<p>A company like Wikipedia/Wikimedia looks more like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-8/addstack8_wikimedia1.png" /></p>
-
-<h2>Conclusion</h2>
-
-<p>It is good to understand what kinds of system components are out there and be aware that you don't have to
-reinvent / recode them when you need them.  Each of the above are good products.  They do what they should
-to fill a particular need.  And almost all of them are
-fault-tolerant and scalable, so they can join the rest of the <em>very tolerant</em> ADD stack.
-Or they are a service and you get what you pay for.  If you really need
-one of them, certainly bring it aboard.  It is better than creating a monolith.
-But if you can do without it, your application and you IT will be easier to understand and maintain.</p>
 ]]></content>
   </entry>
   
