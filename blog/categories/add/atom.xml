@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-20T09:55:53-08:00</updated>
+  <updated>2015-11-20T09:57:18-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,16 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[ADD: READ]]></title>
-    <link href="http://markfussell.emenar.com/blog/read-2/"/>
-    <updated>2015-11-20T01:00:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/read-2</id>
-    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
-environment.  This series is on estimation, and the first part is here: <a href="/blog/read-1">ADD: Estimation</a>.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD: Estimation]]></title>
@@ -944,6 +934,126 @@ SLEEP_LENGTH=$((${PSEUDO_RANDOM} % 30 ))
 <p>The above is a very generic worker model that enables all kinds of flexibility in setting up 'chores' and scalably
 having a 'right-size' for the number of workers doing the work.  The next article will be more specific and
 build new 'wars' every time the application changes after passing the built-in tests.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-8]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-8/"/>
+    <updated>2015-10-20T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-8</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.</p>
+
+<h2>Federation Application Infrastructure</h2>
+
+<p>The application stack we have so far:</p>
+
+<ul>
+<li> UI (both client and server)</li>
+<li> Application Server (Grails, Java, potentially scripting engine)</li>
+<li> Database (Maria or similar)</li>
+</ul>
+
+
+<p>Is very capable.  Using it combined with the ADD ingredients:</p>
+
+<ul>
+<li> GitHub – With resource, presence, application, and configuration information repositories</li>
+<li> EC2 Instances – Running continuously or based on load, and running their 'part' plus any dynamic configuration</li>
+<li> S3 – For resources</li>
+<li> HipChat – To let everyone know</li>
+</ul>
+
+
+<p>Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
+The nodes and their application can keep certain data in-memory (cached).  The nodes can
+ launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
+ can do pretty much anything.</p>
+
+<h3>Standard Federation Components</h3>
+
+<p>Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
+are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
+And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.</p>
+
+<!--more-->
+
+
+<p>So instead of having the one super-capable application server, we can start breaking out some of the responsibilities
+of the application server into other system components, and then decide whether we need them or not.  If we need
+them, we will be using a very main-stream approach that is redundant, scalable, and easily managed.  It needs to 'fit'
+with our application, but it doesn't have to be similar to the application (e.g. works with Java, written in Erlang,
+runs on Linux).</p>
+
+<p>The list of standard system components isn't that long, but it is <em>longer than you need</em>.  If you are using all of these,
+you are likely over-engineering your solution.  Try to start weaning yourself off some of this technology.</p>
+
+<p>A partial list of federation components</p>
+
+<ul>
+<li>Cache – For rapidly retrieving information that changes slowly or needs to be shared broadly</li>
+<li>Queue – For getting information from producers (requests) to consumers (workers)</li>
+<li>Distributed State – For precise and consistent decision-making among several different entities</li>
+<li>Semistructured Database – For persistently storing data in a faster or more flexible format than the main database</li>
+<li>SSO (Single Sign-on) – To enable users to get access to various resources without the resources having to authenticate</li>
+<li>"Chat" – Real-time presence and data communication enabling 'chat' and various other capabilities</li>
+<li>Map-Reduce – Taking large amounts of data and processing it to get answers to questions.  Can be real-time or not</li>
+<li>Forum – Supporting forum capabilities for customers to talk with each other</li>
+<li>Customer Support – Supporting customer-facing capabilities, including defect and product request tracking</li>
+<li>SMS / Email / Contact – Ability to send out emails, SMS, surveys, and other customer contact</li>
+<li>Web Site – A separate web site from the main application</li>
+<li>Web Content Creator – An ability to enable users to create content within your site (vs. doing it via templating)</li>
+<li>Payment Processing – Handling the record of credit cards and payment processing</li>
+<li>Freetext Search – The ability to search documents and similar free text</li>
+<li>Workers – Special nodes that do work and either go idle or disappear when no work is needed</li>
+</ul>
+
+
+<p>There are some more (e.g. the BI pipeline), but that is a pretty good list.  Especially the 'Workers' is a category basically as broad as
+'Application'.</p>
+
+<p>Working through the list, here are some examples:</p>
+
+<ul>
+<li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
+<li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
+<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org/curator-recipes/index.html">http://curator.apache.org/curator-recipes/index.html</a></li>
+<li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
+<li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
+<li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
+<li>Map-Reduce – Spark <a href="https://spark.apache.org">https://spark.apache.org</a>,  Hadoop <a href="https://hadoop.apache.org">https://hadoop.apache.org</a></li>
+<li>Forum –  phpBB <a href="https://www.phpbb.com">https://www.phpbb.com</a></li>
+<li>Customer Support – Parature <a href="http://www.parature.com">http://www.parature.com</a></li>
+<li>SMS / Email / Contact – SendGrid <a href="https://sendgrid.com">https://sendgrid.com</a> , Silverpop <a href="http://www-03.ibm.com/software/products/en/silverpop-engage">http://www-03.ibm.com/software/products/en/silverpop-engage</a> , SurveyMonkey <a href="https://www.surveymonkey.com">https://www.surveymonkey.com</a> , etc.</li>
+<li>Web Site –  Expression Engine <a href="https://ellislab.com/expressionengine">https://ellislab.com/expressionengine</a> , Squarespace <a href="http://www.squarespace.com">http://www.squarespace.com</a></li>
+<li>Web Content Creator – How about the original 'wiki' <a href="http://wiki.org">http://wiki.org</a> or a more modern one like Foswiki <a href="http://foswiki.org">http://foswiki.org</a></li>
+<li>Payment Processing – PayPal <a href="http://paypal.com">http://paypal.com</a> or even Facebook <a href="http://facebook.com">http://facebook.com</a> and Google <a href="http://google.com">http://google.com</a></li>
+<li>Freetext Search – Solr <a href="http://lucene.apache.org/solr/">http://lucene.apache.org/solr/</a></li>
+<li>Workers – All kinds of workers and frameworks for doing it, including AWS beanstalks <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html">http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html</a></li>
+</ul>
+
+
+<p>Sadly, Rumble did use almost all of the above (and more) in some way or another, but that is seriously off-the-chart
+and incredibly expensive.  Yes, it is powerful.  No, your users do not care to pay you for that much power.</p>
+
+<p>A company like Wikipedia/Wikimedia looks more like this:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-8/addstack8_wikimedia1.png" /></p>
+
+<h2>Conclusion</h2>
+
+<p>It is good to understand what kinds of system components are out there and be aware that you don't have to
+reinvent / recode them when you need them.  Each of the above are good products.  They do what they should
+to fill a particular need.  And almost all of them are
+fault-tolerant and scalable, so they can join the rest of the <em>very tolerant</em> ADD stack.
+Or they are a service and you get what you pay for.  If you really need
+one of them, certainly bring it aboard.  It is better than creating a monolith.
+But if you can do without it, your application and you IT will be easier to understand and maintain.</p>
 ]]></content>
   </entry>
   
