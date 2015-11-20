@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-20T09:57:18-08:00</updated>
+  <updated>2015-11-20T10:11:13-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -43,11 +43,29 @@ most workers in an industry are relatively new to it: less than ten years.  And 
 years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
 change roles, or change organization, and your estimates are likely poorly based.</p>
 
-<p>When something is too hard for someone to do, you need to decompose it to make it (a) easier and (b) seperable.</p>
+<p>When something is too hard for someone to do easily, you need to decompose it to make it (a) easier and (b) separable.</p>
+
+<!--more-->
+
+
+<p>Doing two or more pieces sequentially is commonly easier than doing the whole task at one time.  By easier, I don&#8217;t
+mean faster.  It may take more time, especially if there is some interrelationship between the pieces.  But there
+is commonly a limit to how much a human brain can do at one time until they are trained.  Over time, the training
+in the pieces enables them to be done simultaneously.  Master chefs and similar tend to be trained in all pieces of
+  their craft until they can do it all so easily that they can do it simultaneously.</p>
+
+<p>By making the pieces separable, you can have different people work on each of the pieces, and develop the skills
+   needed for the piece.  Note that this isn&#8217;t &#8220;slicing&#8221; a large piece of work into a smaller piece of work which
+   requires all the same skills.  That would be like a chef doing part of the dinner service.  Instead it is
+   separating the skills needed: one chef &#8220;Plates&#8221; and just plates, another cooks meats, another cooks vegetables,
+   another makes sauces, and so on.</p>
+
+<p>The critical question is then how to decompose?  First we need to define and decompose what we mean by estimation.  And to do
+that, we can put estimation into the macro solution-delivery process of software.</p>
 
 <h2>A Framework: READ</h2>
 
-<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which is I believe the core
+<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which I believe is the core
 to being a great programmer: read great programmers&#8217; code and you will learn from it.  It may be hard to find
 great code to read, but you can always start with Smalltalk or find some epic system close to the
 kinds of systems you build.</p>
