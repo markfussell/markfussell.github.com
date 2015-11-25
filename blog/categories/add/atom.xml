@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-20T10:11:13-08:00</updated>
+  <updated>2015-11-24T17:33:37-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -55,15 +55,15 @@ in the pieces enables them to be done simultaneously.  Master chefs and similar 
   their craft until they can do it all so easily that they can do it simultaneously.</p>
 
 <p>By making the pieces separable, you can have different people work on each of the pieces, and develop the skills
-   needed for the piece.  Note that this isn't "slicing" a large piece of work into a smaller piece of work which
+   needed for that piece alone.  Note that this isn't "slicing" a large piece of work into a smaller piece of work which
    requires all the same skills.  That would be like a chef doing part of the dinner service.  Instead it is
-   separating the skills needed: one chef "Plates" and just plates, another cooks meats, another cooks vegetables,
+   separating the skills needed for the task: one chef "Plates" and just plates, another cooks meats, another cooks vegetables,
    another makes sauces, and so on.</p>
 
 <p>The critical question is then how to decompose?  First we need to define and decompose what we mean by estimation.  And to do
 that, we can put estimation into the macro solution-delivery process of software.</p>
 
-<h2>A Framework: READ</h2>
+<h2>A Framework: READ-OR</h2>
 
 <p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which I believe is the core
 to being a great programmer: read great programmers' code and you will learn from it.  It may be hard to find
@@ -74,24 +74,38 @@ kinds of systems you build.</p>
 All software is developed through this simple approach and acronym:</p>
 
 <ul>
-<li>Requirements – What is the problem, and what is your solution to that problem?</li>
-<li>Estimation – What is the estimate of the <em>size</em> of the solution?  Note this is before any technology has been picked.  It is the functional size and not the delivery estimate</li>
+<li>Requirements of Solution – Given the problem, and what is your solution to that problem?  What does that solution require to solve the problem?</li>
+<li>Estimation of Size – What is the estimate of the <em>size</em> of the solution?  Note this is independent of the architecture and technology.  It is the functional size estimate and not the delivery estimate</li>
 <li>Architecture – What is the architecture and technology you want to use to deliver this solution</li>
-<li>Delivery – Now deliver.  If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
-</ul>
-
-
-<p>And a bonus:</p>
+<li>Delivery – Now deliver or consider delivering.
 
 <ul>
-<li>Over – Now either be done or start over (if iterative) until the solution solves the real problem.
-
-<ul>
-<li>This requires "Delta" size estimation.  How much is being added to or modified about a system</li>
+<li>Estimate the delivery timeline and costs, and decide if the solution is worth doing.  If not, change architecture or change solution.</li>
+<li>If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
 </ul>
 </li>
 </ul>
 
+
+<p>And bonus pieces</p>
+
+<ul>
+<li>Over – Now the project is either done or the process starts over until the solution solves the real problem.
+
+<ul>
+<li>This requires "Delta" size estimation.  How much is being added to or modified about a system?</li>
+</ul>
+</li>
+<li>Review – Review the size of what was built (not time, but solution functional size)
+
+<ul>
+<li>Determine what you would likely want to improve in the solution, architecture, or delivery</li>
+</ul>
+</li>
+</ul>
+
+
+<p>So now that we have Esitmation</p>
 
 <h3>Estimation of Solution Size</h3>
 
@@ -124,11 +138,39 @@ think using the term "point" is not quite right, so I am going to recommend bein
 simple twist on the word.  I propose 'joint' to capture complexity.  Things with more joints are usually more
 complex, and it is relatively linear or even somewhat exponential as you increase the joint count.</p>
 
-<h3>Joints</h3>
+<h3>Joints / Moves / COSMIC</h3>
 
-<p>So what should constitute a 'joint'?  With very little effort in evaluating it (will be starting soone), I believe COSMIC
+<p>So what should constitute a 'joint'?  With very little effort in evaluating it (will be starting soon), I believe COSMIC
 is a valid starting methodology.  So a COSMIC Point is a Joint.  Not much difference, but at least it splits the
-  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?</p>
+  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?
+  Given COSMIC measure data movements, a joint could be a synonym for a 'move', but if we augment the system with
+  additions beyond 'moves' as source of size, then the term would become a misnomer.</p>
+
+<p>More information about COSMIC is here: <a href="http://cosmic-sizing.org/">http://cosmic-sizing.org/</a> and elsewhere online.</p>
+
+<h3>Analysis and Design</h3>
+
+<p>When working through COSMIC terminology and examples, it flashed me back a couple decades to a time that we built software very differently:</p>
+
+<ul>
+<li>Software was built from requirements through analysis through design and then into implementation</li>
+</ul>
+
+
+<p>This was called a 'Waterfall' model because each stage tended to block doing anything for the next stage until
+the stage was 'complete'.  Modern Agile proponents, especially the extremely agile, have basically dropped the stages.
+But the stages are useful going both <em>forward</em> (analyse what your system is supposed to do before coding it) and <em>backward</em>
+does the analysis seem to plausibly match the requirements?  The analysis and design work was actually not the problem,
+it was just the amount of work (if you an analyst, you want to analyze) and the 'blocking' nature of the work that was
+a problem.</p>
+
+<p>A great book on this analysis and designe work was Object-Oriented Analysis and Design (1st edition) which was in several different programming
+ languages and dealt with realtime, server application, and other types of software systems.  The second generation can
+  be found here: <a href="http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf">http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf</a>
+These methods became parts of UML, which is  again commonly used for <em>heavy</em> analysis and <em>heavy</em> design, preventing the
+customer from seeing the actual product early on.</p>
+
+<p>The solution isn't to drop the steps, but to scale and time them properly</p>
 ]]></content>
   </entry>
   
