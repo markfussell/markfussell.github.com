@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-24T17:36:15-08:00</updated>
+  <updated>2015-11-25T08:04:57-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -61,6 +61,9 @@ agility of that project:</p>
 </ul>
 
 
+<!--more-->
+
+
 <p>Evant was eventually acquired and folded into a larger company, so much of the memory of what worked well and not about
 this was lost.  Except the person who had the 'APT' charter for Evant is still alive and cognizant.  And maybe a bit
 opinionated, but will try to be object.</p>
@@ -76,7 +79,7 @@ and programs are <em>delivering a good ROI</em> and how you could make them deli
 Which isn't the value to the customer of that system, but does reasonable express the complexity in providing the
 value to the customer.</p>
 
-<h3>COSMIC Analysis and Design</h3>
+<h3>COSMIC Measurement: Analysis and Design</h3>
 
 <p>The COSMIC process is clearly doing Analysis and Design, but in a relatively light and tunable way.  You can control:</p>
 
@@ -95,7 +98,7 @@ basis for measuring its size and correlating that to development costs.  But it 
 it starts building a model of the user concepts (Object of Interests), their events, the system actions, and the
 system components (based on the decomposition level).</p>
 
-<h3>The Hub: Additional or Not Analysis and Design</h3>
+<h3>The Hub: Additional (or Not) Analysis and Design</h3>
 
 <p>The COSMIC analysis can be a basis to additional investment in Analysis and Design, but that is optional.  That
 is a choice of <em>delivery</em>.  You could have extreme delivery that ignored the COSMIC scope model completely.  Or
