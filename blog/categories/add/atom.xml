@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ADD | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/add/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-25T08:04:57-08:00</updated>
+  <updated>2015-11-25T08:06:07-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -135,7 +135,7 @@ that customers and development teams should expect from a good development proje
 
 <ul>
 <li>The Customer can change what they want, change the delivery team they use, but they can't interfere within the delivery team</li>
-<li>The delivery team should always deliver a functional-requirements-based estimate of a project independent of the technology and other delivery choices, so the customer knows what they are getting
+<li>The delivery team should always deliver a functional-requirements-based estimate of a project independent of the technology and other delivery choices, so the customer knows what they are asking for (compared to other projects) and getting (given the delivery approach)
 
 <ul>
 <li>Unless the customer clearly says "I don't care", in which case the delivery team can choose whether to do the work for their own internal benefit</li>
