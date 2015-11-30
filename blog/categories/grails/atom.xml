@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Grails | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/grails/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-25T08:06:07-08:00</updated>
+  <updated>2015-11-30T12:56:39-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,311 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[ADD: Estimation]]></title>
-    <link href="http://markfussell.emenar.com/blog/read-1/"/>
-    <updated>2015-10-23T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/read-1</id>
-    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
-environment.  The first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
-of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
-system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
-components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
-and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
-on top of that IT infrastructure. The third series starts here: <a href="/blog/add2-1">Advanced Development and Delivery Summary</a>
-and gave an executive summary of the ADD.</p>
-
-<p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
- estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
- quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
- to do a project and (b) whether the people you have are up-to-snuff.  If you <em>know</em> you have to do
- a project and you <em>have</em> certain people: don't worry about the estimate.  It is irrelevant.  Just "wing it".
- But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
- figuring out how good your team is after you do a project, then estimations are the core benchmark to
- give you feedback.</p>
-
-<h2>Estimation is crazy-hard</h2>
-
-<p>The problem with estimating is you can't be good at it unless you have done something very similar before.  But
-most workers in an industry are relatively new to it: less than ten years.  And if each project takes a couple
-years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
-change roles, or change organization, and your estimates are likely poorly based.</p>
-
-<p>When something is too hard for someone to do easily, you need to decompose it to make it (a) easier and (b) separable.</p>
-
-<!--more-->
-
-
-<p>Doing two or more pieces sequentially is commonly easier than doing the whole task at one time.  By easier, I don't
-mean faster.  It may take more time, especially if there is some interrelationship between the pieces.  But there
-is commonly a limit to how much a human brain can do at one time until they are trained.  Over time, the training
-in the pieces enables them to be done simultaneously.  Master chefs and similar tend to be trained in all pieces of
-  their craft until they can do it all so easily that they can do it simultaneously.</p>
-
-<p>By making the pieces separable, you can have different people work on each of the pieces, and develop the skills
-   needed for that piece alone.  Note that this isn't "slicing" a large piece of work into a smaller piece of work which
-   requires all the same skills.  That would be like a chef doing part of the dinner service.  Instead it is
-   separating the skills needed for the task: one chef "Plates" and just plates, another cooks meats, another cooks vegetables,
-   another makes sauces, and so on.</p>
-
-<p>The critical question is then how to decompose?  First we need to define and decompose what we mean by estimation.  And to do
-that, we can put estimation into the macro solution-delivery process of software.</p>
-
-<h2>A Framework: READ-OR</h2>
-
-<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which I believe is the core
-to being a great programmer: read great programmers' code and you will learn from it.  It may be hard to find
-great code to read, but you can always start with Smalltalk or find some epic system close to the
-kinds of systems you build.</p>
-
-<p>Working through possible acronyms for the bigger software development process, I stumbled upon my favorite word: "READ".
-All software is developed through this simple approach and acronym:</p>
-
-<ul>
-<li>Requirements of Solution – Given the problem, and what is your solution to that problem?  What does that solution require to solve the problem?</li>
-<li>Estimation of Size – What is the estimate of the <em>size</em> of the solution?  Note this is independent of the architecture and technology.  It is the functional size estimate and not the delivery estimate</li>
-<li>Architecture – What is the architecture and technology you want to use to deliver this solution</li>
-<li>Delivery – Now deliver or consider delivering.
-
-<ul>
-<li>Estimate the delivery timeline and costs, and decide if the solution is worth doing.  If not, change architecture or change solution.</li>
-<li>If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
-</ul>
-</li>
-</ul>
-
-
-<p>And bonus pieces</p>
-
-<ul>
-<li>Over – Now the project is either done or the process starts over until the solution solves the real problem.
-
-<ul>
-<li>This requires "Delta" size estimation.  How much is being added to or modified about a system?</li>
-</ul>
-</li>
-<li>Review – Review the size of what was built (not time, but solution functional size)
-
-<ul>
-<li>Determine what you would likely want to improve in the solution, architecture, or delivery</li>
-</ul>
-</li>
-</ul>
-
-
-<p>So now that we have Esitmation</p>
-
-<h3>Estimation of Solution Size</h3>
-
-<p>The hard part is doing Estimation of Solution Size without getting pulled into the details of architecture and delivery.  We are not
-yet good at this as an industry.  We need a body of knowledge and a system to estimate the size of a solution
- independent of the architecture chosen and the team that delivers.  If we have this, we can finally <em>measure</em>
- something useful.  Actually we can measure <em>a lot</em> of useful things.</p>
-
-<ul>
-<li>What is the ROI of the solution?  If the solution is really big, there are very few architectures and delivery teams that are going to dramatically reduce the cost</li>
-<li>How well do certain architectures do against a particular solution?  For a given delivery team, you can see what they are good at or not.  Going across delivery teams, you may be able to identify <em>better</em> architectures vs. <em>more familiar</em> to the team.
-
-<ul>
-<li>What are the differences between the architectures that cause these effects?</li>
-<li>Should we change architectures or train more in an architecture?</li>
-</ul>
-</li>
-<li>How well do the delivery teams deliver?  Especially if the solution is about the same size, and the architecture is the same, you should start seeing better and worse results.
-
-<ul>
-<li>What are the differences between the teams that cause this effect?</li>
-<li>Can we improve the numbers?</li>
-</ul>
-</li>
-</ul>
-
-
-<p>Estimation of solution size has been attempted with Function Points and more recently with COSMIC Function Points. I
-think using the term "point" is not quite right, so I am going to recommend being more creative although just a
-simple twist on the word.  I propose 'joint' to capture complexity.  Things with more joints are usually more
-complex, and it is relatively linear or even somewhat exponential as you increase the joint count.</p>
-
-<h3>Joints / Moves / COSMIC</h3>
-
-<p>So what should constitute a 'joint'?  With very little effort in evaluating it (will be starting soon), I believe COSMIC
-is a valid starting methodology.  So a COSMIC Point is a Joint.  Not much difference, but at least it splits the
-  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?
-  Given COSMIC measure data movements, a joint could be a synonym for a 'move', but if we augment the system with
-  additions beyond 'moves' as source of size, then the term would become a misnomer.</p>
-
-<p>More information about COSMIC is here: <a href="http://cosmic-sizing.org/">http://cosmic-sizing.org/</a> and elsewhere online.</p>
-
-<h3>Analysis and Design</h3>
-
-<p>When working through COSMIC terminology and examples, it flashed me back a couple decades to a time that we built software very differently:</p>
-
-<ul>
-<li>Software was built from requirements through analysis through design and then into implementation</li>
-</ul>
-
-
-<p>This was called a 'Waterfall' model because each stage tended to block doing anything for the next stage until
-the stage was 'complete'.  Modern Agile proponents, especially the extremely agile, have basically dropped the stages.
-But the stages are useful going both <em>forward</em> (analyse what your system is supposed to do before coding it) and <em>backward</em>
-does the analysis seem to plausibly match the requirements?  The analysis and design work was actually not the problem,
-it was just the amount of work (if you an analyst, you want to analyze) and the 'blocking' nature of the work that was
-a problem.</p>
-
-<p>A great book on this analysis and designe work was Object-Oriented Analysis and Design (1st edition) which was in several different programming
- languages and dealt with realtime, server application, and other types of software systems.  The second generation can
-  be found here: <a href="http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf">http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf</a>
-These methods became parts of UML, which is  again commonly used for <em>heavy</em> analysis and <em>heavy</em> design, preventing the
-customer from seeing the actual product early on.</p>
-
-<p>The solution isn't to drop the steps, but to scale and time them properly</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) and the ADD Stack – Summary]]></title>
-    <link href="http://markfussell.emenar.com/blog/add2-1/"/>
-    <updated>2015-10-23T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add2-1</id>
-    <content type="html"><![CDATA[<p>This is the third series describing the ADD: a radically more productive development and delivery environment.  The
-first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
- of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
- system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
- components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
- and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
- on top of that IT infrastructure.</p>
-
-<p>This series assumes you have at least skimmed the other two series, but this one is the summary of the other two.
-It is an incremental growth of the architecture in a fairly macro sense, where the details are in the other series.</p>
-
-<h2>The three ingredients</h2>
-
-<p>Wait, it was four a moment ago.  The ADD requires four, but advanced project collaboration requires only three.  And
-at the heart of the ADD is advanced project collaboration.  Collaboration has no 'machines', just people, so we put aside
-one ingredient.  The remaining three are the <em>nucleus</em> of ADD:</p>
-
-<ul>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-</ul>
-
-
-<p>These three ingredients can give individuals and teams 4x or more productivity.  And the reason is the same as for
- ADD.  There are two critical roles in any project:</p>
-
-<ul>
-<li>Changers</li>
-<li>Watchers</li>
-</ul>
-
-
-<p>The Changers are gonna change, change, change, change and the Watchers are gonna watch, watch, watch, watch.  And
-all of the people involve need to see what is going on (in the best way for them) and not be blocked getting things
-done by others on the project.  They need perfect transparency.  Which will ultimately build incredible trust,
-knowledge, and skill.</p>
-
-<p>The three ingredients form the core of a three-way Venn diagram, that I will draw in hexagonal rings.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_threeIngredients1.png" /></p>
-
-<!--more-->
-
-
-<p>Clearly the three make sense with project collaboration, and all three are used by Changers and Watchers.<br/>
-Note that 'Annexes' are part of the collaboration nucleus.  You need annexed repositories for GitHub to be a practical collaboration
-tool as resources become large.</p>
-
-<h3>The fourth ingredient and full ADD nucleus</h3>
-
-<p>Now adding the machines in, we get:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_fourthIngredient1.png" /></p>
-
-<p>And seeing the transformation from the three-ingredient version, we can see the EC2 servers are
-not critical for Changers and Watchers to interact with each other.  Except in the sense that any final product
-is part of the nucleus that Changers and Watchers want to work on.  For ADD it is a deployed application which
-might be on an EC2 server, and for other product development (books, cars, etc.) it would be that <em>product</em> vs.
-whatever "<em>factory</em>" created the product.</p>
-
-<h2>The Rings</h2>
-
-<p>So the ADD works outward from the inner collaboration nucleus plus 'the machines'.  In the other series, the tools and
-system components built out more and more functionality.  They were not described this way at the time, but
-they could be viewed as rings around rings.  As the rings worked outward, a specific ADD was defined
-(e.g. one that was Linux and Java oriented) or a specific application architecture was defined
-(e.g. on that had workers and relational databases).  All the rings are "good rings" in my experience, but
-especially as you get further out each ring could be swapped with an alternative 'implementation' that
- may be more familiar to the team or somewhat more suited to the domain.</p>
-
-<p>The rings I recommend (and recommended in the series) follow.</p>
-
-<h3>Ring-1: Interacting with the Nucleus; EC2, Linux-capable workstations, Web Browsers, Email, and Talking</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring1.png" /></p>
-
-<p>In the bottom right for the machines, I recommend using EC2 as by-far the most mature and capable cloud computing
-environment.  Once you are familiar with EC2, you can compare to other clouds (Google, IBM, EMC, etc.) but you
-need to see a 'Real Cloud' before you can evaluate whether another is good enough.  And again, althoug I recommend
-EC2, very little in the ADD is EC2-specific and it is always in the little details.</p>
-
-<p>Having Linux-capable workstations provides the best Git, automation, and EC2 tools.  You can be on Windows, but
-you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
-
-<p>GitHub works fine for reading with Web Browsers, and you can even do updates with it.  HipChat is the same: it
-  has an application, but it is not required.  And although most collaborative activities should be in HipChat,
-  getting email notifications are quite effective.  Finally, like other Agile methodologies, direct 'talking'
-  is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
-  (HipChat) and similarly make sure anything <em>private</em> never gets into that collaboration environment.</p>
-
-<h3>Ring-2: The machines react and collaborate; Linux-Servers, CloudFormation, Bash, PushMePullYou, Vagrant, and HipChat notifications</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring2b.png" /></p>
-
-<p>Ring-2 is where the ADD starts coming truly alive and the machines 'react' to the ADD infrastructure as well as
- notify the ADD infrastructure of what is going on.  Linux-based servers (ec2 defaults to a Centos variant)
- are the most flexible, documented, and capable on the AWS (and most other) cloud infrastructures.  So this
- is an obvious choice.  Using Amazon CloudFormations is not required, but is a very simple to understand model and
- well supported in AWS.  Defaulting to using 'bash' for scripting basically makes you 'agnostic' beyond the Linux
- part.  People who don't know bash programming 'bash on bash', but it is a perfectly reasonable scripting language
- with slightly esoteric notation.</p>
-
-<p> The PushMePullYou model is the core to mass, understandable, and fast automation.  You don't touch machines, you
- touch Git repositories, push the request (letting everyone know the request), and the machines pull it and react
- as appropriate.</p>
-
-<p> Developers/changers can use Vagrant to run and test everything very much like production is running, including having
-  their local machines come into the PushMePullYou model.</p>
-
-<p> Finally, Git, machines, and other components should always post into HipChat so people can see what they are doing.</p>
-
-<h3>Ring-3: An opinionated Java stack and good monitoring / logging: Grails, Spring, Maria, SumoLogic etc.</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring3.png" /></p>
-
-<p>Ring-3 augments the ADD into a good Java-based stack.  Both in production (a JVM running Tomcat) and
- for development (IntelliJ with a Grails/Spring stack).  By this ring we can develop software, deploy
- it, and monitor whether it is functioning properly.</p>
-
-<h3>Ring-4: A good UI framework and any other system components needed: Angular, Redis, etc.</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring4.png" /></p>
-
-<p>Ring-4 finishes off most of our application functionality.  We need to pick a UI framework beyond
- generating web pages / CSS / jQuery (those are all part of Grails) if we want functionality beyond
- the core UI from Grails / Spring.  And we can augment our application servers with any of a host of
- components / technologies (as few as possible, but better to use them then to build ourselves...
- usually).</p>
-
-<h2>Conclusion</h2>
-
-<p>The ADD can be thought of as rings around a "collaboration nucleus".  The nucleus and the first
-two rings define the ADD approach and it's benefits, where the subsequent rings tailor
-the ADD to the characteristics of good software development and high-quality
-production deployment.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-10]]]></title>
@@ -1114,6 +809,272 @@ fault-tolerant and scalable, so they can join the rest of the <em>very tolerant<
 Or they are a service and you get what you pay for.  If you really need
 one of them, certainly bring it aboard.  It is better than creating a monolith.
 But if you can do without it, your application and you IT will be easier to understand and maintain.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-7]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-7/"/>
+    <updated>2015-10-19T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-7</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.</p>
+
+<h2>Logging, Analytics, and Monitoring</h2>
+
+<p>Returning to a bit more of an 'IT' issue, how do we handle logging, monitoring, and analytics on our collection of
+machines?  There are a number of choices:</p>
+
+<ol>
+<li>Run our own infrastructure</li>
+<li>Go with an inexpensive provider</li>
+<li>Go with a more capable provider</li>
+<li>Don't</li>
+</ol>
+
+
+<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading
+from #3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</p>
+
+<!--more-->
+
+
+<h3>Logging: SumoLogic</h3>
+
+<p>The longest standing, very successful, and SaaS capable company is Splunk (<a href="http://splunk.com/">http://splunk.com/</a>) .  But their prices are crazy.  Have no
+idea how they can charge that much.  So instead I will demo SumoLogic (<a href="http://SumoLogic.com/">http://SumoLogic.com/</a>) as the '3B' tier.</p>
+
+<p>Installing SumoLogic is incredibly easy:</p>
+
+<p><code>bash
+wget "https://collectors.us2.sumologic.com/rest/download/linux/64" -O SumoCollector.sh &amp;&amp; chmod +x SumoCollector.sh &amp;&amp; ./SumoCollector.sh -q -VskipDefaultSources=true -Vsumo.token_and_url={token}
+</code></p>
+
+<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
+all have files in '/root/log' which it would be nice to have aggregated.</p>
+
+<p>The results are visible here:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo2.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
+
+<h4>Logging Alternative: Graylog</h4>
+
+<p>For Rumble, we had a Graylog (<a href="http://graylog.com/">http://graylog.com/</a>) cluster that dealt with a tremendous amount of data (half a
+terabyte a day if memory serves, due to over-enthusiastic logging) and was relatively stable under that load.
+Elasticsearch had issues if a node failed (just due to the stress of moving data to another backup), but this
+is under pretty extreme load levels.  So if you wanted to roll your own, the Graylog path would be a very
+inexpensive and powerful path.</p>
+
+<h3>Analytics and Monitoring: NewRelic</h3>
+
+<p>NewRelic (<a href="http://newrelic.com/">http://newrelic.com/</a>) started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
+(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
+operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
+came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
+Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn't need it, but ultimately
+by putting the metrics outside the application everyone's life was simpler.</p>
+
+<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
+
+<p>```bash</p>
+
+<h1>====================================================</h1>
+
+<h1>=== Install NewRelic</h1>
+
+<h1>====================================================</h1>
+
+<h1>===================================</h1>
+
+<h1>=== Server</h1>
+
+<h1>===================================</h1>
+
+<p>rpm -Uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
+yes | yum -y install newrelic-sysmond
+nrsysmond-config --set license_key=key</p>
+
+<p>/etc/init.d/newrelic-sysmond start</p>
+
+<h1>===================================</h1>
+
+<h1>=== Java</h1>
+
+<h1>===================================</h1>
+
+<p>export APP_VERSION=3.21.0
+export APP_FULL_VERSION=newrelic-java-${APP_VERSION}</p>
+
+<p>mkdir -p .temp
+cp it/resource/${APP_FULL_VERSION}.zip .temp/</p>
+
+<p>./bin/inflatePaths.sh .temp/${APP_FULL_VERSION}.zip</p>
+
+<p>mkdir -p /opt
+cp -fr .temp/newrelic /opt/</p>
+
+<p>cp -fr ${RESOURCE}/newrelic.yml /opt/newrelic/newrelic.yml</p>
+
+<p>```</p>
+
+<p>The first section puts on the system-monitoring agent for newrelic.
+The second section has two parts.  The first part puts the general NewRelic agent onto the machine, and the second part
+enables us to override (overlay) the default configuration with our own.  The most important part is to replace the
+license, but there are many things that can be configured within the NewRelic agent.</p>
+
+<p>Finally, we need to launch with the agent configuration into the java / 'gradew' launcher:</p>
+
+<p>```bash</p>
+
+<h1>Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</h1>
+
+<p>DEFAULT_JVM_OPTS="-javaagent:/opt/newrelic/newrelic.jar"
+```</p>
+
+<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic4.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic5.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic6.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" />
+<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" /></p>
+
+<h3>Operational Monitoring: Nagios and Icinga</h3>
+
+<p>The above monitoring is not 'alert' oriented.  It lets you drill into the details of what is happening
+in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
+to go down a different path.  The most mature open source path is the Nagios / Icinga double path (<a href="http://nagios.org/">http://nagios.org/</a>,
+ <a href="http://icinga.org/">http://icinga.org/</a>).</p>
+
+<p>An important aspect of monitoring is to have <em>multiple</em> monitors on your network.  And, in general, for the monitors
+to be outside the data center.  Agents within the data center can relay information out, but if your monitors fail
+inside the data center, you are (unknowingly) blind.</p>
+
+<p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
+within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
+anywhere that you can pull out a git repository.</p>
+
+<p>Examples of Nagios views are:</p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios1.png" /></p>
+
+<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios2.png" /></p>
+
+<p>Where the lists of hosts to monitor and what to monitor comes from text configuration files.</p>
+
+<p><code>
+define host {
+   host_name   {host_name}
+   use         {node_type}
+   alias       {node_id}
+   address     {node_public_address}
+   register    {registration_order}
+}
+</code></p>
+
+<p>And these files can trivially be generated from the presence information, and updated if
+anything changes.  An important aspect is to make sure to turn off the monitoring system
+when a node is going down <em>intentionally</em>.  So the 'node_state' status and 'node_app_state'
+status are critical to have come through the presence information for monitoring to
+not be 'noisy'.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
+
+<p>Although Nagios and Icinga have dashboards, everything should go into HipChat so everyone
+can see the history and stability/instability of the system.  You can even publish the status
+  publicly so your users will know there is a production problem. If you enable public chat
+  in either HipChat or elsewhere, the users can both see the status and ask for predictions
+  of when issues are resolved.  A much higher-touch relationship with users can make them
+  longer users (this retention aspect was very true of Winster where the CEO was <em>online</em>
+  and could be chatted with a good portion of the evening.  Kind of like walking the floors
+  of the casino or Tim Cook being in the University Apple Store.).</p>
+
+<h2>Conclusion</h2>
+
+<p>Although it is more operational than "application stack", the ability to monitor and analyze your
+application's performance and behavior is critical to any production deployment of it.  So you
+should think about it early and not as an afterthought.  All logging should go into the logging pipeline
+(no System.println or equivalent) and be searchable through that pipeline at one or more aggregators.
+Start out with a metrics system like NewRelic to get a bunch  of valuable things for free
+and you can later add in new application-specific metrics.
+And get the basics of operational monitoring up early and you will know if the application and the
+IT is reliable long before it gets into the production data center.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
+    <link href="http://markfussell.emenar.com/blog/addstack-6/"/>
+    <updated>2015-10-17T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/addstack-6</id>
+    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting.</p>
+
+<h2>Which UI framework?</h2>
+
+<p>The <a href="/blog/addstack-4/">fourth article</a> discussed UI alternatives, but it was mostly about 'architectural' alternatives
+ and did not recommend a particular framework to use.  I believe that is the correct order: <em>how you use</em> the framework
+ is usually more important than the framework itself.  People can correctly and improperly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
+use it wrong (your thumb is targetable) and you can be seriously hurt.</p>
+
+<p>There are a number of popular frameworks:</p>
+
+<ul>
+<li>Angular</li>
+<li>Ember</li>
+<li>Backbone</li>
+<li>Sencha</li>
+<li>etc.</li>
+</ul>
+
+
+<p>And deciding between them may seem like it should be done as "which has the best features?" but unless
+one of them has a killer feature  that you care about
+(Sencha can run the same code with both a desktop and mobile UI), and is worth its penalties (Sencha
+is proprietary and very 'different') then 'best features' is basically meaningless.  A better question is "Which
+one do I understand the best?" and "Which one can other people on the team learn and share-code the best?".</p>
+
+<!--more-->
+
+
+<p>Taking out 'Sencha' from the above and you get a few different viewpoints on the web:</p>
+
+<ul>
+<li><a href="http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/">http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/</a></li>
+<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
+<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
+</ul>
+
+
+<p>And dropping Backbone, the distinction is really:</p>
+
+<ul>
+<li>Angular – Powerful, dry, and scale-limited framework</li>
+<li>Ember – Less dry, more opinionated, and more scalable</li>
+</ul>
+
+
+<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
+have to be more explicit, but the convention and the explicitness should make the code more readable and
+maintainable.</p>
+
+<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
+in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
+and powerfully-fragile (do something wrong and you get a terribly visible break) that you can't really use it wrong.
+Ember appears to have the advantages of Rails and Grails... as the framework innately 'works' you can't
+really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
+decide early whether you want complete alignment.</p>
 ]]></content>
   </entry>
   

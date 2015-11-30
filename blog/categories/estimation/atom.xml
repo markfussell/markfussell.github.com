@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Estimation | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/estimation/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-11-25T08:06:07-08:00</updated>
+  <updated>2015-11-30T12:56:39-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -66,7 +66,7 @@ agility of that project:</p>
 
 <p>Evant was eventually acquired and folded into a larger company, so much of the memory of what worked well and not about
 this was lost.  Except the person who had the 'APT' charter for Evant is still alive and cognizant.  And maybe a bit
-opinionated, but will try to be object.</p>
+opinionated, but will try to be objective.</p>
 
 <p>Ultimately, I think the scaling "worked in principle" but having a pure XP team shift to Scaled Agile is asking them
 to give up an almost religious desire to "Not Analyze", "Not Design", and "Not be Objectively Measured!".  If the
@@ -183,6 +183,167 @@ that customers and development teams should expect from a good development proje
 </li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD: Estimation]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-1/"/>
+    <updated>2015-10-23T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/read-1</id>
+    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
+environment.  The first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
+of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
+system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
+components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
+and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
+on top of that IT infrastructure. The third series starts here: <a href="/blog/add2-1">Advanced Development and Delivery Summary</a>
+and gave an executive summary of the ADD.</p>
+
+<p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
+ estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
+ quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
+ to do a project and (b) whether the people you have are up-to-snuff.  If you <em>know</em> you have to do
+ a project and you <em>have</em> certain people: don't worry about the estimate.  It is irrelevant.  Just "wing it".
+ But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
+ figuring out how good your team is after you do a project, then estimations are the core benchmark to
+ give you feedback.</p>
+
+<h2>Estimation is crazy-hard</h2>
+
+<p>The problem with estimating is you can't be good at it unless you have done something very similar before.  But
+most workers in an industry are relatively new to it: less than ten years.  And if each project takes a couple
+years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
+change roles, or change organization, and your estimates are likely poorly based.</p>
+
+<p>When something is too hard for someone to do easily, you need to decompose it to make it (a) easier and (b) separable.</p>
+
+<!--more-->
+
+
+<p>Doing two or more pieces sequentially is commonly easier than doing the whole task at one time.  By easier, I don't
+mean faster.  It may take more time, especially if there is some interrelationship between the pieces.  But there
+is commonly a limit to how much a human brain can do at one time until they are trained.  Over time, the training
+in the pieces enables them to be done simultaneously.  Master chefs and similar tend to be trained in all pieces of
+  their craft until they can do it all so easily that they can do it simultaneously.</p>
+
+<p>By making the pieces separable, you can have different people work on each of the pieces, and develop the skills
+   needed for that piece alone.  Note that this isn't "slicing" a large piece of work into a smaller piece of work which
+   requires all the same skills.  That would be like a chef doing part of the dinner service.  Instead it is
+   separating the skills needed for the task: one chef "Plates" and just plates, another cooks meats, another cooks vegetables,
+   another makes sauces, and so on.</p>
+
+<p>The critical question is then how to decompose?  First we need to define and decompose what we mean by estimation.  And to do
+that, we can put estimation into the macro solution-delivery process of software.</p>
+
+<h2>A Framework: READ-OR</h2>
+
+<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which I believe is the core
+to being a great programmer: read great programmers' code and you will learn from it.  It may be hard to find
+great code to read, but you can always start with Smalltalk or find some epic system close to the
+kinds of systems you build.</p>
+
+<p>Working through possible acronyms for the bigger software development process, I stumbled upon my favorite word: "READ".
+All software is developed through this simple approach and acronym:</p>
+
+<ul>
+<li>Requirements of Solution – Given the problem, and what is your solution to that problem?  What does that solution require to solve the problem?</li>
+<li>Estimation of Size – What is the estimate of the <em>size</em> of the solution?  Note this is independent of the architecture and technology.  It is the functional size estimate and not the delivery estimate</li>
+<li>Architecture – What is the architecture and technology you want to use to deliver this solution</li>
+<li>Delivery – Now deliver or consider delivering.
+
+<ul>
+<li>Estimate the delivery timeline and costs, and decide if the solution is worth doing.  If not, change architecture or change solution.</li>
+<li>If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
+</ul>
+</li>
+</ul>
+
+
+<p>And bonus pieces</p>
+
+<ul>
+<li>Over – Now the project is either done or the process starts over until the solution solves the real problem.
+
+<ul>
+<li>This requires "Delta" size estimation.  How much is being added to or modified about a system?</li>
+</ul>
+</li>
+<li>Review – Review the size of what was built (not time, but solution functional size)
+
+<ul>
+<li>Determine what you would likely want to improve in the solution, architecture, or delivery</li>
+</ul>
+</li>
+</ul>
+
+
+<p>So now that we have Esitmation</p>
+
+<h3>Estimation of Solution Size</h3>
+
+<p>The hard part is doing Estimation of Solution Size without getting pulled into the details of architecture and delivery.  We are not
+yet good at this as an industry.  We need a body of knowledge and a system to estimate the size of a solution
+ independent of the architecture chosen and the team that delivers.  If we have this, we can finally <em>measure</em>
+ something useful.  Actually we can measure <em>a lot</em> of useful things.</p>
+
+<ul>
+<li>What is the ROI of the solution?  If the solution is really big, there are very few architectures and delivery teams that are going to dramatically reduce the cost</li>
+<li>How well do certain architectures do against a particular solution?  For a given delivery team, you can see what they are good at or not.  Going across delivery teams, you may be able to identify <em>better</em> architectures vs. <em>more familiar</em> to the team.
+
+<ul>
+<li>What are the differences between the architectures that cause these effects?</li>
+<li>Should we change architectures or train more in an architecture?</li>
+</ul>
+</li>
+<li>How well do the delivery teams deliver?  Especially if the solution is about the same size, and the architecture is the same, you should start seeing better and worse results.
+
+<ul>
+<li>What are the differences between the teams that cause this effect?</li>
+<li>Can we improve the numbers?</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Estimation of solution size has been attempted with Function Points and more recently with COSMIC Function Points. I
+think using the term "point" is not quite right, so I am going to recommend being more creative although just a
+simple twist on the word.  I propose 'joint' to capture complexity.  Things with more joints are usually more
+complex, and it is relatively linear or even somewhat exponential as you increase the joint count.</p>
+
+<h3>Joints / Moves / COSMIC</h3>
+
+<p>So what should constitute a 'joint'?  With very little effort in evaluating it (will be starting soon), I believe COSMIC
+is a valid starting methodology.  So a COSMIC Point is a Joint.  Not much difference, but at least it splits the
+  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?
+  Given COSMIC measure data movements, a joint could be a synonym for a 'move', but if we augment the system with
+  additions beyond 'moves' as source of size, then the term would become a misnomer.</p>
+
+<p>More information about COSMIC is here: <a href="http://cosmic-sizing.org/">http://cosmic-sizing.org/</a> and elsewhere online.</p>
+
+<h3>Analysis and Design</h3>
+
+<p>When working through COSMIC terminology and examples, it flashed me back a couple decades to a time that we built software very differently:</p>
+
+<ul>
+<li>Software was built from requirements through analysis through design and then into implementation</li>
+</ul>
+
+
+<p>This was called a 'Waterfall' model because each stage tended to block doing anything for the next stage until
+the stage was 'complete'.  Modern Agile proponents, especially the extremely agile, have basically dropped the stages.
+But the stages are useful going both <em>forward</em> (analyse what your system is supposed to do before coding it) and <em>backward</em>
+does the analysis seem to plausibly match the requirements?  The analysis and design work was actually not the problem,
+it was just the amount of work (if you an analyst, you want to analyze) and the 'blocking' nature of the work that was
+a problem.</p>
+
+<p>A great book on this analysis and designe work was Object-Oriented Analysis and Design (1st edition) which was in several different programming
+ languages and dealt with realtime, server application, and other types of software systems.  The second generation can
+  be found here: <a href="http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf">http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf</a>
+These methods became parts of UML, which is  again commonly used for <em>heavy</em> analysis and <em>heavy</em> design, preventing the
+customer from seeing the actual product early on.</p>
+
+<p>The solution isn't to drop the steps, but to scale and time them properly</p>
 ]]></content>
   </entry>
   

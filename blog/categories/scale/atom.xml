@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Cloud | Polyglot]]></title>
-  <link href="http://markfussell.emenar.com/blog/categories/cloud/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Scale | Polyglot]]></title>
+  <link href="http://markfussell.emenar.com/blog/categories/scale/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
   <updated>2015-11-30T12:56:39-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
@@ -14,511 +14,336 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) and the ADD Stack – Summary]]></title>
-    <link href="http://markfussell.emenar.com/blog/add2-1/"/>
-    <updated>2015-10-23T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add2-1</id>
-    <content type="html"><![CDATA[<p>This is the third series describing the ADD: a radically more productive development and delivery environment.  The
-first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
- of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
- system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
- components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
- and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
- on top of that IT infrastructure.</p>
+    <title type="html"><![CDATA[READ: Scaled Agile]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-2/"/>
+    <updated>2015-11-20T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/read-2</id>
+    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
+environment.  This series is on estimation, and the first part is here: <a href="/blog/read-1">ADD: Estimation</a>.</p>
 
-<p>This series assumes you have at least skimmed the other two series, but this one is the summary of the other two.
-It is an incremental growth of the architecture in a fairly macro sense, where the details are in the other series.</p>
+<h2>Scaled Agile</h2>
 
-<h2>The three ingredients</h2>
+<p>As mentioned at the end of the first part, the extreme reaction to waterfall was to toss Analysis and Design
+away, and go from very-loose requirements into actual implementation.  I believe this was a complete mistake
+and has caused these "extreme" agile projects to be much <em>slower</em> and <em>unstable</em> compared to another approach.</p>
 
-<p>Wait, it was four a moment ago.  The ADD requires four, but advanced project collaboration requires only three.  And
-at the heart of the ADD is advanced project collaboration.  Collaboration has no 'machines', just people, so we put aside
-one ingredient.  The remaining three are the <em>nucleus</em> of ADD:</p>
+<p>The alternative is "Scaled Agile", and by this I mean both:</p>
 
 <ul>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-</ul>
-
-
-<p>These three ingredients can give individuals and teams 4x or more productivity.  And the reason is the same as for
- ADD.  There are two critical roles in any project:</p>
+<li>It is better designed for larger projects</li>
+<li>It is achieved by scaling the activities of software development projects to be appropriate for the scale and needs of the project
 
 <ul>
-<li>Changers</li>
-<li>Watchers</li>
-</ul>
-
-
-<p>The Changers are gonna change, change, change, change and the Watchers are gonna watch, watch, watch, watch.  And
-all of the people involve need to see what is going on (in the best way for them) and not be blocked getting things
-done by others on the project.  They need perfect transparency.  Which will ultimately build incredible trust,
-knowledge, and skill.</p>
-
-<p>The three ingredients form the core of a three-way Venn diagram, that I will draw in hexagonal rings.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_threeIngredients1.png" /></p>
-
-<!--more-->
-
-
-<p>Clearly the three make sense with project collaboration, and all three are used by Changers and Watchers.<br/>
-Note that 'Annexes' are part of the collaboration nucleus.  You need annexed repositories for GitHub to be a practical collaboration
-tool as resources become large.</p>
-
-<h3>The fourth ingredient and full ADD nucleus</h3>
-
-<p>Now adding the machines in, we get:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_fourthIngredient1.png" /></p>
-
-<p>And seeing the transformation from the three-ingredient version, we can see the EC2 servers are
-not critical for Changers and Watchers to interact with each other.  Except in the sense that any final product
-is part of the nucleus that Changers and Watchers want to work on.  For ADD it is a deployed application which
-might be on an EC2 server, and for other product development (books, cars, etc.) it would be that <em>product</em> vs.
-whatever "<em>factory</em>" created the product.</p>
-
-<h2>The Rings</h2>
-
-<p>So the ADD works outward from the inner collaboration nucleus plus 'the machines'.  In the other series, the tools and
-system components built out more and more functionality.  They were not described this way at the time, but
-they could be viewed as rings around rings.  As the rings worked outward, a specific ADD was defined
-(e.g. one that was Linux and Java oriented) or a specific application architecture was defined
-(e.g. on that had workers and relational databases).  All the rings are "good rings" in my experience, but
-especially as you get further out each ring could be swapped with an alternative 'implementation' that
- may be more familiar to the team or somewhat more suited to the domain.</p>
-
-<p>The rings I recommend (and recommended in the series) follow.</p>
-
-<h3>Ring-1: Interacting with the Nucleus; EC2, Linux-capable workstations, Web Browsers, Email, and Talking</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring1.png" /></p>
-
-<p>In the bottom right for the machines, I recommend using EC2 as by-far the most mature and capable cloud computing
-environment.  Once you are familiar with EC2, you can compare to other clouds (Google, IBM, EMC, etc.) but you
-need to see a 'Real Cloud' before you can evaluate whether another is good enough.  And again, althoug I recommend
-EC2, very little in the ADD is EC2-specific and it is always in the little details.</p>
-
-<p>Having Linux-capable workstations provides the best Git, automation, and EC2 tools.  You can be on Windows, but
-you will be punished.  Even worse when Ring-2 recommends Linux-Servers.</p>
-
-<p>GitHub works fine for reading with Web Browsers, and you can even do updates with it.  HipChat is the same: it
-  has an application, but it is not required.  And although most collaborative activities should be in HipChat,
-  getting email notifications are quite effective.  Finally, like other Agile methodologies, direct 'talking'
-  is fine and encouraged, but you need to make sure anything important gets into the collaboration environment
-  (HipChat) and similarly make sure anything <em>private</em> never gets into that collaboration environment.</p>
-
-<h3>Ring-2: The machines react and collaborate; Linux-Servers, CloudFormation, Bash, PushMePullYou, Vagrant, and HipChat notifications</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring2b.png" /></p>
-
-<p>Ring-2 is where the ADD starts coming truly alive and the machines 'react' to the ADD infrastructure as well as
- notify the ADD infrastructure of what is going on.  Linux-based servers (ec2 defaults to a Centos variant)
- are the most flexible, documented, and capable on the AWS (and most other) cloud infrastructures.  So this
- is an obvious choice.  Using Amazon CloudFormations is not required, but is a very simple to understand model and
- well supported in AWS.  Defaulting to using 'bash' for scripting basically makes you 'agnostic' beyond the Linux
- part.  People who don't know bash programming 'bash on bash', but it is a perfectly reasonable scripting language
- with slightly esoteric notation.</p>
-
-<p> The PushMePullYou model is the core to mass, understandable, and fast automation.  You don't touch machines, you
- touch Git repositories, push the request (letting everyone know the request), and the machines pull it and react
- as appropriate.</p>
-
-<p> Developers/changers can use Vagrant to run and test everything very much like production is running, including having
-  their local machines come into the PushMePullYou model.</p>
-
-<p> Finally, Git, machines, and other components should always post into HipChat so people can see what they are doing.</p>
-
-<h3>Ring-3: An opinionated Java stack and good monitoring / logging: Grails, Spring, Maria, SumoLogic etc.</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring3.png" /></p>
-
-<p>Ring-3 augments the ADD into a good Java-based stack.  Both in production (a JVM running Tomcat) and
- for development (IntelliJ with a Grails/Spring stack).  By this ring we can develop software, deploy
- it, and monitor whether it is functioning properly.</p>
-
-<h3>Ring-4: A good UI framework and any other system components needed: Angular, Redis, etc.</h3>
-
-<p><img src="http://markfussell.emenar.com/images/add2-1/add2_ring4.png" /></p>
-
-<p>Ring-4 finishes off most of our application functionality.  We need to pick a UI framework beyond
- generating web pages / CSS / jQuery (those are all part of Grails) if we want functionality beyond
- the core UI from Grails / Spring.  And we can augment our application servers with any of a host of
- components / technologies (as few as possible, but better to use them then to build ourselves...
- usually).</p>
-
-<h2>Conclusion</h2>
-
-<p>The ADD can be thought of as rings around a "collaboration nucleus".  The nucleus and the first
-two rings define the ADD approach and it's benefits, where the subsequent rings tailor
-the ADD to the characteristics of good software development and high-quality
-production deployment.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-10]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-10/"/>
-    <updated>2015-10-22T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-10</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
-The eighth was an overview of Federation Components like caches, queues, payment services, and the like.  The ninth
-was on a highly reliable, scalable, flexibly, and ultimately very simple worker model.</p>
-
-<h2>WAR!</h2>
-
-<p>Continuing with the worker model, we currently have a non-production Application Server running Grails:</p>
-
-<ul>
-<li><a href="http://fed1-app1.aws.gaps2c.com:8080">http://fed1-app1.aws.gaps2c.com:8080</a></li>
-</ul>
-
-
-<p>It is running grails 'interactively' and 'off-source'.  This is fast for deployment, but it is missing a few
-things that people usually want in production:</p>
-
-<ul>
-<li>Well-defined artifact that has been tested and can't "just change"</li>
-<li>A container environment that can provide certain resources to the application (e.g. monitoring)</li>
-<li>Removal of having to understand the 'building' technology from the running technology (JVM)</li>
-<li>That production has as few technologies as possible, and is normally missing 'compilers' so people can't tweak behavior</li>
-</ul>
-
-
-<!--more-->
-
-
-<p>The last item is (IMO) a bit paranoid, and there are better ways to make sure production is stable (tripwires and
-logging).  And the third is probably unrealistic for anything but trivial debugging.<br/>
-But the first two are certainly reasonable wants.  A lot of people are familiar with deploying wars and deploying
-wars on Tomcat and other servers.</p>
-
-<h3>Where's the WAR?</h3>
-
-<p>The first issue with changing from source deployment to war-based deployment is "Where is the WAR?" and
-"How do I know it has changed?".  As with the other weird primary ingredient approaches, the WAR is going to
-be in an annexed repository.  And you can see that it changed by simply looking at whether the 'git revision' of
-the war has changed.  This approach gives incredible power and flexibility:</p>
-
-<ul>
-<li>You can have as many different versions of the application as you want.  They just each have to have their own 'folder'</li>
-<li>You can easily see which deployments are using which versions</li>
-<li>Changing a deployment to use a different version involves copying a 50 byte hash vs. an actual WAR file</li>
-<li>Getting the real file is a super-fast call to S3</li>
-<li>Bootstrapping the initial version is the same as any other version, which makes it less likely to diverge and break</li>
-</ul>
-
-
-<p>The WARs should be in a different repository from the source for a number of reasons, but the main one being their
-rules and rythms are very different.  But the structure of the repositories can be very similar to make it easy to see
-the created artifacts.  Something like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_war1.png" /></p>
-
-<p>Note that the contents of the directory could be anything.  And actually a 'trick' to making the upload much faster
-is to use an exploded 'war' vs. a normal 'war'.  Why?  Because a WAR contains a bunch of jars that are all almost
- always <em>identical</em> between versions.  So although S3 has basically unlimited space, it is silly to waste it with
- a file that (although different) is 99% the same between each version.  For example, all the identical jars within this
- expanded war:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_war2.png" /></p>
-
-<p>The trade is that you have a lot more files in the other folders.  Finally, you could do a hybrid where everything but
-the lib folder is compressed.  To make the real war, your deployment process would uncompress and then re-WAR the contents.</p>
-
-<p>The performance difference is dramatically different when working outside the EC2 grid, but is less so within that
-grid.</p>
-
-<h3>Who deploys what?  The Promotion model</h3>
-
-<p>The deploying server needs to watch something so it can see a change that is relevant to it.  Production does not care
-that there is a new QA build.  And QA may not care there is a new development build.  QA never creates its own build,
-but it only cares when a development build is "Good enough to QA".  This I call the promotion model.</p>
-
-<p>For any given application:</p>
-
-<ul>
-<li>Automated builds occur <em>all the time</em> (whenever something changes) and each gets a unique identifier (e.g. 201)</li>
-<li>Each build is then promoted through however many levels of inspection you want
-
-<ul>
-<li>If it passes muster</li>
-<li>If it has not been superseded by another build</li>
-<li>If not, it is ignored</li>
+<li>Analysis &amp; Design efforts, deliverables, and precision can be smaller or larger</li>
+<li>Increments of delivery can be smaller or larger</li>
+<li>Allowance for iteration (repeating something to refine it) can be smaller or larger</li>
+<li>Overlap of activities can be smaller or larger</li>
 </ul>
 </li>
 </ul>
 
 
-<p>With this model, you never <em>go backward</em>, which increases productivity a lot.  And your are continuously trying to
- <em>go forward</em>, which means you have very current information about where you are.  And this also increases productivity.
- Yes, in a pinch, you could see if a build <em>between</em> last success and most current can be promoted.  But that is
- impacting productivity so it should rarely be done.</p>
+<p>The second item was tossed out with the "Waterfall", at least by many in the industry.  A Waterfall is an extreme version of Agile (basically
+no during-build agility), but going directly from verbal or spread-sheet based requirements is a similarly extreme version of Agile
+and is unlikely to be as effective as properly-scaled versions of Agile.</p>
 
-<p>This also implies there is no branching.  One source.  One set of builds based on that source.  That is not required
-by this approach (branch source, new set of builds), but it is strongly encouraged because it again <em>wastes no energy</em>
-and it is trivial to flip to a different 'set of builds' when a branch/back-patch is required.  But the process is
-very optimistic while also being very realistic (the world is where it is) and appropriately pessimistic
-(you can't promote through QA until you pass the automated tests).  Because machines embody the process, you
-can't subvert it without doing it <em>very conspicuously</em></p>
+<h3>Retail Aspect / Evant / XP / Scaled Agile</h3>
 
-<p>To be promoted, you just have to be 'copied' into the right destination.  Promotions are more an 'it' than
-a 'development' activity, so they are structured under the 'it' folder.  Each federation (and potentially part)
-has it's own versions of things.  If you are in 'fed1' and want the 'grails-petclinic' application on your
-machine, you know where to look: 'fed/fed1'.  The use of 'common' vs. 'stacktype' is mirroring the flexibility
- shown elsewhere.  You could have most deployments use 'common' and have some override it.  Or most deployments override 'common'
- but there is a default in case they don't.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_promo2.png" /></p>
-
-<h3>Who builds and deploys?  Custom Worker vs. Chores</h3>
-
-<p>OK, so we need to build and deploy every time a particular repository changes.  We could do that monolithicly
-and have no registry of the war being built (it just magically happens), or we could do that in two parts:</p>
-
-<ol>
-<li>Detect change in repository: create chore to build war</li>
-<li>Detect chore and worker do chore</li>
-</ol>
-
-
-<p>The advantage of the second version is we can decompose figuring out what needs to be done from doing it, and we
-also have better visibility and consistency in the process.  Although I like doing things incrementally, I don't
-think the increment (monolith) is notably simpler than the second, and this was meant to build on our Worker topic.</p>
-
-<p>The critical question is actually 'who is going to write the chore'.  We don't want to have a bunch of chores
-created by different workers who all recognized a change was done.  Fortunately, we already have a model for this
- with the 'chore' ownership.  We need to describe an 'event' in a way that is related to whatever has changed
- about the world, and then when trying to 'create the chore' a worker first 'creates the event'.  Once an event
- is created and 'pushed', there is no reason to create it again.</p>
-
-<p>In this case, the event is pretty obvious to describe: a git repository went to a new version or specifically:</p>
+<p>In 2003, while at Evant, we took an XP-based product (an advanced retail planning system) and worked on scaling the velocity and
+agility of that project:</p>
 
 <ul>
-<li>repo3_miniature-ironman</li>
-<li>551b86e42d...</li>
+<li>To a bigger and non-XP team</li>
+<li>Through multiple time-zones, including to India</li>
+<li>Outside the development team into Product Management, Technical Sales, Marketing, and Support</li>
+<li>Into a bigger portfolio of products that had inter-dependent deliverables</li>
+<li>Across the portfolio to other product lines and teams</li>
 </ul>
 
 
-<p>so if an event for that exists, don't create another one.  Since this is a simple identification, we don't need
-the extra directory structure and can simply write a '.json' file into the appropriate time directory.  Note the
-time should be the time of the 'event', not of when it was noticed.</p>
+<!--more-->
 
-<p>A given event could trigger multiple chores, but in our case we just want to have the one 'build the war' chore
-created.  Note that the chore could be trivial: it could result in <em>no work</em> being done except seeing if a
-new WAR is needed.  Chores are rarely 'you must do this', but more 'do this if necessary'.  This alows us to
-be fast in the creation of the 'chore' vs. doing a lot of analysis up front.  Since the worker pool can be
-large, we don't want any given worker to block the pipeline too much.</p>
 
-<h4>Event structure</h4>
+<p>Evant was eventually acquired and folded into a larger company, so much of the memory of what worked well and not about
+this was lost.  Except the person who had the 'APT' charter for Evant is still alive and cognizant.  And maybe a bit
+opinionated, but will try to be objective.</p>
 
-<p>The structure of the event can be anything.  It is nice to have the JSON be declarative of what it is (an 'event')
-and then have enough information to process the information.  Some human readable information is handy for debugging
-and logging.</p>
+<p>Ultimately, I think the scaling "worked in principle" but having a pure XP team shift to Scaled Agile is asking them
+to give up an almost religious desire to "Not Analyze", "Not Design", and "Not be Objectively Measured!".  If the
+software developers really think they can program without being measured around productivity of delivering value to the
+customer, you really have to let them go.  Maybe you have a wizard or two that makes crazy amazing things happen and you
+don't bother putting them into the normal project teams, but beyond that, you need to know if your products, projects,
+and programs are <em>delivering a good ROI</em> and how you could make them deliver a better ROI.</p>
 
-<p>```json
-{
-  "type" : "event",
-  "id" :  "repo3_miniature-ironman_551b86342d"
-  "tss" : "20151022120009",
-  "kind" : "repochange",
-  "repochange": {</p>
+<p>To do that, you need to measure.  And returning to COSMIC, it is a way to measure the scale of software functionality.
+Which isn't the value to the customer of that system, but does reasonable express the complexity in providing the
+value to the customer.</p>
 
-<pre><code>"repo" : "repo3_miniature-ironman",
-"version" : "551b86342d",
-"comment" : "Just set the javaagent for Java",
-"committer" : "markfussell"
-</code></pre>
+<h3>COSMIC Measurement: Analysis and Design</h3>
 
-<p>  }
-}
-```</p>
+<p>The COSMIC process is clearly doing Analysis and Design, but in a relatively light and tunable way.  You can control:</p>
 
-<h4>Chore structure</h4>
+<ul>
+<li>How much you decompose a system</li>
+<li>The detail level and decomposition of the functional users of the system</li>
+<li>How detailed you get with "Objects of Interest" and their corresponding "Data Groups"</li>
+<li>What scope of the system you are going to measure</li>
+<li>The granularity and formality of the functional user requirements (FURs)</li>
+<li>Details around the non-FURs (indirect FURs, non-functional requirements, and other constraints)</li>
+</ul>
 
-<p>```json
-{
-  "type" : "chore",
-  "tss" : "20151022120009",
-  "event_id" : "repo3_miniature-ironman_551b86342d"
-  "event" : {</p>
 
-<pre><code>  "kind" : "repochange",
-  "repochange": {
-    "repo" : "repo3_miniature-ironman",
-    "version" : "551b86342d",
-    "comment" : "Just set the javaagent for Java",
-    "committer" : "markfussell"
- }
-</code></pre>
+<p>Doing the COSMIC measurement process is basically doing a minimal Analysis and Design on a system, so you have a good
+basis for measuring its size and correlating that to development costs.  But it doesn't just support the measurement,
+it starts building a model of the user concepts (Object of Interests), their events, the system actions, and the
+system components (based on the decomposition level).</p>
 
-<p>  }
-}
-```</p>
+<h3>The Hub: Additional (or Not) Analysis and Design</h3>
 
-<h3>Making it happen</h3>
+<p>The COSMIC analysis can be a basis to additional investment in Analysis and Design, but that is optional.  That
+is a choice of <em>delivery</em>.  You could have extreme delivery that ignored the COSMIC scope model completely.  Or
+you could have extreme delivery that went into Waterfall after the COSMIC model was produced.  Or more sensibly,
+you could start working <em>outward</em> from that hub:</p>
 
-<p>Although I mentioned before that there were 'parents', 'workers', and that application servers shouldn't do any of
-this kind of work, with this very clean pipeline it is clear our single application server could easily do all of
-this itself.  So just to save on IT, that will be the first version.  After that it is easy to see we could separate
-the 'parent/worker' from the application server.  And although likely not necessary, we could separate the 'parent'
-from the 'worker' node too.  The reason the 'parent' doesn't need to be separated is we should always have two
-parents around and a simple CloudFormation can make sure that is true.  And parents don't do that much, so there
-is no reason to have them be separate from workers.  With this model, all workers are also potential parents, and
-there are always two workers available.</p>
+<ul>
+<li>Does the minimal user concepts start describing a good logical data model?</li>
+<li>Does the decomposition work with the implementation frameworks?  Should these be more fully designed or just implemented and noted how they are different.</li>
+<li>If there is a lot of data-reading by different functional processes, are these from a single database or many or cached?</li>
+</ul>
 
-<h4>Detecting the change to 'Repo3'</h4>
 
-<p>This is actually the same script as before where we just do something different in the 'ActualWork' source:</p>
+<p>Note that these 'expansions' are not meant to alter the Hub: The measurement was done, and you can leave it alone
+but leverage it for subsequent activities</p>
 
-<p>```bash</p>
+<h3>The Hub: Drilling down with COSMIC</h3>
 
-<pre><code>   echo "Detected Change in Git Version!";
+<p>Alternatively, as you do analysis and design, you can produce a new granularity and scope that you want to now
+measure again.  This could be done only when things seem to have become <em>very</em> different from original expectations,
+or consistently to understand development 'hidden requirements' or really 'derived requirements' growth.  The
+measurement should still ignore NFRs, but the deeper granularity and the conversion of some NFRs to FURs would
+cause a different estimate of 'Joints' because we have a different (more detailed) view of the system.</p>
 
-   export START_TSS="`date +%Y%m%d-%H%M%S`"
-   echo "Starting ActualWork at ${START_TSS}"
-   echo $GIT_VERSION &gt; ${WORK_DOING_VERSION}
+<h3>Scaled Agile Manifesto</h3>
 
-   source ${MY_DIR}/work_FindEvent_Repo3_ActualWork.sh
-</code></pre>
+<p>I believe the Agile Manifesto was reactionary and extreme.  It had good ideas in it, but was missing core premises
+that customers and development teams should expect from a good development project:</p>
 
-<p>```</p>
+<p>Manifesto:</p>
 
-<p>So now we know we have to do the work, but we need to see if it was already done by someone else:</p>
+<ul>
+<li>The Customer is always right about what they want.  The delivery team should always be honest and informative about what they can deliver and how they are doing it.
 
-<p><code>``bash
-export FIND_EVENT=</code>find work/event -name ${EVENT_NAME} | head -1`</p>
+<ul>
+<li>The Customer can change what they want, change the delivery team they use, but they can't interfere within the delivery team</li>
+<li>The delivery team should always deliver a functional-requirements-based estimate of a project independent of the technology and other delivery choices, so the customer knows what they are asking for (compared to other projects) and getting (given the delivery approach)
 
-<p>echo $FIND_EVENT</p>
+<ul>
+<li>Unless the customer clearly says "I don't care", in which case the delivery team can choose whether to do the work for their own internal benefit</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Unless it helps a customer figure out what they want, requirement-fulfilling working systems are the only true progress of a project</li>
+<li>A customer can desire to go forward to later stages (analysis, design, and implementation) before they are sure what they want
 
-<p>if [[ "" == "$FIND_EVENT" ]] ;
-then</p>
+<ul>
+<li>The cost of responding to change should be minimized while still supporting maximal ROI and velocity if there are no changes</li>
+</ul>
+</li>
+<li>Processes and tools are to support the Customer and Ddelivery team's needs, and not ends of themselves.
 
-<pre><code> #========================================
- #=== We are the first! Rush to add it
- #========================================
-</code></pre>
+<ul>
+<li>A default or customary usage of processes and tools is appropriate, but should be evaluated if there appears to be no need or even clear counter-benefit</li>
+</ul>
+</li>
+</ul>
 
-<p>cat &lt;<EOS >>$EVENT_FILE
-{
-  "type" : "event",
-  "id" :  "${EVENT_ID}"
-  "tss" : "${EVENT_TSS}",
-  "kind" : "repochange",
-  "repochange": {</p>
 
-<pre><code>"repo" : "${EVENT_REPO}",
-"version" : "${GIT_VERSION}"
-</code></pre>
+<p>Principles:</p>
 
-<p>  }
-}
-EOS</p>
+<ul>
+<li>Our highest priority is to satisfy our current customers
 
-<p>git add $EVENT_FILE
-git commit -m "Creating an event for the change ${GIT_VERSION}";
-git push
-```</p>
+<ul>
+<li>Through techniques that enable the customer to make good decisions, see verifiable progress toward their goals, and determine if they are getting a good ROI</li>
+</ul>
+</li>
+<li>Our second highest priority is to satisfy future customers even better
 
-<p>If this push succeeds, we are free and clear.  If not, we can try to merge (maybe some other event or chore was written)
-and push again with a quick 'git pull; git push'.  We could do that "forever" or until we know we have no hope (study the
-actual output of the git pull, push, or other metadata between the two branches).  For the first pass, we can just do
-it once.</p>
+<ul>
+<li>Through evaluation of what went well and poorly, and looking for ways to give even higher satisfaction (whether ROI, predictability, or in other ways) to customers</li>
+</ul>
+</li>
+<li>Both sides should care about each other:
 
-<h4>Event poster also chore poster</h4>
+<ul>
+<li>A happy development team that cares about the customer is usually better at satisfying the customer</li>
+<li>A customer that truly cares about the development team is usually better at inspiring the team to deliver its best</li>
+</ul>
+</li>
+</ul>
 
-<p>Since we know we detected the 'event' first, we are the owner of the event and
-can now safely write out the 'chores' associated with the event.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ADD: Estimation]]></title>
+    <link href="http://markfussell.emenar.com/blog/read-1/"/>
+    <updated>2015-10-23T01:00:00-07:00</updated>
+    <id>http://markfussell.emenar.com/blog/read-1</id>
+    <content type="html"><![CDATA[<p>This is the fourth series describing the ADD: a radically more productive software development and delivery
+environment.  The first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
+of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
+system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
+components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
+and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
+on top of that IT infrastructure. The third series starts here: <a href="/blog/add2-1">Advanced Development and Delivery Summary</a>
+and gave an executive summary of the ADD.</p>
 
-<p>```bash</p>
+<p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
+ estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
+ quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
+ to do a project and (b) whether the people you have are up-to-snuff.  If you <em>know</em> you have to do
+ a project and you <em>have</em> certain people: don't worry about the estimate.  It is irrelevant.  Just "wing it".
+ But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
+ figuring out how good your team is after you do a project, then estimations are the core benchmark to
+ give you feedback.</p>
 
-<p>cat &lt;<EOS >>$CHORE_FILE
-{
-  "type" : "chore",
-  "tss" : "${EVENT_TSS}",
-  "event_id" : "${EVENT_ID}",
-  "kind" : "buildwar",
-  "war_repo" : "${WAR_REPO}",
-  "war_path" : "${WAR_PATH}",
-  "event" : {</p>
+<h2>Estimation is crazy-hard</h2>
 
-<pre><code>  "kind" : "repochange",
-  "repochange": {
-    "repo" : "${EVENT_REPO}",
-    "version" : "${GIT_VERSION}"
- }
-</code></pre>
+<p>The problem with estimating is you can't be good at it unless you have done something very similar before.  But
+most workers in an industry are relatively new to it: less than ten years.  And if each project takes a couple
+years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
+change roles, or change organization, and your estimates are likely poorly based.</p>
 
-<p>  }
-}
-EOS</p>
+<p>When something is too hard for someone to do easily, you need to decompose it to make it (a) easier and (b) separable.</p>
 
-<p>git add $CHORE_FILE
-git commit -m "Creating a chore for the event ${EVENT_ID}";
-git push
-```</p>
+<!--more-->
 
-<h4>Detecting and doing the chore</h4>
 
-<p>We went through detecting the chore before <a href="/blog/addstack-9/">AddStack-9</a>, but now we want to do something with the chore.</p>
+<p>Doing two or more pieces sequentially is commonly easier than doing the whole task at one time.  By easier, I don't
+mean faster.  It may take more time, especially if there is some interrelationship between the pieces.  But there
+is commonly a limit to how much a human brain can do at one time until they are trained.  Over time, the training
+in the pieces enables them to be done simultaneously.  Master chefs and similar tend to be trained in all pieces of
+  their craft until they can do it all so easily that they can do it simultaneously.</p>
 
-<p>Given the chore is describe in JSON and what we do for the chore could be complex, we should switch to a higher
-level language than 'bash'.  In this case we can go into Python as a decent scripting language:</p>
+<p>By making the pieces separable, you can have different people work on each of the pieces, and develop the skills
+   needed for that piece alone.  Note that this isn't "slicing" a large piece of work into a smaller piece of work which
+   requires all the same skills.  That would be like a chef doing part of the dinner service.  Instead it is
+   separating the skills needed for the task: one chef "Plates" and just plates, another cooks meats, another cooks vegetables,
+   another makes sauces, and so on.</p>
 
-<p><code>bash
-python ${COMMON}/doChore.py --source ${RANDOM_DOIT_DIR}/chore.json --gitroot ${GIT_ROOT}
-</code></p>
+<p>The critical question is then how to decompose?  First we need to define and decompose what we mean by estimation.  And to do
+that, we can put estimation into the macro solution-delivery process of software.</p>
 
-<p>This implies a powerful chore processing script, or one that can modularly call other scripts.
-As long as the script leads the creation of 'chore' types, we should be fine whether monolithic or modular.</p>
+<h2>A Framework: READ-OR</h2>
 
-<p>The core of the routine is just to extract the necessary information from the JSON</p>
+<p>I have been reading and writing software for about 35,000 hours.  Mostly reading, which I believe is the core
+to being a great programmer: read great programmers' code and you will learn from it.  It may be hard to find
+great code to read, but you can always start with Smalltalk or find some epic system close to the
+kinds of systems you build.</p>
 
-<p>```python</p>
+<p>Working through possible acronyms for the bigger software development process, I stumbled upon my favorite word: "READ".
+All software is developed through this simple approach and acronym:</p>
 
-<p>source_directory = os.path.dirname(source)
-source_json = json.load(open(source))</p>
+<ul>
+<li>Requirements of Solution – Given the problem, and what is your solution to that problem?  What does that solution require to solve the problem?</li>
+<li>Estimation of Size – What is the estimate of the <em>size</em> of the solution?  Note this is independent of the architecture and technology.  It is the functional size estimate and not the delivery estimate</li>
+<li>Architecture – What is the architecture and technology you want to use to deliver this solution</li>
+<li>Delivery – Now deliver or consider delivering.
 
-<p>chore_kind = source_json['kind']</p>
+<ul>
+<li>Estimate the delivery timeline and costs, and decide if the solution is worth doing.  If not, change architecture or change solution.</li>
+<li>If this is a waterfall, deliver once.  If incremental, deliver in increments.</li>
+</ul>
+</li>
+</ul>
 
-<p>if chore_kind == "buildwar":</p>
 
-<pre><code>build_repo = source_json['event']['repochange']['repo']
-build_version = source_json['event']['repochange']['version']
-war_repo = source_json['war_repo']
-war_path = source_json['war_path']
+<p>And bonus pieces</p>
 
-buildwarfromrepo_version_torepo_path(build_repo, build_version, war_repo, war_path)
-</code></pre>
+<ul>
+<li>Over – Now the project is either done or the process starts over until the solution solves the real problem.
 
-<p>```</p>
+<ul>
+<li>This requires "Delta" size estimation.  How much is being added to or modified about a system?</li>
+</ul>
+</li>
+<li>Review – Review the size of what was built (not time, but solution functional size)
 
-<p>With this information we can then go to the build repository, do a simple 'grails package', and copy it to the
-appropriate repo and path.</p>
+<ul>
+<li>Determine what you would likely want to improve in the solution, architecture, or delivery</li>
+</ul>
+</li>
+</ul>
 
-<h3>Other 'chores' for this event?</h3>
 
-<p>The event that caused the 'buildwar' chore could also cause other activities.  Each of the
- application servers could create their own 'chore' to redeploy, which would enable the 'event' and 'chore'
- repository to reflect system activity on a broader sense.  Because they are doing the chore themselves,
- it would just be a way to log the activity vs. being a way to pass it out to a bunch of workers.</p>
+<p>So now that we have Esitmation</p>
 
-<h2>Conclusion</h2>
+<h3>Estimation of Solution Size</h3>
 
-<p>The event, chore, and worker model is a very flexible, reliable, and scalable way to get stuff done.  It is
-especially good at keeping throughput under control even when tasks can get onerous or 'herding' occurs.<br/>
-As the backlog grows, more workers appear to keep it in control.  When the backlog shrinks the workers go
-to sleep or decommission.</p>
+<p>The hard part is doing Estimation of Solution Size without getting pulled into the details of architecture and delivery.  We are not
+yet good at this as an industry.  We need a body of knowledge and a system to estimate the size of a solution
+ independent of the architecture chosen and the team that delivers.  If we have this, we can finally <em>measure</em>
+ something useful.  Actually we can measure <em>a lot</em> of useful things.</p>
 
-<p>The biggest issue with the worker approach is to make sure you know the ramp rate and reliability.  Even with a
-huge cloud like EC2, there can be stutters and you have to more aggressively try to get resources, or accept that
-the user experience may be a bit more lagged.</p>
+<ul>
+<li>What is the ROI of the solution?  If the solution is really big, there are very few architectures and delivery teams that are going to dramatically reduce the cost</li>
+<li>How well do certain architectures do against a particular solution?  For a given delivery team, you can see what they are good at or not.  Going across delivery teams, you may be able to identify <em>better</em> architectures vs. <em>more familiar</em> to the team.
+
+<ul>
+<li>What are the differences between the architectures that cause these effects?</li>
+<li>Should we change architectures or train more in an architecture?</li>
+</ul>
+</li>
+<li>How well do the delivery teams deliver?  Especially if the solution is about the same size, and the architecture is the same, you should start seeing better and worse results.
+
+<ul>
+<li>What are the differences between the teams that cause this effect?</li>
+<li>Can we improve the numbers?</li>
+</ul>
+</li>
+</ul>
+
+
+<p>Estimation of solution size has been attempted with Function Points and more recently with COSMIC Function Points. I
+think using the term "point" is not quite right, so I am going to recommend being more creative although just a
+simple twist on the word.  I propose 'joint' to capture complexity.  Things with more joints are usually more
+complex, and it is relatively linear or even somewhat exponential as you increase the joint count.</p>
+
+<h3>Joints / Moves / COSMIC</h3>
+
+<p>So what should constitute a 'joint'?  With very little effort in evaluating it (will be starting soon), I believe COSMIC
+is a valid starting methodology.  So a COSMIC Point is a Joint.  Not much difference, but at least it splits the
+  two issues: How big is it (1000 joints)?  How long is it expected to take to build it (10,000 points)?
+  Given COSMIC measure data movements, a joint could be a synonym for a 'move', but if we augment the system with
+  additions beyond 'moves' as source of size, then the term would become a misnomer.</p>
+
+<p>More information about COSMIC is here: <a href="http://cosmic-sizing.org/">http://cosmic-sizing.org/</a> and elsewhere online.</p>
+
+<h3>Analysis and Design</h3>
+
+<p>When working through COSMIC terminology and examples, it flashed me back a couple decades to a time that we built software very differently:</p>
+
+<ul>
+<li>Software was built from requirements through analysis through design and then into implementation</li>
+</ul>
+
+
+<p>This was called a 'Waterfall' model because each stage tended to block doing anything for the next stage until
+the stage was 'complete'.  Modern Agile proponents, especially the extremely agile, have basically dropped the stages.
+But the stages are useful going both <em>forward</em> (analyse what your system is supposed to do before coding it) and <em>backward</em>
+does the analysis seem to plausibly match the requirements?  The analysis and design work was actually not the problem,
+it was just the amount of work (if you an analyst, you want to analyze) and the 'blocking' nature of the work that was
+a problem.</p>
+
+<p>A great book on this analysis and designe work was Object-Oriented Analysis and Design (1st edition) which was in several different programming
+ languages and dealt with realtime, server application, and other types of software systems.  The second generation can
+  be found here: <a href="http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf">http://www.sphoorthyengg.com/MCAupload/upload/object-oriented-analysis-and-design-with-applications-2nd-edition.pdf</a>
+These methods became parts of UML, which is  again commonly used for <em>heavy</em> analysis and <em>heavy</em> design, preventing the
+customer from seeing the actual product early on.</p>
+
+<p>The solution isn't to drop the steps, but to scale and time them properly</p>
 ]]></content>
   </entry>
   
