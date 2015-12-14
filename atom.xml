@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T09:01:23-08:00</updated>
+  <updated>2015-12-14T09:14:16-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -18,9 +18,9 @@
     <link href="http://markfussell.emenar.com/blog/arch-1/"/>
     <updated>2015-12-01T01:00:00-08:00</updated>
     <id>http://markfussell.emenar.com/blog/arch-1</id>
-    <content type="html"><![CDATA[<p>It is now the end of 2015 and I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+    <content type="html"><![CDATA[<p>It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Objective-C, Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
 
-<p>By building so many systems over the years, I get to see many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+<p>By building so many systems over the years, I have seen many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
 
 <p>The systems, applications, and architectures documented here will eventually include:</p>
 
@@ -73,8 +73,13 @@
 <li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
 </ul>
 </li>
-<li>ADD: A recommended development environment and platform for The Gap, Shaklee, and others</li>
-<li>ABC: An analytics platform for massive scale machine learning</li>
+<li>ABC: An analytics platform for massive scale machine learning
+
+<ul>
+<li>Weka, Python, Grails, Amazon AWS services</li>
+</ul>
+</li>
+<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
 </ul>
 
 ]]></content>
