@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi &#8211; Procedural With Input The second example from &#8220;A Taste of &hellip;">
+  <meta name="description" content="This is a multi-part series. The first in the series is here. Tower of Hanoi &mdash; With Model Objects The book &#8220;A Taste of Smalltalk&#8221; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,96 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/a-taste-of-flex-part-4/">A Taste of Flex (Part 4)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T07:13:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="/blog/a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi &mdash; With Model Objects</h2>
+
+<p>The book &#8220;A Taste of Smalltalk&#8221; jumps from showing a single &#8216;TowerOfHanoi&#8217; object to both adding in Disk model objects and putting on a graphical representation of those Disk objects.  Even though Flex has no issue with graphics, I want to separate these two changes both to match Ruby and because the changes are logically somewhat separate.  So first we can put in Disk objects and study that change.  After that, we can go into the GUI code.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/a-taste-of-flex-part-4/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/a-taste-of-flex-part-3/">A Taste of Flex (Part 3)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-02T05:11:00-07:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a multi-part series.  The first in the series is <a href="/blog/a-taste-of-flex">here</a>.</p>
+
+<h2>Tower of Hanoi &#8211; With A Real Object</h2>
+
+<p>The first two examples were not really object-based.  They are purely procedural, the algorithm is expressed completely recursively, and execution state is maintained on the call stack.  This works fine if we are just &#8216;tracing&#8217; the algorithm, but it does not let us show the state of the towers at any given time.  We also don&#8217;t see much in the way of real objects.  By adding the state of the towers in, we now have a reason to have stateful objects and new Classes of objects to maintain that state.  The added code with some explanation is in Chapter 4, Page 45.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/a-taste-of-flex-part-3/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -414,168 +504,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/viking/">The Viking: A Direct Marketing System for OOPSLA DesignFest</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2000-05-10T18:00:00-07:00" pubdate data-updated="true">May 10<span>th</span>, 2000</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/TheViking5e.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<div class=Section1>
-
-<p class=MsoTitle style='margin-top:0in'>The Viking</p>
-
-<p class=MsoSubtitle><!--[if gte vml 1]><v:shapetype id="_x0000_t75"
- coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
- filled="f" stroked="f">
- <v:stroke joinstyle="miter"/>
- <v:formulas>
-  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
-  <v:f eqn="sum @0 1 0"/>
-  <v:f eqn="sum 0 0 @1"/>
-  <v:f eqn="prod @2 1 2"/>
-  <v:f eqn="prod @3 21600 pixelWidth"/>
-  <v:f eqn="prod @3 21600 pixelHeight"/>
-  <v:f eqn="sum @0 0 1"/>
-  <v:f eqn="prod @6 1 2"/>
-  <v:f eqn="prod @7 21600 pixelWidth"/>
-  <v:f eqn="sum @8 21600 0"/>
-  <v:f eqn="prod @7 21600 pixelHeight"/>
-  <v:f eqn="sum @10 21600 0"/>
- </v:formulas>
- <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
- <o:lock v:ext="edit" aspectratio="t"/>
-</v:shapetype><v:shape id="_x0000_i1025" type="#_x0000_t75" style='width:109pt;
- height:234pt' fillcolor="window">
- <v:imagedata src="TheViking5e_files/image001.wmz" o:title="Viking1.cdr"/>
-</v:shape><![endif]--><![if !vml]><img width=111 height=236
-src="/images/TheViking5e_files/image002.gif" v:shapes="_x0000_i1025"><![endif]></p>
-
-<p class=MsoSubtitle>A Direct Marketing System</p>
-
-<p class=AuthorInfo style='margin-top:6.0pt'><b style='mso-bidi-font-weight:
-normal'><span style='font-size:9.0pt;mso-bidi-font-size:10.0pt'>Mark L. Fussell<o:p></o:p></span></b></p>
-
-<h2>Introduction</h2>
-
-<p class=MsoNormal>The Viking is a system that maintains information about
-customers and can send them letters tailored with important, relevant, and
-time-critical information.<span style="mso-spacerun: yes">&nbsp; </span>The
-Viking is the core of a direct marketing system: it will directly interact with
-users to configure the campaigns and will work with other system components to
-accomplish the mailing itself. </p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/viking/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/abc-development-process/">The ABC Development Process</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="1998-09-15T18:00:00-07:00" pubdate data-updated="true">Sep 15<span>th</span>, 1998</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is also a PDF version <a href="/pdfs/ABCProcess_0_5d.pdf">here</a> which might be easier to read
-because it has a bit more formatting.</p>
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>This document
-describes the life cycle process used by the ABC project, the motivations for
-that life cycle, and how that life cycle was determined and implemented.<span
-style="mso-spacerun: yes">&nbsp; </span>Our primary goal is to document ABC&#8217;s
-process so other teams can gain a better understanding of it and use it to help
-develop processes for other teams.<span style="mso-spacerun: yes">&nbsp;
-</span>Our secondary goal is to continue documenting and crystallizing ABC&#8217;s
-process for use within the ABC team.<span style="mso-spacerun: yes">&nbsp;
-</span>The ABC project was a specific project for the XYZ company, but names
-have been changed and any proprietary materials removed.<span
-style="mso-spacerun: yes">&nbsp; </span>This makes the material available to a
-wider audience, with only a few holes.</span></p>
-
-
-
-
-<p class=MsoNormal><span style='mso-bookmark:_Toc390967791'>The ABC project&#8217;s
-process has several salient characteristics that impact how it can be
-described. (1) It is currently in use within XYZ. (2) It has had several months
-to work our rough edges. (3) It was primarily guided with a core set of goals.
-(4) It is principally based on an integration of several documented and
-mainstream development practices.<span style="mso-spacerun: yes">&nbsp;
-</span>So to describe the process we can alternate from the very concrete (&#8220;the
-ABC team does this&#8221;) to the more general (&#8220;Booch suggests doing this&#8221;).<span
-style="mso-spacerun: yes">&nbsp; </span>We can also leverage existing writings
-and just describe the differences from those writings and how they were
-integrated into the ABC process.<span style="mso-spacerun: yes">&nbsp;
-</span>We hope that connecting these differing abstraction layers and
-perspectives will both make the process more understandable and make the
-concepts more applicable to other teams.</span></p>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/abc-development-process/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -603,6 +531,14 @@ concepts more applicable to other teams.</span></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/arch-3/">Velidom: Two Decades of Systems and Architectures</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/arch-2/">Evant: Two Decades of Systems and Architectures</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/arch-1/">Two Decades of Systems and Architectures</a>
       </li>
     
@@ -614,19 +550,11 @@ concepts more applicable to other teams.</span></p>
         <a href="/blog/read-1/">ADD: Estimation</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add2-1/">Advanced Development and Delivery (ADD) and the ADD Stack – Summary</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/addstack-10/">ADD Stack [Part-10]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 102.22222222222223%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 137.77777777777777%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 102.22222222222223%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 106.66666666666667%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 142.22222222222223%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 106.66666666666667%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

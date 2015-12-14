@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T09:41:13-08:00</updated>
+  <updated>2015-12-14T15:15:33-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-3/"/>
+    <updated>2015-12-03T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-3</id>
+    <content type="html"><![CDATA[<p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
+development team.  This was in the early 2000 time-frame and Evant had created technology which did
+mass regression testing on every checkin, enabled continuous inter-team communication (including to India),
+and various other major features.  Velidom was an attempt to productize this whole concept: The Velocity
+to Dominate with an Advanced Software Development Factory.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The Velidom Factory was built primarily out of Java-based technologies and VMWare ESX capabilities.  The goal was
+to integrate into common tools at the time (Eclipse / Subversion / etc.), automatically launch testing
+and deployment servers on any given checkin, verify whether a commit was clean, and either push it through
+to the main development line or roll it out based on that verification.</p>
+
+<p>Another side of the factory was an agile development tool that tracked features, their values, the tasks
+needed to complete them, and the status of everything.  This was for planning, agility, and measuring.  The
+automation was to increase velocity and &#8216;reality&#8217; (if it didn&#8217;t successfully go in, it wasn&#8217;t in).</p>
+
+<p>A final side of the factory was a set of communication tools for both real-time and knowledge accumulation,
+where both of these were hooked into the other sides of the factory so what everything was visible and memorable.</p>
+
+<p>If you look at the <a href="http://markfussell.emenar.com/blog/add-1">Advanced Development and Delivery Environment</a> you will see pretty much all of this
+vision manifested through other companies&#8217; solutions.  Ultimately Velidom&#8217;s vision was too big to succeed with the
+runway the startup had and the events that occurred during its&#8217; lifetime.</p>
+
+<h2>Architecture-1 : Virtualization and Virtualized Desktops</h2>
+
+<p>Of all the architectural aspects that Velidom got right, virtualizing the infrastructure was almost certainly
+the biggest &#8216;Yes!&#8217;.  VMWare ESX was expensive, but having that infrastructure in place made it possible to
+think about computation in a way very different from the raw hardware.  Ultimately from Amazon EC2 through to
+Vagrant, this separation has come to pass as a higher-level-language of computational hardware.  Virtualized
+computers can be built in minutes and discarded after being used.</p>
+
+<p>Velidom provided virtualized desktops and servers as a service, and we spent the money and time
+building out the hardware, the virtualized server side, and creating a custom desktop client.  The results were impressive,
+leading edge, unreliable, and expensive.  Things were unreliable due to the client-server desktop communication
+paradigm.  This needed good networks and a good protocol for the remote desktop.  And given these were development machines, they needed
+to be secure, so each had its own private network.  Again, this was too big a vision to succeed at that time.  Focusing
+on just servers may have been viable, but it wasn&#8217;t clear what the value was without a large base of customers committed
+to good automated test suites (which is certainly plausible).</p>
+
+<p>Expensive is relative, and the virtualization Velidom provided may have been viable except for an event that occurred
+in 2006.  Amazon announced EC2, and suddenly the price point of virtualized computers dove to a number no one else
+could compete with.  Even 10 years later, there are very few viable cloud providers, and no small ones.</p>
+
+<h2>Architecture-2 : Tool Integration and Improvement</h2>
+
+<p>One of the core Velidom concepts was the integration between tools (e.g. Eclipse) and the functionality we provided.
+We had Eclipse plugins to do things within the factory, including chat, logging, automation, and other activities.
+Integrating directly with a tool is nice, but definitely development expensive.  And the tools you are connecting with
+(Eclipse and Subversion) may &#8216;go away&#8217;.  In 2005, Eclipse was a good choice, but if we had customers on a Microsoft
+development stack, they might have been unsatisfiable.</p>
+
+<p>The core problem wasn&#8217;t picking the right tool, it was picking any tool before having a Minimal Viable Product.  Tool
+integration is not part of Minimal Viable: if your product is good at group chat, people will start using it.  A full
+suite of products (the Factory) is also not part of Minimal Viable: whether chat or automated regression testing,
+just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
+integration with their favorite tools as an important improvement.</p>
+
+<h2>Architecture-3 : Server reactor</h2>
+
+<p>The last architecture from Velidom that I am going to mention is the &#8216;reactor&#8217; or &#8216;queue&#8217; pattern.  Doing
+a mass regression test with servers being created on the fly takes time.  Separating the &#8216;request&#8217; from the task
+to complete the request is very effective for both scaling and also avoiding needless scaling.  If the automation
+is fast enough, you don&#8217;t need to scale.  If you don&#8217;t have the extra money to buy the bonus performance,
+you also don&#8217;t need to scale.  You can choose whether to pay for time or not.</p>
+
+<p>The one aspect that for a codebase or similar &#8216;team progessive&#8217; activity is whether people wait for things to finish.
+Ideally, you are &#8216;unblocked&#8217; while you wait: you can go on to something else.  But in a team environment, many people
+are trying to get there work in the main codebase of work.  With Subversion, we had to do some annoyingly fancy tricks
+to extract a bad build.  With Git and faster testing tools (in memory databases, better functional test declaration
+languages), this is far less of a problem.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Evant: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-2/"/>
+    <updated>2015-12-02T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-2</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues.  The table of contents of the series is <a href="http://markfussell.emenar.com/blog/arch-1">here</a>.</p>
+
+<p>Evant was originally named Retail Aspect and provided a Retail-as-a-service suite to companies that were
+joining the Web retail boom (e.g. Disney Online).</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The technical foundations of the company were from a
+Java / Smalltalk background, so the server technologies were pretty mainstream Java enterprise technologies.
+The client was the &#8216;leading edge&#8217; piece in the implementation technology, using a lot of JavaScript back in a very early time
+for the language (early 2000s).  The whole system was notable in the number of automated regression tests
+it contained (see below).  The database was initially Oracle but later moved to DB2.</p>
+
+<p>Evant had a suite of products that did not succeed as a suite, potentially due to 9-11 causing a shutdown of online
+retail activity.</p>
+
+<h2>Architecture-1 : Strong Client, Server-UI, and Server-Domain separation</h2>
+
+<p>In terms of making the Evant Advanced Planning product capable, performant, and testable, there was a very strong
+separation between &#8220;Interface&#8221; (UI or Test) and &#8220;Domain&#8221;.  The Domain includes all the business functionality within the planning
+engine, exposed by a Java-based API.  It could be driven by either tests or the User Interface.  The API was identical,
+so if the tests were successful, the engine was doing the &#8216;right thing&#8217;.  And the UI just needed to:</p>
+
+<ul>
+<li>Interact with the interface similarly to the tests
+
+<ul>
+<li>Or expand interface and tests for new needs</li>
+</ul>
+</li>
+<li>Present the information pleasantly and effectively</li>
+</ul>
+
+
+<p>The UI could do all kinds of amazing things to transform the results or make actions easier for a user.  Since this was
+a JavaScript application, lots of things could happen on the client without server interaction or asynchronously with
+the server.  The important part was having a single contract that the two clients (one verifying, one using) could
+run against.</p>
+
+<h2>Architecture-2 : Mass Automated Testing</h2>
+
+<p>The original Evant team was very committed to a full XP (Extreme Programming) approach and used TDD, Paired Programming,
+and other aspects of XP as part of their development process.  I arrived after this development period, but there
+were a fairly extensive collection of automated tests as part of the development artifacts.  However they were
+created, they were incredibly useful for regression testing as we transformed the Domain to be far faster,
+more scalable, and flexible.</p>
+
+<p>Initially the tests were in XML to allow a very flexible system of automated testing that (in theory) could have tests
+written by subject matter experts or general end users.  This flexibility made it a poor Domain-Specific-Language and
+users could not write tests themselves.  The tests were also very repetitive (wet) given they had to describe
+many states, inputs, and outputs within a matrix-like space.  Ultimately the solution was to move to a matrix-oriented
+tool: a Spreadsheet.  And simply organize states, inputs, and outputs within that spreadsheet.  Automation turned
+the spreadsheets into automated test specifications.  And the integration server ran this vast collection of tests
+pretty much <em>all the time</em> to make sure nothing regressed (or at least it was identified if it did).</p>
+
+<p>The automated testing was a continuous benefit as long as we could keep performance of the testing servers equal to
+developer demands.</p>
+
+<h2>Architecture-3 : Hidden Storage Model</h2>
+
+<p>An important part of the Domain&#8217;s API was its&#8217; separation of &#8216;transactions&#8217; from its &#8216;storage&#8217;.  The system had
+transactional statements (&#8216;update&#8217; and &#8216;save&#8217;) but how those things were accomplished was not visible at the
+interface.  This separation prevented callers from caring and fiddling with how things were communicated to the
+persistent storage.</p>
+
+<p>Not all systems need this kind of separation: What is the chance you will swap out your database?  With a very different
+database?  But the Evant storage model was a Hybrid-relational system with the bulk of the data stored in semi-opaque
+compressed format.  So the domain acted transactionally, but under the covers it did a lot of data transformations to
+organize and compress facts.  Transformations that evolved in time (different versions had better formats) and evolved
+based on the size of the data space and performance tuning around it.</p>
+
+<h2>Architecture-4 : Canned to Generic</h2>
+
+<p>Another common and useful architectural progression is going from &#8216;canned&#8217; (fully specified) to &#8216;generic&#8217; (very flexible)
+capabilities.  You should generally start at &#8216;canned&#8217; so you have super-control over what you are doing and</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Two Decades of Systems and Architectures]]></title>
@@ -25,6 +188,12 @@
 <p>The systems, applications, and architectures documented here will eventually include:</p>
 
 <ul>
+<li>Evant Advanced Planning: A multidimensional planning system
+
+<ul>
+<li>Java, JavaScript</li>
+</ul>
+</li>
 <li>Velidom: A highly virtualized and automated software development environment / factory
 
 <ul>
@@ -4646,321 +4815,6 @@ any &#8216;init&#8217; and &#8216;work&#8217; script has read the files a login 
 into the hierarchy:</p>
 
 <p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy2.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-7]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-7/"/>
-    <updated>2015-10-04T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-7</id>
-    <content type="html"><![CDATA[<p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
-
-<h2>Fuller Presence and EC2 Integration</h2>
-
-<p>In the previous part, I went through a very simple but powerful model of &#8216;presence&#8217; using simply GitHub repositories.
-The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
-The second level of presence is to update the state of the node as it changes.  For example, a node goes through
-a few bootstrap steps:</p>
-
-<ul>
-<li> presetup – The node before any updates are possible (no ability to change status)</li>
-<li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
-<li> initdone – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
-</ul>
-
-
-<p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
-our federation!</p>
-
-<!-- more -->
-
-
-<p>So far for the ADD we now have four resources within which track node states:</p>
-
-<ul>
-<li> On the node (say &#8216;/root/log&#8217; or &#8216;/root/nodeinfo/state.txt)</li>
-<li> Within the presence system</li>
-<li> Within HipChat</li>
-<li> On EC2 itself</li>
-</ul>
-
-
-<p>I recommend using <em>all</em> of them.</p>
-
-<h3>On node</h3>
-
-<p> On the node is very helpful in that it is isolated from any other failures.  You
- can &#8216;tail&#8217; the logs or &#8216;cat&#8217; the state file.  This tangibility helps understand things and debug if there is failure.</p>
-
-<h3>Within Presence</h3>
-
-<p> Within the presence system is the most powerful and flexible.  It is easy to see history and all the activity of your
- nodegrid.  And the nodegrid can use the presence system to figure out what nodes are present and in full &#8216;working&#8217;
- mode.</p>
-
-<h3>HipChat</h3>
-
-<p> Within HipChat lets everyone see and talk about the changes.  It can get noisy though, so you need
- to separate the &#8216;chatty&#8217; state changes from the &#8216;critical&#8217; ones.  An example of &#8216;critical&#8217; is when a machine realizes
- it is broken.  It is running the cron job, but something is wrong and it can tell that the &#8216;work&#8217; is not completable.
- I call this being &#8216;wedged&#8217;.  If a machine is &#8216;wedged&#8217;, it should tell people and then we can work on improving its
- DNA so it can unwedge itself in the future.  And then kill the machine.</p>
-
-<h3>EC2</h3>
-
-<p> By using EC2 tags you can leverage the EC2 dashboard.  I view &#8216;tags&#8217; as read-only because the ADD should not get
- attached (be dependent) on EC2, but it is helpful for visibility.</p>
-
-<h3>Examples</h3>
-
-<p>The following show two machines initializing through Presence, HipChat, and EC2.  The only trigger for this was
-killing the existing two instances: the AutoScalingGroup automatically replaced them.</p>
-
-<h4>Launching viewed within EC2 Dashboard</h4>
-
-<p>Nicely the &#8216;add:&#8217; prefix makes all the properties that are most important appear on the left.  Some of the names
-of concepts are intentionally alphabetically &#8216;sorted&#8217; so they appear in the correct column.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-7/add7_ec2_cv1b.png" /></p>
-
-<p>Click here: <a target="add7_ec2_cv1b" href="http://markfussell.emenar.com/images/add-7/add7_ec2_cv1b.png" >add7_ec2_cv1b</a> to expand.</p>
-
-<p>The ‘stacktype’ of ‘lad1’ in the capture is short for a stack of</p>
-
-<ul>
-<li>Load Balancer</li>
-<li>Application</li>
-<li>Database</li>
-</ul>
-
-
-<h4>Working viewed within HipChat</h4>
-
-<p><img src="http://markfussell.emenar.com/images/add-7/add7_hipchat_cv1.png" /></p>
-
-<h4>Working viewed within Presence / SourceTree</h4>
-
-<p><img src="http://markfussell.emenar.com/images/add-7/add7_presence_cv1.png" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-6]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-6/"/>
-    <updated>2015-10-02T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-6</id>
-    <content type="html"><![CDATA[<p>This is the sixth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, and HipChat integration.</p>
-
-<h2>&#8216;Part&#8217; Provisioning</h2>
-
-<p>Each node plays a singular &#8216;Part&#8217;.  A &#8216;part&#8217; is a unique combination of roles (in the chef sense) that identifies
-exactly how the node should be provisioned, usually globally, but at least for each stacktype.  A standard array
-of parts would be the LAMP stack:</p>
-
-<ul>
-<li> Load Balancer (lb)</li>
-<li> Application Server (app)</li>
-<li> Database Server  (db)</li>
-</ul>
-
-
-<!-- more -->
-
-
-<p>The most interesting thing about parts is hooking them together.  Load balancers need to know about application servers.
-Application servers need to know where the databases are.  This feature I call &#8216;presence&#8217;.  There are a lot
-of fancy ways to solve &#8216;presence&#8217;.  There could be &#8216;presence&#8217; servers that servers register with.  Or &#8216;presence&#8217; servers
-that poll AWS registries.  Certain products keep their &#8216;CI&#8217; (Configuration Item) information in databases: both SQL and
-other kinds.</p>
-
-<p>All of this is stupidly complex and treats the nodes as if they are idiots.  Pretty sure these nodes can be made about
-as smart as a young student (say elementary school or even younger).  A young person is perfectly capable of putting
-their name on a list.  And then listing some other interesting things about them.  A node can do the same.  So all
-we need is a list.  The classic list for a computer?  A folder.  A folder containing files.  A file named after a node&#8217;s
-unique name.  And a file containing information about the node.  Voila.  No SPOF (can have two folders stored differently),
-and no additional nodes doing something stupidly simple.</p>
-
-<h2>Demo or Die!</h2>
-
-<p>So we already have a &#8216;HeartBeat&#8217; server, all we need are for it to write somewhere what it&#8217;s state is.  That is
-quite simple:</p>
-
-<h3>updatePresence.sh</h3>
-
-<p>This simply writes information in ~/nodeinfo into a JSON file.  To make that JSON file a little nicer we python
-format it.  What gets written into the JSON file?  Basically anything we want!  When?  Every minute!  Ta Da&#8230;
-the trick is done.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'>...
-</span><span class='line'>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'><span class="c">#=== Generate file</span>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">INSTANCE_ID</span><span class="o">=</span><span class="s2">&quot;`cat /root/nodeinfo/instance-id.txt`&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="nv">$INSTANCE_ID</span>
-</span><span class='line'>
-</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt;&gt;$PRESENCE_TEMP</span>
-</span><span class='line'><span class="s">{</span>
-</span><span class='line'><span class="s">&quot;filetype&quot;:&quot;nodepresence&quot;,</span>
-</span><span class='line'><span class="s">&quot;value&quot;: {</span>
-</span><span class='line'><span class="s">    &quot;a&quot;:&quot;a&quot;</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">FILES</span><span class="o">=(</span> <span class="s2">&quot;initgitrepo&quot;</span> <span class="s2">&quot;instance-id&quot;</span> <span class="s2">&quot;nodepart&quot;</span> <span class="s2">&quot;stacktype&quot;</span> <span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>i in <span class="s2">&quot;${FILES[@]}&quot;</span>
-</span><span class='line'><span class="k">do</span>
-</span><span class='line'><span class="k">    </span>cat <span class="s">&lt;&lt;EOS &gt;&gt;$PRESENCE_TEMP</span>
-</span><span class='line'><span class="s">    ,</span>
-</span><span class='line'><span class="s">    &quot;$i&quot;:&quot;`cat /root/nodeinfo/${i}.txt`&quot;</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'><span class="k">done</span>
-</span><span class='line'>
-</span><span class='line'>cat <span class="s">&lt;&lt;EOS &gt;&gt;$PRESENCE_TEMP</span>
-</span><span class='line'><span class="s">}</span>
-</span><span class='line'><span class="s">}</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'>cat <span class="nv">$PRESENCE_TEMP</span> | python -mjson.tool &gt; <span class="nv">$PRESENCE_TEMP2</span>
-</span><span class='line'>cat <span class="nv">$PRESENCE_TEMP2</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#| bash ${COMMON}/send_hipchat.sh -c green</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'><span class="c">#=== Switch to the presence repository and copy file</span>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">pushd</span> <span class="nv">$REPO_ROOT</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="o">[</span> ! -d <span class="s2">&quot;$PRESENCE_REPO&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;git clone git@github.com:shaklee/${PRESENCE_REPO}.git&quot;</span>
-</span><span class='line'>  git clone git@github.com:shaklee/<span class="k">${</span><span class="nv">PRESENCE_REPO</span><span class="k">}</span>.git
-</span><span class='line'><span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;$PRESENCE_REPO&quot;</span> <span class="o">]</span>; <span class="k">then</span>
-</span><span class='line'><span class="k">  </span><span class="nb">cd</span> <span class="nv">$PRESENCE_REPO</span>
-</span><span class='line'>  git pull
-</span><span class='line'>
-</span><span class='line'>  <span class="c">#Now splat it out to all the proper places</span>
-</span><span class='line'>  <span class="nv">TARGETS</span><span class="o">=(</span> <span class="s2">&quot;it/presence/all&quot;</span> <span class="o">)</span>
-</span><span class='line'>  <span class="k">for </span>i in <span class="s2">&quot;${TARGETS[@]}&quot;</span>
-</span><span class='line'>  <span class="k">do</span>
-</span><span class='line'><span class="k">    </span>mkdir -p <span class="nv">$i</span>
-</span><span class='line'>    cp -f <span class="nv">$PRESENCE_TEMP2</span> <span class="nv">$i</span>/<span class="k">${</span><span class="nv">INSTANCE_ID</span><span class="k">}</span>.json
-</span><span class='line'>  <span class="k">done</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">  </span>git add .
-</span><span class='line'>  git commit -m <span class="s2">&quot;Updated by $INSTANCE_ID&quot;</span>; git push
-</span><span class='line'>  <span class="c">#Now need to see if this works... but the following is an easy trick in the small</span>
-</span><span class='line'>  git pull; git push; git pull; git push
-</span><span class='line'>
-</span><span class='line'>  <span class="c">#Repeat until push succeeds</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="s2">&quot;Not working!&quot;</span>
-</span><span class='line'><span class="k">fi</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">popd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And with the above script we get this simple and beautiful view:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-6/add6_sourceTree_cv1.png" /></p>
-
-<h2>Collisions</h2>
-
-<p>OK, updating a GitHub repository every minute is not the smartest thing to do at scale&#8230; but: if the file
-is the same, Git won&#8217;t do anything.  And if we want, we can always turn down the noise.</p>
-
-<h2>Death</h2>
-
-<p>A machine can die or be killed, so presence information could be out of date.  The solution is just to
-broadcast a &#8216;HeartBeat&#8217; in either the presence repository or another repository.  Or to make sure to
-check if the machine is actually responsive (e.g. HAProxy will interact with the machine to make sure it
-is actually alive) vs. being present.  This final interaction is pretty critical (no Zombies in my data center),
-so that is the best way to figure out who is alive and alert vs. just being present.</p>
 ]]></content>
   </entry>
   

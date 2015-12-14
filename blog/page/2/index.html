@@ -72,6 +72,150 @@ first article is here: Intro and &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/addstack-6/">ADD Stack [Part-6]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-17T01:00:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting.</p>
+
+<h2>Which UI framework?</h2>
+
+<p>The <a href="/blog/addstack-4/">fourth article</a> discussed UI alternatives, but it was mostly about &#8216;architectural&#8217; alternatives
+ and did not recommend a particular framework to use.  I believe that is the correct order: <em>how you use</em> the framework
+ is usually more important than the framework itself.  People can correctly and improperly use all kinds of different technology.
+Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
+use it wrong (your thumb is targetable) and you can be seriously hurt.</p>
+
+<p>There are a number of popular frameworks:</p>
+
+<ul>
+<li>Angular</li>
+<li>Ember</li>
+<li>Backbone</li>
+<li>Sencha</li>
+<li>etc.</li>
+</ul>
+
+
+<p>And deciding between them may seem like it should be done as &#8220;which has the best features?&#8221; but unless
+one of them has a killer feature  that you care about
+(Sencha can run the same code with both a desktop and mobile UI), and is worth its penalties (Sencha
+is proprietary and very &#8216;different&#8217;) then &#8216;best features&#8217; is basically meaningless.  A better question is &#8220;Which
+one do I understand the best?&#8221; and &#8220;Which one can other people on the team learn and share-code the best?&#8221;.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/addstack-6/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/addstack-5/">ADD Stack [Part-5]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-16T01:00:00-07:00" pubdate data-updated="true">Oct 16<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.</p>
+
+<p>This article is about some fairly advanced capabilities, but capabilities that many projects find useful,
+and so should be considered within the context of the overall context.  They are:</p>
+
+<ul>
+<li> Data Flexibility and Templating</li>
+<li> Server Side Scripting</li>
+</ul>
+
+
+<h2>Data Flexibility and Template Systems</h2>
+
+<p>One of the more interesting capability of an application is when users can control the content and presentation
+of information.  Content is relatively easy given pure structured information is trivial to store in most
+any database.  As the content becomes more unstructured you need to shift models and store it in a &#8216;meta&#8217;
+structure like JSON.  As the content becomes bigger, you need the flexibility of very large objects (BLOBs and CLOBs)
+stored either in the database or potentially within content repositories like S3.  Using the Annex model
+discussed earlier, you can simply store a hash in the database and the actual content on S3, and then
+<em>the client</em> can pull down the information without taxing your server network at all.</p>
+
+<p>Having flexible data is not very useful unless you can present it.  If the data is in JSON, you need to
+be able to take JSON and render it into text, HTML, or something the programming language can work with.
+There are a number of template systems out there:</p>
+
+<ul>
+<li> Mustache</li>
+<li> Jade</li>
+<li> Dust</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/addstack-5/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/addstack-4/">ADD Stack [Part-4]</a></h1>
     
     
@@ -616,124 +760,6 @@ start configuring a database node.  You launch and login to a ControlNode and th
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-7/">Advanced Development and Delivery (ADD) [Part-7]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-04T01:00:00-07:00" pubdate data-updated="true">Oct 4<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the seventh installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, and presence.</p>
-
-<h2>Fuller Presence and EC2 Integration</h2>
-
-<p>In the previous part, I went through a very simple but powerful model of &#8216;presence&#8217; using simply GitHub repositories.
-The content of those presence statements was enough to figure out what nodes exist, but not much more about them.
-The second level of presence is to update the state of the node as it changes.  For example, a node goes through
-a few bootstrap steps:</p>
-
-<ul>
-<li> presetup – The node before any updates are possible (no ability to change status)</li>
-<li> setup – The beginning of the &#8216;setup&#8217; phase where the node is alive enough to change it&#8217;s status</li>
-<li> initdone – The time a node is done are initialization and can start doing &#8216;work&#8217; as the &#8216;nodepart&#8217; it is</li>
-</ul>
-
-
-<p>A node getting to &#8216;setup&#8217; is pretty important: before that it may be a zombie!  And we don&#8217;t want zombie&#8217;s in
-our federation!</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-7/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-6/">Advanced Development and Delivery (ADD) [Part-6]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-02T01:00:00-07:00" pubdate data-updated="true">Oct 2<span>nd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the sixth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, and HipChat integration.</p>
-
-<h2>&#8216;Part&#8217; Provisioning</h2>
-
-<p>Each node plays a singular &#8216;Part&#8217;.  A &#8216;part&#8217; is a unique combination of roles (in the chef sense) that identifies
-exactly how the node should be provisioned, usually globally, but at least for each stacktype.  A standard array
-of parts would be the LAMP stack:</p>
-
-<ul>
-<li> Load Balancer (lb)</li>
-<li> Application Server (app)</li>
-<li> Database Server  (db)</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-6/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -761,6 +787,14 @@ of parts would be the LAMP stack:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/arch-3/">Velidom: Two Decades of Systems and Architectures</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/arch-2/">Evant: Two Decades of Systems and Architectures</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/arch-1/">Two Decades of Systems and Architectures</a>
       </li>
     
@@ -772,19 +806,11 @@ of parts would be the LAMP stack:</p>
         <a href="/blog/read-1/">ADD: Estimation</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/add2-1/">Advanced Development and Delivery (ADD) and the ADD Stack – Summary</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/addstack-10/">ADD Stack [Part-10]</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 102.22222222222223%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 137.77777777777777%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 102.22222222222223%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 106.66666666666667%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 142.22222222222223%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 106.66666666666667%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

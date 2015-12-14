@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Startup | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/startup/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T09:41:13-08:00</updated>
+  <updated>2015-12-14T15:15:33-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-3/"/>
+    <updated>2015-12-03T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-3</id>
+    <content type="html"><![CDATA[<p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
+development team.  This was in the early 2000 time-frame and Evant had created technology which did
+mass regression testing on every checkin, enabled continuous inter-team communication (including to India),
+and various other major features.  Velidom was an attempt to productize this whole concept: The Velocity
+to Dominate with an Advanced Software Development Factory.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The Velidom Factory was built primarily out of Java-based technologies and VMWare ESX capabilities.  The goal was
+to integrate into common tools at the time (Eclipse / Subversion / etc.), automatically launch testing
+and deployment servers on any given checkin, verify whether a commit was clean, and either push it through
+to the main development line or roll it out based on that verification.</p>
+
+<p>Another side of the factory was an agile development tool that tracked features, their values, the tasks
+needed to complete them, and the status of everything.  This was for planning, agility, and measuring.  The
+automation was to increase velocity and 'reality' (if it didn't successfully go in, it wasn't in).</p>
+
+<p>A final side of the factory was a set of communication tools for both real-time and knowledge accumulation,
+where both of these were hooked into the other sides of the factory so what everything was visible and memorable.</p>
+
+<p>If you look at the <a href="/blog/add-1">Advanced Development and Delivery Environment</a> you will see pretty much all of this
+vision manifested through other companies' solutions.  Ultimately Velidom's vision was too big to succeed with the
+runway the startup had and the events that occurred during its' lifetime.</p>
+
+<h2>Architecture-1 : Virtualization and Virtualized Desktops</h2>
+
+<p>Of all the architectural aspects that Velidom got right, virtualizing the infrastructure was almost certainly
+the biggest 'Yes!'.  VMWare ESX was expensive, but having that infrastructure in place made it possible to
+think about computation in a way very different from the raw hardware.  Ultimately from Amazon EC2 through to
+Vagrant, this separation has come to pass as a higher-level-language of computational hardware.  Virtualized
+computers can be built in minutes and discarded after being used.</p>
+
+<p>Velidom provided virtualized desktops and servers as a service, and we spent the money and time
+building out the hardware, the virtualized server side, and creating a custom desktop client.  The results were impressive,
+leading edge, unreliable, and expensive.  Things were unreliable due to the client-server desktop communication
+paradigm.  This needed good networks and a good protocol for the remote desktop.  And given these were development machines, they needed
+to be secure, so each had its own private network.  Again, this was too big a vision to succeed at that time.  Focusing
+on just servers may have been viable, but it wasn't clear what the value was without a large base of customers committed
+to good automated test suites (which is certainly plausible).</p>
+
+<p>Expensive is relative, and the virtualization Velidom provided may have been viable except for an event that occurred
+in 2006.  Amazon announced EC2, and suddenly the price point of virtualized computers dove to a number no one else
+could compete with.  Even 10 years later, there are very few viable cloud providers, and no small ones.</p>
+
+<h2>Architecture-2 : Tool Integration and Improvement</h2>
+
+<p>One of the core Velidom concepts was the integration between tools (e.g. Eclipse) and the functionality we provided.
+We had Eclipse plugins to do things within the factory, including chat, logging, automation, and other activities.
+Integrating directly with a tool is nice, but definitely development expensive.  And the tools you are connecting with
+(Eclipse and Subversion) may 'go away'.  In 2005, Eclipse was a good choice, but if we had customers on a Microsoft
+development stack, they might have been unsatisfiable.</p>
+
+<p>The core problem wasn't picking the right tool, it was picking any tool before having a Minimal Viable Product.  Tool
+integration is not part of Minimal Viable: if your product is good at group chat, people will start using it.  A full
+suite of products (the Factory) is also not part of Minimal Viable: whether chat or automated regression testing,
+just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
+integration with their favorite tools as an important improvement.</p>
+
+<h2>Architecture-3 : Server reactor</h2>
+
+<p>The last architecture from Velidom that I am going to mention is the 'reactor' or 'queue' pattern.  Doing
+a mass regression test with servers being created on the fly takes time.  Separating the 'request' from the task
+to complete the request is very effective for both scaling and also avoiding needless scaling.  If the automation
+is fast enough, you don't need to scale.  If you don't have the extra money to buy the bonus performance,
+you also don't need to scale.  You can choose whether to pay for time or not.</p>
+
+<p>The one aspect that for a codebase or similar 'team progessive' activity is whether people wait for things to finish.
+Ideally, you are 'unblocked' while you wait: you can go on to something else.  But in a team environment, many people
+are trying to get there work in the main codebase of work.  With Subversion, we had to do some annoyingly fancy tricks
+to extract a bad build.  With Git and faster testing tools (in memory databases, better functional test declaration
+languages), this is far less of a problem.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Evant: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-2/"/>
+    <updated>2015-12-02T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-2</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Evant was originally named Retail Aspect and provided a Retail-as-a-service suite to companies that were
+joining the Web retail boom (e.g. Disney Online).</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The technical foundations of the company were from a
+Java / Smalltalk background, so the server technologies were pretty mainstream Java enterprise technologies.
+The client was the 'leading edge' piece in the implementation technology, using a lot of JavaScript back in a very early time
+for the language (early 2000s).  The whole system was notable in the number of automated regression tests
+it contained (see below).  The database was initially Oracle but later moved to DB2.</p>
+
+<p>Evant had a suite of products that did not succeed as a suite, potentially due to 9-11 causing a shutdown of online
+retail activity.</p>
+
+<h2>Architecture-1 : Strong Client, Server-UI, and Server-Domain separation</h2>
+
+<p>In terms of making the Evant Advanced Planning product capable, performant, and testable, there was a very strong
+separation between "Interface" (UI or Test) and "Domain".  The Domain includes all the business functionality within the planning
+engine, exposed by a Java-based API.  It could be driven by either tests or the User Interface.  The API was identical,
+so if the tests were successful, the engine was doing the 'right thing'.  And the UI just needed to:</p>
+
+<ul>
+<li>Interact with the interface similarly to the tests
+
+<ul>
+<li>Or expand interface and tests for new needs</li>
+</ul>
+</li>
+<li>Present the information pleasantly and effectively</li>
+</ul>
+
+
+<p>The UI could do all kinds of amazing things to transform the results or make actions easier for a user.  Since this was
+a JavaScript application, lots of things could happen on the client without server interaction or asynchronously with
+the server.  The important part was having a single contract that the two clients (one verifying, one using) could
+run against.</p>
+
+<h2>Architecture-2 : Mass Automated Testing</h2>
+
+<p>The original Evant team was very committed to a full XP (Extreme Programming) approach and used TDD, Paired Programming,
+and other aspects of XP as part of their development process.  I arrived after this development period, but there
+were a fairly extensive collection of automated tests as part of the development artifacts.  However they were
+created, they were incredibly useful for regression testing as we transformed the Domain to be far faster,
+more scalable, and flexible.</p>
+
+<p>Initially the tests were in XML to allow a very flexible system of automated testing that (in theory) could have tests
+written by subject matter experts or general end users.  This flexibility made it a poor Domain-Specific-Language and
+users could not write tests themselves.  The tests were also very repetitive (wet) given they had to describe
+many states, inputs, and outputs within a matrix-like space.  Ultimately the solution was to move to a matrix-oriented
+tool: a Spreadsheet.  And simply organize states, inputs, and outputs within that spreadsheet.  Automation turned
+the spreadsheets into automated test specifications.  And the integration server ran this vast collection of tests
+pretty much <em>all the time</em> to make sure nothing regressed (or at least it was identified if it did).</p>
+
+<p>The automated testing was a continuous benefit as long as we could keep performance of the testing servers equal to
+developer demands.</p>
+
+<h2>Architecture-3 : Hidden Storage Model</h2>
+
+<p>An important part of the Domain's API was its' separation of 'transactions' from its 'storage'.  The system had
+transactional statements ('update' and 'save') but how those things were accomplished was not visible at the
+interface.  This separation prevented callers from caring and fiddling with how things were communicated to the
+persistent storage.</p>
+
+<p>Not all systems need this kind of separation: What is the chance you will swap out your database?  With a very different
+database?  But the Evant storage model was a Hybrid-relational system with the bulk of the data stored in semi-opaque
+compressed format.  So the domain acted transactionally, but under the covers it did a lot of data transformations to
+organize and compress facts.  Transformations that evolved in time (different versions had better formats) and evolved
+based on the size of the data space and performance tuning around it.</p>
+
+<h2>Architecture-4 : Canned to Generic</h2>
+
+<p>Another common and useful architectural progression is going from 'canned' (fully specified) to 'generic' (very flexible)
+capabilities.  You should generally start at 'canned' so you have super-control over what you are doing and</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Two Decades of Systems and Architectures]]></title>
@@ -25,6 +188,12 @@
 <p>The systems, applications, and architectures documented here will eventually include:</p>
 
 <ul>
+<li>Evant Advanced Planning: A multidimensional planning system
+
+<ul>
+<li>Java, JavaScript</li>
+</ul>
+</li>
 <li>Velidom: A highly virtualized and automated software development environment / factory
 
 <ul>

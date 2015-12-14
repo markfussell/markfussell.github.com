@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T09:41:13-08:00</updated>
+  <updated>2015-12-14T15:15:33-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-3/"/>
+    <updated>2015-12-03T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-3</id>
+    <content type="html"><![CDATA[<p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
+development team.  This was in the early 2000 time-frame and Evant had created technology which did
+mass regression testing on every checkin, enabled continuous inter-team communication (including to India),
+and various other major features.  Velidom was an attempt to productize this whole concept: The Velocity
+to Dominate with an Advanced Software Development Factory.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The Velidom Factory was built primarily out of Java-based technologies and VMWare ESX capabilities.  The goal was
+to integrate into common tools at the time (Eclipse / Subversion / etc.), automatically launch testing
+and deployment servers on any given checkin, verify whether a commit was clean, and either push it through
+to the main development line or roll it out based on that verification.</p>
+
+<p>Another side of the factory was an agile development tool that tracked features, their values, the tasks
+needed to complete them, and the status of everything.  This was for planning, agility, and measuring.  The
+automation was to increase velocity and 'reality' (if it didn't successfully go in, it wasn't in).</p>
+
+<p>A final side of the factory was a set of communication tools for both real-time and knowledge accumulation,
+where both of these were hooked into the other sides of the factory so what everything was visible and memorable.</p>
+
+<p>If you look at the <a href="/blog/add-1">Advanced Development and Delivery Environment</a> you will see pretty much all of this
+vision manifested through other companies' solutions.  Ultimately Velidom's vision was too big to succeed with the
+runway the startup had and the events that occurred during its' lifetime.</p>
+
+<h2>Architecture-1 : Virtualization and Virtualized Desktops</h2>
+
+<p>Of all the architectural aspects that Velidom got right, virtualizing the infrastructure was almost certainly
+the biggest 'Yes!'.  VMWare ESX was expensive, but having that infrastructure in place made it possible to
+think about computation in a way very different from the raw hardware.  Ultimately from Amazon EC2 through to
+Vagrant, this separation has come to pass as a higher-level-language of computational hardware.  Virtualized
+computers can be built in minutes and discarded after being used.</p>
+
+<p>Velidom provided virtualized desktops and servers as a service, and we spent the money and time
+building out the hardware, the virtualized server side, and creating a custom desktop client.  The results were impressive,
+leading edge, unreliable, and expensive.  Things were unreliable due to the client-server desktop communication
+paradigm.  This needed good networks and a good protocol for the remote desktop.  And given these were development machines, they needed
+to be secure, so each had its own private network.  Again, this was too big a vision to succeed at that time.  Focusing
+on just servers may have been viable, but it wasn't clear what the value was without a large base of customers committed
+to good automated test suites (which is certainly plausible).</p>
+
+<p>Expensive is relative, and the virtualization Velidom provided may have been viable except for an event that occurred
+in 2006.  Amazon announced EC2, and suddenly the price point of virtualized computers dove to a number no one else
+could compete with.  Even 10 years later, there are very few viable cloud providers, and no small ones.</p>
+
+<h2>Architecture-2 : Tool Integration and Improvement</h2>
+
+<p>One of the core Velidom concepts was the integration between tools (e.g. Eclipse) and the functionality we provided.
+We had Eclipse plugins to do things within the factory, including chat, logging, automation, and other activities.
+Integrating directly with a tool is nice, but definitely development expensive.  And the tools you are connecting with
+(Eclipse and Subversion) may 'go away'.  In 2005, Eclipse was a good choice, but if we had customers on a Microsoft
+development stack, they might have been unsatisfiable.</p>
+
+<p>The core problem wasn't picking the right tool, it was picking any tool before having a Minimal Viable Product.  Tool
+integration is not part of Minimal Viable: if your product is good at group chat, people will start using it.  A full
+suite of products (the Factory) is also not part of Minimal Viable: whether chat or automated regression testing,
+just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
+integration with their favorite tools as an important improvement.</p>
+
+<h2>Architecture-3 : Server reactor</h2>
+
+<p>The last architecture from Velidom that I am going to mention is the 'reactor' or 'queue' pattern.  Doing
+a mass regression test with servers being created on the fly takes time.  Separating the 'request' from the task
+to complete the request is very effective for both scaling and also avoiding needless scaling.  If the automation
+is fast enough, you don't need to scale.  If you don't have the extra money to buy the bonus performance,
+you also don't need to scale.  You can choose whether to pay for time or not.</p>
+
+<p>The one aspect that for a codebase or similar 'team progessive' activity is whether people wait for things to finish.
+Ideally, you are 'unblocked' while you wait: you can go on to something else.  But in a team environment, many people
+are trying to get there work in the main codebase of work.  With Subversion, we had to do some annoyingly fancy tricks
+to extract a bad build.  With Git and faster testing tools (in memory databases, better functional test declaration
+languages), this is far less of a problem.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Evant: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-2/"/>
+    <updated>2015-12-02T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-2</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Evant was originally named Retail Aspect and provided a Retail-as-a-service suite to companies that were
+joining the Web retail boom (e.g. Disney Online).</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The technical foundations of the company were from a
+Java / Smalltalk background, so the server technologies were pretty mainstream Java enterprise technologies.
+The client was the 'leading edge' piece in the implementation technology, using a lot of JavaScript back in a very early time
+for the language (early 2000s).  The whole system was notable in the number of automated regression tests
+it contained (see below).  The database was initially Oracle but later moved to DB2.</p>
+
+<p>Evant had a suite of products that did not succeed as a suite, potentially due to 9-11 causing a shutdown of online
+retail activity.</p>
+
+<h2>Architecture-1 : Strong Client, Server-UI, and Server-Domain separation</h2>
+
+<p>In terms of making the Evant Advanced Planning product capable, performant, and testable, there was a very strong
+separation between "Interface" (UI or Test) and "Domain".  The Domain includes all the business functionality within the planning
+engine, exposed by a Java-based API.  It could be driven by either tests or the User Interface.  The API was identical,
+so if the tests were successful, the engine was doing the 'right thing'.  And the UI just needed to:</p>
+
+<ul>
+<li>Interact with the interface similarly to the tests
+
+<ul>
+<li>Or expand interface and tests for new needs</li>
+</ul>
+</li>
+<li>Present the information pleasantly and effectively</li>
+</ul>
+
+
+<p>The UI could do all kinds of amazing things to transform the results or make actions easier for a user.  Since this was
+a JavaScript application, lots of things could happen on the client without server interaction or asynchronously with
+the server.  The important part was having a single contract that the two clients (one verifying, one using) could
+run against.</p>
+
+<h2>Architecture-2 : Mass Automated Testing</h2>
+
+<p>The original Evant team was very committed to a full XP (Extreme Programming) approach and used TDD, Paired Programming,
+and other aspects of XP as part of their development process.  I arrived after this development period, but there
+were a fairly extensive collection of automated tests as part of the development artifacts.  However they were
+created, they were incredibly useful for regression testing as we transformed the Domain to be far faster,
+more scalable, and flexible.</p>
+
+<p>Initially the tests were in XML to allow a very flexible system of automated testing that (in theory) could have tests
+written by subject matter experts or general end users.  This flexibility made it a poor Domain-Specific-Language and
+users could not write tests themselves.  The tests were also very repetitive (wet) given they had to describe
+many states, inputs, and outputs within a matrix-like space.  Ultimately the solution was to move to a matrix-oriented
+tool: a Spreadsheet.  And simply organize states, inputs, and outputs within that spreadsheet.  Automation turned
+the spreadsheets into automated test specifications.  And the integration server ran this vast collection of tests
+pretty much <em>all the time</em> to make sure nothing regressed (or at least it was identified if it did).</p>
+
+<p>The automated testing was a continuous benefit as long as we could keep performance of the testing servers equal to
+developer demands.</p>
+
+<h2>Architecture-3 : Hidden Storage Model</h2>
+
+<p>An important part of the Domain's API was its' separation of 'transactions' from its 'storage'.  The system had
+transactional statements ('update' and 'save') but how those things were accomplished was not visible at the
+interface.  This separation prevented callers from caring and fiddling with how things were communicated to the
+persistent storage.</p>
+
+<p>Not all systems need this kind of separation: What is the chance you will swap out your database?  With a very different
+database?  But the Evant storage model was a Hybrid-relational system with the bulk of the data stored in semi-opaque
+compressed format.  So the domain acted transactionally, but under the covers it did a lot of data transformations to
+organize and compress facts.  Transformations that evolved in time (different versions had better formats) and evolved
+based on the size of the data space and performance tuning around it.</p>
+
+<h2>Architecture-4 : Canned to Generic</h2>
+
+<p>Another common and useful architectural progression is going from 'canned' (fully specified) to 'generic' (very flexible)
+capabilities.  You should generally start at 'canned' so you have super-control over what you are doing and</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Two Decades of Systems and Architectures]]></title>
@@ -25,6 +188,12 @@
 <p>The systems, applications, and architectures documented here will eventually include:</p>
 
 <ul>
+<li>Evant Advanced Planning: A multidimensional planning system
+
+<ul>
+<li>Java, JavaScript</li>
+</ul>
+</li>
 <li>Velidom: A highly virtualized and automated software development environment / factory
 
 <ul>
@@ -761,323 +930,6 @@ SLEEP_LENGTH=$((${PSEUDO_RANDOM} % 30 ))
 <p>The above is a very generic worker model that enables all kinds of flexibility in setting up 'chores' and scalably
 having a 'right-size' for the number of workers doing the work.  The next article will be more specific and
 build new 'wars' every time the application changes after passing the built-in tests.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-8]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-8/"/>
-    <updated>2015-10-20T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-8</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.</p>
-
-<h2>Federation Application Infrastructure</h2>
-
-<p>The application stack we have so far:</p>
-
-<ul>
-<li> UI (both client and server)</li>
-<li> Application Server (Grails, Java, potentially scripting engine)</li>
-<li> Database (Maria or similar)</li>
-</ul>
-
-
-<p>Is very capable.  Using it combined with the ADD ingredients:</p>
-
-<ul>
-<li> GitHub – With resource, presence, application, and configuration information repositories</li>
-<li> EC2 Instances – Running continuously or based on load, and running their 'part' plus any dynamic configuration</li>
-<li> S3 – For resources</li>
-<li> HipChat – To let everyone know</li>
-</ul>
-
-
-<p>Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
-The nodes and their application can keep certain data in-memory (cached).  The nodes can
- launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
- can do pretty much anything.</p>
-
-<h3>Standard Federation Components</h3>
-
-<p>Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
-are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
-And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.</p>
-
-<!--more-->
-
-
-<p>So instead of having the one super-capable application server, we can start breaking out some of the responsibilities
-of the application server into other system components, and then decide whether we need them or not.  If we need
-them, we will be using a very main-stream approach that is redundant, scalable, and easily managed.  It needs to 'fit'
-with our application, but it doesn't have to be similar to the application (e.g. works with Java, written in Erlang,
-runs on Linux).</p>
-
-<p>The list of standard system components isn't that long, but it is <em>longer than you need</em>.  If you are using all of these,
-you are likely over-engineering your solution.  Try to start weaning yourself off some of this technology.</p>
-
-<p>A partial list of federation components</p>
-
-<ul>
-<li>Cache – For rapidly retrieving information that changes slowly or needs to be shared broadly</li>
-<li>Queue – For getting information from producers (requests) to consumers (workers)</li>
-<li>Distributed State – For precise and consistent decision-making among several different entities</li>
-<li>Semistructured Database – For persistently storing data in a faster or more flexible format than the main database</li>
-<li>SSO (Single Sign-on) – To enable users to get access to various resources without the resources having to authenticate</li>
-<li>"Chat" – Real-time presence and data communication enabling 'chat' and various other capabilities</li>
-<li>Map-Reduce – Taking large amounts of data and processing it to get answers to questions.  Can be real-time or not</li>
-<li>Forum – Supporting forum capabilities for customers to talk with each other</li>
-<li>Customer Support – Supporting customer-facing capabilities, including defect and product request tracking</li>
-<li>SMS / Email / Contact – Ability to send out emails, SMS, surveys, and other customer contact</li>
-<li>Web Site – A separate web site from the main application</li>
-<li>Web Content Creator – An ability to enable users to create content within your site (vs. doing it via templating)</li>
-<li>Payment Processing – Handling the record of credit cards and payment processing</li>
-<li>Freetext Search – The ability to search documents and similar free text</li>
-<li>Workers – Special nodes that do work and either go idle or disappear when no work is needed</li>
-</ul>
-
-
-<p>There are some more (e.g. the BI pipeline), but that is a pretty good list.  Especially the 'Workers' is a category basically as broad as
-'Application'.</p>
-
-<p>Working through the list, here are some examples:</p>
-
-<ul>
-<li>Cache – Redis <a href="http://redis.io">http://redis.io</a></li>
-<li>Queue – Kafka <a href="http://kafka.apache.org">http://kafka.apache.org</a></li>
-<li>Distributed State - Presence in Git (for minutes), ZooKeeper (for sub-second) <a href="http://zookeeper.apache.org">http://zookeeper.apache.org</a> and Curator <a href="http://curator.apache.org/curator-recipes/index.html">http://curator.apache.org/curator-recipes/index.html</a></li>
-<li>Semistructured Database – Riak  <a href="http://basho.com/products/">http://basho.com/products/</a></li>
-<li>SSO – Shibboleth <a href="http://shibboleth.net">http://shibboleth.net</a></li>
-<li>Chat – Ejabberd <a href="https://www.ejabberd.im">https://www.ejabberd.im</a></li>
-<li>Map-Reduce – Spark <a href="https://spark.apache.org">https://spark.apache.org</a>,  Hadoop <a href="https://hadoop.apache.org">https://hadoop.apache.org</a></li>
-<li>Forum –  phpBB <a href="https://www.phpbb.com">https://www.phpbb.com</a></li>
-<li>Customer Support – Parature <a href="http://www.parature.com">http://www.parature.com</a></li>
-<li>SMS / Email / Contact – SendGrid <a href="https://sendgrid.com">https://sendgrid.com</a> , Silverpop <a href="http://www-03.ibm.com/software/products/en/silverpop-engage">http://www-03.ibm.com/software/products/en/silverpop-engage</a> , SurveyMonkey <a href="https://www.surveymonkey.com">https://www.surveymonkey.com</a> , etc.</li>
-<li>Web Site –  Expression Engine <a href="https://ellislab.com/expressionengine">https://ellislab.com/expressionengine</a> , Squarespace <a href="http://www.squarespace.com">http://www.squarespace.com</a></li>
-<li>Web Content Creator – How about the original 'wiki' <a href="http://wiki.org">http://wiki.org</a> or a more modern one like Foswiki <a href="http://foswiki.org">http://foswiki.org</a></li>
-<li>Payment Processing – PayPal <a href="http://paypal.com">http://paypal.com</a> or even Facebook <a href="http://facebook.com">http://facebook.com</a> and Google <a href="http://google.com">http://google.com</a></li>
-<li>Freetext Search – Solr <a href="http://lucene.apache.org/solr/">http://lucene.apache.org/solr/</a></li>
-<li>Workers – All kinds of workers and frameworks for doing it, including AWS beanstalks <a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html">http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html</a></li>
-</ul>
-
-
-<p>Sadly, Rumble did use almost all of the above (and more) in some way or another, but that is seriously off-the-chart
-and incredibly expensive.  Yes, it is powerful.  No, your users do not care to pay you for that much power.</p>
-
-<p>A company like Wikipedia/Wikimedia looks more like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-8/addstack8_wikimedia1.png" /></p>
-
-<h2>Conclusion</h2>
-
-<p>It is good to understand what kinds of system components are out there and be aware that you don't have to
-reinvent / recode them when you need them.  Each of the above are good products.  They do what they should
-to fill a particular need.  And almost all of them are
-fault-tolerant and scalable, so they can join the rest of the <em>very tolerant</em> ADD stack.
-Or they are a service and you get what you pay for.  If you really need
-one of them, certainly bring it aboard.  It is better than creating a monolith.
-But if you can do without it, your application and you IT will be easier to understand and maintain.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-7]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-7/"/>
-    <updated>2015-10-19T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-7</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.</p>
-
-<h2>Logging, Analytics, and Monitoring</h2>
-
-<p>Returning to a bit more of an 'IT' issue, how do we handle logging, monitoring, and analytics on our collection of
-machines?  There are a number of choices:</p>
-
-<ol>
-<li>Run our own infrastructure</li>
-<li>Go with an inexpensive provider</li>
-<li>Go with a more capable provider</li>
-<li>Don't</li>
-</ol>
-
-
-<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading
-from #3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</p>
-
-<!--more-->
-
-
-<h3>Logging: SumoLogic</h3>
-
-<p>The longest standing, very successful, and SaaS capable company is Splunk (<a href="http://splunk.com/">http://splunk.com/</a>) .  But their prices are crazy.  Have no
-idea how they can charge that much.  So instead I will demo SumoLogic (<a href="http://SumoLogic.com/">http://SumoLogic.com/</a>) as the '3B' tier.</p>
-
-<p>Installing SumoLogic is incredibly easy:</p>
-
-<p><code>bash
-wget "https://collectors.us2.sumologic.com/rest/download/linux/64" -O SumoCollector.sh &amp;&amp; chmod +x SumoCollector.sh &amp;&amp; ./SumoCollector.sh -q -VskipDefaultSources=true -Vsumo.token_and_url={token}
-</code></p>
-
-<p>And the collector is on the machine.  If you tell it what you want to aggregate, it starts collecting and indexing files in those paths.  In our case, the nodes
-all have files in '/root/log' which it would be nice to have aggregated.</p>
-
-<p>The results are visible here:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo1.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo2.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_sumo3.png" /></p>
-
-<h4>Logging Alternative: Graylog</h4>
-
-<p>For Rumble, we had a Graylog (<a href="http://graylog.com/">http://graylog.com/</a>) cluster that dealt with a tremendous amount of data (half a
-terabyte a day if memory serves, due to over-enthusiastic logging) and was relatively stable under that load.
-Elasticsearch had issues if a node failed (just due to the stress of moving data to another backup), but this
-is under pretty extreme load levels.  So if you wanted to roll your own, the Graylog path would be a very
-inexpensive and powerful path.</p>
-
-<h3>Analytics and Monitoring: NewRelic</h3>
-
-<p>NewRelic (<a href="http://newrelic.com/">http://newrelic.com/</a>) started out as a Ruby-oriented monitoring service, and basically came about because Ruby/Rails developers
-(a) wanted a lot of information about why their apps were running slowly, (b) had very little knowledge about
-operations and other ways of monitoring things, and (c) Ruby itself has little support for monitoring.  NewRelic
-came along and provided the metrics (as you would expect for Java and similar mature languages) <em>outside</em> the
-Ruby environment.  Initially this could be viewed as a crutch for Ruby where Java didn't need it, but ultimately
-by putting the metrics outside the application everyone's life was simpler.</p>
-
-<p>To install NewRelic, you need to get the agent onto the machine.  In our case we are going to leverage the annex:</p>
-
-<p>```bash</p>
-
-<h1>====================================================</h1>
-
-<h1>=== Install NewRelic</h1>
-
-<h1>====================================================</h1>
-
-<h1>===================================</h1>
-
-<h1>=== Server</h1>
-
-<h1>===================================</h1>
-
-<p>rpm -Uvh http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
-yes | yum -y install newrelic-sysmond
-nrsysmond-config --set license_key=key</p>
-
-<p>/etc/init.d/newrelic-sysmond start</p>
-
-<h1>===================================</h1>
-
-<h1>=== Java</h1>
-
-<h1>===================================</h1>
-
-<p>export APP_VERSION=3.21.0
-export APP_FULL_VERSION=newrelic-java-${APP_VERSION}</p>
-
-<p>mkdir -p .temp
-cp it/resource/${APP_FULL_VERSION}.zip .temp/</p>
-
-<p>./bin/inflatePaths.sh .temp/${APP_FULL_VERSION}.zip</p>
-
-<p>mkdir -p /opt
-cp -fr .temp/newrelic /opt/</p>
-
-<p>cp -fr ${RESOURCE}/newrelic.yml /opt/newrelic/newrelic.yml</p>
-
-<p>```</p>
-
-<p>The first section puts on the system-monitoring agent for newrelic.
-The second section has two parts.  The first part puts the general NewRelic agent onto the machine, and the second part
-enables us to override (overlay) the default configuration with our own.  The most important part is to replace the
-license, but there are many things that can be configured within the NewRelic agent.</p>
-
-<p>Finally, we need to launch with the agent configuration into the java / 'gradew' launcher:</p>
-
-<p>```bash</p>
-
-<h1>Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.</h1>
-
-<p>DEFAULT_JVM_OPTS="-javaagent:/opt/newrelic/newrelic.jar"
-```</p>
-
-<p>After doing this and waiting for the metrics to hit the NewRelic servers, we get some nice visuals:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic2.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic4.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic5.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic6.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" />
-<img src="http://markfussell.emenar.com/images/addstack-7/addstack7_newrelic7.png" /></p>
-
-<h3>Operational Monitoring: Nagios and Icinga</h3>
-
-<p>The above monitoring is not 'alert' oriented.  It lets you drill into the details of what is happening
-in operations both currently and somewhat into the past.  To be a bit more alert oriented, you need
-to go down a different path.  The most mature open source path is the Nagios / Icinga double path (<a href="http://nagios.org/">http://nagios.org/</a>,
- <a href="http://icinga.org/">http://icinga.org/</a>).</p>
-
-<p>An important aspect of monitoring is to have <em>multiple</em> monitors on your network.  And, in general, for the monitors
-to be outside the data center.  Agents within the data center can relay information out, but if your monitors fail
-inside the data center, you are (unknowingly) blind.</p>
-
-<p>So for Nagios, we can demonstrate monitoring from the developers (or operations dashboard) machine vs.
-within the data center.  Because of the presence being visible from anywhere, monitoring configuration can happen
-anywhere that you can pull out a git repository.</p>
-
-<p>Examples of Nagios views are:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios1.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-7/addstack7_nagios2.png" /></p>
-
-<p>Where the lists of hosts to monitor and what to monitor comes from text configuration files.</p>
-
-<p><code>
-define host {
-   host_name   {host_name}
-   use         {node_type}
-   alias       {node_id}
-   address     {node_public_address}
-   register    {registration_order}
-}
-</code></p>
-
-<p>And these files can trivially be generated from the presence information, and updated if
-anything changes.  An important aspect is to make sure to turn off the monitoring system
-when a node is going down <em>intentionally</em>.  So the 'node_state' status and 'node_app_state'
-status are critical to have come through the presence information for monitoring to
-not be 'noisy'.  A noisy monitor is a monitor that will quickly be forever ignored.</p>
-
-<p>Although Nagios and Icinga have dashboards, everything should go into HipChat so everyone
-can see the history and stability/instability of the system.  You can even publish the status
-  publicly so your users will know there is a production problem. If you enable public chat
-  in either HipChat or elsewhere, the users can both see the status and ask for predictions
-  of when issues are resolved.  A much higher-touch relationship with users can make them
-  longer users (this retention aspect was very true of Winster where the CEO was <em>online</em>
-  and could be chatted with a good portion of the evening.  Kind of like walking the floors
-  of the casino or Tim Cook being in the University Apple Store.).</p>
-
-<h2>Conclusion</h2>
-
-<p>Although it is more operational than "application stack", the ability to monitor and analyze your
-application's performance and behavior is critical to any production deployment of it.  So you
-should think about it early and not as an afterthought.  All logging should go into the logging pipeline
-(no System.println or equivalent) and be searchable through that pipeline at one or more aggregators.
-Start out with a metrics system like NewRelic to get a bunch  of valuable things for free
-and you can later add in new application-specific metrics.
-And get the basics of operational monitoring up early and you will know if the application and the
-IT is reliable long before it gets into the production data center.</p>
 ]]></content>
   </entry>
   

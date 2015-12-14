@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Two Decades of Systems and Architectures - Polyglot</title>
+  <title>Velidom: Two Decades of Systems and Architectures - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established &hellip;">
+  <meta name="description" content="Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
+development team. This was in the early 2000 time &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-1/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-3/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">Two Decades of Systems and Architectures</h1>
+      <h1 class="entry-title">Velidom: Two Decades of Systems and Architectures</h1>
     
     
       <p class="meta">
@@ -84,83 +85,84 @@
   
 
 
-<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+<time datetime="2015-12-03T01:00:00-08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Objective-C, Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+<div class="entry-content"><p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
+development team.  This was in the early 2000 time-frame and Evant had created technology which did
+mass regression testing on every checkin, enabled continuous inter-team communication (including to India),
+and various other major features.  Velidom was an attempt to productize this whole concept: The Velocity
+to Dominate with an Advanced Software Development Factory.</p>
 
-<p>By building so many systems over the years, I have seen many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+<h2>Major System Aspects</h2>
 
-<p>The systems, applications, and architectures documented here will eventually include:</p>
+<p>The Velidom Factory was built primarily out of Java-based technologies and VMWare ESX capabilities.  The goal was
+to integrate into common tools at the time (Eclipse / Subversion / etc.), automatically launch testing
+and deployment servers on any given checkin, verify whether a commit was clean, and either push it through
+to the main development line or roll it out based on that verification.</p>
 
-<ul>
-<li>Evant Advanced Planning: A multidimensional planning system
+<p>Another side of the factory was an agile development tool that tracked features, their values, the tasks
+needed to complete them, and the status of everything.  This was for planning, agility, and measuring.  The
+automation was to increase velocity and &#8216;reality&#8217; (if it didn&#8217;t successfully go in, it wasn&#8217;t in).</p>
 
-<ul>
-<li>Java, JavaScript</li>
-</ul>
-</li>
-<li>Velidom: A highly virtualized and automated software development environment / factory
+<p>A final side of the factory was a set of communication tools for both real-time and knowledge accumulation,
+where both of these were hooked into the other sides of the factory so what everything was visible and memorable.</p>
 
-<ul>
-<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
-</ul>
-</li>
-<li>Winster: A cooperative online gaming and social site
+<p>If you look at the <a href="/blog/add-1">Advanced Development and Delivery Environment</a> you will see pretty much all of this
+vision manifested through other companies&#8217; solutions.  Ultimately Velidom&#8217;s vision was too big to succeed with the
+runway the startup had and the events that occurred during its&#8217; lifetime.</p>
 
-<ul>
-<li>Java, Flash/Flex, MySQL</li>
-</ul>
-</li>
-<li>FooPets: A virtual pet entertainment site
+<h2>Architecture-1 : Virtualization and Virtualized Desktops</h2>
 
-<ul>
-<li>Ruby, Rails, Maya, iOS, etc.</li>
-</ul>
-</li>
-<li>HeartPark: A 3-D world / game
+<p>Of all the architectural aspects that Velidom got right, virtualizing the infrastructure was almost certainly
+the biggest &#8216;Yes!&#8217;.  VMWare ESX was expensive, but having that infrastructure in place made it possible to
+think about computation in a way very different from the raw hardware.  Ultimately from Amazon EC2 through to
+Vagrant, this separation has come to pass as a higher-level-language of computational hardware.  Virtualized
+computers can be built in minutes and discarded after being used.</p>
 
-<ul>
-<li>Unity, Ruby, Rails</li>
-</ul>
-</li>
-<li>Vive: A mobile health and wellness application
+<p>Velidom provided virtualized desktops and servers as a service, and we spent the money and time
+building out the hardware, the virtualized server side, and creating a custom desktop client.  The results were impressive,
+leading edge, unreliable, and expensive.  Things were unreliable due to the client-server desktop communication
+paradigm.  This needed good networks and a good protocol for the remote desktop.  And given these were development machines, they needed
+to be secure, so each had its own private network.  Again, this was too big a vision to succeed at that time.  Focusing
+on just servers may have been viable, but it wasn&#8217;t clear what the value was without a large base of customers committed
+to good automated test suites (which is certainly plausible).</p>
 
-<ul>
-<li>Grails, Java, YUI</li>
-</ul>
-</li>
-<li>Epocrates EMR: An electronic medical records application
+<p>Expensive is relative, and the virtualization Velidom provided may have been viable except for an event that occurred
+in 2006.  Amazon announced EC2, and suddenly the price point of virtualized computers dove to a number no one else
+could compete with.  Even 10 years later, there are very few viable cloud providers, and no small ones.</p>
 
-<ul>
-<li>Ruby, Rails, iOS</li>
-</ul>
-</li>
-<li>PeerCase: A mobile-first medical communication application
+<h2>Architecture-2 : Tool Integration and Improvement</h2>
 
-<ul>
-<li>Grails, Sencha</li>
-</ul>
-</li>
-<li>Rumble: A platform to support free-to-play and hiqh-quality games
+<p>One of the core Velidom concepts was the integration between tools (e.g. Eclipse) and the functionality we provided.
+We had Eclipse plugins to do things within the factory, including chat, logging, automation, and other activities.
+Integrating directly with a tool is nice, but definitely development expensive.  And the tools you are connecting with
+(Eclipse and Subversion) may &#8216;go away&#8217;.  In 2005, Eclipse was a good choice, but if we had customers on a Microsoft
+development stack, they might have been unsatisfiable.</p>
 
-<ul>
-<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
-</ul>
-</li>
-<li>ABC: An analytics platform for massive scale machine learning
+<p>The core problem wasn&#8217;t picking the right tool, it was picking any tool before having a Minimal Viable Product.  Tool
+integration is not part of Minimal Viable: if your product is good at group chat, people will start using it.  A full
+suite of products (the Factory) is also not part of Minimal Viable: whether chat or automated regression testing,
+just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
+integration with their favorite tools as an important improvement.</p>
 
-<ul>
-<li>Weka, Python, Grails, Amazon AWS services</li>
-</ul>
-</li>
-<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
-</ul>
+<h2>Architecture-3 : Server reactor</h2>
 
+<p>The last architecture from Velidom that I am going to mention is the &#8216;reactor&#8217; or &#8216;queue&#8217; pattern.  Doing
+a mass regression test with servers being created on the fly takes time.  Separating the &#8216;request&#8217; from the task
+to complete the request is very effective for both scaling and also avoiding needless scaling.  If the automation
+is fast enough, you don&#8217;t need to scale.  If you don&#8217;t have the extra money to buy the bonus performance,
+you also don&#8217;t need to scale.  You can choose whether to pay for time or not.</p>
+
+<p>The one aspect that for a codebase or similar &#8216;team progessive&#8217; activity is whether people wait for things to finish.
+Ideally, you are &#8216;unblocked&#8217; while you wait: you can go on to something else.  But in a team environment, many people
+are trying to get there work in the main codebase of work.  With Subversion, we had to do some annoyingly fancy tricks
+to extract a bad build.  With Git and faster testing tools (in memory databases, better functional test declaration
+languages), this is far less of a problem.</p>
 </div>
 
 
@@ -183,7 +185,7 @@
   
 
 
-<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+<time datetime="2015-12-03T01:00:00-08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2015</time>
       
 
 <span class="categories">
@@ -197,7 +199,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-1/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-3/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-3/" >Tweet</a>
   
   
   
@@ -206,10 +208,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/read-2/" title="Previous Post: READ: Scaled Agile">&laquo; READ: Scaled Agile</a>
+        <a class="basic-alignment left" href="/blog/arch-2/" title="Previous Post: Evant: Two Decades of Systems and Architectures">&laquo; Evant: Two Decades of Systems and Architectures</a>
       
-      
-        <a class="basic-alignment right" href="/blog/arch-2/" title="Next Post: Evant: Two Decades of Systems and Architectures">Evant: Two Decades of Systems and Architectures &raquo;</a>
       
     </p>
   </footer>
@@ -318,8 +318,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-1/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/arch-1/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-3/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/arch-3/';
         var disqus_script = 'embed.js';
       
     (function () {

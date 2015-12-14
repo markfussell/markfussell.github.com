@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Two Decades of Systems and Architectures - Polyglot</title>
+  <title>Evant: Two Decades of Systems and Architectures - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established &hellip;">
+  <meta name="description" content="This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues. The table of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-1/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">Two Decades of Systems and Architectures</h1>
+      <h1 class="entry-title">Evant: Two Decades of Systems and Architectures</h1>
     
     
       <p class="meta">
@@ -84,83 +85,89 @@
   
 
 
-<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+<time datetime="2015-12-02T01:00:00-08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Objective-C, Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+<div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
-<p>By building so many systems over the years, I have seen many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+<p>Evant was originally named Retail Aspect and provided a Retail-as-a-service suite to companies that were
+joining the Web retail boom (e.g. Disney Online).</p>
 
-<p>The systems, applications, and architectures documented here will eventually include:</p>
+<h2>Major System Aspects</h2>
+
+<p>The technical foundations of the company were from a
+Java / Smalltalk background, so the server technologies were pretty mainstream Java enterprise technologies.
+The client was the &#8216;leading edge&#8217; piece in the implementation technology, using a lot of JavaScript back in a very early time
+for the language (early 2000s).  The whole system was notable in the number of automated regression tests
+it contained (see below).  The database was initially Oracle but later moved to DB2.</p>
+
+<p>Evant had a suite of products that did not succeed as a suite, potentially due to 9-11 causing a shutdown of online
+retail activity.</p>
+
+<h2>Architecture-1 : Strong Client, Server-UI, and Server-Domain separation</h2>
+
+<p>In terms of making the Evant Advanced Planning product capable, performant, and testable, there was a very strong
+separation between &#8220;Interface&#8221; (UI or Test) and &#8220;Domain&#8221;.  The Domain includes all the business functionality within the planning
+engine, exposed by a Java-based API.  It could be driven by either tests or the User Interface.  The API was identical,
+so if the tests were successful, the engine was doing the &#8216;right thing&#8217;.  And the UI just needed to:</p>
 
 <ul>
-<li>Evant Advanced Planning: A multidimensional planning system
+<li>Interact with the interface similarly to the tests
 
 <ul>
-<li>Java, JavaScript</li>
+<li>Or expand interface and tests for new needs</li>
 </ul>
 </li>
-<li>Velidom: A highly virtualized and automated software development environment / factory
-
-<ul>
-<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
-</ul>
-</li>
-<li>Winster: A cooperative online gaming and social site
-
-<ul>
-<li>Java, Flash/Flex, MySQL</li>
-</ul>
-</li>
-<li>FooPets: A virtual pet entertainment site
-
-<ul>
-<li>Ruby, Rails, Maya, iOS, etc.</li>
-</ul>
-</li>
-<li>HeartPark: A 3-D world / game
-
-<ul>
-<li>Unity, Ruby, Rails</li>
-</ul>
-</li>
-<li>Vive: A mobile health and wellness application
-
-<ul>
-<li>Grails, Java, YUI</li>
-</ul>
-</li>
-<li>Epocrates EMR: An electronic medical records application
-
-<ul>
-<li>Ruby, Rails, iOS</li>
-</ul>
-</li>
-<li>PeerCase: A mobile-first medical communication application
-
-<ul>
-<li>Grails, Sencha</li>
-</ul>
-</li>
-<li>Rumble: A platform to support free-to-play and hiqh-quality games
-
-<ul>
-<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
-</ul>
-</li>
-<li>ABC: An analytics platform for massive scale machine learning
-
-<ul>
-<li>Weka, Python, Grails, Amazon AWS services</li>
-</ul>
-</li>
-<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
+<li>Present the information pleasantly and effectively</li>
 </ul>
 
+
+<p>The UI could do all kinds of amazing things to transform the results or make actions easier for a user.  Since this was
+a JavaScript application, lots of things could happen on the client without server interaction or asynchronously with
+the server.  The important part was having a single contract that the two clients (one verifying, one using) could
+run against.</p>
+
+<h2>Architecture-2 : Mass Automated Testing</h2>
+
+<p>The original Evant team was very committed to a full XP (Extreme Programming) approach and used TDD, Paired Programming,
+and other aspects of XP as part of their development process.  I arrived after this development period, but there
+were a fairly extensive collection of automated tests as part of the development artifacts.  However they were
+created, they were incredibly useful for regression testing as we transformed the Domain to be far faster,
+more scalable, and flexible.</p>
+
+<p>Initially the tests were in XML to allow a very flexible system of automated testing that (in theory) could have tests
+written by subject matter experts or general end users.  This flexibility made it a poor Domain-Specific-Language and
+users could not write tests themselves.  The tests were also very repetitive (wet) given they had to describe
+many states, inputs, and outputs within a matrix-like space.  Ultimately the solution was to move to a matrix-oriented
+tool: a Spreadsheet.  And simply organize states, inputs, and outputs within that spreadsheet.  Automation turned
+the spreadsheets into automated test specifications.  And the integration server ran this vast collection of tests
+pretty much <em>all the time</em> to make sure nothing regressed (or at least it was identified if it did).</p>
+
+<p>The automated testing was a continuous benefit as long as we could keep performance of the testing servers equal to
+developer demands.</p>
+
+<h2>Architecture-3 : Hidden Storage Model</h2>
+
+<p>An important part of the Domain&#8217;s API was its&#8217; separation of &#8216;transactions&#8217; from its &#8216;storage&#8217;.  The system had
+transactional statements (&#8216;update&#8217; and &#8216;save&#8217;) but how those things were accomplished was not visible at the
+interface.  This separation prevented callers from caring and fiddling with how things were communicated to the
+persistent storage.</p>
+
+<p>Not all systems need this kind of separation: What is the chance you will swap out your database?  With a very different
+database?  But the Evant storage model was a Hybrid-relational system with the bulk of the data stored in semi-opaque
+compressed format.  So the domain acted transactionally, but under the covers it did a lot of data transformations to
+organize and compress facts.  Transformations that evolved in time (different versions had better formats) and evolved
+based on the size of the data space and performance tuning around it.</p>
+
+<h2>Architecture-4 : Canned to Generic</h2>
+
+<p>Another common and useful architectural progression is going from &#8216;canned&#8217; (fully specified) to &#8216;generic&#8217; (very flexible)
+capabilities.  You should generally start at &#8216;canned&#8217; so you have super-control over what you are doing and</p>
 </div>
 
 
@@ -183,7 +190,7 @@
   
 
 
-<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+<time datetime="2015-12-02T01:00:00-08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2015</time>
       
 
 <span class="categories">
@@ -197,7 +204,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-1/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-2/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-2/" >Tweet</a>
   
   
   
@@ -206,10 +213,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/read-2/" title="Previous Post: READ: Scaled Agile">&laquo; READ: Scaled Agile</a>
+        <a class="basic-alignment left" href="/blog/arch-1/" title="Previous Post: Two Decades of Systems and Architectures">&laquo; Two Decades of Systems and Architectures</a>
       
       
-        <a class="basic-alignment right" href="/blog/arch-2/" title="Next Post: Evant: Two Decades of Systems and Architectures">Evant: Two Decades of Systems and Architectures &raquo;</a>
+        <a class="basic-alignment right" href="/blog/arch-3/" title="Next Post: Velidom: Two Decades of Systems and Architectures">Velidom: Two Decades of Systems and Architectures &raquo;</a>
       
     </p>
   </footer>
@@ -318,8 +325,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-1/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/arch-1/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-2/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/arch-2/';
         var disqus_script = 'embed.js';
       
     (function () {
