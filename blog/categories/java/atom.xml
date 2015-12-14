@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-09T09:56:53-08:00</updated>
+  <updated>2015-12-14T09:01:23-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Some Software Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-1/"/>
+    <updated>2015-12-01T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-1</id>
+    <content type="html"><![CDATA[<p>It is now the end of 2015 and I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+
+<p>By building so many systems over the years, I get to see many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I 'passed the system on'.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+
+<p>The systems, applications, and architectures documented here will eventually include:</p>
+
+<ul>
+<li>Velidom: A highly virtualized and automated software development environment / factory
+
+<ul>
+<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
+</ul>
+</li>
+<li>Winster: A cooperative online gaming and social site
+
+<ul>
+<li>Java, Flash/Flex, MySQL</li>
+</ul>
+</li>
+<li>FooPets: A virtual pet entertainment site
+
+<ul>
+<li>Ruby, Rails, Maya, iOS, etc.</li>
+</ul>
+</li>
+<li>HeartPark: A 3-D world / game
+
+<ul>
+<li>Unity, Ruby, Rails</li>
+</ul>
+</li>
+<li>Vive: A mobile health and wellness application
+
+<ul>
+<li>Grails, Java, YUI</li>
+</ul>
+</li>
+<li>Epocrates EMR: An electronic medical records application
+
+<ul>
+<li>Ruby, Rails, iOS</li>
+</ul>
+</li>
+<li>PeerCase: A mobile-first medical communication application
+
+<ul>
+<li>Grails, Sencha</li>
+</ul>
+</li>
+<li>Rumble: A platform to support free-to-play and hiqh-quality games
+
+<ul>
+<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
+</ul>
+</li>
+<li>ADD: A recommended development environment and platform for The Gap, Shaklee, and others</li>
+<li>ABC: An analytics platform for massive scale machine learning</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ADD Stack [Part-10]]]></title>
@@ -1006,75 +1073,6 @@ Start out with a metrics system like NewRelic to get a bunch  of valuable things
 and you can later add in new application-specific metrics.
 And get the basics of operational monitoring up early and you will know if the application and the
 IT is reliable long before it gets into the production data center.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-6]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-6/"/>
-    <updated>2015-10-17T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-6</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting.</p>
-
-<h2>Which UI framework?</h2>
-
-<p>The <a href="/blog/addstack-4/">fourth article</a> discussed UI alternatives, but it was mostly about 'architectural' alternatives
- and did not recommend a particular framework to use.  I believe that is the correct order: <em>how you use</em> the framework
- is usually more important than the framework itself.  People can correctly and improperly use all kinds of different technology.
-Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
-use it wrong (your thumb is targetable) and you can be seriously hurt.</p>
-
-<p>There are a number of popular frameworks:</p>
-
-<ul>
-<li>Angular</li>
-<li>Ember</li>
-<li>Backbone</li>
-<li>Sencha</li>
-<li>etc.</li>
-</ul>
-
-
-<p>And deciding between them may seem like it should be done as "which has the best features?" but unless
-one of them has a killer feature  that you care about
-(Sencha can run the same code with both a desktop and mobile UI), and is worth its penalties (Sencha
-is proprietary and very 'different') then 'best features' is basically meaningless.  A better question is "Which
-one do I understand the best?" and "Which one can other people on the team learn and share-code the best?".</p>
-
-<!--more-->
-
-
-<p>Taking out 'Sencha' from the above and you get a few different viewpoints on the web:</p>
-
-<ul>
-<li><a href="http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/">http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/</a></li>
-<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
-<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
-</ul>
-
-
-<p>And dropping Backbone, the distinction is really:</p>
-
-<ul>
-<li>Angular – Powerful, dry, and scale-limited framework</li>
-<li>Ember – Less dry, more opinionated, and more scalable</li>
-</ul>
-
-
-<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
-have to be more explicit, but the convention and the explicitness should make the code more readable and
-maintainable.</p>
-
-<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
-in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
-and powerfully-fragile (do something wrong and you get a terribly visible break) that you can't really use it wrong.
-Ember appears to have the advantages of Rails and Grails... as the framework innately 'works' you can't
-really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
-decide early whether you want complete alignment.</p>
 ]]></content>
   </entry>
   

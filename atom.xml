@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-09T09:56:53-08:00</updated>
+  <updated>2015-12-14T09:01:23-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Some Software Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-1/"/>
+    <updated>2015-12-01T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-1</id>
+    <content type="html"><![CDATA[<p>It is now the end of 2015 and I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+
+<p>By building so many systems over the years, I get to see many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+
+<p>The systems, applications, and architectures documented here will eventually include:</p>
+
+<ul>
+<li>Velidom: A highly virtualized and automated software development environment / factory
+
+<ul>
+<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
+</ul>
+</li>
+<li>Winster: A cooperative online gaming and social site
+
+<ul>
+<li>Java, Flash/Flex, MySQL</li>
+</ul>
+</li>
+<li>FooPets: A virtual pet entertainment site
+
+<ul>
+<li>Ruby, Rails, Maya, iOS, etc.</li>
+</ul>
+</li>
+<li>HeartPark: A 3-D world / game
+
+<ul>
+<li>Unity, Ruby, Rails</li>
+</ul>
+</li>
+<li>Vive: A mobile health and wellness application
+
+<ul>
+<li>Grails, Java, YUI</li>
+</ul>
+</li>
+<li>Epocrates EMR: An electronic medical records application
+
+<ul>
+<li>Ruby, Rails, iOS</li>
+</ul>
+</li>
+<li>PeerCase: A mobile-first medical communication application
+
+<ul>
+<li>Grails, Sencha</li>
+</ul>
+</li>
+<li>Rumble: A platform to support free-to-play and hiqh-quality games
+
+<ul>
+<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
+</ul>
+</li>
+<li>ADD: A recommended development environment and platform for The Gap, Shaklee, and others</li>
+<li>ABC: An analytics platform for massive scale machine learning</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[READ: Scaled Agile]]></title>
@@ -4889,54 +4956,6 @@ broadcast a &#8216;HeartBeat&#8217; in either the presence repository or another
 check if the machine is actually responsive (e.g. HAProxy will interact with the machine to make sure it
 is actually alive) vs. being present.  This final interaction is pretty critical (no Zombies in my data center),
 so that is the best way to figure out who is alive and alert vs. just being present.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-5]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-5/"/>
-    <updated>2015-10-02T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-5</id>
-    <content type="html"><![CDATA[<p>This is the fifth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, and the one minute configuration HeartBeat.</p>
-
-<h2>HipChat</h2>
-
-<p>The fourth ingredient to the ADD is HipChat.  HipChat is meant to help people communicate and see the state of the world.
-It is an excellent communication program with a plethora of integrations.  But for ADD the critical capability is
-to mix notifications of machines with communication between people.  You can also have it be used to drive the ADD
-system (kind of like a command line) but that isn&#8217;t very important since it would just make changes in GitHub
-which can be made in lots of different ways.</p>
-
-<p>The demo of this is very simple:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-5/add5_hipchat_cv1.png" /></p>
-
-<!-- more -->
-
-
-<p>The GitHub part is an integration that works out of the box, and the AddBot1 notification is a minor addition
-to the working script:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Doing the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh
-</span><span class='line'>sleep 121
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span>
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Done the work for ${GIT_VERSION}&quot;</span> | bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/send_hipchat.sh -c green
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So now we have &#8216;Action in GitHub&#8217; and visibility to all the activities of the machines that reacted to
-that action.  Finally we can have human augmentation like &#8220;@Team New version is up on the development server&#8221;
-to transform something technical to something more meaningful.  With proper use of colors, the state
-of the world is fairly well communicated at a glance (e.g. Reds, Yellows, Greens, and Blues).</p>
 ]]></content>
   </entry>
   

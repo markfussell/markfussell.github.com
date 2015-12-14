@@ -9,8 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the fourth series describing the ADD: a radically more productive software development and delivery
-environment. This series is on estimation &hellip;">
+  <meta name="description" content="It is now the end of 2015 and I have been reading and writing software in both small and large companies, in startups and established enterprises, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +66,101 @@ environment. This series is on estimation &hellip;">
       
 
   
+  
+  <article class="listing">
+    
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/arch-1/">Some Software Architectures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It is now the end of 2015 and I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+
+<p>By building so many systems over the years, I get to see many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+
+<p>The systems, applications, and architectures documented here will eventually include:</p>
+
+<ul>
+<li>Velidom: A highly virtualized and automated software development environment / factory
+
+<ul>
+<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
+</ul>
+</li>
+<li>Winster: A cooperative online gaming and social site
+
+<ul>
+<li>Java, Flash/Flex, MySQL</li>
+</ul>
+</li>
+<li>FooPets: A virtual pet entertainment site
+
+<ul>
+<li>Ruby, Rails, Maya, iOS, etc.</li>
+</ul>
+</li>
+<li>HeartPark: A 3-D world / game
+
+<ul>
+<li>Unity, Ruby, Rails</li>
+</ul>
+</li>
+<li>Vive: A mobile health and wellness application
+
+<ul>
+<li>Grails, Java, YUI</li>
+</ul>
+</li>
+<li>Epocrates EMR: An electronic medical records application
+
+<ul>
+<li>Ruby, Rails, iOS</li>
+</ul>
+</li>
+<li>PeerCase: A mobile-first medical communication application
+
+<ul>
+<li>Grails, Sencha</li>
+</ul>
+</li>
+<li>Rumble: A platform to support free-to-play and hiqh-quality games
+
+<ul>
+<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
+</ul>
+</li>
+<li>ADD: A recommended development environment and platform for The Gap, Shaklee, and others</li>
+<li>ABC: An analytics platform for massive scale machine learning</li>
+</ul>
+
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
   
   <article class="listing">
     
@@ -713,87 +807,6 @@ There are a number of template systems out there:</p>
   
     <footer>
       <a rel="full-article" href="/blog/addstack-5/">Read on &rarr;</a>
-    </footer>
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/addstack-4/">ADD Stack [Part-4]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-15T03:00:00-07:00" pubdate data-updated="true">Oct 15<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with &#8216;Testing&#8217;.  The third with the application stack (Grails and other technologies).</p>
-
-<h2>User Interface</h2>
-
-<p>Of all the technologies that change, the User Interface is by far the most diverse and most evolved.  Modern
-databases are actually pretty old technology.  Modern languages are not significantly different from ancestors
-in the 1970s.  Computers have the same main components.  Programmers interact with them with keyboards and screens.
-If you picked well, you are programming better (tens of thousands of hours help) but are sadly
-on pretty much the same core concepts you learned in your first five thousand hours.  Sigh.</p>
-
-<p>Except.  Except the User Interface.  The implementation of user interfaces has grown since the 70s (the
-first bit-mapped and mouse-based UIs were built way back then) through Smalltalk, Objective-C, Flash, Flex,
-Angular, and other paths.  But even the devices have changed.  An iPhone is not a computer.  An Apple Watch
-is not an iPhone.  Times they are a changing&#8230; at least for &#8216;devices&#8217;.</p>
-
-<h3>It&#8217;s your face</h3>
-
-<p>The User Interface is also the &#8216;face&#8217; of a company.  It sells the company.  Whether to new customers, existing
-customers, employees, stock holders, or potential investors.  A web site like Rumble&#8217;s:</p>
-
-<ul>
-<li><a href="http://rumblegames.com/">http://rumblegames.com/</a></li>
-</ul>
-
-
-<p><img src="/images/addstack-4/addstack4_ui1.png" /></p>
-
-<p>And Rumble&#8217;s actual games are trying to appeal to a particular audience (middle aged men) and give
-them something they want (to feel powerful and sophisticated).</p>
-
-<p>A web site like PortaPlanter:</p>
-
-<ul>
-<li><a href="http://PortaPlanter.com/">http://PortaPlanter.com/</a></li>
-</ul>
-
-
-<p><img src="/images/addstack-4/addstack4_ui2.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/addstack-4/">Read on &rarr;</a>
     </footer>
   
 
