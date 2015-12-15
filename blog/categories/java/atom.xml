@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:19:19-08:00</updated>
+  <updated>2015-12-14T18:22:34-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -255,6 +255,12 @@ broadly capable generics.</p>
 
 <ul>
 <li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
+</ul>
+</li>
+<li>SnapArch: An architecture to build out a collection of services and applications on top of them
+
+<ul>
+<li>Spring, Angular, etc.</li>
 </ul>
 </li>
 <li>ABC: An analytics platform for massive scale machine learning
