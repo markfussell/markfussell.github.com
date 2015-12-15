@@ -9,8 +9,8 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
-development team. This was in the early 2000 time &hellip;">
+  <meta name="description" content="This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues. The table of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,8 +92,11 @@ development team. This was in the early 2000 time &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
-development team.  This was in the early 2000 time-frame and Evant had created technology which did
+<div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benifits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
+development team.  This was in the mid 2000 time-frame and Evant had created technology which did
 mass regression testing on every checkin, enabled continuous inter-team communication (including to India),
 and various other major features.  Velidom was an attempt to productize this whole concept: The Velocity
 to Dominate with an Advanced Software Development Factory.</p>
@@ -150,7 +153,7 @@ suite of products (the Factory) is also not part of Minimal Viable: whether chat
 just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
 integration with their favorite tools as an important improvement.</p>
 
-<h2>Architecture-3 : Server reactor</h2>
+<h2>Architecture-3 : Reactor</h2>
 
 <p>The last architecture from Velidom that I am going to mention is the &#8216;reactor&#8217; or &#8216;queue&#8217; pattern.  Doing
 a mass regression test with servers being created on the fly takes time.  Separating the &#8216;request&#8217; from the task
