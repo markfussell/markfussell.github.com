@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Startup | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/startup/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:16:57-08:00</updated>
+  <updated>2015-12-14T18:17:52-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -82,7 +82,7 @@ integration with their favorite tools or your other products as an important imp
 <h2>AA-3 : Reactor</h2>
 
 <p>The last architecture from Velidom that I am going to mention is the 'reactor' or 'queue' pattern.  Doing
-a mass regression test with servers being created on the fly takes time.  Separating the 'request' from the task
+a mass regression test with servers being created on the fly takes time.  Separating the 'request' from the 'task'
 to complete the request is very effective for both scaling and also avoiding needless scaling.  If the automation
 is fast enough, you don't need to scale.  If you don't have the extra money to buy the bonus performance,
 you also don't need to scale.  You can choose whether to pay for time or not.</p>
