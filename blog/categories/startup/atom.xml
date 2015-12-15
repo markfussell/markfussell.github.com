@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Startup | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/startup/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:11:35-08:00</updated>
+  <updated>2015-12-14T18:16:57-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -77,7 +77,7 @@ development stack, they might have been unsatisfiable.</p>
 integration is not part of Minimal Viable: if your product is good at group chat, people will start using it.  A full
 suite of products (the Factory) is also not part of Minimal Viable: whether chat or automated regression testing,
 just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
-integration with their favorite tools as an important improvement.</p>
+integration with their favorite tools or your other products as an important improvement.</p>
 
 <h2>AA-3 : Reactor</h2>
 
