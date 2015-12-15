@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:17:52-08:00</updated>
+  <updated>2015-12-14T18:19:19-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -19,7 +19,7 @@
     <updated>2015-12-03T01:00:00-08:00</updated>
     <id>http://markfussell.emenar.com/blog/arch-3</id>
     <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
-benifits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
 <p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
 development team.  This was in the mid 2000 time-frame and Evant had created technology which did
@@ -101,7 +101,7 @@ languages), this is far less of a problem.</p>
     <updated>2015-12-02T01:00:00-08:00</updated>
     <id>http://markfussell.emenar.com/blog/arch-2</id>
     <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
-benifits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
 <p>Evant was originally named Retail Aspect and provided a Retail-as-a-service suite to companies that were
 joining the Web retail boom (e.g. Disney Online).</p>
