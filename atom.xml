@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T10:21:30-08:00</updated>
+  <updated>2015-12-16T10:23:50-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -98,7 +98,7 @@ was a &#8216;V1&#8217; and &#8216;V2&#8217; version of a custom communication pr
 
 
 <p>You may not think it will change, but by simply versioning the protocol with a &#8216;V1&#8217; or &#8216;{ &#8220;version&#8221;:&#8221;v1&#8221;, &#8230;&#8217; or
-similar you have enabled easily migrating forward with backward compatibility.  You can never be sure when or
+similar you have enabled easily migrating forward with backward compatibility.  In many cases you can never be sure when or
 if a client will be updated, so you need to enable continued support of old clients until they are commercially
 non-viable.</p>
 ]]></content>
