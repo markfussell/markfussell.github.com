@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Startup | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/startup/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T10:25:38-08:00</updated>
+  <updated>2015-12-16T10:36:24-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -85,11 +85,18 @@ was.  We had to have servers big enough to deal with our peak loads and smart en
 <p>The server-side game can be much simpler than the visual appearance on the client side (e.g. think the rules of chess
 vs. a pretty chess board), but the server-side game has to protect the business rules of the game so people can't game the game.</p>
 
-<h2>AA-2 : Socket based client-server connection and protocol versioning</h2>
+<h2>AA-2 : Socket based client-server connection</h2>
 
 <p>Winster existed before Websocket, Comet, and other specifications and approaches.  To communicate what other players
-did within your room / table, the server sent updates through a direct socket.  On top of this socket communication
-was a 'V1' and 'V2' version of a custom communication protocol.  A great rule to any protocol:</p>
+did within your room / table, the server sent updates through a direct socket.  Making sure customers could connect
+with a straight socket was painful for customer support (if a customer was behind a very restrictive firewall) and
+required augmentations to deal with 'Flash Policies' and other aspects.  The advantage of the Game Server approach
+was that the socket notifications were just that: notifications that the world was in a new state.  If clients missed
+them, they could get updated on a subsequent notification.  Or catch up if initially stalled for some reason.</p>
+
+<h2>AA-3 : Protocol versioning</h2>
+
+<p>On top of the socket communication was a 'V1' and 'V2' version of a custom communication protocol.  A great rule to any protocol:</p>
 
 <ul>
 <li>Version it!</li>
@@ -100,6 +107,30 @@ was a 'V1' and 'V2' version of a custom communication protocol.  A great rule to
 similar you have enabled easily migrating forward with backward compatibility.  In many cases you can never be sure when or
 if a client will be updated, so you need to enable continued support of old clients until they are commercially
 non-viable.</p>
+
+<h2>AA-4 : AJAX or Send-Data vs. rendering</h2>
+
+<p>Because Flash/Flex is a very high-level UI language, the Java server had absolutely no ability to 'render' for the client,
+so there was a very strong client/UI vs. Server/Data &amp; Rules separation.  You make a request of the server and you get
+data back via HTTP / XML or via the socket connection.  This enables the client to swap out and enables the server to
+have easier automated testing.</p>
+
+<h2>AA-5 : Logging and Telemetry</h2>
+
+<p>Logging has a number of different purposes.  Three very different ones include:</p>
+
+<ul>
+<li>To see if the software has issues / defects</li>
+<li>To have a record if a customer asks for 'proof'</li>
+<li>To see what a customer and the systems are doing compared to the business benefit</li>
+</ul>
+
+
+<p>Winster had a lot of logging and telemetry because it (a) needed to work, (b) needed to deal with grouchy customers,
+and (c) needed to be very optimized to be profitable.</p>
+
+<p>Logging frameworks and infrastructure improve every year, and it is important to put in the best structure you can
+for the purposes you have.</p>
 ]]></content>
   </entry>
   
