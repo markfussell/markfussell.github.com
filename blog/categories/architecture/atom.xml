@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T09:27:06-08:00</updated>
+  <updated>2015-12-16T09:28:50-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -298,6 +298,12 @@ broadly capable generics.</p>
 </ul>
 </li>
 <li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
+<li>IRIS-2 / CargoSmart: An enterprise container-shipping logistics system
+
+<ul>
+<li>Smalltalk, GemStone, C++, Java, etc.</li>
+</ul>
+</li>
 </ul>
 
 ]]></content>
