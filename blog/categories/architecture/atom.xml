@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T09:26:36-08:00</updated>
+  <updated>2015-12-16T09:27:06-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -243,7 +243,7 @@ broadly capable generics.</p>
 <li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
 </ul>
 </li>
-<li>Winster: A cooperative online gaming and social site
+<li><a href="/blog/arch-4">Winster</a>: A cooperative online gaming and social site
 
 <ul>
 <li>Java, Flash/Flex, MySQL</li>
