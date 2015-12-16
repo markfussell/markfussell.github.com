@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T10:23:50-08:00</updated>
+  <updated>2015-12-16T10:25:38-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -83,8 +83,7 @@ game went through a 'game server' that knew the rules of the game.  There are a 
 was.  We had to have servers big enough to deal with our peak loads and smart enough not to overload themselves.</p>
 
 <p>The server-side game can be much simpler than the visual appearance on the client side (e.g. think the rules of chess
-vs. a pretty chess board), but the server-side game has to protect the business rules of the game so people can't<br/>
-game the game.</p>
+vs. a pretty chess board), but the server-side game has to protect the business rules of the game so people can't game the game.</p>
 
 <h2>AA-2 : Socket based client-server connection and protocol versioning</h2>
 
