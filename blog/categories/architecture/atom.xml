@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T09:28:50-08:00</updated>
+  <updated>2015-12-16T10:21:30-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -38,6 +38,69 @@ supported a real-time chat system.  So very much like a card-game table without 
 <p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
 
 <h2>AA-1 : No important logic on the client</h2>
+
+<p>At Winster players could 'win prizes' based on playing the games.  A lot of basic games out there put the actual
+functionality into the game client (Flash, JavaScript, and even compiled desktop clients).  This is fine if there
+is nothing at stake.  Someone hacks the client and they get to play a 'different' game.  Many games even have
+available 'cheat modes' that make a different game easy to enable.</p>
+
+<p>But if the client can actually impact the business, it has to be securely and correctly implementing business rules.
+To enable this, you can try to make sure the client is an unhacked/unaltered version of the correct client.  Or more
+simply, you can treat the client as untrusted: it makes request, and the server decides whether they are reasonable.</p>
+
+<p>For Winster, we chose to not trust the client and so every action done on the client that affects the state of the
+game went through a 'game server' that knew the rules of the game.  There are a lot of wins for this:</p>
+
+<ul>
+<li>Servers tend to be easier to verify
+
+<ul>
+<li>You control the hardware completely, and at least at that time, there were significantly more testing frameworks</li>
+</ul>
+</li>
+<li>Server failure is 'unlikely' and should be totally visible if you have a problem</li>
+<li>You are already writing the server in a particular language, so may more easily be able to augment its capabilities (although some clients have very nice game/event-oriented languages)</li>
+</ul>
+
+
+<p>There are some losses:</p>
+
+<ul>
+<li>Latency is guaranteed to be higher, and potentially has to be masked
+
+<ul>
+<li>For games like first-person shooters, you need to see the bullet fly even though the server determines the hit</li>
+<li>For things like field-validation, you commonly have to repeat yourself on both the client and the server</li>
+</ul>
+</li>
+<li>Clients sometimes have really nice game language</li>
+<li>If there are delays in answers, you somehow have to get them to the client asynchronously</li>
+<li>As clients scale 'game servers' scale.</li>
+</ul>
+
+
+<p>The last loss can badly affect your operational profits, especially 'pre-cloud' which is the timeframe that Winster
+was.  We had to have servers big enough to deal with our peak loads and smart enough not to overload themselves.</p>
+
+<p>The server-side game can be much simpler than the visual appearance on the client side (e.g. think the rules of chess
+vs. a pretty chess board), but the server-side game has to protect the business rules of the game so people can't<br/>
+game the game.</p>
+
+<h2>AA-2 : Socket based client-server connection and protocol versioning</h2>
+
+<p>Winster existed before Websocket, Comet, and other specifications and approaches.  To communicate what other players
+did within your room / table, the server sent updates through a direct socket.  On top of this socket communication
+was a 'V1' and 'V2' version of a custom communication protocol.  A great rule to any protocol:</p>
+
+<ul>
+<li>Version it!</li>
+</ul>
+
+
+<p>You may not think it will change, but by simply versioning the protocol with a 'V1' or '{ "version":"v1", ...' or
+similar you have enabled easily migrating forward with backward compatibility.  You can never be sure when or
+if a client will be updated, so you need to enable continued support of old clients until they are commercially
+non-viable.</p>
 ]]></content>
   </entry>
   
