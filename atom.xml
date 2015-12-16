@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:22:34-08:00</updated>
+  <updated>2015-12-16T09:26:36-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Winster: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-4/"/>
+    <updated>2015-12-04T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-4</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="http://markfussell.emenar.com/blog/arch-1">here</a>.</p>
+
+<p>Winster was a cooperative social gaming web site that enabled players to win real-world prizes.  It predated
+Zynga and Facebook, but both of those companies &#8216;rose&#8217; during the time I worked for Winster.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>Winster had a fairly standard Java backend that dealt with managing player information, talking with PayPal,
+and keeping track of prizes, advertisements, and promotions.  This is pretty independent of what Winster was:
+almost any commercial consumer site might have these capabilities.</p>
+
+<p>What made Winster interesting is that the client was in Adobe Flash/Flex, it was realtime multi-player, and
+the rules of the games were all stored on the server.  This created a pretty compelling environment for
+players to interact: players could swap pieces and both be in better shape vs. &#8220;the house&#8221;.  And this interaction
+supported a real-time chat system.  So very much like a card-game table without any competitiveness between players.</p>
+
+<p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
+
+<h2>AA-1 : No important logic on the client</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>
@@ -4602,240 +4630,6 @@ into a working temporary file.</p>
 <p>Next we can filter out the ones that don&#8217;t respond to our &#8216;awake&#8217; check.  That leaves
 us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
 just one (e.g. ZooKeeper).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-8]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-8/"/>
-    <updated>2015-10-08T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-8</id>
-    <content type="html"><![CDATA[<p>This is the eighth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, and EC2 integration.</p>
-
-<h2>Configuring Node Parts and even fuller Presence and visibility</h2>
-
-<p>So far our node was a generic &#8216;ControlNode&#8217;.  A ControlNode is a node that is in your data center
-(to be near the other nodes), similar to your actual nodes, and configured to be able to do interesting tasks.
-It is not a critical part of anything, so you can fiddle with it and just throw it away.  Say you want to
-start configuring a database node.  You launch and login to a ControlNode and then try to install a database
-(for example Maria).</p>
-
-<!-- more -->
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cat &gt; /etc/yum.repos.d/mariadb10.repo <span class="s">&lt;&lt;EOS</span>
-</span><span class='line'><span class="s"># MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</span>
-</span><span class='line'><span class="s"># http://mariadb.org/mariadb/repositories/</span>
-</span><span class='line'><span class="s">[mariadb]</span>
-</span><span class='line'><span class="s">name = MariaDB</span>
-</span><span class='line'><span class="s">baseurl = http://yum.mariadb.org/10.0/centos7-amd64</span>
-</span><span class='line'><span class="s">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span>
-</span><span class='line'><span class="s">gpgcheck=1</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'>yum install MariaDB-server MariaDB-client
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Assuming you changed to root for the instance:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo bash
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This works!  After confirming some things along the way&#8230;</p>
-
-<p>OK, so now we want to have our database servers install MariaDB.  We first need an &#8216;installMaria&#8217; script with the above
-in it.  Say</p>
-
-<h3>installMaria10.sh</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'><span class="c">#=== Java</span>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'>
-</span><span class='line'>cat &gt; /etc/yum.repos.d/mariadb10.repo <span class="s">&lt;&lt;EOS</span>
-</span><span class='line'><span class="s"># MariaDB 10.0 CentOS repository list - created 2015-10-08 15:16 UTC</span>
-</span><span class='line'><span class="s"># http://mariadb.org/mariadb/repositories/</span>
-</span><span class='line'><span class="s">[mariadb]</span>
-</span><span class='line'><span class="s">name = MariaDB</span>
-</span><span class='line'><span class="s">baseurl = http://yum.mariadb.org/10.0/centos7-amd64</span>
-</span><span class='line'><span class="s">gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB</span>
-</span><span class='line'><span class="s">gpgcheck=1</span>
-</span><span class='line'><span class="s">EOS</span>
-</span><span class='line'>
-</span><span class='line'>yum install MariaDB-server MariaDB-client
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>adding init</h3>
-
-<p>And unless you want every node to install Maria, you need to add an &#8216;init&#8217; for the type of node we are dealing with.
-In our case, the StackType is &#8216;lad1&#8217; (Load,App,Db,1) and the node type / part is &#8216;db1&#8217;.</p>
-
-<p>So we get this hierarchy:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy1.png" /></p>
-
-<p>And the content of the &#8216;init.sh&#8217; file is simply:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'><span class="c">#=== fed1/db1</span>
-</span><span class='line'><span class="c">#====================================================</span>
-</span><span class='line'>
-</span><span class='line'>bash <span class="k">${</span><span class="nv">COMMON</span><span class="k">}</span>/installMaria10.sh
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>CloudFormation</h3>
-
-<p>We have a new CloudFormation named &#8216;awscf4_Fed1Db1&#8217; with the simple change of the nodepart being &#8216;db1&#8217;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;TemplateConstant&quot;</span> <span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nt">&quot;stacktype&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;lad1&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;initgitrepo&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;repo2_petulant-cyril&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;nodepart&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;db1&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;state&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;presetup&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;statetss&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;statelog&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;&quot;</span> <span class="p">},</span>
-</span><span class='line'>  <span class="nt">&quot;deployment&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="s2">&quot;fed1&quot;</span> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span><span class="err">,</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Demo or Die!</h3>
-
-<p>Since the previous presence description, the presence system has upped itself and now nodes check-in with
-more information than before.  After launching two &#8216;app&#8217; stack and one &#8216;db&#8217; stack we get this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
-
-<p>So clearly our nodes know who they are, what deployment they are in, what the &#8216;part&#8217; in that deployment is, and how to
-&#8220;do work&#8221;. But are they actually what they say they are?</p>
-
-<h2>Being the &#8216;user&#8217;, fixing the &#8216;user&#8217;</h2>
-
-<p>If you use the installMaria script above, it will not work.  Because I said: &#8220;This works!  After confirming some things along the way&#8230;&#8221;
-During &#8216;boot&#8217; there is no user to confirm anything.  So the &#8216;yum&#8217; part fails although the yum repository is there
-(the user is &#8216;root&#8217; so it has permission).  It ran the script but it didn&#8217;t work under &#8216;automation&#8217;.
-The three annoying issues in automation:</p>
-
-<ul>
-<li> The user could be different from the user you think it is (say &#8216;ec2&#8217; vs. &#8216;root&#8217;)</li>
-<li> The user is not interactive</li>
-<li> The user did not &#8220;launch a login shell&#8221; and so some launch things that happen for you did not happen for them.</li>
-</ul>
-
-
-<p>There are trivial and super-effective solutions to all of these, but until you get them right, you can bang your head
-quite a bit.</p>
-
-<h3>Who is the user?  &#8216;root&#8217;</h3>
-
-<p>The user provisioning a machine should always be &#8216;root&#8217;.  Yes, &#8216;root&#8217; is dangerous.  Because &#8216;root&#8217; is powerful.  And
-given (a) if you mess up you simply kill the machine, and (b) everything is from version-controlled source files&#8230;
-you can handle that power.  So don&#8217;t add silly hoops to jump through.  On a ControlNode, immediately &#8216;sudo bash&#8217;.
-And if for some reason the default user isn&#8217;t &#8216;root&#8217; in a launch or cron script, &#8216;su root&#8217; or &#8216;sudo bash&#8217; to fix that.</p>
-
-<h3>Is the user interactive? &#8216;no&#8217;</h3>
-
-<p>We are doing production automation that is designed to scale into thousands of machines.  No one is going to answer
-questions for thousands of machines.  That is not &#8216;scalable&#8217; or at all valuable.  You should always know all the
-answers when a machine launches.  So script any UI that really requires some value put in, or use the variant of
-a command that has default answers.</p>
-
-<p>The true script for &#8216;installMaria&#8217; has this line.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>yes | yum -y install MariaDB-server MariaDB-client
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The &#8216;yum -y&#8217; <em>should</em> never ask any questions.  But just in case it does, I give it a &#8216;y&#8217; for every answer.  If you
-are testing something and get a question, check if it has a flag like &#8216;-y&#8217;</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_yes.png" /></p>
-
-<h3>Has the user launch as a login shel? &#8216;yes&#8217;</h3>
-
-<p>Since getting on a machine without &#8216;logging in&#8217; is quite a bit more painful than &#8216;ssh&#8217; into the machine, just make sure
-any &#8216;init&#8217; and &#8216;work&#8217; script has read the files a login shell would automatically read.</p>
-
-<p>A simple &#8216;source /root/.bashrc&#8217; fixes the problem immediately</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#========================================</span>
-</span><span class='line'><span class="c">#=== Do the work for this repository</span>
-</span><span class='line'><span class="c">#========================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">source</span> /root/.bashrc
-</span><span class='line'>...
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Node Work</h2>
-
-<p>Just like the &#8216;init&#8217; hierarchy, the &#8216;db1&#8217; nodes can have their own work items to do regularly by simply adding the &#8216;work.sh&#8217;
-into the hierarchy:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_hierarchy2.png" /></p>
 ]]></content>
   </entry>
   

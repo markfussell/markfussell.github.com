@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:22:34-08:00</updated>
+  <updated>2015-12-16T09:26:36-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Winster: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-4/"/>
+    <updated>2015-12-04T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-4</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Winster was a cooperative social gaming web site that enabled players to win real-world prizes.  It predated
+Zynga and Facebook, but both of those companies 'rose' during the time I worked for Winster.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>Winster had a fairly standard Java backend that dealt with managing player information, talking with PayPal,
+and keeping track of prizes, advertisements, and promotions.  This is pretty independent of what Winster was:
+almost any commercial consumer site might have these capabilities.</p>
+
+<p>What made Winster interesting is that the client was in Adobe Flash/Flex, it was realtime multi-player, and
+the rules of the games were all stored on the server.  This created a pretty compelling environment for
+players to interact: players could swap pieces and both be in better shape vs. "the house".  And this interaction
+supported a real-time chat system.  So very much like a card-game table without any competitiveness between players.</p>
+
+<p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
+
+<h2>AA-1 : No important logic on the client</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>
@@ -637,320 +665,6 @@ to sleep or decommission.</p>
 <p>The biggest issue with the worker approach is to make sure you know the ramp rate and reliability.  Even with a
 huge cloud like EC2, there can be stutters and you have to more aggressively try to get resources, or accept that
 the user experience may be a bit more lagged.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-9]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-9/"/>
-    <updated>2015-10-21T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-9</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
-The eighth was an overview of Federation Components like caches, queues, payment services, and the like.</p>
-
-<h2>Workers!</h2>
-
-<p>Among the more interesting federation / deployment component are workers.  Workers are interesting because
-they can do almost anything imaginable and they do it very efficiently.  How efficiently?  Well, the perfect
-worker is at 100% when doing a task and <em>dead</em> when they have no tasks to do.  That is pretty darn efficient
-because it approaches 100% and is only not 100% when we choose to not accept the 'spin up' latency of getting
- a new worker.  As the amount of work increases, our pool of workers increase, and the spin-up-latency decreases
- on a per-chore basis.  That is <em>very cool</em>: as scale goes up, efficiency <em>increases</em>.  There are a lot of places that
- is not true for computers, so it is nice when it is.</p>
-
-<h3>Work?  Chore?</h3>
-
-<p>So we want to have a worker model where we can add a 'chore' (a unit of work, using a term not otherwise used in
-IT and CS... job, task, etc. are now ambivalent) to a queue of work-to-be-done, and have
- something do that chore.  There are a lot of ways to do this:</p>
-
-<p> <!--more--></p>
-
-<ol>
-<li>Use BeanStalk</li>
-<li>Use Kafka with a bunch of consumers</li>
-<li>Use a database and launch a worker if none is available</li>
-<li>Use Quartz and coordinate amongst the application servers which one is going to do the work</li>
-<li>Use GitHub and launch one or more workers as needed</li>
-</ol>
-
-
-<p>And that is just a minor collection of simple solutions.  The first two are probably 'the best' in terms of having
-a very clean model.  But they require additional infrastructure and I am trying to keep that at a minimum.  The
-second is using a database as a WorkQueue.  Well, it turns out that this is actually commonly done and almost
-always <em>regretted</em>.  Most databases are horrible with the characteristics of Chores and their lifecycle.  So it does
-work, but not well.</p>
-
-<p>The fourth is quite functional but not scalable.  You don't want your application servers doing <em>a lot</em> of work.
-A little housekeeping is fine.  But the whole point of the Worker model is to enable as many or as few workers who each
-<em>always</em> do <em>a lot</em> of work.  And then go away if no longer needed.  That isn't the lifecycle and duty of application
-servers.</p>
-
-<p>So if you haven't guessed by now, I am going to describe the fifth approach.  Use an annexed Git repository to describe
-chores, their media (if any), and to provide the results (if any).  It turns out to be blazingly fast, scalable,
-and flexible.  A little weird but sometimes weird really works.</p>
-
-<h3>Chores, Parents, and Workers</h3>
-
-<p>A lot of time, the real world can seriously inspire the computer world.  The Worker model I am about to describe
-matches a 'high-speed', 'high-efficiency', parenting model.  I would guess any parent can see the similarities
-and even the Nirvana of this Worker model.  It has a few major components:</p>
-
-<ul>
-<li>The World creates some Chores in a to-do list</li>
-<li>The World doesn't want to do the Chores, because it has other things to do</li>
-<li>So The World creates two or more adults (for redundancy) so they can do the Chores
-
-<ul>
-<li>And then The World gives responsibility to the adults to do the Chores</li>
-</ul>
-</li>
-<li>The adults don't want to actually do the Chores themselves, so they produce Workers to do the Chores</li>
-<li>The Workers are so awesome that they automatically <em>all</em> try to do the Chores, as quickly as possible
-
-<ul>
-<li>The adults (Parents) have worked out a system to prevent two Workers from doing the same Chore</li>
-</ul>
-</li>
-<li>If the Chores are not getting done fast enough, the Parents produce more Workers</li>
-<li>If there is no more work to do, the Workers go to sleep
-
-<ul>
-<li>Waking periodically to see if there is more work</li>
-<li>Or if the Chores are not getting done fast enough, the Parents wake one or more Workers</li>
-</ul>
-</li>
-</ul>
-
-
-<p>With this model:</p>
-
-<ul>
-<li>The World is the Application Server or something similar</li>
-<li>The Parents are special Nodes (or processes on Application Server nodes) that can see the 'to-do' list</li>
-<li>The Workers are special Nodes that are created as the 'to-do' list backlog gets larger</li>
-</ul>
-
-
-<p>You need at least two Parents at all time to make sure the To-Do list is being watched.  You don't need any
-Workers until the To-Do list is sufficiently long or latent.</p>
-
-<p>We will put the 'To-Do' chores into a specially structured, annexed, Git repository.  Because of the annexing,
-resources are automatically 'deduped' and having each 'chore' be self-contained is both possible and space
-efficient.  Imagine all the 'jar's needed for a java build.  Given most of these are stable between builds,
-they cost nothing at all to include in a 'chore'.  Where people run fragile artifact servers (fragile because
-(a) they exist as something that could fail and (b) they are rarely run redundantly) that have to handle
-heavy load, the Annex puts all that load on S3... which is designed from the ground-up for loads well beyond our workers.</p>
-
-<h4>Chore Structure</h4>
-
-<p>The core of a Chore has to include:</p>
-
-<ul>
-<li>The identity of the chore
-
-<ul>
-<li>And an ability to 'take it on'</li>
-</ul>
-</li>
-<li>What the instructions are for the chore</li>
-<li>What resources you need for the chore</li>
-<li>Where the results of the chore are supposed to go</li>
-</ul>
-
-
-<p>To make the throughput easier to see, we will organize chores by time.  So basically a queue.  We can have 'priority' within the
-metadata of the chore if we want things to jump the queue.  And we can have different chore types (or IT needs) to
-make sure a worker can really handle the chore. Using the 'cron_1m' model of things working on the minute, we will
-put things into buckets every minute.  But workers have to look for any not-done chore and pick it up if they can.</p>
-
-<p>An advantage of the one-minute cron is we automatically can have a nice 30-second jitter.  That plus some kind of randomization
-in chore selection makes it very unlikely that workers will acquire the same chore at the same time.  But if they do, one will win due
-to 'git push' timing.</p>
-
-<h5>Identity</h5>
-
-<p>Chores are identified by their 'producer' and a timestamp.  A 'producer' is a node plus a process id, and the timestamp can
-have any precision necessary for the process to know it can't collide with itself.  Two of the banes of any identity system
-is making sure identity is unique and not having a bottleneck for identity generation.  The identity proposed solves these
-two main issues.  A third requirement (sometimes) is keeping identity short / consistent.  A hash of the 'phrase' is
-possible if necessary, but collisions could be an issue if the phrase is too short.</p>
-
-<h5>Instructions</h5>
-
-<p>So we have something like "chore_ip-1-2-3-4_ps-349467_20151022-110109-123456" as a chore.  This is simply a directory with
-a 'chore.json' within it where that 'chore.json' looks something like this:</p>
-
-<p><code>json
-{
-  "chore_id" : "ip-1-2-3-4_ps-349467_20151022-110109-123456",
-  "chore_tss" : "20151022110109",
-  "producer_id" : "ip-1-2-3-4_ps-349467",
-  "runner" : "bash",
-  "command" : "ps -aux",
-  "result" : "output.txt",
-  "error" : "error.txt"
-}
-</code></p>
-
-<p>Another file is in the directory initially called 'do_it.txt' which can be empty.</p>
-
-<h5>Take on the 'chore'</h5>
-
-<p>To take this 'chore' on, a worker adds a 'worker.json' file to the directory:</p>
-
-<p><code>json
-{
-  "chore_id" :  "ip-1-2-3-4_ps-349467_20151022-110109-123456",
-  "work_id" :  "ip-4-5-6-7_ps-1000_20151022-110209-123456",
-  "worker_id" : "ip-4-5-6-7_ps-1000",
-  "work_start_tss" : "20151022110209",
-  "state" : "working",
-  "work_finish_tss" : ""
-}
-</code></p>
-
-<p>and renames the 'do_it.txt' to 'doing_it.txt'</p>
-
-<p>When these changes commit and push successfully, this worker now owns the chore.  The worker can update the 'worker.json'
-through the work if desired, or put files into the directory or elsewhere.  When the chore is complete, the worker
-should change worker.json to a finished state, and rename the 'doing_it.txt' to 'done.txt'.  With this,
-the three states are:</p>
-
-<ul>
-<li>do_it.txt</li>
-<li>doing_it.txt</li>
-<li>done.txt</li>
-</ul>
-
-
-<p>And everyone can quickly tell what the state of a chore is without worrying about the details.  Or dive into the json
-and results to figure out those details.</p>
-
-<p>Visually it would look likte this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore1.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore2.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-9/addstack9_chore3.png" /></p>
-
-<p>The script to acquire a chore is a little involved because of the possibility of failure, but basically it just</p>
-
-<ul>
-<li>Finds all the 'doit.txt' files</li>
-<li>Picks one at random</li>
-<li>Tries to rename it and push that change
-
-<ul>
-<li>If successful, then we are in.  If not, roll-back</li>
-</ul>
-</li>
-</ul>
-
-
-<p><code>``bash
-export RANDOM_DO_IT=</code>find work -name 'do_it.txt' | while read x; do echo "`expr $RANDOM % 1000`:$x"; done | sort -n | sed 's/[0-9]*://' | head -1`</p>
-
-<h1>...</h1>
-
-<p>git mv $RANDOM_DO_IT "${RANDOM_DO_IT_DIR}/doing_it.txt"</p>
-
-<h1>...</h1>
-
-<p>git push
-PUSH_RETVAL=$?</p>
-
-<p>if [ $PUSH_RETVAL -ne 0 ];
-then</p>
-
-<h1>=================================================</h1>
-
-<h1>=== We failed to acquire, so roll-back</h1>
-
-<h1>=================================================</h1>
-
-<p>```</p>
-
-<h4>Doing the work</h4>
-
-<p>A worker should alway be able to acquire:</p>
-
-<ul>
-<li>The root of the work repository – Say "${GIT_ROOT}"</li>
-<li>The root of the chore itself – Say "${CHORE_ROOT}"</li>
-</ul>
-
-
-<p>Where the "GIT_ROOT" can have shared scripts in its 'work/bin' or 'bin' directories, and the chore can have
-individual scripts in it CHORE_ROOT/bin directory.  We also likely have 'repo2' available,
-so we have access to a lot of resources (common and work specific) to leverage.</p>
-
-<h4>Saving the work</h4>
-
-<p>When the worker is done, it needs to do a final 'write' of all the results.  This could be nothing more than
-logs (a worker is 'anonymous' and ephemeral, so ideally logs go to the chore's directory vs. somewhere
-effectively 'random').  This is just a final pull-push:</p>
-
-<p>```bash</p>
-
-<h1>=================================================</h1>
-
-<h1>=== Done, try to write out the results</h1>
-
-<h1>===</h1>
-
-<h1>=== Make sure everything is annexed</h1>
-
-<h1>=================================================</h1>
-
-<p>./bin/deflatePaths.sh "${RANDOM_DO_IT_DIR}"</p>
-
-<p>git pull</p>
-
-<h1>...</h1>
-
-<h1>=================================================</h1>
-
-<h1>=== Pull successful, start writing</h1>
-
-<h1>=================================================</h1>
-
-<p>git mv "${RANDOM_DO_IT_DIR}/doing_it.txt" "${RANDOM_DO_IT_DIR}/done.txt"</p>
-
-<p>git add -A "${RANDOM_DO_IT_DIR}/../"
-git commit -m "$ME completed chore ${RANDOM_DOIT_DIR}"</p>
-
-<p>git push
-```</p>
-
-<p>and as long as this is successful, the work is done.</p>
-
-<h4>Jitter</h4>
-
-<p>Although the randomization of chore selection helps with a lot of chores, it does not help when there are very few
-chores left.  On the 'go' of chore selection, all the workers go after the chore.  So we need to say 'go' at
-different times.  This brings back the 'jitter' concept mentioned previously.  To jitter in this case, we just
-create a 'random' number and then modulo it by whatever jitter interval we want.</p>
-
-<p>For example, using the process id plus the time stamp, and trying for a 0-29 range, we can have:</p>
-
-<p><code>bash
-TSS_SECOND=`date +%s`
-PSEUDO_RANDOM="`expr ${TSS_SECOND} + $$`"
-SLEEP_LENGTH=$((${PSEUDO_RANDOM} % 30 ))
-</code></p>
-
-<h2>Conclusion</h2>
-
-<p>The above is a very generic worker model that enables all kinds of flexibility in setting up 'chores' and scalably
-having a 'right-size' for the number of workers doing the work.  The next article will be more specific and
-build new 'wars' every time the application changes after passing the built-in tests.</p>
 ]]></content>
   </entry>
   

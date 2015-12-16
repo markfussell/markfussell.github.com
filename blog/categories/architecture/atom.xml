@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-14T18:22:34-08:00</updated>
+  <updated>2015-12-16T09:26:36-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Winster: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-4/"/>
+    <updated>2015-12-04T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-4</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Winster was a cooperative social gaming web site that enabled players to win real-world prizes.  It predated
+Zynga and Facebook, but both of those companies 'rose' during the time I worked for Winster.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>Winster had a fairly standard Java backend that dealt with managing player information, talking with PayPal,
+and keeping track of prizes, advertisements, and promotions.  This is pretty independent of what Winster was:
+almost any commercial consumer site might have these capabilities.</p>
+
+<p>What made Winster interesting is that the client was in Adobe Flash/Flex, it was realtime multi-player, and
+the rules of the games were all stored on the server.  This created a pretty compelling environment for
+players to interact: players could swap pieces and both be in better shape vs. "the house".  And this interaction
+supported a real-time chat system.  So very much like a card-game table without any competitiveness between players.</p>
+
+<p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
+
+<h2>AA-1 : No important logic on the client</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>

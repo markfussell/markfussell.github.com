@@ -72,6 +72,62 @@ benefits and issues. The table of &hellip;">
     
   <header>
     
+      <h1 class="entry-title"><a href="/blog/arch-4/">Winster: Two Decades of Systems and Architectures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-04T01:00:00-08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Winster was a cooperative social gaming web site that enabled players to win real-world prizes.  It predated
+Zynga and Facebook, but both of those companies &#8216;rose&#8217; during the time I worked for Winster.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>Winster had a fairly standard Java backend that dealt with managing player information, talking with PayPal,
+and keeping track of prizes, advertisements, and promotions.  This is pretty independent of what Winster was:
+almost any commercial consumer site might have these capabilities.</p>
+
+<p>What made Winster interesting is that the client was in Adobe Flash/Flex, it was realtime multi-player, and
+the rules of the games were all stored on the server.  This created a pretty compelling environment for
+players to interact: players could swap pieces and both be in better shape vs. &#8220;the house&#8221;.  And this interaction
+supported a real-time chat system.  So very much like a card-game table without any competitiveness between players.</p>
+
+<p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
+
+<h2>AA-1 : No important logic on the client</h2>
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/arch-3/">Velidom: Two Decades of Systems and Architectures</a></h1>
     
     
@@ -850,69 +906,6 @@ And even if you have redundant monoliths, the system becomes very painful to mai
   
     <footer>
       <a rel="full-article" href="/blog/addstack-8/">Read on &rarr;</a>
-    </footer>
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/addstack-7/">ADD Stack [Part-7]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-19T01:00:00-07:00" pubdate data-updated="true">Oct 19<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.</p>
-
-<h2>Logging, Analytics, and Monitoring</h2>
-
-<p>Returning to a bit more of an &#8216;IT&#8217; issue, how do we handle logging, monitoring, and analytics on our collection of
-machines?  There are a number of choices:</p>
-
-<ol>
-<li>Run our own infrastructure</li>
-<li>Go with an inexpensive provider</li>
-<li>Go with a more capable provider</li>
-<li>Don&#8217;t</li>
-</ol>
-
-
-<p>Of the above, I believe #3 is usually worth it until your scale gets to the point of needing #1.  Downgrading
-from #3 to #2 is fine <em>after</em> you have learned the capabilities you are giving up.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/addstack-7/">Read on &rarr;</a>
     </footer>
   
 

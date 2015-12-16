@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Two Decades of Systems and Architectures - Polyglot</title>
+  <title>Winster: Two Decades of Systems and Architectures - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established &hellip;">
+  <meta name="description" content="This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues. The table of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-1/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-4/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -68,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">Two Decades of Systems and Architectures</h1>
+      <h1 class="entry-title">Winster: Two Decades of Systems and Architectures</h1>
     
     
       <p class="meta">
@@ -84,89 +85,33 @@
   
 
 
-<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+<time datetime="2015-12-04T01:00:00-08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Objective-C, Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
+<div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
-<p>By building so many systems over the years, I have seen many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I &#8216;passed the system on&#8217;.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
+<p>Winster was a cooperative social gaming web site that enabled players to win real-world prizes.  It predated
+Zynga and Facebook, but both of those companies &#8216;rose&#8217; during the time I worked for Winster.</p>
 
-<p>The systems, applications, and architectures documented here will eventually include:</p>
+<h2>Major System Aspects</h2>
 
-<ul>
-<li><a href="/blog/arch-2">Evant Advanced Planning</a>: A multidimensional planning system
+<p>Winster had a fairly standard Java backend that dealt with managing player information, talking with PayPal,
+and keeping track of prizes, advertisements, and promotions.  This is pretty independent of what Winster was:
+almost any commercial consumer site might have these capabilities.</p>
 
-<ul>
-<li>Java, JavaScript</li>
-</ul>
-</li>
-<li><a href="/blog/arch-3">Velidom Factory</a>: A highly virtualized and automated software development environment / factory
+<p>What made Winster interesting is that the client was in Adobe Flash/Flex, it was realtime multi-player, and
+the rules of the games were all stored on the server.  This created a pretty compelling environment for
+players to interact: players could swap pieces and both be in better shape vs. &#8220;the house&#8221;.  And this interaction
+supported a real-time chat system.  So very much like a card-game table without any competitiveness between players.</p>
 
-<ul>
-<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
-</ul>
-</li>
-<li>Winster: A cooperative online gaming and social site
+<p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
 
-<ul>
-<li>Java, Flash/Flex, MySQL</li>
-</ul>
-</li>
-<li>FooPets: A virtual pet entertainment site
-
-<ul>
-<li>Ruby, Rails, Maya, iOS, etc.</li>
-</ul>
-</li>
-<li>HeartPark: A 3-D world / game
-
-<ul>
-<li>Unity, Ruby, Rails</li>
-</ul>
-</li>
-<li>Vive: A mobile health and wellness application
-
-<ul>
-<li>Grails, Java, YUI</li>
-</ul>
-</li>
-<li>Epocrates EMR: An electronic medical records application
-
-<ul>
-<li>Ruby, Rails, iOS</li>
-</ul>
-</li>
-<li>PeerCase: A mobile-first medical communication application
-
-<ul>
-<li>Grails, Sencha</li>
-</ul>
-</li>
-<li>Rumble: A platform to support free-to-play and hiqh-quality games
-
-<ul>
-<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
-</ul>
-</li>
-<li>SnapArch: An architecture to build out a collection of services and applications on top of them
-
-<ul>
-<li>Spring, Angular, etc.</li>
-</ul>
-</li>
-<li>ABC: An analytics platform for massive scale machine learning
-
-<ul>
-<li>Weka, Python, Grails, Amazon AWS services</li>
-</ul>
-</li>
-<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
-</ul>
-
+<h2>AA-1 : No important logic on the client</h2>
 </div>
 
 
@@ -189,7 +134,7 @@
   
 
 
-<time datetime="2015-12-01T01:00:00-08:00" pubdate data-updated="true">Dec 1<span>st</span>, 2015</time>
+<time datetime="2015-12-04T01:00:00-08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2015</time>
       
 
 <span class="categories">
@@ -203,7 +148,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-1/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-4/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-4/" >Tweet</a>
   
   
   
@@ -212,10 +157,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/read-2/" title="Previous Post: READ: Scaled Agile">&laquo; READ: Scaled Agile</a>
+        <a class="basic-alignment left" href="/blog/arch-3/" title="Previous Post: Velidom: Two Decades of Systems and Architectures">&laquo; Velidom: Two Decades of Systems and Architectures</a>
       
-      
-        <a class="basic-alignment right" href="/blog/arch-2/" title="Next Post: Evant: Two Decades of Systems and Architectures">Evant: Two Decades of Systems and Architectures &raquo;</a>
       
     </p>
   </footer>
@@ -324,8 +267,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-1/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/arch-1/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-4/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/arch-4/';
         var disqus_script = 'embed.js';
       
     (function () {
