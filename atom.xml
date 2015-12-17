@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T16:43:20-08:00</updated>
+  <updated>2015-12-17T09:55:50-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -79,7 +79,7 @@ required a lot of computational power rendering graphics, connecting images into
 only semi-automated.  The biggest productivity improvement was when a few of us focused on making the whole pipeline pretty
 much completely automated (with failures identified and easily re-run).</p>
 
-<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered.  The frames might have different kinds of issues,
+<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered and composed.  The frames might have different kinds of issues,
 but the most likely issue is they didn&#8217;t get rendered at all, which is pretty easy to identify.</p>
 
 <p>So similar to DevOps where you apply software to computer operations, DevGraphics applies software and development techniques to
@@ -332,7 +332,7 @@ for the language (early 2000s).  The whole system was notable in the number of a
 it contained (see below).  The database was initially Oracle but later moved to DB2.</p>
 
 <p>Evant had a suite of products that did not succeed as a suite, potentially due to 9-11 causing a shutdown of online
-retail activity.</p>
+retail activity.  But the Advanced Planning system was of interest to several retailers, including Staples.</p>
 
 <h2>AA-1 (Architectural Aspect): Strong Client, Server-UI, and Server-Domain separation</h2>
 
