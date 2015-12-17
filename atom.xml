@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T16:26:19-08:00</updated>
+  <updated>2015-12-16T16:27:23-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -437,7 +437,7 @@ broadly capable generics.</p>
 <li>Java, Flash/Flex, MySQL</li>
 </ul>
 </li>
-<li>FooPets: A virtual pet entertainment site
+<li><a href="http://markfussell.emenar.com/blog/arch-5">FooPets</a>: A virtual pet entertainment site
 
 <ul>
 <li>Ruby, Rails, Maya, iOS, etc.</li>
