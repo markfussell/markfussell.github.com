@@ -100,8 +100,7 @@ benefits and issues.  The table of contents of the series is <a href="/blog/arch
 <h2>Major System Aspects</h2>
 
 <p>The core FooPets site was originally framed by Facebook with a small amount of HTML driving a Flash-based interactive game.
-The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.<br/>
-No automated testing or other code-quality metrics.</p>
+The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.  No automated testing or other code-quality metrics.</p>
 
 <p>For most kinds of software, the logic and user-interface are the hardest things to build.  But because FooPets was
 effectively a 3-D movie / game, the content was actually the hardest thing to build: creating photorealistic 3-D pets
@@ -173,12 +172,14 @@ the nonviable technology becomes mainstream enough to use by the time you have t
 
 <h2>AA-4 : Make sure clients &#8220;always work&#8221; or Apple is smart about devices</h2>
 
-<p>A critical rule to getting through the Apple appStore process was making sure your application obeyed a bunch of rules.
+<p>A critical rule to getting through the Apple AppStore process was making sure your application obeyed a bunch of rules.
 Some of these rules were human-factor rules to make sure the product was pleasant and conformant with iOS.  But one of the
 core rules was that applications <em>must work</em> even when the device was not in a suitable environment.  The application
 could be thoroughly hobbled by the environment, but it must launch, interact with a user pleasantly, maybe explain
 and resolve the situation, and shut down <em>no matter what</em>.  An application / client can&#8217;t fail without explanation or
 really at all, it can only behave very restrictedly but properly.</p>
+
+<p>This &#8220;always work&#8221; can then lead you to a decision tree around how well does a client in a degraded environment work.  It definitely must work, but how well?</p>
 </div>
 
 
