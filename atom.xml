@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T10:36:24-08:00</updated>
+  <updated>2015-12-16T16:26:19-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FooPets: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-5/"/>
+    <updated>2015-12-05T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-5</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="http://markfussell.emenar.com/blog/arch-1">here</a>.</p>
+
+<p>FooPets had several different products, but all were related to photorealistic virtual pets.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The core FooPets site was originally framed by Facebook with a small amount of HTML driving a Flash-based interactive game.
+The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.<br/>
+No automated testing or other code-quality metrics.</p>
+
+<p>For most kinds of software, the logic and user-interface are the hardest things to build.  But because FooPets was
+effectively a 3-D movie / game, the content was actually the hardest thing to build: creating photorealistic 3-D pets
+took a lot more people-power than making these photorealistic pets behave.</p>
+
+<p>Later there were to be a couple more architectures:</p>
+
+<ul>
+<li>An iPhone version of the pets
+
+<ul>
+<li>This was purely client initially and then later semi-integrated with the server until the game was killed</li>
+</ul>
+</li>
+<li>The <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> truly 3-D interactive game (vs. canned limited videos).
+
+<ul>
+<li>The game ran in Unity and only talked to the server for leaderboards</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>AA-1 : Lack of promotions and regression testing is a very bad thing</h2>
+
+<p>FooPets was a very unstable code base for many reasons, but definitely the lack of &#8216;make sure this works&#8217; was a huge
+part of it.  Some team members had the ability to modify production directly, and they could do it even before getting
+on a plane and disappearing for the holidays.  A promotion model looks like this:</p>
+
+<ul>
+<li>Developer tests things on their own machine, and when happy, &#8216;promote&#8217; into the development team server</li>
+<li>The development team server tests the new code checkin and sees whether it passes the base line rules for the server
+
+<ul>
+<li>If not, it rejects it or starts yelling &#8216;foul&#8217;!</li>
+</ul>
+</li>
+<li>When the development team is happy the development team server&#8217;s code base is good, it goes to the next level (QA, Integration, etc.)</li>
+<li>Finally the last QA level is basically the same as production, and the final promotion should be trivial</li>
+</ul>
+
+
+<p>Without this kind of staging model, you are basically just praying production will be about the same as whatever machine you last tested on&#8230; potentially a developer laptop very different from production.</p>
+
+<h2>AA-2 : Sanity testing and automation are very good things, in all kinds of situations</h2>
+
+<p>When I joined FooMojo, I expected to work on the main code base and the iPhone application as the &#8216;most important&#8217; code bases.
+These two code bases needed some work, but ultimately the long-pole for the company was <em>content</em>.  And creating content
+required a lot of computational power rendering graphics, connecting images into movies, and similar activities that were
+only semi-automated.  The biggest productivity improvement was when a few of us focused on making the whole pipeline pretty
+much completely automated (with failures identified and easily re-run).</p>
+
+<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered.  The frames might have different kinds of issues,
+but the most likely issue is they didn&#8217;t get rendered at all, which is pretty easy to identify.</p>
+
+<p>So similar to DevOps where you apply software to computer operations, DevGraphics applies software and development techniques to
+the graphics pipelines of movies and high-content games.</p>
+
+<h2>AA-3 : Using advanced technology can make things very easy and impressive</h2>
+
+<p>The concept for <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> started during the post-Christmas &#8220;break&#8221;, and
+within less than two months, a fun game was in all users hands.  By combining the skills of a very small team with a very
+advance technology (Unity 3D), we went from idea through prototype to live in a very short time.</p>
+
+<p>Sometimes the technologies used could be considered &#8216;prototypical&#8217;: you could never support 1MM with them (say maybe hardware
+compatibility issues).  But the importance of figuring out whether you have a viable product for a viable market and pivoting
+as you do or don&#8217;t is far higher in value than getting the technology &#8216;perfect&#8217; the first time.  And even more fun: sometimes
+the nonviable technology becomes mainstream enough to use by the time you have the right product for the right market.</p>
+
+<h2>AA-4 : Make sure clients &#8220;always work&#8221; or Apple is smart about devices</h2>
+
+<p>A critical rule to getting through the Apple appStore process was making sure your application obeyed a bunch of rules.
+Some of these rules were human-factor rules to make sure the product was pleasant and conformant with iOS.  But one of the
+core rules was that applications <em>must work</em> even when the device was not in a suitable environment.  The application
+could be thoroughly hobbled by the environment, but it must launch, interact with a user pleasantly, maybe explain
+and resolve the situation, and shut down <em>no matter what</em>.  An application / client can&#8217;t fail without explanation or
+really at all, it can only behave very restrictedly but properly.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Winster: Two Decades of Systems and Architectures]]></title>
@@ -4436,299 +4531,6 @@ version we want vs. using &#8216;yum&#8217; without an explicit version.</p>
 
 <p>But an important difference between the two: the second is now <em>wired</em> into the git repository and can &#8216;pull&#8217; or &#8216;push&#8217; to it as needed.
 We now have a live server with both alive &#8216;IT&#8217; and alive &#8216;APP&#8217;!  It will happily and automatically bend to our will and needs.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-9]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-9/"/>
-    <updated>2015-10-08T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-9</id>
-    <content type="html"><![CDATA[<p>This is the ninth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, and configuring nodes.</p>
-
-<h2>Using Presence for configuration</h2>
-
-<p>So far, presence has been just information that &#8216;humans&#8217; consume.  It shows up on dashboards, in chat rooms, and so on,
-but nothing has acted upon it.  Until now!</p>
-
-<p>We have &#8216;app&#8217; and &#8216;db&#8217; nodes.  Clearly the &#8216;app&#8217; nodes need to find the &#8216;db&#8217; nodes or the app is not going to be
-able to persist much.  The &#8216;db&#8217; here happens to be &#8216;Maria&#8217; but it could be anything from a single DB node to a
-cluster of Riak nodes.  At the moment, I just want to get the information that a &#8216;db&#8217; node knows (&#8220;I exist!&#8221;, &#8220;My IP is this!&#8221;)
-over to the &#8216;app&#8217; nodes so they can process it.</p>
-
-<h3>It is already there?</h3>
-
-<p>But wait?  All nodes have &#8216;repo4&#8217; for writing?  Don&#8217;t they already have everything in &#8216;repo4&#8217; for reading as well?</p>
-
-<p>And so they do.  The presence information is already there waiting patiently for somebody or someboty to read it.</p>
-
-<!-- more -->
-
-
-<p>As of this writing, repo4 looks like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_all.png" /></p>
-
-<p>And the live hipchat still looks like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-8/add8_demo1.png" /></p>
-
-<p>So the DB server is definitely there:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>i-4e7cb59a:fed1/db1: Launched!</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And the information is there:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;filetype&quot;</span><span class="p">:</span> <span class="s2">&quot;nodepresence&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nt">&quot;a&quot;</span><span class="p">:</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;deployment&quot;</span><span class="p">:</span> <span class="s2">&quot;fed1&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;initgitrepo&quot;</span><span class="p">:</span> <span class="s2">&quot;repo2_petulant-cyril&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;instance-id&quot;</span><span class="p">:</span> <span class="s2">&quot;i-4e7cb59a&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;nodepart&quot;</span><span class="p">:</span> <span class="s2">&quot;db1&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;stacktype&quot;</span><span class="p">:</span> <span class="s2">&quot;lad1&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;done&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;statelog&quot;</span><span class="p">:</span> <span class="s2">&quot;setup:20151008-174646;initdone:20151008-174830;&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;statetss&quot;</span><span class="p">:</span> <span class="s2">&quot;20151008-174830&quot;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So the only issue is for nodes to &#8216;find their partners&#8217;</p>
-
-<h3>Finding the partners</h3>
-
-<p>By the HipChat there are only three nodes alive, so problem one is finding live nodes vs. dead nodes.  There are
-two levels to that:</p>
-
-<ul>
-<li> Finding plausibly live nodes</li>
-<li> Finding truly awake nodes</li>
-</ul>
-
-
-<p>The simplest approach to the first is to make sure there is some kind of heartbeat within &#8216;statetss&#8217;.  Every-minute
-is clearly possible, but a bit noisy if done in the main part of repo4.  It would be nice to not to see the heartbeat
-block out the actual state change information that is already there. An interesting alternative is to &#8216;flatten time&#8217;
-and have an alternative branch that stores information as &#8216;it/presence/flattime/timestamp&#8217;.  Or given we are storing
-the information differently, we could use the main branch and just change the comment to mention &#8216;flattime&#8217;.
-Yes, the information in the files would not change very often.  But Git stores files separate from paths,
-so there is very little overhead to adding new paths to identical files.</p>
-
-<h4>Time flattened</h4>
-
-<p>repo4 has folder under &#8216;presence&#8217; called &#8216;flattime&#8217; which contains the presence information where every checkin is a new path.
-To keep things manageable the timestamp is complete &#8216;YYYYMMDDHHMM&#8217;, but year/month/day/hour/ is used to organize it.
-Seconds are not used because we want everything to be together and there is no guarantee the seconds would match
-between machines.</p>
-
-<p>Looking at a few minutes of time, we get something like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_flattime1.png" /></p>
-
-<p>The files change a bit because the machines are switching states and at the &#8216;capture&#8217; moment could be in almost any state
-of their &#8216;state machine&#8217;.</p>
-
-<h4>How precise?</h4>
-
-<p>So this is quite precise in time and you could certainly slow it down.  Sometimes providers get annoyed if you use
-git this way, but the software itself is thoroughly comfortable with it.  You can get some impressive merge graphs
-as the machine count goes up.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_merge1.png" /></p>
-
-<p>So making things less often and more jittered will help alleviate some stress.  Since
-this is only the first stage of presence (what exists and is plausibly alive), we will deal with stale data in the
-second stage.</p>
-
-<h3>Who is what?</h3>
-
-<p>So we have a directory of JSON files and we want to find certain kinds of partners.  It is simplest to just
-run through all the files and see what is inside them.  The files can be loaded one-by-one or concatenated together
-into a working temporary file.</p>
-
-<p>A basic python script could look like this:</p>
-
-<h4>buildLiveServerJson.py</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#!/usr/bin/env python</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#========================================================</span>
-</span><span class='line'><span class="c">#=== buildLiveServerJson.py</span>
-</span><span class='line'><span class="c">#=== This builds a JSON structure of server presence data</span>
-</span><span class='line'><span class="c">#=== from a directory of presence data</span>
-</span><span class='line'><span class="c">#=========================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="kn">import</span> <span class="nn">json</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">string</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">sys</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">optparse</span> <span class="kn">import</span> <span class="n">OptionParser</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span><span class="n">timedelta</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
-</span><span class='line'><span class="n">tss</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y%m</span><span class="si">%d</span><span class="s">%H%M%S&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">backminute</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="n">before</span> <span class="o">=</span> <span class="n">now</span> <span class="o">+</span> <span class="n">backminute</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">tsm</span> <span class="o">=</span> <span class="n">before</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y%m</span><span class="si">%d</span><span class="s">%H%M&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">datepath</span> <span class="o">=</span> <span class="n">before</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y/%m/</span><span class="si">%d</span><span class="s">/%H&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="n">USAGE_STRING</span> <span class="o">=</span> <span class="s">&quot;usage: %prog [options]&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">parser</span> <span class="o">=</span> <span class="n">OptionParser</span><span class="p">(</span><span class="n">usage</span><span class="o">=</span><span class="n">USAGE_STRING</span><span class="p">)</span>
-</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--source&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;string&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;source&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;The source directories of the presence files.  Use a comma to separate multiple source directories.&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--adddatepath&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;adddatepath&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Whether to add the current datetime path to the source&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;--suffix&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;string&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;suffix&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;A suffix to add at the end of the source&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">source</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-</span><span class='line'><span class="n">adddatepath</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">adddatepath</span>
-</span><span class='line'><span class="n">suffix</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">suffix</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="ow">not</span> <span class="n">source</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
-</span><span class='line'>    <span class="nb">exit</span><span class="p">()</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">full_source</span> <span class="o">=</span> <span class="n">source</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="n">adddatepath</span><span class="p">:</span>
-</span><span class='line'>   <span class="n">full_source</span> <span class="o">=</span> <span class="n">full_source</span> <span class="o">+</span> <span class="n">datepath</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">tsm</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="n">suffix</span><span class="p">:</span>
-</span><span class='line'>   <span class="n">full_source</span> <span class="o">=</span> <span class="n">full_source</span> <span class="o">+</span> <span class="n">suffix</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">#=========================================================</span>
-</span><span class='line'><span class="c">#=========================================================</span>
-</span><span class='line'><span class="c">#=========================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;{&quot;source&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">source</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;suffix&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">suffix</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;full_source&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">full_source</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;tss&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">tss</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;tsm&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">tsm</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;datepath&quot;:&quot;&#39;</span><span class="o">+</span><span class="n">datepath</span><span class="o">+</span><span class="s">&#39;&quot;,&quot;nodes&quot;:[&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">isfirst</span> <span class="o">=</span> <span class="bp">True</span>
-</span><span class='line'><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">full_source</span><span class="p">):</span>
-</span><span class='line'>  <span class="n">f_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">full_source</span><span class="o">+</span><span class="n">f</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="n">isfirst</span><span class="p">:</span>
-</span><span class='line'>     <span class="n">isfirst</span> <span class="o">=</span> <span class="bp">False</span>
-</span><span class='line'>  <span class="k">else</span><span class="p">:</span>
-</span><span class='line'>     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">f_json</span><span class="p">))</span>
-</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;]}&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Our first stage is to get a list of plausible nodes and store that:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>python buildLiveServerJson.py --source<span class="o">=</span>/root/gitrepo/repo4_sagacious-adventure/it/presence/flattime/ --adddatepath --suffix /all/ | python -mjson.tool &gt; /root/nodeinfo/liveserver.json
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://markfussell.emenar.com/images/add-9/add9_json1.png" /></p>
-
-<p>Next we can filter out the ones that don&#8217;t respond to our &#8216;awake&#8217; check.  That leaves
-us with one or more remaining.  Depending on the kind of system you may actually want to know a bunch of nodes vs.
-just one (e.g. ZooKeeper).</p>
 ]]></content>
   </entry>
   

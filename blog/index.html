@@ -72,6 +72,129 @@ benefits and issues. The table of &hellip;">
     
   <header>
     
+      <h1 class="entry-title"><a href="/blog/arch-5/">FooPets: Two Decades of Systems and Architectures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-05T01:00:00-08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>FooPets had several different products, but all were related to photorealistic virtual pets.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The core FooPets site was originally framed by Facebook with a small amount of HTML driving a Flash-based interactive game.
+The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.<br/>
+No automated testing or other code-quality metrics.</p>
+
+<p>For most kinds of software, the logic and user-interface are the hardest things to build.  But because FooPets was
+effectively a 3-D movie / game, the content was actually the hardest thing to build: creating photorealistic 3-D pets
+took a lot more people-power than making these photorealistic pets behave.</p>
+
+<p>Later there were to be a couple more architectures:</p>
+
+<ul>
+<li>An iPhone version of the pets
+
+<ul>
+<li>This was purely client initially and then later semi-integrated with the server until the game was killed</li>
+</ul>
+</li>
+<li>The <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> truly 3-D interactive game (vs. canned limited videos).
+
+<ul>
+<li>The game ran in Unity and only talked to the server for leaderboards</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>AA-1 : Lack of promotions and regression testing is a very bad thing</h2>
+
+<p>FooPets was a very unstable code base for many reasons, but definitely the lack of &#8216;make sure this works&#8217; was a huge
+part of it.  Some team members had the ability to modify production directly, and they could do it even before getting
+on a plane and disappearing for the holidays.  A promotion model looks like this:</p>
+
+<ul>
+<li>Developer tests things on their own machine, and when happy, &#8216;promote&#8217; into the development team server</li>
+<li>The development team server tests the new code checkin and sees whether it passes the base line rules for the server
+
+<ul>
+<li>If not, it rejects it or starts yelling &#8216;foul&#8217;!</li>
+</ul>
+</li>
+<li>When the development team is happy the development team server&#8217;s code base is good, it goes to the next level (QA, Integration, etc.)</li>
+<li>Finally the last QA level is basically the same as production, and the final promotion should be trivial</li>
+</ul>
+
+
+<p>Without this kind of staging model, you are basically just praying production will be about the same as whatever machine you last tested on&#8230; potentially a developer laptop very different from production.</p>
+
+<h2>AA-2 : Sanity testing and automation are very good things, in all kinds of situations</h2>
+
+<p>When I joined FooMojo, I expected to work on the main code base and the iPhone application as the &#8216;most important&#8217; code bases.
+These two code bases needed some work, but ultimately the long-pole for the company was <em>content</em>.  And creating content
+required a lot of computational power rendering graphics, connecting images into movies, and similar activities that were
+only semi-automated.  The biggest productivity improvement was when a few of us focused on making the whole pipeline pretty
+much completely automated (with failures identified and easily re-run).</p>
+
+<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered.  The frames might have different kinds of issues,
+but the most likely issue is they didn&#8217;t get rendered at all, which is pretty easy to identify.</p>
+
+<p>So similar to DevOps where you apply software to computer operations, DevGraphics applies software and development techniques to
+the graphics pipelines of movies and high-content games.</p>
+
+<h2>AA-3 : Using advanced technology can make things very easy and impressive</h2>
+
+<p>The concept for <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> started during the post-Christmas &#8220;break&#8221;, and
+within less than two months, a fun game was in all users hands.  By combining the skills of a very small team with a very
+advance technology (Unity 3D), we went from idea through prototype to live in a very short time.</p>
+
+<p>Sometimes the technologies used could be considered &#8216;prototypical&#8217;: you could never support 1MM with them (say maybe hardware
+compatibility issues).  But the importance of figuring out whether you have a viable product for a viable market and pivoting
+as you do or don&#8217;t is far higher in value than getting the technology &#8216;perfect&#8217; the first time.  And even more fun: sometimes
+the nonviable technology becomes mainstream enough to use by the time you have the right product for the right market.</p>
+
+<h2>AA-4 : Make sure clients &#8220;always work&#8221; or Apple is smart about devices</h2>
+
+<p>A critical rule to getting through the Apple appStore process was making sure your application obeyed a bunch of rules.
+Some of these rules were human-factor rules to make sure the product was pleasant and conformant with iOS.  But one of the
+core rules was that applications <em>must work</em> even when the device was not in a suitable environment.  The application
+could be thoroughly hobbled by the environment, but it must launch, interact with a user pleasantly, maybe explain
+and resolve the situation, and shut down <em>no matter what</em>.  An application / client can&#8217;t fail without explanation or
+really at all, it can only behave very restrictedly but properly.</p>
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/arch-4/">Winster: Two Decades of Systems and Architectures</a></h1>
     
     
@@ -926,85 +1049,6 @@ IT and CS&#8230; job, task, etc. are now ambivalent) to a queue of work-to-be-do
   
     <footer>
       <a rel="full-article" href="/blog/addstack-9/">Read on &rarr;</a>
-    </footer>
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/addstack-8/">ADD Stack [Part-8]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-20T01:00:00-07:00" pubdate data-updated="true">Oct 20<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.</p>
-
-<h2>Federation Application Infrastructure</h2>
-
-<p>The application stack we have so far:</p>
-
-<ul>
-<li> UI (both client and server)</li>
-<li> Application Server (Grails, Java, potentially scripting engine)</li>
-<li> Database (Maria or similar)</li>
-</ul>
-
-
-<p>Is very capable.  Using it combined with the ADD ingredients:</p>
-
-<ul>
-<li> GitHub – With resource, presence, application, and configuration information repositories</li>
-<li> EC2 Instances – Running continuously or based on load, and running their &#8216;part&#8217; plus any dynamic configuration</li>
-<li> S3 – For resources</li>
-<li> HipChat – To let everyone know</li>
-</ul>
-
-
-<p>Makes for a very functional application.  The nodes and their applications can talk to each other based on presence.
-The nodes and their application can keep certain data in-memory (cached).  The nodes can
- launch other nodes to handle load or do certain tasks.  An Application Server is a very generic thing and
- can do pretty much anything.</p>
-
-<h3>Standard Federation Components</h3>
-
-<p>Doing pretty much anything and everything turns out to be very confusing.  For people.  Big monoliths of capabilities
-are basically beyond comprehension.  And the bigger the monolith, the harder it falls.  The more likely it falls.
-And even if you have redundant monoliths, the system becomes very painful to maintain and to learn.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/addstack-8/">Read on &rarr;</a>
     </footer>
   
 

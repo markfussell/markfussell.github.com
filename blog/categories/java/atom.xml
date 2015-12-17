@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2015-12-16T10:36:24-08:00</updated>
+  <updated>2015-12-16T16:26:19-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FooPets: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-5/"/>
+    <updated>2015-12-05T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-5</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>FooPets had several different products, but all were related to photorealistic virtual pets.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>The core FooPets site was originally framed by Facebook with a small amount of HTML driving a Flash-based interactive game.
+The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.<br/>
+No automated testing or other code-quality metrics.</p>
+
+<p>For most kinds of software, the logic and user-interface are the hardest things to build.  But because FooPets was
+effectively a 3-D movie / game, the content was actually the hardest thing to build: creating photorealistic 3-D pets
+took a lot more people-power than making these photorealistic pets behave.</p>
+
+<p>Later there were to be a couple more architectures:</p>
+
+<ul>
+<li>An iPhone version of the pets
+
+<ul>
+<li>This was purely client initially and then later semi-integrated with the server until the game was killed</li>
+</ul>
+</li>
+<li>The <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> truly 3-D interactive game (vs. canned limited videos).
+
+<ul>
+<li>The game ran in Unity and only talked to the server for leaderboards</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>AA-1 : Lack of promotions and regression testing is a very bad thing</h2>
+
+<p>FooPets was a very unstable code base for many reasons, but definitely the lack of 'make sure this works' was a huge
+part of it.  Some team members had the ability to modify production directly, and they could do it even before getting
+on a plane and disappearing for the holidays.  A promotion model looks like this:</p>
+
+<ul>
+<li>Developer tests things on their own machine, and when happy, 'promote' into the development team server</li>
+<li>The development team server tests the new code checkin and sees whether it passes the base line rules for the server
+
+<ul>
+<li>If not, it rejects it or starts yelling 'foul'!</li>
+</ul>
+</li>
+<li>When the development team is happy the development team server's code base is good, it goes to the next level (QA, Integration, etc.)</li>
+<li>Finally the last QA level is basically the same as production, and the final promotion should be trivial</li>
+</ul>
+
+
+<p>Without this kind of staging model, you are basically just praying production will be about the same as whatever machine you last tested on... potentially a developer laptop very different from production.</p>
+
+<h2>AA-2 : Sanity testing and automation are very good things, in all kinds of situations</h2>
+
+<p>When I joined FooMojo, I expected to work on the main code base and the iPhone application as the 'most important' code bases.
+These two code bases needed some work, but ultimately the long-pole for the company was <em>content</em>.  And creating content
+required a lot of computational power rendering graphics, connecting images into movies, and similar activities that were
+only semi-automated.  The biggest productivity improvement was when a few of us focused on making the whole pipeline pretty
+much completely automated (with failures identified and easily re-run).</p>
+
+<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered.  The frames might have different kinds of issues,
+but the most likely issue is they didn't get rendered at all, which is pretty easy to identify.</p>
+
+<p>So similar to DevOps where you apply software to computer operations, DevGraphics applies software and development techniques to
+the graphics pipelines of movies and high-content games.</p>
+
+<h2>AA-3 : Using advanced technology can make things very easy and impressive</h2>
+
+<p>The concept for <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> started during the post-Christmas "break", and
+within less than two months, a fun game was in all users hands.  By combining the skills of a very small team with a very
+advance technology (Unity 3D), we went from idea through prototype to live in a very short time.</p>
+
+<p>Sometimes the technologies used could be considered 'prototypical': you could never support 1MM with them (say maybe hardware
+compatibility issues).  But the importance of figuring out whether you have a viable product for a viable market and pivoting
+as you do or don't is far higher in value than getting the technology 'perfect' the first time.  And even more fun: sometimes
+the nonviable technology becomes mainstream enough to use by the time you have the right product for the right market.</p>
+
+<h2>AA-4 : Make sure clients "always work" or Apple is smart about devices</h2>
+
+<p>A critical rule to getting through the Apple appStore process was making sure your application obeyed a bunch of rules.
+Some of these rules were human-factor rules to make sure the product was pleasant and conformant with iOS.  But one of the
+core rules was that applications <em>must work</em> even when the device was not in a suitable environment.  The application
+could be thoroughly hobbled by the environment, but it must launch, interact with a user pleasantly, maybe explain
+and resolve the situation, and shut down <em>no matter what</em>.  An application / client can't fail without explanation or
+really at all, it can only behave very restrictedly but properly.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Winster: Two Decades of Systems and Architectures]]></title>
@@ -399,371 +494,6 @@ broadly capable generics.</p>
 </li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-10]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-10/"/>
-    <updated>2015-10-22T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-10</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with 'Testing'.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
-The eighth was an overview of Federation Components like caches, queues, payment services, and the like.  The ninth
-was on a highly reliable, scalable, flexibly, and ultimately very simple worker model.</p>
-
-<h2>WAR!</h2>
-
-<p>Continuing with the worker model, we currently have a non-production Application Server running Grails:</p>
-
-<ul>
-<li><a href="http://fed1-app1.aws.gaps2c.com:8080">http://fed1-app1.aws.gaps2c.com:8080</a></li>
-</ul>
-
-
-<p>It is running grails 'interactively' and 'off-source'.  This is fast for deployment, but it is missing a few
-things that people usually want in production:</p>
-
-<ul>
-<li>Well-defined artifact that has been tested and can't "just change"</li>
-<li>A container environment that can provide certain resources to the application (e.g. monitoring)</li>
-<li>Removal of having to understand the 'building' technology from the running technology (JVM)</li>
-<li>That production has as few technologies as possible, and is normally missing 'compilers' so people can't tweak behavior</li>
-</ul>
-
-
-<!--more-->
-
-
-<p>The last item is (IMO) a bit paranoid, and there are better ways to make sure production is stable (tripwires and
-logging).  And the third is probably unrealistic for anything but trivial debugging.<br/>
-But the first two are certainly reasonable wants.  A lot of people are familiar with deploying wars and deploying
-wars on Tomcat and other servers.</p>
-
-<h3>Where's the WAR?</h3>
-
-<p>The first issue with changing from source deployment to war-based deployment is "Where is the WAR?" and
-"How do I know it has changed?".  As with the other weird primary ingredient approaches, the WAR is going to
-be in an annexed repository.  And you can see that it changed by simply looking at whether the 'git revision' of
-the war has changed.  This approach gives incredible power and flexibility:</p>
-
-<ul>
-<li>You can have as many different versions of the application as you want.  They just each have to have their own 'folder'</li>
-<li>You can easily see which deployments are using which versions</li>
-<li>Changing a deployment to use a different version involves copying a 50 byte hash vs. an actual WAR file</li>
-<li>Getting the real file is a super-fast call to S3</li>
-<li>Bootstrapping the initial version is the same as any other version, which makes it less likely to diverge and break</li>
-</ul>
-
-
-<p>The WARs should be in a different repository from the source for a number of reasons, but the main one being their
-rules and rythms are very different.  But the structure of the repositories can be very similar to make it easy to see
-the created artifacts.  Something like this:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_war1.png" /></p>
-
-<p>Note that the contents of the directory could be anything.  And actually a 'trick' to making the upload much faster
-is to use an exploded 'war' vs. a normal 'war'.  Why?  Because a WAR contains a bunch of jars that are all almost
- always <em>identical</em> between versions.  So although S3 has basically unlimited space, it is silly to waste it with
- a file that (although different) is 99% the same between each version.  For example, all the identical jars within this
- expanded war:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_war2.png" /></p>
-
-<p>The trade is that you have a lot more files in the other folders.  Finally, you could do a hybrid where everything but
-the lib folder is compressed.  To make the real war, your deployment process would uncompress and then re-WAR the contents.</p>
-
-<p>The performance difference is dramatically different when working outside the EC2 grid, but is less so within that
-grid.</p>
-
-<h3>Who deploys what?  The Promotion model</h3>
-
-<p>The deploying server needs to watch something so it can see a change that is relevant to it.  Production does not care
-that there is a new QA build.  And QA may not care there is a new development build.  QA never creates its own build,
-but it only cares when a development build is "Good enough to QA".  This I call the promotion model.</p>
-
-<p>For any given application:</p>
-
-<ul>
-<li>Automated builds occur <em>all the time</em> (whenever something changes) and each gets a unique identifier (e.g. 201)</li>
-<li>Each build is then promoted through however many levels of inspection you want
-
-<ul>
-<li>If it passes muster</li>
-<li>If it has not been superseded by another build</li>
-<li>If not, it is ignored</li>
-</ul>
-</li>
-</ul>
-
-
-<p>With this model, you never <em>go backward</em>, which increases productivity a lot.  And your are continuously trying to
- <em>go forward</em>, which means you have very current information about where you are.  And this also increases productivity.
- Yes, in a pinch, you could see if a build <em>between</em> last success and most current can be promoted.  But that is
- impacting productivity so it should rarely be done.</p>
-
-<p>This also implies there is no branching.  One source.  One set of builds based on that source.  That is not required
-by this approach (branch source, new set of builds), but it is strongly encouraged because it again <em>wastes no energy</em>
-and it is trivial to flip to a different 'set of builds' when a branch/back-patch is required.  But the process is
-very optimistic while also being very realistic (the world is where it is) and appropriately pessimistic
-(you can't promote through QA until you pass the automated tests).  Because machines embody the process, you
-can't subvert it without doing it <em>very conspicuously</em></p>
-
-<p>To be promoted, you just have to be 'copied' into the right destination.  Promotions are more an 'it' than
-a 'development' activity, so they are structured under the 'it' folder.  Each federation (and potentially part)
-has it's own versions of things.  If you are in 'fed1' and want the 'grails-petclinic' application on your
-machine, you know where to look: 'fed/fed1'.  The use of 'common' vs. 'stacktype' is mirroring the flexibility
- shown elsewhere.  You could have most deployments use 'common' and have some override it.  Or most deployments override 'common'
- but there is a default in case they don't.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-10/addstack10_promo2.png" /></p>
-
-<h3>Who builds and deploys?  Custom Worker vs. Chores</h3>
-
-<p>OK, so we need to build and deploy every time a particular repository changes.  We could do that monolithicly
-and have no registry of the war being built (it just magically happens), or we could do that in two parts:</p>
-
-<ol>
-<li>Detect change in repository: create chore to build war</li>
-<li>Detect chore and worker do chore</li>
-</ol>
-
-
-<p>The advantage of the second version is we can decompose figuring out what needs to be done from doing it, and we
-also have better visibility and consistency in the process.  Although I like doing things incrementally, I don't
-think the increment (monolith) is notably simpler than the second, and this was meant to build on our Worker topic.</p>
-
-<p>The critical question is actually 'who is going to write the chore'.  We don't want to have a bunch of chores
-created by different workers who all recognized a change was done.  Fortunately, we already have a model for this
- with the 'chore' ownership.  We need to describe an 'event' in a way that is related to whatever has changed
- about the world, and then when trying to 'create the chore' a worker first 'creates the event'.  Once an event
- is created and 'pushed', there is no reason to create it again.</p>
-
-<p>In this case, the event is pretty obvious to describe: a git repository went to a new version or specifically:</p>
-
-<ul>
-<li>repo3_miniature-ironman</li>
-<li>551b86e42d...</li>
-</ul>
-
-
-<p>so if an event for that exists, don't create another one.  Since this is a simple identification, we don't need
-the extra directory structure and can simply write a '.json' file into the appropriate time directory.  Note the
-time should be the time of the 'event', not of when it was noticed.</p>
-
-<p>A given event could trigger multiple chores, but in our case we just want to have the one 'build the war' chore
-created.  Note that the chore could be trivial: it could result in <em>no work</em> being done except seeing if a
-new WAR is needed.  Chores are rarely 'you must do this', but more 'do this if necessary'.  This alows us to
-be fast in the creation of the 'chore' vs. doing a lot of analysis up front.  Since the worker pool can be
-large, we don't want any given worker to block the pipeline too much.</p>
-
-<h4>Event structure</h4>
-
-<p>The structure of the event can be anything.  It is nice to have the JSON be declarative of what it is (an 'event')
-and then have enough information to process the information.  Some human readable information is handy for debugging
-and logging.</p>
-
-<p>```json
-{
-  "type" : "event",
-  "id" :  "repo3_miniature-ironman_551b86342d"
-  "tss" : "20151022120009",
-  "kind" : "repochange",
-  "repochange": {</p>
-
-<pre><code>"repo" : "repo3_miniature-ironman",
-"version" : "551b86342d",
-"comment" : "Just set the javaagent for Java",
-"committer" : "markfussell"
-</code></pre>
-
-<p>  }
-}
-```</p>
-
-<h4>Chore structure</h4>
-
-<p>```json
-{
-  "type" : "chore",
-  "tss" : "20151022120009",
-  "event_id" : "repo3_miniature-ironman_551b86342d"
-  "event" : {</p>
-
-<pre><code>  "kind" : "repochange",
-  "repochange": {
-    "repo" : "repo3_miniature-ironman",
-    "version" : "551b86342d",
-    "comment" : "Just set the javaagent for Java",
-    "committer" : "markfussell"
- }
-</code></pre>
-
-<p>  }
-}
-```</p>
-
-<h3>Making it happen</h3>
-
-<p>Although I mentioned before that there were 'parents', 'workers', and that application servers shouldn't do any of
-this kind of work, with this very clean pipeline it is clear our single application server could easily do all of
-this itself.  So just to save on IT, that will be the first version.  After that it is easy to see we could separate
-the 'parent/worker' from the application server.  And although likely not necessary, we could separate the 'parent'
-from the 'worker' node too.  The reason the 'parent' doesn't need to be separated is we should always have two
-parents around and a simple CloudFormation can make sure that is true.  And parents don't do that much, so there
-is no reason to have them be separate from workers.  With this model, all workers are also potential parents, and
-there are always two workers available.</p>
-
-<h4>Detecting the change to 'Repo3'</h4>
-
-<p>This is actually the same script as before where we just do something different in the 'ActualWork' source:</p>
-
-<p>```bash</p>
-
-<pre><code>   echo "Detected Change in Git Version!";
-
-   export START_TSS="`date +%Y%m%d-%H%M%S`"
-   echo "Starting ActualWork at ${START_TSS}"
-   echo $GIT_VERSION &gt; ${WORK_DOING_VERSION}
-
-   source ${MY_DIR}/work_FindEvent_Repo3_ActualWork.sh
-</code></pre>
-
-<p>```</p>
-
-<p>So now we know we have to do the work, but we need to see if it was already done by someone else:</p>
-
-<p><code>``bash
-export FIND_EVENT=</code>find work/event -name ${EVENT_NAME} | head -1`</p>
-
-<p>echo $FIND_EVENT</p>
-
-<p>if [[ "" == "$FIND_EVENT" ]] ;
-then</p>
-
-<pre><code> #========================================
- #=== We are the first! Rush to add it
- #========================================
-</code></pre>
-
-<p>cat &lt;<EOS >>$EVENT_FILE
-{
-  "type" : "event",
-  "id" :  "${EVENT_ID}"
-  "tss" : "${EVENT_TSS}",
-  "kind" : "repochange",
-  "repochange": {</p>
-
-<pre><code>"repo" : "${EVENT_REPO}",
-"version" : "${GIT_VERSION}"
-</code></pre>
-
-<p>  }
-}
-EOS</p>
-
-<p>git add $EVENT_FILE
-git commit -m "Creating an event for the change ${GIT_VERSION}";
-git push
-```</p>
-
-<p>If this push succeeds, we are free and clear.  If not, we can try to merge (maybe some other event or chore was written)
-and push again with a quick 'git pull; git push'.  We could do that "forever" or until we know we have no hope (study the
-actual output of the git pull, push, or other metadata between the two branches).  For the first pass, we can just do
-it once.</p>
-
-<h4>Event poster also chore poster</h4>
-
-<p>Since we know we detected the 'event' first, we are the owner of the event and
-can now safely write out the 'chores' associated with the event.</p>
-
-<p>```bash</p>
-
-<p>cat &lt;<EOS >>$CHORE_FILE
-{
-  "type" : "chore",
-  "tss" : "${EVENT_TSS}",
-  "event_id" : "${EVENT_ID}",
-  "kind" : "buildwar",
-  "war_repo" : "${WAR_REPO}",
-  "war_path" : "${WAR_PATH}",
-  "event" : {</p>
-
-<pre><code>  "kind" : "repochange",
-  "repochange": {
-    "repo" : "${EVENT_REPO}",
-    "version" : "${GIT_VERSION}"
- }
-</code></pre>
-
-<p>  }
-}
-EOS</p>
-
-<p>git add $CHORE_FILE
-git commit -m "Creating a chore for the event ${EVENT_ID}";
-git push
-```</p>
-
-<h4>Detecting and doing the chore</h4>
-
-<p>We went through detecting the chore before <a href="/blog/addstack-9/">AddStack-9</a>, but now we want to do something with the chore.</p>
-
-<p>Given the chore is describe in JSON and what we do for the chore could be complex, we should switch to a higher
-level language than 'bash'.  In this case we can go into Python as a decent scripting language:</p>
-
-<p><code>bash
-python ${COMMON}/doChore.py --source ${RANDOM_DOIT_DIR}/chore.json --gitroot ${GIT_ROOT}
-</code></p>
-
-<p>This implies a powerful chore processing script, or one that can modularly call other scripts.
-As long as the script leads the creation of 'chore' types, we should be fine whether monolithic or modular.</p>
-
-<p>The core of the routine is just to extract the necessary information from the JSON</p>
-
-<p>```python</p>
-
-<p>source_directory = os.path.dirname(source)
-source_json = json.load(open(source))</p>
-
-<p>chore_kind = source_json['kind']</p>
-
-<p>if chore_kind == "buildwar":</p>
-
-<pre><code>build_repo = source_json['event']['repochange']['repo']
-build_version = source_json['event']['repochange']['version']
-war_repo = source_json['war_repo']
-war_path = source_json['war_path']
-
-buildwarfromrepo_version_torepo_path(build_repo, build_version, war_repo, war_path)
-</code></pre>
-
-<p>```</p>
-
-<p>With this information we can then go to the build repository, do a simple 'grails package', and copy it to the
-appropriate repo and path.</p>
-
-<h3>Other 'chores' for this event?</h3>
-
-<p>The event that caused the 'buildwar' chore could also cause other activities.  Each of the
- application servers could create their own 'chore' to redeploy, which would enable the 'event' and 'chore'
- repository to reflect system activity on a broader sense.  Because they are doing the chore themselves,
- it would just be a way to log the activity vs. being a way to pass it out to a bunch of workers.</p>
-
-<h2>Conclusion</h2>
-
-<p>The event, chore, and worker model is a very flexible, reliable, and scalable way to get stuff done.  It is
-especially good at keeping throughput under control even when tasks can get onerous or 'herding' occurs.<br/>
-As the backlog grows, more workers appear to keep it in control.  When the backlog shrinks the workers go
-to sleep or decommission.</p>
-
-<p>The biggest issue with the worker approach is to make sure you know the ramp rate and reliability.  Even with a
-huge cloud like EC2, there can be stutters and you have to more aggressively try to get resources, or accept that
-the user experience may be a bit more lagged.</p>
 ]]></content>
   </entry>
   

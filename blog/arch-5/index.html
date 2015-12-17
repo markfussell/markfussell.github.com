@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Being a git about everything (Intro) - Polyglot</title>
+  <title>FooPets: Two Decades of Systems and Architectures - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics &hellip;">
+  <meta name="description" content="This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues. The table of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +19,7 @@ existing technology, but certain characteristics &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/git-about-everything-intro/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/arch-5/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -69,7 +69,7 @@ existing technology, but certain characteristics &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Being a Git About Everything (Intro)</h1>
+      <h1 class="entry-title">FooPets: Two Decades of Systems and Architectures</h1>
     
     
       <p class="meta">
@@ -85,110 +85,100 @@ existing technology, but certain characteristics &hellip;">
   
 
 
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2015-12-05T01:00:00-08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>There are times when a new technology comes along, that at first appears to be pretty similar to
-existing technology, but certain characteristics make for radically different or just nicely new solutions.
-A recent example of this is &#8216;git&#8217; and similar distributed version control systems (DVCS).  They may
-at first appear to be an interesting version of centralized version/content management systems, but
-they are really much more&#8230; a core piece of technology useful for many things.</p>
+<div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
-<p>This is a series about how to use git to solve many different problems, some obvious and some more unusual.
-I hope a few of them are interesting to readers.</p>
+<p>FooPets had several different products, but all were related to photorealistic virtual pets.</p>
 
-<!-- more -->
+<h2>Major System Aspects</h2>
 
+<p>The core FooPets site was originally framed by Facebook with a small amount of HTML driving a Flash-based interactive game.
+The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.<br/>
+No automated testing or other code-quality metrics.</p>
 
-<p>There are alternative DVCSs but I am not going to compare or translate examples&#8230; at least not on a first pass.
-Git was created by Linus Torvalds in 2005.  It was initially quite &#8216;raw&#8217; and still maintains much of that rawness,
-but other tools (e.g. github) and general improvements have made it more accessible.  For source-code control, git has some big wins
-in collaboration and offline work compared to SVN, Perforce, and the like.  Whether these are worth some trade-offs depends on your team
-and company&#8230; but that is a different topic.</p>
+<p>For most kinds of software, the logic and user-interface are the hardest things to build.  But because FooPets was
+effectively a 3-D movie / game, the content was actually the hardest thing to build: creating photorealistic 3-D pets
+took a lot more people-power than making these photorealistic pets behave.</p>
 
-<h2>Git Syntax / Overview</h2>
-
-<p>You can learn more about git somewhere like github:</p>
+<p>Later there were to be a couple more architectures:</p>
 
 <ul>
-<li> <a href="http://learn.github.com/p/intro.html">http://learn.github.com/p/intro.html</a></li>
-</ul>
-
-
-<p>Git has a lot of commands, but around seven are core to standard git flows:</p>
+<li>An iPhone version of the pets
 
 <ul>
-<li> clone &mdash; copy a repository from a remote location</li>
-<li> fetch &mdash; get updates from a remote repository</li>
-<li> merge &mdash; merge changes from one branch into the current branch</li>
-<li> pull &mdash; &#8216;fetch&#8217; and then &#8216;merge&#8217;</li>
-<li> add &mdash; add changes to the commit stage of the current branch</li>
-<li> commit &mdash; commit the changes into the current branch</li>
-<li> push &mdash; try to make a remote branch look like the current branch</li>
-</ul>
-
-
-<p>Actually of those seven &#8216;pull&#8217; basically replaces/combines two of them, so you get
-down to about five with a core loop like this:</p>
-
-<ul>
-<li> clone
-
-<ul>
-<li>pull</li>
-<li>make changes (if needed)
-
-<ul>
-<li>add</li>
-<li>commit</li>
-<li>push</li>
+<li>This was purely client initially and then later semi-integrated with the server until the game was killed</li>
 </ul>
 </li>
+<li>The <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> truly 3-D interactive game (vs. canned limited videos).
+
+<ul>
+<li>The game ran in Unity and only talked to the server for leaderboards</li>
 </ul>
 </li>
 </ul>
 
 
-<p>Of these commands only &#8216;push&#8217; can fail due to timing.  &#8216;push&#8217; is transactional
-and you can be contending with other people or machines that pushed to the same branch
-as you between when you pulled and you pushed.  Merging can fail, but that
-represents some actual file-level conflict vs. a timing issue (someone beat you to the &#8216;push&#8217;).
-A proper &#8216;commit&#8217; can&#8217;t fail because it is local.</p>
+<h2>AA-1 : Lack of promotions and regression testing is a very bad thing</h2>
 
-<h3>Repositories and branches</h3>
-
-<p>At least to begin, all these solutions will use a standard centralized repository approach
-and generally not use branches.  So you don&#8217;t have to worry about git&#8217;s ability to
-deal with many remotes and which branch a given git repository is using.  By default
-at any current moment there is only</p>
+<p>FooPets was a very unstable code base for many reasons, but definitely the lack of &#8216;make sure this works&#8217; was a huge
+part of it.  Some team members had the ability to modify production directly, and they could do it even before getting
+on a plane and disappearing for the holidays.  A promotion model looks like this:</p>
 
 <ul>
-<li> local: &#8216;master&#8217; <-> remote: origin/master</li>
+<li>Developer tests things on their own machine, and when happy, &#8216;promote&#8217; into the development team server</li>
+<li>The development team server tests the new code checkin and sees whether it passes the base line rules for the server
+
+<ul>
+<li>If not, it rejects it or starts yelling &#8216;foul&#8217;!</li>
+</ul>
+</li>
+<li>When the development team is happy the development team server&#8217;s code base is good, it goes to the next level (QA, Integration, etc.)</li>
+<li>Finally the last QA level is basically the same as production, and the final promotion should be trivial</li>
 </ul>
 
 
-<p>where things get interesting because there could be 100 different machines each with their own &#8216;local&#8217;.</p>
+<p>Without this kind of staging model, you are basically just praying production will be about the same as whatever machine you last tested on&#8230; potentially a developer laptop very different from production.</p>
 
-<h3>Problems with git / DVCS</h3>
+<h2>AA-2 : Sanity testing and automation are very good things, in all kinds of situations</h2>
 
-<p>The biggest issue with git and similar DVCSs is that their model doesn&#8217;t work well for large amounts of
-binary assets.  Large amounts of binary assets could occur either because there are a large number of
-assets available at any time but only a subset are needed (so with Perforce or SVN many people would not
-check out those directories) or more commonly, a modest number of binary assets are frequently
-changing.  Because a git repository contains all assets throughout time and to work with a git repository
-you clone the whole thing, having a large amount of binary assets punishes everyone.</p>
+<p>When I joined FooMojo, I expected to work on the main code base and the iPhone application as the &#8216;most important&#8217; code bases.
+These two code bases needed some work, but ultimately the long-pole for the company was <em>content</em>.  And creating content
+required a lot of computational power rendering graphics, connecting images into movies, and similar activities that were
+only semi-automated.  The biggest productivity improvement was when a few of us focused on making the whole pipeline pretty
+much completely automated (with failures identified and easily re-run).</p>
 
-<p>What is a large amount?  That depends on the circumstances, but generally passing 100MB can start to
-become painful depending on the purpose git is being used for.  Having 1GB of textual files in
-a single git repository (even over time) is an unusual thing.  GBs of images is common.</p>
+<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered.  The frames might have different kinds of issues,
+but the most likely issue is they didn&#8217;t get rendered at all, which is pretty easy to identify.</p>
 
-<p>So our first problems and solution is going to have to deal with this critical issue.</p>
+<p>So similar to DevOps where you apply software to computer operations, DevGraphics applies software and development techniques to
+the graphics pipelines of movies and high-content games.</p>
 
-<p>Enter the annex: <a href="/blog/git-about-everything-annex/">Annex</a></p>
+<h2>AA-3 : Using advanced technology can make things very easy and impressive</h2>
+
+<p>The concept for <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> started during the post-Christmas &#8220;break&#8221;, and
+within less than two months, a fun game was in all users hands.  By combining the skills of a very small team with a very
+advance technology (Unity 3D), we went from idea through prototype to live in a very short time.</p>
+
+<p>Sometimes the technologies used could be considered &#8216;prototypical&#8217;: you could never support 1MM with them (say maybe hardware
+compatibility issues).  But the importance of figuring out whether you have a viable product for a viable market and pivoting
+as you do or don&#8217;t is far higher in value than getting the technology &#8216;perfect&#8217; the first time.  And even more fun: sometimes
+the nonviable technology becomes mainstream enough to use by the time you have the right product for the right market.</p>
+
+<h2>AA-4 : Make sure clients &#8220;always work&#8221; or Apple is smart about devices</h2>
+
+<p>A critical rule to getting through the Apple appStore process was making sure your application obeyed a bunch of rules.
+Some of these rules were human-factor rules to make sure the product was pleasant and conformant with iOS.  But one of the
+core rules was that applications <em>must work</em> even when the device was not in a suitable environment.  The application
+could be thoroughly hobbled by the environment, but it must launch, interact with a user pleasantly, maybe explain
+and resolve the situation, and shut down <em>no matter what</em>.  An application / client can&#8217;t fail without explanation or
+really at all, it can only behave very restrictedly but properly.</p>
 </div>
 
 
@@ -211,12 +201,12 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
   
 
 
-<time datetime="2013-01-11T18:16:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2013</time>
+<time datetime="2015-12-05T01:00:00-08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/git/'>Git</a>
+    <a class='category' href='/blog/categories/architecture/'>Architecture</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/startup/'>Startup</a>
   
 </span>
 
@@ -225,7 +215,7 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/git-about-everything-intro/" data-via="" data-counturl="http://markfussell.emenar.com/blog/git-about-everything-intro/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/arch-5/" data-via="" data-counturl="http://markfussell.emenar.com/blog/arch-5/" >Tweet</a>
   
   
   
@@ -234,10 +224,8 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/scratchonflash/" title="Previous Post: Scratch on Flash">&laquo; Scratch on Flash</a>
+        <a class="basic-alignment left" href="/blog/arch-4/" title="Previous Post: Winster: Two Decades of Systems and Architectures">&laquo; Winster: Two Decades of Systems and Architectures</a>
       
-      
-        <a class="basic-alignment right" href="/blog/git-about-everything-annex/" title="Next Post: Being a git about everything (Annexing)">Being a git about everything (Annexing) &raquo;</a>
       
     </p>
   </footer>
@@ -346,8 +334,8 @@ a single git repository (even over time) is an unusual thing.  GBs of images is 
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/git-about-everything-intro/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/git-about-everything-intro/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/arch-5/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/arch-5/';
         var disqus_script = 'embed.js';
       
     (function () {
