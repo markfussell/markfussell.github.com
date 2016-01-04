@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2016-01-04T11:53:59-08:00</updated>
+  <updated>2016-01-04T11:57:03-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -20,7 +20,7 @@
     <id>http://markfussell.emenar.com/blog/devop-1</id>
     <content type="html"><![CDATA[<p>During the last decade, I did quite a bit of launching IT and product operations for products as a 'sidelight' of my main product
 development work.  Build the product, launch it operationally, and grow/maintain it going forward.  This pretty well matches
-the responsibility of a DevOps role as people are now using it, so I seem to be among the earlier 'DevOps' people.  At
+the responsibility of a DevOps role as people are now using the term, so I seem to be among the earlier 'DevOps' people.  At
 first I had a Data Center (racks in Hurricane Electric), later VMWare ESX on the Data Center, later servers running in
 other people's Data Centers (e.g. RackSpace), and then servers running in true clouds (e.g. AWS, GCE, etc.)</p>
 
