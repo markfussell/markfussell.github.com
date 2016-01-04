@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2016-01-01T13:05:25-08:00</updated>
+  <updated>2016-01-04T11:14:49-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Micro-Services]]></title>
+    <link href="http://markfussell.emenar.com/blog/microservice-1/"/>
+    <updated>2016-01-04T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/microservice-1</id>
+    <content type="html"><![CDATA[<p>In the last few years, a trendy new term has come up: &#8220;microservice&#8221; and a microservice architecture.
+I have been building software for a long time, and have used a service-oriented-architecture (SOA)
+and component-oriented-architecture (COA) for many of the applications / systems my teams have built.<br/>
+Sometimes an industry is missing a shared term for things people have done for decades.  The microservice term
+was new to me, so after having some discussions with people from ThoughtWorks and other companies, I wanted to get
+a more definitive definition.</p>
+
+<p>So far, this article seems a good intro: <a href="http://martinfowler.com/articles/microservices.html">Microservices by Lewis and Fowler</a></p>
+
+<p>If you read through the core issues that a microservice architecture is trying to address, they seem to distill to this:</p>
+
+<ul>
+<li>Have an architecture where you produce working &#8216;product&#8217; continuously</li>
+<li>Your &#8216;product&#8217; will be <em>deployed</em> and you need to be responsible for that being successful</li>
+<li>Don&#8217;t make the architectural components too big for a team to understand and successfully build and maintain</li>
+</ul>
+
+
+<p>These seem very practical and straightforward architectural guidelines.  In both startups and enterprises, you
+are delivering products that the company needs or sells, so you should always have your focus be on achieving that.<br/>
+I agree that some teams seem to lose this, so keeping them reminded is a good idea.</p>
+
+<h2>Good Idea, Horrible Name</h2>
+
+<p>Given the above reasonableness of the concept, this would be a good thing to have a good name for.  Maybe something
+like:</p>
+
+<ul>
+<li>Service-Component Architecture</li>
+<li>Business-Service Architecture</li>
+<li>Right-Sized Service Architecture</li>
+<li>Deployed Service Architecture</li>
+<li>Composed-Service Architecture</li>
+</ul>
+
+
+<p>All of the above pull at least some interesting aspect of the solution or problem into the term.</p>
+
+<p>Unfortunately using &#8216;micro&#8217; with service doesn&#8217;t do anything other than imply &#8216;small&#8217; or &#8216;very-small&#8217;.  A &#8216;microscopic&#8217;
+entity is too small to see.  A &#8216;microprocessor&#8217; is a processor that is powerful in abilities but physically small.<br/>
+I am not sure what word containing &#8216;micro&#8217; that in any way implies what the &#8216;micro&#8217; of &#8216;microservice&#8217; is trying to imply.</p>
+
+<h2>Bad names lead to bad architecture</h2>
+
+<p>You might think this pedantic, but words are powerful.  And the first uses of microservice in the wild I heard were
+for services <em>so tiny in functionality</em> that if you scaled to build a system out of them, you would have a nightmare
+of managing components.  It is fine to do something small as a test run, but services need to be cohesive and as comprehensive
+as possible to avoid spiralling out of control with dozens of service components wired together haphazardly.</p>
+
+<h2>Trendy/Transitional vs. Foundational</h2>
+
+<p>My guess is microservice is somewhat trendy and will die because it is a poor term.  A more appropriate word is again
+&#8216;service&#8217; or &#8216;service component&#8217; or &#8216;right-sized&#8217;.  You want an architecture that has a reasonable number of services organized/composed in
+a reasonably understandable way.  One way you might organize things is by business function, another is by core
+infrastructure capability (e.g. caching), another is by &#8216;rate-of-change&#8217;, and another is by &#8216;risk-of-change&#8217;.</p>
+
+<p>Monoliths are incredibly easy to understand, so they are actually a good starting point.  Your goal is to deliver
+a valuable product, so &#8220;start with&#8221; doing that.</p>
+
+<p>As long as you are good at splitting monoliths (dealing with inter-service calls vs. in-memory calls, providing a facade that hides the change, etc.),
+and leverage third-party service-components when suitable, you should have a pretty effective architecture.  You can
+split early (before production) or later, but keep you eye on delivering valuable product to your company.</p>
+
+<p>Basically review &#8216;Design Patterns&#8217; and think at the service-component level.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[FooPets: Two Decades of Systems and Architectures]]></title>
@@ -4254,289 +4326,6 @@ that are really just nuances and flavors of the ADD. For example:</p>
 
 <p>The first and last topic I will cover in the next multi-part series called the &#8216;AddStack&#8217;.  The others are more specific topics that I may get to eventually, but
 are not critical to understanding and using the ADD.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced Development and Delivery (ADD) [Part-10]]]></title>
-    <link href="http://markfussell.emenar.com/blog/add-10/"/>
-    <updated>2015-10-10T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/add-10</id>
-    <content type="html"><![CDATA[<p>This is the tenth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, and inter-machine presence.</p>
-
-<h2>A good, opinionated, framework</h2>
-
-<p>Back in 1972, Smalltalk became the first Object-Oriented Programming Language (Simula was Object-Based but there is a difference).
-For decades this kind of language was &#8216;esoteric&#8217;.  It was like LISP or Prolog or APL: somehow exotic and inaccessible.
-I was lucky: I had access to Smalltalk at Caltech.  I had access to lots of crazy expensive things at Caltech and that
-made the exotic (e.g. making your own chips) into the mundane (e.g. made lots of chips, they were commonly broken,
-had to be re-fabricated, and I eventually got bored with all that and moved a level up).</p>
-
-<!-- more -->
-
-
-<p>But back to the language of Smalltalk.  The problem with Smalltalk is that it appears to be a language when it is
-actually a computer. &#8216;C&#8217; was a language.  It made programs. &#8216;Pascal&#8217;, &#8216;Lisp&#8217; (sans Machine), &#8216;Fortan&#8217;, and so on&#8230;
-they were all languages.  Smalltalk <em>contains</em> a language.  It is named Smalltalk (darn).  But Smalltalk-80 was not
-<em>just</em> a language, it was an <em>entire running operating system with applications and full source</em>  It could boot on
-most any machine that you made the &#8216;bootstrap&#8217; code work on.  To make a new Smalltalk-80 machine, you cloned either
-the primordial Smalltalk-80 &#8216;image&#8217; from PARC, or you cloned your own modified &#8216;image&#8217;.  And by &#8216;image&#8217; this is
-basically the same concept as cloning a disk&#8230; bit by bit identical copy that happens to be on a different disk / computer.</p>
-
-<p>Eventually OOP became mainstream with Java, C++, Objective-C, Ruby, Python, and the like.  So people thought they
-were getting the &#8220;Smalltalk&#8221; (or LISP Machine) benefits.  But they left out the &#8216;computer&#8217; that went with the language.</p>
-
-<h3>Why opinionated?</h3>
-
-<p>The Smalltalk computer was quite functional and thoroughly opinionated.  It <em>already did</em> a bunch of things and showed
-you how it did them.  It wasn&#8217;t opinionated like a human usually uses the term: &#8220;You should build that house out of bricks, not straw&#8221;.
-It was opinionated like the planet is: &#8220;I have already created lots of flora and fauna&#8230; please use them wisely&#8221;.  Even
-how humans on the planet are: &#8220;We have already created plenty of roads&#8230; please use them instead of driving through yards&#8221;</p>
-
-<p>Opinionated is basically a synonym for &#8220;Working&#8221;.  Smalltalk computers &#8220;worked&#8221; so don&#8217;t break it.  They work, so you
-should probably copy them for anything similar.  And they work, so you might want to study how they work even if you
-are going to be creative later.</p>
-
-<h3>Modern &#8216;working&#8217; frameworks</h3>
-
-<p>Early frameworks (say for Java) &#8216;kind-of-worked&#8217;.  They didn&#8217;t fully work, but you could &#8216;configure&#8217; them to work.
-That is like getting all &#8216;IKEA&#8217; furniture for your house.  You could easily build it wrong.  It could not work
-together.  Yes, you get to &#8216;tweak&#8217; it, but if someone simply offered &#8220;a furnished house&#8221; you would save a lot of
-time and leverage their full sense of design.  Or you could go to a different furnished house that more closely matched your tastes.</p>
-
-<p>The later fully-working / opinionated frameworks (like Ruby/Rails) truly worked out of the box.  They would come up with a UI, Business/Domain
-layer, and a Database layer.  You could add things to the UI and it would go down the whole stack.  Add things to the database
-or Domain, and it would bubble up/down.  For the framework to do these things it had to have a model for what software (in its full form)
-looks like.  These frameworks had patterns/templates/rules for building things at command.  This isn&#8217;t quite as good as Smalltalk (&#8220;it already exists&#8221;)
-but it is getting close, especially with sample applications available.
-It also gets rid of the one problem / hurdle with Smalltalk full-computers: you had to strip them
-of things you didn&#8217;t want customers to see / use / clone.</p>
-
-<h3>Languages</h3>
-
-<p>There are many modern languages.  They are mostly quite similar and boring in the language themselves.  The community around the
-language makes much more of a difference, and the libraries / frameworks that exist based on that community&#8217;s interest.</p>
-
-<p>I mentioned that I switched to Java pretty early on, which cost me productivity.  But I wanted the community and their
-libraries.  Java was popular enough that it had multiple communities associated with it.  Some were crazy stupid and
-created things (even tried to mandate use of things) that were completely stupid.  But other communities continued
-to plug along and evolve libraries and frameworks that are better than you can get in other languages.  On the whole,
-I believe the Java ecosystem is by far the best &#8216;hub&#8217; to build most custom development and to pair
-with other tools/components in other languages.  And by Java, I mean Java, Groovy, and potentially other JVM-targeting
-languages.  The less Java-like the language, the less likely I would consider it acceptably an &#8216;other&#8217;.</p>
-
-<h3>Framework</h3>
-
-<p>I believe the best (general) application framework in Java is Grails, which lives on top of the Spring stack.  It is
-very mature and has good minds in the drivers seat.  It gets simpler and more powerful every generation.  If Spring
-does something right, Grails simply uses it.  If not, Grails augments it.  Very rational.  Very powerful.</p>
-
-<h2>The first application</h2>
-
-<p>The first application will simply be the default applications with a grails &#8216;create-app&#8217;.  To get the application we
-need to get grails on the &#8216;app1&#8217; nodes, create the application, and then run it.</p>
-
-<p>Grails needs Java, but ec2 instances automatically have that.  In other environments we would use something like:</p>
-
-<h3>installJava.sh</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'><span class="c">#=== Java</span>
-</span><span class='line'><span class="c">#================================================</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">export </span><span class="nv">JAVA_VERSION</span><span class="o">=</span>7u79
-</span><span class='line'><span class="nb">export </span><span class="nv">JAVA_FULL_VERSION</span><span class="o">=</span>jdk-<span class="k">${</span><span class="nv">JAVA_VERSION</span><span class="k">}</span>-linux-x64
-</span><span class='line'>
-</span><span class='line'>mkdir -p .temp
-</span><span class='line'>cp it/resource/<span class="k">${</span><span class="nv">JAVA_FULL_VERSION</span><span class="k">}</span>.rpm .temp/
-</span><span class='line'>
-</span><span class='line'>./bin/inflatePaths.sh .temp/<span class="k">${</span><span class="nv">JAVA_FULL_VERSION</span><span class="k">}</span>.rpm
-</span><span class='line'>
-</span><span class='line'>rpm -i .temp/<span class="k">${</span><span class="nv">JAVA_FULL_VERSION</span><span class="k">}</span>.rpm
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The advantage of storing the RPM within our own system is speed of access and reliability.  EC2 to S3 communication
-is very fast.  And S3 has never been down (AFAIK) at all, let alone when EC2 is running.  We also lock down on the
-version we want vs. using &#8216;yum&#8217; without an explicit version.</p>
-
-<h3>installGrails3_x.sh</h3>
-
-<p>For grails we will get the latest version</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="c">#==========================================================</span>
-</span><span class='line'><span class="c">#=== Install Grails 3.x</span>
-</span><span class='line'><span class="c">#==========================================================</span>
-</span><span class='line'>
-</span><span class='line'>curl -s get.sdkman.io | bash
-</span><span class='line'><span class="nb">source</span> <span class="s2">&quot;$HOME/.sdkman/bin/sdkman-init.sh&quot;</span>
-</span><span class='line'>yes | sdk install grails
-</span><span class='line'>
-</span><span class='line'><span class="nb">source</span> ~/.bashrc
-</span><span class='line'>grails -version
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We need to source &#8216;~/.bashrc&#8217; so we get the additions to our path.</p>
-
-<h3>Create &#8216;test&#8217; application</h3>
-
-<p>At this point we have grails on the machine and can simply</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/app/
-</span><span class='line'><span class="nb">cd</span> /root/app
-</span><span class='line'>
-</span><span class='line'>grails create-app <span class="nb">test</span>
-</span><span class='line'><span class="nb">cd test</span>
-</span><span class='line'>grails run-app
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The application will come up at &#8216;localhost:8080&#8217; and if you wget/curl it, it returns the generated &#8216;index.html&#8217; file:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!doctype html&gt;</span>
-</span><span class='line'><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">&quot;en&quot;</span> <span class="na">class=</span><span class="s">&quot;no-js&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;head&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=edge&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;title&gt;</span>Welcome to Grails<span class="nt">&lt;/title&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>...
-</span><span class='line'>        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;page-body&quot;</span> <span class="na">role=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>            <span class="nt">&lt;h1&gt;</span>Welcome to Grails<span class="nt">&lt;/h1&gt;</span>
-</span><span class='line'>            <span class="nt">&lt;p&gt;</span>Congratulations, you have successfully started your first Grails application! At the moment
-</span><span class='line'>               this is the default page, feel free to modify it to either redirect to a controller or display whatever
-</span><span class='line'>               content you may choose. Below is a list of controllers that are currently deployed in this application,
-</span><span class='line'>               click on each to execute its default action:<span class="nt">&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'>            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;controller-list&quot;</span> <span class="na">role=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>                <span class="nt">&lt;h2&gt;</span>Available Controllers:<span class="nt">&lt;/h2&gt;</span>
-</span><span class='line'>                <span class="nt">&lt;ul&gt;</span>
-</span><span class='line'>
-</span><span class='line'>                <span class="nt">&lt;/ul&gt;</span>
-</span><span class='line'>            <span class="nt">&lt;/div&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;/div&gt;</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;footer&quot;</span> <span class="na">role=</span><span class="s">&quot;contentinfo&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-</span><span class='line'>        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;spinner&quot;</span> <span class="na">class=</span><span class="s">&quot;spinner&quot;</span> <span class="na">style=</span><span class="s">&quot;display:none;&quot;</span><span class="nt">&gt;</span>Loading<span class="ni">&amp;hellip;</span><span class="nt">&lt;/div&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;/body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Firewalls</h3>
-
-<p>Unfortunately, you won&#8217;t be able to test this app from the outside unless you open the &#8216;8080&#8217; port.</p>
-
-<p>If we open that port either initially or through commands:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;IpProtocol&quot;</span><span class="p">:</span><span class="s2">&quot;tcp&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;FromPort&quot;</span><span class="p">:</span><span class="s2">&quot;8080&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;ToPort&quot;</span><span class="p">:</span><span class="s2">&quot;8080&quot;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nt">&quot;CidrIp&quot;</span><span class="p">:</span><span class="s2">&quot;0.0.0.0/0&quot;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We get the latest and greatest &#8216;Grails&#8217; application (3.0.8 as of this writing)</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-10/add10_grails1.png" /></p>
-
-<h3>Demo2: PetClinic</h3>
-
-<p>There is a PetClinic demo at: https://github.com/grails-samples/grails-petclinic .  Doing the same simple launch procedure you would get something like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/app/
-</span><span class='line'><span class="nb">cd</span> /root/app
-</span><span class='line'>
-</span><span class='line'>git clone git@github.com:grails-samples/grails-petclinic.git
-</span><span class='line'><span class="nb">cd </span>grails-petclinic
-</span><span class='line'>./gradlew run
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And you get:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-10/add10_grails2.png" /></p>
-
-<p>But an important difference between the two: the second is now <em>wired</em> into the git repository and can &#8216;pull&#8217; or &#8216;push&#8217; to it as needed.
-We now have a live server with both alive &#8216;IT&#8217; and alive &#8216;APP&#8217;!  It will happily and automatically bend to our will and needs.</p>
 ]]></content>
   </entry>
   

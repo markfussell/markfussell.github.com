@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: RubyShoes - Polyglot</title>
+  <title>Micro-Services - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="Category: RubyShoes">
+  <meta name="description" content="In the last few years, a trendy new term has come up: &#8220;microservice&#8221; and a microservice architecture.
+I have been building software for a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.comblog/categories/rubyshoes/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/microservice-1/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -64,78 +65,154 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: RubyShoes</h1>
+    
+      <h1 class="entry-title">Micro-Services</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-04T01:00:00-08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2016</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>In the last few years, a trendy new term has come up: &#8220;microservice&#8221; and a microservice architecture.
+I have been building software for a long time, and have used a service-oriented-architecture (SOA)
+and component-oriented-architecture (COA) for many of the applications / systems my teams have built.<br/>
+Sometimes an industry is missing a shared term for things people have done for decades.  The microservice term
+was new to me, so after having some discussions with people from ThoughtWorks and other companies, I wanted to get
+a more definitive definition.</p>
 
-  
-  <h2>2008</h2>
+<p>So far, this article seems a good intro: <a href="http://martinfowler.com/articles/microservices.html">Microservices by Lewis and Fowler</a></p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-6/">A Taste of Flex (Part 6)</a></h1>
-<time datetime="2008-09-02T16:46:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
+<p>If you read through the core issues that a microservice architecture is trying to address, they seem to distill to this:</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-5/">A Taste of Flex (Part 5)</a></h1>
-<time datetime="2008-09-02T07:44:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<ul>
+<li>Have an architecture where you produce working &#8216;product&#8217; continuously</li>
+<li>Your &#8216;product&#8217; will be <em>deployed</em> and you need to be responsible for that being successful</li>
+<li>Don&#8217;t make the architectural components too big for a team to understand and successfully build and maintain</li>
+</ul>
 
 
-</article>
+<p>These seem very practical and straightforward architectural guidelines.  In both startups and enterprises, you
+are delivering products that the company needs or sells, so you should always have your focus be on achieving that.<br/>
+I agree that some teams seem to lose this, so keeping them reminded is a good idea.</p>
+
+<h2>Good Idea, Horrible Name</h2>
+
+<p>Given the above reasonableness of the concept, this would be a good thing to have a good name for.  Maybe something
+like:</p>
+
+<ul>
+<li>Service-Component Architecture</li>
+<li>Business-Service Architecture</li>
+<li>Right-Sized Service Architecture</li>
+<li>Deployed Service Architecture</li>
+<li>Composed-Service Architecture</li>
+</ul>
 
 
+<p>All of the above pull at least some interesting aspect of the solution or problem into the term.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-flex-part-2/">A Taste of Flex (Part 2)</a></h1>
-<time datetime="2008-09-02T04:12:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2008</span></time>
+<p>Unfortunately using &#8216;micro&#8217; with service doesn&#8217;t do anything other than imply &#8216;small&#8217; or &#8216;very-small&#8217;.  A &#8216;microscopic&#8217;
+entity is too small to see.  A &#8216;microprocessor&#8217; is a processor that is powerful in abilities but physically small.<br/>
+I am not sure what word containing &#8216;micro&#8217; that in any way implies what the &#8216;micro&#8217; of &#8216;microservice&#8217; is trying to imply.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/flex/'>Flex</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
+<h2>Bad names lead to bad architecture</h2>
 
+<p>You might think this pedantic, but words are powerful.  And the first uses of microservice in the wild I heard were
+for services <em>so tiny in functionality</em> that if you scaled to build a system out of them, you would have a nightmare
+of managing components.  It is fine to do something small as a test run, but services need to be cohesive and as comprehensive
+as possible to avoid spiralling out of control with dozens of service components wired together haphazardly.</p>
 
-</article>
+<h2>Trendy/Transitional vs. Foundational</h2>
 
+<p>My guess is microservice is somewhat trendy and will die because it is a poor term.  A more appropriate word is again
+&#8216;service&#8217; or &#8216;service component&#8217; or &#8216;right-sized&#8217;.  You want an architecture that has a reasonable number of services organized/composed in
+a reasonably understandable way.  One way you might organize things is by business function, another is by core
+infrastructure capability (e.g. caching), another is by &#8216;rate-of-change&#8217;, and another is by &#8216;risk-of-change&#8217;.</p>
 
+<p>Monoliths are incredibly easy to understand, so they are actually a good starting point.  Your goal is to deliver
+a valuable product, so &#8220;start with&#8221; doing that.</p>
 
-<article>
-  
-<h1><a href="/blog/a-taste-of-ruby-part-5/">A Taste of Ruby (Part 5)</a></h1>
-<time datetime="2008-08-29T23:42:00-07:00" pubdate><span class='month'>Aug</span> <span class='day'>29</span> <span class='year'>2008</span></time>
+<p>As long as you are good at splitting monoliths (dealing with inter-service calls vs. in-memory calls, providing a facade that hides the change, etc.),
+and leverage third-party service-components when suitable, you should have a pretty effective architecture.  You can
+split early (before production) or later, but keep you eye on delivering valuable product to your company.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/dynamic/'>Dynamic</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/rubyshoes/'>RubyShoes</a>, <a class='category' href='/blog/categories/smalltalk/'>Smalltalk</a></span>
-</footer>
-
-
-</article>
-
+<p>Basically review &#8216;Design Patterns&#8217; and think at the service-component level.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mark Fussell</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-04T01:00:00-08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/architecture/'>Architecture</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/microservice-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/microservice-1/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/arch-5/" title="Previous Post: FooPets: Two Decades of Systems and Architectures">&laquo; FooPets: Two Decades of Systems and Architectures</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -233,7 +310,10 @@
       var disqus_shortname = 'markfussell';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/microservice-1/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/microservice-1/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

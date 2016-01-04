@@ -9,8 +9,8 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is a series describing various architectures I have worked with in the last two decades and some of their
-benefits and issues. The table of &hellip;">
+  <meta name="description" content="In the last few years, a trendy new term has come up: &#8220;microservice&#8221; and a microservice architecture.
+I have been building software for a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,106 @@ benefits and issues. The table of &hellip;">
       
 
   
+  
+  <article class="listing">
+    
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/microservice-1/">Micro-Services</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-01-04T01:00:00-08:00" pubdate data-updated="true">Jan 4<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In the last few years, a trendy new term has come up: &#8220;microservice&#8221; and a microservice architecture.
+I have been building software for a long time, and have used a service-oriented-architecture (SOA)
+and component-oriented-architecture (COA) for many of the applications / systems my teams have built.<br/>
+Sometimes an industry is missing a shared term for things people have done for decades.  The microservice term
+was new to me, so after having some discussions with people from ThoughtWorks and other companies, I wanted to get
+a more definitive definition.</p>
+
+<p>So far, this article seems a good intro: <a href="http://martinfowler.com/articles/microservices.html">Microservices by Lewis and Fowler</a></p>
+
+<p>If you read through the core issues that a microservice architecture is trying to address, they seem to distill to this:</p>
+
+<ul>
+<li>Have an architecture where you produce working &#8216;product&#8217; continuously</li>
+<li>Your &#8216;product&#8217; will be <em>deployed</em> and you need to be responsible for that being successful</li>
+<li>Don&#8217;t make the architectural components too big for a team to understand and successfully build and maintain</li>
+</ul>
+
+
+<p>These seem very practical and straightforward architectural guidelines.  In both startups and enterprises, you
+are delivering products that the company needs or sells, so you should always have your focus be on achieving that.<br/>
+I agree that some teams seem to lose this, so keeping them reminded is a good idea.</p>
+
+<h2>Good Idea, Horrible Name</h2>
+
+<p>Given the above reasonableness of the concept, this would be a good thing to have a good name for.  Maybe something
+like:</p>
+
+<ul>
+<li>Service-Component Architecture</li>
+<li>Business-Service Architecture</li>
+<li>Right-Sized Service Architecture</li>
+<li>Deployed Service Architecture</li>
+<li>Composed-Service Architecture</li>
+</ul>
+
+
+<p>All of the above pull at least some interesting aspect of the solution or problem into the term.</p>
+
+<p>Unfortunately using &#8216;micro&#8217; with service doesn&#8217;t do anything other than imply &#8216;small&#8217; or &#8216;very-small&#8217;.  A &#8216;microscopic&#8217;
+entity is too small to see.  A &#8216;microprocessor&#8217; is a processor that is powerful in abilities but physically small.<br/>
+I am not sure what word containing &#8216;micro&#8217; that in any way implies what the &#8216;micro&#8217; of &#8216;microservice&#8217; is trying to imply.</p>
+
+<h2>Bad names lead to bad architecture</h2>
+
+<p>You might think this pedantic, but words are powerful.  And the first uses of microservice in the wild I heard were
+for services <em>so tiny in functionality</em> that if you scaled to build a system out of them, you would have a nightmare
+of managing components.  It is fine to do something small as a test run, but services need to be cohesive and as comprehensive
+as possible to avoid spiralling out of control with dozens of service components wired together haphazardly.</p>
+
+<h2>Trendy/Transitional vs. Foundational</h2>
+
+<p>My guess is microservice is somewhat trendy and will die because it is a poor term.  A more appropriate word is again
+&#8216;service&#8217; or &#8216;service component&#8217; or &#8216;right-sized&#8217;.  You want an architecture that has a reasonable number of services organized/composed in
+a reasonably understandable way.  One way you might organize things is by business function, another is by core
+infrastructure capability (e.g. caching), another is by &#8216;rate-of-change&#8217;, and another is by &#8216;risk-of-change&#8217;.</p>
+
+<p>Monoliths are incredibly easy to understand, so they are actually a good starting point.  Your goal is to deliver
+a valuable product, so &#8220;start with&#8221; doing that.</p>
+
+<p>As long as you are good at splitting monoliths (dealing with inter-service calls vs. in-memory calls, providing a facade that hides the change, etc.),
+and leverage third-party service-components when suitable, you should have a pretty effective architecture.  You can
+split early (before production) or later, but keep you eye on delivering valuable product to your company.</p>
+
+<p>Basically review &#8216;Design Patterns&#8217; and think at the service-component level.</p>
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
   
   <article class="listing">
     
@@ -991,70 +1091,6 @@ things that people usually want in production:</p>
   
     <footer>
       <a rel="full-article" href="/blog/addstack-10/">Read on &rarr;</a>
-    </footer>
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/addstack-9/">ADD Stack [Part-9]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-21T01:00:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
-Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
-The eighth was an overview of Federation Components like caches, queues, payment services, and the like.</p>
-
-<h2>Workers!</h2>
-
-<p>Among the more interesting federation / deployment component are workers.  Workers are interesting because
-they can do almost anything imaginable and they do it very efficiently.  How efficiently?  Well, the perfect
-worker is at 100% when doing a task and <em>dead</em> when they have no tasks to do.  That is pretty darn efficient
-because it approaches 100% and is only not 100% when we choose to not accept the &#8216;spin up&#8217; latency of getting
- a new worker.  As the amount of work increases, our pool of workers increase, and the spin-up-latency decreases
- on a per-chore basis.  That is <em>very cool</em>: as scale goes up, efficiency <em>increases</em>.  There are a lot of places that
- is not true for computers, so it is nice when it is.</p>
-
-<h3>Work?  Chore?</h3>
-
-<p>So we want to have a worker model where we can add a &#8216;chore&#8217; (a unit of work, using a term not otherwise used in
-IT and CS&#8230; job, task, etc. are now ambivalent) to a queue of work-to-be-done, and have
- something do that chore.  There are a lot of ways to do this:</p>
-
-<p> </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/addstack-9/">Read on &rarr;</a>
     </footer>
   
 

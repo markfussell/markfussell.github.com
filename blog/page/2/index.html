@@ -72,6 +72,69 @@ first article is here: Intro and &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/addstack-9/">ADD Stack [Part-9]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-21T01:00:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
+The eighth was an overview of Federation Components like caches, queues, payment services, and the like.</p>
+
+<h2>Workers!</h2>
+
+<p>Among the more interesting federation / deployment component are workers.  Workers are interesting because
+they can do almost anything imaginable and they do it very efficiently.  How efficiently?  Well, the perfect
+worker is at 100% when doing a task and <em>dead</em> when they have no tasks to do.  That is pretty darn efficient
+because it approaches 100% and is only not 100% when we choose to not accept the &#8216;spin up&#8217; latency of getting
+ a new worker.  As the amount of work increases, our pool of workers increase, and the spin-up-latency decreases
+ on a per-chore basis.  That is <em>very cool</em>: as scale goes up, efficiency <em>increases</em>.  There are a lot of places that
+ is not true for computers, so it is nice when it is.</p>
+
+<h3>Work?  Chore?</h3>
+
+<p>So we want to have a worker model where we can add a &#8216;chore&#8217; (a unit of work, using a term not otherwise used in
+IT and CS&#8230; job, task, etc. are now ambivalent) to a queue of work-to-be-done, and have
+ something do that chore.  There are a lot of ways to do this:</p>
+
+<p> </div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/addstack-9/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/addstack-8/">ADD Stack [Part-8]</a></h1>
     
     
@@ -736,58 +799,6 @@ capability of configuring, controlling, and being informed of that environment. 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-10/">Advanced Development and Delivery (ADD) [Part-10]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-10T02:00:00-07:00" pubdate data-updated="true">Oct 10<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the tenth installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, and inter-machine presence.</p>
-
-<h2>A good, opinionated, framework</h2>
-
-<p>Back in 1972, Smalltalk became the first Object-Oriented Programming Language (Simula was Object-Based but there is a difference).
-For decades this kind of language was &#8216;esoteric&#8217;.  It was like LISP or Prolog or APL: somehow exotic and inaccessible.
-I was lucky: I had access to Smalltalk at Caltech.  I had access to lots of crazy expensive things at Caltech and that
-made the exotic (e.g. making your own chips) into the mundane (e.g. made lots of chips, they were commonly broken,
-had to be re-fabricated, and I eventually got bored with all that and moved a level up).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-10/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -815,6 +826,10 @@ had to be re-fabricated, and I eventually got bored with all that and moved a le
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/microservice-1/">Micro-Services</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/arch-5/">FooPets: Two Decades of Systems and Architectures</a>
       </li>
     
@@ -830,15 +845,11 @@ had to be re-fabricated, and I eventually got bored with all that and moved a le
         <a href="/blog/arch-2/">Evant: Two Decades of Systems and Architectures</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/arch-1/">Two Decades of Systems and Architectures</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 111.11111111111111%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 146.66666666666666%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 111.11111111111111%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 113.33333333333333%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 146.66666666666666%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 111.11111111111111%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

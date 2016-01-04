@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2016-01-01T13:05:25-08:00</updated>
+  <updated>2016-01-04T11:14:49-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Micro-Services]]></title>
+    <link href="http://markfussell.emenar.com/blog/microservice-1/"/>
+    <updated>2016-01-04T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/microservice-1</id>
+    <content type="html"><![CDATA[<p>In the last few years, a trendy new term has come up: "microservice" and a microservice architecture.
+I have been building software for a long time, and have used a service-oriented-architecture (SOA)
+and component-oriented-architecture (COA) for many of the applications / systems my teams have built.<br/>
+Sometimes an industry is missing a shared term for things people have done for decades.  The microservice term
+was new to me, so after having some discussions with people from ThoughtWorks and other companies, I wanted to get
+a more definitive definition.</p>
+
+<p>So far, this article seems a good intro: <a href="http://martinfowler.com/articles/microservices.html">Microservices by Lewis and Fowler</a></p>
+
+<p>If you read through the core issues that a microservice architecture is trying to address, they seem to distill to this:</p>
+
+<ul>
+<li>Have an architecture where you produce working 'product' continuously</li>
+<li>Your 'product' will be <em>deployed</em> and you need to be responsible for that being successful</li>
+<li>Don't make the architectural components too big for a team to understand and successfully build and maintain</li>
+</ul>
+
+
+<p>These seem very practical and straightforward architectural guidelines.  In both startups and enterprises, you
+are delivering products that the company needs or sells, so you should always have your focus be on achieving that.<br/>
+I agree that some teams seem to lose this, so keeping them reminded is a good idea.</p>
+
+<h2>Good Idea, Horrible Name</h2>
+
+<p>Given the above reasonableness of the concept, this would be a good thing to have a good name for.  Maybe something
+like:</p>
+
+<ul>
+<li>Service-Component Architecture</li>
+<li>Business-Service Architecture</li>
+<li>Right-Sized Service Architecture</li>
+<li>Deployed Service Architecture</li>
+<li>Composed-Service Architecture</li>
+</ul>
+
+
+<p>All of the above pull at least some interesting aspect of the solution or problem into the term.</p>
+
+<p>Unfortunately using 'micro' with service doesn't do anything other than imply 'small' or 'very-small'.  A 'microscopic'
+entity is too small to see.  A 'microprocessor' is a processor that is powerful in abilities but physically small.<br/>
+I am not sure what word containing 'micro' that in any way implies what the 'micro' of 'microservice' is trying to imply.</p>
+
+<h2>Bad names lead to bad architecture</h2>
+
+<p>You might think this pedantic, but words are powerful.  And the first uses of microservice in the wild I heard were
+for services <em>so tiny in functionality</em> that if you scaled to build a system out of them, you would have a nightmare
+of managing components.  It is fine to do something small as a test run, but services need to be cohesive and as comprehensive
+as possible to avoid spiralling out of control with dozens of service components wired together haphazardly.</p>
+
+<h2>Trendy/Transitional vs. Foundational</h2>
+
+<p>My guess is microservice is somewhat trendy and will die because it is a poor term.  A more appropriate word is again
+'service' or 'service component' or 'right-sized'.  You want an architecture that has a reasonable number of services organized/composed in
+a reasonably understandable way.  One way you might organize things is by business function, another is by core
+infrastructure capability (e.g. caching), another is by 'rate-of-change', and another is by 'risk-of-change'.</p>
+
+<p>Monoliths are incredibly easy to understand, so they are actually a good starting point.  Your goal is to deliver
+a valuable product, so "start with" doing that.</p>
+
+<p>As long as you are good at splitting monoliths (dealing with inter-service calls vs. in-memory calls, providing a facade that hides the change, etc.),
+and leverage third-party service-components when suitable, you should have a pretty effective architecture.  You can
+split early (before production) or later, but keep you eye on delivering valuable product to your company.</p>
+
+<p>Basically review 'Design Patterns' and think at the service-component level.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[FooPets: Two Decades of Systems and Architectures]]></title>
@@ -405,101 +477,6 @@ broadly capable generics.</p>
 <h2>Next</h2>
 
 <p><a href="/blog/arch-3">Velidom Factory</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Two Decades of Systems and Architectures]]></title>
-    <link href="http://markfussell.emenar.com/blog/arch-1/"/>
-    <updated>2015-12-01T01:00:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/arch-1</id>
-    <content type="html"><![CDATA[<p>It is now the end of 2015 and for decades I have been reading and writing software in both small and large companies, in startups and established enterprises, and in multiple industries.  My background includes several early languages (C, Basic, Pascal, Fortran, and specialty database systems), but I truly became a serious engineer in Smalltalk.  After doing several systems including IRIS-2 / <a href="http://cargosmart.com/">CargoSmart</a>, <a href="http://www.thefreelibrary.com/McKesson+and+SunScript+Sign+$500-Million+Pharmaceutical+Supply...-a020515184">BidLink</a>, and others, I switched to Java as my primary language.  Since then, I have also worked in Objective-C, Ruby/Rails, JavaScript (client and server), Python, and various other languages.</p>
-
-<p>By building so many systems over the years, I have seen many choices and their impacts.  Sometimes the choice was before me, commonly it was mine and my team,  and sometimes people made choices after I 'passed the system on'.  This series is meant to document as many of these systems as possible.  Previously I spoke at conferences and disseminated some of our insights.  I may return to that venue, but wanted to get more than a decade of work visible.</p>
-
-<p>The systems, applications, and architectures documented here will eventually include:</p>
-
-<ul>
-<li><a href="/blog/arch-2">Evant Advanced Planning</a>: A multidimensional planning system
-
-<ul>
-<li>Java, JavaScript</li>
-</ul>
-</li>
-<li><a href="/blog/arch-3">Velidom Factory</a>: A highly virtualized and automated software development environment / factory
-
-<ul>
-<li>Java, VmWare ESX, Subversion (as part of the infrastructure), Flash/Flex, and Eclipse plugins</li>
-</ul>
-</li>
-<li><a href="/blog/arch-4">Winster</a>: A cooperative online gaming and social site
-
-<ul>
-<li>Java, Flash/Flex, MySQL</li>
-</ul>
-</li>
-<li><a href="/blog/arch-5">FooPets</a>: A virtual pet entertainment site
-
-<ul>
-<li>Main Site:
-
-<ul>
-<li>Ruby, Rails, Maya, Flash, iOS, etc.</li>
-</ul>
-</li>
-<li>HeartPark: A 3-D world / game
-
-<ul>
-<li>Unity 3D, C#</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Vive: A mobile health and wellness application
-
-<ul>
-<li>Grails, Java, YUI</li>
-</ul>
-</li>
-<li>Epocrates EMR: An electronic medical records application
-
-<ul>
-<li>Ruby, Rails, iOS</li>
-</ul>
-</li>
-<li>PeerCase: A mobile-first medical communication application
-
-<ul>
-<li>Grails, Sencha</li>
-</ul>
-</li>
-<li>Rumble: A platform to support free-to-play and hiqh-quality games
-
-<ul>
-<li>Grails, Kafka, Redis, eJabberd, and a host of other technologies</li>
-</ul>
-</li>
-<li>SnapArch: An architecture to build out a collection of services and applications on top of them
-
-<ul>
-<li>Spring, Angular, etc.</li>
-</ul>
-</li>
-<li>ABC: An analytics platform for massive scale machine learning
-
-<ul>
-<li>Weka, Python, Grails, Amazon AWS services</li>
-</ul>
-</li>
-<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
-<li>IRIS-2 / CargoSmart: An enterprise container-shipping logistics system
-
-<ul>
-<li>Smalltalk, GemStone, C++, Java, etc.</li>
-</ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
