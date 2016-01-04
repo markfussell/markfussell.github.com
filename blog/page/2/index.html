@@ -72,6 +72,74 @@ first article is here: Intro and &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/addstack-10/">ADD Stack [Part-10]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-22T01:00:00-07:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
+first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
+The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
+The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
+and Dual or Isomorphic scripting. The sixth discussed UI frameworks in a bit more detail and ended with an Angular vs.
+Ember as a core choice.  The seventh went into logging, analytics, and monitoring of the running applications and nodes.
+The eighth was an overview of Federation Components like caches, queues, payment services, and the like.  The ninth
+was on a highly reliable, scalable, flexibly, and ultimately very simple worker model.</p>
+
+<h2>WAR!</h2>
+
+<p>Continuing with the worker model, we currently have a non-production Application Server running Grails:</p>
+
+<ul>
+<li><a href="http://fed1-app1.aws.gaps2c.com:8080">http://fed1-app1.aws.gaps2c.com:8080</a></li>
+</ul>
+
+
+<p>It is running grails &#8216;interactively&#8217; and &#8216;off-source&#8217;.  This is fast for deployment, but it is missing a few
+things that people usually want in production:</p>
+
+<ul>
+<li>Well-defined artifact that has been tested and can&#8217;t &#8220;just change&#8221;</li>
+<li>A container environment that can provide certain resources to the application (e.g. monitoring)</li>
+<li>Removal of having to understand the &#8216;building&#8217; technology from the running technology (JVM)</li>
+<li>That production has as few technologies as possible, and is normally missing &#8216;compilers&#8217; so people can&#8217;t tweak behavior</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/addstack-10/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/addstack-9/">ADD Stack [Part-9]</a></h1>
     
     
@@ -730,75 +798,6 @@ on a lot of these things.  Preferences.  Best practices.  You may be interested.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add-11/">Advanced Development and Delivery (ADD) [Part-11]</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-14T01:00:00-07:00" pubdate data-updated="true">Oct 14<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the elevent installment of describing a radically more productive development and delivery environment.</p>
-
-<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture, Vagrant and EC2,
-node initialization, the one minute configuration HeartBeat, HipChat integration, presence, EC2, configuring nodes, inter-machine presence,
-and configuring an application server and its&#8217; stack.</p>
-
-<h2>It&#8217;s Alive!</h2>
-
-<p>We are close to having a viable semi-production environment running the latest version of our code, and with an incredible
-capability of configuring, controlling, and being informed of that environment.  With the simple line:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir -p /root/app/
-</span><span class='line'><span class="nb">cd</span> /root/app
-</span><span class='line'>
-</span><span class='line'>git clone git@github.com:grails-samples/grails-petclinic.git
-</span><span class='line'><span class="nb">cd </span>grails-petclinic
-</span><span class='line'>./gradlew run
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We got:</p>
-
-<p><img src="/images/add-10/add10_grails2.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add-11/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -826,6 +825,10 @@ capability of configuring, controlling, and being informed of that environment. 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/devop-1/">Polyglot DevOps</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/microservice-1/">Micro-Services</a>
       </li>
     
@@ -841,15 +844,11 @@ capability of configuring, controlling, and being informed of that environment. 
         <a href="/blog/arch-3/">Velidom: Two Decades of Systems and Architectures</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/arch-2/">Evant: Two Decades of Systems and Architectures</a>
-      </li>
-    
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 113.33333333333333%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 146.66666666666666%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 111.11111111111111%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 115.55555555555556%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 146.66666666666666%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 111.11111111111111%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>ADD Stack [Part-6] - Polyglot</title>
+  <title>Polyglot DevOps - Polyglot</title>
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="This is the second series describing the ADD: a radically more productive development and delivery environment. The
-first article is here: Intro and &hellip;">
+  <meta name="description" content="During the last decade, I did quite a bit of launching IT and product operations for products as a &#8216;sidelight&#8217; of my main product &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ first article is here: Intro and &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://markfussell.emenar.com/blog/addstack-6/">
+  <link rel="canonical" href="http://markfussell.emenar.com/blog/devop-1/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -69,7 +68,7 @@ first article is here: Intro and &hellip;">
   
   <header>
     
-      <h1 class="entry-title">ADD Stack [Part-6]</h1>
+      <h1 class="entry-title">Polyglot DevOps</h1>
     
     
       <p class="meta">
@@ -85,74 +84,77 @@ first article is here: Intro and &hellip;">
   
 
 
-<time datetime="2015-10-17T01:00:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2015</time>
+<time datetime="2016-01-02T01:00:00-08:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2016</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with &#8216;Testing&#8217;.  The third dealt with the application stack (Grails and other technologies).
-The fourth discussed UI alternatives.  The fifth added some major aspects to the stack: Semi-Structured Data, Templates,
-and Dual or Isomorphic scripting.</p>
+<div class="entry-content"><p>During the last decade, I did quite a bit of launching IT and product operations for products as a &#8216;sidelight&#8217; of my main product
+development work.  Build the product, launch it operationally, and grow/maintain it going forward.  This pretty well matches
+the responsibility of a DevOps role as people are now using it, so I seem to be among the earlier &#8216;DevOps&#8217; people.  At
+first I had a Data Center (racks in Hurricane Electric), later VMWare ESX on the Data Center, later servers running in
+other people&#8217;s Data Centers (e.g. RackSpace), and then servers running in true clouds (e.g. AWS, GCE, etc.)</p>
 
-<h2>Which UI framework?</h2>
+<p>A number of tools have appeared to help automate operations, and each seems to have a fair number of acolytes.  One of the
+issues with software is that there is a lot of it, and it takes quite a bit of time to become familiar with all of (a) software
+design, (b) software languages and (c) the problem domain itself.</p>
 
-<p>The <a href="/blog/addstack-4/">fourth article</a> discussed UI alternatives, but it was mostly about &#8216;architectural&#8217; alternatives
- and did not recommend a particular framework to use.  I believe that is the correct order: <em>how you use</em> the framework
- is usually more important than the framework itself.  People can correctly and improperly use all kinds of different technology.
-Use a hammer correctly and you might have a slight penalty (rubber vs. metal), but
-use it wrong (your thumb is targetable) and you can be seriously hurt.</p>
+<p>Although it was not really my &#8216;direct intent&#8217;, over a decade I put in thousands of hours into DevOps.  We needed a running
+product and I was more and more concerned that the operations itself was going to be a problem.  Part of this may have
+kicked in when I lost all Thanksgiving vacation to fixing some very bad IT.</p>
 
-<p>There are a number of popular frameworks:</p>
+<h2>Taste-Of Comparison</h2>
+
+<p>You really shouldn&#8217;t talk about something you don&#8217;t know, and ideally you know quite a few different things so you can compare
+them to each other.  Or you can try to leverage someone else&#8217;s work and evaluation to help yourself go in the right direction.</p>
+
+<p>The &#8216;Taste Of&#8217; series is meant to help people compare different programming languages solving a similar problem.  The &#8216;Architecture&#8217;
+series is meant to help people see similarities and differences of architectures solving various problems.</p>
+
+<p>This &#8216;Taste-Of&#8217; comparison describes a number of plausible ways to provision and deploy software systems.  Depending on your
+goals and background, they are all viable.  Some are clearly better for most teams because they deal with critical needs very effectively,
+where others handle needs some teams might have and other would never have.</p>
+
+<p>A list of approaches is below.</p>
 
 <ul>
-<li>Angular</li>
-<li>Ember</li>
-<li>Backbone</li>
-<li>Sencha</li>
-<li>etc.</li>
+<li>Copy-Paste Provision – Have a script designed to provision a machine, and copy-paste into the console to make it happen</li>
+<li>Machine Image – Have a virtual machine image that you can clone and provision</li>
+<li>Jenkins (Pipeline) Deploy – Have the automated pipeline automatically deploy</li>
+<li>Bash-Up – Have a script that a machine can automatically execute when baseline provisioned</li>
+<li>Git-Deploy – Have one or more repositories with changing</li>
+<li>Chef</li>
+<li>Puppet</li>
+<li>Ansible</li>
+<li>Salt</li>
+<li>BOSH</li>
+<li>Docker</li>
+<li>RightScale</li>
 </ul>
 
 
-<p>And deciding between them may seem like it should be done as &#8220;which has the best features?&#8221; but unless
-one of them has a killer feature  that you care about
-(Sencha can run the same code with both a desktop and mobile UI), and is worth its penalties (Sencha
-is proprietary and very &#8216;different&#8217;) then &#8216;best features&#8217; is basically meaningless.  A better question is &#8220;Which
-one do I understand the best?&#8221; and &#8220;Which one can other people on the team learn and share-code the best?&#8221;.</p>
+<h3>Goals</h3>
 
-<!--more-->
-
-
-<p>Taking out &#8216;Sencha&#8217; from the above and you get a few different viewpoints on the web:</p>
+<p>Software operations is software running.  Development operations is within the development team, and production operations
+is for the benefit of users outside the development team.  DevOp Goals can be either for development or production.  Some
+of them include:</p>
 
 <ul>
-<li><a href="http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/">http://blog.yodersolutions.com/why-i-recommend-emberjs-over-angularjs/</a></li>
-<li><a href="https://www.airpair.com/js/javascript-framework-comparison">https://www.airpair.com/js/javascript-framework-comparison</a></li>
-<li><a href="https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks">https://www.quora.com/Is-Angular-js-or-Ember-js-the-better-choice-for-JavaScript-frameworks</a></li>
+<li>DOG-1: Running the software successfully with the intended amount of usage</li>
+<li>DOG-2: Handling spikes of usage successfully/gracefully</li>
+<li>DOG-3: Being easy to diagnose and repair issues</li>
+<li>DOG-4: Knowing what version (of each/all components) is running in a given environment</li>
+<li>DOG-5: Easily deploying new versions</li>
+<li>DOG-6: Automatedly deploying new versions</li>
+<li>DOG-7: Being able to tune system components to behave optimally</li>
+<li>DOG-8: Being able to understand what the working environment looks like and how it works</li>
+<li>DOG-9: Not having a single-point-of-failure (SPOF)</li>
+<li>DOG-10: Having development and production mirror each other as much as possible</li>
+<li>DOG-11: Being able to deploy to a new data center easily</li>
 </ul>
 
-
-<p>And dropping Backbone, the distinction is really:</p>
-
-<ul>
-<li>Angular – Powerful, dry, and scale-limited framework</li>
-<li>Ember – Less dry, more opinionated, and more scalable</li>
-</ul>
-
-
-<p>With Angular you have the ability to shoot yourself more and get confused more.  With Ember you will likely
-have to be more explicit, but the convention and the explicitness should make the code more readable and
-maintainable.</p>
-
-<p>Angular is so similar to Flex that it is very intuitive to me (even directives), but I have seen it used
-in ways I think the Angular team would be shocked by.  Sencha is confusing but is so mature, documented,
-and powerfully-fragile (do something wrong and you get a terribly visible break) that you can&#8217;t really use it wrong.
-Ember appears to have the advantages of Rails and Grails&#8230; as the framework innately &#8216;works&#8217; you can&#8217;t
-really deviate very much.  Also, Ember causes certain ripples (handlebars vs. dust) so you need to
-decide early whether you want complete alignment.</p>
 </div>
 
 
@@ -175,12 +177,12 @@ decide early whether you want complete alignment.</p>
   
 
 
-<time datetime="2015-10-17T01:00:00-07:00" pubdate data-updated="true">Oct 17<span>th</span>, 2015</time>
+<time datetime="2016-01-02T01:00:00-08:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2016</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/add/'>ADD</a>, <a class='category' href='/blog/categories/agile/'>Agile</a>, <a class='category' href='/blog/categories/automation/'>Automation</a>, <a class='category' href='/blog/categories/cloud/'>Cloud</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/it/'>IT</a>, <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/scale/'>Scale</a>, <a class='category' href='/blog/categories/stack/'>Stack</a>
+    <a class='category' href='/blog/categories/architecture/'>Architecture</a>
   
 </span>
 
@@ -189,7 +191,7 @@ decide early whether you want complete alignment.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/addstack-6/" data-via="" data-counturl="http://markfussell.emenar.com/blog/addstack-6/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://markfussell.emenar.com/blog/devop-1/" data-via="" data-counturl="http://markfussell.emenar.com/blog/devop-1/" >Tweet</a>
   
   
   
@@ -198,10 +200,8 @@ decide early whether you want complete alignment.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/addstack-5/" title="Previous Post: ADD Stack [Part-5]">&laquo; ADD Stack [Part-5]</a>
+        <a class="basic-alignment left" href="/blog/microservice-1/" title="Previous Post: Micro-Services">&laquo; Micro-Services</a>
       
-      
-        <a class="basic-alignment right" href="/blog/addstack-7/" title="Next Post: ADD Stack [Part-7]">ADD Stack [Part-7] &raquo;</a>
       
     </p>
   </footer>
@@ -310,8 +310,8 @@ decide early whether you want complete alignment.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://markfussell.emenar.com/blog/addstack-6/';
-        var disqus_url = 'http://markfussell.emenar.com/blog/addstack-6/';
+        var disqus_identifier = 'http://markfussell.emenar.com/blog/devop-1/';
+        var disqus_url = 'http://markfussell.emenar.com/blog/devop-1/';
         var disqus_script = 'embed.js';
       
     (function () {
