@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2016-01-04T12:01:15-08:00</updated>
+  <updated>2016-01-05T17:22:01-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -48,14 +48,20 @@ where others handle needs some teams might have and other would never have.</p>
 
 <ul>
 <li>Copy-Paste Provision – Have a script designed to provision a machine, and copy-paste into the console to make it happen</li>
-<li>Machine Image – Have a virtual machine image that you can clone and provision</li>
-<li>Jenkins (Pipeline) Deploy – Have the automated pipeline automatically deploy</li>
+<li>Machine Image – Have a virtual machine image that you can clone and launch</li>
+<li>SSH-Provision – Have a script that executes on any number of machines</li>
+<li>Jenkins (Pipeline) Deploy – Have the automated pipeline automatically deploy/provision</li>
 <li>Bash-Up – Have a script that a machine can automatically execute when baseline provisioned</li>
-<li>Git-Deploy – Have one or more repositories with changing</li>
+<li>Git-Deploy – Have one or more repositories with changing contents and machines watching (PushMePullYou)</li>
+<li>Provisioning DSLs:
+
+<ul>
 <li>Chef</li>
 <li>Puppet</li>
 <li>Ansible</li>
 <li>Salt</li>
+</ul>
+</li>
 <li>BOSH</li>
 <li>Docker</li>
 <li>RightScale</li>
