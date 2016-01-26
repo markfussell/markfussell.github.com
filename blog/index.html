@@ -276,6 +276,196 @@ split early (before production) or later, but keep you eye on delivering valuabl
     
   <header>
     
+      <h1 class="entry-title"><a href="/blog/arch-8/">PeerCase: Two Decades of Systems and Architectures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-08T01:00:00-08:00" pubdate data-updated="true">Dec 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>PeerCase was a mobile-first medical communication application that enabled community doctors to get expert
+advice from specialists.</p>
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/arch-7/">Epocrates: Two Decades of Systems and Architectures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-07T01:00:00-08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Epocrates was building a mobile-capable EMR.</p>
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/arch-6/">Vive: Two Decades of Systems and Architectures</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-12-06T01:00:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
+
+<p>Vive had a single product: a wellness coaching system designed for both individuals and groups.  I was interested and
+partially &#8216;won&#8217; the interview process because I could help game-ify the product.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>When I joined Vive, the system was implemented in Flash and Microsoft .Net on proprietary servers.  This had
+a couple big issues:</p>
+
+<ul>
+<li>It was meant to be mobile, and especially iPhone</li>
+<li>The server code was not really functional</li>
+</ul>
+
+
+<p>So the first architectural change was to move to an iPhone compatible front-end and a Linux based backend.  If the
+backend code had been better, the second part wouldn&#8217;t have been done, but given it was a restart, staying in the Linux stack
+was a significant benefit, especially on cloud computing.</p>
+
+<p>After doing a Rails project with FooMojo and a couple other ones on my own, I was pretty comfortable with Rails and liked
+the productivity improvements it provided from being so opinionated.  At this point the Grails technology was mature enough
+to be stable, so I leveraged that to make Vive.  After evaluating a number of front-end technologies, the team and I
+picked YUI as being sophisticated enough for the kind of user interfaces we needed (or thought we needed).</p>
+
+<p>Although the product was meant to support iPhones, it was also meant to be &#8216;SMS compatible&#8217; and most of the messaging was expected to be through SMS vs. through email and web capabilities.</p>
+
+<p>A couple more system aspects that &#8216;came later&#8217; or were proposed included:</p>
+
+<ul>
+<li>A Unity or similar interactive game environment</li>
+<li>Connecting to devices like FitBits</li>
+</ul>
+
+
+<h2>AA-1 : Unifying SMS and a Web UI</h2>
+
+<h2>AA-2 : The curse of the UI, especially for mobile</h2>
+
+<p>The UI on small-screen form factors is very constrained and with a platform like iOS, quite opinionated.  Unless your design team is experienced and skilled at this, it can cause a lot of issues and thrash.</p>
+
+<p>Vive was at the very beginning of WebApps for mobile devices.  Technically, everything was correct:</p>
+
+<ul>
+<li>The payload was manifest-based, so updates happened correctly and behind the scenes</li>
+<li>There was some amount of client detection to make sure features would work (including on a BlackBerry)</li>
+<li>The layout was simple and widgets were large enough to interact with.</li>
+<li>And a number of other mobile-oriented aspects</li>
+</ul>
+
+
+<p>Unfortunately there was a core problem of &#8216;fancy&#8217;, &#8216;complex&#8217;, &#8216;changing&#8217;, and &#8216;confused&#8217; for the requirements with the mobile UI and its relation to the desktop UI.
+Week upon week a slightly different approach was used that might be &#8216;better&#8217; and needed to be tested out.  The functionality
+was always the same: it wasn&#8217;t much more than the SMS interface provided, except you could see what was happening better.
+This continuous thrash was a significant overhead to development, slowing work in other functional areas.</p>
+
+<h2>AA-3 : Gamification</h2>
+
+<p>The game-enabling of Vive was important to me: I wanted a race-like environment, or a treasure hunt, or something similar.<br/>
+The technologies behind FooMojo (Unity and similar) made this possible, but the prototypes were never moved forward with.
+The one gamification that did make it in was that distance competitions (say first team to 100 miles combined) were plotted
+out on a map that was a windy course and potentially had realistic terrain (there was a collection of maps,
+some of which were terrain-based and others simply geometric)</p>
+
+<h2>AA-4 : Connected devices</h2>
+
+<p>Vive never decided to productize it, but architectural work was done on using connected devices for input.  The market
+was still early but Garmin and others had some devices that you could pull data from.</p>
+
+<h2>AA-5 : Grails</h2>
+
+<p>Although not fully capable at the time, Grails was a great productivity booster and made it easy to transition the code to someone else by simply saying &#8220;It uses Grails, augmented by this&#8221;.</p>
+</div>
+  
+  
+
+
+  </article>
+  <hr>
+
+  
+  <article class="listing">
+    
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/arch-5/">FooPets: Two Decades of Systems and Architectures</a></h1>
     
     
@@ -848,19 +1038,19 @@ broadly capable generics.</p>
 </li>
 </ul>
 </li>
-<li>Vive: A mobile health and wellness application
+<li><a href="/blog/arch-6">Vive</a>: A mobile health and wellness application
 
 <ul>
 <li>Grails, Java, YUI</li>
 </ul>
 </li>
-<li>Epocrates EMR: An electronic medical records application
+<li><a href="/blog/arch-7">Epocrates EMR</a>: An electronic medical records application
 
 <ul>
 <li>Ruby, Rails, iOS</li>
 </ul>
 </li>
-<li>PeerCase: A mobile-first medical communication application
+<li><a href="/blog/arch-8">PeerCase</a>: A mobile-first medical communication application
 
 <ul>
 <li>Grails, Sencha</li>
@@ -884,7 +1074,7 @@ broadly capable generics.</p>
 <li>Weka, Python, Grails, Amazon AWS services</li>
 </ul>
 </li>
-<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
+<li><a href="/blog/add-1">ADD</a>: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
 <li>IRIS-2 / CargoSmart: An enterprise container-shipping logistics system
 
 <ul>
@@ -895,238 +1085,6 @@ broadly capable generics.</p>
 
 </div>
   
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/read-2/">READ: Scaled Agile</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-11-20T01:00:00-08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the fourth series describing the ADD: a radically more productive software development and delivery
-environment.  This series is on estimation, and the first part is here: <a href="/blog/read-1">ADD: Estimation</a>.</p>
-
-<h2>Scaled Agile</h2>
-
-<p>As mentioned at the end of the first part, the extreme reaction to waterfall was to toss Analysis and Design
-away, and go from very-loose requirements into actual implementation.  I believe this was a complete mistake
-and has caused these &#8220;extreme&#8221; agile projects to be much <em>slower</em> and <em>unstable</em> compared to another approach.</p>
-
-<p>The alternative is &#8220;Scaled Agile&#8221;, and by this I mean both:</p>
-
-<ul>
-<li>It is better designed for larger projects</li>
-<li>It is achieved by scaling the activities of software development projects to be appropriate for the scale and needs of the project
-
-<ul>
-<li>Analysis &amp; Design efforts, deliverables, and precision can be smaller or larger</li>
-<li>Increments of delivery can be smaller or larger</li>
-<li>Allowance for iteration (repeating something to refine it) can be smaller or larger</li>
-<li>Overlap of activities can be smaller or larger</li>
-</ul>
-</li>
-</ul>
-
-
-<p>The second item was tossed out with the &#8220;Waterfall&#8221;, at least by many in the industry.  A Waterfall is an extreme version of Agile (basically
-no during-build agility), but going directly from verbal or spread-sheet based requirements is a similarly extreme version of Agile
-and is unlikely to be as effective as properly-scaled versions of Agile.</p>
-
-<h3>Retail Aspect / Evant / XP / Scaled Agile</h3>
-
-<p>In 2003, while at Evant, we took an XP-based product (an advanced retail planning system) and worked on scaling the velocity and
-agility of that project:</p>
-
-<ul>
-<li>To a bigger and non-XP team</li>
-<li>Through multiple time-zones, including to India</li>
-<li>Outside the development team into Product Management, Technical Sales, Marketing, and Support</li>
-<li>Into a bigger portfolio of products that had inter-dependent deliverables</li>
-<li>Across the portfolio to other product lines and teams</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/read-2/">Read on &rarr;</a>
-    </footer>
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/read-1/">ADD: Estimation</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-23T01:00:00-07:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the fourth series describing the ADD: a radically more productive software development and delivery
-environment.  The first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
-of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
-system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
-components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
-and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
-on top of that IT infrastructure. The third series starts here: <a href="/blog/add2-1">Advanced Development and Delivery Summary</a>
-and gave an executive summary of the ADD.</p>
-
-<p>This series is about project estimation, and is basically <em>orthogonal</em> to the ADD itself.  You can have good
- estimates or bad estimates.  The ADD delivers exceptional productivity.  How much you need to estimate is
- quite independent of productivity.  But by using Estimation and Feedback, you can figure out (a) whether
- to do a project and (b) whether the people you have are up-to-snuff.  If you <em>know</em> you have to do
- a project and you <em>have</em> certain people: don&#8217;t worry about the estimate.  It is irrelevant.  Just &#8220;wing it&#8221;.
- But if you have choices about either (a) whether to do a project or (b) what people to use or even (c)
- figuring out how good your team is after you do a project, then estimations are the core benchmark to
- give you feedback.</p>
-
-<h2>Estimation is crazy-hard</h2>
-
-<p>The problem with estimating is you can&#8217;t be good at it unless you have done something very similar before.  But
-most workers in an industry are relatively new to it: less than ten years.  And if each project takes a couple
-years to complete, you may have only a couple experiences in your first five years of work.  Change technologies,
-change roles, or change organization, and your estimates are likely poorly based.</p>
-
-<p>When something is too hard for someone to do easily, you need to decompose it to make it (a) easier and (b) separable.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/read-1/">Read on &rarr;</a>
-    </footer>
-  
-
-
-  </article>
-  <hr>
-
-  
-  <article class="listing">
-    
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/add2-1/">Advanced Development and Delivery (ADD) and the ADD Stack – Summary</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-23T01:00:00-07:00" pubdate data-updated="true">Oct 23<span>rd</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is the third series describing the ADD: a radically more productive development and delivery environment.  The
-first series starts here: <a href="/blog/add-1/">Advanced Development and Delivery</a> and described the core four ingredients
- of the ADD.  The second series starts here: <a href="/blog/addstack-1/">ADD Stack</a> and described the application stack and
- system components associated with the ADD.  Some of these were Java / Grails specific, and some were more general
- components and capabilities.  Together these went through a huge amount of functionality, flexibility, reliability,
- and scalability.  Both for the IT infrastructure (whether on EC2 or on bare hardware) and for the applications
- on top of that IT infrastructure.</p>
-
-<p>This series assumes you have at least skimmed the other two series, but this one is the summary of the other two.
-It is an incremental growth of the architecture in a fairly macro sense, where the details are in the other series.</p>
-
-<h2>The three ingredients</h2>
-
-<p>Wait, it was four a moment ago.  The ADD requires four, but advanced project collaboration requires only three.  And
-at the heart of the ADD is advanced project collaboration.  Collaboration has no &#8216;machines&#8217;, just people, so we put aside
-one ingredient.  The remaining three are the <em>nucleus</em> of ADD:</p>
-
-<ul>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-</ul>
-
-
-<p>These three ingredients can give individuals and teams 4x or more productivity.  And the reason is the same as for
- ADD.  There are two critical roles in any project:</p>
-
-<ul>
-<li>Changers</li>
-<li>Watchers</li>
-</ul>
-
-
-<p>The Changers are gonna change, change, change, change and the Watchers are gonna watch, watch, watch, watch.  And
-all of the people involve need to see what is going on (in the best way for them) and not be blocked getting things
-done by others on the project.  They need perfect transparency.  Which will ultimately build incredible trust,
-knowledge, and skill.</p>
-
-<p>The three ingredients form the core of a three-way Venn diagram, that I will draw in hexagonal rings.</p>
-
-<p><img src="/images/add2-1/add2_threeIngredients1.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/add2-1/">Read on &rarr;</a>
-    </footer>
   
 
 

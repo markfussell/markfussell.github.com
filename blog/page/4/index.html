@@ -9,8 +9,7 @@
   <meta name="author" content="Mark Fussell">
 
   
-  <meta name="description" content="I have been paid to develop and deliver software since about 1980. That is 35 years of professional experience.
-When I started in 1980 there were a &hellip;">
+  <meta name="description" content="This is the fourth installment of describing a radically more productive development and delivery environment. The first part is here: Intro. In the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +65,192 @@ When I started in 1980 there were a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-4/">Advanced Development and Delivery (ADD) [Part-4]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-01T03:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the fourth installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the Vagrant and EC2 bootstrap.</p>
+
+<h2>Node initialization</h2>
+
+<p>The previous parts described getting Vagrant and EC2 to have an operational node.  For Vagrant it leverages &#8216;host&#8217; virtual
+disk access to configure and bootstrap itself.  For EC2, it leverages CloudFormation to configure and bootstrap itself.
+In both cases the very last thing the node does in the bootstrap is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /root/gitrepo/<span class="sb">`</span>cat /root/nodeinfo/initgitrepo.txt<span class="sb">`</span>
+</span><span class='line'>include <span class="o">()</span> <span class="o">{</span> <span class="k">if</span> <span class="o">[[</span> -f <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span> <span class="o">]]</span>; <span class="k">then </span><span class="nb">source</span> <span class="se">\&quot;</span><span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">else </span><span class="nb">echo</span> <span class="se">\&quot;</span>Skipped missing: <span class="nv">$1</span><span class="se">\&quot;</span>; <span class="k">fi</span> <span class="o">}</span>
+</span><span class='line'>include it/nodeinit/common/init.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-4/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-3/">Advanced Development and Delivery (ADD) [Part-3]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-01T02:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the third installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>.  In the previous parts I described the big picture and the
+first part of the Vagrant bootstrap.</p>
+
+<h2>EC2</h2>
+
+<p>The Vagrant bootstrap occurred through &#8216;bash&#8217; files that shaped (put shape information into files) and
+the &#8216;init&#8217; itself to get access to the repo (repo2) that contains the true configuration.  For EC2
+the same thing happens within a CloudFormation template.  The code of the &#8216;init&#8217; is almost identical, but because
+it is in a JSON file there is a lot of noise as the string gets concatenated together.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-3/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/add-2/">Advanced Development and Delivery (ADD) [Part-2]</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-10-01T01:00:00-07:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is the second installment of describing a radically more productive development and delivery environment.</p>
+
+<p>The first part is here: <a href="/blog/add-1/">Intro</a>, but to summarize: since the 1970s, the most productive way
+to develop and deliver software was present in Smalltalk, Lisp, and other languages (Mesa/Cedar at Xerox)
+by using a very simple and powerful model.  You take a computer with a fully running environment, you tweak it,
+and then you clone that.  This way you: (a) minimize what could go wrong, and (b) maximize what will continue to work.
+It is very tangible and very instructive (you have full source for everything that is running).  You tweak other
+people&#8217;s masterpieces until they do what you want, and you learn from their masterpieces to create your own.</p>
+
+<h2>ADD: How Better?</h2>
+
+<p>As described before, ADD has four ingredients:</p>
+
+<ul>
+<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
+<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
+<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
+</ul>
+
+
+<p>And these are hooked together to enable &#8216;Changers&#8217;, &#8216;Watchders&#8217;, and &#8216;Machines&#8217; to be super-productive.  How
+is the ADD <em>more productive</em> than the tweak and clone model?  It is because it solves the core problems
+of the clone model:</p>
+
+<ul>
+<li>How do we clone to <em>different</em> environments?  Different hardware or configuration changes?</li>
+<li>How do we reduce the amount of information we have to clone?</li>
+<li>How do we reduce the time it takes to transport the clone?</li>
+<li>How do we know what version of the clone is on any machine?</li>
+<li>How do we create thousands of clones?</li>
+<li>How do we know what is different about the different clones?</li>
+<li>&#8230;</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/add-2/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -478,132 +663,6 @@ current location of the repository is <a href="https://github.com/markfussell/sc
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/scratch-textual-language/">Scratch Textual Language</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-17T20:28:00-07:00" pubdate data-updated="true">Sep 17<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://scratch.mit.edu/">Scratch</a> is a visual programming language, but it might usefully have a textual version as well.
-Scratch in it&#8217;s graphical form can verify syntax intuitively &amp; automatically, and the resulting graphics are definitely beautiful, but it took quite some effort to produce
-<a href="/blog/a-taste-of-scratch">these diagrams</a>
-when trying to document a program, and it is even harder to reference sections of the diagram.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/scratch-textual-language/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/a-taste-of-scratch/">A Taste of Scratch</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-08T04:15:00-07:00" pubdate data-updated="true">Sep 8<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of my favored books in the 1980s was ‘A Taste of Smalltalk’. This was a very short book that gave you the flavor of Smalltalk programming (the language and IDE) as compared to Pascal, C, and Lisp. I believe it is always important to show multiple programming languages for concepts and this book followed that rule. The goal of this post-series is to take ‘A Taste of Smalltalk’ and apply it to Scratch (a visual programming language).  This is the third of my comparisons in this series, where the first one was in Ruby.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/a-taste-of-scratch/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/ruby-naming-convention-failure/">Ruby Naming Convention Failure</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-09-04T01:20:00-07:00" pubdate data-updated="true">Sep 4<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ruby has a strong recommendation against using CamelCase for method and variable names and to use only underscores instead.  There are lots of arguments out there on different naming conventions, and whatever side I pick in isolation is fairly irrelevant since either the whole community or the individual team has to chose the best approach.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/ruby-naming-convention-failure/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -639,22 +698,22 @@ when trying to document a program, and it is even harder to reference sections o
       </li>
     
       <li class="post">
-        <a href="/blog/arch-5/">FooPets: Two Decades of Systems and Architectures</a>
+        <a href="/blog/arch-8/">PeerCase: Two Decades of Systems and Architectures</a>
       </li>
     
       <li class="post">
-        <a href="/blog/arch-4/">Winster: Two Decades of Systems and Architectures</a>
+        <a href="/blog/arch-7/">Epocrates: Two Decades of Systems and Architectures</a>
       </li>
     
       <li class="post">
-        <a href="/blog/arch-3/">Velidom: Two Decades of Systems and Architectures</a>
+        <a href="/blog/arch-6/">Vive: Two Decades of Systems and Architectures</a>
       </li>
     
   </ul>
 </section>
 <section>
     <h1>Categories</h1>
-    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 115.55555555555556%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 146.66666666666666%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 111.11111111111111%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
+    <span id="category-list"><a href='/blog/categories/add' style='font-size: 153.33333333333334%'>ADD</a> <a href='/blog/categories/agile' style='font-size: 135.55555555555554%'>Agile</a> <a href='/blog/categories/architecture' style='font-size: 122.22222222222223%'>Architecture</a> <a href='/blog/categories/automation' style='font-size: 155.55555555555554%'>Automation</a> <a href='/blog/categories/cloud' style='font-size: 155.55555555555554%'>Cloud</a> <a href='/blog/categories/database' style='font-size: 104.44444444444444%'>Database</a> <a href='/blog/categories/dylan' style='font-size: 102.22222222222223%'>Dylan</a> <a href='/blog/categories/dynamic' style='font-size: 115.55555555555556%'>Dynamic</a> <a href='/blog/categories/ephemeral' style='font-size: 102.22222222222223%'>Ephemeral</a> <a href='/blog/categories/estimation' style='font-size: 104.44444444444444%'>Estimation</a> <a href='/blog/categories/flex' style='font-size: 115.55555555555556%'>Flex</a> <a href='/blog/categories/git' style='font-size: 160.0%'>Git</a> <a href='/blog/categories/grails' style='font-size: 122.22222222222223%'>Grails</a> <a href='/blog/categories/guideline' style='font-size: 102.22222222222223%'>Guideline</a> <a href='/blog/categories/it' style='font-size: 157.77777777777777%'>IT</a> <a href='/blog/categories/java' style='font-size: 153.33333333333334%'>Java</a> <a href='/blog/categories/ooad' style='font-size: 102.22222222222223%'>OOAD</a> <a href='/blog/categories/oopsla' style='font-size: 102.22222222222223%'>OOPSLA</a> <a href='/blog/categories/rails' style='font-size: 104.44444444444444%'>Rails</a> <a href='/blog/categories/relational' style='font-size: 104.44444444444444%'>Relational</a> <a href='/blog/categories/ruby' style='font-size: 133.33333333333334%'>Ruby</a> <a href='/blog/categories/rubyshoes' style='font-size: 108.88888888888889%'>RubyShoes</a> <a href='/blog/categories/scale' style='font-size: 128.88888888888889%'>Scale</a> <a href='/blog/categories/scratch' style='font-size: 106.66666666666667%'>Scratch</a> <a href='/blog/categories/smalltalk' style='font-size: 140.0%'>Smalltalk</a> <a href='/blog/categories/stack' style='font-size: 122.22222222222223%'>Stack</a> <a href='/blog/categories/startup' style='font-size: 117.77777777777777%'>Startup</a> <a href='/blog/categories/virtualization' style='font-size: 102.22222222222223%'>Virtualization</a> </span>
 </section>
 <section>
   <h1>GitHub Repos</h1>

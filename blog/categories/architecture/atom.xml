@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Architecture | Polyglot]]></title>
   <link href="http://markfussell.emenar.com/blog/categories/architecture/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2016-01-26T11:27:29-08:00</updated>
+  <updated>2016-01-26T12:28:29-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -163,301 +163,108 @@ split early (before production) or later, but keep you eye on delivering valuabl
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[FooPets: Two Decades of Systems and Architectures]]></title>
-    <link href="http://markfussell.emenar.com/blog/arch-5/"/>
-    <updated>2015-12-05T01:00:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/arch-5</id>
+    <title type="html"><![CDATA[PeerCase: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-8/"/>
+    <updated>2015-12-08T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-8</id>
     <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
 benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
-<p>FooPets had several different products, but all were related to photorealistic virtual pets.</p>
-
-<h2>Major System Aspects</h2>
-
-<p>The core FooPets site was originally framed by Facebook with a small amount of HTML driving a Flash-based interactive game.
-The server behind the Facebook content was a Ruby/Rails application with a few standard extensions initially running on a bare linux box.  No automated testing or other code-quality metrics.</p>
-
-<p>For most kinds of software, the logic and user-interface are the hardest things to build.  But because FooPets was
-effectively a 3-D movie / game, the content was actually the hardest thing to build: creating photorealistic 3-D pets
-took a lot more people-power than making these photorealistic pets behave.</p>
-
-<p>Later there were to be a couple more architectures:</p>
-
-<ul>
-<li>An iPhone version of the pets
-
-<ul>
-<li>This was purely client initially and then later semi-integrated with the server until the game was killed</li>
-</ul>
-</li>
-<li>The <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> truly 3-D interactive game (vs. canned limited videos).
-
-<ul>
-<li>The game ran in Unity and only talked to the server for leaderboards</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>AA-1 : Lack of promotions and regression testing is a very bad thing</h2>
-
-<p>FooPets was a very unstable code base for many reasons, but definitely the lack of 'make sure this works' was a huge
-part of it.  Some team members had the ability to modify production directly, and they could do it even before getting
-on a plane and disappearing for the holidays.  A promotion model looks like this:</p>
-
-<ul>
-<li>Developer tests things on their own machine, and when happy, 'promote' into the development team server</li>
-<li>The development team server tests the new code checkin and sees whether it passes the base line rules for the server
-
-<ul>
-<li>If not, it rejects it or starts yelling 'foul'!</li>
-</ul>
-</li>
-<li>When the development team is happy the development team server's code base is good, it goes to the next level (QA, Integration, etc.)</li>
-<li>Finally the last QA level is basically the same as production, and the final promotion should be trivial</li>
-</ul>
-
-
-<p>Without this kind of staging model, you are basically just praying production will be about the same as whatever machine you last tested on... potentially a developer laptop very different from production.</p>
-
-<h2>AA-2 : Sanity testing and automation are very good things, in all kinds of situations</h2>
-
-<p>When I joined FooMojo, I expected to work on the main code base and the iPhone application as the 'most important' code bases.
-These two code bases needed some work, but ultimately the long-pole for the company was <em>content</em>.  And creating content
-required a lot of computational power rendering graphics, connecting images into movies, and similar activities that were
-only semi-automated.  The biggest productivity improvement was when a few of us focused on making the whole pipeline pretty
-much completely automated (with failures identified and easily re-run).</p>
-
-<p>At thirty frames per second, a 10-minute set of clips has 18,000 frames that have to be rendered and composed.  The frames might have different kinds of issues,
-but the most likely issue is they didn't get rendered at all, which is pretty easy to identify.</p>
-
-<p>So similar to DevOps where you apply software to computer operations, DevGraphics applies software and development techniques to
-the graphics pipelines of movies and high-content games.</p>
-
-<h2>AA-3 : Using advanced technology can make things very easy and impressive</h2>
-
-<p>The concept for <a href="https://www.youtube.com/watch?v=C72spt5ZL44">HeartPark</a> started during the post-Christmas "break", and
-within less than two months, a fun game was in all users hands.  By combining the skills of a very small team with a very
-advance technology (Unity 3D), we went from idea through prototype to live in a very short time.</p>
-
-<p>Sometimes the technologies used could be considered 'prototypical': you could never support 1MM with them (say maybe hardware
-compatibility issues).  But the importance of figuring out whether you have a viable product for a viable market and pivoting
-as you do or don't is far higher in value than getting the technology 'perfect' the first time.  And even more fun: sometimes
-the nonviable technology becomes mainstream enough to use by the time you have the right product for the right market.</p>
-
-<h2>AA-4 : Make sure clients "always work" or Apple is smart about devices</h2>
-
-<p>A critical rule to getting through the Apple AppStore process was making sure your application obeyed a bunch of rules.
-Some of these rules were human-factor rules to make sure the product was pleasant and conformant with iOS.  But one of the
-core rules was that applications <em>must work</em> even when the device was not in a suitable environment.  The application
-could be thoroughly hobbled by the environment, but it must launch, interact with a user pleasantly, maybe explain
-and resolve the situation, and shut down <em>no matter what</em>.  An application / client can't fail without explanation or
-really at all, it can only behave very restrictedly but properly.</p>
-
-<p>This "always work" can then lead you to a decision tree around how well does a client in a degraded environment work.  It definitely must work, but how well?</p>
+<p>PeerCase was a mobile-first medical communication application that enabled community doctors to get expert
+advice from specialists.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Winster: Two Decades of Systems and Architectures]]></title>
-    <link href="http://markfussell.emenar.com/blog/arch-4/"/>
-    <updated>2015-12-04T01:00:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/arch-4</id>
+    <title type="html"><![CDATA[Epocrates: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-7/"/>
+    <updated>2015-12-07T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-7</id>
     <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
 benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
-<p>Winster was a cooperative social gaming web site that enabled players to win real-world prizes.  It predated
-Zynga and Facebook, but both of those companies 'rose' during the time I worked for Winster.</p>
-
-<h2>Major System Aspects</h2>
-
-<p>Winster had a fairly standard Java backend that dealt with managing player information, talking with PayPal,
-and keeping track of prizes, advertisements, and promotions.  This is pretty independent of what Winster was:
-almost any commercial consumer site might have these capabilities.</p>
-
-<p>What made Winster interesting is that the client was in Adobe Flash/Flex, it was realtime multi-player, and
-the rules of the games were all stored on the server.  This created a pretty compelling environment for
-players to interact: players could swap pieces and both be in better shape vs. "the house".  And this interaction
-supported a real-time chat system.  So very much like a card-game table without any competitiveness between players.</p>
-
-<p>The client-server interaction was a combination of HTTP calls and socket-based bidirectional updates.</p>
-
-<h2>AA-1 : No important logic on the client</h2>
-
-<p>At Winster players could 'win prizes' based on playing the games.  A lot of basic games out there put the actual
-functionality into the game client (Flash, JavaScript, and even compiled desktop clients).  This is fine if there
-is nothing at stake.  Someone hacks the client and they get to play a 'different' game.  Many games even have
-available 'cheat modes' that make a different game easy to enable.</p>
-
-<p>But if the client can actually impact the business, it has to be securely and correctly implementing business rules.
-To enable this, you can try to make sure the client is an unhacked/unaltered version of the correct client.  Or more
-simply, you can treat the client as untrusted: it makes request, and the server decides whether they are reasonable.</p>
-
-<p>For Winster, we chose to not trust the client and so every action done on the client that affects the state of the
-game went through a 'game server' that knew the rules of the game.  There are a lot of wins for this:</p>
-
-<ul>
-<li>Servers tend to be easier to verify
-
-<ul>
-<li>You control the hardware completely, and at least at that time, there were significantly more testing frameworks</li>
-</ul>
-</li>
-<li>Server failure is 'unlikely' and should be totally visible if you have a problem</li>
-<li>You are already writing the server in a particular language, so may more easily be able to augment its capabilities (although some clients have very nice game/event-oriented languages)</li>
-</ul>
-
-
-<p>There are some losses:</p>
-
-<ul>
-<li>Latency is guaranteed to be higher, and potentially has to be masked
-
-<ul>
-<li>For games like first-person shooters, you need to see the bullet fly even though the server determines the hit</li>
-<li>For things like field-validation, you commonly have to repeat yourself on both the client and the server</li>
-</ul>
-</li>
-<li>Clients sometimes have really nice game language</li>
-<li>If there are delays in answers, you somehow have to get them to the client asynchronously</li>
-<li>As clients scale 'game servers' scale.</li>
-</ul>
-
-
-<p>The last loss can badly affect your operational profits, especially 'pre-cloud' which is the timeframe that Winster
-was.  We had to have servers big enough to deal with our peak loads and smart enough not to overload themselves.</p>
-
-<p>The server-side game can be much simpler than the visual appearance on the client side (e.g. think the rules of chess
-vs. a pretty chess board), but the server-side game has to protect the business rules of the game so people can't game the game.</p>
-
-<h2>AA-2 : Socket based client-server connection</h2>
-
-<p>Winster existed before Websocket, Comet, and other specifications and approaches.  To communicate what other players
-did within your room / table, the server sent updates through a direct socket.  Making sure customers could connect
-with a straight socket was painful for customer support (if a customer was behind a very restrictive firewall) and
-required augmentations to deal with 'Flash Policies' and other aspects.  The advantage of the Game Server approach
-was that the socket notifications were just that: notifications that the world was in a new state.  If clients missed
-them, they could get updated on a subsequent notification.  Or catch up if initially stalled for some reason.</p>
-
-<h2>AA-3 : Protocol versioning</h2>
-
-<p>On top of the socket communication was a 'V1' and 'V2' version of a custom communication protocol.  A great rule to any protocol:</p>
-
-<ul>
-<li>Version it!</li>
-</ul>
-
-
-<p>You may not think it will change, but by simply versioning the protocol with a 'V1' or '{ "version":"v1", ...' or
-similar you have enabled easily migrating forward with backward compatibility.  In many cases you can never be sure when or
-if a client will be updated, so you need to enable continued support of old clients until they are commercially
-non-viable.</p>
-
-<h2>AA-4 : AJAX or Send-Data vs. rendering</h2>
-
-<p>Because Flash/Flex is a very high-level UI language, the Java server had absolutely no ability to 'render' for the client,
-so there was a very strong client/UI vs. Server/Data &amp; Rules separation.  You make a request of the server and you get
-data back via HTTP / XML or via the socket connection.  This enables the client to swap out and enables the server to
-have easier automated testing.</p>
-
-<h2>AA-5 : Logging and Telemetry</h2>
-
-<p>Logging has a number of different purposes.  Three very different ones include:</p>
-
-<ul>
-<li>To see if the software has issues / defects</li>
-<li>To have a record if a customer asks for 'proof'</li>
-<li>To see what a customer and the systems are doing compared to the business benefit</li>
-</ul>
-
-
-<p>Winster had a lot of logging and telemetry because it (a) needed to work, (b) needed to deal with grouchy customers,
-and (c) needed to be very optimized to be profitable.</p>
-
-<p>Logging frameworks and infrastructure improve every year, and it is important to put in the best structure you can
-for the purposes you have.</p>
+<p>Epocrates was building a mobile-capable EMR.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Velidom: Two Decades of Systems and Architectures]]></title>
-    <link href="http://markfussell.emenar.com/blog/arch-3/"/>
-    <updated>2015-12-03T01:00:00-08:00</updated>
-    <id>http://markfussell.emenar.com/blog/arch-3</id>
+    <title type="html"><![CDATA[Vive: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-6/"/>
+    <updated>2015-12-06T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-6</id>
     <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
 benefits and issues.  The table of contents of the series is <a href="/blog/arch-1">here</a>.</p>
 
-<p>Velidom came out of the technologies that helped increase velocity, agility, and scale of the Evant
-development team.  This was in the mid 2000 time-frame and Evant had created technology which did
-mass regression testing on every checkin, enabled continuous inter-team communication (including to India),
-and various other major features.  Velidom was an attempt to productize this whole concept: The Velocity
-to Dominate with an Advanced Software Development Factory.</p>
+<p>Vive had a single product: a wellness coaching system designed for both individuals and groups.  I was interested and
+partially 'won' the interview process because I could help game-ify the product.</p>
 
 <h2>Major System Aspects</h2>
 
-<p>The Velidom Factory was built primarily out of Java-based technologies and VMWare ESX capabilities.  The goal was
-to integrate into common tools at the time (Eclipse / Subversion / etc.), automatically launch testing
-and deployment servers on any given checkin, verify whether a commit was clean, and either push it through
-to the main development line or roll it out based on that verification.</p>
+<p>When I joined Vive, the system was implemented in Flash and Microsoft .Net on proprietary servers.  This had
+a couple big issues:</p>
 
-<p>Another side of the factory was an agile development tool that tracked features, their values, the tasks
-needed to complete them, and the status of everything.  This was for planning, agility, and measuring.  The
-automation was to increase velocity and 'reality' (if it didn't successfully go in, it wasn't in).</p>
+<ul>
+<li>It was meant to be mobile, and especially iPhone</li>
+<li>The server code was not really functional</li>
+</ul>
 
-<p>A final side of the factory was a set of communication tools for both real-time and knowledge accumulation,
-where both of these were hooked into the other sides of the factory so what everything was visible and memorable.</p>
 
-<p>If you look at the <a href="/blog/add-1">Advanced Development and Delivery Environment</a> you will see pretty much all of this
-vision manifested through other companies' solutions.  Ultimately Velidom's vision was too big to succeed with the
-runway the startup had and the events that occurred during its' lifetime.</p>
+<p>So the first architectural change was to move to an iPhone compatible front-end and a Linux based backend.  If the
+backend code had been better, the second part wouldn't have been done, but given it was a restart, staying in the Linux stack
+was a significant benefit, especially on cloud computing.</p>
 
-<h2>AA-1 : Virtualization and Virtualized Desktops</h2>
+<p>After doing a Rails project with FooMojo and a couple other ones on my own, I was pretty comfortable with Rails and liked
+the productivity improvements it provided from being so opinionated.  At this point the Grails technology was mature enough
+to be stable, so I leveraged that to make Vive.  After evaluating a number of front-end technologies, the team and I
+picked YUI as being sophisticated enough for the kind of user interfaces we needed (or thought we needed).</p>
 
-<p>Of all the architectural aspects that Velidom got right, virtualizing the infrastructure was almost certainly
-the biggest 'Yes!'.  VMWare ESX was expensive, but having that infrastructure in place made it possible to
-think about computation in a way very different from the raw hardware.  Ultimately from Amazon EC2 through to
-Vagrant, this separation has come to pass as a higher-level-language of computational hardware.  Virtualized
-computers can be built in minutes and discarded after being used.</p>
+<p>Although the product was meant to support iPhones, it was also meant to be 'SMS compatible' and most of the messaging was expected to be through SMS vs. through email and web capabilities.</p>
 
-<p>Velidom provided virtualized desktops and servers as a service, and we spent the money and time
-building out the hardware, the virtualized server side, and creating a custom desktop client.  The results were impressive,
-leading edge, unreliable, and expensive.  Things were unreliable due to the client-server desktop communication
-paradigm.  This needed good networks and a good protocol for the remote desktop.  And given these were development machines, they needed
-to be secure, so each had its own private network.  Again, this was too big a vision to succeed at that time.  Focusing
-on just servers may have been viable, but it wasn't clear what the value was without a large base of customers committed
-to good automated test suites (which is certainly plausible).</p>
+<p>A couple more system aspects that 'came later' or were proposed included:</p>
 
-<p>Expensive is relative, and the virtualization Velidom provided may have been viable except for an event that occurred
-in 2006.  Amazon announced EC2, and suddenly the price point of virtualized computers dove to a number no one else
-could compete with.  Even 10 years later, there are very few viable cloud providers, and no small ones.</p>
+<ul>
+<li>A Unity or similar interactive game environment</li>
+<li>Connecting to devices like FitBits</li>
+</ul>
 
-<h2>AA-2 : Tool Integration and Improvement</h2>
 
-<p>One of the core Velidom concepts was the integration between tools (e.g. Eclipse) and the functionality we provided.
-We had Eclipse plugins to do things within the factory, including chat, logging, automation, and other activities.
-Integrating directly with a tool is nice, but definitely development expensive.  And the tools you are connecting with
-(Eclipse and Subversion) may 'go away'.  In 2005, Eclipse was a good choice, but if we had customers on a Microsoft
-development stack, they might have been unsatisfiable.</p>
+<h2>AA-1 : Unifying SMS and a Web UI</h2>
 
-<p>The core problem wasn't picking the right tool, it was picking any tool before having a Minimal Viable Product.  Tool
-integration is not part of Minimal Viable: if your product is good at group chat, people will start using it.  A full
-suite of products (the Factory) is also not part of Minimal Viable: whether chat or automated regression testing,
-just get a product done and in the hands of customers to get feedback.  If they like your product, they will drive
-integration with their favorite tools or your other products as an important improvement.</p>
+<h2>AA-2 : The curse of the UI, especially for mobile</h2>
 
-<h2>AA-3 : Reactor</h2>
+<p>The UI on small-screen form factors is very constrained and with a platform like iOS, quite opinionated.  Unless your design team is experienced and skilled at this, it can cause a lot of issues and thrash.</p>
 
-<p>The last architecture from Velidom that I am going to mention is the 'reactor' or 'queue' pattern.  Doing
-a mass regression test with servers being created on the fly takes time.  Separating the 'request' from the 'task'
-to complete the request is very effective for both scaling and also avoiding needless scaling.  If the automation
-is fast enough, you don't need to scale.  If you don't have the extra money to buy the bonus performance,
-you also don't need to scale.  You can choose whether to pay for time or not.</p>
+<p>Vive was at the very beginning of WebApps for mobile devices.  Technically, everything was correct:</p>
 
-<p>The one aspect that for a codebase or similar 'team progessive' activity is whether people wait for things to finish.
-Ideally, you are 'unblocked' while you wait: you can go on to something else.  But in a team environment, many people
-are trying to get there work in the main codebase of work.  With Subversion, we had to do some annoyingly fancy tricks
-to extract a bad build.  With Git and faster testing tools (in memory databases, better functional test declaration
-languages), this is far less of a problem.</p>
+<ul>
+<li>The payload was manifest-based, so updates happened correctly and behind the scenes</li>
+<li>There was some amount of client detection to make sure features would work (including on a BlackBerry)</li>
+<li>The layout was simple and widgets were large enough to interact with.</li>
+<li>And a number of other mobile-oriented aspects</li>
+</ul>
+
+
+<p>Unfortunately there was a core problem of 'fancy', 'complex', 'changing', and 'confused' for the requirements with the mobile UI and its relation to the desktop UI.
+Week upon week a slightly different approach was used that might be 'better' and needed to be tested out.  The functionality
+was always the same: it wasn't much more than the SMS interface provided, except you could see what was happening better.
+This continuous thrash was a significant overhead to development, slowing work in other functional areas.</p>
+
+<h2>AA-3 : Gamification</h2>
+
+<p>The game-enabling of Vive was important to me: I wanted a race-like environment, or a treasure hunt, or something similar.<br/>
+The technologies behind FooMojo (Unity and similar) made this possible, but the prototypes were never moved forward with.
+The one gamification that did make it in was that distance competitions (say first team to 100 miles combined) were plotted
+out on a map that was a windy course and potentially had realistic terrain (there was a collection of maps,
+some of which were terrain-based and others simply geometric)</p>
+
+<h2>AA-4 : Connected devices</h2>
+
+<p>Vive never decided to productize it, but architectural work was done on using connected devices for input.  The market
+was still early but Garmin and others had some devices that you could pull data from.</p>
+
+<h2>AA-5 : Grails</h2>
+
+<p>Although not fully capable at the time, Grails was a great productivity booster and made it easy to transition the code to someone else by simply saying "It uses Grails, augmented by this".</p>
 ]]></content>
   </entry>
   

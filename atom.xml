@@ -4,7 +4,7 @@
   <title><![CDATA[Polyglot]]></title>
   <link href="http://markfussell.emenar.com/atom.xml" rel="self"/>
   <link href="http://markfussell.emenar.com/"/>
-  <updated>2016-01-26T11:27:29-08:00</updated>
+  <updated>2016-01-26T12:28:29-08:00</updated>
   <id>http://markfussell.emenar.com/</id>
   <author>
     <name><![CDATA[Mark Fussell]]></name>
@@ -159,6 +159,112 @@ and leverage third-party service-components when suitable, you should have a pre
 split early (before production) or later, but keep you eye on delivering valuable product to your company.</p>
 
 <p>Basically review &#8216;Design Patterns&#8217; and think at the service-component level.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PeerCase: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-8/"/>
+    <updated>2015-12-08T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-8</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="http://markfussell.emenar.com/blog/arch-1">here</a>.</p>
+
+<p>PeerCase was a mobile-first medical communication application that enabled community doctors to get expert
+advice from specialists.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Epocrates: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-7/"/>
+    <updated>2015-12-07T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-7</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="http://markfussell.emenar.com/blog/arch-1">here</a>.</p>
+
+<p>Epocrates was building a mobile-capable EMR.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vive: Two Decades of Systems and Architectures]]></title>
+    <link href="http://markfussell.emenar.com/blog/arch-6/"/>
+    <updated>2015-12-06T01:00:00-08:00</updated>
+    <id>http://markfussell.emenar.com/blog/arch-6</id>
+    <content type="html"><![CDATA[<p>This is a series describing various architectures I have worked with in the last two decades and some of their
+benefits and issues.  The table of contents of the series is <a href="http://markfussell.emenar.com/blog/arch-1">here</a>.</p>
+
+<p>Vive had a single product: a wellness coaching system designed for both individuals and groups.  I was interested and
+partially &#8216;won&#8217; the interview process because I could help game-ify the product.</p>
+
+<h2>Major System Aspects</h2>
+
+<p>When I joined Vive, the system was implemented in Flash and Microsoft .Net on proprietary servers.  This had
+a couple big issues:</p>
+
+<ul>
+<li>It was meant to be mobile, and especially iPhone</li>
+<li>The server code was not really functional</li>
+</ul>
+
+
+<p>So the first architectural change was to move to an iPhone compatible front-end and a Linux based backend.  If the
+backend code had been better, the second part wouldn&#8217;t have been done, but given it was a restart, staying in the Linux stack
+was a significant benefit, especially on cloud computing.</p>
+
+<p>After doing a Rails project with FooMojo and a couple other ones on my own, I was pretty comfortable with Rails and liked
+the productivity improvements it provided from being so opinionated.  At this point the Grails technology was mature enough
+to be stable, so I leveraged that to make Vive.  After evaluating a number of front-end technologies, the team and I
+picked YUI as being sophisticated enough for the kind of user interfaces we needed (or thought we needed).</p>
+
+<p>Although the product was meant to support iPhones, it was also meant to be &#8216;SMS compatible&#8217; and most of the messaging was expected to be through SMS vs. through email and web capabilities.</p>
+
+<p>A couple more system aspects that &#8216;came later&#8217; or were proposed included:</p>
+
+<ul>
+<li>A Unity or similar interactive game environment</li>
+<li>Connecting to devices like FitBits</li>
+</ul>
+
+
+<h2>AA-1 : Unifying SMS and a Web UI</h2>
+
+<h2>AA-2 : The curse of the UI, especially for mobile</h2>
+
+<p>The UI on small-screen form factors is very constrained and with a platform like iOS, quite opinionated.  Unless your design team is experienced and skilled at this, it can cause a lot of issues and thrash.</p>
+
+<p>Vive was at the very beginning of WebApps for mobile devices.  Technically, everything was correct:</p>
+
+<ul>
+<li>The payload was manifest-based, so updates happened correctly and behind the scenes</li>
+<li>There was some amount of client detection to make sure features would work (including on a BlackBerry)</li>
+<li>The layout was simple and widgets were large enough to interact with.</li>
+<li>And a number of other mobile-oriented aspects</li>
+</ul>
+
+
+<p>Unfortunately there was a core problem of &#8216;fancy&#8217;, &#8216;complex&#8217;, &#8216;changing&#8217;, and &#8216;confused&#8217; for the requirements with the mobile UI and its relation to the desktop UI.
+Week upon week a slightly different approach was used that might be &#8216;better&#8217; and needed to be tested out.  The functionality
+was always the same: it wasn&#8217;t much more than the SMS interface provided, except you could see what was happening better.
+This continuous thrash was a significant overhead to development, slowing work in other functional areas.</p>
+
+<h2>AA-3 : Gamification</h2>
+
+<p>The game-enabling of Vive was important to me: I wanted a race-like environment, or a treasure hunt, or something similar.<br/>
+The technologies behind FooMojo (Unity and similar) made this possible, but the prototypes were never moved forward with.
+The one gamification that did make it in was that distance competitions (say first team to 100 miles combined) were plotted
+out on a map that was a windy course and potentially had realistic terrain (there was a collection of maps,
+some of which were terrain-based and others simply geometric)</p>
+
+<h2>AA-4 : Connected devices</h2>
+
+<p>Vive never decided to productize it, but architectural work was done on using connected devices for input.  The market
+was still early but Garmin and others had some devices that you could pull data from.</p>
+
+<h2>AA-5 : Grails</h2>
+
+<p>Although not fully capable at the time, Grails was a great productivity booster and made it easy to transition the code to someone else by simply saying &#8220;It uses Grails, augmented by this&#8221;.</p>
 ]]></content>
   </entry>
   
@@ -604,19 +710,19 @@ broadly capable generics.</p>
 </li>
 </ul>
 </li>
-<li>Vive: A mobile health and wellness application
+<li><a href="http://markfussell.emenar.com/blog/arch-6">Vive</a>: A mobile health and wellness application
 
 <ul>
 <li>Grails, Java, YUI</li>
 </ul>
 </li>
-<li>Epocrates EMR: An electronic medical records application
+<li><a href="http://markfussell.emenar.com/blog/arch-7">Epocrates EMR</a>: An electronic medical records application
 
 <ul>
 <li>Ruby, Rails, iOS</li>
 </ul>
 </li>
-<li>PeerCase: A mobile-first medical communication application
+<li><a href="http://markfussell.emenar.com/blog/arch-8">PeerCase</a>: A mobile-first medical communication application
 
 <ul>
 <li>Grails, Sencha</li>
@@ -640,7 +746,7 @@ broadly capable generics.</p>
 <li>Weka, Python, Grails, Amazon AWS services</li>
 </ul>
 </li>
-<li>ADD: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
+<li><a href="http://markfussell.emenar.com/blog/add-1">ADD</a>: A recommended development &amp; delivery environment and platform for The Gap, Shaklee, and others</li>
 <li>IRIS-2 / CargoSmart: An enterprise container-shipping logistics system
 
 <ul>
@@ -2918,805 +3024,6 @@ communication.</p>
  other hand, &#8216;separate client&#8217; technologies are quite good and by thinking &#8216;separate client&#8217; you may produce
  a somewhat better API.  But a &#8216;schism&#8217; is more likely, testing is harder, and the separate client is
  less flexible in how it can integrate with the server (at least for &#8216;free&#8217;).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-3]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-3/"/>
-    <updated>2015-10-15T02:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-3</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-The second article dealt with &#8216;Testing&#8217;.</p>
-
-<h2>Grails, Groovy, and Java</h2>
-
-<p>The primary stack I believe is a &#8220;Best Practice&#8221; is Grails.  It is in it&#8217;s third full generation, and with
-each generation it gets better, easier, more powerful, and more &#8216;aligned&#8217;.  This last part is not that
-common with frameworks.  A lot of people start writing a framework and it does more and more.  With more and more
-code.  The Grails team has been great at &#8216;pruning&#8217; and &#8216;aligning&#8217; with Spring and other frameworks.</p>
-
-<p>Using Spring alone is certainly a reasonable practice.  The problem is people tend to use Spring wrong.  I don&#8217;t
-know why.  Either they don&#8217;t read the tutorials&#8230; or they get confused and a deadline is approaching&#8230; or they
-are cowboys (or cowgirls) that wander off into new territory of abuse to the tools that are in front of them.
-I used Grails at a company that committed to Spring.  So I simply switched to Spring and my code was simple,
-functional, well-tested, and clean.  But the rest of the code base was a complete mess.  So there is nothing
-wrong with Spring but it is harder to use properly than Grails.  Spring Boot is trying to help with that.  Grails
-is just better.</p>
-
-<p>Grails is &#8216;opinionated&#8217; and &#8216;functional&#8217; and has plenty of examples to show you these opinions and capabilities.
-We can see a lot of it in the &#8216;petclinic&#8217; example.</p>
-
-<h3>Build with Gradle</h3>
-
-<p>Grails uses Gradle to build the project.  It used to have it&#8217;s own system, but it pruned that away when Gradle
-became stable and capable.  Gradle won a war against other build systems so Grails honored the winner.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails1.png" /></p>
-
-<h3>Align with Spring Boot</h3>
-
-<!--more-->
-
-
-<p>Spring Boot (<a href="http://projects.spring.io/spring-boot/">http://projects.spring.io/spring-boot/</a>)
-is a relatively recent effort to &#8216;default&#8217; a lot of the flexibility within Spring.  So Grails
-is now leveraging that effort.  Developing with Grails vs. Spring is becoming just a &#8216;small&#8217; step up
-conceptually so it should be easier for people to &#8216;level up&#8217; and also &#8216;wander down&#8217; depending on the needs
-of the project.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails2.png" /></p>
-
-<h3>Align with Hibernate, but allow others (include NoSQL)</h3>
-
-<p>Grails has always used Hibernate as the primary database mapping system but it is actually capable of mapping
-through GORM to other systems.  Some capabilities go away but basic schema and query capability (CRUD)
-is always there.  And depending on the product, some higher level query capabilities may also be present.</p>
-
-<h3>Use modern testing frameworks</h3>
-
-<p>As mentioned before: &#8216;geb&#8217; and &#8216;spock&#8217; are the default testing frameworks included, along with the default
-phantomjsdriver and selenium-htmlunit-driver (headless).  This is out-of-the-box, and other testing frameworks
-could be used instead or in addition, but there would have to be a compelling reason for it.</p>
-
-<h3>Modern asset pipeline</h3>
-
-<p>Asset management is a big deal for performant websites.  Although the internet is pretty quick, the behavior
-of mobile devices is a bit different from (and back a few years from) desktops.  Grails has its own asset
-pipeline system that leverages the well-defined layout of a Grails project.</p>
-
-<h3>Good IDE integration</h3>
-
-<p>Grails integrates with IDEA and Eclipse, which are the best (IMO) and most-pervasive (I believe) IDEs
-for Java development.</p>
-
-<h3>Plugins!</h3>
-
-<p>Grails has a very simple and powerful plugin system that adds lots of great capabilities.
-With the move to 3.x some plugins may not yet be ready, but every month several more should be migrated.</p>
-
-<h3>Standard Layout: assets, controllers, services, views, &#8230;</h3>
-
-<p>Grails has a very clean layout that is mostly aligned with Spring Boot (I believe) and has been mostly
-the same over all three generations.  The &#8216;src&#8217; directory is for things outside the Grails world.  And
-the &#8216;grails-app&#8217; directory is for things inside the Grails world.  The grails layout is very intuitive
-for a modern web application:</p>
-
-<ul>
-<li>assets – Assets to go through the pipeline</li>
-<li>conf - Configuration of the application</li>
-<li>controllers – The UI (or web-api) interaction layer of the application</li>
-<li>domain – The business model layer of the application, and the persistent state model</li>
-<li>i18n – Internationalization</li>
-<li>init – Things to do at startup</li>
-<li>services – One or more &#8216;services&#8217; layers to pull logic from controllers and domain into</li>
-<li>views – GSP to be used by controllers for rendering (if desired)</li>
-</ul>
-
-
-<p>For the petclinic this layout looks like this when expanded:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails3.png" /></p>
-
-<h3>Modern logging with &#8216;logback&#8217;</h3>
-
-<p>Logging is one of the easiest things to swap out, but Grails defaults to the relatively modern &#8216;logback&#8217;
-<a href="http://logback.qos.ch">http://logback.qos.ch</a> framework.</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-3/addstack3_grails4.png" /></p>
-
-<h3>Incredibly terse</h3>
-
-<p>One of the horrors of moving from Smalltalk to Java was about 4-8x the number of words were required to
-accomplish the same task.  Writing more is painful.  Painful to write.  Painful to read.  Painful to edit.</p>
-
-<p>With Groovy and Grails, the power of meaning actually leap-frogged both Smalltalk and (amazingly) LISP.
-Or at least LISP without a really powerful set of macros.</p>
-
-<p>As an example, the &#8216;PetController&#8217; is the main UI functionality of the &#8216;petclinic&#8217;.  But it has only 53 lines,
-a third of them are blank.  And a total of 150 &#8216;words&#8217;.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">grails</span><span class="o">.</span><span class="na">samples</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">class</span> <span class="nc">PetController</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kt">def</span> <span class="n">petclinicService</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kt">def</span> <span class="nf">add</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">pet:</span> <span class="k">new</span> <span class="n">Pet</span><span class="o">(</span><span class="nl">owner:</span> <span class="n">Owner</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">owner</span><span class="o">?.</span><span class="na">id</span><span class="o">)),</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kt">def</span> <span class="n">pet</span> <span class="o">=</span> <span class="n">petclinicService</span><span class="o">.</span><span class="na">createPet</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet_name</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">birthDate</span><span class="o">,</span>
-</span><span class='line'>          <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">type</span><span class="o">?.</span><span class="na">id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">,</span> <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet_owner_id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">pet</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
-</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">pet:</span> <span class="n">pet</span><span class="o">,</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kt">def</span> <span class="nf">edit</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>          <span class="n">render</span> <span class="nl">view:</span> <span class="s1">&#39;add&#39;</span><span class="o">,</span> <span class="nl">model:</span> <span class="o">[</span><span class="nl">pet:</span> <span class="n">Pet</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">id</span><span class="o">),</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
-</span><span class='line'>          <span class="k">return</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kt">def</span> <span class="n">pet</span> <span class="o">=</span> <span class="n">Pet</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">id</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">petclinicService</span><span class="o">.</span><span class="na">updatePet</span><span class="o">(</span><span class="n">pet</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">pet_name</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">birthDate</span><span class="o">,</span>
-</span><span class='line'>          <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet</span><span class="o">?.</span><span class="na">type</span><span class="o">?.</span><span class="na">id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">,</span> <span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">pet_owner_id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">pet</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
-</span><span class='line'>          <span class="n">render</span> <span class="nl">view:</span> <span class="s1">&#39;add&#39;</span><span class="o">,</span> <span class="nl">model:</span> <span class="o">[</span><span class="nl">pet:</span> <span class="n">pet</span><span class="o">,</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>      <span class="k">else</span> <span class="o">{</span>
-</span><span class='line'>          <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kt">def</span> <span class="nf">addVisit</span><span class="o">()</span> <span class="o">{</span>
-</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">visit:</span> <span class="k">new</span> <span class="n">Visit</span><span class="o">(</span><span class="nl">pet:</span> <span class="n">Pet</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">id</span><span class="o">))]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="kt">def</span> <span class="n">visit</span> <span class="o">=</span> <span class="n">petclinicService</span><span class="o">.</span><span class="na">createVisit</span><span class="o">((</span><span class="n">params</span><span class="o">.</span><span class="na">visit</span><span class="o">?.</span><span class="na">pet</span><span class="o">?.</span><span class="na">id</span> <span class="o">?:</span> <span class="mi">0</span><span class="o">)</span> <span class="k">as</span> <span class="n">Long</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">visit</span><span class="o">?.</span><span class="na">description</span><span class="o">,</span> <span class="n">params</span><span class="o">.</span><span class="na">visit</span><span class="o">?.</span><span class="na">date</span><span class="o">)</span>
-</span><span class='line'>      <span class="k">if</span> <span class="o">(</span><span class="n">visit</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
-</span><span class='line'>          <span class="k">return</span> <span class="o">[</span><span class="nl">visit:</span> <span class="n">visit</span><span class="o">]</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">visit</span><span class="o">.</span><span class="na">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It&#8217;s functionality is not amazing.  But most things people need to do on the web <em>are not amazing</em>.  They are
-basically CRUD (Create, Read, Update, Delete).  Include dealing with all kinds of media (documents, images, videos, etc.)
-and 99%+ of the web is just doing CRUD.  90%+ is just Read.</p>
-
-<h4>Automatic Wiring</h4>
-
-<p>A lot of things are happening with this controller.  The simple statement</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kt">def</span> <span class="n">petclinicService</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>gets automatically wired to PetclinicService in the services folder.</p>
-
-<h4>Automatic Rendering</h4>
-
-<p>The line</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'>       <span class="k">return</span> <span class="o">[</span><span class="nl">pet:</span> <span class="k">new</span> <span class="n">Pet</span><span class="o">(</span><span class="nl">owner:</span> <span class="n">Owner</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">params</span><span class="o">.</span><span class="na">owner</span><span class="o">?.</span><span class="na">id</span><span class="o">)),</span> <span class="nl">types:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">list</span><span class="o">()]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>causes the view &#8216;pet/add.gsp&#8217; to render with that &#8216;pet&#8217; and &#8216;types&#8217; property set.  So the HTML can also be
-quite terse:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;layout&quot;</span> <span class="na">content=</span><span class="s">&quot;main&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;title&gt;</span>${ pet.id ? &#39;Update&#39; : &#39;Add&#39;} Pet<span class="nt">&lt;/title&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nt">&lt;body</span> <span class="na">id=</span><span class="s">&quot;add&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>      <span class="nt">&lt;h2&gt;&lt;g:if</span> <span class="na">test=</span><span class="s">&quot;${!pet.id}&quot;</span><span class="nt">&gt;</span>New <span class="nt">&lt;/g:if&gt;</span>Pet<span class="nt">&lt;/h2&gt;</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="nt">&lt;b&gt;</span>Owner:<span class="nt">&lt;/b&gt;</span> ${pet.owner?.firstName} ${pet.owner?.lastName}
-</span><span class='line'>      <span class="nt">&lt;br/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Powerful redirect and delegation</h4>
-
-<p>Grails can control the client with redirects or delegate to other controllers behind the scenes.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'>   <span class="n">redirect</span> <span class="nl">controller:</span> <span class="s1">&#39;owner&#39;</span><span class="o">,</span> <span class="nl">action:</span> <span class="s1">&#39;show&#39;</span><span class="o">,</span> <span class="nl">id:</span> <span class="n">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">.</span><span class="na">id</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Very flexibly Services</h4>
-
-<p>The PetclinicService is transactional so it can save objects within an automatic transaction.  But this
-is optional and can be controlled.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kd">class</span> <span class="nc">PetclinicService</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// PetController</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">Pet</span> <span class="nf">createPet</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Date</span> <span class="n">birthDate</span><span class="o">,</span> <span class="kt">long</span> <span class="n">petTypeId</span><span class="o">,</span> <span class="kt">long</span> <span class="n">ownerId</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>      <span class="kt">def</span> <span class="n">pet</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Pet</span><span class="o">(</span><span class="nl">name:</span> <span class="n">name</span><span class="o">,</span> <span class="nl">birthDate:</span> <span class="n">birthDate</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">PetType</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">petTypeId</span><span class="o">),</span> <span class="nl">owner:</span> <span class="n">Owner</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">ownerId</span><span class="o">))</span>
-</span><span class='line'>      <span class="n">pet</span><span class="o">.</span><span class="na">save</span><span class="o">()</span>
-</span><span class='line'>      <span class="n">pet</span>
-</span><span class='line'>  <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>Super-clean domain classes</h4>
-
-<p>A modern tendency is to have domain classes mostly represent the data side of the Domain object and pull the
-higher level logic out into other classes.  Although I dislike this (why have two classes), it does work
-better with automatic schema generation and migration.  You are less likely to have to restart the container
-and make the system check for data migration issues.</p>
-
-<p>Grails supports a very simple, rich, mapping system called GORM.  And with it, the Domain class is very terse
-but also very powerful.  And GORM works on multiple database <em>kinds</em> let alone products.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">grails</span><span class="o">.</span><span class="na">samples</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">/**</span>
-</span><span class='line'><span class="cm"> * Simple domain object representing a pet.</span>
-</span><span class='line'><span class="cm"> *</span>
-</span><span class='line'><span class="cm"> * @author Graeme Rocher</span>
-</span><span class='line'><span class="cm"> */</span>
-</span><span class='line'><span class="kd">class</span> <span class="nc">Pet</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">String</span> <span class="n">name</span>
-</span><span class='line'>  <span class="n">Date</span> <span class="n">birthDate</span>
-</span><span class='line'>  <span class="n">PetType</span> <span class="n">type</span>
-</span><span class='line'>  <span class="n">Owner</span> <span class="n">owner</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">static</span> <span class="n">hasMany</span> <span class="o">=</span> <span class="o">[</span><span class="nl">visits:</span> <span class="n">Visit</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="kd">static</span> <span class="n">constraints</span> <span class="o">=</span> <span class="o">{</span>
-</span><span class='line'>      <span class="n">name</span> <span class="nl">blank:</span> <span class="kc">false</span><span class="o">,</span> <span class="nl">validator:</span> <span class="o">{</span> <span class="n">name</span><span class="o">,</span> <span class="n">pet</span> <span class="o">-&gt;</span>
-</span><span class='line'>          <span class="k">if</span> <span class="o">(!</span><span class="n">pet</span><span class="o">.</span><span class="na">id</span> <span class="o">&amp;&amp;</span> <span class="n">pet</span><span class="o">.</span><span class="na">owner</span><span class="o">?.</span><span class="na">pets</span><span class="o">?.</span><span class="na">find</span> <span class="o">{</span> <span class="n">it</span><span class="o">.</span><span class="na">name</span> <span class="o">==</span> <span class="n">name</span> <span class="o">})</span>  <span class="o">{</span>
-</span><span class='line'>              <span class="k">return</span> <span class="s1">&#39;pet.duplicate&#39;</span>
-</span><span class='line'>          <span class="o">}</span>
-</span><span class='line'>      <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Apparently Graeme doesn&#8217;t want people to have duplicate pet names :-/</p>
-
-<h2>Summary</h2>
-
-<p>There is much more functionality to Grails than described above, but that is a good, quick, walk-through.  There
-are also certain conventions I believe are best practices on top of the Grails framework (e.g. &#8216;RepoService&#8217; classes
-for Domain objects so functionality is easily and consistently located), but again that is an augmentation vs. being
-a requirement to getting a good picture of the system.</p>
-
-<p>Next I will go into the UI portion and options for that.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-2]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-2/"/>
-    <updated>2015-10-15T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-2</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.  The
-first article is here: <a href="http://markfussell.emenar.com/blog/addstack-1/">Intro</a> and described the truth and lies about developing software.
-Basically, assuming you are doing everything in the first series, and are using relatively modern technologies
-and techniques, the &#8216;language&#8217;, &#8216;framework&#8217;, &#8216;stack&#8217;, and &#8216;methodology&#8217; does not matter very much.
-And how it matters has a lot to do with the development team and the customer.
-Customer happiness is the ultimate goal, so if you are not making your customer happy, you should make incremental
-adjustments (Educated Guesses) to do so.  And if you can not &#8220;continuously&#8221; deliver valuable products to the
-customer, you need to figure out what is the bottleneck and get rid of it (e.g. google Throughput Accounting).</p>
-
-<h2>Testing</h2>
-
-<blockquote><p>&#8220;Hey&#8230; you said testing wasn&#8217;t important&#8221;</p></blockquote>
-
-<p>No, I said automated testing was not <em>necessary</em>.  At times it is not even <em>valuable</em>, but at other times it is.</p>
-
-<p>There is no way to avoid &#8216;Testing&#8217; unless no one is going to use your product.  &#8216;Using&#8217; is &#8216;Testing&#8217;, so everything
-useful is continuously tested.  You have one user, you have one tester.  A million users, a million testers.
-So you can&#8217;t avoid testing you software.  You can only augment/change <em>who</em> or <em>what</em> tests your software.  There
- are a number of options:</p>
-
-<!--more-->
-
-
-<ul>
-<li>Users – Guaranteed unless you have none</li>
-<li>Developers – Should, unless they are crazy.  Not &#8216;testing&#8217; your software is equivalent to not reading (and editing) what you wrote.</li>
-<li>Product Management – Should, unless they are crazy or really confident in the development team.  Product management is the Customer and represents the Users.  They are supposed to know what the users want and need to verify the product is doing the right thing</li>
-<li>Quality Assurance – Useful if they are really good at being a &#8216;Black Hat&#8217;.  This is a different skill from &#8216;Developing&#8217; and some people are very good at it
-
-<ul>
-<li>QA should report to Product Management in spite of having technical skills similar to software developers</li>
-</ul>
-</li>
-</ul>
-
-
-<p>You could have a few more kinds of people that are stake holders, but the above is the core sources.  These are
-people who could know what the software is supposed to do, and then test whether it is doing it.  They have
-different talents, different tolerance for failure, and different price-points (or time restrictions).  So choosing
-the right balance is again a &#8216;Make Customer Happy&#8217; (given a particular budget) ratio of utilization.</p>
-
-<h3>Automation</h3>
-
-<p>The above lists people.  This is because people have to do the hard work of figuring out &#8216;What should it do?&#8217; and
-&#8216;How do I tell it is doing it?&#8217;.  It is true there are some automated test generators&#8230; but they are a rare
-and limited breed that do a little bit more than a &#8216;static typed&#8217; language would do.  The benefits for most project
-are minimal.</p>
-
-<p>So &#8216;automated testing&#8217; is rarely about generation, but more about repetition.  Doing a manual test over and over
-by a human is much more expensive, time consuming, and failure prone to getting a computer to run a similar test
-against software.  The problem is someone has to &#8216;spend time&#8217; writing the test.  And time is both money and delay.</p>
-
-<p>But maybe the tests are (magically) free.  Are they worth it?  Are they valuable?  Possibly &#8220;No!&#8221;.
-Testing does not make software better.
-Testing just proves software does something that passes the test.  Just like in academics a student could
-prep for the SAT but be bad at math, software can pass the test and be horrible.  Fragile.  Complex.  Incoherent.
-And the tests themselves could be Fragile.  Complex.  Incoherent.  And Obsolete.</p>
-
-<p>Automated tests are neither good nor bad.  Only good tests are good and bad tests are bad.  I have had products with
-tens of thousands of great tests.  And very successful products with basically no tests.  And been on teams with
-hundreds of horrible tests that made them go slower and produce a worse product than if they just threw all the
-tests away.</p>
-
-<h3>Automation with Frameworks</h3>
-
-<p>Because testing can be useful, your frameworks should support it.  And should support it as <em>easily</em> as possible.
-They should be easy to read.  Easy to write.  Easy to maintain.  Powerful.  And as much as possible be &#8220;from the outside&#8221;.</p>
-
-<p>Strangely this last truth has been replaced by a lie:</p>
-
-<blockquote><p>&#8220;You should test each unit, each module, each integration, etc.&#8221;</p></blockquote>
-
-<p>It is a variant of the XP &#8216;test first&#8217; mentality.  And it is completely idiotic.  Because it makes you focus on
-the &#8216;how&#8217; instead of the &#8216;what&#8217;.  Your customer does not care you wrote something in Java or C.  With Spring
-or Netty.  MySQL or Mongo.  Object-Oriented or functional.  They want the food.
-And they want it to taste good.  Everything about making that food <em>you</em> can care about, but <em>you can&#8217;t be</em> continuously
-testing it or you are wasting your customers time and money.  Testing the knife before each cut.  Testing the pan to see if it is solid.  If something breaks you
-might investigate why it broke and do a periodic check in the future.  But you <em>do</em> by <em>doing</em>, and not with a
-fear of failing on each step of the way.  You are paid to <em>do</em> not to <em>be afraid</em>.  <em>Do</em>, <em>Fail</em>, <em>Learn</em>, <em>Do</em></p>
-
-<p>I am not saying you can&#8217;t test a few things on the inside.  Sometimes I do that as I bring a system up so it is
-obvious (a) whether it is working, and (b) how it is supposed to be working.  A little &#8216;extra documentation&#8217; beyond
-the code itself.  But these are a limited set that covers a slice of the system, not the whole thing.</p>
-
-<h3>Automation with Grails</h3>
-
-<p>The team behind Grails leverages other technologies as much as possible when they work.  Among the best technologies
-for automated testing in Spring / Java are:</p>
-
-<ul>
-<li> Spock – https://code.google.com/p/spock/</li>
-<li> Geb – https://github.com/geb/geb</li>
-</ul>
-
-
-<p>So Grails leverages these and has testing built-in to the framework.  It can automatically generate test stubs for
-Controllers (the UI interaction classes) and Domain classes (Business Logic).  And it generates both integration
-and unit tests. I prefer integration tests as they are the most &#8220;from the outside&#8221;, but all the different tests
-are useful in different amounts (some are faster to run).</p>
-
-<p>For our &#8216;petclinic&#8217;, it has a number of tests of two different kinds:</p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails1.png" /></p>
-
-<h4>Spock / Unit-ty tests</h4>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails2.png" /></p>
-
-<h4>Grub / Integration tests</h4>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails3.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails4.png" /></p>
-
-<p><img src="http://markfussell.emenar.com/images/addstack-2/addstack2_grails5.png" /></p>
-
-<p>The separation of Unit and Integration is somewhat more complex than this because Spock especially has
-the ability to be lots of different kinds of tests.  But the basic idea is above.</p>
-
-<h4>When to run?</h4>
-
-<p>So we have some tests in a nice testing framework.  Now the critical questions:</p>
-
-<ul>
-<li>When should we run them?  As much as possible without wasting people&#8217;s time.</li>
-<li>Should they be run before deploying a new version?  If they are fast enough, sure.  If not, then something should &#8216;go live&#8217; <em>before</em> the tests.
-
-<ul>
-<li>I don&#8217;t mean &#8216;go live&#8217; to end users, but go live to a server where others can see it.  Just like the &#8216;fed1_app1&#8217; deployment.</li>
-<li>And you can have another server that is &#8216;post-test&#8217; so it is gated by tests being successful.  It is more stable but slightly behind in time and version.  Say &#8216;fed2&#8217;.</li>
-</ul>
-</li>
-<li>Should developers run tests before checking in?  If they want to and are nervous, sure.  Especially tests in the area they are touching.  But breaking &#8216;fed1&#8217; is not a big deal unless you walk away afterwards.  Break it.  Fix it.  Carry on.</li>
-</ul>
-
-
-<p>The tests for the &#8216;petclinic&#8217; are quite fast, so we might as well run them before deploying and let people know the status.  Returning to our deployment script:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">pushd</span> <span class="nv">$APP_PATH</span>
-</span><span class='line'>./gradlew <span class="nb">test</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">### if success then continue with &#39;run&#39;, otherwise leave the current version running.</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">popd</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ADD Stack [Part-1]]]></title>
-    <link href="http://markfussell.emenar.com/blog/addstack-1/"/>
-    <updated>2015-10-14T01:00:00-07:00</updated>
-    <id>http://markfussell.emenar.com/blog/addstack-1</id>
-    <content type="html"><![CDATA[<p>This is the second series describing the ADD: a radically more productive development and delivery environment.</p>
-
-<h2>Review of the first series</h2>
-
-<p>The first series starts here: <a href="http://markfussell.emenar.com/blog/add-1/">Intro</a> and ends here: <a href="http://markfussell.emenar.com/blog/add-11/">Voilà!</a>.  The bulk of the
-series was describing how to combine four ingredients:</p>
-
-<ul>
-<li>Amazon EC2 <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>Amazon S3  <a href="http://aws.amazon.com/">http://aws.amazon.com/</a></li>
-<li>GitHub.com <a href="http://github.com/">http://github.com/</a></li>
-<li>HipChat    <a href="http://HipChat.com/">http://HipChat.com/</a></li>
-</ul>
-
-
-<p>in a way that gives individuals and teams 4x or more productivity.  These resulting environment solves problems for
-all three roles in a development team:</p>
-
-<ul>
-<li>Changers</li>
-<li>Watchers</li>
-<li>Machines</li>
-</ul>
-
-
-<p>And can be envisioned as so:</p>
-
-<p><img width="432" height="414" src="http://markfussell.emenar.com/images/add-1/ADD_FourIngredients_ThreeRoles_mlf1a1.png" /></p>
-
-<p>Along the way, the ingredients combined to make:</p>
-
-<ul>
-<li>Machines automatically launch and configure themselves, including hooking them up to each other (auto-wire)</li>
-<li>Changes to IT roll out automatically to all the running machines.</li>
-<li>Changes to the application roll out automatically to all the running machines.</li>
-<li>Creating new environments to be as easy providing a simple parameter (e.g. &#8220;fed2&#8221;) to a CloudFormation</li>
-<li>The whole thing working on EC2 or inside a Vagrant container&#8230; or even on bare metal (but that was not shown)</li>
-<li>Incredible visibility into everything that happens within HipChat&#8230; for the whole team.</li>
-</ul>
-
-
-<p>By the end, we had machines tell us when they launched, when they were operational, when they were deploying a new
-version, and whether that new version deployed successfully.</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_autodeploy1.png" /></p>
-
-<p>and finally, we had a running application at a human-usable URL:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
-
-<p>That could be scaled to any number of servers as load demands.</p>
-
-<h2>Second series</h2>
-
-<p>The above is the core of the ADD and enabling team productivity and customer visibility (even happiness)
-to shoot through the roof.  It by itself is basically &#8216;complete&#8217;.  It is missing some details, nuances,
-augmentation, and such.  But it alone is the core of a 4x productivity.</p>
-
-<blockquote><p>&#8220;Complete! What nonsense!  Where are your automated tests!  How do you check for code quality!
-What kind of programming language do you use!  And where is your description of Scrum, XP, Waterfall, etc. methodology
-to use with this ADD?!!&#8221;</p></blockquote>
-
-<p>Ah&#8230; yes.  Over my <em>thirty five years</em> and estimated <em>thirty five thousand hours</em> of developing software,
-I have encountered all these things.  I do have opinions
-on a lot of these things.  Preferences.  Best practices.  You may be interested.  They matter.  A little.</p>
-
-<p>How little?  Maybe&#8230; maybe&#8230; 2x.</p>
-
-<!--more-->
-
-
-<p>I mentioned in the first series that when I shifted to Java from Smalltalk, I lost
-a lot of productivity.  Part of it was in going from a hyper-productive language (Smalltalk) to a mediocre language.
-Most of it was going from a hyper-productive development model (tweak and clone) to a horrible development model (build
-most of it from scratch&#8230; because there are no libraries).  I bet I lost 4x in productivity.  And then another 2x
-when people started mucking with my code.  4x is a lot.  2x is a little.
-And if you try to get the &#8216;2x&#8217; but lose the &#8216;4x&#8217; you just did a win-LOSE bad tradeoff.</p>
-
-<h3>Lies</h3>
-
-<p>There are a lot of lies or confusions in the software industry.  During the nineties we tried to get rid of a lot of them
-through actual research-based observations (e.g. &#8220;The Mythical Man-Month&#8221; by Fred Brooks) and experience-based
- observations (e.g. &#8220;The Agile Manifesto&#8221; by Kent, Ken, Ward, etc.).  The <em>truth</em> of software
-is available&#8230; but the lies hide it.  And people can&#8217;t tell the difference.  And don&#8217;t believe the science.  Or are
-too scared of losing their jobs (or having a more boring job) if they believe and speak the truth vs. the lie.</p>
-
-<h4>Truth: One Brain</h4>
-
-<p>I will first start with among the best researched truth there is:</p>
-
-<ul>
-<li>The best software is created by one primary, talented, and skilled &#8216;brain&#8217;
-
-<ul>
-<li>Potentially accompanied by some number of &#8216;assistants&#8217;</li>
-</ul>
-</li>
-</ul>
-
-
-<p>This is the &#8216;surgical team&#8217; model.  You want one primary, talented, and skilled &#8216;Surgeon&#8217;.  A &#8216;Surgeon&#8217; with many thousands
-if not many tens-of-thousands of hours of experience.  Nurses can help.  Support doctors can help.  Even other surgeons can
-help.  If the operation is long enough, you might need multiple primary surgeons who pass the baton along to each other.
-But if someone is opening your body&#8230; you want that person to be fully responsible, fully accountable, insanely competent,
-and insanely skilled.  An insanely great surgeon.  She will charge you a lot, and you will get a lot in return.</p>
-
-<p>Software is the same.  The best software is create by one primary, talented, and skilled &#8216;Engineer&#8217;. An &#8216;Engineer&#8217; with
-many thousands if not many tens-of-thousands of hours of experience.  QA can help.  Support programmers can help.  Software is
- never needed so quickly as to require a hourly baton, but that can happen if the &#8216;Engineer&#8217; moves on to other things.</p>
-
-<p>If someone is writing an application that you want to be valuable to you&#8230; you want that person to be fully responsible,
-fully accountable, insanely competent, and insanely skilled.  An insanely great engineer.
-She will charge you a lot, and you will get a lot in return.</p>
-
-<h4>Lie: All together now!</h4>
-
-<p>But software developers don&#8217;t like this truth.  They think they (after less than 5000 hours) can be the point person
-for building an application.  I don&#8217;t mean 5000 hours <em>of work</em> I mean 5000 hours <em>in surgery</em> and that is after say
-2x the amount of hours of <em>studying surgery</em>.  So 10,000 hours of studying how to build software applications and 5,000
-hours of writing code that builds actual production-worthy software applications.  If you work 2000 hours a year and
-spend half of it actually on either of those tasks&#8230; it would take you about 15 years to be &#8216;an Engineer&#8217;.  Ten years
-of reading and five years of writing.  Done concurrently, where reading dominates early and writing dominates later.</p>
-
-<p>But again, developers don&#8217;t like this truth and instead they say: &#8220;If a bunch of us get together we can reproduce that
-surgeon with each of our individual skills.&#8221;</p>
-
-<p>But this is saying: &#8220;Nine people who can dissect frogs can perform brain surgery&#8221;, or
-&#8220;Nine club tennis players can beat Roger Federer if they tag-team&#8221;.  Or &#8220;Nine people who are good in the
-kitchen can together produce a better meal than Gordon Ramsey in a throw down&#8221;.  Or&#8230;</p>
-
-<p>Hopefully by shifting the context you can see the impossibility of it.  It makes absolutely no sense, yet the lie is
-propagated so much as to be systemically the status quo.  Even the smallest XP version of the lie &#8220;You need two people to write better software&#8221; is
-ludicrous.  Better to have <em>two surgeons</em> perform <em>two different operations</em> at the same time&#8230; and save <em>two</em> lives.
-There is nothing wrong with having an apprentice watch / help.  But that is <em>training</em> (somewhat to both parties) not
-<em>doing</em></p>
-
-<h4>Truth: Customer Rules</h4>
-
-<p>The second truth is that the <em>customer</em> rules.  If the customer is happy&#8230; WIN!  If they are not happy&#8230; :-(</p>
-
-<p>Given this is <em>sort of</em> in the Agile Manifesto you would think it would be well known now that everyone is &#8216;Going Agile&#8217;.
-But reviewing the <a href="http://www.agilemanifesto.org">Agile Manifesto</a>, I see that it &#8220;backed off&#8221; saying what it should say.
-The lines that it should have within it are:</p>
-
-<ul>
-<li>Working software over &#8230;everything&#8230;</li>
-<li>Customer happiness over &#8230;everything&#8230;</li>
-</ul>
-
-
-<p>But because software developers think they are special&#8230; unusually talented in a way that is beyond the customer&#8230; like &#8216;artists&#8217;&#8230;
-they think these two lines do not apply to them.  Again, the insanity of it is evident when you shift industry.  Say &#8216;Food&#8217;:</p>
-
-<ul>
-<li> Working food (e.g. good produce, a cooked meal, etc.) over ???</li>
-<li> Customer happiness over ???</li>
-</ul>
-
-
-<p>Pretty sure if you nail the second bullet, you nailed the first one (and maybe some more).  And not nailing both these
-bullets is a path to failure.  The question marks
-are replaceable with &#8216;everything not mentioned&#8217;.  So the actual pyramid is this:</p>
-
-<ul>
-<li>Happy Customer (100%)
-
-<ul>
-<li>Delivered good product (80%)
-
-<ul>
-<li>All the stuff needed to do the above</li>
-</ul>
-</li>
-<li>Other aspects of delivering (20%) –  E.g. customer interaction, appearance of product or delivery person, etc.
-
-<ul>
-<li>All the stuff needed to do the above</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-
-<p>You are allowed to have less than totally happy customers.  But you should try to fix that.  You should care.
-Otherwise you are resigning yourself to  being content with the quality of your product being sub-par.  And likely
-headed downward.</p>
-
-<p>You are allowed to hate making your customers happy.  You can change industries.  Change role.  Continually grumble about how
-bad your job is (but google &#8220;Worst Jobs&#8221; to see you don&#8217;t have it so bad).  But you are not allowed to say that
-<em>your customer</em> shouldn&#8217;t be 100% happy&#8230; or at least as happy as you can make them.</p>
-
-<h4>Lie: Automated Testing and Quality Verification</h4>
-
-<p>The second lie is that <em>instead of</em> trying to make the customer 100% happy, we are going to make our automated
-tests and our QA verification servers happy.  We are going to make them <em>more</em> happy than our customer and
-<em>before</em> we make our customer happy.</p>
-
-<p>This actually pops up as a &#8216;truth&#8217; in education too.  We try to make the tests happy as opposed to the students,
-except in exceptional schools that Think Different.  But
-in most any <em>normal</em> industry, making a &#8216;test&#8217; happy instead of a customer is a crazy and effective way to
-go out of business.  Say we inspected and tested <em>every</em> hamburger before it went out the door.  Fast food would
-take on a whole new meaning as it took minutes per-person to do the inspection.  And things like &#8216;salad&#8217; would
-be unservable.  Salad almost always has something weird in it, and finding it takes about the same amount of time
-as eating it.  And it would basically destroy / consume the salad as you checked each leaf, fruit, and nut.</p>
-
-<p>Again, automated testing is <em>useful</em>.  But it is not <em>necessary</em>.  And it doesn&#8217;t trump releasing to a customer
-so they can see the &#8216;Delivered good product&#8217;.</p>
-
-<h3>Conclusion : Customer&#8217;s One Powerful Right and Responsibility</h3>
-
-<p>The ADD described so far, efficiently, effectively, and production-worthy scalably enabled one simple thing:</p>
-
-<p><img src="http://markfussell.emenar.com/images/add-11/add11_dns1.png" /></p>
-
-<p>That is a delivered good product (if you want to run a Pet Clinic).  What the application is beneath that, and
-what processes were used to develop it, are all &#8220;of little importance&#8221;.  There are many ways to develop
-an identical web site.  The stack and method I will describe is just one of them.  It is a reference
-that I consider a &#8220;Best Practice&#8221; among alternative &#8220;Best Practice&#8221; possibilities.  And all of these alternatives
-get measured by exactly one macro criteria: &#8220;Customer Satisfaction&#8221;.  For example:</p>
-
-<ul>
-<li>Buggy in production, customer is less happy.</li>
-<li>Take longer to build, customer is less happy.</li>
-</ul>
-
-
-<p>Neither of the above trumps the other.  The ratio between them &#8216;depends&#8217;.  And that ratio is totally under
-the customer&#8217;s control.  They may not know the ratio before the fact, but while &#8216;driving&#8217; the system they
-<em>have every right and even responsibility</em> to complain.  The development team can make an &#8216;Educated Guess&#8217;
-at the start of the project
-but if the customer complains, they need to address that complaint and <em>change</em> the process, tools, people,
-or office space <em>as much as possible and reasonable</em> to make the customer more happy.  Maybe just a little
-change to become a little more happy: we aren&#8217;t prescient and you don&#8217;t know if the change will cause havoc
-(everyone quits) or even address the issue.  But you address the complaint with an another &#8216;Educated Guess&#8217;.
-Over and over.</p>
-
-<p>What should your development process be?  It depends&#8230; on your customer and your product and your team and
-&#8230; The reason you need an Engineer is they make great &#8216;Educated Guesses&#8217;.  And can iterate incredibly
-quickly to fine tune the process and tools to what will work for the customer and the development team.</p>
-
-<p>But the following parts of this series will be a good start.  It is my best recommendation in 2015 for a modern,
-JVM-based, web-delivered, set of development methods, tools, frameworks, and other components.</p>
 ]]></content>
   </entry>
   
